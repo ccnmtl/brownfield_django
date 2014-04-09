@@ -10,10 +10,7 @@ class Course(models.Model):
     name = models.CharField(max_length=255)
     startingBudget = models.PositiveIntegerField(default=60000)
     enableNarrative = models.BooleanField(default=True)
-    #users = models.ManyToManyField(User)
-    #course can have many students --> student class will have the foriegn key to course
     message = models.CharField(max_length=255) # original default is none
-    #documents = models.ManyToMany(Document)
     active = models.BooleanField(default=True)    
 
     def __unicode__(self):
