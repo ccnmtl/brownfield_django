@@ -1,0 +1,6 @@
+brownfield_django/main/models.py:14:80: E501 line too long (88 > 79 characters)
+brownfield_django/main/models.py:15:47: E261 at least two spaces before inline comment
+brownfield_django/main/models.py:17:47: W291 trailing whitespace
+brownfield_django/main/models.py:22:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/models.py:32:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/models.py:37:1: E302 expected 2 blank lines, found 1

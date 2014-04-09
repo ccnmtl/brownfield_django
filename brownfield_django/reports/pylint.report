@@ -1,0 +1,180 @@
+brownfield_django/main/models.py:5: [W0611] Unused import Section
+brownfield_django/main/models.py:2: [W0611] Unused import datetime
+brownfield_django/main/models.py:5: [W0611] Unused import UserLocation
+brownfield_django/main/models.py:5: [W0611] Unused import Hierarchy
+brownfield_django/main/models.py:5: [W0611] Unused import UserPageVisit
+brownfield_django/main/tests/test_views.py:9: [C0103, BasicTest.setUp] Invalid name "c" for type attribute (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/tests/test_views.py:13: [E1103, BasicTest.test_root] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
+brownfield_django/main/tests/test_views.py:17: [E1103, BasicTest.test_smoketest] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
+brownfield_django/main/tests/test_views.py:18: [E1103, BasicTest.test_smoketest] Instance of 'WSGIRequest' has no 'content' member (but some types could not be inferred)
+brownfield_django/main/tests/test_views.py:7: [R0904, BasicTest] Too many public methods (66/50)
+brownfield_django/main/tests/test_views.py:24: [C0103, PagetreeViewTestsLoggedOut.setUp] Invalid name "h" for type attribute (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/tests/test_views.py:23: [C0103, PagetreeViewTestsLoggedOut.setUp] Invalid name "c" for type attribute (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/tests/test_views.py:25: [E1103, PagetreeViewTestsLoggedOut.setUp] Instance of 'str' has no 'get_root' member (but some types could not be inferred)
+brownfield_django/main/tests/test_views.py:35: [C0103, PagetreeViewTestsLoggedOut.test_page] Invalid name "r" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/tests/test_views.py:36: [E1103, PagetreeViewTestsLoggedOut.test_page] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
+brownfield_django/main/tests/test_views.py:39: [C0103, PagetreeViewTestsLoggedOut.test_edit_page] Invalid name "r" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/tests/test_views.py:40: [E1103, PagetreeViewTestsLoggedOut.test_edit_page] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
+brownfield_django/main/tests/test_views.py:43: [C0103, PagetreeViewTestsLoggedOut.test_instructor_page] Invalid name "r" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/tests/test_views.py:44: [E1103, PagetreeViewTestsLoggedOut.test_instructor_page] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
+brownfield_django/main/tests/test_views.py:21: [R0904, PagetreeViewTestsLoggedOut] Too many public methods (67/50)
+brownfield_django/main/tests/test_views.py:50: [C0103, PagetreeViewTestsLoggedIn.setUp] Invalid name "h" for type attribute (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/tests/test_views.py:49: [C0103, PagetreeViewTestsLoggedIn.setUp] Invalid name "c" for type attribute (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/tests/test_views.py:59: [C0103, PagetreeViewTestsLoggedIn.setUp] Invalid name "u" for type attribute (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/tests/test_views.py:51: [E1103, PagetreeViewTestsLoggedIn.setUp] Instance of 'str' has no 'get_root' member (but some types could not be inferred)
+brownfield_django/main/tests/test_views.py:65: [C0103, PagetreeViewTestsLoggedIn.test_page] Invalid name "r" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/tests/test_views.py:66: [E1103, PagetreeViewTestsLoggedIn.test_page] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
+brownfield_django/main/tests/test_views.py:69: [C0103, PagetreeViewTestsLoggedIn.test_edit_page] Invalid name "r" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/tests/test_views.py:70: [E1103, PagetreeViewTestsLoggedIn.test_edit_page] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
+brownfield_django/main/tests/test_views.py:73: [C0103, PagetreeViewTestsLoggedIn.test_instructor_page] Invalid name "r" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/tests/test_views.py:74: [E1103, PagetreeViewTestsLoggedIn.test_instructor_page] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
+brownfield_django/main/tests/test_views.py:47: [R0904, PagetreeViewTestsLoggedIn] Too many public methods (67/50)
+brownfield_django/main/tests/test_models.py:4: [R0904, BasicModelTest] Too many public methods (65/50)
+brownfield_django/main/tests/__init__.py:2: [W0403] Relative import 'test_models', should be 'brownfield_django.main.tests.test_models'
+brownfield_django/main/tests/__init__.py:2: [W0401] Wildcard import test_models
+brownfield_django/main/tests/__init__.py:3: [W0403] Relative import 'test_views', should be 'brownfield_django.main.tests.test_views'
+brownfield_django/main/tests/__init__.py:3: [W0401] Wildcard import test_views
+
+
+Report
+======
+92 statements analysed.
+
+Messages by category
+--------------------
+
++-----------+-------+---------+-----------+
+|type       |number |previous |difference |
++===========+=======+=========+===========+
+|convention |12     |12       |=          |
++-----------+-------+---------+-----------+
+|refactor   |4      |4        |=          |
++-----------+-------+---------+-----------+
+|warning    |9      |4        |+5.00      |
++-----------+-------+---------+-----------+
+|error      |11     |11       |=          |
++-----------+-------+---------+-----------+
+
+
+
+% errors / warnings by module
+-----------------------------
+
++----------------------------------------+-------+--------+---------+-----------+
+|module                                  |error  |warning |refactor |convention |
++========================================+=======+========+=========+===========+
+|brownfield_django.main.tests.test_views |100.00 |0.00    |75.00    |100.00     |
++----------------------------------------+-------+--------+---------+-----------+
+|brownfield_django.main.models           |0.00   |55.56   |0.00     |0.00       |
++----------------------------------------+-------+--------+---------+-----------+
+|brownfield_django.main.tests.__init__   |0.00   |44.44   |0.00     |0.00       |
++----------------------------------------+-------+--------+---------+-----------+
+
+
+
+Messages
+--------
+
++-----------+------------+
+|message id |occurrences |
++===========+============+
+|C0103      |12          |
++-----------+------------+
+|E1103      |11          |
++-----------+------------+
+|W0611      |5           |
++-----------+------------+
+|R0904      |4           |
++-----------+------------+
+|W0403      |2           |
++-----------+------------+
+|W0401      |2           |
++-----------+------------+
+
+
+
+Global evaluation
+-----------------
+Your code has been rated at 1.30/10 (previous run: -1.72/10)
+
+Duplication
+-----------
+
++-------------------------+------+---------+-----------+
+|                         |now   |previous |difference |
++=========================+======+=========+===========+
+|nb duplicated lines      |0     |0        |=          |
++-------------------------+------+---------+-----------+
+|percent duplicated lines |0.000 |0.000    |=          |
++-------------------------+------+---------+-----------+
+
+
+
+Statistics by type
+------------------
+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |7      |7          |=          |0.00        |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|class    |10     |6          |+4.00      |20.00       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|method   |15     |13         |+2.00      |33.33       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|function |0      |0          |=          |0           |0        |
++---------+-------+-----------+-----------+------------+---------+
+
+
+
+Raw metrics
+-----------
+
++----------+-------+------+---------+-----------+
+|type      |number |%     |previous |difference |
++==========+=======+======+=========+===========+
+|code      |98     |54.14 |69       |+29.00     |
++----------+-------+------+---------+-----------+
+|docstring |12     |6.63  |9        |+3.00      |
++----------+-------+------+---------+-----------+
+|comment   |57     |31.49 |3        |+54.00     |
++----------+-------+------+---------+-----------+
+|empty     |14     |7.73  |11       |+3.00      |
++----------+-------+------+---------+-----------+
+
+
+
+External dependencies
+---------------------
+::
+
+    datetime 
+      \-datetime (brownfield_django.main.models)
+    django 
+      \-contrib 
+      | \-auth 
+      |   \-models 
+      |     \-User (brownfield_django.main.models,brownfield_django.main.tests.test_views,brownfield_django.main.smoke)
+      \-db 
+      | \-models (brownfield_django.main.models)
+      \-test 
+      | \-TestCase (brownfield_django.main.tests.test_views,brownfield_django.main.tests.test_models)
+      | \-client 
+      |   \-Client (brownfield_django.main.tests.test_views)
+      \-views 
+        \-generic 
+          \-base 
+            \-TemplateView (brownfield_django.main.views)
+    pagetree 
+      \-helpers 
+      | \-get_hierarchy (brownfield_django.main.tests.test_views)
+      \-models 
+        \-Hierarchy (brownfield_django.main.models)
+        \-Section (brownfield_django.main.models)
+        \-UserLocation (brownfield_django.main.models)
+        \-UserPageVisit (brownfield_django.main.models)
+    smoketest 
+      \-SmokeTest (brownfield_django.main.smoke)
+
+
+

@@ -1,0 +1,7 @@
+brownfield_django/main/models.py:2: [E] PYFLAKES:'datetime' imported but unused
+brownfield_django/main/models.py:5: [E] PYFLAKES:'Section' imported but unused
+brownfield_django/main/models.py:5: [E] PYFLAKES:'UserLocation' imported but unused
+brownfield_django/main/models.py:5: [E] PYFLAKES:'Hierarchy' imported but unused
+brownfield_django/main/models.py:5: [E] PYFLAKES:'UserPageVisit' imported but unused
+brownfield_django/main/tests/__init__.py:2: [E] PYFLAKES:'from test_models import *' used; unable to detect undefined names
+brownfield_django/main/tests/__init__.py:3: [E] PYFLAKES:'from test_views import *' used; unable to detect undefined names
