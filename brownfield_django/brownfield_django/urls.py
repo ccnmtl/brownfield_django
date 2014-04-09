@@ -30,6 +30,7 @@ urlpatterns = patterns(
     (r'^registration/', include('registration.backends.default.urls')),
     (r'^$', views.IndexView.as_view()),
     (r'^course_list/$', views.CourseView.as_view()),
+    (r'^add_course/$', views.CreateCourseView.as_view()),
     (r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Course List</h1>
+<ul>
+{% for article in object_list %}
+    <li> {{ article.pub_date|date }} </li>
+{% empty %}
+    <li>No courses yet.</li>
+{% endfor %}
+</ul>
+
+{% endblock %}
