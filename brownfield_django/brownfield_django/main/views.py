@@ -64,9 +64,15 @@ class UpdateCourseView(AjaxableResponseMixin, UpdateView):
     '''generic class based view for
     editing a school'''
     model = Course
-    fields = ['']
+    fields = ["name", "startingBudget", "enableNarrative", "message", "active"]
+    template_name = 'main/update_course.html'
 #    template_name = 'icap/add_school.html'
 #    success_url = '/thank_you/'
 
+class FancyHomepage(AjaxableResponseMixin, CreateView):
+    '''Probably a horrble idea and completely wrong...'''
+    model = Course
+    template_name = 'main/fancy_page.html'
+    fields = ["name", "startingBudget", "enableNarrative", "message", "active"]
 
 
