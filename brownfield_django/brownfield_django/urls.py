@@ -31,6 +31,7 @@ urlpatterns = patterns(
     (r'^$', views.IndexView.as_view()),
     (r'^contexts/$', views.new_homepage),
     (r'^get_new_courses/$', views.get_new_courses),
+    (r'^course_detail/(?P<pk>\d+)/$', views.CourseDetailView.as_view()),
     (r'^create_new_course/$', views.create_new_course),
     (r'^course_list/$', views.CourseView.as_view()),
     (r'^add_course/$', views.CreateCourseView.as_view()),

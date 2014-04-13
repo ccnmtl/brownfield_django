@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ object.name }}</h1>
+<p>{{ object.pk }}</p>
+<p>Course Message: {{ object.message }}</p>
+{% comment %}
+<p>Published: {{ object.pub_date|date }}</p>
+<p>Date: {{ now|date }}</p>
+{% endcomment %}
+
+
+{% endblock %}

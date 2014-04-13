@@ -4,6 +4,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from brownfield_django.main.models import Course, Team, Student
 from pagetree.generic.views import EditView
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
@@ -55,6 +56,11 @@ class CourseView(TemplateView):
         context['courses'] = Course.objects.all()
         student_courses = Student.objects.filter(user=self.request.user.pk)
         context['user_courses'] = Course.objects.filter(student=student_courses)
+
+
+class CourseDetailView(DetailView):
+    model = Course
+
 
 class CreateCourseView(AjaxableResponseMixin, CreateView):
     '''generic class based view for
