@@ -1,7 +1,29 @@
 {% extends 'base.html' %}
+{% block js %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+    var frm = jQuery('#create_course');
+    frm.submit(function () {
+        jQuery.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                jQuery(".modal").html(data);
+            },
+            error: function(data) {
+                jQuery(".modal-body").html("Something went wrong!");
+            }
+        });
+        return false;
+    });
+
+
+</script>
+{% endblock %}
 {% block content %}
 <h1>Course List</h1>
-<button data-toggle="modal" data-target="#basicModal" class="btn btn-sm btn-success" type="button"> Edit Course </button></br>
+<button data-toggle="modal" data-target="#basicModal" class="btn btn-sm btn-success" type="button"> Add Course </button></br>
 <h3>Your Courses</h3>
 
 <ul>
@@ -30,8 +52,9 @@
             <h4 class="modal-title" id="myModalLabel">Add Course</h4>
             </div>
             <div class="modal-body">
-            <form action="/add_class/" method="post">{% csrf_token %}
+            <form id="create_course" action="." method="post">{% csrf_token %}
             {{ form.as_p }}
+            <input type="submit" value="Submit"/>
             </form>
             </div>
             <div class="modal-footer">

@@ -3,9 +3,9 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>brownfield_django: {% block title %}{% endblock %}</title>
+	<title>djangoquizblock3: {% block title %}{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="brownfield_django">
+  <meta name="description" content="djangoquizblock3">
   <meta name="author" content="CCNMTL">
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -96,6 +96,7 @@
     <div class="loginbox">
         <h2>Choose a login option...</h2>
         <div class="content">
+
             {% if WIND_BASE %}
                 <form method="get" action="{{ WIND_BASE }}login">
                     {% csrf_token %}

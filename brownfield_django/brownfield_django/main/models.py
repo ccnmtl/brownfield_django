@@ -1,6 +1,5 @@
 from django.db import models
 from datetime import datetime
-
 from django.contrib.auth.models import User
 from pagetree.models import Section, Hierarchy, UserLocation, UserPageVisit
 
@@ -10,7 +9,7 @@ class Course(models.Model):
     name = models.CharField(max_length=255)
     startingBudget = models.PositiveIntegerField(default=60000)
     enableNarrative = models.BooleanField(default=True)
-    message = models.CharField(max_length=255) # original default is none
+    message = models.TextField(max_length=255) # original default is none
     active = models.BooleanField(default=True)    
 
     def __unicode__(self):

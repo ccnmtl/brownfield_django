@@ -10,6 +10,9 @@ from django.views.generic.edit import CreateView, UpdateView
 class IndexView(TemplateView):
     template_name = "main/index.html"
 
+class ThankYou(TemplateView):
+    template_name = "main/thank_you.html"
+
 '''According to docs I am currently looking at Ajax must be done with an object-based form view'''
 
 class AjaxableResponseMixin(object):
@@ -24,6 +27,7 @@ class AjaxableResponseMixin(object):
         return HttpResponse(data, **response_kwargs)
 
     def form_invalid(self, form):
+        print "form invalid"
         response = super(AjaxableResponseMixin, self).form_invalid(form)
         if self.request.is_ajax():
             return self.render_to_json_response(form.errors, status=400)
@@ -31,11 +35,17 @@ class AjaxableResponseMixin(object):
             return response
 
     def form_valid(self, form):
+        #print "form valid"
         response = super(AjaxableResponseMixin, self).form_valid(form)
+        #print response
+        #print form
+        #print self.request.is_ajax()
         if self.request.is_ajax():
+            #print self.request
             data = {
                 'pk': self.object.pk,
             }
+            #print data
             return self.render_to_json_response(data)
         else:
             return response
@@ -58,21 +68,48 @@ class CreateCourseView(AjaxableResponseMixin, CreateView):
     model = Course
     fields = ["name", "startingBudget", "enableNarrative", "message", "active"]
     template_name = 'main/add_course.html'
-    #success_url = '/thank_you/'
+    success_url = '/thank_you/'
 
 class UpdateCourseView(AjaxableResponseMixin, UpdateView):
     '''generic class based view for
     editing a school'''
     model = Course
     fields = ["name", "startingBudget", "enableNarrative", "message", "active"]
-    template_name = 'main/update_course.html'
-#    template_name = 'icap/add_school.html'
+    template_name = 'course.html'
 #    success_url = '/thank_you/'
 
-class FancyHomepage(AjaxableResponseMixin, CreateView):
+class Homepage(AjaxableResponseMixin, CreateView):
     '''Probably a horrble idea and completely wrong...'''
     model = Course
     template_name = 'main/fancy_page.html'
     fields = ["name", "startingBudget", "enableNarrative", "message", "active"]
+    success_url = '/thank_you/'
 
+    def form_valid(self, form):
+        #print "form valid"
+        response = super(AjaxableResponseMixin, self).form_valid(form)
+        #print response
+        #print form
+        #print self.request.is_ajax()
+        if self.request.is_ajax():
+            #new_course = {
+            #    'pk': self.object.pk,
+            #    'name': self.object.name,
+            #    'startingBudget': self.object.startingBudget,
+            #    'enableNarrative': self.object.enableNarrative,
+            #    'message': self.object.message,
+            #    'active': self.object.active,
+            #}
+            #print new_course
+            #print type(new_course)
+            #course = Course('pk': self.object.pk, 'name': self.object.name, 'startingBudget': self.object.startingBudget, 'enableNarrative': self.object.enableNarrative, 'message': self.object.message, 'active': self.object.active)
+            course = Course(pk=self.object.pk, name = self.object.name, startingBudget = self.object.startingBudget, enableNarrative = self.object.enableNarrative, message = self.object.message, active = self.object.active)
+            print type(course)
+            print course.pk
+            print course.name
+            print course.startingBudget
+            course.save()
+            return self.render_to_json_response(course)
+        else:
+            return response
 
