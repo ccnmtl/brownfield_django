@@ -29,6 +29,7 @@ urlpatterns = patterns(
     logout_page,
     (r'^registration/', include('registration.backends.default.urls')),
     (r'^$', views.IndexView.as_view()),
+    (r'^contexts/$', views.new_homepage),
     (r'^course_list/$', views.CourseView.as_view()),
     (r'^add_course/$', views.CreateCourseView.as_view()),
     (r'^home/$', views.Homepage.as_view()),

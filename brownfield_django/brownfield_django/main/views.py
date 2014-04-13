@@ -6,6 +6,9 @@ from brownfield_django.main.models import Course, Team, Student
 from pagetree.generic.views import EditView
 from django.views.generic.edit import FormView
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.list import ListView
+from django.forms import ModelForm
+from django.shortcuts import render
 
 class IndexView(TemplateView):
     template_name = "main/index.html"
@@ -94,5 +97,17 @@ class Homepage(AjaxableResponseMixin, CreateView):
         else:
             return response
 
+class CourseForm(ModelForm):
+    class Meta:
+        model = Course
+        fields = ["name", "startingBudget", "enableNarrative", "message", "active"]
 
+
+def new_homepage(request):
+    courses = Course.objects.all()
+    student_courses = Student.objects.filter(user=request.user.pk)
+    user_courses = Course.objects.filter(student=student_courses)
+    create_form = CourseForm()
+
+    return render(request, 'main/contexts.html', {'form': create_form, 'user_courses' : user_courses, 'courses' : courses})
 
