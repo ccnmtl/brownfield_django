@@ -102,7 +102,6 @@ class CourseForm(ModelForm):
         model = Course
         fields = ["name", "startingBudget", "enableNarrative", "message", "active"]
 
-
 def new_homepage(request):
     courses = Course.objects.all()
     student_courses = Student.objects.filter(user=request.user.pk)
@@ -110,4 +109,30 @@ def new_homepage(request):
     create_form = CourseForm()
 
     return render(request, 'main/contexts.html', {'form': create_form, 'user_courses' : user_courses, 'courses' : courses})
+
+def create_new_course(request):
+    if request.method == "POST":
+        form = CourseForm(request.POST)
+        if form.is_valid():
+            new_course = form.save()
+        else:
+            return new_course
+    else:
+        form = CourseForm()
+
+    return render(request, "main/contexts.html", {'form': form})
+
+
+
+def get_new_courses(request):
+    courses = Course.objects.all()
+    student_courses = Student.objects.filter(user=request.user.pk)
+    user_courses = Course.objects.filter(student=student_courses)
+
+    return render(request, 'main/contexts.html', {'user_courses' : user_courses, 'courses' : courses})
+
+
+
+
+
 

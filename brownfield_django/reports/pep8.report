@@ -1,13 +1,35 @@
 brownfield_django/main/forms.py:5:1: E303 too many blank lines (3)
 brownfield_django/main/forms.py:11:53: W292 no newline at end of file
-brownfield_django/main/models.py:13:47: E261 at least two spaces before inline comment
-brownfield_django/main/models.py:14:47: W291 trailing whitespace
-brownfield_django/main/models.py:19:1: E302 expected 2 blank lines, found 1
-brownfield_django/main/models.py:29:1: E302 expected 2 blank lines, found 1
-brownfield_django/main/models.py:34:1: E302 expected 2 blank lines, found 1
-brownfield_django/main/views.py:8:1: E302 expected 2 blank lines, found 1
-brownfield_django/main/views.py:11:1: E302 expected 2 blank lines, found 1
-brownfield_django/main/views.py:18:80: E501 line too long (80 > 79 characters)
-brownfield_django/main/views.py:20:1: E302 expected 2 blank lines, found 1
-brownfield_django/main/views.py:27:1: E302 expected 2 blank lines, found 1
-brownfield_django/main/views.py:34:1: W391 blank line at end of file
+brownfield_django/main/models.py:12:47: E261 at least two spaces before inline comment
+brownfield_django/main/models.py:13:47: W291 trailing whitespace
+brownfield_django/main/models.py:18:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/models.py:28:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/models.py:33:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:13:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:16:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:19:80: E501 line too long (98 > 79 characters)
+brownfield_django/main/views.py:21:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:50:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:57:80: E501 line too long (80 > 79 characters)
+brownfield_django/main/views.py:59:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:67:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:75:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:94:80: E501 line too long (223 > 79 characters)
+brownfield_django/main/views.py:94:52: E251 unexpected spaces around keyword / parameter equals
+brownfield_django/main/views.py:94:54: E251 unexpected spaces around keyword / parameter equals
+brownfield_django/main/views.py:94:87: E251 unexpected spaces around keyword / parameter equals
+brownfield_django/main/views.py:94:89: E251 unexpected spaces around keyword / parameter equals
+brownfield_django/main/views.py:94:133: E251 unexpected spaces around keyword / parameter equals
+brownfield_django/main/views.py:94:135: E251 unexpected spaces around keyword / parameter equals
+brownfield_django/main/views.py:94:172: E251 unexpected spaces around keyword / parameter equals
+brownfield_django/main/views.py:94:174: E251 unexpected spaces around keyword / parameter equals
+brownfield_django/main/views.py:94:202: E251 unexpected spaces around keyword / parameter equals
+brownfield_django/main/views.py:94:204: E251 unexpected spaces around keyword / parameter equals
+brownfield_django/main/views.py:100:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:103:80: E501 line too long (83 > 79 characters)
+brownfield_django/main/views.py:105:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:111:80: E501 line too long (123 > 79 characters)
+brownfield_django/main/views.py:111:86: E203 whitespace before ':'
+brownfield_django/main/views.py:111:112: E203 whitespace before ':'
+brownfield_django/main/views.py:113:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:126:1: W391 blank line at end of file
