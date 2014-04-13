@@ -35,23 +35,14 @@ class AjaxableResponseMixin(object):
             return response
 
     def form_valid(self, form):
-        #print "form valid"
         response = super(AjaxableResponseMixin, self).form_valid(form)
-        #print response
-        #print form
-        #print self.request.is_ajax()
         if self.request.is_ajax():
-            #print self.request
             data = {
                 'pk': self.object.pk,
             }
-            #print data
             return self.render_to_json_response(data)
         else:
             return response
-
-
-
 
 class CourseView(TemplateView):
     template_name = "main/course_list.html"
@@ -85,12 +76,9 @@ class Homepage(AjaxableResponseMixin, CreateView):
     fields = ["name", "startingBudget", "enableNarrative", "message", "active"]
     success_url = '/thank_you/'
 
+    # I assume there are probably some checks I should do
     def form_valid(self, form):
-        #print "form valid"
         response = super(AjaxableResponseMixin, self).form_valid(form)
-        #print response
-        #print form
-        #print self.request.is_ajax()
         if self.request.is_ajax():
             #new_course = {
             #    'pk': self.object.pk,
@@ -100,16 +88,11 @@ class Homepage(AjaxableResponseMixin, CreateView):
             #    'message': self.object.message,
             #    'active': self.object.active,
             #}
-            #print new_course
-            #print type(new_course)
-            #course = Course('pk': self.object.pk, 'name': self.object.name, 'startingBudget': self.object.startingBudget, 'enableNarrative': self.object.enableNarrative, 'message': self.object.message, 'active': self.object.active)
             course = Course(pk=self.object.pk, name = self.object.name, startingBudget = self.object.startingBudget, enableNarrative = self.object.enableNarrative, message = self.object.message, active = self.object.active)
-            print type(course)
-            print course.pk
-            print course.name
-            print course.startingBudget
             course.save()
             return self.render_to_json_response(course)
         else:
             return response
+
+
 
