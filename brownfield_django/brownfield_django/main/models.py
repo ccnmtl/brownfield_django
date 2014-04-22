@@ -15,6 +15,12 @@ class Course(models.Model):
     def __unicode__(self):
         return self.name
 
+class Document(models.Model):
+    course = models.ForeignKey(Course)
+    name = models.CharField(max_length=255)
+    content = models.CharField(max_length=255)
+    # in old application content is href not sure if it should be but...
+
 class Team(models.Model):
     '''Team: A team will have one login/username
     All accounting/history/actions is by team.'''

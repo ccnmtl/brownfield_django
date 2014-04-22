@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>{{ object.name }}</h1>
-<p>{{ object.pk }}</p>
-<p>Course Message: {{ object.message }}</p>
+<h1>{{ course.name }}</h1>
+<p>{{ course.pk }}</p>
+<p>Course Message: {{ course.message }}</p>
+<p>Course Documents:</p>
+ <ul>
+{% for doc in documents %}
+    <li> {{ doc.name }} </a></li>
+{% empty %}
+    <li>No documents for courses yet.</li>
+{% endfor %}
+</ul>
 {% comment %}
 <p>Published: {{ object.pub_date|date }}</p>
 <p>Date: {{ now|date }}</p>
@@ -10,3 +18,5 @@
 
 
 {% endblock %}
+
+

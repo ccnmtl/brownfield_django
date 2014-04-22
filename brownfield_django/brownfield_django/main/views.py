@@ -2,7 +2,8 @@ import json
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
-from brownfield_django.main.models import Course, Team, Student
+from django.views.generic.detail import SingleObjectMixin
+from brownfield_django.main.models import Course, Team, Student, Document
 from pagetree.generic.views import EditView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
@@ -60,6 +61,23 @@ class CourseView(TemplateView):
 
 class CourseDetailView(DetailView):
     model = Course
+    template_name = "main/course_detail.html"
+
+#    def get(self, request, *args, **kwargs):
+#        self.object = self.get_object(queryset=Course.objects.all())
+#        return super(CourseDetailView, self).get(request, *args, **kwargs)
+
+#    def get_context_data(self, **kwargs):
+#        context = super(CourseDetailView, self).get_context_data(**kwargs)
+#        context['documents'] = self.object.document_set.all()
+#        return context
+
+#    def get_queryset(self):
+#        return self.object.document_set.all()
+#    def get_context_data(self, **kwargs):
+#        context = super(CourseDetailView, self).get_context_data(**kwargs)
+#        context['documents'] =Course.document_set.all(pk=object)
+#        return context
 
 
 class CreateCourseView(AjaxableResponseMixin, CreateView):
@@ -138,6 +156,12 @@ def get_new_courses(request):
     return render(request, 'main/contexts.html', {'user_courses' : user_courses, 'courses' : courses})
 
 
+def get_course_documents(request, pk):
+    course = Course.objects.get(pk=pk)
+    print type(course)
+    print course
+    course_documents = course.document_set.all()#Document.objects.filter(course=course)
+    return render(request, 'main/course_detail.html', {'course' : course, 'documents' : course_documents})
 
 
 
