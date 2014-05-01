@@ -1,7 +1,6 @@
 from django import forms
 
 
-
 class CreateClassForm(forms.Form):
     '''This is a form class that will be
     used with ajax to create new classes.'''

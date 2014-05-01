@@ -1,31 +1,13 @@
-brownfield_django/main/old_models.py:4: [W0611] Unused import Section
-brownfield_django/main/old_models.py:2: [W0611] Unused import datetime
-brownfield_django/main/old_models.py:4: [W0611] Unused import UserLocation
-brownfield_django/main/old_models.py:4: [W0611] Unused import Hierarchy
-brownfield_django/main/old_models.py:4: [W0611] Unused import UserPageVisit
-brownfield_django/main/models.py:4: [W0611] Unused import Section
-brownfield_django/main/models.py:2: [W0611] Unused import datetime
-brownfield_django/main/models.py:4: [W0611] Unused import UserLocation
-brownfield_django/main/models.py:4: [W0611] Unused import Hierarchy
-brownfield_django/main/models.py:4: [W0611] Unused import UserPageVisit
-brownfield_django/main/views.py:118: [C0301] Line too long (223/160)
-brownfield_django/main/views.py:11: [W0404] Reimport 'ListView' (imported line 4)
-brownfield_django/main/views.py:21: [W0105] String statement has no effect
+brownfield_django/main/views.py:19: [W0105] String statement has no effect
 brownfield_django/main/views.py:58: [E1101, CourseView.get_context_data] Instance of 'CourseView' has no 'request' member
-brownfield_django/main/views.py:62: [R0901, CourseDetailView] Too many ancestors (8/7)
-brownfield_django/main/views.py:83: [R0901, CreateCourseView] Too many ancestors (12/7)
-brownfield_django/main/views.py:91: [R0901, UpdateCourseView] Too many ancestors (12/7)
-brownfield_django/main/views.py:99: [R0901, Homepage] Too many ancestors (12/7)
-brownfield_django/main/views.py:107: [E1003, Homepage.form_valid] Bad first argument 'AjaxableResponseMixin' given to super class
-brownfield_django/main/views.py:109: [E1101, Homepage.form_valid] Instance of 'Homepage' has no 'request' member
-brownfield_django/main/views.py:140: [E1101, create_new_course] Instance of 'CourseForm' has no 'is_valid' member
-brownfield_django/main/views.py:141: [E1101, create_new_course] Instance of 'CourseForm' has no 'save' member
-brownfield_django/main/views.py:6: [W0611] Unused import Team
-brownfield_django/main/views.py:9: [W0611] Unused import FormView
-brownfield_django/main/views.py:5: [W0611] Unused import SingleObjectMixin
-brownfield_django/main/views.py:6: [W0611] Unused import Document
-brownfield_django/main/views.py:7: [W0611] Unused import EditView
-brownfield_django/main/views.py:4: [W0611] Unused import ListView
+brownfield_django/main/views.py:63: [R0901, CourseDetailView] Too many ancestors (8/7)
+brownfield_django/main/views.py:68: [R0901, CreateCourseView] Too many ancestors (12/7)
+brownfield_django/main/views.py:77: [R0901, UpdateCourseView] Too many ancestors (12/7)
+brownfield_django/main/views.py:85: [R0901, Homepage] Too many ancestors (12/7)
+brownfield_django/main/views.py:93: [E1003, Homepage.form_valid] Bad first argument 'AjaxableResponseMixin' given to super class
+brownfield_django/main/views.py:95: [E1101, Homepage.form_valid] Instance of 'Homepage' has no 'request' member
+brownfield_django/main/views.py:128: [E1101, create_new_course] Instance of 'CourseForm' has no 'is_valid' member
+brownfield_django/main/views.py:129: [E1101, create_new_course] Instance of 'CourseForm' has no 'save' member
 brownfield_django/main/tests/test_models.py:4: [R0904, BasicModelTest] Too many public methods (65/50)
 brownfield_django/main/tests/test_views.py:9: [C0103, BasicTest.setUp] Invalid name "c" for type attribute (should match [a-z_][a-z0-9_]{2,30}$)
 brownfield_django/main/tests/test_views.py:13: [E1103, BasicTest.test_root] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
@@ -58,7 +40,7 @@ brownfield_django/main/tests/__init__.py:2: [W0401] Wildcard import test_models
 brownfield_django/main/tests/__init__.py:3: [W0403] Relative import 'test_views', should be 'brownfield_django.main.tests.test_views'
 brownfield_django/main/tests/__init__.py:3: [W0401] Wildcard import test_views
 brownfield_django/main/tests/__init__.py:1: [R0801] Similar lines in 2 files
-==brownfield_django.main.models:23
+==brownfield_django.main.models:24
 ==brownfield_django.main.old_models:17
 class Team(models.Model):
     '''Team: A team will have one login/username
@@ -70,10 +52,12 @@ class Team(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class Student(models.Model):
     course = models.ForeignKey(Course)
     user = models.ForeignKey(User)
     team = models.ForeignKey(Team)
+
 
 class PerformedTest(models.Model):
     X = models.IntegerField(default=0)
@@ -81,70 +65,11 @@ class PerformedTest(models.Model):
     z = models.IntegerField(default=0)
     testDetails = models.CharField(max_length=255)
     paramString = models.CharField(max_length=255)
-
-
-# class UserProfile(models.Model):
-#     user = models.ForeignKey(User, related_name="application_user")
-#     profile_type = models.CharField(max_length=2, choices=PROFILE_CHOICES)
-#     country = models.ForeignKey(Country, null=True, blank=True)
-#     school = models.ForeignKey(School, null=True, default=None)
-#     course = models.ManyToManyField(Course, null=True, blank=True)
-#
-#     def __unicode__(self):
-#         return self.user.username
-#
-#     class Meta:
-#         ordering = ["user"]
-#
-#     def get_has_visited(self, section):
-#         return section.get_uservisit(self.user) is not None
-#
-#     def set_has_visited(self, sections):
-#         for sect in sections:
-#             sect.user_pagevisit(self.user, "complete")
-#             sect.user_visit(self.user)
-#
-#     def last_location(self, hierarchy_name=None):
-#         if hierarchy_name is None:
-#             hierarchy_name = self.role()
-#         hierarchy = Hierarchy.get_hierarchy(hierarchy_name)
-#         try:
-#             UserLocation.objects.get(user=self.user,
-#                                      hierarchy=hierarchy)
-#             return hierarchy.get_user_section(self.user)
-#         except UserLocation.DoesNotExist:
-#             return hierarchy.get_first_leaf(hierarchy.get_root())
-#
-#     def percent_complete(self):
-#         hierarchy = Hierarchy.get_hierarchy(self.role())
-#         visits = UserPageVisit.objects.filter(section__hierarchy=hierarchy)
-#         sections = Section.objects.filter(hierarchy=hierarchy)
-#         if len(sections) > 0:
-#             return int(len(visits) / float(len(sections)) * 100)
-#         else:
-#             return 0
-#
-#     def display_name(self):
-#         return self.user.username
-#
-#     def is_student(self):
-#         return self.profile_type == 'ST'
-#
-#     def is_teacher(self):
-#         return self.profile_type == 'TE'
-#
-#     def role(self):
-#         if self.is_student():
-#             return "student"
-#         elif self.is_teacher():
-#             return "teacher"
 brownfield_django/main/tests/__init__.py:1: [R0801] Similar lines in 2 files
 ==brownfield_django.main.models:0
 ==brownfield_django.main.old_models:0
 from django.db import models
-from datetime import datetime
 from django.contrib.auth.models import User
-from pagetree.models import Section, Hierarchy, UserLocation, UserPageVisit
 
 
 class Course(models.Model):
@@ -152,7 +77,8 @@ class Course(models.Model):
     name = models.CharField(max_length=255)
     startingBudget = models.PositiveIntegerField(default=60000)
     enableNarrative = models.BooleanField(default=True)
-    message = models.TextField(max_length=255) # original default is none
+    # original default is none
+    message = models.TextField(max_length=255)
     active = models.BooleanField(default=True)
 
     def __unicode__(self):
@@ -160,39 +86,75 @@ class Course(models.Model):
 
 
 
+
 Report
 ======
-221 statements analysed.
+212 statements analysed.
 
-Duplication
------------
+Messages by category
+--------------------
 
-+-------------------------+-------+---------+-----------+
-|                         |now    |previous |difference |
-+=========================+=======+=========+===========+
-|nb duplicated lines      |95     |95       |=          |
-+-------------------------+-------+---------+-----------+
-|percent duplicated lines |20.343 |20.343   |=          |
-+-------------------------+-------+---------+-----------+
-
-
-
-Statistics by type
-------------------
-
-+---------+-------+-----------+-----------+------------+---------+
-|type     |number |old number |difference |%documented |%badname |
-+=========+=======+===========+===========+============+=========+
-|module   |9      |9          |=          |0.00        |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|class    |25     |25         |=          |36.00       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|method   |22     |22         |=          |40.91       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|function |4      |4          |=          |0.00        |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
++-----------+-------+---------+-----------+
+|type       |number |previous |difference |
++===========+=======+=========+===========+
+|convention |12     |12       |=          |
++-----------+-------+---------+-----------+
+|refactor   |10     |10       |=          |
++-----------+-------+---------+-----------+
+|warning    |5      |5        |=          |
++-----------+-------+---------+-----------+
+|error      |16     |16       |=          |
++-----------+-------+---------+-----------+
 
 
+
+% errors / warnings by module
+-----------------------------
+
++----------------------------------------+------+--------+---------+-----------+
+|module                                  |error |warning |refactor |convention |
++========================================+======+========+=========+===========+
+|brownfield_django.main.tests.test_views |68.75 |0.00    |30.00    |100.00     |
++----------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.views            |31.25 |20.00   |40.00    |0.00       |
++----------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.tests.__init__   |0.00  |80.00   |20.00    |0.00       |
++----------------------------------------+------+--------+---------+-----------+
+
+
+
+Messages
+--------
+
++-----------+------------+
+|message id |occurrences |
++===========+============+
+|C0103      |12          |
++-----------+------------+
+|E1103      |11          |
++-----------+------------+
+|R0904      |4           |
++-----------+------------+
+|R0901      |4           |
++-----------+------------+
+|E1101      |4           |
++-----------+------------+
+|W0403      |2           |
++-----------+------------+
+|W0401      |2           |
++-----------+------------+
+|R0801      |2           |
++-----------+------------+
+|W0105      |1           |
++-----------+------------+
+|E1003      |1           |
++-----------+------------+
+
+
+
+Global evaluation
+-----------------
+Your code has been rated at 4.95/10 (previous run: 4.95/10)
 
 External dependencies
 ---------------------
@@ -202,11 +164,7 @@ External dependencies
       \-main 
         \-models 
           \-Course (brownfield_django.main.views)
-          \-Document (brownfield_django.main.views)
           \-Student (brownfield_django.main.views)
-          \-Team (brownfield_django.main.views)
-    datetime 
-      \-datetime (brownfield_django.main.models,brownfield_django.main.old_models)
     django 
       \-contrib 
       | \-auth 
@@ -230,103 +188,46 @@ External dependencies
           | \-TemplateView (brownfield_django.main.views)
           \-detail 
           | \-DetailView (brownfield_django.main.views)
-          | \-SingleObjectMixin (brownfield_django.main.views)
           \-edit 
-          | \-CreateView (brownfield_django.main.views)
-          | \-FormView (brownfield_django.main.views)
-          | \-UpdateView (brownfield_django.main.views)
-          \-list 
-            \-ListView (brownfield_django.main.views)
+            \-CreateView (brownfield_django.main.views)
+            \-UpdateView (brownfield_django.main.views)
     pagetree 
-      \-generic 
-      | \-views 
-      |   \-EditView (brownfield_django.main.views)
       \-helpers 
-      | \-get_hierarchy (brownfield_django.main.tests.test_views)
-      \-models 
-        \-Hierarchy (brownfield_django.main.models,brownfield_django.main.old_models)
-        \-Section (brownfield_django.main.models,brownfield_django.main.old_models)
-        \-UserLocation (brownfield_django.main.models,brownfield_django.main.old_models)
-        \-UserPageVisit (brownfield_django.main.models,brownfield_django.main.old_models)
+        \-get_hierarchy (brownfield_django.main.tests.test_views)
     smoketest 
       \-SmokeTest (brownfield_django.main.smoke)
 
 
 
-Messages by category
---------------------
+Duplication
+-----------
 
-+-----------+-------+---------+-----------+
-|type       |number |previous |difference |
-+===========+=======+=========+===========+
-|convention |13     |13       |=          |
-+-----------+-------+---------+-----------+
-|refactor   |10     |10       |=          |
-+-----------+-------+---------+-----------+
-|warning    |22     |22       |=          |
-+-----------+-------+---------+-----------+
-|error      |16     |16       |=          |
-+-----------+-------+---------+-----------+
++-------------------------+-------+---------+-----------+
+|                         |now    |previous |difference |
++=========================+=======+=========+===========+
+|nb duplicated lines      |40     |40       |=          |
++-------------------------+-------+---------+-----------+
+|percent duplicated lines |11.696 |11.696   |=          |
++-------------------------+-------+---------+-----------+
 
 
 
-% errors / warnings by module
------------------------------
+Statistics by type
+------------------
 
-+----------------------------------------+------+--------+---------+-----------+
-|module                                  |error |warning |refactor |convention |
-+========================================+======+========+=========+===========+
-|brownfield_django.main.tests.test_views |68.75 |0.00    |30.00    |92.31      |
-+----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.views            |31.25 |36.36   |40.00    |7.69       |
-+----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.old_models       |0.00  |22.73   |0.00     |0.00       |
-+----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.models           |0.00  |22.73   |0.00     |0.00       |
-+----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.tests.__init__   |0.00  |18.18   |20.00    |0.00       |
-+----------------------------------------+------+--------+---------+-----------+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |9      |9          |=          |0.00        |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|class    |25     |25         |=          |36.00       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|method   |22     |22         |=          |40.91       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|function |4      |4          |=          |0.00        |0.00     |
++---------+-------+-----------+-----------+------------+---------+
 
 
-
-Messages
---------
-
-+-----------+------------+
-|message id |occurrences |
-+===========+============+
-|W0611      |16          |
-+-----------+------------+
-|C0103      |12          |
-+-----------+------------+
-|E1103      |11          |
-+-----------+------------+
-|R0904      |4           |
-+-----------+------------+
-|R0901      |4           |
-+-----------+------------+
-|E1101      |4           |
-+-----------+------------+
-|W0403      |2           |
-+-----------+------------+
-|W0401      |2           |
-+-----------+------------+
-|R0801      |2           |
-+-----------+------------+
-|W0404      |1           |
-+-----------+------------+
-|W0105      |1           |
-+-----------+------------+
-|E1003      |1           |
-+-----------+------------+
-|C0301      |1           |
-+-----------+------------+
-
-
-
-Global evaluation
------------------
-Your code has been rated at 4.34/10 (previous run: 4.34/10)
 
 Raw metrics
 -----------
@@ -334,13 +235,13 @@ Raw metrics
 +----------+-------+------+---------+-----------+
 |type      |number |%     |previous |difference |
 +==========+=======+======+=========+===========+
-|code      |237    |54.86 |237      |=          |
+|code      |233    |74.92 |233      |=          |
 +----------+-------+------+---------+-----------+
-|docstring |28     |6.48  |28       |=          |
+|docstring |30     |9.65  |30       |=          |
 +----------+-------+------+---------+-----------+
-|comment   |132    |30.56 |132      |=          |
+|comment   |2      |0.64  |2        |=          |
 +----------+-------+------+---------+-----------+
-|empty     |35     |8.10  |35       |=          |
+|empty     |46     |14.79 |46       |=          |
 +----------+-------+------+---------+-----------+
 
 

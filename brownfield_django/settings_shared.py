@@ -87,7 +87,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.transaction.TransactionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'impersonate.middleware.ImpersonateMiddleware',
-#    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'waffle.middleware.WaffleMiddleware',
 )
 

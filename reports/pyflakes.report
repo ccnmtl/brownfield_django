@@ -1,19 +1,2 @@
-brownfield_django/main/old_models.py:2: [E] PYFLAKES:'datetime' imported but unused
-brownfield_django/main/old_models.py:4: [E] PYFLAKES:'Section' imported but unused
-brownfield_django/main/old_models.py:4: [E] PYFLAKES:'UserLocation' imported but unused
-brownfield_django/main/old_models.py:4: [E] PYFLAKES:'Hierarchy' imported but unused
-brownfield_django/main/old_models.py:4: [E] PYFLAKES:'UserPageVisit' imported but unused
-brownfield_django/main/models.py:2: [E] PYFLAKES:'datetime' imported but unused
-brownfield_django/main/models.py:4: [E] PYFLAKES:'Section' imported but unused
-brownfield_django/main/models.py:4: [E] PYFLAKES:'UserLocation' imported but unused
-brownfield_django/main/models.py:4: [E] PYFLAKES:'Hierarchy' imported but unused
-brownfield_django/main/models.py:4: [E] PYFLAKES:'UserPageVisit' imported but unused
-brownfield_django/main/views.py:5: [E] PYFLAKES:'SingleObjectMixin' imported but unused
-brownfield_django/main/views.py:6: [E] PYFLAKES:'Document' imported but unused
-brownfield_django/main/views.py:6: [E] PYFLAKES:'Team' imported but unused
-brownfield_django/main/views.py:7: [E] PYFLAKES:'EditView' imported but unused
-brownfield_django/main/views.py:9: [E] PYFLAKES:'FormView' imported but unused
-brownfield_django/main/views.py:11: [E] PYFLAKES:redefinition of unused 'ListView' from line 4
-brownfield_django/main/views.py:11: [E] PYFLAKES:'ListView' imported but unused
 brownfield_django/main/tests/__init__.py:2: [E] PYFLAKES:'from test_models import *' used; unable to detect undefined names
 brownfield_django/main/tests/__init__.py:3: [E] PYFLAKES:'from test_views import *' used; unable to detect undefined names
