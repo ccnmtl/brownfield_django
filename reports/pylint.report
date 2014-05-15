@@ -91,6 +91,79 @@ Report
 ======
 212 statements analysed.
 
+External dependencies
+---------------------
+::
+
+    brownfield_django 
+      \-main 
+        \-models 
+          \-Course (brownfield_django.main.views)
+          \-Student (brownfield_django.main.views)
+    django 
+      \-contrib 
+      | \-auth 
+      |   \-models 
+      |     \-User (brownfield_django.main.models,brownfield_django.main.tests.test_views,brownfield_django.main.smoke,brownfield_django.main.old_models)
+      \-db 
+      | \-models (brownfield_django.main.models,brownfield_django.main.old_models)
+      \-forms (brownfield_django.main.forms)
+      | \-ModelForm (brownfield_django.main.views)
+      \-http 
+      | \-HttpResponse (brownfield_django.main.views)
+      \-shortcuts 
+      | \-render (brownfield_django.main.views)
+      \-test 
+      | \-TestCase (brownfield_django.main.tests.test_views,brownfield_django.main.tests.test_models)
+      | \-client 
+      |   \-Client (brownfield_django.main.tests.test_views)
+      \-views 
+        \-generic 
+          \-base 
+          | \-TemplateView (brownfield_django.main.views)
+          \-detail 
+          | \-DetailView (brownfield_django.main.views)
+          \-edit 
+            \-CreateView (brownfield_django.main.views)
+            \-UpdateView (brownfield_django.main.views)
+    pagetree 
+      \-helpers 
+        \-get_hierarchy (brownfield_django.main.tests.test_views)
+    smoketest 
+      \-SmokeTest (brownfield_django.main.smoke)
+
+
+
+Raw metrics
+-----------
+
++----------+-------+------+---------+-----------+
+|type      |number |%     |previous |difference |
++==========+=======+======+=========+===========+
+|code      |233    |74.92 |233      |=          |
++----------+-------+------+---------+-----------+
+|docstring |30     |9.65  |30       |=          |
++----------+-------+------+---------+-----------+
+|comment   |2      |0.64  |2        |=          |
++----------+-------+------+---------+-----------+
+|empty     |46     |14.79 |46       |=          |
++----------+-------+------+---------+-----------+
+
+
+
+Duplication
+-----------
+
++-------------------------+-------+---------+-----------+
+|                         |now    |previous |difference |
++=========================+=======+=========+===========+
+|nb duplicated lines      |40     |40       |=          |
++-------------------------+-------+---------+-----------+
+|percent duplicated lines |11.696 |11.696   |=          |
++-------------------------+-------+---------+-----------+
+
+
+
 Messages by category
 --------------------
 
@@ -156,62 +229,6 @@ Global evaluation
 -----------------
 Your code has been rated at 4.95/10 (previous run: 4.95/10)
 
-External dependencies
----------------------
-::
-
-    brownfield_django 
-      \-main 
-        \-models 
-          \-Course (brownfield_django.main.views)
-          \-Student (brownfield_django.main.views)
-    django 
-      \-contrib 
-      | \-auth 
-      |   \-models 
-      |     \-User (brownfield_django.main.models,brownfield_django.main.tests.test_views,brownfield_django.main.smoke,brownfield_django.main.old_models)
-      \-db 
-      | \-models (brownfield_django.main.models,brownfield_django.main.old_models)
-      \-forms (brownfield_django.main.forms)
-      | \-ModelForm (brownfield_django.main.views)
-      \-http 
-      | \-HttpResponse (brownfield_django.main.views)
-      \-shortcuts 
-      | \-render (brownfield_django.main.views)
-      \-test 
-      | \-TestCase (brownfield_django.main.tests.test_views,brownfield_django.main.tests.test_models)
-      | \-client 
-      |   \-Client (brownfield_django.main.tests.test_views)
-      \-views 
-        \-generic 
-          \-base 
-          | \-TemplateView (brownfield_django.main.views)
-          \-detail 
-          | \-DetailView (brownfield_django.main.views)
-          \-edit 
-            \-CreateView (brownfield_django.main.views)
-            \-UpdateView (brownfield_django.main.views)
-    pagetree 
-      \-helpers 
-        \-get_hierarchy (brownfield_django.main.tests.test_views)
-    smoketest 
-      \-SmokeTest (brownfield_django.main.smoke)
-
-
-
-Duplication
------------
-
-+-------------------------+-------+---------+-----------+
-|                         |now    |previous |difference |
-+=========================+=======+=========+===========+
-|nb duplicated lines      |40     |40       |=          |
-+-------------------------+-------+---------+-----------+
-|percent duplicated lines |11.696 |11.696   |=          |
-+-------------------------+-------+---------+-----------+
-
-
-
 Statistics by type
 ------------------
 
@@ -226,23 +243,6 @@ Statistics by type
 +---------+-------+-----------+-----------+------------+---------+
 |function |4      |4          |=          |0.00        |0.00     |
 +---------+-------+-----------+-----------+------------+---------+
-
-
-
-Raw metrics
------------
-
-+----------+-------+------+---------+-----------+
-|type      |number |%     |previous |difference |
-+==========+=======+======+=========+===========+
-|code      |233    |74.92 |233      |=          |
-+----------+-------+------+---------+-----------+
-|docstring |30     |9.65  |30       |=          |
-+----------+-------+------+---------+-----------+
-|comment   |2      |0.64  |2        |=          |
-+----------+-------+------+---------+-----------+
-|empty     |46     |14.79 |46       |=          |
-+----------+-------+------+---------+-----------+
 
 
 
