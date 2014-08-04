@@ -2,3 +2,5 @@
 *~
 *.pyc
 ve
+reports/
+media/CACHE

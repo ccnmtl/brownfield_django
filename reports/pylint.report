@@ -1,89 +1,86 @@
-brownfield_django/main/models.py:4: [W0611] Unused import Section
-brownfield_django/main/models.py:2: [W0611] Unused import datetime
-brownfield_django/main/models.py:4: [W0611] Unused import UserLocation
-brownfield_django/main/models.py:4: [W0611] Unused import Hierarchy
-brownfield_django/main/models.py:4: [W0611] Unused import UserPageVisit
-brownfield_django/main/views.py:94: [C0301] Line too long (223/160)
-brownfield_django/main/views.py:9: [W0404] Reimport 'ListView' (imported line 4)
 brownfield_django/main/views.py:19: [W0105] String statement has no effect
-brownfield_django/main/views.py:56: [E1101, CourseView.get_context_data] Instance of 'CourseView' has no 'request' member
-brownfield_django/main/views.py:59: [R0901, CreateCourseView] Too many ancestors (12/7)
-brownfield_django/main/views.py:67: [R0901, UpdateCourseView] Too many ancestors (12/7)
-brownfield_django/main/views.py:75: [R0901, Homepage] Too many ancestors (12/7)
-brownfield_django/main/views.py:83: [E1003, Homepage.form_valid] Bad first argument 'AjaxableResponseMixin' given to super class
-brownfield_django/main/views.py:85: [E1101, Homepage.form_valid] Instance of 'Homepage' has no 'request' member
-brownfield_django/main/views.py:116: [E1101, create_new_course] Instance of 'CourseForm' has no 'is_valid' member
-brownfield_django/main/views.py:117: [E1101, create_new_course] Instance of 'CourseForm' has no 'save' member
-brownfield_django/main/views.py:7: [W0611] Unused import FormView
-brownfield_django/main/views.py:5: [W0611] Unused import Team
-brownfield_django/main/views.py:6: [W0611] Unused import EditView
-brownfield_django/main/views.py:4: [W0611] Unused import ListView
+brownfield_django/main/views.py:58: [E1101, CourseView.get_context_data] Instance of 'CourseView' has no 'request' member
+brownfield_django/main/views.py:63: [R0901, CourseDetailView] Too many ancestors (8/7)
+brownfield_django/main/views.py:68: [R0901, CreateCourseView] Too many ancestors (12/7)
+brownfield_django/main/views.py:77: [R0901, UpdateCourseView] Too many ancestors (12/7)
+brownfield_django/main/views.py:85: [R0901, Homepage] Too many ancestors (12/7)
+brownfield_django/main/views.py:93: [E1003, Homepage.form_valid] Bad first argument 'AjaxableResponseMixin' given to super class
+brownfield_django/main/views.py:95: [E1101, Homepage.form_valid] Instance of 'Homepage' has no 'request' member
+brownfield_django/main/views.py:128: [E1101, create_new_course] Instance of 'CourseForm' has no 'is_valid' member
+brownfield_django/main/views.py:129: [E1101, create_new_course] Instance of 'CourseForm' has no 'save' member
+brownfield_django/main/tests/test_models.py:4: [R0904, BasicModelTest] Too many public methods (66/50)
 brownfield_django/main/tests/test_views.py:9: [C0103, BasicTest.setUp] Invalid name "c" for type attribute (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/tests/test_views.py:13: [E1103, BasicTest.test_root] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
-brownfield_django/main/tests/test_views.py:17: [E1103, BasicTest.test_smoketest] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
-brownfield_django/main/tests/test_views.py:18: [E1103, BasicTest.test_smoketest] Instance of 'WSGIRequest' has no 'content' member (but some types could not be inferred)
-brownfield_django/main/tests/test_views.py:7: [R0904, BasicTest] Too many public methods (66/50)
+brownfield_django/main/tests/test_views.py:7: [R0904, BasicTest] Too many public methods (67/50)
 brownfield_django/main/tests/test_views.py:24: [C0103, PagetreeViewTestsLoggedOut.setUp] Invalid name "h" for type attribute (should match [a-z_][a-z0-9_]{2,30}$)
 brownfield_django/main/tests/test_views.py:23: [C0103, PagetreeViewTestsLoggedOut.setUp] Invalid name "c" for type attribute (should match [a-z_][a-z0-9_]{2,30}$)
 brownfield_django/main/tests/test_views.py:25: [E1103, PagetreeViewTestsLoggedOut.setUp] Instance of 'str' has no 'get_root' member (but some types could not be inferred)
 brownfield_django/main/tests/test_views.py:35: [C0103, PagetreeViewTestsLoggedOut.test_page] Invalid name "r" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/tests/test_views.py:36: [E1103, PagetreeViewTestsLoggedOut.test_page] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
 brownfield_django/main/tests/test_views.py:39: [C0103, PagetreeViewTestsLoggedOut.test_edit_page] Invalid name "r" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/tests/test_views.py:40: [E1103, PagetreeViewTestsLoggedOut.test_edit_page] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
 brownfield_django/main/tests/test_views.py:43: [C0103, PagetreeViewTestsLoggedOut.test_instructor_page] Invalid name "r" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/tests/test_views.py:44: [E1103, PagetreeViewTestsLoggedOut.test_instructor_page] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
-brownfield_django/main/tests/test_views.py:21: [R0904, PagetreeViewTestsLoggedOut] Too many public methods (67/50)
+brownfield_django/main/tests/test_views.py:21: [R0904, PagetreeViewTestsLoggedOut] Too many public methods (68/50)
 brownfield_django/main/tests/test_views.py:50: [C0103, PagetreeViewTestsLoggedIn.setUp] Invalid name "h" for type attribute (should match [a-z_][a-z0-9_]{2,30}$)
 brownfield_django/main/tests/test_views.py:49: [C0103, PagetreeViewTestsLoggedIn.setUp] Invalid name "c" for type attribute (should match [a-z_][a-z0-9_]{2,30}$)
 brownfield_django/main/tests/test_views.py:59: [C0103, PagetreeViewTestsLoggedIn.setUp] Invalid name "u" for type attribute (should match [a-z_][a-z0-9_]{2,30}$)
 brownfield_django/main/tests/test_views.py:51: [E1103, PagetreeViewTestsLoggedIn.setUp] Instance of 'str' has no 'get_root' member (but some types could not be inferred)
 brownfield_django/main/tests/test_views.py:65: [C0103, PagetreeViewTestsLoggedIn.test_page] Invalid name "r" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/tests/test_views.py:66: [E1103, PagetreeViewTestsLoggedIn.test_page] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
 brownfield_django/main/tests/test_views.py:69: [C0103, PagetreeViewTestsLoggedIn.test_edit_page] Invalid name "r" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/tests/test_views.py:70: [E1103, PagetreeViewTestsLoggedIn.test_edit_page] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
 brownfield_django/main/tests/test_views.py:73: [C0103, PagetreeViewTestsLoggedIn.test_instructor_page] Invalid name "r" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/tests/test_views.py:74: [E1103, PagetreeViewTestsLoggedIn.test_instructor_page] Instance of 'WSGIRequest' has no 'status_code' member (but some types could not be inferred)
-brownfield_django/main/tests/test_views.py:47: [R0904, PagetreeViewTestsLoggedIn] Too many public methods (67/50)
-brownfield_django/main/tests/test_models.py:4: [R0904, BasicModelTest] Too many public methods (65/50)
+brownfield_django/main/tests/test_views.py:47: [R0904, PagetreeViewTestsLoggedIn] Too many public methods (68/50)
 brownfield_django/main/tests/__init__.py:2: [W0403] Relative import 'test_models', should be 'brownfield_django.main.tests.test_models'
 brownfield_django/main/tests/__init__.py:2: [W0401] Wildcard import test_models
 brownfield_django/main/tests/__init__.py:3: [W0403] Relative import 'test_views', should be 'brownfield_django.main.tests.test_views'
 brownfield_django/main/tests/__init__.py:3: [W0401] Wildcard import test_views
+brownfield_django/main/tests/__init__.py:1: [R0801] Similar lines in 2 files
+==brownfield_django.main.models:24
+==brownfield_django.main.old_models:17
+class Team(models.Model):
+    '''Team: A team will have one login/username
+    All accounting/history/actions is by team.'''
+    name = models.CharField(max_length=255)
+    course = models.ForeignKey(Course)
+    signed_contract = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Student(models.Model):
+    course = models.ForeignKey(Course)
+    user = models.ForeignKey(User)
+    team = models.ForeignKey(Team)
+
+
+class PerformedTest(models.Model):
+    X = models.IntegerField(default=0)
+    y = models.IntegerField(default=0)
+    z = models.IntegerField(default=0)
+    testDetails = models.CharField(max_length=255)
+    paramString = models.CharField(max_length=255)
+brownfield_django/main/tests/__init__.py:1: [R0801] Similar lines in 2 files
+==brownfield_django.main.models:0
+==brownfield_django.main.old_models:0
+from django.db import models
+from django.contrib.auth.models import User
+
+
+class Course(models.Model):
+    '''Course'''
+    name = models.CharField(max_length=255)
+    startingBudget = models.PositiveIntegerField(default=60000)
+    enableNarrative = models.BooleanField(default=True)
+    # original default is none
+    message = models.TextField(max_length=255)
+    active = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return self.name
+
+
 
 
 Report
 ======
-173 statements analysed.
-
-Statistics by type
-------------------
-
-+---------+-------+-----------+-----------+------------+---------+
-|type     |number |old number |difference |%documented |%badname |
-+=========+=======+===========+===========+============+=========+
-|module   |8      |8          |=          |0.00        |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|class    |19     |14         |+5.00      |36.84       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|method   |20     |16         |+4.00      |35.00       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|function |2      |0          |+2.00      |0.00        |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-
-
-
-Duplication
------------
-
-+-------------------------+------+---------+-----------+
-|                         |now   |previous |difference |
-+=========================+======+=========+===========+
-|nb duplicated lines      |0     |0        |=          |
-+-------------------------+------+---------+-----------+
-|percent duplicated lines |0.000 |0.000    |=          |
-+-------------------------+------+---------+-----------+
-
-
+212 statements analysed.
 
 Raw metrics
 -----------
@@ -91,87 +88,16 @@ Raw metrics
 +----------+-------+------+---------+-----------+
 |type      |number |%     |previous |difference |
 +==========+=======+======+=========+===========+
-|code      |188    |63.09 |122      |+66.00     |
+|code      |233    |74.92 |233      |=          |
 +----------+-------+------+---------+-----------+
-|docstring |25     |8.39  |18       |+7.00      |
+|docstring |30     |9.65  |30       |=          |
 +----------+-------+------+---------+-----------+
-|comment   |64     |21.48 |58       |+6.00      |
+|comment   |2      |0.64  |2        |=          |
 +----------+-------+------+---------+-----------+
-|empty     |21     |7.05  |20       |+1.00      |
+|empty     |46     |14.79 |46       |=          |
 +----------+-------+------+---------+-----------+
 
 
-
-Messages by category
---------------------
-
-+-----------+-------+---------+-----------+
-|type       |number |previous |difference |
-+===========+=======+=========+===========+
-|convention |13     |12       |+1.00      |
-+-----------+-------+---------+-----------+
-|refactor   |7      |6        |+1.00      |
-+-----------+-------+---------+-----------+
-|warning    |15     |13       |+2.00      |
-+-----------+-------+---------+-----------+
-|error      |16     |12       |+4.00      |
-+-----------+-------+---------+-----------+
-
-
-
-% errors / warnings by module
------------------------------
-
-+----------------------------------------+------+--------+---------+-----------+
-|module                                  |error |warning |refactor |convention |
-+========================================+======+========+=========+===========+
-|brownfield_django.main.tests.test_views |68.75 |0.00    |42.86    |92.31      |
-+----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.views            |31.25 |40.00   |42.86    |7.69       |
-+----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.models           |0.00  |33.33   |0.00     |0.00       |
-+----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.tests.__init__   |0.00  |26.67   |0.00     |0.00       |
-+----------------------------------------+------+--------+---------+-----------+
-
-
-
-Messages
---------
-
-+-----------+------------+
-|message id |occurrences |
-+===========+============+
-|C0103      |12          |
-+-----------+------------+
-|E1103      |11          |
-+-----------+------------+
-|W0611      |9           |
-+-----------+------------+
-|R0904      |4           |
-+-----------+------------+
-|E1101      |4           |
-+-----------+------------+
-|R0901      |3           |
-+-----------+------------+
-|W0403      |2           |
-+-----------+------------+
-|W0401      |2           |
-+-----------+------------+
-|W0404      |1           |
-+-----------+------------+
-|W0105      |1           |
-+-----------+------------+
-|E1003      |1           |
-+-----------+------------+
-|C0301      |1           |
-+-----------+------------+
-
-
-
-Global evaluation
------------------
-Your code has been rated at 3.35/10 (previous run: 1.95/10)
 
 External dependencies
 ---------------------
@@ -182,16 +108,13 @@ External dependencies
         \-models 
           \-Course (brownfield_django.main.views)
           \-Student (brownfield_django.main.views)
-          \-Team (brownfield_django.main.views)
-    datetime 
-      \-datetime (brownfield_django.main.models)
     django 
       \-contrib 
       | \-auth 
       |   \-models 
-      |     \-User (brownfield_django.main.models,brownfield_django.main.tests.test_views,brownfield_django.main.smoke)
+      |     \-User (brownfield_django.main.models,brownfield_django.main.tests.test_views,brownfield_django.main.smoke,brownfield_django.main.old_models)
       \-db 
-      | \-models (brownfield_django.main.models)
+      | \-models (brownfield_django.main.models,brownfield_django.main.old_models)
       \-forms (brownfield_django.main.forms)
       | \-ModelForm (brownfield_django.main.views)
       \-http 
@@ -206,25 +129,111 @@ External dependencies
         \-generic 
           \-base 
           | \-TemplateView (brownfield_django.main.views)
+          \-detail 
+          | \-DetailView (brownfield_django.main.views)
           \-edit 
-          | \-CreateView (brownfield_django.main.views)
-          | \-FormView (brownfield_django.main.views)
-          | \-UpdateView (brownfield_django.main.views)
-          \-list 
-            \-ListView (brownfield_django.main.views)
+            \-CreateView (brownfield_django.main.views)
+            \-UpdateView (brownfield_django.main.views)
     pagetree 
-      \-generic 
-      | \-views 
-      |   \-EditView (brownfield_django.main.views)
       \-helpers 
-      | \-get_hierarchy (brownfield_django.main.tests.test_views)
-      \-models 
-        \-Hierarchy (brownfield_django.main.models)
-        \-Section (brownfield_django.main.models)
-        \-UserLocation (brownfield_django.main.models)
-        \-UserPageVisit (brownfield_django.main.models)
+        \-get_hierarchy (brownfield_django.main.tests.test_views)
     smoketest 
       \-SmokeTest (brownfield_django.main.smoke)
+
+
+
+Duplication
+-----------
+
++-------------------------+-------+---------+-----------+
+|                         |now    |previous |difference |
++=========================+=======+=========+===========+
+|nb duplicated lines      |40     |40       |=          |
++-------------------------+-------+---------+-----------+
+|percent duplicated lines |11.696 |11.696   |=          |
++-------------------------+-------+---------+-----------+
+
+
+
+Messages by category
+--------------------
+
++-----------+-------+---------+-----------+
+|type       |number |previous |difference |
++===========+=======+=========+===========+
+|convention |12     |12       |=          |
++-----------+-------+---------+-----------+
+|refactor   |10     |10       |=          |
++-----------+-------+---------+-----------+
+|warning    |5      |5        |=          |
++-----------+-------+---------+-----------+
+|error      |7      |16       |-9.00      |
++-----------+-------+---------+-----------+
+
+
+
+% errors / warnings by module
+-----------------------------
+
++----------------------------------------+------+--------+---------+-----------+
+|module                                  |error |warning |refactor |convention |
++========================================+======+========+=========+===========+
+|brownfield_django.main.views            |71.43 |20.00   |40.00    |0.00       |
++----------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.tests.test_views |28.57 |0.00    |30.00    |100.00     |
++----------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.tests.__init__   |0.00  |80.00   |20.00    |0.00       |
++----------------------------------------+------+--------+---------+-----------+
+
+
+
+Messages
+--------
+
++-----------+------------+
+|message id |occurrences |
++===========+============+
+|C0103      |12          |
++-----------+------------+
+|R0904      |4           |
++-----------+------------+
+|R0901      |4           |
++-----------+------------+
+|E1101      |4           |
++-----------+------------+
+|W0403      |2           |
++-----------+------------+
+|W0401      |2           |
++-----------+------------+
+|R0801      |2           |
++-----------+------------+
+|E1103      |2           |
++-----------+------------+
+|W0105      |1           |
++-----------+------------+
+|E1003      |1           |
++-----------+------------+
+
+
+
+Global evaluation
+-----------------
+Your code has been rated at 7.08/10 (previous run: 4.95/10)
+
+Statistics by type
+------------------
+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |9      |9          |=          |0.00        |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|class    |25     |25         |=          |36.00       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|method   |22     |22         |=          |40.91       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|function |4      |4          |=          |0.00        |0.00     |
++---------+-------+-----------+-----------+------------+---------+
 
 
 
