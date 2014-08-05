@@ -1,12 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <h1>{{ course.name }}</h1>
 <p>{{ course.pk }}</p>
-
 <p>Course Message: {{ course.message }}</p>
-
-
 <p>Course Documents:</p>
  <ul>
 {% for doc in documents %}
@@ -15,22 +11,10 @@
     <li>No documents for courses yet.</li>
 {% endfor %}
 </ul>
-
-<p>Manage Course:</p>
- <ul>
-{{course_form.as_p}}
-</ul>
-
-<p>Special Actions:</p>
- <ul>
-{{team_email.as_p}}
-</ul>
-
-<p>Close Course:</p>
- <ul>
-{{team_email.as_p}}
-</ul>
-
+{% comment %}
+<p>Published: {{ object.pub_date|date }}</p>
+<p>Date: {{ now|date }}</p>
+{% endcomment %}
 
 
 {% endblock %}

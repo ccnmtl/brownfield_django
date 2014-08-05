@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Backbone Detail List</title>
+  <script src="{{STATIC_URL}}js/jquery-1.11.1.min.js"></script>
+  <script src="{{STATIC_URL}}js/underscore-min.js"></script>
+  <script src="{{STATIC_URL}}js/backbone-min.js"></script>
+  <script src="{{STATIC_URL}}js/collections/courses.js"></script>
+  <script src="{{STATIC_URL}}js/collections/students.js"></script>
+  <script src="{{STATIC_URL}}js/models/course.js"></script>
+  <script src="{{STATIC_URL}}js/models/student.js"></script>
+  <script src="{{STATIC_URL}}js/views/views.js"></script>
+
+  </head>
+  <body><p>Courses Should be Here</p>
+    <div id="course_display">
+      <div class="listing"></div>
+    </div>
+    
+    <div id="team_display">
+      <div class="listing"></div>
+    </div>
+    
+    <div id="student_display">
+      <div class="listing"></div>
+    </div>
+    
+    <div id="documents_display">
+      <div class="listing"></div>
+    </div>
+    
+    
+    
+    
+    
+  </body>
+  <script src="{{STATIC_URL}}js/scripts/main.js"></script>
+  <script>
+  //alert("js runs");
+  
+  var Course = Backbone.Model.extend({
+	
+	defaults: {
+	    name: '',
+	    startingBudget: '60000',
+	    enableNarrative: true,
+	    message: '<p></p>',
+	    active: true,
+	  },
+
+	  validate: function(attrs, options) {
+	    if (!attrs.message) {
+	      return "A valid message must be provided.";
+	    }
+	  },
+
+	  initialize: function(attributes) {
+	    var name = attributes.name || '<EMPTY>';
+	    var startingBudget = attributes.startingBudget || '<EMPTY>';
+	    var enableNarrative = attributes.enableNarrative || '<EMPTY>';
+	    var message = attributes.message || '<EMPTY>';
+	    var active = attributes.active || '<EMPTY>';
+	    console.log("Initializing a new contact model for '" +
+	      name + "'."
+	    );
+	  }
+	
+	
+});
+  alert(Course.startingBudget);
+  App.Collections.Courses = Backbone.Collection.extend({
+model: App.Models.Course//,
+//url: "/courses"
+});
+
+
+  var App = {
+  Models: {},
+  Collections: {},
+  View: {},
+  Courses: null,
+  //Documents: null,
+  //Teams: null,
+  Students: null,
+  CourseList: null,
+
+};
+
+
+//window.tom???
+$(function() { // Run this code when the DOM is ready
+	
+//	  window.tom = new App.Models.Contact({
+//	    firstName: 'Thomas',
+//	    lastName: 'Hunter',
+//	    phoneNumber: '9895135499',
+//	    email: 'me@thomashunter.name'
+//	  });
+//
+	  App.Courses = new App.Collections.Course();
+
+	  App.Contacts.add({
+		    name: 'New Course',
+		    startingBudget: '60000',
+		    enableNarrative: true,
+		    message: '<p>Message for Course goes Here</p>',
+		    active: true,
+	  });
+
+	  App.Contacts.add({});
+
+	  var courseList = '';
+	  App.Courses.each(function(course) {
+		  courseList += "<div>" +
+		  course.get('name') + " " +
+		  course.get('message') + " ";
+
+	    if (course.isValid()) {
+		  courseList += "(valid)";
+	    } else {
+		  courseList += "(invalid)";
+	    }
+	    
+	    courseList += "</div>";
+	  });
+	  $('#course_display').html(courseList);
+
+	});
+  
+  
+  </script>
+</html>

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block js %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+    var frm = jQuery('#create_course');
+    frm.submit(function () {
+        jQuery.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                jQuery(".modal").html(data);
+            },
+            error: function(data) {
+                jQuery(".modal-body").html("Something went wrong!");
+            }
+        });
+        return false;
+    });
+
+    var refresh_bttn = jQuery('#refresh');
+    refresh_bttn.click(
+      function(){
+
+        location.reload();
+
+
+
+    });
+
+</script>
+{% endblock %}
+{% block content %}
+<h1>Course List</h1>
+<button data-toggle="modal" data-target="#basicModal" class="btn btn-sm btn-success" type="button"> Add Course </button></br>
+<h3>Your Courses</h3>
+
+<ul>
+{% for c in user_courses %}
+    <li> {{ c.name }} </li>
+{% empty %}
+    <li>You are not in any courses yet.</li>
+{% endfor %}
+</ul>
+
+<h3>All Brownfield Action Courses</h3>
+
+ <ul>
+{% for course in courses %}
+    <li> {{ course.name }} </li>
+{% empty %}
+    <li>No courses yet.</li>
+{% endfor %}
+</ul>
+
+<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> x </button>
+            <h4 class="modal-title" id="myModalLabel">Add Course</h4>
+            </div>
+            <div class="modal-body">
+            <form id="create_course" action="." method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit"/>
+            </form>
+            </div>
+            <div class="modal-footer">
+            
+            <button id="refresh" type="button" class="btn btn-primary">Save changes</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

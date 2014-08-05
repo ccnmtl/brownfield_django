@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Course List</h1>
+<button data-toggle="modal" data-target="#basicModal" class="btn btn-sm btn-success" type="button"> Edit Course </button></br>
+<h3>Your Courses</h3>
+
+<ul>
+{% for c in user_courses %}
+    <li> {{ c.name }} </li>
+{% empty %}
+    <li>You are not in any courses yet.</li>
+{% endfor %}
+</ul>
+
+<h3>All Brownfield Action Courses</h3>
+
+ <ul>
+{% for course in courses %}
+    <li> {{ course.name }} </li>
+{% empty %}
+    <li>No courses yet.</li>
+{% endfor %}
+</ul>
+
+<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> x </button>
+            <h4 class="modal-title" id="myModalLabel">Add Course</h4>
+            </div>
+            <div class="modal-body">
+            <form action="/add_class/" method="post">{% csrf_token %}
+            {{ form.as_p }}
+            </form>
+            </div>
+            <div class="modal-footer">
+            
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

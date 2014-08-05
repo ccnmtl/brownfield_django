@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block js %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+jQuery(document).ready(
+    function()
+    {
+        alert("javascript is working");
+
+    });
+</script>
+{% endblock %}
+{% block content %}
+<h1>Course List</h1>
+
+<h3>Your Courses</h3>
+
+<ul>
+{% for c in user_courses %}
+    <li> {{ c.name }} </li>
+{% empty %}
+    <li>You are not in any courses yet.</li>
+{% endfor %}
+</ul>
+
+<h3>All Brownfield Action Courses</h3>
+
+ <ul>
+{% for course in courses %}
+    <li> {{ course.name }} </li>
+{% empty %}
+    <li>No courses yet.</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

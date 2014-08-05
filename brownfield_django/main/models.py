@@ -1,6 +1,38 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+PROFILE_CHOICES = (
+    ('TE', 'Teacher'),
+    ('ST', 'Student'),
+)
+class UserProfile(models.Model):
+    '''UserProfile adds exta information to a user,
+    and associates the user with a team, course,
+    and course progress.'''
+    user = models.OneToOneField(User, related_name="profile")
+    profile_type = models.CharField(max_length=2, choices=PROFILE_CHOICES)
+
+    def __unicode__(self):
+        return self.user.username
+
+    class Meta:
+        ordering = ["user"]
+
+    def display_name(self):
+        return self.user.username
+
+    def is_student(self):
+        return self.profile_type == 'ST'
+
+    def is_teacher(self):
+        return self.profile_type == 'TE'
+
+    def role(self):
+        if self.is_student():
+            return "student"
+        elif self.is_teacher():
+            return "faculty"
+
 
 class Course(models.Model):
     '''Course'''
@@ -39,37 +71,4 @@ class PerformedTest(models.Model):
     z = models.IntegerField(default=0)
     testDetails = models.CharField(max_length=255)
     paramString = models.CharField(max_length=255)
-
-
-class UserProfile(models.Model):
-    '''UserProfile adds exta information to a user,
-    and associates the user with a team, course,
-    and course progress.'''
-    user = models.OneToOneField(User, related_name="profile")
-    profile_type = models.CharField(max_length=2, choices=PROFILE_CHOICES)
-
-    def __unicode__(self):
-        return self.user.username
-
-    class Meta:
-        ordering = ["user"]
-
-    def display_name(self):
-        return self.user.username
-
-    def is_student(self):
-        return self.profile_type == 'ST'
-
-    def is_teacher(self):
-        return self.profile_type == 'TE'
-
-    def role(self):
-        if self.is_student():
-            return "student"
-        elif self.is_teacher():
-            return "faculty"
-
-    def joined_groups(self):
-        '''Groups this user has joined'''
-        return self.course_set.all()
 

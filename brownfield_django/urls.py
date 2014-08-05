@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.generic import TemplateView
 from pagetree.generic.views import PageView, EditView, InstructorView
-from brownfield_django.main import views
+from brownfield_django.main.views import StudentHomePage, TeacherHomePage, TeacherCourseDetail
 import os.path
 admin.autodiscover()
 
@@ -28,18 +28,9 @@ urlpatterns = patterns(
     auth_urls,
     logout_page,
     (r'^registration/', include('registration.backends.default.urls')),
-    (r'^$', views.Home.as_view()),
-    (r'^contexts/$', views.new_homepage),
-    (r'^get_new_courses/$', views.get_new_courses),
-    #(r'^course_detail/(?P<pk>\d+)/$', views.CourseDetailView.as_view()),
-    (r'^course_detail/(?P<pk>\d+)/$', views.get_course_documents),
-    (r'^create_new_course/$', views.create_new_course),
-    (r'^course_list/$', views.CourseView.as_view()),
-    (r'^add_course/$', views.CreateCourseView.as_view()),
-    (r'^home/$', views.Homepage.as_view()),
-    (r'^thank_you/$', views.ThankYou.as_view()),
-    (r'^course/(?P<pk>\d+)/$', views.UpdateCourseView.as_view()),
-    (r'^update_course/(?P<pk>\d+)/$', views.UpdateCourseView.as_view()),
+    (r'^backbone/$', TemplateView.as_view(template_name="main/backbone_courses.html")),
+    (r'^$', TeacherHomePage.as_view()),
+    (r'^course_detail/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
     (r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),

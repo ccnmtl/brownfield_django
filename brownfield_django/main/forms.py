@@ -1,10 +1,12 @@
 from django import forms
+from django.forms import ModelForm
+from brownfield_django.main.models import Course, UserProfile, Team
 
 
-class CreateClassForm(forms.Form):
-    '''This is a form class that will be
-    used with ajax to create new classes.'''
-    sender = forms.EmailField(required=True)
-    subject = forms.CharField(max_length=100, required=True)
-    message = forms.CharField(max_length=500, required=True,
-                              widget=forms.Textarea)
+class CourseForm(ModelForm):
+    class Meta:
+        model = Course
+
+class TeamForm(ModelForm):
+    class Meta:
+        model = Team
