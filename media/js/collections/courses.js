@@ -1,4 +1,4 @@
-var Courses = Backbone.Collection.extend({
-model: Course,
-url: "/courses"
+App.Collections.Courses = Backbone.Collection.extend({
+model: App.Models.Course//,
+//url: "/courses"
 });

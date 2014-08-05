@@ -1,11 +1,113 @@
 import json
-from django.http import HttpResponse
+from datetime import datetime
+from django import forms
+from django.shortcuts import render
+
+from django.http import HttpResponse, HttpResponseRedirect
+from django.forms import ModelForm
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+
+# from django.core.urlresolvers import reverse
 from django.views.generic.base import TemplateView
-from brownfield_django.main.models import Course, Student
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
-from django.forms import ModelForm
-from django.shortcuts import render
+from django.core.urlresolvers import reverse, reverse_lazy
+
+from brownfield_django.main.models import Course, Student
+
+
+
+'''Moved Views From NEPI Over to Start With'''
+
+# from django.conf import settings
+# from django.contrib.auth.models import User
+# from django.http import 
+# from django.http.response import HttpResponseForbidden
+# from django.shortcuts import get_object_or_404
+# from django.template import loader
+# from django.template.context import Context
+# from django.views.generic import View
+# from django.views.generic.detail import DetailView
+# from django.views.generic.edit import FormView, CreateView, UpdateView
+# from django.views.generic.list import ListView
+# from nepi.main.choices import COUNTRY_CHOICES
+# from nepi.main.forms import CreateAccountForm, ContactForm, UpdateProfileForm
+# from nepi.main.models import Group, UserProfile, Country, School, \
+#     PendingTeachers
+# from nepi.mixins import LoggedInMixin, LoggedInMixinSuperuser, \
+#     LoggedInMixinStaff, JSONResponseMixin, StudentLoggedInMixin, \
+#     FacultyLoggedInMixin, CountryAdministratorLoggedInMixin, ICAPLoggedInMixin
+# from pagetree.generic.views import PageView, EditView, InstructorView
+# from pagetree.models import Hierarchy, UserPageVisit
+
+
+
+class RegistrationView(FormView):
+    template_name = 'registration/registration_form.html'
+    form_class = CreateAccountForm
+    success_url = '/account_created/'
+
+    def form_valid(self, form):
+        form.save()
+        return super(RegistrationView, self).form_valid(form)
+
+
+class Home(DetailView):
+    '''Like other apps we need a profile view to associate
+    saved data with a user.'''
+
+    model = UserProfile
+    template_name = 'main/home.html'
+    success_url = '/'
+
+    def dispatch(self, *args, **kwargs):
+        if int(kwargs.get('pk')) != self.request.user.profile.id:
+            return HttpResponseForbidden("forbidden")
+        return super(UserProfileView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(Home, self).get_context_data(**kwargs)
+        context['user_courses'] = Courses.objects.filter()
+        context['all_courses'] = Courses.objects.all()
+        return context
+
+
+#     def post(self, *args, **kwargs):
+#         self.object = self.get_object()
+# 
+#         profile_form = UpdateProfileForm(self.request.POST)
+# 
+#         if profile_form.is_valid():
+#             profile_form.save()
+#             url = '/%s-dashboard/%s/#user-profile' % (
+#                 self.request.user.profile.role(), self.request.user.profile.id)
+#             return HttpResponseRedirect(url)
+# 
+#         context = self.get_context_data(object=self.object)
+#         context['profile_form'] = profile_form
+#         return self.render_to_response(context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class IndexView(TemplateView):

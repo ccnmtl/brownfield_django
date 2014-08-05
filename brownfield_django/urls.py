@@ -28,7 +28,7 @@ urlpatterns = patterns(
     auth_urls,
     logout_page,
     (r'^registration/', include('registration.backends.default.urls')),
-    (r'^$', views.IndexView.as_view()),
+    (r'^$', views.Home.as_view()),
     (r'^contexts/$', views.new_homepage),
     (r'^get_new_courses/$', views.get_new_courses),
     #(r'^course_detail/(?P<pk>\d+)/$', views.CourseDetailView.as_view()),
