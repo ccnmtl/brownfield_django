@@ -32,6 +32,8 @@ if 'test' in sys.argv or 'jenkins' in sys.argv:
         }
     }
 
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
+
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 SOUTH_TESTS_MIGRATE = False
 
@@ -82,6 +84,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -125,6 +128,7 @@ INSTALLED_APPS = [
     'pageblocks',
     'quizblock',
     'brownfield_django.main',
+    'brownfield_django.interactive',
 ]
 
 PAGEBLOCKS = ['pageblocks.TextBlock',

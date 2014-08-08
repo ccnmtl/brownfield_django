@@ -5,20 +5,52 @@
   <script src="{{STATIC_URL}}js/jquery-1.11.1.min.js"></script>
   <script src="{{STATIC_URL}}js/underscore-min.js"></script>
   <script src="{{STATIC_URL}}js/backbone-min.js"></script>
+
+  
   <!-- 
-  <script src="{{STATIC_URL}}js/collections/courses.js"></script>
-  <script src="{{STATIC_URL}}js/collections/students.js"></script>
-  <script src="{{STATIC_URL}}js/models/course.js"></script>
-  <script src="{{STATIC_URL}}js/models/student.js"></script>
-  <script src="{{STATIC_URL}}js/views/courselist.js"></script>
-  <script src="{{STATIC_URL}}js/views/studentlist.js"></script>
-    <script src="{{STATIC_URL}}js/main.js"></script>
+  
+      <script id="template-usercourse" type="template">
+    <div class="course">
+        <h2><%-nameCourse%><% if (message) { %> <%-message%><% } %></h2>
+        <button class="delete">Delete</button>
+    </div>
+    </script>
+    
+    
+    <script id="template-usercourselist" type="template">
+    <div class="course">
+        <h2><%-nameCourse%><% if (message) { %> <%-message%><% } %></h2>
+        <button class="delete">Delete</button>
+    </div>
+    </script>
+  
+    
  -->
   </head>
-  <body><p>Courses Should be Here</p>
+  
+  
+  <body>
+  
+    <p>Courses Should be Here</p>
+  
     <div id="course_display">
-      <div class="listing"></div>
+      <div class="controls">
+        <button class="add">Add New Course</button>
+        <form method="" action="" style="display: none;">
+          <input type="text" placeholder="Course Name" class="courseName" /><br />
+          <input type="text" placeholder="Starting Budget" class="startingBudget" /><br />
+          <input type="text" placeholder="Narrative Enabled" class="email" /><br />
+          <input type="text" placeholder="Message" class="message" /><br />
+          <input type="submit" value="Save Course" />
+        </form>
+      </div>
+
+      <div class="listing">
+      </div>
     </div>
+    
+    
+    
     
     <div id="team_display">
       <div class="listing"></div>
@@ -32,117 +64,57 @@
       <div class="listing"></div>
     </div>
     
+    <!-- 
+        Putting script tags for GUI elements
+        	- Course Rows
+        	- Course List
+        	- User Course Rows - ?
+        	- User Course List - ?
+     -->
+    <script id="template-course" type="template">
+    <div class="course">
+        <h2><%-nameCourse%><% if (message) { %> <%-message%><% } %></h2>
+        <button class="delete">Delete</button>
+    </div>
+    </script>
     
     
+    <script id="template-courselist" type="template">
+    <div class="courselist">
+        <h2><%-nameCourse%><% if (message) { %> <%-message%><% } %></h2>
+        <button class="delete">Delete</button>
+    </div>
+    </script>
+    
+    <script id="template-student" type="template">
+    <div class="student">
+        <h2><%-firstName%><%-lastName%><%-email%><%-username%></h2>
+        <button class="delete">Delete</button>
+    </div>
+    </script>
+
+    
+    <script id="template-studentlist" type="template">
+    <div class="course">
+        <h2><%-nameCourse%><% if (message) { %> <%-message%><% } %></h2>
+        <button class="delete">Delete</button>
+    </div>
+    </script>
+
     
     
   </body>
 
-  <script>
-
-
-
-  var App = {
-    Models: {},
-    Collections: {},
-    Courses: null,
-    Course: null
-    
-  };
-
-  
-  App.Models.Course = Backbone.Model.extend({
-	
-	defaults: {
-	    nameCourse: 'Course Name',
-	    startingBudget: '60000',
-	    enableNarrative: true,
-	    message: '<p></p>',
-	    active: true,
-	  },
-
-	  validate: function(attrs, options) {
-	    if (!attrs.message) {
-	      return "A valid message must be provided.";
-	    }
-	  },
-
-    initialize: function(attributes) {
-	    var nameCourse = attributes.nameCourse || '<EMPTY>';
-	    var startingBudget = attributes.startingBudget || '<EMPTY>';
-	    var enableNarrative = attributes.enableNarrative || '<EMPTY>';
-	    var message = attributes.message || '<EMPTY>';
-	    var active = attributes.active || '<EMPTY>';
-	    console.log("Initializing a new course model for '" + nameCourse + "'." );
-	  }
-	});
-
-
-
-
-App.Collections.Courses = Backbone.Collection.extend({
-        model: App.Models.Course // assigning to above Course model
-    });
-	
-
-
-
-$(function() { 
-
-  // Run this code when the DOM is ready
-  
-    window.tom = new App.Models.Course({
-        nameCourse: 'Test Course Name',
-	    startingBudget: '80000',
-	    enableNarrative: true,
-	    message: '<p>Message to sent everyone.</p>',
-	    active: true,
-  });
-
-  App.Courses = new App.Collections.Courses(); //assigning the above app var Courses to the Collections courses
-  
-  
-  App.Courses.add(window.tom);
-
-  App.Courses.add({
-        nameCourse: 'Some Other Course Name',
-	    startingBudget: '100,000',
-	    enableNarrative: true,
-	    message: '<p> Message to send everyone.</p>',
-	    active: true,
-  });
-
-  App.Courses.add({});
- // the above seem to run they log to console
-  var courseListing = '';
-  console.log("courseListing '" + courseListing + "'." );
-  
-  
-  App.Courses.each(function(course) {
-  console.log("course.get('nameCourse') '" + course.get('nameCourse') + "'." );
-    courseListing += "<div>" +
-    course.get('nameCourse') + " " +
-    course.get('startingBudget');
-
-    if (course.isValid()) {
-      courseListing += "(valid)";
-    } else {
-      courseListing += "(invalid)";
-    }
-    
-    courseListing += "</div>";
-  });
-  $('#course_display').html(courseListing);
-
-});
-
-
-
-
-
-
-
-
-
-  </script>
+  <script src="{{STATIC_URL}}js/main.js"></script>
+  <script src="{{STATIC_URL}}js/models/course.js"></script>
+  <script src="{{STATIC_URL}}js/models/team.js"></script>
+  <script src="{{STATIC_URL}}js/models/student.js"></script>
+  <script src="{{STATIC_URL}}js/models/document.js"></script>
+  <script src="{{STATIC_URL}}js/collections/students.js"></script>
+  <script src="{{STATIC_URL}}js/collections/courses.js"></script>
+  <script src="{{STATIC_URL}}js/collections/teams.js"></script>
+  <script src="{{STATIC_URL}}js/collections/documents.js"></script>
+  <script src="{{STATIC_URL}}js/views/course.js"></script>
+  <script src="{{STATIC_URL}}js/views/courselist.js"></script>
+  <script src="{{STATIC_URL}}js/views/studentlist.js"></script>
 </html>

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.generic import TemplateView
 from pagetree.generic.views import PageView, EditView, InstructorView
-from brownfield_django.main.views import StudentHomePage, TeacherHomePage, TeacherCourseDetail
+from brownfield_django.main.views import StudentView, TeacherView, TeacherCourseDetail, HomeView
 import os.path
 admin.autodiscover()
 
@@ -29,7 +29,9 @@ urlpatterns = patterns(
     logout_page,
     (r'^registration/', include('registration.backends.default.urls')),
     (r'^backbone/$', TemplateView.as_view(template_name="main/backbone_courses.html")),
-    (r'^$', TeacherHomePage.as_view()),
+    (r'^$', HomeView.as_view()),
+    (r'^student/(?P<pk>\d+)/$', StudentView.as_view()),
+    (r'^teacher/(?P<pk>\d+)/$', TeacherView.as_view()),
     (r'^course_detail/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
     (r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),

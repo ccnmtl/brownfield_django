@@ -1,42 +1,54 @@
-App.Views.Course = Backbone.View.extend({
-  template: _.template($('#template-course').html()),
-  $container: null,
-
-  initialize: function(options) {
-    _.bindAll(this, 'render', 'insert');
-
-   this.$container = options.$container;
-
-    this.listenTo(this.model, 'change', this.render);
-    this.insert();
-  },
-
-  render: function() {
-    this.$el.html(this.template(this.model.attributes));
-
-    return this;
-  },
-
-  insert: function() {
-    this.$container.append(this.$el);
-  }
-});
-
 App.Views.CourseList = Backbone.View.extend({
-	  initialize: function() {
-	    _.bindAll(this, 'render');
+	
+	events: {
+	    'click .controls .add': 'addForm',
+	    'submit .controls form': 'addSubmit'
 	  },
 
-	  render: function() {
-	    var $container = this.$('.listing').empty();
+    initialize: function() {
+        _.bindAll(this, 'render', 'addForm', 'addSubmit');
+    },
 
-	    App.Courses.each(function(course) {
-	      new App.Views.Course({
-	        model: course,
-	        $container: $container
-	      }).render();
-	    });
+    render: function() {
+    	
+        var $container = this.$('.listing').empty();
 
-	    return this;
-	  }
-	});
+        App.Courses.each(function(course) {
+            new App.Views.Course({
+            model: course,
+            $container: $container
+        }).render();
+    });
+
+        return this;
+    },
+    
+    addForm: function() {
+    	
+	    this.$('.controls form').show()
+	    .find('input.nameCourse').focus();
+	},
+	
+	addSubmit: function(event) {
+	    event.preventDefault();
+	    
+		var $form = this.$('.controls form');
+
+		var newCourse = new App.Models.Course({
+			nameCourse: $('input.nameCourse', $form).val(),
+			startingBudget: $('input.startingBudget', $form).val(),
+			enableNarrative: $('input.enableNarrative', $form).val(),
+			message: $('input.message', $form).val()
+		});
+
+		if (newCourse.isValid()) {
+		    App.Course.add(newCourse);
+		    $form.hide();
+		    $('input[type=text]', $form).val('').blur();
+		}
+		else {
+		      alert(newCourse.validationError);
+		}
+	}
+
+});

@@ -13,31 +13,63 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.core.urlresolvers import reverse, reverse_lazy
-from brownfield_django.main.models import Course, UserProfile
-from brownfield_django.main.forms import CourseForm, TeamForm
-
+from brownfield_django.main.models import Course, UserProfile, Document
+from brownfield_django.main.forms import CourseForm, TeamForm, CreateAccountForm
+from brownfield_django.mixins import LoggedInMixin, LoggedInMixinSuperuser, \
+    LoggedInMixinStaff, JSONResponseMixin
 
 '''Moved Views From NEPI Over to Start With'''
 
-class StudentHomePage(DetailView):
+class HomeView(LoggedInMixin, View):
+    '''redoing so that it simply redirects people where they need to be'''
+
+    def get(self, request):
+        try:
+            user_profile = UserProfile.objects.get(user=request.user.pk)
+        except UserProfile.DoesNotExist:
+            return HttpResponseRedirect(reverse('register'))
+
+        if user_profile.is_student():
+            url = '/student/%s/' % (user_profile.id)
+        if user_profile.is_teacher():
+            url = '/teacher/%s/' % (user_profile.id)
+        #else:
+        #    url = '/dashboard/%s/#user-groups' % (user_profile.id)
+
+        return HttpResponseRedirect(url)
+
+
+class RegistrationView(FormView):
+    template_name = 'registration/registration_form.html'
+    form_class = CreateAccountForm
+    success_url = '/account_created/'
+
+    def form_valid(self, form):
+        form.save()
+        return super(RegistrationView, self).form_valid(form)
+
+
+
+class StudentView(DetailView):
 
     model = UserProfile
-    template_name = 'main/home.html'
+    template_name = 'main/student_home.html'
     success_url = '/'
 
     def dispatch(self, *args, **kwargs):
         if int(kwargs.get('pk')) != self.request.user.profile.id:
             return HttpResponseForbidden("forbidden")
-        return super(StudentHomePage, self).dispatch(*args, **kwargs)
+        return super(StudentView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(StudentHomePage, self).get_context_data(**kwargs)
+        context = super(StudentView, self).get_context_data(**kwargs)
         context['user_courses'] = Course.objects.filter()
         context['all_courses'] = Course.objects.all()
+        context['documents'] = Document.objects.all()
         return context
 
 '''This should probably be a ListView'''
-class TeacherHomePage(DetailView):
+class TeacherView(DetailView):
 
     model = UserProfile
     template_name = 'main/home.html'
@@ -46,14 +78,14 @@ class TeacherHomePage(DetailView):
     def dispatch(self, *args, **kwargs):
         if int(kwargs.get('pk')) != self.request.user.profile.id:
             return HttpResponseForbidden("forbidden")
-        return super(TeacherHomePage, self).dispatch(*args, **kwargs)
+        return super(TeacherView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(TeacherHomePage, self).get_context_data(**kwargs)
+        context = super(TeacherView, self).get_context_data(**kwargs)
         context['user_courses'] = Course.objects.filter()
         context['all_courses'] = Course.objects.all()
         context['course_form'] = CourseForm()
-        context['team_form'] = TeamForm()
+        context['documents'] = Document.objects.all()
         return context
 #     def post(self, *args, **kwargs):
 #         self.object = self.get_object()
@@ -84,7 +116,6 @@ class TeacherCourseDetail(DetailView, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(TeacherCourseDetail, self).get_context_data(**kwargs)
-        context['course_form'] = CourseForm()
         context['team_form'] = TeamForm()
         return context
 #     def post(self, *args, **kwargs):
