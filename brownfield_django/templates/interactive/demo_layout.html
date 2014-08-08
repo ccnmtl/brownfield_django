@@ -1,94 +1,155 @@
 {% block demo_layout %}
+<!-- I want everything in this layout to be one column under the first row/column
+     not sure if it should be contained in row or if the entire things should be a column
+ -->static/flvplayer.html?flv=oryans_express.flv&title=Esker County Community Television: O,Ryan,s Express
+  <div class="col-xs-6 col-sm-3">
 
-
-
-{% block user_info %}
-<a href="{{STATIC_URL}}documents/contract.pdf">Can I download the contract</a>
-{% for document in documents %}
-
-    <script type="text/template" id="template-document-{{document.pk}}">
-    <div class="document">
-        <h2><%-name%><%-download%></h2>
-        <h2>{{document.name}}<a href="{{STATIC_URL}}documents/{{document.link}}>{{document.name}}</a></h2>
-        <button class="download">Download</button>
-    </div>
-    </script>
-{% empty %}
-<p>Sorry there are no documents for this course yet.</p>
-{% endfor %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div>
+  {% block user_info %}
+  <div class="row">
     <b>User Info</b>
     {{ request.user.first_name }} {{ request.user.last_name }}
-        <button type="button" id="view_budget">Budget Record</button>
-        <input type="text" id="current_budget" />
-        <div id="documentlist"><button type="button" id="view_documents">Documents</button></div>
-</div>
+    <button type="button" id="view_budget">Budget Record</button>
+    <input type="text" id="current_budget" />
+    <div class="dropdown">
+       <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">Documents</a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            {% for document in documents %}
+            <li role="presentation">
+              <div class="document">
+                {{document.name}}<a role="menuitem" tabindex="-1" href="{{STATIC_URL}}documents/{{document.link}}">{{document.name}}</a>
+              </div>
+            </li>
+           {% empty %}
+            <li>Sorry there are no documents for this course yet.</li>
+              {% endfor %}
+         </ul>
+        </div>
+    </div><!-- End of Row for the User Box -->
+   {% endblock %}
+   
+   
+   
+   
+{% block course_videos %}
+  <div class="row">
+    <button type="button" id="view_budget">Course Videos</button>
+    <input type="text" id="current_budget" />
+    <div class="dropdown">
+       <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">Documents</a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <li role="presentation">
+              <div class="video">
+                <a href="javascript:openPopWin('{{STATIC_URL}}flash/flvplayer.html?flv=oryans_express.flv&amp;title=Esker%20County%20Community%20Television:%20O,Ryan,s%20Express','500','500','no','no','bfaV1')">Video: Esker County Community Television: O'Ryan's Express</a>
+              </div>
+            </li>
+            <li role="presentation">
+              <div class="video">
+                <a href="javascript:openPopWin('{{STATIC_URL}}flash/flvplayer.html?flv=news_conference.flv&amp;title=Press%20Conference%20Proceedings%20in%20Moraine%20Township','500','500','no','no','bfaV2')">Video: Press Conference Proceedings in Moraine Township</a>
+              </div>
+            </li>
+            <li role="presentation">
+              <div class="video">
+                <a href="javascript:openPopWin('{{STATIC_URL}}documents/news1.jpg')">News: Local Residents React to Prospect of Mall Plans</a>
+              </div>
+            </li>
+            <li role="presentation">
+              <div class="video">
+                <a href="javascript:openPopWin('{{STATIC_URL}}documents/news2.jpg','430','950','no','no','bfaN2')">News: Water Testing Results Still Pending</a>
+              </div>
+            </li>
+            <li role="presentation">
+              <div class="video">
+                <a href="javascript:openPopWin('{{STATIC_URL}}documents/news3.jpg','250','820','no','no','bfaN3')">News: Water Testing Reveal Contamination</a>
+              </div>
+            </li>
+            <li role="presentation">
+              <div class="video">
+                <a href="javascript:openPopWin('{{STATIC_URL}}documents/news3.jpg','250','820','no','no','bfaN3')">News: Water Testing Reveal Contamination</a>
+              </div>
+            </li>
+            <li role="presentation">
+              <div class="video">
+                <a href="javascript:openPopWin('{{STATIC_URL}}documents/news4.jpg','260','900','no','no','bfaN4')">News: IRS Explores Terrain</a>
+              </div>
+            </li>
+            <li role="presentation">
+              <div class="video">
+                <a href="javascript:openPopWin('{{STATIC_URL}}documents/news5.jpg','800','500','no','no','bfaN5')">News: Doctor Still Haunted By Death of Patient</a>
+              </div>
+            </li>
+            <li role="presentation">
+              <div class="video">
+                <a href="javascript:openPopWin('http://brownfieldref.ccnmtl.columbia.edu/','945','600','yes','yes','bfaref')">Link: Brownfield Action Reference Site</a>
+              </div>
+            </li>
+
+         </ul>
+        </div>
+  </div>
 {% endblock %}
 
 
 {% block map_controls %}
-<div>
-<script type="text/template" id="map_info">
- <b>Map Controls</b>
-<p>Zoom: out mid some other field I cant see</p>
- <input type="checkbox" id="show_trees" value="Show Trees" />
- <input type="checkbox" id="show_leger" value="Show Leger" />
-</script>
-</div>
+  <div class="row">
+    <div class=".col-xs-4">
+      <div class="row"><b>Map Controls</b></div>
+      <div class="row"><p>Zoom: out mid some other field I cant see</p></div>
+      <div class="row">
+        <label for="show_trees">Show Trees</label><input type="checkbox" id="show_trees" value="Show Trees" />
+        <label for="show_leger">Show Leger</label><input type="checkbox" id="show_leger" value="Show Leger" />
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
-
-
-X: Y:
-
-Mode:
-drop down testting choices
-
 {% block cursor_coords %}
-<div>
-<script type="text/template" id="user_info">
-<p>Cursor Coords</p>
- X: <input type="text" id="X" />
- Y: <input type="text" id="Y" />
-</script>
+<div class="row">
+   <div class=".col-xs-4">
+     <div class="row"><b>Cursor Coords</b></div>
+       <div class="row">
+         <label for="X">X: </label><input type="text" id="X" />
+         <label for="Y">Y: </label><input type="text" id="Y" />
+       </div>
+   </div>
 </div>
 {% endblock %}
 
 
 {% block modes %}
-<div>
+<div class="row">
 <script type="text/template" id="user_info">
 </script>
 </div>
 {% endblock %}
 
 
-{% block bottom_boxes %}
+{% block instructions %}
 <div>
-<script type="text/template" id="user_info">
+<script>
+function openPopWin(theURL,w,h,resizing,scrolling,winname,closeOnLogout) {
+	var winl = (screen.width - w) / 2;
+	var wint = (screen.height - h) / 2;
+    winprops = 'height='+h+',width='+w+',top='+wint+',left='+winl+',resizable='+resizing+',scrollbars='+scrolling+',location=no,status=no,menubar=no,directories=no,toolbar=no';
+    popwin = window.open(theURL, winname, winprops);
+    if (/\.jpg$/.test(theURL)) {
+	popwin.document.write('<a href="javascript:void(0)" onclick="window.print()">print article</a><br /><img src="'+theURL+'" alt="news article"/>');
+	popwin.document.close();
+    }
+    if (closeOnLogout) {
+	windows_to_close_on_logout.push(popwin);
+    }
+    if (parseInt(navigator.appVersion) >= 4) { popwin.window.focus(); }
+    if (popwin.opener == null) { popwin.opener = self; }
+}
 </script>
 </div>
 {% endblock %}
+</div><!-- End of Column - Should Include the Map COntrols, CoOrdinates, Mode and Instructions -->
+<div class="col-lg-6 col-lg-3">
+<div class="video">
 
 
+</div>
+</div>
+<script>jQuery(view_documents).append(jQuery(document_container).html())</script>
 {% endblock %}

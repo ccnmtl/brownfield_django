@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from brownfield_django.interactive.models import Interactive
 
 PROFILE_CHOICES = (
     ('TE', 'Teacher'),
@@ -23,6 +24,8 @@ class UserProfile(models.Model):
     and course progress.'''
     user = models.OneToOneField(User, related_name="profile")
     profile_type = models.CharField(max_length=2, choices=PROFILE_CHOICES)
+    interactive = models.ForeignKey(Interactive, null=True, blank=True)
+    budget = models.PositiveIntegerField(default=60000)
 
     def __unicode__(self):
         return self.user.username

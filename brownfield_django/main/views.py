@@ -14,6 +14,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.core.urlresolvers import reverse, reverse_lazy
 from brownfield_django.main.models import Course, UserProfile, Document
+from brownfield_django.interactive.models import Interactive
 from brownfield_django.main.forms import CourseForm, TeamForm, CreateAccountForm
 from brownfield_django.mixins import LoggedInMixin, LoggedInMixinSuperuser, \
     LoggedInMixinStaff, JSONResponseMixin

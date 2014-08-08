@@ -4,10 +4,13 @@
 {% endblock %}
 {% block content %}
 
-
+<div class="row">
 <b>Start Interactive: </b>
 <div id="interactive_container">
 Interactive should load here...
+<b>Your Team: </b>
+</div>
+</div><!-- End of Row -->
 {% include "interactive/demo_layout.html" %}
 
 
@@ -16,13 +19,13 @@ Interactive should load here...
 
 
 
-</div>
 
 
 
-<b>Your Team: </b>
 
-        
+
+
+
   <script src="{{STATIC_URL}}js/main.js"></script>
   <script src="{{STATIC_URL}}js/models/course.js"></script>
   <script src="{{STATIC_URL}}js/models/team.js"></script>
