@@ -1,0 +1,94 @@
+{% block demo_layout %}
+
+
+
+{% block user_info %}
+<a href="{{STATIC_URL}}documents/contract.pdf">Can I download the contract</a>
+{% for document in documents %}
+
+    <script type="text/template" id="template-document-{{document.pk}}">
+    <div class="document">
+        <h2><%-name%><%-download%></h2>
+        <h2>{{document.name}}<a href="{{STATIC_URL}}documents/{{document.link}}>{{document.name}}</a></h2>
+        <button class="download">Download</button>
+    </div>
+    </script>
+{% empty %}
+<p>Sorry there are no documents for this course yet.</p>
+{% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div>
+    <b>User Info</b>
+    {{ request.user.first_name }} {{ request.user.last_name }}
+        <button type="button" id="view_budget">Budget Record</button>
+        <input type="text" id="current_budget" />
+        <div id="documentlist"><button type="button" id="view_documents">Documents</button></div>
+</div>
+{% endblock %}
+
+
+{% block map_controls %}
+<div>
+<script type="text/template" id="map_info">
+ <b>Map Controls</b>
+<p>Zoom: out mid some other field I cant see</p>
+ <input type="checkbox" id="show_trees" value="Show Trees" />
+ <input type="checkbox" id="show_leger" value="Show Leger" />
+</script>
+</div>
+{% endblock %}
+
+
+
+X: Y:
+
+Mode:
+drop down testting choices
+
+{% block cursor_coords %}
+<div>
+<script type="text/template" id="user_info">
+<p>Cursor Coords</p>
+ X: <input type="text" id="X" />
+ Y: <input type="text" id="Y" />
+</script>
+</div>
+{% endblock %}
+
+
+{% block modes %}
+<div>
+<script type="text/template" id="user_info">
+</script>
+</div>
+{% endblock %}
+
+
+{% block bottom_boxes %}
+<div>
+<script type="text/template" id="user_info">
+</script>
+</div>
+{% endblock %}
+
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block js %}
+
+{% endblock %}
+{% block content %}
+
+
+<b>Start Interactive: </b>
+<div id="interactive_container">
+Interactive should load here...
+{% include "interactive/demo_layout.html" %}
+
+
+
+
+
+
+
+</div>
+
+
+
+<b>Your Team: </b>
+
+        
+  <script src="{{STATIC_URL}}js/main.js"></script>
+  <script src="{{STATIC_URL}}js/models/course.js"></script>
+  <script src="{{STATIC_URL}}js/models/team.js"></script>
+  <script src="{{STATIC_URL}}js/models/student.js"></script>
+  <script src="{{STATIC_URL}}js/models/document.js"></script>
+  <script src="{{STATIC_URL}}js/collections/students.js"></script>
+  <script src="{{STATIC_URL}}js/collections/courses.js"></script>
+  <script src="{{STATIC_URL}}js/collections/teams.js"></script>
+  <script src="{{STATIC_URL}}js/collections/documents.js"></script>
+  <script src="{{STATIC_URL}}js/views/course.js"></script>
+  <script src="{{STATIC_URL}}js/views/courselist.js"></script>
+  <script src="{{STATIC_URL}}js/views/studentlist.js"></script>
+{% endblock %}
