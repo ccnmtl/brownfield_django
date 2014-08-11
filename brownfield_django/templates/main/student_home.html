@@ -3,7 +3,7 @@
 
 {% endblock %}
 {% block content %}
-
+{% include "interactive/visual_reconnaissence.html" %}
 <div class="row">
 <b>Start Interactive: </b>
 <div id="interactive_container">
@@ -12,30 +12,372 @@ Interactive should load here...
 </div>
 </div><!-- End of Row -->
 {% include "interactive/demo_layout.html" %}
+<script>
+(function () {
+
+  window.app = {
+    Views: {},
+    Extensions: {},
+    Router: null,
+
+    init: function () {
+
+      this.instance = new app.Views.App();
+      Backbone.history.start();
+
+    }
+  };
+
+  $(function() {
+    window.app.init();
+  });
+  
+app.Router = Backbone.Router.extend({
+
+    routes: {
+    
+      '' : 'template-recon-intro',
+      'recon-one' : 'template-recon-one'
+      'recon-two' : 'template-recon-two'
+      'recon-three' : 'template-recon-three'
+      'recon-four' : 'template-recon-four'
+      'recon-five' : 'template-recon-five'
+      'recon-six' : 'template-recon-six'
+      'recon-seven' : 'template-recon-seven'
+      'recon-eight' : 'template-recon-eight'
+      'recon-nine' : 'template-recon-nine'
+      'recon-ten' : 'template-recon-ten'
+      
+    },
+
+    template-recon-intro: function () {
+      var view = new app.Views.ReconIntro();
+      app.instance.goto(view);
+    },
+
+    template-recon-one: function () {
+      var view = new app.Views.ReconOne();
+      app.instance.goto(view);
+    },
+
+    template-recon-two: function () {
+      var view = new app.Views.ReconTwo();
+      app.instance.goto(view);
+    },
+
+    template-recon-three: function () {
+      var view = new app.Views.ReconThree();
+      app.instance.goto(view);
+    },
+    
+    template-recon-four: function () {
+      var view = new app.Views.ReconFour();
+      app.instance.goto(view);
+    }, 
+   
+    template-recon-five: function () {
+      var view = new app.Views.ReconFive();
+      app.instance.goto(view);
+    },
+
+    template-recon-six: function () {
+      var view = new app.Views.ReconSix();
+      app.instance.goto(view);
+    },
+
+    template-recon-seven: function () {
+      var view = new app.Views.ReconSeven();
+      app.instance.goto(view);
+    },
+
+    template-recon-eight: function () {
+      var view = new app.Views.ReconEight();
+      app.instance.goto(view);
+    },
+    
+    template-recon-nine: function () {
+      var view = new app.Views.ReconNine();
+      app.instance.goto(view);
+    },
+
+    template-recon-ten: function () {
+      var view = new app.Views.ReconTen();
+      app.instance.goto(view);
+    }
+
+  });
+
+ app.Extensions.View = Backbone.View.extend({
+
+    initialize: function () {
+      this.router = new app.Router();
+    },
+
+    render: function(options) {
+
+      options = options || {};
+
+      if (options.page === true) {
+        this.$el.addClass('page');
+      }
+
+      return this;
+
+    },
+
+    transitionIn: function (callback) {
+
+      var view = this,
+          delay
+
+      var transitionIn = function () {
+        view.$el.addClass('is-visible');
+        view.$el.one('transitionend', function () {
+          if (_.isFunction(callback)) {
+            callback();
+          }
+        })
+      };
+
+      _.delay(transitionIn, 20);
+
+    },
+
+    transitionOut: function (callback) {
+
+      var view = this;
+
+      view.$el.removeClass('is-visible');
+      view.$el.one('transitionend', function () {
+        if (_.isFunction(callback)) {
+          callback();
+        };
+      });
+
+    }
+
+  });
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    app.Views.App = app.Extensions.View.extend({
+
+    el: 'body',
+
+    goto: function (view) {
+
+      var previous = this.currentPage || null;
+      var next = view;
+
+      if (previous) {
+        previous.transitionOut(function () {
+          previous.remove();
+        });
+      }
+
+      next.render({ page: true });
+      this.$el.append( next.$el );
+      next.transitionIn();
+      this.currentPage = next;
+
+    }
+
+  });
 
 
 
 
+  app.Views.ReconIntro = app.Extensions.View.extend({
+
+    className: 'template-recon-intro',
+
+    render: function () {
+      var template = _.template(jQuery('#template-recon-intro').html());
+      this.$el.html(template());
+      return app.Extensions.View.prototype.render.apply(this, arguments);
+    }
+
+  });
 
 
 
+  app.Views.ReconOne() = app.Extensions.View.extend({
+
+    className: 'template-recon-one',
+
+    render: function () {
+      var template = _.template(jQuery('#template-recon-one').html());
+      this.$el.html(template());
+      return app.Extensions.View.prototype.render.apply(this, arguments);
+    }
+
+  });
+
+
+  app.Views.ReconTwo() = app.Extensions.View.extend({
+
+    className: 'template-recon-two',
+
+    render: function () {
+      var template = _.template(jQuery('#template-recon-two]').html());
+      this.$el.html(template());
+      return app.Extensions.View.prototype.render.apply(this, arguments);
+    }
+
+  });
+  
+  
+  
+  app.Views.ReconThree() = app.Extensions.View.extend({
+
+    className: 'template-recon-three',
+
+    render: function () {
+      var template = _.template(jQuery('#template-recon-three').html());
+      this.$el.html(template());
+      return app.Extensions.View.prototype.render.apply(this, arguments);
+    }
+
+  });
+  
+  
+  
+  app.Views.ReconFour() = app.Extensions.View.extend({
+
+    className: 'template-recon-four',
+
+    render: function () {
+      var template = _.template(jQuery('#template-recon-four').html());
+      this.$el.html(template());
+      return app.Extensions.View.prototype.render.apply(this, arguments);
+    }
+
+  });
+  
+  
+  
+  app.Views.ReconFive() = app.Extensions.View.extend({
+
+    className: 'template-recon-five',
+
+    render: function () {
+      var template = _.template(jQuery('#template-recon-five').html());
+      this.$el.html(template());
+      return app.Extensions.View.prototype.render.apply(this, arguments);
+    }
+
+  });
+
+
+app.Views.ReconSix() = app.Extensions.View.extend({
+
+    className: 'template-recon-six',
+
+    render: function () {
+      var template = _.template(jQuery('#template-recon-six').html());
+      this.$el.html(template());
+      return app.Extensions.View.prototype.render.apply(this, arguments);
+    }
+
+  });
+  
+  
+  
+  
+  app.Views.ReconSeven() = app.Extensions.View.extend({
+
+    className: 'template-recon-seven',
+
+    render: function () {
+      var template = _.template(jQuery('#template-recon-seven').html());
+      this.$el.html(template());
+      return app.Extensions.View.prototype.render.apply(this, arguments);
+    }
+
+  });
+  
+  
+  
+  app.Views.ReconEight() = app.Extensions.View.extend({
+
+    className: 'template-recon-eight',
+
+    render: function () {
+      var template = _.template(jQuery('#template-recon-eight').html());
+      this.$el.html(template());
+      return app.Extensions.View.prototype.render.apply(this, arguments);
+    }
+
+  });
+
+  app.Views.ReconNine() = app.Extensions.View.extend({
+
+    className: 'template-recon-nine',
+
+    render: function () {
+      var template = _.template(jQuery('#template-recon-nine').html());
+      this.$el.html(template());
+      return app.Extensions.View.prototype.render.apply(this, arguments);
+    }
+
+  });
+
+  app.Views.ReconTen() = app.Extensions.View.extend({
+
+    className: 'template-recon-ten',
+
+    render: function () {
+      var template = _.template(jQuery('#template-recon-ten').html());
+      this.$el.html(template());
+      return app.Extensions.View.prototype.render.apply(this, arguments);
+    }
+
+  });
 
 
 
+}());
+  
 
-
-
-
-  <script src="{{STATIC_URL}}js/main.js"></script>
-  <script src="{{STATIC_URL}}js/models/course.js"></script>
-  <script src="{{STATIC_URL}}js/models/team.js"></script>
-  <script src="{{STATIC_URL}}js/models/student.js"></script>
-  <script src="{{STATIC_URL}}js/models/document.js"></script>
-  <script src="{{STATIC_URL}}js/collections/students.js"></script>
-  <script src="{{STATIC_URL}}js/collections/courses.js"></script>
-  <script src="{{STATIC_URL}}js/collections/teams.js"></script>
-  <script src="{{STATIC_URL}}js/collections/documents.js"></script>
-  <script src="{{STATIC_URL}}js/views/course.js"></script>
-  <script src="{{STATIC_URL}}js/views/courselist.js"></script>
-  <script src="{{STATIC_URL}}js/views/studentlist.js"></script>
+        
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</script>
 {% endblock %}
