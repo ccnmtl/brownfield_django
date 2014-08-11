@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% block content %}
+      <p>Interactive Visual Recon Should Have Introduction Here</p>
+    <div id="visrecon_display">
+      <div class="listing"></div>
+    </div>
+
+
+<div id="interactive">
+     <div id="content_holder"></div>
+      <button id="go-back" class="begin">Go Back</button>
+      <button id="continue" class="begin">Continue</button
+
+</div>
+
+ <script id="template-recon-story" type="template">
+    <div class="recon-content">
+      <b><%= content_title %></b></ br>
+      <p><%= content_body %></p>
+    </div>
+</script>
+
+
+<script>
+
+var App = {
+  Models: {},
+  Collections: {},
+  Views: {},
+  Content: null,
+  ContentList: null
+};
+ 
+App.Models.Content = Backbone.Model.extend ({
+    defaults: {
+        number: 0,
+        content_title: '',
+        content_body: ''
+   }
+   
+   initialize: function(attributes) {
+    var number = attributes.number || '<EMPTY>';
+    var content_title = attributes.content_title || '<EMPTY>';
+    var content_body = attributes.content_body || '<EMPTY>';
+    console.log("Initializing a new contact model for '" +
+      number + " " + content_title + "'."
+    );
+  }
+   
+});
+
+
+App.Collections.ContentCollection = Backbone.Collection.extend ({
+    model: Content
+});
+
+$(function() { 
+App.ContentList = new App.Collections.ContentCollection();
+
+App.ContentList.add({
+    number: 1,
+    content_title: 'Introduction',
+    content_body: 'Visual Reconnaissance costs $100. Begin your tour by clicking the 'Begin' button below. 
+                   You will see a pulsing red dot on the map which indicates your location as you travel. 
+                   At each step of the tour you will see a photo of your location and the notes from your observations. 
+                   Whiles you are performing your reconnaissance tour. You will not be able to zoom in or modify the map. 
+                   The notes from your tour will be available afterwards in your documents collection, and you can re-take
+                   the tour any time you like.'
+  });
+
+
+App.ContentList.add({
+    number: 2,
+    content_title: '8:00 AM',
+    content_body: 'Visited Building Department of the Moraine Municipal Government 
+                   Complex and obtained maps of all properties in the vicinity of the Self-Lume
+                   property.'
+  });
+  
+  
+  
+  App.ContentList.add({
+    number: 3,
+    content_title: '8:30 AM',
+    content_body: 'Began drive-through at intersetion of Pitch Pine Lane and Boulder Boulevard
+                   (aka Route 66E) - drove NE on Boulder Blvd. - "No Hunting / Property of Moraine Township"
+                   signs posted on both sides of hte road - both sides of the road have "pine barreds" 
+                   vegetation (dominated by scrub oak and pine) with light-colored or beige soils that are
+                   visibly sandy and gravelly. About 0.3 mile further down the road is a narrow clearing on both
+                   sides of the road. ~20 feet wide extending NW-SE; stopped car on side of road; there is little vegetation
+                   in these cleared strips except for low, scraggly weeds; to the NE 40-50 feet from road is a brick building 
+                   (20 ft. square) sitting in the middle of the clearing; on the building is a sign stating 
+                   "No Trespassing/Township of Moraine/Division of Water Supply" - the building is possibly a pumping station
+                   becasue the clearing runs straight up hill all the way to the other side and extends straight downhill 
+                   (about two football fields away) to another brick building which (with my binoculars) looks to be several 
+                   times the size of the first building; I'll try to check this building out when I close my loop at the end of the day.'
+  });
+
+var contentListing = '';
+
+
+
+
+
+App.ContentList.each(function(content) {
+    contentListing += "<div>" +
+    content.get('number') + " " +
+    content.get('content_title') + " ";
+
+    contentListing += "</div>";
+  });
+  $('#visrecon_display').html(contentListing);
+
+});
+
+
+
+
+
+
+// App.Views.Content = Backbone.View.extend({
+
+//    template: _.template($('#template-contact').html()),
+//    $container: null,
+ 
+//    initialize: function(options) {
+//         _.bindAll(this, 'render', 'insert');
+
+//        this.$container = options.$container;
+
+ //       this.listenTo(this.model, 'change', this.render);
+//        this.insert();
+ //   },
+
+ //   render: function() {
+//        this.$el.html(this.template(this.model.attributes));
+//        return this;
+//    },
+
+//    insert: function() {
+//        this.$container.append(this.$el);
+//    }
+//});
+    
+//App.Views.ContentList = Backbone.View.extend({
+
+//    initialize: function() {
+//        _.bindAll(this, 'render');
+//    },
+
+//    render: function() {
+//        var $container = this.$('#content_holder').empty();
+
+//    App.ContentList.each(function(content) {
+//      new App.Views.Content({
+//        model: content,
+//        $container: $container
+//      }).render();
+//    });
+//
+//    return this;
+//  }
+//});    
+    
+//});
+
+
+</script>
+    
+
+{% endblock %}
