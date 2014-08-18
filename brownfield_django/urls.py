@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.generic import TemplateView
 from pagetree.generic.views import PageView, EditView, InstructorView
-from brownfield_django.main.views import StudentView, TeacherView, TeacherCourseDetail, HomeView
+from brownfield_django.main.views import StudentView, TeacherView, TeacherCourseDetail, HomeView, RegistrationView
+from brownfield_django.main.forms import CreateAccountForm
 import os.path
 admin.autodiscover()
 
@@ -23,13 +24,20 @@ if hasattr(settings, 'WIND_BASE'):
         'djangowind.views.logout',
         {'next_page': redirect_after_logout})
 
+
 urlpatterns = patterns(
     '',
     auth_urls,
     logout_page,
-    (r'^registration/', include('registration.backends.default.urls')),
+    (r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^accounts/register/$', RegistrationView.as_view(
+        form_class=CreateAccountForm),
+        name='register'),
     (r'^backbone/$', TemplateView.as_view(template_name="main/backbone_courses.html")),
-    (r'^test/$', TemplateView.as_view(template_name="interactive/test.html")),
+    (r'^visrecon/$', TemplateView.as_view(template_name="interactive/visrecon.html")),
+    (r'^demo/$', TemplateView.as_view(template_name="interactive/demo_layout.html")),
+    (r'^site_history/$', TemplateView.as_view(template_name="interactive/site_history.html")),
+    (r'^testing/$', TemplateView.as_view(template_name="interactive/testing.html")),
     (r'^test2/$', TemplateView.as_view(template_name="interactive/test2.html")),
     (r'^test3/$', TemplateView.as_view(template_name="interactive/test3.html")),
     (r'^$', HomeView.as_view()),

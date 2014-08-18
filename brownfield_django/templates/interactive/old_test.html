@@ -1,29 +1,46 @@
-{% extends 'base.html' %}
-{% block content %}
-      <p>Interactive Visual Recon Should Have Introduction Here</p>
-    <div id="visrecon_display">
-      <div class="listing"></div>
-    </div>
-
-
-<div id="interactive">
-
-
-      <button id="go-back" class="begin">Go Back</button>
-      <button id="continue" class="begin">Continue</button
-
-</div>
-
-
-
-
-
-
-
-
-
-
-    <script id="template-recon-intro" type="template">
+ContentContainer = Backbone.View.extend({
+        initialize: function(){
+            this.render();
+        },
+        render: function(){
+            // Compile the template using underscore
+            var template = _.template(jQuery("#template-recon-intro").html(), {} );
+            // Load the compiled HTML into the Backbone "el"
+            this.$el.html( template );
+        }
+    });
+    
+     ReconOneView = Backbone.View.extend({
+        initialize: function(){
+            this.render();
+        },
+        render: function(){
+            var template = _.template(jQuery("#template-recon-one").html(), {} );
+            this.$el.html( template );
+        }
+    });
+    
+     ReconTwoView = Backbone.View.extend({
+        initialize: function(){
+            this.render();
+        },
+        render: function(){
+            var template = _.template(jQuery("#template-recon-two").html(), {} );
+            this.$el.html( template );
+        }
+    });
+    
+    var intro_view = new IntroView({ el: $("#visrecon_display") });   
+    
+ 
+  jQuery('#go-back').on()
+  
+  
+  </script>
+  
+  
+  
+      <script id="template-recon-intro" type="template">
     <div class="recon-content">
     
         <b>Introduction</b></ br>
@@ -65,49 +82,3 @@
     </p>
     </div>
     </script>
-    
-
-
-<script>
-    
- IntroView = Backbone.View.extend({
-        initialize: function(){
-            this.render();
-        },
-        render: function(){
-            // Compile the template using underscore
-            var template = _.template(jQuery("#template-recon-intro").html(), {} );
-            // Load the compiled HTML into the Backbone "el"
-            this.$el.html( template );
-        }
-    });
-    
-     ReconOneView = Backbone.View.extend({
-        initialize: function(){
-            this.render();
-        },
-        render: function(){
-            var template = _.template(jQuery("#template-recon-one").html(), {} );
-            this.$el.html( template );
-        }
-    });
-    
-     ReconTwoView = Backbone.View.extend({
-        initialize: function(){
-            this.render();
-        },
-        render: function(){
-            var template = _.template(jQuery("#template-recon-two").html(), {} );
-            this.$el.html( template );
-        }
-    });
-    
-    var intro_view = new IntroView({ el: $("#visrecon_display") });   
-    
- 
-  jQuery('#go-back').on()
-  
-  
-  </script>
-
-{% endblock %}

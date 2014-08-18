@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="interactive">
+<div class="recon-content">
+      <div id='title'>
+      </div>
+      <div id='paragraph'>
+      </div>
+      <button id="go-back" class="begin">Go Back</button>
+      <button id="continue" class="begin">Continue</button
+</div>
+</div>
+
+   
+
+
+<script>
+
+var current_page = 0;
+
+var interactive_content =  {
+
+    1 : { 'title': '<div id="title">Introduction</div>',
+          'paragraph': '<div id="paragraph">\
+                        Visual Reconnaissance costs $100. Begin your tour by clicking the Begin button below. \
+                        You will see a pulsing red dot on the map which indicates your location as you travel. \
+                        At each step of the tour you will see a photo of your location and the notes from your observations. \
+                        Whiles you are performing your reconnaissance tour. You will not be able to zoom in or modify the map. \
+                        The notes from your tour will be available afterwards in your documents collection, and you can re-take \
+                        the tour any time you like.\
+                        </div>'},
+
+    2 : { 'title': '<div id="title">Building Department of the Moraine Municipal Government</div>',
+          'paragraph': '<div id="paragraph">\
+                        8:00 AM - Visited Building Department of the Moraine Municipal Government \
+                        Complex and obtained maps of all properties in the vicinity of the Self-Lume\
+                        property.\
+                        </div>'},
+
+    3 : { 'title' : '<div id="title">Water Tower</div>',
+          'paragraph' : '<div id="paragraph">\
+                         8:30 AM - Began drive-through at intersetion of Pitch Pine Lane and Boulder Boulevard\
+                         (aka Route 66E) - drove NE on Boulder Blvd. - No Hunting / Property of Moraine Township\
+                         signs posted on both sides of hte road - both sides of the road have pine barreds\
+                         vegetation (dominated by scrub oak and pine) with light-colored or beige soils that are\
+                         visibly sandy and gravelly. About 0.3 mile further down the road is a narrow clearing on both\
+                         sides of the road. ~20 feet wide extending NW-SE; stopped car on side of road; there is little vegetation\
+                         in these cleared strips except for low, scraggly weeds; to the NE 40-50 feet from road is a brick building \
+                         (20 ft. square) sitting in the middle of the clearing; on the building is a sign stating \
+                         No Trespassing/Township of Moraine/Division of Water Supply - the building is possibly a pumping station\
+                         becasue the clearing runs straight up hill all the way to the other side and extends straight downhill \
+                         (about two football fields away) to another brick building which (with my binoculars) looks to be several \
+                         times the size of the first building; Ill try to check this building out when I close my loop at the end of the day.\
+                         </div>'},
+    4 : { 'title' : '<div id="title">Firn Freeze</div>',
+          'paragraph':'<div id="paragraph">\
+                   9:40 AM - From the diner I pull across the street into Firn Freeze (22-11 Boulder Blvd.),\
+                   a local Dairy Queen type of operation - a bit run down, dusty gravel parking lot - the property sits on a triangle\
+                   formed at the intersection of Rt. 66E and Loess Lane. Directly S across Loess Lane is what appears to be more Township\
+                   property that ran all along the E side of Rt. 66E on my way up to BTEX - however the vegetation has changed to a\
+                   deciduous forest (second or third growth) with the older trees mayber 50 to 70 years old - the soils are visually\
+                   finer and dark brown in color.\
+                    </div>'},
+    5 : { 'title' : '<div id="title">Kilroys Bar</div>',
+          'paragraph': '<div id="paragraph">\
+                     <p>9:45 AM - As I proceed E on Loess Lane there is a small strip of land with a few trees\
+                     that appears distinct frm the asphalt parking lot of Kilroys Bar (7 Loess Lane) - \
+                     the frontage of this bar is about 200 feet - just beyond the bar is another open area with more\
+                     trees and undergrowth (~100 feet of frontage) - directly across from this open space is a large\
+                     asphalt driveway/enternce to the parking lot for the Wedging Nursery (at 10 Loess Lane) - as I\
+                     pull into the parking lot I find it to be a bustling place with the small trucks and vans of \
+                     local landscapers loading sod, dirt, chips, etc.</p>\
+                     <p>There are three long greenhouses on the W side of the Wedging \
+                     parking lot(i.e., directly across from Kilroys Bar) and one \
+                     large and two smaller building around the lot - outback (to the S)\
+                     from what I could see from the lot was a large sod farm with other \
+                     growing areas for trees and shrubs(somewhere between 5 and 10 acres);\
+                     just at the S end of the parking lot is a small square shed with old hose,\
+                     pipe, and other irrigation equipment laying around - there are several large \
+                     trees interspersed on the site and many trees and low growth bordering on the site. \
+                     Just before leaving the nuersery I picked up a business card in the main office which \
+                     says Wedging Nursery/serving landscapers and gardeners since 1980/Rachel Kent, Proprietor.</p>\
+                     </div>'},
+    6 : { 'title' : '<div id="title">Pluckers Scrap Metal</div>',
+          'paragraph': '<div id="paragraph">\
+                    10:05 AM - Turning right onto Loess Lane heading E again - about 100 yds.\
+                    down on the N side is a paved entrance to Pluckers Scrap Metal (15 Loess Lane),\
+                    an auto wrecker and scrap metal business - there is a large fence surrounding the property\
+                    - the front gate was open - the paved road extends straight in to the N ending in about 150 yds.\
+                    In the distance in a 30 ft. high pile of scrap metal (fenders, hoods, doors, etc.) - on the right\
+                    is a long building with stalls containing cars in various stages of being stripped - on the left\
+                    is a small office building - there are cars everywhere. Some piled on each other - a dirt road extends\
+                    to the W between more piles of parts, barrels, tires, etc. - a crane is operating off behind the office\
+                    building lifting metal into a compactor- a real junkyard complete with the yelping of junkyard dogs that\
+                    have announced my now unwelcome presence.\
+                    </div>'},
+                    
+    7 : { 'title' : '<div id="title">Wedging Family Homestead</div>',
+          'paragraph': '<div id="paragraph">\
+                       10:25 AM - I leave Pluckers turning left onto Loess Lane. \
+                       Directly across from Pluckers is (according to the name on the mailbox)\
+                       the Wedging family homestead (12 Loess Lane). A large 2 1/2 story edifice \
+                       with mansard roof, two chimneys and eight gables - a paved driveway leads to a\
+                       two car garage. The site is nicely landscaped with numerous shrubs and several\
+                       large trees. Just 100 ft or so down from the Wedging family driveway on the N \
+                       side of Loess Lane is a dirt road leading back into the junkyard but a metal gate\
+                       blocks the way through it does not completely obscure the many cars and piles of \
+                       sorted (and sordid?) debris.\
+                    </div>'},
+                    
+                    
+    8 : { 'title' : '<div id="title">Self-Lume Factory</div>',
+          'paragraph': '<div id="paragraph">\
+                       10:30 - Ive finally arrived at the front entrance to the abandoned, \
+                       Self-Lume factory site Lane(20 Loess Lane) which is about a football field \
+                       away from the Wedging driveway and also on the S side of Loess. My key to the \
+                       building itself is for the padlocked door in the rear parking lot but I also have\
+                       keys for the chainlink gates at both entrances. The property is surrounded by an\
+                       eight foot chain link fence. THe 200 ft entrance driveway extends straight to the\
+                       S and is surrounded by dense deciduous forest with many large and intermediate trees\
+                       and heavy undergrowth especially along the sides of the road. Coming down the road I\
+                       can see part of the a water (?) tank on the roof. The foilage is the same around the\
+                       parking lot. Both the road and the parking lot are littered with twigs, leaves and the\
+                       like. The parking lot is about 150 ft wide and 300 ft long with a rectangular island \
+                       (approx 30 x 200 ft) of trees and undergrowth right in the middle of the parking lot. \
+                       From the S end of the lot there are two sidewalks about 100 ft apart, the W one leading\
+                       to the main entrance (with a slightly rusted Self-Lume, Inc. sign still in place over \
+                       the entrance portico) and the E sidewalk leading to a smaller less imposing entrance probably\
+                       for workers. Nothing seems unusual - single story, cinder block construction, a flat root\
+                       not visible form the ground level, the windows are still intact and closed - the tan paint\
+                       is weathered and peeling in places - empty office rooms (no furniture, no debris) are all \
+                       one can see through the dirty windows. Large weeds, overgrown shrubs, and several young, \
+                       invading trees now surround the building at the front end along the W wall; however at the\
+                       SE corner of the parking lot is a sleared area about 40 ft wide running along the E wall\
+                       of the factory - all that is growing here are weeds and grasses - the substrate consists\
+                       of 3/4 inch diameter gravel with some dirt in the pore spaces - it looks like and old\
+                       access road but it is inaccessible to vehicles because seven large glacial erratics have\
+                       been moved into place at the edge of the parking lot in front of the cleared area. With\
+                       binoculars I can see that this old road extends to the rear parking lot where I will \
+                       have a better look.\
+                    </div>'},
+                    
+                    
+                    
+    9 : { 'title' : '<div id="title">Fallow Farm</div>',
+          'paragraph': '<div id="paragraph">\
+                       11:05 AM - Leaving the Self-Lume site and turning right onto\
+                       Loess Lane heading E. On the N side of the road about 200 ft.\
+                       down from the Self-Lume entrance is a road running straight to\
+                       a large red barn and then another 150 ft. down the road is a \
+                       driveway and a garage followed by a large two story red sandstone home.\
+                       There is a sign near the mailbox which indicates that this home is an\
+                       Esker County historic site and was build in 1837 as apart of the Fallow Farm.\
+                       The mailbox also says Meredith and James Fallow (25 Loess Lane) so \
+                       I presume tha some part of the family continues to live here. The home\
+                       sits on the NW corner of Loess Lane and Erratic Avenue and is nicely \
+                       landscaped with several very large elegant oaks. On the NE corner there is a \
+                       second or third growth forest with dense undergrowth and many intermediate trees.\
+                       The same can be seen on the SE corner but older treese dominate the SW corner\
+                       which is the NE corner of the Self-Lume site.\
+                    </div>'}
+
+} 
+
+
+function get_next()
+{
+    current_page = current_page + 1;
+    jQuery('#title').replaceWith(interactive_content[current_page].title);
+    jQuery('#paragraph').replaceWith(interactive_content[current_page].paragraph);
+}
+
+
+function get_previous()
+{
+    current_page = current_page - 1;
+    jQuery('#title').replaceWith(interactive_content[current_page].title);
+    jQuery('#paragraph').replaceWith(interactive_content[current_page].paragraph);
+}
+
+
+jQuery('#continue').click(function() {get_next(current_page);});
+</script>
+ 
+
+{% endblock %}
