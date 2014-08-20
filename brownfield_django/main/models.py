@@ -16,15 +16,30 @@ DOCUMENT_TYPE = (
     ('VSR', 'Visual Reconnaissance'),
 )
 
-
+'''Why does old application have so many database tables? Definately
+seems to be overkill
+Old Tables:
+             "Visit",
+             "User",
+             "VisitIdentity",
+             "Permission",
+             "Group",
+             "Document",
+             "Course",
+             "Team",
+             "Student",
+             "History",
+             "PerformedTest",
+             "Information",
+'''
 
 class UserProfile(models.Model):
     '''UserProfile adds extra information to a user,
     and associates the user with a team, course,
     and course progress.'''
     user = models.OneToOneField(User, related_name="profile")
-    profile_type = models.CharField(max_length=2, choices=PROFILE_CHOICES)
     interactive = models.ForeignKey(Interactive, null=True, blank=True)
+    profile_type = models.CharField(max_length=2, choices=PROFILE_CHOICES)
     budget = models.PositiveIntegerField(default=60000)
 
     def __unicode__(self):
@@ -77,13 +92,37 @@ class Document(models.Model):
 
 class Team(models.Model):
     '''Team: A team will have one login/username
-    All accounting/history/actions is by team.'''
+    All accounting/history/actions is by team.
+    SINCE USER PROFILE IS A TEAM DO WE NEED TO
+    MAKE THIS HAVE A RELATION TO USER< OR JUST USE
+    THIS TO STORE USER TYPE TEAM DATA?
+    '''
+    class Meta:
+        '''We don't want teams with the same name in a course'''
+        ordering = ['name']
+        unique_together = ['name', 'course']
+
     name = models.CharField(max_length=255)
     course = models.ForeignKey(Course)
-    signed_contract = models.BooleanField(default=True)
+    signed_contract = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.name
+    
+    def get_members(self):
+        try:
+            members = self.userprofile_set.all()
+            return members
+        except:
+            return None
+        
+    def get_signed_contract(self):
+        return self.signed_contract
+    
+    def get_course(self):
+        return self.course
+    
+
 
 
 class PerformedTest(models.Model):

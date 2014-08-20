@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.generic import TemplateView
 from pagetree.generic.views import PageView, EditView, InstructorView
-from brownfield_django.main.views import StudentView, TeacherView, TeacherCourseDetail, HomeView, RegistrationView
+from brownfield_django.main.views import StudentHomeView, TeacherView, TeacherCourseDetail, HomeView, RegistrationView, DemoHomeView
 from brownfield_django.main.forms import CreateAccountForm
 import os.path
 admin.autodiscover()
@@ -33,7 +33,11 @@ urlpatterns = patterns(
     url(r'^accounts/register/$', RegistrationView.as_view(
         form_class=CreateAccountForm),
         name='register'),
+    (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),
+    (r'^home_demo/$', DemoHomeView.as_view()),
     (r'^backbone/$', TemplateView.as_view(template_name="main/backbone_courses.html")),
+    #(r'^demo/play/(?P<map_id>\d+)/display/flashConduit$', TemplateView.as_view(template_name="main/flvplayer.html")),
+    (r'^demo/play/$', TemplateView.as_view(template_name="main/flvplayer.html")),
     (r'^visrecon/$', TemplateView.as_view(template_name="interactive/visrecon.html")),
     (r'^demo/$', TemplateView.as_view(template_name="interactive/demo_layout.html")),
     (r'^site_history/$', TemplateView.as_view(template_name="interactive/site_history.html")),
@@ -41,7 +45,7 @@ urlpatterns = patterns(
     (r'^test2/$', TemplateView.as_view(template_name="interactive/test2.html")),
     (r'^test3/$', TemplateView.as_view(template_name="interactive/test3.html")),
     (r'^$', HomeView.as_view()),
-    (r'^student/(?P<pk>\d+)/$', StudentView.as_view()),
+    (r'^student/(?P<pk>\d+)/$', StudentHomeView.as_view()),
     (r'^teacher/(?P<pk>\d+)/$', TeacherView.as_view()),
     (r'^course_detail/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
     (r'^admin/', include(admin.site.urls)),
