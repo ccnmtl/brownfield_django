@@ -55,14 +55,10 @@ class RegistrationView(FormView):
 
 
 DEMO_XML = """
-<bfaxml>
+<bfaxml xmlns:py="http://purl.org/kid/ns#">
     <config>
-            <user access="professor"/>
-        <!--   attribute
-            will be present for access="admin" or "professor"
-            but not present for students
-            Security by obscurity!
-        -->
+            <user access="admin"/>
+
         <user realname="Team Joe Bob" 
               signedcontract="true" 
               startingbudget="60000"
