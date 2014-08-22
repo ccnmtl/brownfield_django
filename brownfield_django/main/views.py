@@ -53,37 +53,41 @@ class RegistrationView(FormView):
         return super(RegistrationView, self).form_valid(form)
 
 
-'''I am using this view to play around with getting the
-flash to run'''
-class BrownfieldDemoView(View):
-    '''Initial view/controller usese templates play, bfaxml
-    think like in ssnm it has one page and a second call to the flash app
-    base template: play
-    over template bfaxml
-     
-    Added xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#"
-    to html header - not sure if I need it
-    '''
-    template_name = 'main/demo.html'
-    success_url = '/'
- 
-    def get(self, request, *args, **kwargs):
-        context = super(BrownfieldDemoView, self).get_context_data(**kwargs)
-        #context['documents'] = Document.objects.all()
-        return context
 
-class DemoHomeView(View):
-    '''Again I'm just using this view to get the Flash working,
-    no permissions or users'''
-    template_name = 'main/demo_layout.html'
-    success_url = '/'
-
-    def get_context_data(self, **kwargs):
-        context = super(DemoHomeView, self).get_context_data(**kwargs)
-        context['user_courses'] = Course.objects.filter()
-        context['all_courses'] = Course.objects.all()
-        context['documents'] = Document.objects.all()
-        return context
+DEMO_XML = """
+<bfaxml>
+    <config>
+            <user access="professor"/>
+        <!--   attribute
+            will be present for access="admin" or "professor"
+            but not present for students
+            Security by obscurity!
+        -->
+        <user realname="Team Joe Bob" 
+              signedcontract="true" 
+              startingbudget="60000"
+              />
+        <narrative enabled="True"/>
+        <information>
+            <info type="doc" name="policeReport" />
+        </information>
+    </config>
+    <testdata>
+        <test x="0" y="0" n="8" />
+        <test x="0" y="0" n="9" z="10" />
+        <test x="6" y="6" n="8" paramstring="blurdy blurd" />
+        <test x="0" y="2" n="8" />
+        <test x="1" y="4" n="8" />
+    </testdata>
+    <budget>
+        <i a="1500" t="2004/08/30/23/11" d="excavation at 0,0" />
+        <i a="1500" t="2004/08/30/23/12" d="excavation at 0,2" />
+        <i a="200" t="2004/08/30/23/14" d="sgsa at 0,0" />
+        <i a="200" t="2004/08/30/23/15" d="sgsa at 1,4" />
+        <i a="1" t="2004/08/31/23/15" d="Questioned Al Milankovitch" />
+    </budget>
+</bfaxml>
+"""
 
 
 BROWNFIELD_XML = """
@@ -114,6 +118,155 @@ BROWNFIELD_XML = """
   </budget>
 </bfaxml>
  """
+
+
+
+
+
+'''I am using this view to play around with getting the
+flash to run'''
+class BrownfieldDemoView(View):
+    '''Initial view/controller usese templates play, bfaxml
+    think like in ssnm it has one page and a second call to the flash app
+    base template: play
+    over template bfaxml
+     
+    Added xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#"
+    to html header - not sure if I need it
+    '''
+    template_name = 'main/demo.html'
+    success_url = '/'
+
+    def get(self, request):
+        return render(request, 'main/flvplayer.html',
+            content_type="application/xhtml+xml")
+
+
+def get_demo(request):
+    return HttpResponse(DEMO_XML)
+    #return render(request, 'main/flvplayer.html', {'demo': DEMO_XML}, content_type="application/xhtml+xml")
+
+def get_bfa(request):
+    '''Flash is making calls to demo/media/flash/bfa.swf
+    so we will give it'''
+    return render(request, 'main/bfa.swf', content_type="application/xhtml+xml") 
+
+def get_demo_history(request):
+    return HttpResponse(DEMO_XML)
+
+INFO_TEST = """
+        <information>
+            <info type="doc" name="policeReport" />
+        </information>
+"""
+
+def get_demo_info(request):
+    return HttpResponse(DEMO_XML)
+
+def get_demo_test(request):
+    return HttpResponse("<data><response>OK</response></data>")
+
+def demo_save(request):
+    return HttpResponse("<data><response>OK</response></data>")
+
+
+#     def history(self, **kw):
+#         class R:
+#             name="Brownfield Demo Team"
+#             info = []
+#             tests = []
+#             history = []
+#             
+#             access = 'professor'
+#             if 'admin' in identity.current.groups:
+#                 access = 'admin'
+#             elif 'professor' in identity.current.groups:
+#                 access = 'professor'
+#             
+#             class C:
+#                 startingBudget=0
+#                 enableNarrative = True
+#             course = C()
+#         return dict( record=R() )
+#     if not NO_SECURITY:
+#         history = identity.require(identity.in_any_group('admin','professor'))(history)
+
+
+
+
+
+
+#        content_type="application/xhtml+xml")
+
+#        content_type="application/xhtml+xml")
+#    return render(request,{ 'main/flvplayer.html' : DEMO_XML}, 
+#        content_type="application/xhtml+xml")
+
+
+# class DemoPlayView(JSONResponseMixin, View):
+#     def get_context_data(self, **kwargs):
+        #return HttpResponse(ecomap.ecomap_xml)
+
+
+#     def get_context_data(self, **kwargs):
+#         context = super(DemoHomeView, self).get_context_data(**kwargs)
+#         # setup zip file for the key & value file
+#         response = HttpResponse(mimetype='application/xml')
+# 
+# 
+#  
+# #     def get_context_data(self, request, *args, **kwargs):
+#         context = super(BrownfieldDemoView, self).get_context_data(**kwargs)
+#         bfaxml
+#         #context['documents'] = Document.objects.all()
+#         return context
+#             content_type='application/xml',
+#             accept_format='application/xml',
+#             fragment=True
+        
+
+class DemoHomeView(View):
+    '''Again I'm just using this view to get the Flash working,
+    no permissions or users'''
+    template_name = 'main/demo_layout.html'
+    success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = super(DemoHomeView, self).get_context_data(**kwargs)
+        context['user_courses'] = Course.objects.filter()
+        context['all_courses'] = Course.objects.all()
+        context['documents'] = Document.objects.all()
+        return context
+
+
+# BROWNFIELD_XML = """
+# <bfaxml xmlns:py="http://purl.org/kid/ns#">
+#   <config>
+#     <user realname="${record.name}" 
+#       signedcontract="true" 
+#       startingbudget="${int(record.course.startingBudget)}" 
+#       py:attrs="{'access':record.access}"
+#       />
+#     <narrative enabled="${record.course.enableNarrative}" />
+#     <information>
+#       <info py:for="i in record.info" type="${i.infoType}" name="${i.internalName}"/> 
+#     </information>
+#   </config>
+#   <testdata>
+#     <test py:for="t in record.tests"
+#       py:attrs="{'paramstring':t.paramString,'z':t.z}" 
+#       x="${t.x}" 
+#       y="${t.y}" 
+#       n="${t.testNumber}" />
+#   </testdata>
+#   <budget>
+#     <i py:for="t in record.history"
+#        a="${int(t.cost or 0)}" 
+#        t="${t.date and t.date.strftime('%Y/%m/%d/%H/%M')}" 
+#        d="${t.description}" />
+#   </budget>
+# </bfaxml>
+#  """
 
 
 # class DemoController():
