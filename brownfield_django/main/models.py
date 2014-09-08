@@ -41,6 +41,11 @@ class Course(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_students(self):
+        participants = UserProfile.objects.filter(course=self)
+        # need to exclude teacher
+        return participants
+
 
 class Document(models.Model):
     course = models.ForeignKey(Course)
