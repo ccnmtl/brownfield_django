@@ -1,6 +1,6 @@
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
-from brownfield_django.interactive.models import Interactive
 
 PROFILE_CHOICES = (
     ('TE', 'Teacher'),
@@ -8,16 +8,8 @@ PROFILE_CHOICES = (
     ('TM', 'Team'),
 )
 
-DOCUMENT_TYPE = (
-    ('SLC', 'Self-Lume Catalog'),
-    ('SLB', 'Self-Lume Brochure'),
-    ('SLP', 'Self-Lume Property Map'),
-    ('COC', 'Copy of Contract'),
-    ('VSR', 'Visual Reconnaissance'),
-)
 
-'''Why does old application have so many database tables? Definately
-seems to be overkill
+'''
 Old Tables:
              "Visit",
              "User",
@@ -33,14 +25,39 @@ Old Tables:
              "Information",
 '''
 
+
+
+class Course(models.Model):
+    '''Course'''
+    name = models.CharField(max_length=255)
+    password = models.CharField(max_length=255, default='')
+    startingBudget = models.PositiveIntegerField(default=60000)
+    enableNarrative = models.BooleanField(default=True)
+    message = models.TextField(max_length=255)
+    active = models.BooleanField(default=True)
+    creator = models.ForeignKey(User, related_name="created_by", null=True, default=None, blank=True)
+    initial_budget = models.PositiveIntegerField(default=65000)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Document(models.Model):
+    course = models.ForeignKey(Course)
+    name = models.CharField(max_length=255)
+    link = models.CharField(max_length=255)
+    visible = models.BooleanField(default=False)
+    # in old application content is href not sure if it should be but...
+
 class UserProfile(models.Model):
     '''UserProfile adds extra information to a user,
     and associates the user with a team, course,
     and course progress.'''
     user = models.OneToOneField(User, related_name="profile")
-    interactive = models.ForeignKey(Interactive, null=True, blank=True)
+    # interactive = models.ForeignKey(Interactive, null=True, blank=True)
     profile_type = models.CharField(max_length=2, choices=PROFILE_CHOICES)
-    budget = models.PositiveIntegerField(default=60000)
+    course = models.ManyToManyField(
+        Course, null=True, default=None, blank=True)
 
     def __unicode__(self):
         return self.user.username
@@ -69,26 +86,6 @@ class UserProfile(models.Model):
             return "team"
 
 
-class Course(models.Model):
-    '''Course'''
-    name = models.CharField(max_length=255)
-    startingBudget = models.PositiveIntegerField(default=60000)
-    enableNarrative = models.BooleanField(default=True)
-    message = models.TextField(max_length=255)
-    active = models.BooleanField(default=True)
-    participant = models.ForeignKey(UserProfile)
-
-    def __unicode__(self):
-        return self.name
-
-
-class Document(models.Model):
-    course = models.ForeignKey(Course)
-    name = models.CharField(max_length=255)
-    link = models.CharField(max_length=255)
-    document_type = models.CharField(max_length=3, choices=DOCUMENT_TYPE, default=None, blank=True)
-    # in old application content is href not sure if it should be but...
-
 
 class Team(models.Model):
     '''Team: A team will have one login/username
@@ -97,14 +94,16 @@ class Team(models.Model):
     MAKE THIS HAVE A RELATION TO USER< OR JUST USE
     THIS TO STORE USER TYPE TEAM DATA?
     '''
+    name = models.CharField(max_length=255)
+    password = models.CharField(max_length=255, default='')
+    course = models.ForeignKey(Course)
+    signed_contract = models.BooleanField(default=False)
+    budget = models.PositiveIntegerField(default=65000)
+
     class Meta:
         '''We don't want teams with the same name in a course'''
         ordering = ['name']
         unique_together = ['name', 'course']
-
-    name = models.CharField(max_length=255)
-    course = models.ForeignKey(Course)
-    signed_contract = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.name
@@ -123,12 +122,17 @@ class Team(models.Model):
         return self.course
     
 
-
+class History(models.Model):
+    team = models.ForeignKey(Team)
+    date = models.DateTimeField(default=datetime.datetime.now)
+    description = models.CharField(max_length=255)
+    cost = models.IntegerField(default=0)
 
 class PerformedTest(models.Model):
     X = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
     z = models.IntegerField(default=0)
-    testDetails = models.CharField(max_length=255)
+    testNumber = models.IntegerField(default=0)
     paramString = models.CharField(max_length=255)
 
+ 

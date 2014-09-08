@@ -1,2 +1,21 @@
+brownfield_django/main/models.py:3: [E] PYFLAKES:'Interactive' imported but unused
+brownfield_django/main/admin.py:3: [E] PYFLAKES:'Hierarchy' imported but unused
+brownfield_django/main/views.py:1: [E] PYFLAKES:'json' imported but unused
+brownfield_django/main/views.py:2: [E] PYFLAKES:'datetime' imported but unused
+brownfield_django/main/views.py:3: [E] PYFLAKES:'parseString' imported but unused
+brownfield_django/main/views.py:5: [E] PYFLAKES:'forms' imported but unused
+brownfield_django/main/views.py:9: [E] PYFLAKES:'ModelForm' imported but unused
+brownfield_django/main/views.py:10: [E] PYFLAKES:'User' imported but unused
+brownfield_django/main/views.py:11: [E] PYFLAKES:'send_mail' imported but unused
+brownfield_django/main/views.py:13: [E] PYFLAKES:'TemplateView' imported but unused
+brownfield_django/main/views.py:15: [E] PYFLAKES:'ListView' imported but unused
+brownfield_django/main/views.py:16: [E] PYFLAKES:'CreateView' imported but unused
+brownfield_django/main/views.py:17: [E] PYFLAKES:'reverse_lazy' imported but unused
+brownfield_django/main/views.py:20: [E] PYFLAKES:'Interactive' imported but unused
+brownfield_django/main/views.py:22: [E] PYFLAKES:'LoggedInMixinSuperuser' imported but unused
+brownfield_django/main/views.py:22: [E] PYFLAKES:'JSONResponseMixin' imported but unused
+brownfield_django/main/views.py:22: [E] PYFLAKES:'LoggedInMixinStaff' imported but unused
+brownfield_django/main/views.py:376: [E] PYFLAKES:undefined name 'StudentView'
+brownfield_django/main/views.py:379: [E] PYFLAKES:undefined name 'StudentView'
 brownfield_django/main/tests/__init__.py:2: [E] PYFLAKES:'from test_models import *' used; unable to detect undefined names
 brownfield_django/main/tests/__init__.py:3: [E] PYFLAKES:'from test_views import *' used; unable to detect undefined names

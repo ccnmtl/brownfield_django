@@ -1,0 +1,82 @@
+brownfield_django/main/forms.py:5:80: E501 line too long (84 > 79 characters)
+brownfield_django/main/forms.py:12:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/forms.py:16:1: W293 blank line contains whitespace
+brownfield_django/main/forms.py:42:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/forms.py:52:38: W292 no newline at end of file
+brownfield_django/main/models.py:28:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/models.py:50:1: W293 blank line contains whitespace
+brownfield_django/main/models.py:102:1: W293 blank line contains whitespace
+brownfield_django/main/models.py:109:1: W293 blank line contains whitespace
+brownfield_django/main/models.py:112:1: W293 blank line contains whitespace
+brownfield_django/main/models.py:115:1: W293 blank line contains whitespace
+brownfield_django/main/models.py:119:1: E303 too many blank lines (4)
+brownfield_django/main/models.py:127:1: W391 blank line at end of file
+brownfield_django/main/models.py:127:1: W293 blank line contains whitespace
+brownfield_django/main/views.py:21:80: E501 line too long (80 > 79 characters)
+brownfield_django/main/views.py:27:1: E303 too many blank lines (3)
+brownfield_django/main/views.py:29:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:62:38: W291 trailing whitespace
+brownfield_django/main/views.py:63:36: W291 trailing whitespace
+brownfield_django/main/views.py:57:1: E303 too many blank lines (3)
+brownfield_django/main/views.py:92:36: W291 trailing whitespace
+brownfield_django/main/views.py:93:28: W291 trailing whitespace
+brownfield_django/main/views.py:94:60: W291 trailing whitespace
+brownfield_django/main/views.py:99:80: E501 line too long (85 > 79 characters)
+brownfield_django/main/views.py:99:86: W291 trailing whitespace
+brownfield_django/main/views.py:104:55: W291 trailing whitespace
+brownfield_django/main/views.py:105:17: W291 trailing whitespace
+brownfield_django/main/views.py:106:17: W291 trailing whitespace
+brownfield_django/main/views.py:111:31: W291 trailing whitespace
+brownfield_django/main/views.py:112:59: W291 trailing whitespace
+brownfield_django/main/views.py:122:1: E303 too many blank lines (5)
+brownfield_django/main/views.py:124:1: E302 expected 2 blank lines, found 0
+brownfield_django/main/views.py:129:1: W293 blank line contains whitespace
+brownfield_django/main/views.py:130:80: E501 line too long (81 > 79 characters)
+brownfield_django/main/views.py:138:13: E128 continuation line under-indented for visual indent
+brownfield_django/main/views.py:143:80: E501 line too long (108 > 79 characters)
+brownfield_django/main/views.py:145:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:148:80: E501 line too long (80 > 79 characters)
+brownfield_django/main/views.py:148:81: W291 trailing whitespace
+brownfield_django/main/views.py:150:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:159:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:162:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:165:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:175:2: W291 trailing whitespace
+brownfield_django/main/views.py:181:2: W291 trailing whitespace
+brownfield_django/main/views.py:188:80: E501 line too long (89 > 79 characters)
+brownfield_django/main/views.py:198:64: W291 trailing whitespace
+brownfield_django/main/views.py:211:2: W291 trailing whitespace
+brownfield_django/main/views.py:212:2: W291 trailing whitespace
+brownfield_django/main/views.py:213:2: W291 trailing whitespace
+brownfield_django/main/views.py:222:1: W293 blank line contains whitespace
+brownfield_django/main/views.py:224:1: E303 too many blank lines (6)
+brownfield_django/main/views.py:241:38: W291 trailing whitespace
+brownfield_django/main/views.py:242:30: W291 trailing whitespace
+brownfield_django/main/views.py:243:62: W291 trailing whitespace
+brownfield_django/main/views.py:248:80: E501 line too long (87 > 79 characters)
+brownfield_django/main/views.py:248:88: W291 trailing whitespace
+brownfield_django/main/views.py:253:57: W291 trailing whitespace
+brownfield_django/main/views.py:254:19: W291 trailing whitespace
+brownfield_django/main/views.py:255:19: W291 trailing whitespace
+brownfield_django/main/views.py:260:33: W291 trailing whitespace
+brownfield_django/main/views.py:261:61: W291 trailing whitespace
+brownfield_django/main/views.py:278:80: E501 line too long (83 > 79 characters)
+brownfield_django/main/views.py:279:2: W291 trailing whitespace
+brownfield_django/main/views.py:292:2: W291 trailing whitespace
+brownfield_django/main/views.py:298:2: W291 trailing whitespace
+brownfield_django/main/views.py:305:80: E501 line too long (89 > 79 characters)
+brownfield_django/main/views.py:306:2: W291 trailing whitespace
+brownfield_django/main/views.py:312:80: E501 line too long (83 > 79 characters)
+brownfield_django/main/views.py:313:2: W291 trailing whitespace
+brownfield_django/main/views.py:319:80: E501 line too long (83 > 79 characters)
+brownfield_django/main/views.py:347:2: W291 trailing whitespace
+brownfield_django/main/views.py:352:2: W291 trailing whitespace
+brownfield_django/main/views.py:355:2: W291 trailing whitespace
+brownfield_django/main/views.py:366:1: E303 too many blank lines (22)
+brownfield_django/main/views.py:392:1: W293 blank line contains whitespace
+brownfield_django/main/views.py:401:1: W293 blank line contains whitespace
+brownfield_django/main/views.py:402:1: W293 blank line contains whitespace
+brownfield_django/main/views.py:403:1: W293 blank line contains whitespace
+brownfield_django/main/views.py:424:1: E303 too many blank lines (3)
+brownfield_django/main/views.py:453:80: E501 line too long (81 > 79 characters)
+brownfield_django/main/views.py:484:80: E501 line too long (81 > 79 characters)

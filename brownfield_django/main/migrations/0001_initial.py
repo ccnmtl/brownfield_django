@@ -20,6 +20,7 @@ class Migration(SchemaMigration):
         db.create_table(u'main_course', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('password', self.gf('django.db.models.fields.CharField')(default='', max_length=255)),
             ('startingBudget', self.gf('django.db.models.fields.PositiveIntegerField')(default=60000)),
             ('enableNarrative', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('message', self.gf('django.db.models.fields.TextField')(max_length=255)),
@@ -34,7 +35,7 @@ class Migration(SchemaMigration):
             ('course', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['main.Course'])),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('link', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('document_type', self.gf('django.db.models.fields.CharField')(max_length=3)),
+            ('visible', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal(u'main', ['Document'])
 
@@ -42,10 +43,15 @@ class Migration(SchemaMigration):
         db.create_table(u'main_team', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('password', self.gf('django.db.models.fields.CharField')(default='', max_length=255)),
             ('course', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['main.Course'])),
-            ('signed_contract', self.gf('django.db.models.fields.BooleanField')(default=True)),
+            ('signed_contract', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('budget', self.gf('django.db.models.fields.PositiveIntegerField')(default=60000)),
         ))
         db.send_create_signal(u'main', ['Team'])
+
+        # Adding unique constraint on 'Team', fields ['name', 'course']
+        db.create_unique(u'main_team', ['name', 'course_id'])
 
         # Adding model 'PerformedTest'
         db.create_table(u'main_performedtest', (
@@ -60,6 +66,9 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
+        # Removing unique constraint on 'Team', fields ['name', 'course']
+        db.delete_unique(u'main_team', ['name', 'course_id'])
+
         # Deleting model 'UserProfile'
         db.delete_table(u'main_userprofile')
 
@@ -121,15 +130,16 @@ class Migration(SchemaMigration):
             'message': ('django.db.models.fields.TextField', [], {'max_length': '255'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'participant': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['main.UserProfile']"}),
+            'password': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255'}),
             'startingBudget': ('django.db.models.fields.PositiveIntegerField', [], {'default': '60000'})
         },
         u'main.document': {
             'Meta': {'object_name': 'Document'},
             'course': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['main.Course']"}),
-            'document_type': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'link': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'visible': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
         u'main.performedtest': {
             'Meta': {'object_name': 'PerformedTest'},
@@ -141,11 +151,13 @@ class Migration(SchemaMigration):
             'z': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         u'main.team': {
-            'Meta': {'object_name': 'Team'},
+            'Meta': {'ordering': "['name']", 'unique_together': "(['name', 'course'],)", 'object_name': 'Team'},
+            'budget': ('django.db.models.fields.PositiveIntegerField', [], {'default': '60000'}),
             'course': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['main.Course']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'signed_contract': ('django.db.models.fields.BooleanField', [], {'default': 'True'})
+            'password': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255'}),
+            'signed_contract': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
         u'main.userprofile': {
             'Meta': {'ordering': "['user']", 'object_name': 'UserProfile'},

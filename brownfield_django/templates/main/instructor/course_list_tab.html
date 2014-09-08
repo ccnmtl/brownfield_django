@@ -1,48 +1,13 @@
-{% extends 'base.html' %}
-{% block js %}
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script>
-    var frm = jQuery('#create_course');
-    var course_list = jQuery('#course_list');
-    frm.submit(
-      function () {
-        jQuery.ajax({
-            type: frm.attr('method'),
-            url: frm.attr('action'),
-            data: frm.serialize(),
-            success: function (data) {
-                jQuery(".modal-body").html("Course added!</br>");
-            },
-            error: function(data) {
-                jQuery(".modal-body").html("Something went wrong!");
-            }
-        }
-
-        );
-        return false;
-    });
-
-    var refresh_bttn = jQuery('#refresh');
-    refresh_bttn.click(
-      function(){
-
-        location.reload();
-
-
-
-    });
-
-</script>
-{% endblock %}
-{% block content %}
+<div class="tab-pane active" id="course-list">
 <h1>Course List</h1>
 <button data-toggle="modal" data-target="#basicModal" class="btn btn-sm btn-success" type="button"> Add Course </button></br>
+
 <div id="course_list">
 <h3>Your Courses</h3>
 
 <ul>
 {% for c in user_courses %}
-    <li> <a href=/course/{{c.pk}}> {{ c.name }} </a></li>
+    <li> <a href=/course_detail/{{c.pk}}> {{ c.name }} </a></li>
 {% empty %}
     <li>You are not in any courses yet.</li>
 {% endfor %}
@@ -51,8 +16,8 @@
 <h3>All Brownfield Action Courses</h3>
 
  <ul>
-{% for course in courses %}
-    <li> <a href=/course/{{c.pk}}> {{ course.name }} </a></li>
+{% for course in all_courses %}
+    <li> <a href=/course_detail/{{c.pk}}> {{ course.name }} </a></li>
 {% empty %}
     <li>No courses yet.</li>
 {% endfor %}
@@ -67,7 +32,7 @@
             </div>
             <div class="modal-body">
             <form id="create_course" action="/create_new_course/" method="post">{% csrf_token %}
-            {{ form.as_p }}
+            {{ course_form.as_p }}
             <input type="submit" value="Submit"/>
             </form>
             </div>
@@ -78,6 +43,4 @@
     </div>
   </div>
 </div>
-
-
-{% endblock %}
+</div>

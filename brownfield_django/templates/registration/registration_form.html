@@ -13,7 +13,7 @@
         <a href="{% url 'auth_password_reset' %}">reset them here</a>.
     </div>
     
-    <form method="post" action="." class="register form">
+    <form method="post" action="." class="register form">{% csrf_token %}
       {{ form|bootstrap }}
       <input class="btn btn-primary" type="submit" value="{% trans 'Sign up!' %}" />
     </form>

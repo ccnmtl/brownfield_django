@@ -17,7 +17,6 @@ from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.core.urlresolvers import reverse, reverse_lazy
 
 from brownfield_django.main.models import Course, UserProfile, Document, Team
-from brownfield_django.interactive.models import Interactive
 from brownfield_django.main.forms import CourseForm, TeamForm, CreateAccountForm
 from brownfield_django.mixins import LoggedInMixin, LoggedInMixinSuperuser, \
     LoggedInMixinStaff, JSONResponseMixin
@@ -164,61 +163,6 @@ def get_demo_test(request):
 
 def demo_save(request):
     return HttpResponse("<data><response>OK</response></data>")
-
-
-#     def history(self, **kw):
-#         class R:
-#             name="Brownfield Demo Team"
-#             info = []
-#             tests = []
-#             history = []
-#             
-#             access = 'professor'
-#             if 'admin' in identity.current.groups:
-#                 access = 'admin'
-#             elif 'professor' in identity.current.groups:
-#                 access = 'professor'
-#             
-#             class C:
-#                 startingBudget=0
-#                 enableNarrative = True
-#             course = C()
-#         return dict( record=R() )
-#     if not NO_SECURITY:
-#         history = identity.require(identity.in_any_group('admin','professor'))(history)
-
-
-
-
-
-
-#        content_type="application/xhtml+xml")
-
-#        content_type="application/xhtml+xml")
-#    return render(request,{ 'main/flvplayer.html' : DEMO_XML}, 
-#        content_type="application/xhtml+xml")
-
-
-# class DemoPlayView(JSONResponseMixin, View):
-#     def get_context_data(self, **kwargs):
-        #return HttpResponse(ecomap.ecomap_xml)
-
-
-#     def get_context_data(self, **kwargs):
-#         context = super(DemoHomeView, self).get_context_data(**kwargs)
-#         # setup zip file for the key & value file
-#         response = HttpResponse(mimetype='application/xml')
-# 
-# 
-#  
-# #     def get_context_data(self, request, *args, **kwargs):
-#         context = super(BrownfieldDemoView, self).get_context_data(**kwargs)
-#         bfaxml
-#         #context['documents'] = Document.objects.all()
-#         return context
-#             content_type='application/xml',
-#             accept_format='application/xml',
-#             fragment=True
         
 
 class DemoHomeView(View):
@@ -233,134 +177,6 @@ class DemoHomeView(View):
         context['all_courses'] = Course.objects.all()
         context['documents'] = Document.objects.all()
         return context
-
-
-# BROWNFIELD_XML = """
-# <bfaxml xmlns:py="http://purl.org/kid/ns#">
-#   <config>
-#     <user realname="${record.name}" 
-#       signedcontract="true" 
-#       startingbudget="${int(record.course.startingBudget)}" 
-#       py:attrs="{'access':record.access}"
-#       />
-#     <narrative enabled="${record.course.enableNarrative}" />
-#     <information>
-#       <info py:for="i in record.info" type="${i.infoType}" name="${i.internalName}"/> 
-#     </information>
-#   </config>
-#   <testdata>
-#     <test py:for="t in record.tests"
-#       py:attrs="{'paramstring':t.paramString,'z':t.z}" 
-#       x="${t.x}" 
-#       y="${t.y}" 
-#       n="${t.testNumber}" />
-#   </testdata>
-#   <budget>
-#     <i py:for="t in record.history"
-#        a="${int(t.cost or 0)}" 
-#        t="${t.date and t.date.strftime('%Y/%m/%d/%H/%M')}" 
-#        d="${t.description}" />
-#   </budget>
-# </bfaxml>
-#  """
-
-
-# class DemoController():
-#     @expose(template='kid:brownfield.templates.play')
-#     #@identity.require(identity.in_any_group('admin','professor'))
-# is that just returning the page?
-#     def play(self, **kw):
-#         serverURL=cherrypy.request.base+"/demo/"
-#         resourceRootURL=cherrypy.request.base + FLASH_CHEATER + "/flash/"
-#         return dict(serverURL=serverURL,
-#                     resourceRootURL=resourceRootURL)
-#     if not NO_SECURITY:
-#         play = identity.require(identity.in_any_group('admin','professor'))(play)
-#     
-#     @expose(template='kid:brownfield.templates.bfaxml',
-#             content_type='application/xml',
-#             accept_format='application/xml',
-#             fragment=True, #so kid doesn't serve a DOCTYPE HTML declaration
-#             )
-#     #@identity.require(identity.in_any_group('admin','professor'))
-#     def history(self, **kw):
-#         class R:
-#             name="Brownfield Demo Team"
-#             info = []
-#             tests = []
-#             history = []
-#             
-#             access = 'professor'
-#             if 'admin' in identity.current.groups:
-#                 access = 'admin'
-#             elif 'professor' in identity.current.groups:
-#                 access = 'professor'
-#             
-#             class C:
-#                 startingBudget=0
-#                 enableNarrative = True
-#             course = C()
-#         return dict( record=R() )
-#     if not NO_SECURITY:
-#         history = identity.require(identity.in_any_group('admin','professor'))(history)
-#     
-#     @expose()
-#     #@identity.require(identity.in_any_group('admin','professor'))
-#     def test(self, **kw):
-#         return "ok"
-#     if not NO_SECURITY:
-#         test = identity.require(identity.in_any_group('admin','professor'))(test)
-#         
-#     @expose()
-#     #@identity.require(identity.in_any_group('admin','professor'))
-#     def info(self, **kw):
-#         return "ok"
-#     if not NO_SECURITY:
-#         info = identity.require(identity.in_any_group('admin','professor'))(info)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def display(request, map_id):
-#     '''Method processes information communicated by flash.'''
-#     post = request.body
-#     if request.POST == {}:
-#         return HttpResponse("Nothing in request POST.")
-# 
-#     #  parse post request and get information
-#     dom = parseString(post)
-#     action = dom.getElementsByTagName("action")[0].firstChild.toxml()
-#     ecomap = Ecomap.objects.get(pk=map_id)
-# 
-#     if action == "load":
-#         return HttpResponse(ecomap.ecomap_xml)  # return saved xml
-# 
-#     if action == "save":
-#         name = dom.getElementsByTagName("name")[0].toxml()
-#         flash_data = dom.getElementsByTagName("flashData")[0].toxml()
-#         map_to_save = ("<data><response>OK</response><isreadonly>false"
-#                        "</isreadonly>%s%s</data>" % (name, flash_data))
-#         ecomap.ecomap_xml = map_to_save
-#         ecomap.save()
-#         return HttpResponse("<data><response>OK</response></data>")
 
 
 class StudentHomeView(DetailView):
@@ -397,10 +213,7 @@ class TeamView(DetailView):
             )
     @expose(template='kid:restresource.templates.view')
     @expose(template='json', accept_format='text/javascript')
-    @require_owns_resource()
-    
-    
-    
+    @require_owns_resource()    
     '''
     model = Team
     template_name = 'main/team_home.html'
@@ -420,14 +233,13 @@ class TeamView(DetailView):
         return context
 
 
-
 '''This should probably be a ListView'''
 
 
 class TeacherView(DetailView):
 
     model = UserProfile
-    template_name = 'main/instructor_home.html'
+    template_name = 'main/instructor/instructor_home.html'
     success_url = '/'
 
     def dispatch(self, *args, **kwargs):
@@ -440,28 +252,28 @@ class TeacherView(DetailView):
         context['user_courses'] = Course.objects.filter()
         context['all_courses'] = Course.objects.all()
         context['course_form'] = CourseForm()
-        context['documents'] = Document.objects.all()
         return context
-#     def post(self, *args, **kwargs):
-#         self.object = self.get_object()
-#
-#         profile_form = UpdateProfileForm(self.request.POST)
-#
-#         if profile_form.is_valid():
-#             profile_form.save()
-#             url = '/%s-dashboard/%s/#user-profile' % (
-#                 self.request.user.profile.role(), self.request.user.profile.id)
-#             return HttpResponseRedirect(url)
-#
-#         context = self.get_context_data(object=self.object)
-#         context['profile_form'] = profile_form
-#         return self.render_to_response(context)
+
+    def post(self, *args, **kwargs):
+        self.object = self.get_object()
+        course_form = CourseForm(self.request.POST)
+
+        if course_form.is_valid():
+            course_form.save()
+            messages.add_message(self.request, messages.INFO,
+                                 'Your changes have been saved.')
+
+            return HttpResponseRedirect('/dashboard/#course-list')
+
+        context = self.get_context_data(object=self.object)
+        context['course_form'] = course_form
+        return self.render_to_response(context)
 
 
 class TeacherCourseDetail(DetailView, UpdateView):
 
     model = Course
-    template_name = 'main/course_detail.html'
+    template_name = 'main/instructor/course_home.html'
     success_url = '/'
 
     def dispatch(self, *args, **kwargs):
@@ -471,6 +283,11 @@ class TeacherCourseDetail(DetailView, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(TeacherCourseDetail, self).get_context_data(**kwargs)
+        # course documents
+        # message
+        # course form
+        # close course
+        # special actions
         context['team_form'] = TeamForm()
         return context
 #     def post(self, *args, **kwargs):

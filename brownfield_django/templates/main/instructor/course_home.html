@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block js %}
+        <script type="text/javascript" src="/site_media/js/instructor.js"></script>
+{% endblock %}
+{% block content %}
+
+  <ul class="nav nav-tabs instructor-nav">
+    <li class="active"><a href="#user-courses" data-toggle="tab">Courses</a></li>
+    <li><a href="#user-team-students" data-toggle="tab">Teams and Students</a></li>
+  </ul>
+ 
+  <div class="instructor tab-content">
+    {% include "main/instructor/courses_tab.html" %}
+    {% include "main/instructor/student_team_tab.html" %}
+  </div>
+
+{% endblock %}

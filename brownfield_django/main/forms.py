@@ -13,6 +13,10 @@ class TeamForm(ModelForm):
     class Meta:
         model = Team
 
+class StudentForm(ModelForm):
+    class Meta:
+        model = UserProfile
+
         
 class CreateAccountForm(RegistrationForm):
     '''This is a form class that will be used
