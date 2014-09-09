@@ -4,13 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.generic import TemplateView
 from pagetree.generic.views import PageView, EditView, InstructorView
-from brownfield_django.main.views import (StudentHomeView,
-                                          TeacherHomeView,
-                                          TeacherCourseDetail,
-                                          HomeView,
-                                          RegistrationView,
-                                          DemoHomeView,
-                                          TeacherCreateCourse)
+from brownfield_django.main.views import StudentHomeView, \
+    HomeView, RegistrationView, DemoHomeView, \
+    TeacherHomeView, TeacherCourseDetail, TeacherCreateCourse, \
+    TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
+    TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument
+    
 from brownfield_django.main.forms import CreateAccountForm
 import os.path
 admin.autodiscover()
@@ -54,9 +53,18 @@ urlpatterns = patterns(
     (r'^site_history/$', TemplateView.as_view(template_name="interactive/site_history.html")),
     (r'^$', HomeView.as_view()),
     (r'^student/(?P<pk>\d+)/$', StudentHomeView.as_view()),
+    
+    # Teacher Views
     (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
     (r'^course_detail/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
     (r'^create_course/$', TeacherCreateCourse.as_view()),
+    (r'^add_student/$', TeacherAddStudent.as_view()),
+    (r'^release_document/$', TeacherReleaseDocument.as_view()),
+    (r'^revoke_document/$', TeacherRevokeDocument.as_view()),
+    (r'^create_team/$', TeacherCreateTeam.as_view()),
+    (r'^delete_team/$', TeacherDeleteTeam.as_view()),
+    (r'^edit_team/$', TeacherEditTeam.as_view()),
+    
     (r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),

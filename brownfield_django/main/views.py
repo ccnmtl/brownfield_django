@@ -404,6 +404,22 @@ class TeacherRevokeDocument(LoggedInMixin, JSONResponseMixin, View):
         return self.render_to_json_response({'success': True})
 
 
+class TeacherCreateTeam(LoggedInMixin, JSONResponseMixin, View):
+    pass
+
+
+class TeacherEditTeam(LoggedInMixin, JSONResponseMixin, View):
+    pass
+
+
+class TeacherDeleteTeam(LoggedInMixin, JSONResponseMixin, View):
+    pass
+
+
+
+
+
+
 class TeamPerformTest(LoggedInMixin, JSONResponseMixin, View):
     pass
 
