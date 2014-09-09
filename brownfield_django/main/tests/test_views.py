@@ -1,7 +1,15 @@
-from django.test import TestCase
+import json
+from datetime import datetime
+
+from django.test import TestCase, RequestFactory
 from django.test.client import Client
-from pagetree.helpers import get_hierarchy
 from django.contrib.auth.models import User
+
+from pagetree.helpers import get_hierarchy
+
+from factories import UserFactory, UserProfileFactory, TeacherProfileFactory, \
+    StudentProfileFactory, CourseFactory, TeamFactory
+
 '''
 Need to test:
     HomeView
@@ -19,31 +27,7 @@ Need to test:
     OnLoad
     OnSave
 '''
-class HomeView(LoggedInMixin, View):
-    '''redoing so that it simply redirects people where they need to be'''
 
-    def get(self, request):
-        try:
-            user_profile = UserProfile.objects.get(user=request.user.pk)
-        except UserProfile.DoesNotExist:
-            return HttpResponseRedirect(reverse('register'))
-
-        if user_profile.is_student():
-            url = '/student/%s/' % (user_profile.id)
-        if user_profile.is_teacher():
-            url = '/teacher/%s/' % (user_profile.id)
-
-        return HttpResponseRedirect(url)
-
-
-class RegistrationView(FormView):
-    template_name = 'registration/registration_form.html'
-    form_class = CreateAccountForm
-    success_url = '/account_created/'
-
-    def form_valid(self, form):
-        form.save()
-        return super(RegistrationView, self).form_valid(form)
 
 
 class BasicTest(TestCase):
@@ -52,7 +36,9 @@ class BasicTest(TestCase):
 
     def test_root(self):
         response = self.c.get("/")
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, 302)
+        # we want it to redirect to login,
+        # that is current behavior of site
 
     def test_smoketest(self):
         response = self.c.get("/smoketest/")
@@ -114,3 +100,96 @@ class PagetreeViewTestsLoggedIn(TestCase):
     def test_instructor_page(self):
         r = self.c.get("/pages/instructor/section-1/")
         self.assertEqual(r.status_code, 200)
+
+
+class TestAnnonymousUserLogin(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.factory = RequestFactory()
+
+    def test_home(self):
+        response = self.client.get("/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEquals(response.redirect_chain[0],
+                          ('http://testserver/accounts/login/?next=/', 302))
+
+
+class TestStudentUserLogin(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.factory = RequestFactory()
+        self.student = StudentProfileFactory().user
+        self.client.login(username=self.student.username, password="test")
+
+#     def test_home(self):
+#         response = self.client.get("/", follow=True)
+#         self.assertEquals(response.redirect_chain[0],[
+#                           ('http://testserver/student/'+str(self.student.pk), 302)])
+        #self.assertTemplateUsed(response, 'main/student/student_home.html')
+        
+
+#     def test_home_noprofile(self):
+#         user = UserFactory()
+#         self.client.login(username=user.username, password="test")
+# 
+#         response = self.client.get("/", follow=True)
+#         self.assertEqual(response.status_code, 200)
+#         self.assertEquals(response.redirect_chain[0],
+#                           ('http://testserver/register/', 302))
+# 
+#     def test_dashboard(self):
+#         response = self.client.get('/dashboard/')
+#         self.assertEquals(response.status_code, 200)
+# 
+#     def test_dashboard_context(self):
+#         request = RequestFactory().get('/dashboard/')
+#         request.user = self.student
+# 
+#         view = UserProfileView()
+#         view.request = request
+# 
+#         self.assertEquals(view.get_object(), request.user.profile)
+# 
+#         view.object = request.user.profile
+#         ctx = view.get_context_data()
+# 
+#         self.assertEquals(ctx['optionb'], self.hierarchy)
+#         self.assertIsNotNone(ctx['profile_form'])
+#         self.assertEquals(ctx['countries'], COUNTRY_CHOICES)
+#         self.assertEquals(ctx['joined_groups'].count(), 0)
+#         self.assertTrue('managed_groups' not in ctx)
+#         self.assertTrue('pending_teachers' not in ctx)
+# 
+# 
+# 
+# 
+# 
+# class TestTeacherUserLogin(TestCase):
+# 
+#     def setUp(self):
+#         self.client = Client()
+#         self.factory = RequestFactory()
+# 
+#     def test_home(self):
+#         response = self.client.get("/", follow=True)
+#         self.assertEqual(response.status_code, 200)
+#         self.assertEquals(response.redirect_chain[0],
+#                           ('http://testserver/accounts/login/?next=/', 302))
+# 
+# 
+# 
+
+
+
+
+
+
+
+
+
+
+
+
+

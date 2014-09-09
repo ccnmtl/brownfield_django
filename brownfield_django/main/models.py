@@ -54,6 +54,7 @@ class Document(models.Model):
     visible = models.BooleanField(default=False)
     # in old application content is href not sure if it should be but...
 
+
 class UserProfile(models.Model):
     '''UserProfile adds extra information to a user,
     and associates the user with a team, course,
@@ -91,7 +92,6 @@ class UserProfile(models.Model):
             return "team"
 
 
-
 class Team(models.Model):
     '''Team: A team will have one login/username
     All accounting/history/actions is by team.
@@ -102,6 +102,7 @@ class Team(models.Model):
     name = models.CharField(max_length=255)
     password = models.CharField(max_length=255, default='')
     course = models.ForeignKey(Course)
+    team_entity = models.ForeignKey(User)
     signed_contract = models.BooleanField(default=False)
     budget = models.PositiveIntegerField(default=65000)
 
@@ -133,6 +134,7 @@ class History(models.Model):
     description = models.CharField(max_length=255)
     cost = models.IntegerField(default=0)
 
+
 class PerformedTest(models.Model):
     X = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
@@ -140,4 +142,6 @@ class PerformedTest(models.Model):
     testNumber = models.IntegerField(default=0)
     paramString = models.CharField(max_length=255)
 
- 
+
+class Visit(models.Model):
+    pass 

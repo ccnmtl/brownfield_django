@@ -4,7 +4,13 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.generic import TemplateView
 from pagetree.generic.views import PageView, EditView, InstructorView
-from brownfield_django.main.views import StudentHomeView, TeacherView, TeacherCourseDetail, HomeView, RegistrationView, DemoHomeView, TeacherCreateCourse
+from brownfield_django.main.views import (StudentHomeView,
+                                          TeacherHomeView,
+                                          TeacherCourseDetail,
+                                          HomeView,
+                                          RegistrationView,
+                                          DemoHomeView,
+                                          TeacherCreateCourse)
 from brownfield_django.main.forms import CreateAccountForm
 import os.path
 admin.autodiscover()
@@ -48,7 +54,7 @@ urlpatterns = patterns(
     (r'^site_history/$', TemplateView.as_view(template_name="interactive/site_history.html")),
     (r'^$', HomeView.as_view()),
     (r'^student/(?P<pk>\d+)/$', StudentHomeView.as_view()),
-    (r'^teacher/(?P<pk>\d+)/$', TeacherView.as_view()),
+    (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
     (r'^course_detail/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
     (r'^create_course/$', TeacherCreateCourse.as_view()),
     (r'^admin/', include(admin.site.urls)),
