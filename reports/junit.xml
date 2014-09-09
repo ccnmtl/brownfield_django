@@ -1,1 +1,345 @@
-<testsuite errors="0" failures="0" name="Django Project Tests" skips="0" tests="16" time="1.449"><testcase classname="brownfield_django.main.tests.test_models.TestCourseFactory" name="test_unicode" time="0.056957" /><testcase classname="brownfield_django.main.tests.test_models.TestHistoryFactory" name="test_unicode" time="0.114321" /><testcase classname="brownfield_django.main.tests.test_models.TestPerformedTestFactory" name="test_unicode" time="0.001538" /><testcase classname="brownfield_django.main.tests.test_models.TestStudentProfileFactory" name="test_unicode" time="0.113425" /><testcase classname="brownfield_django.main.tests.test_models.TestTeacherProfileFactory" name="test_unicode" time="0.110597" /><testcase classname="brownfield_django.main.tests.test_models.TestTeamFactory" name="test_unicode" time="0.112060" /><testcase classname="brownfield_django.main.tests.test_models.TestUserProfileFactory" name="test_unicode" time="0.110931" /><testcase classname="brownfield_django.main.tests.test_views.BasicTest" name="test_root" time="0.074062" /><testcase classname="brownfield_django.main.tests.test_views.BasicTest" name="test_smoketest" time="0.003778" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedIn" name="test_edit_page" time="0.350786" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedIn" name="test_instructor_page" time="0.150877" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedIn" name="test_page" time="0.157585" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedOut" name="test_edit_page" time="0.011173" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedOut" name="test_instructor_page" time="0.011259" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedOut" name="test_page" time="0.046857" /><testcase classname="brownfield_django.main.tests.test_views.TestAnnonymousUserLogin" name="test_home" time="0.016769" /></testsuite>
+<testsuite errors="6" failures="0" name="Django Project Tests" skips="0" tests="17" time="1.792"><testcase classname="brownfield_django.main.tests.test_models.TestCourseFactory" name="test_unicode" time="0.113570" /><testcase classname="brownfield_django.main.tests.test_models.TestHistoryFactory" name="test_unicode" time="0.138281" /><testcase classname="brownfield_django.main.tests.test_models.TestPerformedTestFactory" name="test_unicode" time="0.001505" /><testcase classname="brownfield_django.main.tests.test_models.TestStudentProfileFactory" name="test_unicode" time="0.123032" /><testcase classname="brownfield_django.main.tests.test_models.TestTeacherProfileFactory" name="test_unicode" time="0.119122" /><testcase classname="brownfield_django.main.tests.test_models.TestTeamFactory" name="test_unicode" time="0.119898" /><testcase classname="brownfield_django.main.tests.test_models.TestUserProfileFactory" name="test_unicode" time="0.118410" /><testcase classname="brownfield_django.main.tests.test_views.BasicTest" name="test_root" time="0.109380" /><testcase classname="brownfield_django.main.tests.test_views.BasicTest" name="test_smoketest" time="0.003737" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedIn" name="test_edit_page" time="0.320011"><error message="'bootstrap/css/bootstrap.min.css' isn't accessible via COMPRESS_URL ('/site_media/') and can't be compressed" type="compressor.exceptions.UncompressableFileError">Traceback (most recent call last):
+  File "/home/cdunlop/brownfield_django/brownfield_django/main/tests/test_views.py", line 97, in test_edit_page
+    r = self.c.get("/pages/edit/section-1/")
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 473, in get
+    response = super(Client, self).get(path, data=data, **extra)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 280, in get
+    return self.request(**r)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 426, in request
+    response = self.handler(environ)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 109, in __call__
+    response = self.get_response(request)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 194, in get_response
+    response = self.handle_uncaught_exception(request, resolver, sys.exc_info())
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 236, in handle_uncaught_exception
+    return callback(request, **param_dict)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/utils/decorators.py", line 99, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/views/defaults.py", line 46, in server_error
+    return http.HttpResponseServerError(template.render(Context({})))
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/utils.py", line 85, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/utils.py", line 85, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 147, in render
+    return self.render_compressed(context, self.kind, self.mode, forced=forced)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 101, in render_compressed
+    cache_key, cache_content = self.render_cached(compressor, kind, mode, forced=forced)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 80, in render_cached
+    cache_key = get_templatetag_cachekey(compressor, mode, kind)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/cache.py", line 93, in get_templatetag_cachekey
+    "templatetag.%s.%s.%s" % (compressor.cachekey, mode, kind))
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/utils/decorators.py", line 39, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 142, in cachekey
+    [self.content] + self.mtimes).encode(self.charset), 12)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/utils/decorators.py", line 39, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 136, in mtimes
+    for kind, value, basename, elem in self.split_contents()
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/css.py", line 22, in split_contents
+    basename = self.get_basename(elem_attribs['href'])
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 75, in get_basename
+    "compressed" % (url, base_url))
+UncompressableFileError: 'bootstrap/css/bootstrap.min.css' isn't accessible via COMPRESS_URL ('/site_media/') and can't be compressed
+</error></testcase><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedIn" name="test_instructor_page" time="0.161370"><error message="'bootstrap/css/bootstrap.min.css' isn't accessible via COMPRESS_URL ('/site_media/') and can't be compressed" type="compressor.exceptions.UncompressableFileError">Traceback (most recent call last):
+  File "/home/cdunlop/brownfield_django/brownfield_django/main/tests/test_views.py", line 101, in test_instructor_page
+    r = self.c.get("/pages/instructor/section-1/")
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 473, in get
+    response = super(Client, self).get(path, data=data, **extra)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 280, in get
+    return self.request(**r)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 426, in request
+    response = self.handler(environ)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 109, in __call__
+    response = self.get_response(request)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 194, in get_response
+    response = self.handle_uncaught_exception(request, resolver, sys.exc_info())
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 236, in handle_uncaught_exception
+    return callback(request, **param_dict)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/utils/decorators.py", line 99, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/views/defaults.py", line 46, in server_error
+    return http.HttpResponseServerError(template.render(Context({})))
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/utils.py", line 85, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/utils.py", line 85, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 147, in render
+    return self.render_compressed(context, self.kind, self.mode, forced=forced)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 101, in render_compressed
+    cache_key, cache_content = self.render_cached(compressor, kind, mode, forced=forced)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 80, in render_cached
+    cache_key = get_templatetag_cachekey(compressor, mode, kind)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/cache.py", line 93, in get_templatetag_cachekey
+    "templatetag.%s.%s.%s" % (compressor.cachekey, mode, kind))
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/utils/decorators.py", line 39, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 142, in cachekey
+    [self.content] + self.mtimes).encode(self.charset), 12)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/utils/decorators.py", line 39, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 136, in mtimes
+    for kind, value, basename, elem in self.split_contents()
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/css.py", line 22, in split_contents
+    basename = self.get_basename(elem_attribs['href'])
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 75, in get_basename
+    "compressed" % (url, base_url))
+UncompressableFileError: 'bootstrap/css/bootstrap.min.css' isn't accessible via COMPRESS_URL ('/site_media/') and can't be compressed
+</error></testcase><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedIn" name="test_page" time="0.167844"><error message="'bootstrap/css/bootstrap.min.css' isn't accessible via COMPRESS_URL ('/site_media/') and can't be compressed" type="compressor.exceptions.UncompressableFileError">Traceback (most recent call last):
+  File "/home/cdunlop/brownfield_django/brownfield_django/main/tests/test_views.py", line 93, in test_page
+    r = self.c.get("/pages/section-1/")
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 473, in get
+    response = super(Client, self).get(path, data=data, **extra)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 280, in get
+    return self.request(**r)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 426, in request
+    response = self.handler(environ)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 109, in __call__
+    response = self.get_response(request)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 194, in get_response
+    response = self.handle_uncaught_exception(request, resolver, sys.exc_info())
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 236, in handle_uncaught_exception
+    return callback(request, **param_dict)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/utils/decorators.py", line 99, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/views/defaults.py", line 46, in server_error
+    return http.HttpResponseServerError(template.render(Context({})))
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/utils.py", line 85, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/utils.py", line 85, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 147, in render
+    return self.render_compressed(context, self.kind, self.mode, forced=forced)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 101, in render_compressed
+    cache_key, cache_content = self.render_cached(compressor, kind, mode, forced=forced)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 80, in render_cached
+    cache_key = get_templatetag_cachekey(compressor, mode, kind)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/cache.py", line 93, in get_templatetag_cachekey
+    "templatetag.%s.%s.%s" % (compressor.cachekey, mode, kind))
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/utils/decorators.py", line 39, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 142, in cachekey
+    [self.content] + self.mtimes).encode(self.charset), 12)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/utils/decorators.py", line 39, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 136, in mtimes
+    for kind, value, basename, elem in self.split_contents()
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/css.py", line 22, in split_contents
+    basename = self.get_basename(elem_attribs['href'])
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 75, in get_basename
+    "compressed" % (url, base_url))
+UncompressableFileError: 'bootstrap/css/bootstrap.min.css' isn't accessible via COMPRESS_URL ('/site_media/') and can't be compressed
+</error></testcase><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedOut" name="test_edit_page" time="0.011447" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedOut" name="test_instructor_page" time="0.011120" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedOut" name="test_page" time="0.046724"><error message="'bootstrap/css/bootstrap.min.css' isn't accessible via COMPRESS_URL ('/site_media/') and can't be compressed" type="compressor.exceptions.UncompressableFileError">Traceback (most recent call last):
+  File "/home/cdunlop/brownfield_django/brownfield_django/main/tests/test_views.py", line 63, in test_page
+    r = self.c.get("/pages/section-1/")
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 473, in get
+    response = super(Client, self).get(path, data=data, **extra)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 280, in get
+    return self.request(**r)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 426, in request
+    response = self.handler(environ)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 109, in __call__
+    response = self.get_response(request)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 194, in get_response
+    response = self.handle_uncaught_exception(request, resolver, sys.exc_info())
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 236, in handle_uncaught_exception
+    return callback(request, **param_dict)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/utils/decorators.py", line 99, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/views/defaults.py", line 46, in server_error
+    return http.HttpResponseServerError(template.render(Context({})))
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/utils.py", line 85, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/utils.py", line 85, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 147, in render
+    return self.render_compressed(context, self.kind, self.mode, forced=forced)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 101, in render_compressed
+    cache_key, cache_content = self.render_cached(compressor, kind, mode, forced=forced)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 80, in render_cached
+    cache_key = get_templatetag_cachekey(compressor, mode, kind)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/cache.py", line 93, in get_templatetag_cachekey
+    "templatetag.%s.%s.%s" % (compressor.cachekey, mode, kind))
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/utils/decorators.py", line 39, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 142, in cachekey
+    [self.content] + self.mtimes).encode(self.charset), 12)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/utils/decorators.py", line 39, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 136, in mtimes
+    for kind, value, basename, elem in self.split_contents()
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/css.py", line 22, in split_contents
+    basename = self.get_basename(elem_attribs['href'])
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 75, in get_basename
+    "compressed" % (url, base_url))
+UncompressableFileError: 'bootstrap/css/bootstrap.min.css' isn't accessible via COMPRESS_URL ('/site_media/') and can't be compressed
+</error></testcase><testcase classname="brownfield_django.main.tests.test_views.TestAnnonymousUserLogin" name="test_home" time="0.019196"><error message="'bootstrap/css/bootstrap.min.css' isn't accessible via COMPRESS_URL ('/site_media/') and can't be compressed" type="compressor.exceptions.UncompressableFileError">Traceback (most recent call last):
+  File "/home/cdunlop/brownfield_django/brownfield_django/main/tests/test_views.py", line 112, in test_home
+    response = self.client.get("/", follow=True)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 475, in get
+    response = self._handle_redirects(response, **extra)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 617, in _handle_redirects
+    response = self.get(url.path, QueryDict(url.query), follow=False, **extra)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 473, in get
+    response = super(Client, self).get(path, data=data, **extra)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 280, in get
+    return self.request(**r)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 426, in request
+    response = self.handler(environ)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 109, in __call__
+    response = self.get_response(request)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 194, in get_response
+    response = self.handle_uncaught_exception(request, resolver, sys.exc_info())
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 236, in handle_uncaught_exception
+    return callback(request, **param_dict)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/utils/decorators.py", line 99, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/views/defaults.py", line 46, in server_error
+    return http.HttpResponseServerError(template.render(Context({})))
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/utils.py", line 85, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/utils.py", line 85, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 147, in render
+    return self.render_compressed(context, self.kind, self.mode, forced=forced)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 101, in render_compressed
+    cache_key, cache_content = self.render_cached(compressor, kind, mode, forced=forced)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 80, in render_cached
+    cache_key = get_templatetag_cachekey(compressor, mode, kind)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/cache.py", line 93, in get_templatetag_cachekey
+    "templatetag.%s.%s.%s" % (compressor.cachekey, mode, kind))
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/utils/decorators.py", line 39, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 142, in cachekey
+    [self.content] + self.mtimes).encode(self.charset), 12)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/utils/decorators.py", line 39, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 136, in mtimes
+    for kind, value, basename, elem in self.split_contents()
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/css.py", line 22, in split_contents
+    basename = self.get_basename(elem_attribs['href'])
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 75, in get_basename
+    "compressed" % (url, base_url))
+UncompressableFileError: 'bootstrap/css/bootstrap.min.css' isn't accessible via COMPRESS_URL ('/site_media/') and can't be compressed
+</error></testcase><testcase classname="brownfield_django.main.tests.test_views.TestStudentUserLogin" name="test_home" time="0.193291"><error message="'bootstrap/css/bootstrap.min.css' isn't accessible via COMPRESS_URL ('/site_media/') and can't be compressed" type="compressor.exceptions.UncompressableFileError">Traceback (most recent call last):
+  File "/home/cdunlop/brownfield_django/brownfield_django/main/tests/test_views.py", line 127, in test_home
+    response = self.client.get("/", follow=True)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 475, in get
+    response = self._handle_redirects(response, **extra)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 617, in _handle_redirects
+    response = self.get(url.path, QueryDict(url.query), follow=False, **extra)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 473, in get
+    response = super(Client, self).get(path, data=data, **extra)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 280, in get
+    return self.request(**r)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 426, in request
+    response = self.handler(environ)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 109, in __call__
+    response = self.get_response(request)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 194, in get_response
+    response = self.handle_uncaught_exception(request, resolver, sys.exc_info())
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 236, in handle_uncaught_exception
+    return callback(request, **param_dict)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/utils/decorators.py", line 99, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/views/defaults.py", line 46, in server_error
+    return http.HttpResponseServerError(template.render(Context({})))
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/utils.py", line 85, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/utils.py", line 85, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 147, in render
+    return self.render_compressed(context, self.kind, self.mode, forced=forced)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 101, in render_compressed
+    cache_key, cache_content = self.render_cached(compressor, kind, mode, forced=forced)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 80, in render_cached
+    cache_key = get_templatetag_cachekey(compressor, mode, kind)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/cache.py", line 93, in get_templatetag_cachekey
+    "templatetag.%s.%s.%s" % (compressor.cachekey, mode, kind))
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/utils/decorators.py", line 39, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 142, in cachekey
+    [self.content] + self.mtimes).encode(self.charset), 12)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/utils/decorators.py", line 39, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 136, in mtimes
+    for kind, value, basename, elem in self.split_contents()
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/css.py", line 22, in split_contents
+    basename = self.get_basename(elem_attribs['href'])
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 75, in get_basename
+    "compressed" % (url, base_url))
+UncompressableFileError: 'bootstrap/css/bootstrap.min.css' isn't accessible via COMPRESS_URL ('/site_media/') and can't be compressed
+</error></testcase></testsuite>

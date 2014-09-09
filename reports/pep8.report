@@ -66,7 +66,7 @@ brownfield_django/main/tests/test_models.py:45:1: W293 blank line contains white
 brownfield_django/main/tests/test_models.py:46:1: W293 blank line contains whitespace
 brownfield_django/main/tests/test_models.py:60:1: W391 blank line at end of file
 brownfield_django/main/tests/test_views.py:33:1: E303 too many blank lines (3)
-brownfield_django/main/tests/test_views.py:129:80: E501 line too long (86 > 79 characters)
+brownfield_django/main/tests/test_views.py:129:80: E501 line too long (85 > 79 characters)
 brownfield_django/main/tests/test_views.py:131:1: W293 blank line contains whitespace
 brownfield_django/main/tests/test_views.py:136:2: W291 trailing whitespace
 brownfield_django/main/tests/test_views.py:141:2: W291 trailing whitespace
@@ -78,11 +78,16 @@ brownfield_django/main/tests/test_views.py:157:2: W291 trailing whitespace
 brownfield_django/main/tests/test_views.py:164:2: W291 trailing whitespace
 brownfield_django/main/tests/test_views.py:165:2: W291 trailing whitespace
 brownfield_django/main/tests/test_views.py:166:2: W291 trailing whitespace
-brownfield_django/main/tests/test_views.py:167:2: W291 trailing whitespace
-brownfield_django/main/tests/test_views.py:168:2: W291 trailing whitespace
+brownfield_django/main/tests/test_views.py:167:4: W291 trailing whitespace
+brownfield_django/main/tests/test_views.py:168:4: W291 trailing whitespace
 brownfield_django/main/tests/test_views.py:170:2: W291 trailing whitespace
-brownfield_django/main/tests/test_views.py:174:2: W291 trailing whitespace
-brownfield_django/main/tests/test_views.py:180:2: W291 trailing whitespace
-brownfield_django/main/tests/test_views.py:181:2: W291 trailing whitespace
+brownfield_django/main/tests/test_views.py:176:2: W291 trailing whitespace
 brownfield_django/main/tests/test_views.py:182:2: W291 trailing whitespace
-brownfield_django/main/tests/test_views.py:195:1: W391 blank line at end of file
+brownfield_django/main/tests/test_views.py:183:2: W291 trailing whitespace
+brownfield_django/main/tests/test_views.py:184:2: W291 trailing whitespace
+brownfield_django/main/tests/test_views.py:185:2: W291 trailing whitespace
+brownfield_django/main/tests/test_views.py:187:2: W291 trailing whitespace
+brownfield_django/main/tests/test_views.py:191:2: W291 trailing whitespace
+brownfield_django/main/tests/test_views.py:192:2: W291 trailing whitespace
+brownfield_django/main/tests/test_views.py:196:80: E501 line too long (86 > 79 characters)
+brownfield_django/main/tests/test_views.py:208:1: W391 blank line at end of file

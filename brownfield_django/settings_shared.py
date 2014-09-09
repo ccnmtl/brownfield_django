@@ -162,17 +162,19 @@ EMAIL_HOST = 'localhost'
 SERVER_EMAIL = "brownfield_django@ccnmtl.columbia.edu"
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
-STATIC_ROOT = os.path.join(os.path.dirname(__file__), "../media")
+# STATIC_ROOT = os.path.join(os.path.dirname(__file__), "../media")
 STATICFILES_DIRS = (
 )
-
+STATICMEDIA_MOUNTS = (
+    ('/sitemedia', 'sitemedia'),
+)
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
 
-COMPRESS_URL = "/media/"
+COMPRESS_URL = "/site_media/"
 COMPRESS_ROOT = "media/"
 
 # WIND settings

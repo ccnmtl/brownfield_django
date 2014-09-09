@@ -123,10 +123,10 @@ class TestStudentUserLogin(TestCase):
         self.student = StudentProfileFactory().user
         self.client.login(username=self.student.username, password="test")
 
-#     def test_home(self):
-#         response = self.client.get("/", follow=True)
-#         self.assertEquals(response.redirect_chain[0],[
-#                           ('http://testserver/student/'+str(self.student.pk), 302)])
+    def test_home(self):
+        response = self.client.get("/", follow=True)
+        #self.assertEquals(response.redirect_chain[0],[
+        #                  ('http://testserver/student/'+str(self.student.pk), 302)])
         #self.assertTemplateUsed(response, 'main/student/student_home.html')
         
 
@@ -164,24 +164,37 @@ class TestStudentUserLogin(TestCase):
 # 
 # 
 # 
-# 
-# 
+# # 
+# # 
 # class TestTeacherUserLogin(TestCase):
-# 
+#  
 #     def setUp(self):
 #         self.client = Client()
 #         self.factory = RequestFactory()
-# 
+#         self.student = TeacherProfileFactory().user
+#         self.client.login(username=self.student.username, password="test")
+#  
 #     def test_home(self):
 #         response = self.client.get("/", follow=True)
 #         self.assertEqual(response.status_code, 200)
 #         self.assertEquals(response.redirect_chain[0],
 #                           ('http://testserver/accounts/login/?next=/', 302))
+#  
+#  
+#  
+# 
+# class TestStudentUserLogin(TestCase):
+# 
+#     def setUp(self):
+#         self.client = Client()
+#         self.factory = RequestFactory()
 # 
 # 
-# 
-
-
+#     def test_home(self):
+#         response = self.client.get("/", follow=True)
+#         self.assertEquals(response.redirect_chain[0],[
+#                           ('http://testserver/student/'+str(self.student.pk), 302)])
+#         self.assertTemplateUsed(response, 'main/student/student_home.html')
 
 
 

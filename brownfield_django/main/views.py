@@ -183,8 +183,8 @@ class StudentHomeView(DetailView):
     '''In old application, students are shown a welcome message,
     followed by the instructor's email, and may join or leave teams'''
     model = UserProfile
-    template_name = 'main/student_home.html'
-    success_url = '/'
+    template_name = 'main/student/student_home.html'
+    #success_url = '/'
 
     def dispatch(self, *args, **kwargs):
         if int(kwargs.get('pk')) != self.request.user.profile.id:
@@ -193,9 +193,9 @@ class StudentHomeView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(StudentView, self).get_context_data(**kwargs)
-        context['user_courses'] = Course.objects.filter()
-        context['all_courses'] = Course.objects.all()
-        context['documents'] = Document.objects.all()
+        #context['user_courses'] = Course.objects.filter()
+        #context['all_courses'] = Course.objects.all()
+        #context['documents'] = Document.objects.all()
         return context
 
 
