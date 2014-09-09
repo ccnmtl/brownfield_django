@@ -165,18 +165,62 @@ def demo_save(request):
     return HttpResponse("<data><response>OK</response></data>")
         
 
-class DemoHomeView(View):
+class DemoHomeView(JSONResponseMixin, View):
     '''Again I'm just using this view to get the Flash working,
     no permissions or users'''
-    template_name = 'main/demo_layout.html'
-    success_url = '/'
+    def get(self, request): #, *args, **kwargs):
+        print request.GET
+        country_id = kwargs.pop('country_id', None)
+        country = get_object_or_404(Country, name=country_id)
 
-    def get_context_data(self, **kwargs):
-        context = super(DemoHomeView, self).get_context_data(**kwargs)
-        context['user_courses'] = Course.objects.filter()
-        context['all_courses'] = Course.objects.all()
-        context['documents'] = Document.objects.all()
-        return context
+        schools = []
+        for school in School.objects.filter(country=country):
+            schools.append({'id': str(school.id), 'name': school.name})
+
+        return self.render_to_json_response({'schools': schools})
+
+# '''Old code looks like it is making a call to'''
+#     
+#     (template='kid:brownfield.templates.bfaxml',
+#             content_type='application/xml',
+#             accept_format='application/xml',
+#             fragment=True,
+#             )
+#     #@identity.require(identity.in_any_group('admin','professor'))
+#     def history(self, **kw):
+#         class R:
+#             name="Brownfield Demo Team"
+#             info = []
+#             tests = []
+#             history = []
+#             
+#             access = 'professor'
+#             if 'admin' in identity.current.groups:
+#                 access = 'admin'
+#             elif 'professor' in identity.current.groups:
+#                 access = 'professor'
+#             
+#             class C:
+#                 startingBudget=0
+#                 enableNarrative = True
+#             course = C()
+#         return dict( record=R() )
+#     if not NO_SECURITY:
+#         history = identity.require(identity.in_any_group('admin','professor'))(history)
+#     
+#     @expose()
+#     #@identity.require(identity.in_any_group('admin','professor'))
+#     def test(self, **kw):
+#         return "ok"
+#     if not NO_SECURITY:
+#         test = identity.require(identity.in_any_group('admin','professor'))(test)
+#         
+#     @expose()
+#     #@identity.require(identity.in_any_group('admin','professor'))
+#     def info(self, **kw):
+#         return "ok"
+#     if not NO_SECURITY:
+#         info = identity.require(identity.in_any_group('admin','professor'))(info)
 
 
 class StudentHomeView(DetailView):
@@ -189,10 +233,10 @@ class StudentHomeView(DetailView):
     def dispatch(self, *args, **kwargs):
         if int(kwargs.get('pk')) != self.request.user.profile.id:
             return HttpResponseForbidden("forbidden")
-        return super(StudentView, self).dispatch(*args, **kwargs)
+        return super(StudentHomeView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(StudentView, self).get_context_data(**kwargs)
+        context = super(StudentHomeView, self).get_context_data(**kwargs)
         #context['user_courses'] = Course.objects.filter()
         #context['all_courses'] = Course.objects.all()
         #context['documents'] = Document.objects.all()
@@ -241,10 +285,10 @@ class TeacherHomeView(DetailView):
     def dispatch(self, *args, **kwargs):
         if int(kwargs.get('pk')) != self.request.user.profile.id:
             return HttpResponseForbidden("forbidden")
-        return super(TeacherView, self).dispatch(*args, **kwargs)
+        return super(TeacherHomeView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(TeacherView, self).get_context_data(**kwargs)
+        context = super(TeacherHomeView, self).get_context_data(**kwargs)
         context['user_courses'] = Course.objects.filter()
         context['all_courses'] = Course.objects.all()
         context['course_form'] = CourseForm()

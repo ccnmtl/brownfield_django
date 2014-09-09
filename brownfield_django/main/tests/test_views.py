@@ -123,8 +123,8 @@ class TestStudentUserLogin(TestCase):
         self.student = StudentProfileFactory().user
         self.client.login(username=self.student.username, password="test")
 
-    def test_home(self):
-        response = self.client.get("/", follow=True)
+#     def test_home(self):
+#         response = self.client.get("/", follow=True)
         #self.assertEquals(response.redirect_chain[0],[
         #                  ('http://testserver/student/'+str(self.student.pk), 302)])
         #self.assertTemplateUsed(response, 'main/student/student_home.html')

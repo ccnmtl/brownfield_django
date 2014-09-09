@@ -1,6 +1,6 @@
 {% load compress %}
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
 <head>
 	<meta charset="utf-8" />
 	<title>djangoquizblock3: {% block title %}{% endblock %}</title>
@@ -21,14 +21,13 @@
 {% endcompress %}
 	<link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.ico" type="image/x-icon" />
 	{% block css %}{% endblock %}
-    <script src="{{STATIC_URL}}js/jquery-1.11.1.min.js"></script>
-    <script src="{{STATIC_URL}}js/underscore-min.js"></script>
-    <script src="{{STATIC_URL}}js/backbone-min.js"></script>
-    <script src="{{STATIC_URL}}javascript/ajaxify_forms.js"></script>
-    <script src="{{STATIC_URL}}javascript/brownfield.js"></script>
-    <script src="{{STATIC_URL}}javascript/swfobject.js"></script>
-    <script src="{{STATIC_URL}}/swfobject.js"></script>
-
+    <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/underscore-min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/backbone-min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}old_javascript/ajaxify_forms.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}old_javascript/swfobject.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}old_javascript/MochiKit/MochiKit.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}old_javascript/brownfield.js"></script>
 	{% block feeds %}{% endblock %}
 </head>
 <body class="{% block bodyclass %}{% endblock %}" id="{% block bodyid %}{% endblock %}">

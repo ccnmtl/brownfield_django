@@ -32,8 +32,6 @@ if 'test' in sys.argv or 'jenkins' in sys.argv:
         }
     }
 
-DEBUG_TOOLBAR_PATCH_SETTINGS = False
-
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 SOUTH_TESTS_MIGRATE = False
 
@@ -84,7 +82,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -128,7 +125,6 @@ INSTALLED_APPS = [
     'pageblocks',
     'quizblock',
     'brownfield_django.main',
-    'brownfield_django.interactive',
 ]
 
 PAGEBLOCKS = ['pageblocks.TextBlock',
@@ -162,19 +158,17 @@ EMAIL_HOST = 'localhost'
 SERVER_EMAIL = "brownfield_django@ccnmtl.columbia.edu"
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
-# STATIC_ROOT = os.path.join(os.path.dirname(__file__), "../media")
+STATIC_ROOT = os.path.join(os.path.dirname(__file__), "../media")
 STATICFILES_DIRS = (
 )
-STATICMEDIA_MOUNTS = (
-    ('/sitemedia', 'sitemedia'),
-)
+
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
 
-COMPRESS_URL = "/site_media/"
+COMPRESS_URL = "/media/"
 COMPRESS_ROOT = "media/"
 
 # WIND settings
