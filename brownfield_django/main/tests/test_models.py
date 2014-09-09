@@ -4,7 +4,8 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 
 from factories import UserFactory, UserProfileFactory, TeacherProfileFactory, \
-    StudentProfileFactory, CourseFactory, TeamFactory
+    StudentProfileFactory, CourseFactory, TeamFactory, HistoryFactory, \
+    PerformedTestFactory
 
 
 class TestCourseFactory(TestCase):
@@ -17,6 +18,24 @@ class TestTeamFactory(TestCase):
     def test_unicode(self):
         team = TeamFactory()
         self.assertEqual(str(team), team.name)
+
+
+class TestHistoryFactory(TestCase):
+    def test_unicode(self):
+        his = HistoryFactory()
+        self.assertEqual(str(his), '%s - %s' % (his.description, his.team)) 
+
+
+class TestPerformedTestFactory(TestCase):
+    def test_unicode(self):
+        pt = PerformedTestFactory()
+        self.assertEqual(str(pt), pt.paramString)
+
+
+
+
+
+
 
 # 
 # class TestUserProfileFactory(TestCase):

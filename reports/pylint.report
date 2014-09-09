@@ -78,8 +78,11 @@ brownfield_django/main/views.py:21: [W0611] Unused import LoggedInMixinStaff
 brownfield_django/main/views.py:9: [W0611] Unused import ModelForm
 brownfield_django/main/views.py:11: [W0611] Unused import send_mail
 brownfield_django/main/tests/test_models.py:6: [W0403] Relative import 'factories', should be 'brownfield_django.main.tests.factories'
-brownfield_django/main/tests/test_models.py:10: [R0904, TestCourseFactory] Too many public methods (66/50)
-brownfield_django/main/tests/test_models.py:16: [R0904, TestTeamFactory] Too many public methods (66/50)
+brownfield_django/main/tests/test_models.py:11: [R0904, TestCourseFactory] Too many public methods (66/50)
+brownfield_django/main/tests/test_models.py:17: [R0904, TestTeamFactory] Too many public methods (66/50)
+brownfield_django/main/tests/test_models.py:23: [R0904, TestHistoryFactory] Too many public methods (66/50)
+brownfield_django/main/tests/test_models.py:31: [C0103, TestPerformedTestFactory.test_unicode] Invalid name "pt" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/tests/test_models.py:29: [R0904, TestPerformedTestFactory] Too many public methods (66/50)
 brownfield_django/main/tests/test_models.py:6: [W0611] Unused import TeacherProfileFactory
 brownfield_django/main/tests/test_models.py:6: [W0611] Unused import StudentProfileFactory
 brownfield_django/main/tests/test_models.py:6: [W0611] Unused import UserProfileFactory
@@ -116,10 +119,7 @@ brownfield_django/main/tests/test_views.py:10: [W0611] Unused import UserProfile
 brownfield_django/main/tests/test_views.py:10: [W0611] Unused import TeacherProfileFactory
 brownfield_django/main/tests/test_views.py:1: [W0611] Unused import json
 brownfield_django/main/tests/factories.py:42: [W0105] String statement has no effect
-brownfield_django/main/tests/factories.py:2: [W0611] Unused import datetime
-brownfield_django/main/tests/factories.py:4: [W0611] Unused import PerformedTest
 brownfield_django/main/tests/factories.py:4: [W0611] Unused import Document
-brownfield_django/main/tests/factories.py:4: [W0611] Unused import History
 brownfield_django/main/tests/__init__.py:2: [W0403] Relative import 'test_models', should be 'brownfield_django.main.tests.test_models'
 brownfield_django/main/tests/__init__.py:2: [W0401] Wildcard import test_models
 brownfield_django/main/tests/__init__.py:3: [W0403] Relative import 'test_views', should be 'brownfield_django.main.tests.test_views'
@@ -128,7 +128,7 @@ brownfield_django/main/tests/__init__.py:3: [W0401] Wildcard import test_views
 
 Report
 ======
-482 statements analysed.
+507 statements analysed.
 
 Statistics by type
 ------------------
@@ -138,123 +138,14 @@ Statistics by type
 +=========+=======+===========+===========+============+=========+
 |module   |11     |11         |=          |0.00        |0.00     |
 +---------+-------+-----------+-----------+------------+---------+
-|class    |53     |54         |-1.00      |32.08       |0.00     |
+|class    |57     |57         |=          |29.82       |0.00     |
 +---------+-------+-----------+-----------+------------+---------+
-|method   |55     |56         |-1.00      |40.00       |0.00     |
+|method   |59     |59         |=          |40.68       |0.00     |
 +---------+-------+-----------+-----------+------------+---------+
 |function |7      |7          |=          |14.29       |0.00     |
 +---------+-------+-----------+-----------+------------+---------+
 
 
-
-Duplication
------------
-
-+-------------------------+------+---------+-----------+
-|                         |now   |previous |difference |
-+=========================+======+=========+===========+
-|nb duplicated lines      |0     |0        |=          |
-+-------------------------+------+---------+-----------+
-|percent duplicated lines |0.000 |0.000    |=          |
-+-------------------------+------+---------+-----------+
-
-
-
-Raw metrics
------------
-
-+----------+-------+------+---------+-----------+
-|type      |number |%     |previous |difference |
-+==========+=======+======+=========+===========+
-|code      |565    |60.43 |569      |-4.00      |
-+----------+-------+------+---------+-----------+
-|docstring |105    |11.23 |105      |=          |
-+----------+-------+------+---------+-----------+
-|comment   |116    |12.41 |111      |+5.00      |
-+----------+-------+------+---------+-----------+
-|empty     |149    |15.94 |148      |+1.00      |
-+----------+-------+------+---------+-----------+
-
-
-
-Messages by category
---------------------
-
-+-----------+-------+---------+-----------+
-|type       |number |previous |difference |
-+===========+=======+=========+===========+
-|convention |12     |13       |-1.00      |
-+-----------+-------+---------+-----------+
-|refactor   |14     |15       |-1.00      |
-+-----------+-------+---------+-----------+
-|warning    |44     |43       |+1.00      |
-+-----------+-------+---------+-----------+
-|error      |56     |57       |-1.00      |
-+-----------+-------+---------+-----------+
-
-
-
-% errors / warnings by module
------------------------------
-
-+-----------------------------------------+------+--------+---------+-----------+
-|module                                   |error |warning |refactor |convention |
-+=========================================+======+========+=========+===========+
-|brownfield_django.main.views             |83.93 |38.64   |35.71    |0.00       |
-+-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.tests.test_views  |5.36  |20.45   |35.71    |100.00     |
-+-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.models            |5.36  |2.27    |0.00     |0.00       |
-+-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.forms             |3.57  |0.00    |0.00     |0.00       |
-+-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.admin             |1.79  |2.27    |14.29    |0.00       |
-+-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.tests.test_models |0.00  |15.91   |14.29    |0.00       |
-+-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.tests.factories   |0.00  |11.36   |0.00     |0.00       |
-+-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.tests.__init__    |0.00  |9.09    |0.00     |0.00       |
-+-----------------------------------------+------+--------+---------+-----------+
-
-
-
-Messages
---------
-
-+-----------+------------+
-|message id |occurrences |
-+===========+============+
-|E1101      |41          |
-+-----------+------------+
-|W0611      |30          |
-+-----------+------------+
-|E0602      |12          |
-+-----------+------------+
-|C0103      |12          |
-+-----------+------------+
-|R0904      |9           |
-+-----------+------------+
-|W0105      |7           |
-+-----------+------------+
-|R0901      |5           |
-+-----------+------------+
-|W0403      |4           |
-+-----------+------------+
-|W0401      |2           |
-+-----------+------------+
-|E1103      |2           |
-+-----------+------------+
-|W0201      |1           |
-+-----------+------------+
-|E0102      |1           |
-+-----------+------------+
-
-
-
-Global evaluation
------------------
-Your code has been rated at 2.74/10 (previous run: 2.67/10)
 
 External dependencies
 ---------------------
@@ -277,6 +168,8 @@ External dependencies
       | \-tests 
       |   \-factories 
       |     \-CourseFactory (brownfield_django.main.tests.test_views,brownfield_django.main.tests.test_models)
+      |     \-HistoryFactory (brownfield_django.main.tests.test_models)
+      |     \-PerformedTestFactory (brownfield_django.main.tests.test_models)
       |     \-StudentProfileFactory (brownfield_django.main.tests.test_views,brownfield_django.main.tests.test_models)
       |     \-TeacherProfileFactory (brownfield_django.main.tests.test_views,brownfield_django.main.tests.test_models)
       |     \-TeamFactory (brownfield_django.main.tests.test_views,brownfield_django.main.tests.test_models)
@@ -346,6 +239,115 @@ External dependencies
         \-user_registered (brownfield_django.main.forms)
     smoketest 
       \-SmokeTest (brownfield_django.main.smoke)
+
+
+
+Raw metrics
+-----------
+
++----------+-------+------+---------+-----------+
+|type      |number |%     |previous |difference |
++==========+=======+======+=========+===========+
+|code      |591    |62.28 |591      |=          |
++----------+-------+------+---------+-----------+
+|docstring |105    |11.06 |105      |=          |
++----------+-------+------+---------+-----------+
+|comment   |96     |10.12 |96       |=          |
++----------+-------+------+---------+-----------+
+|empty     |157    |16.54 |157      |=          |
++----------+-------+------+---------+-----------+
+
+
+
+Messages by category
+--------------------
+
++-----------+-------+---------+-----------+
+|type       |number |previous |difference |
++===========+=======+=========+===========+
+|convention |13     |13       |=          |
++-----------+-------+---------+-----------+
+|refactor   |16     |16       |=          |
++-----------+-------+---------+-----------+
+|warning    |41     |41       |=          |
++-----------+-------+---------+-----------+
+|error      |56     |56       |=          |
++-----------+-------+---------+-----------+
+
+
+
+% errors / warnings by module
+-----------------------------
+
++-----------------------------------------+------+--------+---------+-----------+
+|module                                   |error |warning |refactor |convention |
++=========================================+======+========+=========+===========+
+|brownfield_django.main.views             |83.93 |41.46   |31.25    |0.00       |
++-----------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.tests.test_views  |5.36  |21.95   |31.25    |92.31      |
++-----------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.models            |5.36  |2.44    |0.00     |0.00       |
++-----------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.forms             |3.57  |0.00    |0.00     |0.00       |
++-----------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.admin             |1.79  |2.44    |12.50    |0.00       |
++-----------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.tests.test_models |0.00  |17.07   |25.00    |7.69       |
++-----------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.tests.__init__    |0.00  |9.76    |0.00     |0.00       |
++-----------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.tests.factories   |0.00  |4.88    |0.00     |0.00       |
++-----------------------------------------+------+--------+---------+-----------+
+
+
+
+Messages
+--------
+
++-----------+------------+
+|message id |occurrences |
++===========+============+
+|E1101      |41          |
++-----------+------------+
+|W0611      |27          |
++-----------+------------+
+|C0103      |13          |
++-----------+------------+
+|E0602      |12          |
++-----------+------------+
+|R0904      |11          |
++-----------+------------+
+|W0105      |7           |
++-----------+------------+
+|R0901      |5           |
++-----------+------------+
+|W0403      |4           |
++-----------+------------+
+|W0401      |2           |
++-----------+------------+
+|E1103      |2           |
++-----------+------------+
+|W0201      |1           |
++-----------+------------+
+|E0102      |1           |
++-----------+------------+
+
+
+
+Global evaluation
+-----------------
+Your code has been rated at 3.10/10 (previous run: 3.10/10)
+
+Duplication
+-----------
+
++-------------------------+------+---------+-----------+
+|                         |now   |previous |difference |
++=========================+======+=========+===========+
+|nb duplicated lines      |0     |0        |=          |
++-------------------------+------+---------+-----------+
+|percent duplicated lines |0.000 |0.000    |=          |
++-------------------------+------+---------+-----------+
 
 
 

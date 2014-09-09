@@ -134,6 +134,9 @@ class History(models.Model):
     description = models.CharField(max_length=255)
     cost = models.IntegerField(default=0)
 
+    def __unicode__(self):
+        return '%s - %s' % (self.description, self.team)
+
 
 class PerformedTest(models.Model):
     X = models.IntegerField(default=0)
@@ -141,6 +144,9 @@ class PerformedTest(models.Model):
     z = models.IntegerField(default=0)
     testNumber = models.IntegerField(default=0)
     paramString = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.paramString
 
 
 class Visit(models.Model):
