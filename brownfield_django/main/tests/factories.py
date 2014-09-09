@@ -38,13 +38,6 @@ class StudentProfileFactory(UserProfileFactory):
 class TeacherProfileFactory(UserProfileFactory):
     profile_type = 'TE'
 
-'''Not entirely sure I even need a userprofile team
-team model may be more appropriate'''
-# class TeamFactory(factory.DjangoModelFactory):
-#     FACTORY_FOR = School
-#     country = factory.SubFactory(CountryFactory)
-#     name = factory.Sequence(lambda n: "school %d" % n)
-
 
 class TeamFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Team

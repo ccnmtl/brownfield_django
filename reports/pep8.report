@@ -4,14 +4,14 @@ brownfield_django/main/forms.py:16:1: E302 expected 2 blank lines, found 1
 brownfield_django/main/forms.py:20:1: W293 blank line contains whitespace
 brownfield_django/main/forms.py:46:1: E302 expected 2 blank lines, found 1
 brownfield_django/main/forms.py:56:38: W292 no newline at end of file
-brownfield_django/main/models.py:30:1: E303 too many blank lines (3)
-brownfield_django/main/models.py:38:80: E501 line too long (101 > 79 characters)
-brownfield_django/main/models.py:82:1: W293 blank line contains whitespace
-brownfield_django/main/models.py:116:1: W293 blank line contains whitespace
-brownfield_django/main/models.py:123:1: W293 blank line contains whitespace
-brownfield_django/main/models.py:126:1: W293 blank line contains whitespace
-brownfield_django/main/models.py:129:1: W293 blank line contains whitespace
-brownfield_django/main/models.py:153:9: W291 trailing whitespace
+brownfield_django/main/models.py:29:1: E303 too many blank lines (3)
+brownfield_django/main/models.py:37:80: E501 line too long (101 > 79 characters)
+brownfield_django/main/models.py:77:1: W293 blank line contains whitespace
+brownfield_django/main/models.py:84:1: W293 blank line contains whitespace
+brownfield_django/main/models.py:87:1: W293 blank line contains whitespace
+brownfield_django/main/models.py:125:1: W293 blank line contains whitespace
+brownfield_django/main/models.py:127:1: E303 too many blank lines (5)
+brownfield_django/main/models.py:149:9: W291 trailing whitespace
 brownfield_django/main/views.py:20:80: E501 line too long (80 > 79 characters)
 brownfield_django/main/views.py:26:1: E303 too many blank lines (3)
 brownfield_django/main/views.py:28:1: E302 expected 2 blank lines, found 1
@@ -55,16 +55,16 @@ brownfield_django/main/views.py:374:80: E501 line too long (80 > 79 characters)
 brownfield_django/main/views.py:375:80: E501 line too long (84 > 79 characters)
 brownfield_django/main/views.py:395:80: E501 line too long (80 > 79 characters)
 brownfield_django/main/views.py:396:80: E501 line too long (84 > 79 characters)
-brownfield_django/main/views.py:410:1: E302 expected 2 blank lines, found 1
-brownfield_django/main/views.py:412:1: W293 blank line contains whitespace
+brownfield_django/main/views.py:423:1: E303 too many blank lines (6)
+brownfield_django/main/views.py:426:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:428:1: W293 blank line contains whitespace
 brownfield_django/main/tests/factories.py:4:80: E501 line too long (80 > 79 characters)
-brownfield_django/main/tests/factories.py:66:1: W293 blank line contains whitespace
-brownfield_django/main/tests/factories.py:73:63: W292 no newline at end of file
+brownfield_django/main/tests/factories.py:58:1: W293 blank line contains whitespace
+brownfield_django/main/tests/factories.py:65:63: W292 no newline at end of file
 brownfield_django/main/tests/test_models.py:26:76: W291 trailing whitespace
-brownfield_django/main/tests/test_models.py:40:2: W291 trailing whitespace
-brownfield_django/main/tests/test_models.py:51:2: W291 trailing whitespace
-brownfield_django/main/tests/test_models.py:52:2: W291 trailing whitespace
-brownfield_django/main/tests/test_models.py:66:1: W391 blank line at end of file
+brownfield_django/main/tests/test_models.py:45:1: W293 blank line contains whitespace
+brownfield_django/main/tests/test_models.py:46:1: W293 blank line contains whitespace
+brownfield_django/main/tests/test_models.py:60:1: W391 blank line at end of file
 brownfield_django/main/tests/test_views.py:33:1: E303 too many blank lines (3)
 brownfield_django/main/tests/test_views.py:129:80: E501 line too long (86 > 79 characters)
 brownfield_django/main/tests/test_views.py:131:1: W293 blank line contains whitespace

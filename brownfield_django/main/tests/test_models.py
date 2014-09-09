@@ -32,28 +32,22 @@ class TestPerformedTestFactory(TestCase):
         self.assertEqual(str(pt), pt.paramString)
 
 
+class TestUserProfileFactory(TestCase):
+    def test_unicode(self):
+        up = UserProfileFactory()
+        self.assertEqual(str(up), up.user.username)
 
 
-
-
-
-# 
-# class TestUserProfileFactory(TestCase):
-#     def test_unicode(self):
-#         up = UserProfileFactory()
-#         self.assertEqual(str(up), up.user.username)
-
-
-# class TestTeacherProfileFactory(TestCase):
-#     def test_unicode(self):
-#         teach = TeacherProfileFactory()
-#         self.assertEqual(str(teach), teach.user.username)
-# 
-# 
-# class TestStudentProfileFactory(TestCase):
-#     def test_unicode(self):
-#         student = StudentProfileFactory()
-#         self.assertEqual(str(student), student.user.username)
+class TestTeacherProfileFactory(TestCase):
+    def test_unicode(self):
+        teach = TeacherProfileFactory()
+        self.assertEqual(str(teach), teach.user.username)
+ 
+ 
+class TestStudentProfileFactory(TestCase):
+    def test_unicode(self):
+        student = StudentProfileFactory()
+        self.assertEqual(str(student), student.user.username)
 
 
 
