@@ -2,6 +2,48 @@ from django.test import TestCase
 from django.test.client import Client
 from pagetree.helpers import get_hierarchy
 from django.contrib.auth.models import User
+'''
+Need to test:
+    HomeView
+    RegistrationView
+    StudentHomeView
+    TeamHomeView
+    TeacherHomeView
+    TeacherCourseDetail
+    TeacherCreateCourse
+    TeacherDeleteCourse
+    TeacherAddStudent
+    TeacherReleaseDocument
+    TeacherRevokeDocument
+    TeamPreformTest
+    OnLoad
+    OnSave
+'''
+class HomeView(LoggedInMixin, View):
+    '''redoing so that it simply redirects people where they need to be'''
+
+    def get(self, request):
+        try:
+            user_profile = UserProfile.objects.get(user=request.user.pk)
+        except UserProfile.DoesNotExist:
+            return HttpResponseRedirect(reverse('register'))
+
+        if user_profile.is_student():
+            url = '/student/%s/' % (user_profile.id)
+        if user_profile.is_teacher():
+            url = '/teacher/%s/' % (user_profile.id)
+
+        return HttpResponseRedirect(url)
+
+
+class RegistrationView(FormView):
+    template_name = 'registration/registration_form.html'
+    form_class = CreateAccountForm
+    success_url = '/account_created/'
+
+    def form_valid(self, form):
+        form.save()
+        return super(RegistrationView, self).form_valid(form)
 
 
 class BasicTest(TestCase):

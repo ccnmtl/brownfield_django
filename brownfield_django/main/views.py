@@ -199,7 +199,7 @@ class StudentHomeView(DetailView):
         return context
 
 
-class TeamView(DetailView):
+class TeamHomeView(DetailView):
     '''If team has signed their contract they are allowed to play,
     if they have not signed their contract they are redirected
     to the sign contract page.
@@ -233,7 +233,7 @@ class TeamView(DetailView):
         return context
 
 
-class TeacherView(DetailView):
+class TeacherHomeView(DetailView):
     model = UserProfile
     template_name = 'main/instructor/instructor_home.html'
     success_url = '/'
@@ -324,6 +324,28 @@ class TeacherCreateCourse(LoggedInMixin, JSONResponseMixin, View):
         # return HttpResponseRedirect('/dashboard/#user-groups')
 
 
+class TeacherDeleteCourse(LoggedInMixin, JSONResponseMixin, View):
+    '''s'''
+    def send_email(self):
+        pass
+        
+        
+    def post(self, *args, **kwargs):
+        course = Course()
+#        return self.render_to_json_response({'success': True})
+        course.name = self.request.POST.get('name')
+        course.password = self.request.POST.get('password')
+        course.startingBudget = self.request.POST.get('startingBudget')
+        course.enableNarrative = self.request.POST.get('enableNarrative')
+        course.message = self.request.POST.get('message')
+        '''Need to add notification that if they have not added the
+        students the students will not recieve the message'''
+        course.active = self.request.POST.get('active')
+        course.creator = self.request.user.user_profile
+        course.save()
+        # return HttpResponseRedirect('/dashboard/#user-groups')
+
+
 class TeacherAddStudent(LoggedInMixin, JSONResponseMixin, View):
     '''Add students by adding email, when added send email asking them to go
     to site and create account'''
@@ -359,3 +381,35 @@ class TeacherReleaseDocument(LoggedInMixin, JSONResponseMixin, View):
         document.visible = True
         document.save()
         return self.render_to_json_response({'success': True})
+
+
+class TeacherRevokeDocument(LoggedInMixin, JSONResponseMixin, View):
+    '''Will dynamically enable or revoke documents
+    - annoying to have page refresh'''
+
+    def send_email(self):
+        '''Is an email sent to users/teams that a document has been added?'''
+        pass
+
+    def post(self, *args, **kwargs):
+        course = get_object_or_404(Document, pk=self.request.POST.get('course'))
+        document = get_object_or_404(Document, pk=self.request.POST.get('document'))
+        if (self.request.user.profile.is_student() or
+            (self.request.user.profile.is_teacher() and
+             not course.creator == self.request.user)):
+            return HttpResponseForbidden(
+                'You are not authorized to release or revoke documents')
+        document.visible = True
+        document.save()
+        return self.render_to_json_response({'success': True})
+
+
+class TeamPerformTest(LoggedInMixin, JSONResponseMixin, View):
+    pass
+
+class OnLoad(LoggedInMixin, JSONResponseMixin, View):
+    pass
+    
+
+class OnSave(LoggedInMixin, JSONResponseMixin, View):
+    pass
