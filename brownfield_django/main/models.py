@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 PROFILE_CHOICES = (
     ('TE', 'Teacher'),
     ('ST', 'Student'),
-    ('TM', 'Team'),
 )
 
 
@@ -55,43 +54,6 @@ class Document(models.Model):
     # in old application content is href not sure if it should be but...
 
 
-class UserProfile(models.Model):
-    '''UserProfile adds extra information to a user,
-    and associates the user with a team, course,
-    and course progress.'''
-    user = models.OneToOneField(User, related_name="profile")
-    # interactive = models.ForeignKey(Interactive, null=True, blank=True)
-    profile_type = models.CharField(max_length=2, choices=PROFILE_CHOICES)
-    course = models.ManyToManyField(
-        Course, null=True, default=None, blank=True)
-
-    def __unicode__(self):
-        return self.user.username
-
-    class Meta:
-        ordering = ["user"]
-
-    def display_name(self):
-        return self.user.username
-
-    def is_student(self):
-        return self.profile_type == 'ST'
-
-    def is_teacher(self):
-        return self.profile_type == 'TE'
-    
-    def is_team(self):
-        return self.profile_type == 'TM'
-
-    def role(self):
-        if self.is_student():
-            return "student"
-        elif self.is_teacher():
-            return "faculty"
-        elif self.is_team():
-            return "team"
-
-
 class Team(models.Model):
     '''Team: A team will have one login/username
     All accounting/history/actions is by team.
@@ -102,7 +64,7 @@ class Team(models.Model):
     name = models.CharField(max_length=255)
     password = models.CharField(max_length=255, default='')
     course = models.ForeignKey(Course)
-    team_entity = models.ForeignKey(User)
+    team_entity = models.OneToOneField(User)
     signed_contract = models.BooleanField(default=False)
     budget = models.PositiveIntegerField(default=65000)
 
@@ -126,6 +88,41 @@ class Team(models.Model):
     
     def get_course(self):
         return self.course
+
+
+class UserProfile(models.Model):
+    '''UserProfile adds extra information to a user,
+    and associates the user with a team, course,
+    and course progress.'''
+    user = models.OneToOneField(User, related_name="profile")
+    # interactive = models.ForeignKey(Interactive, null=True, blank=True)
+    profile_type = models.CharField(max_length=2, choices=PROFILE_CHOICES)
+    course = models.ForeignKey(Course, null=True, default=None, blank=True)
+    team = models.ForeignKey(Team, null=True, default=None, blank=True)
+
+    def __unicode__(self):
+        return self.user.username
+
+    class Meta:
+        ordering = ["user"]
+
+    def display_name(self):
+        return self.user.username
+
+    def is_student(self):
+        return self.profile_type == 'ST'
+
+    def is_teacher(self):
+        return self.profile_type == 'TE'
+
+    def role(self):
+        if self.is_student():
+            return "student"
+        elif self.is_teacher():
+            return "faculty"
+
+
+
     
 
 class History(models.Model):
