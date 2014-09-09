@@ -62,7 +62,6 @@ class Team(models.Model):
     THIS TO STORE USER TYPE TEAM DATA?
     '''
     name = models.CharField(max_length=255)
-    password = models.CharField(max_length=255, default='')
     course = models.ForeignKey(Course)
     team_entity = models.OneToOneField(User)
     signed_contract = models.BooleanField(default=False)

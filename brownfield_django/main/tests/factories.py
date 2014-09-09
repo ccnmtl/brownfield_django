@@ -49,7 +49,6 @@ team model may be more appropriate'''
 class TeamFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Team
     name = "Team One"
-    password = "team12345"
     course = factory.SubFactory(CourseFactory)
     team_entity = factory.SubFactory(UserFactory)
     signed_contract = False
