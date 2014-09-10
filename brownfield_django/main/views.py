@@ -310,6 +310,16 @@ class TeacherHomeView(DetailView):
         return self.render_to_response(context)
 
 
+class TeacherBBHomeView(JSONResponseMixin, View):
+    '''Need to add proper permissions and groups,
+    worry about getting it workings first...'''
+
+    def get(self, *args, **kwargs):
+        courses = Course.objects.all()
+
+        return self.render_to_json_response({'courses': courses})
+
+
 class TeacherCourseDetail(DetailView, UpdateView):
 
     model = Course

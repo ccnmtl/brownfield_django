@@ -8,7 +8,8 @@ from brownfield_django.main.views import StudentHomeView, \
     HomeView, RegistrationView, DemoHomeView, \
     TeacherHomeView, TeacherCourseDetail, TeacherCreateCourse, \
     TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
-    TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument
+    TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
+    TeacherBBHomeView
     
 from brownfield_django.main.forms import CreateAccountForm
 import os.path
@@ -57,6 +58,7 @@ urlpatterns = patterns(
     
     # Teacher Views
     (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
+    (r'^courses$', TeacherBBHomeView.as_view()),
     (r'^course_detail/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
     (r'^create_course/$', TeacherCreateCourse.as_view()),
     (r'^add_student/$', TeacherAddStudent.as_view()),
