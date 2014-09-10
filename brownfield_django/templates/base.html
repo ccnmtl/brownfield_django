@@ -28,6 +28,7 @@
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/swfobject.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/MochiKit/MochiKit.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/brownfield.js"></script>
+    
 	{% block feeds %}{% endblock %}
 </head>
 <body class="{% block bodyclass %}{% endblock %}" id="{% block bodyid %}{% endblock %}">
@@ -207,4 +208,5 @@ You are impersonating.<br />
 </script>
 {% endif %}
 </body>
+<script type="text/javascript" src="{{STATIC_URL}}js/instructor.js"></script>
 </html>

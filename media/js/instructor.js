@@ -30,77 +30,91 @@ jQuery(document).ready(function(){
 		model: Course,
 	});
 
-	// some sites have
-	//var course_collection = new CourseCollection;
-	//others have
     var course_collection = new CourseCollection();
 
     course_collection.add({
 		    name: 'Test Course 1'
     });
-	
-	/*DID THE CODE COMMENTED BELOW TO TEST*/
-//	var courseListing = '';
-//	course_collection.each(function(course) {
-//		console.log("Adding course model for '" + course.get('name') + "'.");
-//		courseListing += "<div>" +
-//	    course.get('name') + " ";
-//	    courseListing += "</div>";
-//	  });
-//	
-//	console.log("Attempting to view courseListing '" + courseListing + "'.");
-//	
-//	jQuery('#bb_main').html(courseListing);
-	
 
+    course_collection.add({
+	    name: 'Test Course 2'
+    });
+    
     var CourseView = Backbone.View.extend({
-        template: _.template($('#course_template').html()),
-        $container: null,
+
+        //template: _.template($('#template-contact').html()),
+        //$container: null,
 	  
-        initialize: function(options)
+        initialize: function()//options)
         {
-            _.bindAll(this, 'render', 'insert');
-            this.$container = options.$container;
-            this.listenTo(this.model, 'change', this.render);
-            this.insert();
+        	this.render();
+           // _.bindAll(this, 'render', 'insert');
+           // this.$container = options.$container;
+           // this.listenTo(this.model, 'change', this.render);
+           // this.insert();
+
         },
     	
-        render: function()
-        {
-            this.$el.html(this.template(this.model.attributes));
+        //render: function()
+        //{
+        //    this.$el.html(this.template(this.model.attributes));
+        //    return this;
+        //},   
+        
+//        render: function(){
+//            //Pass variables in using Underscore.js Template
+//            var variables = { name: "Test Course Template Vars" };
+//            // Compile the template using underscore
+//            var template = _.template( $("#ctemp").html(), variables );
+//            // Load the compiled HTML into the Backbone "el"
+//            this.$el.html( template );
+//        },
+        
+        //insert: function()
+        //{
+        //    this.$container.append(this.$el);
+        //}
+        
+        
+        render: function(){
+            this.$el.html('<li>' + this.model.get('name') + '</li>');
+
+            // Returning the object is a good practice
+            // that makes chaining possible
             return this;
         },
-//        render: function() 
-//        {
-//            //Pass variables in using Underscore.js Template
-//            var course_vars = { course_name: "Course Name" };
-//            // Compile the template using underscore
-//            var template = _.template( jQuery("#course_template").html(), course_vars );
-//            // Load the compiled HTML into the Backbone "el"
-//            this.jQuery(el).html( template );
-//        },
-    	
-      
-        insert: function()
-        {
-            this.$container.append(this.$el);
-        }
+
+        
+        
+        
     });// End CourseView
 
 
     var CourseListView = Backbone.View.extend({
+
         initialize: function() 
         {
-            _.bindAll(this, 'render');
+            this.list = $('#courselistview');
+
+            this.listenTo(course_collection, 'change', this.render);
+
+            course_collection.each(function(course){
+
+                var view = new CourseView({ model: course });
+                $('#courselistview').append(view.render().el);
+
+            }, this);	// "this" is the context in the callback
+            //_.bindAll(this, 'render');
+            //console.log("Initializing a new CourseListView for '" + this + "'.");
         },
         
 		render: function() 
 		{
-		    var $container = this.$('.listing').empty();//.listing?
+		    var $container = this.$('#courselistview').empty();
 
 		    course_collection.each(function(course) 
 		    {
-		        new App.Views.CourseView(
+		        new CourseView(
 		        {
 		            model: course,
 		            $container: $container
@@ -108,35 +122,40 @@ jQuery(document).ready(function(){
 			});
 
 		    return this;
-		}
-        
-        
-		//template: _.template('<h4>All Courses</h4><ul></ul><br><button data-toggle="modal" class="btn btn-sm btn-success" type="button"> Add Course </button></br>'),
-	
-//		render: function() {
-//		
-//			this.el.innerHTML = this.template();
-//			var ul = this.jQuery(el).find("ul");
-//			this.collection.forEach(function course)
-//			{
-//				ul.append(new CourseListView)({
-//					model: course
-//				}).render().el);
-//			});
-//			return this;
-//		}
+		    
+		 }//End render()
+       
 	});// End CourseListView
-
-    var course_list = new CourseListView({
-        el: $('#bb_main')
-    });
-
-    course_list.render();
-
-    course_collection.on('add remove', function() {
-        course_list.render();
-    });
     
+    
+    
+    
+
+    new CourseListView();
+
+//render: function(){
+//
+//    _.each(course_collection.getChecked(), function(elem){
+//        total += elem.get('price');
+//    });
+//
+//    // Update the total price
+//    this.total.text('$'+total);
+//
+//    return this;
+//}
+//
+//    var course_list = new CourseListView({
+//        el: $('#bb_main')
+//    });
+//
+//    course_list.render();
+
+   // course_collection.on('add remove', function() {
+   //     course_list.render();
+   // });
+    
+
     
 });
 
@@ -149,10 +168,6 @@ jQuery(document).ready(function(){
  * array must be returned as JSON the content type must be application/json
  * 
  * */
-
-
-
-
 //jQuery("#bb_main").append(new CourseListView({
 //collection: courses
 //}).render().el);

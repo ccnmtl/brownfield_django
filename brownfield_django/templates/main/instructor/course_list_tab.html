@@ -1,24 +1,32 @@
 <div class="tab-pane active" id="course-list">
 
     <div id="bb_main">
-      <script type="template" id="course_template">
+        <ul id="courselistview">
+        <!-- The courses will be inserted here -->
+        </ul>
+      <script id="ctemp" type="template">
         <div class="contact">
-        <li>Course Name: <%- course_name %></li>
+            Course Name: <%-name%>
         </div>
       </script>
+      
+      <script id="template-contact" type="template">
+        <div class="contact">
+        <h2><%-name%><% if (name) { %> <%-name%><% } %></h2>
+        <p>Random HTML</p><br />
+        <button class="delete">Delete</button>
+        </div>
+      </script>
+      
       <div class="listing">
           <button class="add">
-            Add New Contact
+            Add New Course
           </button>
           <form method="" action="" style="display: none;">
             <input type="text" placeholder="Course Name" class="name" /><br />
-            <input type="submit" value="Save Contact" />
+            <input type="submit" value="Save Course" />
           </form>
-        </div>
-    </div>
-
-
-
-<div id="course_list"></div>
+        </div><!-- end class listing -->
+   </div><!-- end bb_main -->
 
 </div>
