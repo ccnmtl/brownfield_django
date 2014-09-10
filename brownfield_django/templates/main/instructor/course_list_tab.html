@@ -1,10 +1,22 @@
 <div class="tab-pane active" id="course-list">
 
-    <script type="text/template" id="course_template">
+    <div id="bb_main">
+      <script type="template" id="course_template">
+        <div class="contact">
         <li>Course Name: <%- course_name %></li>
-    </script>
+        </div>
+      </script>
+      <div class="listing">
+          <button class="add">
+            Add New Contact
+          </button>
+          <form method="" action="" style="display: none;">
+            <input type="text" placeholder="Course Name" class="name" /><br />
+            <input type="submit" value="Save Contact" />
+          </form>
+        </div>
+    </div>
 
-<div id="bb_main"></div>
 
 
 <div id="course_list"></div>
