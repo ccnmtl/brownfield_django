@@ -36,16 +36,20 @@
     });
     
     
-    
-    
-    
-    
     //Attempting Views Again...
     var CourseView = Backbone.View.extend({
     	// You can stick template HTML directly in view as a variable
     	// did not know that...
+    	tagName : 'li',
     	template: _.template('Course Template <%= name %> <button class="del-crs"> Remove Course</button> '),
     	//$container: null,
+    	
+    	/* using initialize to rerender the element if anything in its 
+    	 * corresponding model changes use listenTo instead of on so it will automatically
+    	 *  unbind all events added when it is destroyed */
+    	initialize: function () {
+    	    this.listenTo(this.model, 'change', this.render);
+    	},
     	
     	events: {
     		'click .del-crs' : 'onRemoveCourse'
@@ -72,7 +76,6 @@
     });// End CourseView
 
     //Instantiate and see if it works...
-    //Works in Console...???
     var test_crs = new CourseView({
     	
     	model: new Course({
@@ -97,7 +100,6 @@
 //               // this.$container = options.$container;
 //               // this.listenTo(this.model, 'change', this.render);
 //               // this.insert();
-    //
 //            },
 //        	
 //            //render: function()
