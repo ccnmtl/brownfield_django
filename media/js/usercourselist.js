@@ -2,7 +2,7 @@
 
 	// creating course model
 	var Course = Backbone.Model.extend({
-		
+		url: 'courses',
 	    defaults:
 	    {
 	    	id: 0,
@@ -55,6 +55,7 @@
 		}
     ]);
 
+	// End of Models/Collections
     
     /* Should have two Views - Collection View that holds
     * individual course items and listens for an addCourse
@@ -65,22 +66,25 @@
     */
     
     //Attempting Views Again...
-    // NOTE: this is NOT the best way to do it, should be using document fragments
     var CourseView = Backbone.View.extend({
 
     	tagName : 'li',
-    	template: _.template('Course Template <%= name %> <button class="del-crs"> Remove Course</button> '),
+    	template: _.template('Course Template <%= name %> <button class="del-crs"> Remove Course</button> <button class="destroy"> Destroy Class</button>'),
     	//$container: null,
     	
-    	/* using initialize to rerender the element if anything in its 
+    	/* using initialize to re-render the element if anything in its 
     	 * corresponding model changes use listenTo instead of on so it will automatically
     	 *  unbind all events added when it is destroyed */
     	initialize: function () {
     	    this.listenTo(this.model, 'change', this.render);
+    	    this.listenTo(this.model, 'destroy', this.remove);
     	},
     	
+    	// is there a build in way to remove the model?
     	events: {
-    		'click .del-crs' : 'onRemoveCourse'
+    		'click .del-crs' : 'onRemoveCourse',
+    		//TODO
+    		'click .destroy' : 'clear'
     	},
     	
         render: function () {
@@ -93,28 +97,35 @@
             
             this.$el.html(html);
             return this;
-//            var tpl = _.template(this.template),
-//            html = tpl(this.model.toJSON());
-//
-//            this.$el.html(html);
-//            return this;
+
         },
         
     	onRemoveCourse: function()
     	{
     		//will add delete functionality later
     		console.log("You tried to remove course " + this.model.get('id') + this.model.get('name'));
-    	}
+    	},
+    	
+    	//TODO
+        clear: function() {
+            this.model.destroy();
+        }
     	
     });// End CourseView
 
-	// End of Models/Collections
     
     var CourseListView = Backbone.View.extend({
     	
     	tagName : 'ul',
     	
+    	events: {
+    		//TODO
+    		'click button .add-crs' : 'addCourse'
+  			'submit .add-crs-frm form': 'addSubmit'
+    	},
+    	
         render: function() {
+        	
             // Clean up the view first 
             this.$el.empty();
 
@@ -126,8 +137,16 @@
             }, this);
 
             return this;
-        }
-    
+        },
+        
+        //TODO
+        addCourse: function(course) {
+        	
+        	this.$el.append(new CourseView({
+        		model: model
+            }).render().el);
+
+    	}
 	});// End CourseListView    
 
     
@@ -137,88 +156,35 @@
         collection: course_collection
     });
 
+    // connecting the views to the html/page
     jQuery('.user_courses').append(course_collection_view.render().el);
 
-    console.log(course_collection)    
+    console.log(course_collection); // log collection to console
     
     
-    
-    
-    
-//    jQuery('.user_courses').append(test_crs.render().el);
-    
-    
-    
-
- 	  
-
-
-    //    
-    //    
-    //    
-    //    
-    //
-//        new CourseListView();
-    //
-    ////render: function(){
-    ////
-////        _.each(course_collection.getChecked(), function(elem){
-////            total += elem.get('price');
-////        });
-    ////
-////        // Update the total price
-////        this.total.text('$'+total);
-    ////
-////        return this;
-    ////}
-    ////
-//        var course_list = new CourseListView({
-//            el: $('#bb_main')
-//        });
-    //
-//        course_list.render();
-    //
-    //   // course_collection.on('add remove', function() {
-    //   //     course_list.render();
-    //   // });
+    var AppRouter = Backbone.Router.extend({
+        routes: {
+            'courses': 'showCourses'//,
+//            'course/:id': 'showCourseDetails',
+//            'course/:id/update': 'updateCourse',
+//            'course/:id/remove': 'removeCourse'
+        }//,
         
-
-        /*Testing Course View with very simple code from book
-         * */
+//        showCourses: function () {
+//            // Get all the user details from server and
+//            // show the users view
+//        },
         
-//        var CourseView = Backbone.View.extend({
-//        	el: '#uniq_id_test'
-//            render: function () {
-//                var html = "Test Course Name Here";
-//                this.$el.html(html);
-//                return this;
-//            }
-//        });
-    //
-//        // create an instance
-//        //var courseView = new CourseView();
-//        //$('#uniq_id_test').append(courseView.render().el);
-//        new CourseView.render();
+//        showCourseDetails: function (userId) {
+//                // Get the user details for the user id as received
+//        },
+//        
+//        updateCourse: function (userId) {},
+//        
+//        removeCourse: function (userId) {}
+    });
     
     
     
     
-    
-    
-    
-    
-//});
-
-
-/* Need to create a Router, should model have a url?
- * 
- * url is location of model on server
- * if you do get request on /courses a JSON array of courses should be returned
- * presumably also means if we do a POST to courses it will store a new course in the db
- * array must be returned as JSON the content type must be application/json
- * 
- * */
-//jQuery("#bb_main").append(new CourseListView({
-//collection: courses
-//}).render().el);
 //});
