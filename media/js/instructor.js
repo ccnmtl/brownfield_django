@@ -5,7 +5,8 @@
 		
 	    defaults:
 	    {
-	          name: "Default Course"
+	    	id: 0,
+	        name: "Default Course"
 	    },
 	    
 	    initialize: function(attributes) 
@@ -20,26 +21,53 @@
 	var CourseCollection = Backbone.Collection.extend({
 		model: Course,
 	});
-
 	
-	// creating course collection
-    var course_collection = new CourseCollection();
+	
+	// creating course collection with test courses
+    var course_collection = new CourseCollection([
+        {
+    		id: 1,
+			name: 'Test Course 1'
+		},
+		{
+			id: 2,
+			name: 'Test Course 2'
+		},
+		{
+			id: 3,
+			name: 'Test Course 3'
+		},
+		{
+			id: 4,
+			name: 'Test Course 4'
+		},
+		{
+			id: 5,
+			name: 'Test Course 5'
+		},
+		{
+			id: 6,
+			name: 'Test Course 6'
+		},
+		{
+			id: 7,
+			name: 'Test Course 7'
+		}
+    ]);
 
     
-    // adding courses to the collection
-    course_collection.add({
-		name: 'Test Course 1'
-    });
-
-    course_collection.add({
-	    name: 'Test Course 2'
-    });
-    
+    /* Should have two Views - Collection View that holds
+    * individual course items and listens for an addCourse
+    * event, we also need a CourseView for each individual
+    * course that will remove itself when deleted, or 
+    * redirect the user to a django DetailView of the
+    * individual course.
+    */
     
     //Attempting Views Again...
+    // NOTE: this is NOT the best way to do it, should be using document fragments
     var CourseView = Backbone.View.extend({
-    	// You can stick template HTML directly in view as a variable
-    	// did not know that...
+
     	tagName : 'li',
     	template: _.template('Course Template <%= name %> <button class="del-crs"> Remove Course</button> '),
     	//$container: null,
@@ -65,114 +93,66 @@
             
             this.$el.html(html);
             return this;
+//            var tpl = _.template(this.template),
+//            html = tpl(this.model.toJSON());
+//
+//            this.$el.html(html);
+//            return this;
         },
         
     	onRemoveCourse: function()
     	{
     		//will add delete functionality later
-    		console.log("You tried to remove a course...");
+    		console.log("You tried to remove course " + this.model.get('id') + this.model.get('name'));
     	}
     	
     });// End CourseView
 
-    //Instantiate and see if it works...
-    var test_crs = new CourseView({
+	// End of Models/Collections
+    
+    var CourseListView = Backbone.View.extend({
     	
-    	model: new Course({
-    		
-    	    name: 'Test Course Model In View'
-    	    
-    	})
+    	tagName : 'ul',
     	
-    });
+        render: function() {
+            // Clean up the view first 
+            this.$el.empty();
+
+            // Iterate over the collection and add each name as a list item
+            this.collection.each(function(model) {
+                this.$el.append(new CourseView({
+                    model: model
+                }).render().el);
+            }, this);
+
+            return this;
+        }
+    
+	});// End CourseListView    
 
     
-    jQuery('.user_courses').append(test_crs.render().el);
+
+
+    var course_collection_view = new CourseListView({
+        collection: course_collection
+    });
+
+    jQuery('.user_courses').append(course_collection_view.render().el);
+
+    console.log(course_collection)    
+    
+    
+    
+    
+    
+//    jQuery('.user_courses').append(test_crs.render().el);
     
     
     
 
  	  
-//            initialize: function()//options)
-//            {
-//            	this.render();
-//               // _.bindAll(this, 'render', 'insert');
-//               // this.$container = options.$container;
-//               // this.listenTo(this.model, 'change', this.render);
-//               // this.insert();
-//            },
-//        	
-//            //render: function()
-//            //{
-//            //    this.$el.html(this.template(this.model.attributes));
-//            //    return this;
-//            //},   
-//            
-////            render: function(){
-////                //Pass variables in using Underscore.js Template
-////                var variables = { name: "Test Course Template Vars" };
-////                // Compile the template using underscore
-////                var template = _.template( $("#ctemp").html(), variables );
-////                // Load the compiled HTML into the Backbone "el"
-////                this.$el.html( template );
-////            },
-//            
-//            //insert: function()
-//            //{
-//            //    this.$container.append(this.$el);
-//            //}
-//            
-//            
-//            render: function(){
-//                this.$el.html('<li>' + this.model.get('name') + '</li>');
-    //
-//                // Returning the object is a good practice
-//                // that makes chaining possible
-//                return this;
-//            }
-    //
-//            
-//            
-//            
 
-    //
-    //
-//        var CourseListView = Backbone.View.extend({
-    //
-//            initialize: function() 
-//            {
-//                this.bbmain = $('#bb_main');
-    //
-//                this.listenTo(course_collection, 'change', this.render);
-    //
-//                course_collection.each(function(course){
-    //
-//                    var view = new CourseView({ model: course });
-//                    $('#bb_main').append(view.render().el);
-    //
-//                }, this);	// "this" is the context in the callback
-//                //_.bindAll(this, 'render');
-//                //console.log("Initializing a new CourseListView for '" + this + "'.");
-//            },
-//            
-//    		render: function() 
-//    		{
-//    		    var $container = this.$('#courselistview').empty();
-    //
-//    		    course_collection.each(function(course) 
-//    		    {
-//    		        new CourseView(
-//    		        {
-//    		            model: course,
-//    		            $container: $container
-//    		        }).render();
-//    			});
-    //
-//    		    return this;
-//    		    
-//    		 }//End render()
-//           
-//    	});// End CourseListView
+
     //    
     //    
     //    
