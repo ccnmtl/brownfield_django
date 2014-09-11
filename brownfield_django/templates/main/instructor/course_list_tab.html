@@ -1,22 +1,20 @@
 <div class="tab-pane active" id="course-list">
-
-    <div id="bb_main">
+<br /><br />
+<div class="container">
+    <ul id="courselistview">
+        <!-- The courses will be inserted here -->
+         <div class="inner">Hello</div>
+         <div class="inner">Goodbye</div>
+        <li>Something inside container</li>
+        <li>Something inside container</li>
+    </ul>
+</div>
+<div id="container"><p>Something inside container</p></div>
+    <div id="bb_main">   </div><!-- end bb_main -->
         <ul id="courselistview">
         <!-- The courses will be inserted here -->
         </ul>
-      <script id="ctemp" type="template">
-        <div class="contact">
-            Course Name: <%-name%>
-        </div>
-      </script>
-      
-      <script id="template-contact" type="template">
-        <div class="contact">
-        <h2><%-name%><% if (name) { %> <%-name%><% } %></h2>
-        <p>Random HTML</p><br />
-        <button class="delete">Delete</button>
-        </div>
-      </script>
+
       
       <div class="listing">
           <button class="add">
@@ -27,6 +25,6 @@
             <input type="submit" value="Save Course" />
           </form>
         </div><!-- end class listing -->
-   </div><!-- end bb_main -->
+
 
 </div>
