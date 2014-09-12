@@ -29,6 +29,7 @@ class HomeView(LoggedInMixin, View):
     '''redoing so that it simply redirects people where they need to be'''
 
     def get(self, request):
+        print "GET home view"
         try:
             user_profile = UserProfile.objects.get(user=request.user.pk)
         except UserProfile.DoesNotExist:

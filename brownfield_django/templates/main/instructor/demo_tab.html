@@ -1,5 +1,8 @@
 <div class="tab-pane" id="demo">
+
 <div id="main_content">
+
+
     <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="761" height="521" id="bfa" align="middle">
       <param name="allowScriptAccess" value="sameDomain" />
       <param name="movie" value="{{STATIC_URL}}flash/bfa.swf" />
@@ -10,6 +13,14 @@
     </object>
     
     <div id="userlogout" class="notice">
-    <a py:if="not tg.identity.anonymous" href="/logout">Logout</a></div>
+    	<a href="/logout">Logout</a>
+    </div>
 </div>
+{% comment %}
+    <div id="demo">
+		<div id="playbfa">
+		    <a href="javascript:openPopWin('../../demo/play','800','600','no','yes','bfa',true)" title="Play Brownfield Action"><img src="{{STATIC_URL}}images/playbfa.gif" alt="" width="152" height="166" border="0" /></a>
+		</div>
+	</div>
+{% endcomment %}
 </div>{% comment %}server={{ site.domain }}/ecomap/{{map.id}}/display/&amp;returnPath=back_to_list_button_clicked" />{% endcomment %}
