@@ -139,8 +139,11 @@ class BrownfieldDemoView(View):
 
 
 def get_demo(request):
-    return HttpResponse(DEMO_XML)
-    #return render(request, 'main/flvplayer.html', {'demo': DEMO_XML}, content_type="application/xhtml+xml")
+    return render(request, 'main/flvplayer.html', {'demo': DEMO_XML}, content_type="application/xhtml+xml")
+#    return render(request, 'main/flvplayer.html',
+#            content_type="application/xhtml+xml")
+#    return HttpResponse(DEMO_XML)
+#    #return render(request, 'main/flvplayer.html', {'demo': DEMO_XML}, content_type="application/xhtml+xml")
 
 def get_bfa(request):
     '''Flash is making calls to demo/media/flash/bfa.swf
