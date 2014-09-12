@@ -40,7 +40,7 @@ urlpatterns = patterns(
         form_class=CreateAccountForm),
         name='register'),
     (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),
-    # /media/history/?cachebuster=0.664656763430685
+    #/media/history/?cachebuster=0.664656763430685
 
     #url(r'^home_demo/$', DemoHomeView.as_view(), name="home"),
     #url(r'^$', HomeView.as_view(), name="home"),
@@ -48,8 +48,8 @@ urlpatterns = patterns(
     (r'^demo/play/$', "brownfield_django.main.views.get_demo"),#TemplateView.as_view(template_name="main/flvplayer.html")),
     (r'^demo/media/flash/$', "brownfield_django.main.views.get_bfa"),
     (r'^demo/history/$', "brownfield_django.main.views.get_demo_history"),
-    # url(r'^media/history/?cachebuster=(\d+.?d+)$', DemoHomeView.as_view()), # Doesn't seem to work
-    # url(r'^media/history/?cachebuster=([0-9]{15}\.[0-9]{15})$', DemoHomeView.as_view()), # Doesn't seem to work
+    url(r'^media/history/?cachebuster=(\d+.?d+)$', DemoHomeView.as_view()), # Doesn't seem to work
+    url(r'^media/history/?cachebuster=([0-9]{15}\.[0-9]{15})$', DemoHomeView.as_view()), # Doesn't seem to work
     #([0-9]{15}\.[0-9]{15})
     # ([0-9]+) should it be ?cachebuster=(([0-9]+)(.?)([0-9]+))$ instead?
     # almost? url(r'^media/history/?cachebuster=(?\d+.?\d*)$', DemoHomeView.as_view()),

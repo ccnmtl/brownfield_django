@@ -113,14 +113,14 @@
     	
     });// End CourseView
 
-    
+    /* Container to hold rows of courses */
     var CourseListView = Backbone.View.extend({
     	
     	tagName : 'ul',
     	
     	events: {
     		//TODO
-    		'click button .add-crs' : 'addCourse'
+    		'click button .add-crs' : 'addCourse',
   			'submit .add-crs-frm form': 'addSubmit'
     	},
     	
@@ -141,7 +141,7 @@
         
         //TODO
         addCourse: function(course) {
-        	
+        	console.log("addCourse ");
         	this.$el.append(new CourseView({
         		model: model
             }).render().el);
@@ -163,17 +163,22 @@
     
     
     var AppRouter = Backbone.Router.extend({
+    	
+    	// [12/Sep/2014 13:55:44] "DELETE /teacher/1/courses HTTP/1.1" 404 6168
+    	
         routes: {
-            'courses': 'showCourses'//,
-//            'course/:id': 'showCourseDetails',
-//            'course/:id/update': 'updateCourse',
-//            'course/:id/remove': 'removeCourse'
-        }//,
+            'courses': 'showCourses',
+            'course/:id': 'showCourseDetails',
+            'course/:id/update': 'updateCourse',
+            'course/:id/remove': 'removeCourse'
+        },
         
-//        showCourses: function () {
-//            // Get all the user details from server and
-//            // show the users view
-//        },
+        showCourses: function () {
+            // Get all the user details from server and
+            // show the users view
+        	// router currently makes DELETE request - not good
+        	
+        }//,
         
 //        showCourseDetails: function (userId) {
 //                // Get the user details for the user id as received
