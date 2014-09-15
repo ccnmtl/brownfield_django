@@ -326,20 +326,20 @@ class TeacherBBHomeView(JSONResponseMixin, View):
     def get(self, request, *args, **kwargs):
         '''If there is an id present get request is sent to retrieve
         the rest of the model.'''
-        print request.GET
+        # print request.GET
         courses = Course.objects.all()
 
         return self.render_to_json_response({'courses': courses})
     
-    def post(self, request, *args, **kwargs):
+    def post(self, request):#, *args, **kwargs):
         '''In backbone, if model has no id it sends post to create
         a new model and server should create a new instance of model
         and respond with its id'''
         #id attribute is present there yet, a POST request is sent to the /users URL and
         #the server sends a response with the new ID.
         print request.POST
-        print args
-        print kwargs
+        #print args
+        #print kwargs
         
     def put(self, request, *args, **kwargs):
         '''Backbone should send put request to update and object.'''

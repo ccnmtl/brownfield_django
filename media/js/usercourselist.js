@@ -2,32 +2,39 @@
 var Course = Backbone.Model.extend({
     // when creating new group makes post request to 
     ///coursesgroup/index
-    urlRoot: '/courses',
-	   
+    urlRoot: '/course/',
+    
+    // finally found it...
+	url : function() {
+	    if (this.isNew())
+	    	{
+	    	console.log("Model is new"); 
+	    	console.log("Model urlRoot : " + this.urlRoot);
+	    	console.log("Model name : " + this.name); 
+	    	return this.urlRoot + encodeURIComponent(this.name) + '/';
+	    	}
+		return this.urlRoot + this.id + '/';
+    },
+    
     defaults: function() {
         return {
             name: "Default Course"
-            }
+        }
     },
 	    
 	initialize: function(attributes) 
 	{
-		//var id = attributes.ide || '<EMPTY>';
-	    var name = attributes.name || '<EMPTY>';
+	    this.name = attributes.name || '<EMPTY>';
 	    console.log("Initializing a new course model for '" +
-	      name + "'."); //" " + id + 
-	},
-    
-//    create: function(new_name)
-//    {
-//    	this.save({name: new_name});//!this.get("done")});
-//    }
+	      name + "'."); 
+	}
 	    
 });
 
 	
 var CourseCollection = Backbone.Collection.extend({
 	 model: Course,
+	 url: '/course/'
 });
 	
 	
@@ -114,13 +121,7 @@ var CourseView = Backbone.View.extend({
            	headers : { 'id' : this.model.id }
         });
     }
-   	
-//    make_post: function() {
-//        this.model.destroy({
-//           	headers : { 'id' : this.model.id }
-//        });
-//    }
-    	
+
 });// End CourseView
 
     
@@ -145,9 +146,11 @@ var CourseListView = Backbone.View.extend({
     },
     
     addCourse: function(new_crs) {
+    	//where to put the success/error?
+        // creates new instance of model for collection and automatically adds with add() method
+        // this is supposed to send a creation request to server
+        // also calls sycn event after server responds with successful creation of model
         this.collection.create({name : new_crs}, {merge: true});
-        //[{name : new_crs}], {merge: true});
-        //[{name : new_name}], {merge: true}
         this.render();
         return this;
   
@@ -198,11 +201,7 @@ jQuery('.add-crs').on('click',
 jQuery('#add-crs-frm').on('submit',
     function(event) {
         event.preventDefault();
-        // creates new instance of model for collection and automatically adds with add() method
-        // this is supposed to send a creation request to server
-        // also calls sycn event after server responds with successful creation of model
         var new_name = jQuery('#add-crs-frm input.name').val();
-        //console.log("New name: " + new_name);
         course_collection_view.addCourse(new_name);
 
 });
