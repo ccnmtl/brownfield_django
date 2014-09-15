@@ -338,6 +338,8 @@ class TeacherBBHomeView(JSONResponseMixin, View):
         #id attribute is present there yet, a POST request is sent to the /users URL and
         #the server sends a response with the new ID.
         print request.POST
+        print args
+        print kwargs
         
     def put(self, request, *args, **kwargs):
         '''Backbone should send put request to update and object.'''

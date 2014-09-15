@@ -1,25 +1,33 @@
 // creating course model
 var Course = Backbone.Model.extend({
-	    urlRoot: '/courses',
+    // when creating new group makes post request to 
+    ///coursesgroup/index
+    urlRoot: '/courses',
+	   
+    defaults: function() {
+        return {
+            name: "Default Course"
+            }
+    },
 	    
-		defaults: function() {
-			return {
-				name: "Default Course"
-			}
-		},
-	    
-	    initialize: function(attributes) 
-	    {
-	        var name = attributes.name || '<EMPTY>';
-	        console.log("Initializing a new course model for '" +
-	          name + "'.");
-	    }
+	initialize: function(attributes) 
+	{
+		//var id = attributes.ide || '<EMPTY>';
+	    var name = attributes.name || '<EMPTY>';
+	    console.log("Initializing a new course model for '" +
+	      name + "'."); //" " + id + 
+	},
+    
+//    create: function(new_name)
+//    {
+//    	this.save({name: new_name});//!this.get("done")});
+//    }
 	    
 });
 
 	
 var CourseCollection = Backbone.Collection.extend({
-		model: Course,
+	 model: Course,
 });
 	
 	
@@ -106,6 +114,12 @@ var CourseView = Backbone.View.extend({
            	headers : { 'id' : this.model.id }
         });
     }
+   	
+//    make_post: function() {
+//        this.model.destroy({
+//           	headers : { 'id' : this.model.id }
+//        });
+//    }
     	
 });// End CourseView
 
@@ -131,19 +145,26 @@ var CourseListView = Backbone.View.extend({
     },
     
     addCourse: function(new_crs) {
-    	console.log("Inside collection add course ");
-    	
-        // Go to end of collection and add name as a list item
-    	// this correctly creates a new model
-        this.collection.create({name : new_crs});
-        console.log("new_crs " + new_crs);
+        this.collection.create({name : new_crs}, {merge: true});
+        //[{name : new_crs}], {merge: true});
+        //[{name : new_name}], {merge: true}
         this.render();
-        //   
         return this;
   
-    } //end add course
+    }, //end add course
 
-
+    add_course: function(new_crs) {
+    	console.log("Inside collection add_course ");
+    	var nc = new Course({name : new_crs});
+    	nc.save();
+        this.collection.add(nc, {merge: true});
+        console.log("nc " + nc);
+        this.render();
+        return this;
+  
+    } //end add_course
+    
+    
 });// End CourseListView    
 
     
@@ -159,18 +180,23 @@ jQuery('.user_courses').append(course_collection_view.render().el);
 console.log(course_collection); // log collection to console
 
 
+//Need to test create()
+var test = course_collection.create({
+  name: "Othello"
+});
+
+
+
 /*For some reason I can't get the container of course list to respond on click to the button - because I specified tag ul maybe?*/
 jQuery('.add-crs').on('click',
 		
 		function() {
-            //console.log("Inside .add-crs on click ");
             jQuery('.controls form').show();
             jQuery('input.name').focus();
 });
     
 jQuery('#add-crs-frm').on('submit',
     function(event) {
-        //console.log("Inside add-crs-frm on submit ");
         event.preventDefault();
         // creates new instance of model for collection and automatically adds with add() method
         // this is supposed to send a creation request to server
@@ -181,4 +207,21 @@ jQuery('#add-crs-frm').on('submit',
 
 });
 
-
+var CourseRouter = Backbone.Router.extend({
+	routes: {
+	'teacher/:id': 'showCourses',
+	//'user/:id': 'showUserDetails'//,
+	//'user/:id/update': 'updateUser',
+	//'user/:id/remove': 'removeUser'
+	},
+	showUsers: function () {
+	// Get all the courses from server and show
+		console.log("Router method running...");
+	    course_collection_view.render().el
+	}//,
+//	showUserDetails: function (userId) {
+//	// Get the user details for the user id as received
+//	},
+//	updateUser: function (userId) {},
+//	removeUser: function (userId) {}
+});
