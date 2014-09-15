@@ -128,7 +128,21 @@ var CourseListView = Backbone.View.extend({
         }, this);
 
         return this;
-    }
+    },
+    
+    addCourse: function(new_crs) {
+    	console.log("Inside collection add course ");
+    	
+        // Go to end of collection and add name as a list item
+    	// this correctly creates a new model
+        this.collection.create({name : new_crs});
+        console.log("new_crs " + new_crs);
+        this.render();
+        //   
+        return this;
+  
+    } //end add course
+
 
 });// End CourseListView    
 
@@ -149,21 +163,21 @@ console.log(course_collection); // log collection to console
 jQuery('.add-crs').on('click',
 		
 		function() {
-            console.log("Inside .add-crs on click ");
+            //console.log("Inside .add-crs on click ");
             jQuery('.controls form').show();
             jQuery('input.name').focus();
 });
     
 jQuery('#add-crs-frm').on('submit',
     function(event) {
-        console.log("Inside add-crs-frm on submit ");
+        //console.log("Inside add-crs-frm on submit ");
         event.preventDefault();
         // creates new instance of model for collection and automatically adds with add() method
         // this is supposed to send a creation request to server
         // also calls sycn event after server responds with successful creation of model
-        course_collection.create({
-            name: jQuery('#add-crs-frm input.name').val()
-        });
+        var new_name = jQuery('#add-crs-frm input.name').val();
+        //console.log("New name: " + new_name);
+        course_collection_view.addCourse(new_name);
 
 });
 
