@@ -66,7 +66,7 @@ urlpatterns = patterns(
     # Teacher Views
     (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
     (r'^courses$', TeacherBBHomeView.as_view()),
-    (r'^course_detail/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
+    (r'^courses/(?P<pk>\d+)$', TeacherBBHomeView.as_view()),
     (r'^create_course/$', TeacherCreateCourse.as_view()),
     (r'^add_student/$', TeacherAddStudent.as_view()),
     (r'^release_document/$', TeacherReleaseDocument.as_view()),

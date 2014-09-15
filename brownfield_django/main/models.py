@@ -46,6 +46,7 @@ class Course(models.Model):
         return participants
 
 
+
 class Document(models.Model):
     course = models.ForeignKey(Course)
     name = models.CharField(max_length=255)

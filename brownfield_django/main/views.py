@@ -317,12 +317,34 @@ class TeacherHomeView(DetailView):
 class TeacherBBHomeView(JSONResponseMixin, View):
     '''Need to add proper permissions and groups,
     worry about getting it workings first...'''
+    # ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']
 
-    def get(self, *args, **kwargs):
+    def delete(self, request, *args, **kwargs):
+        '''Backbone should send put request to update and object.'''
+        print request.DELETE
+
+    def get(self, request, *args, **kwargs):
+        '''If there is an id present get request is sent to retrieve
+        the rest of the model.'''
+        print request.GET
         courses = Course.objects.all()
 
         return self.render_to_json_response({'courses': courses})
+    
+    def post(self, request, *args, **kwargs):
+        '''In backbone, if model has no id it sends post to create
+        a new model and server should create a new instance of model
+        and respond with its id'''
+        #id attribute is present there yet, a POST request is sent to the /users URL and
+        #the server sends a response with the new ID.
+        print request.POST
+        
+    def put(self, request, *args, **kwargs):
+        '''Backbone should send put request to update and object.'''
+        print request.PUT
+        
 
+        
 
 class TeacherCourseDetail(DetailView, UpdateView):
 

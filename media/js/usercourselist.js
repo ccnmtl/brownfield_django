@@ -1,13 +1,12 @@
-//jQuery(function() {
-
-	// creating course model
-	var Course = Backbone.Model.extend({
-		url: 'courses',
-	    defaults:
-	    {
-	    	id: 0,
-	        name: "Default Course"
-	    },
+// creating course model
+var Course = Backbone.Model.extend({
+	    urlRoot: '/courses',
+	    
+		defaults: function() {
+			return {
+				name: "Default Course"
+			}
+		},
 	    
 	    initialize: function(attributes) 
 	    {
@@ -15,16 +14,17 @@
 	        console.log("Initializing a new course model for '" +
 	          name + "'.");
 	    }
-	});
+	    
+});
 
 	
-	var CourseCollection = Backbone.Collection.extend({
+var CourseCollection = Backbone.Collection.extend({
 		model: Course,
-	});
+});
 	
 	
-	// creating course collection with test courses
-    var course_collection = new CourseCollection([
+// creating course collection with test courses
+var course_collection = new CourseCollection([
         {
     		id: 1,
 			name: 'Test Course 1'
@@ -53,143 +53,118 @@
 			id: 7,
 			name: 'Test Course 7'
 		}
-    ]);
+]);
 
-	// End of Models/Collections
+// End of Models/Collections
     
-    /* Should have two Views - Collection View that holds
-    * individual course items and listens for an addCourse
-    * event, we also need a CourseView for each individual
-    * course that will remove itself when deleted, or 
-    * redirect the user to a django DetailView of the
-    * individual course.
-    */
-    
-    //Attempting Views Again...
-    var CourseView = Backbone.View.extend({
+//Views 
+var CourseView = Backbone.View.extend({
 
-    	tagName : 'li',
-    	template: _.template('Course Template <%= name %> <button class="del-crs"> Remove Course</button> <button class="destroy"> Destroy Class</button>'),
-    	//$container: null,
+   	tagName : 'li',
+   	template: _.template('Course Template <%= name %> <button class="del-crs"> Remove Course</button> <button class="destroy"> Destroy Class</button>'),
+   	//$container: null,
     	
-    	/* using initialize to re-render the element if anything in its 
-    	 * corresponding model changes use listenTo instead of on so it will automatically
-    	 *  unbind all events added when it is destroyed */
-    	initialize: function () {
-    	    this.listenTo(this.model, 'change', this.render);
-    	    this.listenTo(this.model, 'destroy', this.remove);
-    	},
+   	/* using initialize to re-render the element if anything in its 
+   	 * corresponding model changes use listenTo instead of on so it will automatically
+   	 *  unbind all events added when it is destroyed */
+   	initialize: function () {
+   	    this.listenTo(this.model, 'change', this.render);
+   	    this.listenTo(this.model, 'destroy', this.remove);
+   	},
     	
-    	// is there a build in way to remove the model?
-    	events: {
-    		'click .del-crs' : 'onRemoveCourse',
-    		//TODO
-    		'click .destroy' : 'clear'
-    	},
+   	// is there a build in way to remove the model?
+   	events: {
+   		'click .del-crs' : 'onRemoveCourse',
+   		//TODO
+   		'click .destroy' : 'clear'
+   	},
     	
-        render: function () {
-            if (!this.model) 
-            {
-                throw "Model is not set for this view";
-            }
-            
-            var html = this.template(this.model.toJSON());
-            
-            this.$el.html(html);
-            return this;
-
-        },
-        
-    	onRemoveCourse: function()
-    	{
-    		//will add delete functionality later
-    		console.log("You tried to remove course " + this.model.get('id') + this.model.get('name'));
-    	},
-    	
-    	//TODO
-        clear: function() {
-            this.model.destroy();
+    render: function () {
+        if (!this.model) 
+        {
+            throw "Model is not set for this view";
         }
-    	
-    });// End CourseView
+          
+        var html = this.template(this.model.toJSON());
+          
+        this.$el.html(html);
+        return this;
 
-    /* Container to hold rows of courses */
-    var CourseListView = Backbone.View.extend({
-    	
-    	tagName : 'ul',
-    	
-    	events: {
-    		//TODO
-    		'click button .add-crs' : 'addCourse',
-  			'submit .add-crs-frm form': 'addSubmit'
-    	},
-    	
-        render: function() {
-        	
-            // Clean up the view first 
-            this.$el.empty();
-
-            // Iterate over the collection and add each name as a list item
-            this.collection.each(function(model) {
-                this.$el.append(new CourseView({
-                    model: model
-                }).render().el);
-            }, this);
-
-            return this;
-        },
+    },
         
-        //TODO
-        addCourse: function(course) {
-        	console.log("addCourse ");
-        	this.$el.append(new CourseView({
-        		model: model
+  	onRemoveCourse: function()
+   	{
+   		//will add delete functionality later
+   		console.log("You tried to remove course " + this.model.get('id') + this.model.get('name'));
+   	},
+    	
+   	//TODO
+   	//This correctly adds the id to the url for the DELETE
+   	//but django still has internal error
+    clear: function() {
+        this.model.destroy({
+           	headers : { 'id' : this.model.id }
+        });
+    }
+    	
+});// End CourseView
+
+    
+/* Container to hold rows of courses */
+var CourseListView = Backbone.View.extend({
+    	
+    tagName : 'ul',
+    
+    render: function() {
+        	
+        // Clean up the view first 
+        this.$el.empty();
+
+        // Iterate over the collection and add each name as a list item
+        this.collection.each(function(model) {
+        this.$el.append(new CourseView({
+                model: model
             }).render().el);
+        }, this);
 
-    	}
-	});// End CourseListView    
+        return this;
+    }
+
+});// End CourseListView    
 
     
 
+// should probably move this code to controller below not sure if that is be
+var course_collection_view = new CourseListView({
+    collection: course_collection
+});
 
-    var course_collection_view = new CourseListView({
-        collection: course_collection
-    });
+// connecting the views to the html/page
+jQuery('.user_courses').append(course_collection_view.render().el);
 
-    // connecting the views to the html/page
-    jQuery('.user_courses').append(course_collection_view.render().el);
+console.log(course_collection); // log collection to console
 
-    console.log(course_collection); // log collection to console
+
+/*For some reason I can't get the container of course list to respond on click to the button - because I specified tag ul maybe?*/
+jQuery('.add-crs').on('click',
+		
+		function() {
+            console.log("Inside .add-crs on click ");
+            jQuery('.controls form').show();
+            jQuery('input.name').focus();
+});
     
-    
-    var AppRouter = Backbone.Router.extend({
-    	
-    	// [12/Sep/2014 13:55:44] "DELETE /teacher/1/courses HTTP/1.1" 404 6168
-    	
-        routes: {
-            'courses': 'showCourses',
-            'course/:id': 'showCourseDetails',
-            'course/:id/update': 'updateCourse',
-            'course/:id/remove': 'removeCourse'
-        },
-        
-        showCourses: function () {
-            // Get all the user details from server and
-            // show the users view
-        	// router currently makes DELETE request - not good
-        	
-        }//,
-        
-//        showCourseDetails: function (userId) {
-//                // Get the user details for the user id as received
-//        },
-//        
-//        updateCourse: function (userId) {},
-//        
-//        removeCourse: function (userId) {}
-    });
-    
-    
-    
-    
-//});
+jQuery('#add-crs-frm').on('submit',
+    function(event) {
+        console.log("Inside add-crs-frm on submit ");
+        event.preventDefault();
+        // creates new instance of model for collection and automatically adds with add() method
+        // this is supposed to send a creation request to server
+        // also calls sycn event after server responds with successful creation of model
+        course_collection.create({
+            name: jQuery('#add-crs-frm input.name').val()
+        });
+
+});
+
+

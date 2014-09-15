@@ -1,9 +1,19 @@
 <div class="tab-pane active" id="course-list">
 <br /><br />
 <div class="user_courses">
-    <button class="add-crs">
+    <div class="controls">
+        <button class="add-crs">
             Add New Course   
-    </button>
+        </button>
+        <form id="add-crs-frm" method="" action="" style="display: none;">
+            <input type="text" placeholder="Course Name" class="name" /><br />
+            <input type="submit" value="Save Course" class="submit"/>
+        </form>
+    </div>
+    
+    
+    
+    
     <ul class="courselistview">
         <!-- The instructor's courses will be inserted here -->
     </ul>
@@ -13,12 +23,11 @@
             <!-- All brwn courses will be inserted here -->
         </ul>
       
-        <div class="courseform">
-            <form method="" action="" style="display: none;">
-                <input type="text" placeholder="Course Name" class="name" /><br />
-                <input type="submit" value="Save Course" />
-            </form>
+        <div class="courseform" >
+
         </div><!-- end class listing -->
     </div>
 </div>
 </div>
+
+      
