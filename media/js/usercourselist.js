@@ -1,7 +1,7 @@
 // creating course model
 var Course = Backbone.Model.extend({
     // when creating new group makes post request to 
-    ///coursesgroup/index
+//    ///coursesgroup/index
     urlRoot: '/course/',
     
     // finally found it...
@@ -23,7 +23,7 @@ var Course = Backbone.Model.extend({
     },
 	    
 	initialize: function(attributes) 
-	{
+	{   // not sure if this will cause problems
 	    this.name = attributes.name || '<EMPTY>';
 	    console.log("Initializing a new course model for '" +
 	      name + "'."); 
@@ -150,7 +150,16 @@ var CourseListView = Backbone.View.extend({
         // creates new instance of model for collection and automatically adds with add() method
         // this is supposed to send a creation request to server
         // also calls sycn event after server responds with successful creation of model
-        this.collection.create({name : new_crs}, {merge: true});
+        this.collection.create(
+        		{name : new_crs}, 
+        		{wait: true,
+            	success: function(){
+                    console.log("in success");
+                },
+                error: function(){
+                    console.log("in error");
+                }}
+        );
         this.render();
         return this;
   
@@ -203,6 +212,7 @@ jQuery('#add-crs-frm').on('submit',
         event.preventDefault();
         var new_name = jQuery('#add-crs-frm input.name').val();
         course_collection_view.addCourse(new_name);
+        //course_collection.create({name : something}]);
 
 });
 

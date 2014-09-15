@@ -331,7 +331,7 @@ class TeacherBBHomeView(JSONResponseMixin, View):
 
         return self.render_to_json_response({'courses': courses})
     
-    def post(self, request):#, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         '''In backbone, if model has no id it sends post to create
         a new model and server should create a new instance of model
         and respond with its id'''
