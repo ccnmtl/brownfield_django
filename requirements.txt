@@ -64,3 +64,4 @@ django-pagetree==0.14.2
 django-pageblocks==0.5.11
 django-quizblock==0.6.15
 django-markwhat==1.0
+djangorestframework==2.4.2

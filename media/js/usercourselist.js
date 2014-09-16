@@ -1,10 +1,14 @@
 // creating course model
 var Course = Backbone.Model.extend({
-    // when creating new group makes post request to 
-//    ///coursesgroup/index
+
     urlRoot: '/course/',
     
-    // finally found it...
+    defaults: function() {
+        return {
+            name: "Default Course"
+        }
+    },
+
 	url : function() {
 	    if (this.isNew())
 	    	{
@@ -16,11 +20,7 @@ var Course = Backbone.Model.extend({
 		return this.urlRoot + this.id + '/';
     },
     
-    defaults: function() {
-        return {
-            name: "Default Course"
-        }
-    },
+
 	    
 	initialize: function(attributes) 
 	{   // not sure if this will cause problems
@@ -146,17 +146,21 @@ var CourseListView = Backbone.View.extend({
     },
     
     addCourse: function(new_crs) {
-    	//where to put the success/error?
-        // creates new instance of model for collection and automatically adds with add() method
-        // this is supposed to send a creation request to server
-        // also calls sycn event after server responds with successful creation of model
+
         this.collection.create(
         		{name : new_crs}, 
         		{wait: true,
-            	success: function(){
+            	success: function(data_array){
+            		data = data_array.models[0].attributes;
+            		data = JSON.stringify(data);
+            		console.log("data is " + data);
                     console.log("in success");
+                    //console.log(data);
                 },
-                error: function(){
+                error: function(data_array){
+                	data = data_array.models[0].attributes;
+            		data = JSON.stringify(data);
+                	console.log("data is " + data);
                     console.log("in error");
                 }}
         );
@@ -164,6 +168,7 @@ var CourseListView = Backbone.View.extend({
         return this;
   
     }, //end add course
+    
 
     add_course: function(new_crs) {
     	console.log("Inside collection add_course ");
@@ -196,6 +201,14 @@ console.log(course_collection); // log collection to console
 var test = course_collection.create({
   name: "Othello"
 });
+
+
+
+//Need to test model save()
+var mtest = new Course({ name : "why doesn't it use defaults?"});
+mtest.save({data:{name:"why doesn't it use defaults?"},type:'POST' });
+
+
 
 
 

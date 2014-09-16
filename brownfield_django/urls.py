@@ -3,13 +3,15 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.generic import TemplateView
+from rest_framework import routers, serializers, viewsets
 from pagetree.generic.views import PageView, EditView, InstructorView
+from brownfield_django.main.models import Course
 from brownfield_django.main.views import StudentHomeView, \
     HomeView, RegistrationView, DemoHomeView, \
     TeacherHomeView, TeacherCourseDetail, TeacherCreateCourse, \
     TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
     TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
-    TeacherBBHomeView
+    TeacherBBHomeView, CourseViewSet
     
 from brownfield_django.main.forms import CreateAccountForm
 import os.path
@@ -30,6 +32,10 @@ if hasattr(settings, 'WIND_BASE'):
         'djangowind.views.logout',
         {'next_page': redirect_after_logout})
 
+# Routers provide an easy way of automatically determining the URL conf.
+router = routers.DefaultRouter()
+router.register(r'course', CourseViewSet)
+
 
 urlpatterns = patterns(
     '',
@@ -39,11 +45,18 @@ urlpatterns = patterns(
     url(r'^accounts/register/$', RegistrationView.as_view(
         form_class=CreateAccountForm),
         name='register'),
+    url(r'^router/$', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
+        # Teacher Views
+    (r'^$', HomeView.as_view()),
+    (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
+    (r'^course$', TeacherBBHomeView.as_view()),
+    (r'^course/(?P<name>.*)/$', TeacherBBHomeView.as_view()),
+    (r'^courses/(?P<pk>\d+)$', TeacherBBHomeView.as_view()),
     (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),
     #/media/history/?cachebuster=0.664656763430685
 
-    #url(r'^home_demo/$', DemoHomeView.as_view(), name="home"),
-    #url(r'^$', HomeView.as_view(), name="home"),
     #(r'^demo/play/(?P<map_id>\d+)/display/flashConduit$', TemplateView.as_view(template_name="main/flvplayer.html")),
     (r'^demo/play$', "brownfield_django.main.views.get_demo"),#TemplateView.as_view(template_name="main/flvplayer.html")),
     (r'^demo/media/flash/$', "brownfield_django.main.views.get_bfa"),
@@ -60,14 +73,7 @@ urlpatterns = patterns(
     (r'^visrecon/$', TemplateView.as_view(template_name="interactive/visrecon.html")),
     (r'^demo/$', TemplateView.as_view(template_name="interactive/demo_layout.html")),
     (r'^site_history/$', TemplateView.as_view(template_name="interactive/site_history.html")),
-    (r'^$', HomeView.as_view()),
     (r'^student/(?P<pk>\d+)/$', StudentHomeView.as_view()),
-    
-    # Teacher Views
-    (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
-    (r'^course$', TeacherBBHomeView.as_view()),
-    (r'^course/(?P<name>.*)/$', TeacherBBHomeView.as_view()),
-    (r'^courses/(?P<pk>\d+)$', TeacherBBHomeView.as_view()),
     (r'^add_student/$', TeacherAddStudent.as_view()),
     (r'^release_document/$', TeacherReleaseDocument.as_view()),
     (r'^revoke_document/$', TeacherRevokeDocument.as_view()),

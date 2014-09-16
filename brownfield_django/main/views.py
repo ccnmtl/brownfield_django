@@ -14,13 +14,31 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, FormView
+from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse, reverse_lazy
 
+from rest_framework import viewsets
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import authentication, permissions
+
+
+from brownfield_django.main.serializers import CourseSerializer
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.forms import CourseForm, TeamForm, CreateAccountForm
 from brownfield_django.mixins import LoggedInMixin, LoggedInMixinSuperuser, \
     LoggedInMixinStaff, JSONResponseMixin
 
+
+
+class CourseViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Courses to be viewed or edited.
+    """
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
 
 
 '''Moved Views From NEPI Over to Start With'''
@@ -317,29 +335,32 @@ class TeacherHomeView(DetailView):
 class TeacherBBHomeView(JSONResponseMixin, View):
     '''Need to add proper permissions and groups,
     worry about getting it workings first...'''
-    # ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']
 
     def delete(self, request, *args, **kwargs):
         '''Backbone should send put request to update and object.'''
-        print request.DELETE
+        print json.loads(request.body)
 
     def get(self, request, *args, **kwargs):
         '''If there is an id present get request is sent to retrieve
         the rest of the model.'''
-        # print request.GET
         courses = Course.objects.all()
+        serializer = CourseSerializer(courses, many=True)
+        return self.render_to_json_response({'courses': serializer.data})
 
-        return self.render_to_json_response({'courses': courses})
     
     def post(self, request, *args, **kwargs):
         '''In backbone, if model has no id it sends post to create
         a new model and server should create a new instance of model
         and respond with its id'''
-        #id attribute is present there yet, a POST request is sent to the /users URL and
-        #the server sends a response with the new ID.
-        print request.POST
-        #print args
-        #print kwargs
+        #print json.loads(request.body)
+        data = JSONParser().parse(request)
+        print data
+        serializer = CourseSerializer(data=data)
+        print type(serializer)
+        if serializer.is_valid():
+            serializer.save()
+            return self.render_to_json_response(serializer.data, status=201)
+        return self.render_to_json_response(serializer.errors, status=400)
         
     def put(self, request, *args, **kwargs):
         '''Backbone should send put request to update and object.'''

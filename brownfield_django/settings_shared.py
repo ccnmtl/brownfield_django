@@ -108,6 +108,7 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'django.contrib.admin',
     'tagging',
+    'rest_framework',
     'typogrify',
     'south',
     'django_nose',
@@ -199,3 +200,11 @@ LOGGING = {
 }
 
 ACCOUNT_ACTIVATION_DAYS = 7
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
