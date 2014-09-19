@@ -4,7 +4,7 @@ import sys
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
 ADMINS = ()
 
 MANAGERS = ADMINS
@@ -201,10 +201,20 @@ LOGGING = {
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
+#REST_FRAMEWORK = {
+#     # Use Django's standard `django.contrib.auth` permissions,
+#     # or allow read-only access for unauthenticated users.
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+#     ]
+#}
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
+
+    'DEFAULT_MODEL_SERIALIZER_CLASS':
+    'rest_framework.serializers.ModelSerializer',
+
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.IsAuthenticated',
     ]
 }

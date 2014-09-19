@@ -14,31 +14,104 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, FormView
-from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse, reverse_lazy
 
-from rest_framework import viewsets
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import authentication, permissions
-
-
+ 
+ 
 from brownfield_django.main.serializers import CourseSerializer
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.forms import CourseForm, TeamForm, CreateAccountForm
 from brownfield_django.mixins import LoggedInMixin, LoggedInMixinSuperuser, \
     LoggedInMixinStaff, JSONResponseMixin
+from rest_framework import generics
 
 
+from rest_framework import mixins
+from rest_framework import generics
 
-class CourseViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows Courses to be viewed or edited.
-    """
+
+class CourseView(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+
+
+# class CourseView(APIView):
+#     
+#     def get(self, request, format=None):
+#         print "inside get"
+#         courses = Course.objects.all()
+#         serializer = CourseSerializer(courses, many=True)
+#         return Response(serializer.data)
+# 
+#     def post(self, request, format=None):
+#         print "inside post"
+#         serializer = CourseSerializer(data=request.DATA)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+#     """
+#     Create, update or delete a course instance.
+#     """
+#     def get_object(self, pk):
+#         try:
+#             return Course.objects.get(pk=pk)
+#         except Course.DoesNotExist:
+#             raise Http404
+# 
+#     def get(self, request, format=None):
+#         print "get called, name is: "
+#         print request.body
+#         print request.DATA
+#         course  = CourseSerializer(data=request.DATA)
+#         serializer = CourseSerializer(course)
+#         return Response(serializer.data)
+# 
+#     def post(self, request, format=None):
+#         print "inside post"
+#         serializer = CourseSerializer(data=request.DATA)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     def put(self, request, pk, format=None):
+#         snippet = self.get_object(pk)
+#         serializer = SnippetSerializer(snippet, data=request.DATA)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# 
+#     def delete(self, request, pk, format=None):
+#         snippet = self.get_object(pk)
+#         snippet.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# class CourseViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows Courses to be viewed or edited.
+#     """
+#     queryset = Course.objects.all()
+#     serializer_class = CourseSerializer
 
 
 '''Moved Views From NEPI Over to Start With'''
@@ -343,24 +416,21 @@ class TeacherBBHomeView(JSONResponseMixin, View):
     def get(self, request, *args, **kwargs):
         '''If there is an id present get request is sent to retrieve
         the rest of the model.'''
-        courses = Course.objects.all()
-        serializer = CourseSerializer(courses, many=True)
-        return self.render_to_json_response({'courses': serializer.data})
+        print json.loads(request.body)
+        serializer = SnippetSerializer(snippet)
+        print serializer.data
+        content = JSONRenderer().render(serializer.data)
+        print content
+#         course = Course.objects.get(id=drec['id'])
+#         return self.render_to_json_response()
+#         return HttpResponse(json.dumps(data), content_type='application/json')
 
-    
     def post(self, request, *args, **kwargs):
         '''In backbone, if model has no id it sends post to create
         a new model and server should create a new instance of model
         and respond with its id'''
-        #print json.loads(request.body)
-        data = JSONParser().parse(request)
-        print data
-        serializer = CourseSerializer(data=data)
-        print type(serializer)
-        if serializer.is_valid():
-            serializer.save()
-            return self.render_to_json_response(serializer.data, status=201)
-        return self.render_to_json_response(serializer.errors, status=400)
+        data = json.loads(request.body)
+        
         
     def put(self, request, *args, **kwargs):
         '''Backbone should send put request to update and object.'''

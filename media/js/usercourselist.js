@@ -34,7 +34,7 @@ var Course = Backbone.Model.extend({
 	
 var CourseCollection = Backbone.Collection.extend({
 	 model: Course,
-	 url: '/course/'
+	 url: '/course'
 });
 	
 	
