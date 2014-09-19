@@ -35,6 +35,8 @@ from rest_framework.parsers import JSONParser
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.renderers import XMLRenderer
+from rest_framework.response import Response
  
 from brownfield_django.main.serializers import CourseByNameSerializer, CourseSerializer
 
@@ -298,8 +300,38 @@ class DemoHomeView(JSONResponseMixin, View):
 
 
 
+class DemoHistoryView(APIView):
+    """
+    A view that returns the XML.
+    """
+    renderer_classes = (XMLRenderer)
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format=None):
+        print "inside demo history get"
+        content = {'demo': DEMO_XML}
+        return Response(content)
+
+
+INITIAL_XML = """<bfaxml><config>
+    <user signedcontract="true" startingbudget="0" access="professor" realname="Brownfield Demo Team"></user>
+    <narrative enabled="True"></narrative>
+    <information>
+    </information>
+    </config>
+    <testdata>
+    </testdata>
+    <budget>
+    </budget>
+    </bfaxml>"""
+
 def get_demo(request):
-    return render(request, 'main/flvplayer.html', {'demo': DEMO_XML}, content_type="application/xhtml+xml")
+    print "get demo"
+    print HttpResponse(INITIAL_XML, mime_type='application/xml')
+    return HttpResponse(INITIAL_XML, content_type="application/xhtml+xml")
+
+    #return render(request, 'main/flvplayer.html', {'demo': DEMO_XML}, content_type="application/xhtml+xml")
 #    return render(request, 'main/flvplayer.html',
 #            content_type="application/xhtml+xml")
 #    return HttpResponse(DEMO_XML)
@@ -313,7 +345,7 @@ def get_bfa(request):
 
 def get_demo_history(request):
     print "made it to method"
-    return HttpResponse(DEMO_XML, content_type='application/json')
+    return HttpResponse(DEMO_XML, content_type="application/xhtml+xml")
 
 INFO_TEST = """
         <information>

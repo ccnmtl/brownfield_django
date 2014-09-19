@@ -53,7 +53,6 @@ class XMLResponseMixin(object):
 
 
 
-
 class LoggedInMixin(object):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):

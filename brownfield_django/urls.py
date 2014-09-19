@@ -15,7 +15,7 @@ from brownfield_django.main.views import StudentHomeView, \
     TeacherHomeView, TeacherCourseDetail, TeacherCreateCourse, \
     TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
     TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
-    TeacherBBHomeView, CourseView, TeamViewSet, UserViewSet, BrownfieldDemoView
+    TeacherBBHomeView, CourseView, TeamViewSet, UserViewSet, BrownfieldDemoView, DemoHistoryView
 from brownfield_django.main.forms import CreateAccountForm
 import os.path
 admin.autodiscover()
@@ -45,11 +45,7 @@ urlpatterns = patterns(
     url(r'^accounts/register/$', RegistrationView.as_view(
         form_class=CreateAccountForm),
         name='register'),
-    url(r'^media/history', view=get_bfa, name='get_bfa'),
-    #url(r'^media/history/(?P<cachebuster>)/$', BrownfieldDemoView.as_view()),
-    url(r'^media/history/\?cachebuster=(.*)', BrownfieldDemoView.as_view()), # Doesn't seem to work
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    # Teacher Views
     (r'^$', HomeView.as_view()),
     (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
     # Teacher Views
@@ -57,9 +53,9 @@ urlpatterns = patterns(
     (r'^course/(?P<name>.*)/$', CourseView.as_view()),
     (r'^course/(?P<pk>\d+)$', CourseView.as_view()),
     (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),
-    (r'^demo/play$', BrownfieldDemoView.as_view()),#TemplateView.as_view(template_name="main/flvplayer.html")),
+    (r'^demo/play$', TemplateView.as_view(template_name="main/flvplayer.html")),
+    (r'^media/history/$', "brownfield_django.main.views.get_demo"),
     (r'^demo/media/flash/$', "brownfield_django.main.views.get_bfa"),
-    (r'^demo/history/$', "brownfield_django.main.views.get_demo_history"),
     #([0-9]{15}\.[0-9]{15})
     # ([0-9]+) should it be ?cachebuster=(([0-9]+)(.?)([0-9]+))$ instead?
     # almost? url(r'^media/history/?cachebuster=(?\d+.?\d*)$', DemoHomeView.as_view()),

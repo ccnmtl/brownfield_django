@@ -244,16 +244,16 @@ jQuery('.user_courses').append(course_collection_view.render().el);
 console.log(course_collection); // log collection to console
 
 
-//Need to test create()
-var test = course_collection.create({
-  name: "Othello"
-});
-
-
-
-//Need to test model save()
-var mtest = new Course({ name : "why doesn't it use defaults?"});
-mtest.save({data:{name:"why doesn't it use defaults?"},type:'POST' });
+////Need to test create()
+//var test = course_collection.create({
+//  name: "Othello"
+//});
+//
+//
+//
+////Need to test model save()
+//var mtest = new Course({ name : "why doesn't it use defaults?"});
+//mtest.save({data:{name:"why doesn't it use defaults?"},type:'POST' });
 
 
 
