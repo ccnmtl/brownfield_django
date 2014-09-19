@@ -36,12 +36,12 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
  
-from brownfield_django.main.serializers import CourseSerializer
+from brownfield_django.main.serializers import CourseByNameSerializer, CourseSerializer
 
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.forms import CourseForm, TeamForm, CreateAccountForm
 from brownfield_django.mixins import LoggedInMixin, LoggedInMixinSuperuser, \
-    LoggedInMixinStaff, JSONResponseMixin
+    LoggedInMixinStaff, JSONResponseMixin, XMLResponseMixin
 from rest_framework import generics
 from rest_framework import mixins
 from rest_framework import generics
@@ -69,23 +69,13 @@ class CourseView(APIView):
      
     def get(self, request, *args, **kwargs):
         cname = kwargs.pop('name', None)
-        print cname
-        course = get_object_or_404(Course, cname)
-        #course = Course.objects.get(name=cname)
-        print course
-        serializer = CourseSerializer(course)
+        serializer = CourseByNameSerializer(course)
+        print serializer.is_valid()
         return Response(serializer.data)
  
-    def post(self, request, *args, **kwargs):
-#         print "inside post"
-#         print "request.DATA"
-#         print request.DATA
+    def post(self, request, format=None, *args, **kwargs):
         cname = request.DATA['name']
-        #print cname
-        #course = Course.objects.get(name=cname)
-        #print course
-        serializer = CourseSerializer(data=request.DATA)
-        print serializer
+        serializer = CourseByNameSerializer(data=request.DATA)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -271,8 +261,8 @@ BROWNFIELD_XML = """
 
 '''I am using this view to play around with getting the
 flash to run'''
-class BrownfieldDemoView(View):
-    '''Initial view/controller usese templates play, bfaxml
+class BrownfieldDemoView(XMLResponseMixin, View):
+    '''Initial view/controller uses templates play, bfaxml
     think like in ssnm it has one page and a second call to the flash app
     base template: play
     over template bfaxml
@@ -280,12 +270,32 @@ class BrownfieldDemoView(View):
     Added xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#"
     to html header - not sure if I need it
     '''
-    template_name = 'main/demo.html'
+    template_name = 'main/flvplayer.html'
     success_url = '/'
 
     def get(self, request):
-        return render(request, 'main/flvplayer.html',
-            content_type="application/xhtml+xml")
+        print "inside get"
+        #print type(DEMO_XML)
+        #print type(self.render_to_xml_response(DEMO_XML))
+        #return self.render_to_xml_response(DEMO_XML)
+        # return render(request, 'main/flvplayer.html', content_type="application/xhtml+xml")
+        return render(request, 'main/flvplayer.html')
+
+
+class DemoHomeView(JSONResponseMixin, View):
+    '''Again I'm just using this view to get the Flash working,
+    no permissions or users'''
+    def get(self, request): #, *args, **kwargs):
+        print request.GET
+        country_id = kwargs.pop('country_id', None)
+        country = get_object_or_404(Country, name=country_id)
+
+        schools = []
+        for school in School.objects.filter(country=country):
+            schools.append({'id': str(school.id), 'name': school.name})
+
+        return self.render_to_json_response({'schools': schools})
+
 
 
 def get_demo(request):
@@ -298,10 +308,12 @@ def get_demo(request):
 def get_bfa(request):
     '''Flash is making calls to demo/media/flash/bfa.swf
     so we will give it'''
+    print request.GET
     return render(request, 'main/bfa.swf', content_type="application/xhtml+xml") 
 
 def get_demo_history(request):
-    return HttpResponse(DEMO_XML)
+    print "made it to method"
+    return HttpResponse(DEMO_XML, content_type='application/json')
 
 INFO_TEST = """
         <information>
@@ -319,19 +331,7 @@ def demo_save(request):
     return HttpResponse("<data><response>OK</response></data>")
         
 
-class DemoHomeView(JSONResponseMixin, View):
-    '''Again I'm just using this view to get the Flash working,
-    no permissions or users'''
-    def get(self, request): #, *args, **kwargs):
-        print request.GET
-        country_id = kwargs.pop('country_id', None)
-        country = get_object_or_404(Country, name=country_id)
 
-        schools = []
-        for school in School.objects.filter(country=country):
-            schools.append({'id': str(school.id), 'name': school.name})
-
-        return self.render_to_json_response({'schools': schools})
 
 # '''Old code looks like it is making a call to'''
 #     
