@@ -201,10 +201,29 @@ LOGGING = {
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
+
+# Stealing setting from DMT
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
+
+    'DEFAULT_MODEL_SERIALIZER_CLASS':
+    'rest_framework.serializers.HyperlinkedModelSerializer',
+
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.IsAuthenticated',
     ]
 }
+
+
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',)
+#     # Use Django's standard `django.contrib.auth` permissions,
+#     # or allow read-only access for unauthenticated users.
+# #     'DEFAULT_PERMISSION_CLASSES': [
+# #                                    
+# #         # 'rest_framework.permissions.AllowAny',
+# #         #'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+# #         #'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+# #     ]
+# }

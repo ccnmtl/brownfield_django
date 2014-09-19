@@ -3,7 +3,11 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.generic import TemplateView
-from rest_framework import routers, serializers, viewsets
+
+from rest_framework.routers import DefaultRouter
+from rest_framework import routers, serializers, viewsets, renderers
+#from rest_framework.urlpatterns import format_suffix_patterns
+
 from pagetree.generic.views import PageView, EditView, InstructorView
 from brownfield_django.main.models import Course
 from brownfield_django.main.views import StudentHomeView, \
@@ -11,8 +15,9 @@ from brownfield_django.main.views import StudentHomeView, \
     TeacherHomeView, TeacherCourseDetail, TeacherCreateCourse, \
     TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
     TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
-    TeacherBBHomeView, CourseViewSet
-    
+    TeacherBBHomeView, CourseViewSet, TeamViewSet, UserViewSet
+
+
 from brownfield_django.main.forms import CreateAccountForm
 import os.path
 admin.autodiscover()
@@ -32,9 +37,35 @@ if hasattr(settings, 'WIND_BASE'):
         'djangowind.views.logout',
         {'next_page': redirect_after_logout})
 
-# Routers provide an easy way of automatically determining the URL conf.
-router = routers.DefaultRouter()
+
+
+
+
+# course_list = CourseViewSet.as_view({
+#     'get': 'list',
+#     'post': 'create'
+# })
+# course_detail = CourseViewSet.as_view({
+#     'get': 'retrieve',
+#     'put': 'update',
+#     'patch': 'partial_update',
+#     'delete': 'destroy'
+# })
+# course_highlight = CourseViewSet.as_view({
+#     'get': 'highlight'
+# }, renderer_classes=[renderers.StaticHTMLRenderer])
+# user_list = UserViewSet.as_view({
+#     'get': 'list'
+# })
+# user_detail = UserViewSet.as_view({
+#     'get': 'retrieve'
+# })
+
+
+router = DefaultRouter()
 router.register(r'course', CourseViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'team', TeamViewSet)
 
 
 urlpatterns = patterns(
@@ -45,15 +76,14 @@ urlpatterns = patterns(
     url(r'^accounts/register/$', RegistrationView.as_view(
         form_class=CreateAccountForm),
         name='register'),
-    url(r'^router/$', include(router.urls)),
+    #url(r'^', include('nepi.main.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-
-        # Teacher Views
+    # Teacher Views
     (r'^$', HomeView.as_view()),
     (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
-    (r'^course$', TeacherBBHomeView.as_view()),
+    (r'^course/$', TeacherBBHomeView.as_view()),
     (r'^course/(?P<name>.*)/$', TeacherBBHomeView.as_view()),
-    (r'^courses/(?P<pk>\d+)$', TeacherBBHomeView.as_view()),
+    (r'^course/(?P<pk>\d+)$', TeacherBBHomeView.as_view()),
     (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),
     #/media/history/?cachebuster=0.664656763430685
 

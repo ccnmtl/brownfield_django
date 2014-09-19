@@ -1,3 +1,17 @@
+// need to send csrf token with requests
+
+//(function() {
+//  var _sync = Backbone.sync;
+//  Backbone.sync = function(method, model, options){
+//    options.beforeSend = function(xhr){
+//      var token = jQuery('meta[name="csrf-token"]').attr('content');
+//      xhr.setRequestHeader('X-CSRFToken', token);
+//    };
+//    return _sync(method, model, options);
+//  };
+//})();
+
+
 // creating course model
 var Course = Backbone.Model.extend({
 
@@ -9,16 +23,16 @@ var Course = Backbone.Model.extend({
         }
     },
 
-	url : function() {
-	    if (this.isNew())
-	    	{
-	    	console.log("Model is new"); 
-	    	console.log("Model urlRoot : " + this.urlRoot);
-	    	console.log("Model name : " + this.name); 
-	    	return this.urlRoot + encodeURIComponent(this.name) + '/';
-	    	}
-		return this.urlRoot + this.id + '/';
-    },
+//	url : function() {
+//	    if (this.isNew())
+//	    	{
+//	    	console.log("Model is new"); 
+//	    	console.log("Model urlRoot : " + this.urlRoot);
+//	    	console.log("Model name : " + this.name); 
+//	    	return this.urlRoot + encodeURIComponent(this.name) + '/';
+//	    	}
+//		return this.urlRoot + this.id + '/';
+//    },
     
 
 	    

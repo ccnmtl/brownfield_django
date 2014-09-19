@@ -4,7 +4,7 @@ from xml.dom.minidom import parseString
 
 from django import forms
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.http.response import HttpResponseForbidden
 from django.forms import ModelForm
 from django.contrib.auth.models import User
@@ -17,28 +17,63 @@ from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse, reverse_lazy
 
-from rest_framework import viewsets
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
+from rest_framework import viewsets, filters, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import authentication, permissions
+# from rest_framework import authentication, permissions
+from rest_framework import status
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
+#from rest_framework.permissions import IsOwnerOrReadOnly
+from rest_framework import status
+from rest_framework.decorators import api_view, detail_route
+from rest_framework import permissions
+from rest_framework import routers, serializers, viewsets, renderers
 
-
-from brownfield_django.main.serializers import CourseSerializer
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.forms import CourseForm, TeamForm, CreateAccountForm
 from brownfield_django.mixins import LoggedInMixin, LoggedInMixinSuperuser, \
     LoggedInMixinStaff, JSONResponseMixin
 
+from .serializers import CourseSerializer, UserSerializer, TeamSerializer
+
+
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows Courses to be viewed or edited.
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
     """
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly)
+
+    @detail_route(renderer_classes=[renderers.StaticHTMLRenderer])
+    def highlight(self, request, *args, **kwargs):
+        snippet = self.get_object()
+        return Response(snippet.highlighted)
+
+    def pre_save(self, obj):
+        obj.owner = self.request.user
+
+ 
+class TeamViewSet(viewsets.ModelViewSet):
+    queryset = Team.objects.all()
+    serializer_class = TeamSerializer
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly)
+ 
+ 
+
+
 
 
 '''Moved Views From NEPI Over to Start With'''
@@ -332,40 +367,46 @@ class TeacherHomeView(DetailView):
         return self.render_to_response(context)
 
 
-class TeacherBBHomeView(JSONResponseMixin, View):
+class TeacherBBHomeView(JSONResponseMixin, APIView):
     '''Need to add proper permissions and groups,
     worry about getting it workings first...'''
+    #authentication_classes = (SessionAuthentication)
+    #permission_classes = (IsAuthenticated,)
 
     def delete(self, request, *args, **kwargs):
         '''Backbone should send put request to update and object.'''
         print json.loads(request.body)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, format=None):
         '''If there is an id present get request is sent to retrieve
         the rest of the model.'''
+        print json.loads(request.body)
+        print request.user
+        print request.DATA
         courses = Course.objects.all()
         serializer = CourseSerializer(courses, many=True)
-        return self.render_to_json_response({'courses': serializer.data})
-
+        return Response(serializer.data)
     
-    def post(self, request, *args, **kwargs):
+    def post(self, request, format=None):
         '''In backbone, if model has no id it sends post to create
         a new model and server should create a new instance of model
         and respond with its id'''
-        #print json.loads(request.body)
-        data = JSONParser().parse(request)
-        print data
-        serializer = CourseSerializer(data=data)
+        print request.user
+        print request.DATA
+        print json.loads(request.body)
+        print request.body
+        serializer = CourseSerializer(data=request.DATA)
+        print serializer
         print type(serializer)
         if serializer.is_valid():
             serializer.save()
-            return self.render_to_json_response(serializer.data, status=201)
-        return self.render_to_json_response(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
     def put(self, request, *args, **kwargs):
         '''Backbone should send put request to update and object.'''
         print request.PUT
-        
+
 
         
 
