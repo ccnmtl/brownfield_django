@@ -84,6 +84,7 @@ class CourseView(APIView):
     def get(self, request, *args, **kwargs):
         cname = kwargs.pop('name', None)
         serializer = AddCourseByNameSerializer(cname)
+        print serializer
         print serializer.is_valid()
         return Response(serializer.data)
 
