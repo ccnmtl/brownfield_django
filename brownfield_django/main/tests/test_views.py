@@ -7,8 +7,9 @@ from django.contrib.auth.models import User
 
 from pagetree.helpers import get_hierarchy
 
-# from factories import UserFactory, UserProfileFactory,
-# TeacherProfileFactory, \
+from factories import UserFactory, UserProfileFactory, TeacherProfileFactory, \
+    CourseOneFactory, CourseTwoFactory
+# , \
 #    StudentProfileFactory, CourseFactory, TeamFactory
 
 '''
@@ -188,3 +189,45 @@ class TestStudentUserLogin(TestCase):
 #         self.assertEquals(response.redirect_chain[0],[
 #         ('http://testserver/student/'+str(self.student.pk), 302)])
 #         self.assertTemplateUsed(response, 'main/student/student_home.html')
+
+class TestInstructorLogin(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.factory = RequestFactory()
+        self.teacher = TeacherProfileFactory().user
+        self.course_one = CourseOneFactory()
+        self.course_two = CourseTwoFactory()
+        self.client.login(username=self.teacher.username, password="test")
+
+    def test_home(self):
+        response = self.client.get("/", follow=True)
+        self.assertEquals(response.redirect_chain[0],
+        ('http://testserver/teacher/' + str(self.teacher.profile.pk) + '/',
+         302))
+        self.assertTemplateUsed(response, 'main/instructor/instructor_home.html')
+
+    def test_post_course(self):
+        '''
+        Calling post with desired name of the new course
+        should result in a new course with that name being created
+        and the course info (key) being returned to the browser to update
+        the course list.
+        '''
+        request = self.client.post("/course")  # , {'name': 'test name for course'})
+#         request.body = "{name : 'test name for course'}"
+#         self.assertEqual(request.status_code, 200)
+        # self.assertTemplateUsed(response, 'main/instructor/instructor_home.html')
+ 
+#     (r'^course/$', CourseView.as_view()),
+#     (r'^course/(?P<name>.*)/$', CourseView.as_view()),
+#     (r'^course/(?P<pk>\d+)$', CourseView.as_view()),
+#     def test_home_noprofile(self):
+#         user = UserFactory()
+#         self.client.login(username=user.username, password="test")
+#
+#         response = self.client.get("/", follow=True)
+#         self.assertEqual(response.status_code, 200)
+#         self.assertEquals(response.redirect_chain[0],
+#                           ('http://testserver/register/', 302))
+

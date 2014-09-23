@@ -44,7 +44,30 @@ class StudentProfileFactory(UserProfileFactory):
 
 
 class TeacherProfileFactory(UserProfileFactory):
+    user = factory.SubFactory(UserFactory)
     profile_type = 'TE'
+
+
+class CourseOneFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = Course
+    name = "Test Course One"
+    password = "12345"
+    startingBudget = 65000
+    enableNarrative = True
+    message = "Hello you non existant students."
+    active = True
+    creator = factory.SubFactory(UserFactory)
+
+
+class CourseTwoFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = Course
+    name = "Test Course Two"
+    password = "12345"
+    startingBudget = 65000
+    enableNarrative = True
+    message = "Hello you non existant students."
+    active = True
+    creator = factory.SubFactory(UserFactory)
 
 
 class TeamFactory(factory.DjangoModelFactory):
