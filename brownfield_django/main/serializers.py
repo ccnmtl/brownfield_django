@@ -20,6 +20,13 @@ class CompleteCourseSerializer(serializers.HyperlinkedModelSerializer):
                   'message', 'active', 'creator')
 
 
+class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
+    '''Allow professor see, update all aspects of a course.'''
+    class Meta:
+        model = Course
+        fields = ('name', 'course', 'link', 'visible')
+
+
 # class UserCoursesSerializer(serializers.HyperlinkedModelSerializer):
 #     courses = serializers.PrimaryKeyRelatedField(many=True)
 # 

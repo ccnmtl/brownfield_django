@@ -15,7 +15,7 @@ from brownfield_django.main.views import StudentHomeView, \
     TeacherHomeView, TeacherCourseDetail, TeacherCreateCourse, \
     TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
     TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
-    TeacherBBHomeView, CourseView, TeamViewSet, UserViewSet, BrownfieldDemoView, DemoHistoryView
+    TeacherBBHomeView, CourseView, BrownfieldDemoView, DemoHistoryView
 from brownfield_django.main.forms import CreateAccountForm
 import os.path
 admin.autodiscover()
