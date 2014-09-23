@@ -120,8 +120,6 @@ brownfield_django/main/tests/test_views.py:106: [R0904, TestAnnonymousUserLogin]
 brownfield_django/main/tests/test_views.py:119: [R0904, TestStudentUserLogin] Too many public methods (65/50)
 brownfield_django/main/tests/test_views.py:201: [E1103, TestInstructorLogin.setUp] Instance of 'SubFactory' has no 'username' member (but some types could not be inferred)
 brownfield_django/main/tests/test_views.py:206: [E1103, TestInstructorLogin.test_home] Instance of 'SubFactory' has no 'profile' member (but some types could not be inferred)
-brownfield_django/main/tests/test_views.py:217: [W0612, TestInstructorLogin.test_post_course] Unused variable 'request'
-brownfield_django/main/tests/test_views.py:228: [W0612, TestInstructorLogin.test_get_course] Unused variable 'request'
 brownfield_django/main/tests/test_views.py:193: [R0904, TestInstructorLogin] Too many public methods (68/50)
 brownfield_django/main/tests/test_views.py:10: [W0611] Unused import UserFactory
 brownfield_django/main/tests/test_views.py:10: [W0611] Unused import UserProfileFactory
@@ -135,6 +133,53 @@ Report
 ======
 692 statements analysed.
 
+Statistics by type
+------------------
+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |13     |13         |=          |0.00        |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|class    |91     |91         |=          |30.77       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|method   |85     |85         |=          |38.82       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|function |7      |7          |=          |14.29       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+
+
+
+Raw metrics
+-----------
+
++----------+-------+------+---------+-----------+
+|type      |number |%     |previous |difference |
++==========+=======+======+=========+===========+
+|code      |802    |57.70 |802      |=          |
++----------+-------+------+---------+-----------+
+|docstring |163    |11.73 |163      |=          |
++----------+-------+------+---------+-----------+
+|comment   |213    |15.32 |211      |+2.00      |
++----------+-------+------+---------+-----------+
+|empty     |212    |15.25 |212      |=          |
++----------+-------+------+---------+-----------+
+
+
+
+Duplication
+-----------
+
++-------------------------+------+---------+-----------+
+|                         |now   |previous |difference |
++=========================+======+=========+===========+
+|nb duplicated lines      |0     |0        |=          |
++-------------------------+------+---------+-----------+
+|percent duplicated lines |0.000 |0.000    |=          |
++-------------------------+------+---------+-----------+
+
+
+
 Messages by category
 --------------------
 
@@ -145,7 +190,7 @@ Messages by category
 +-----------+-------+---------+-----------+
 |refactor   |21     |21       |=          |
 +-----------+-------+---------+-----------+
-|warning    |30     |26       |+4.00      |
+|warning    |28     |30       |-2.00      |
 +-----------+-------+---------+-----------+
 |error      |65     |65       |=          |
 +-----------+-------+---------+-----------+
@@ -158,19 +203,19 @@ Messages by category
 +-----------------------------------------+------+--------+---------+-----------+
 |module                                   |error |warning |refactor |convention |
 +=========================================+======+========+=========+===========+
-|brownfield_django.main.views             |80.00 |60.00   |23.81    |6.67       |
+|brownfield_django.main.views             |80.00 |64.29   |23.81    |6.67       |
 +-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.tests.test_views  |6.15  |20.00   |28.57    |80.00      |
+|brownfield_django.main.tests.test_views  |6.15  |14.29   |28.57    |80.00      |
 +-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.tests.test_models |4.62  |3.33    |38.10    |13.33      |
+|brownfield_django.main.tests.test_models |4.62  |3.57    |38.10    |13.33      |
 +-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.models            |4.62  |3.33    |0.00     |0.00       |
+|brownfield_django.main.models            |4.62  |3.57    |0.00     |0.00       |
 +-----------------------------------------+------+--------+---------+-----------+
 |brownfield_django.main.forms             |3.08  |0.00    |0.00     |0.00       |
 +-----------------------------------------+------+--------+---------+-----------+
 |brownfield_django.main.admin             |1.54  |0.00    |9.52     |0.00       |
 +-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.tests.__init__    |0.00  |13.33   |0.00     |0.00       |
+|brownfield_django.main.tests.__init__    |0.00  |14.29   |0.00     |0.00       |
 +-----------------------------------------+------+--------+---------+-----------+
 
 
@@ -199,8 +244,6 @@ Messages
 +-----------+------------+
 |W0611      |3           |
 +-----------+------------+
-|W0612      |2           |
-+-----------+------------+
 |W0401      |2           |
 +-----------+------------+
 |W0201      |1           |
@@ -214,24 +257,7 @@ Messages
 
 Global evaluation
 -----------------
-Your code has been rated at 4.35/10 (previous run: 4.34/10)
-
-Raw metrics
------------
-
-+----------+-------+------+---------+-----------+
-|type      |number |%     |previous |difference |
-+==========+=======+======+=========+===========+
-|code      |802    |57.78 |794      |+8.00      |
-+----------+-------+------+---------+-----------+
-|docstring |163    |11.74 |163      |=          |
-+----------+-------+------+---------+-----------+
-|comment   |211    |15.20 |211      |=          |
-+----------+-------+------+---------+-----------+
-|empty     |212    |15.27 |213      |-1.00      |
-+----------+-------+------+---------+-----------+
-
-
+Your code has been rated at 4.38/10 (previous run: 4.35/10)
 
 External dependencies
 ---------------------
@@ -341,36 +367,6 @@ External dependencies
         \-APIView (brownfield_django.main.views)
     smoketest 
       \-SmokeTest (brownfield_django.main.smoke)
-
-
-
-Statistics by type
-------------------
-
-+---------+-------+-----------+-----------+------------+---------+
-|type     |number |old number |difference |%documented |%badname |
-+=========+=======+===========+===========+============+=========+
-|module   |13     |13         |=          |0.00        |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|class    |91     |91         |=          |30.77       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|method   |85     |81         |+4.00      |38.82       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|function |7      |7          |=          |14.29       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-
-
-
-Duplication
------------
-
-+-------------------------+------+---------+-----------+
-|                         |now   |previous |difference |
-+=========================+======+=========+===========+
-|nb duplicated lines      |0     |0        |=          |
-+-------------------------+------+---------+-----------+
-|percent duplicated lines |0.000 |0.000    |=          |
-+-------------------------+------+---------+-----------+
 
 
 
