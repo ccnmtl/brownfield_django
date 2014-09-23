@@ -1,5 +1,5 @@
-from django.forms import widgets
-from django.contrib.auth.models import User, Group
+# from django.forms import widgets
+from django.contrib.auth.models import User  # , Group
 from rest_framework import serializers
 from brownfield_django.main.models import Course, Team
 # Serializers define the API representation
@@ -29,7 +29,7 @@ class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
 
 # class UserCoursesSerializer(serializers.HyperlinkedModelSerializer):
 #     courses = serializers.PrimaryKeyRelatedField(many=True)
-# 
+#
 #     class Meta:
 #         model = User
 #         fields = ('id', 'username', 'courses')
@@ -37,7 +37,7 @@ class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
 
 class UsersInCourseSerializer(serializers.HyperlinkedModelSerializer):
     courses = serializers.PrimaryKeyRelatedField(many=True)
- 
+
     class Meta:
         model = User
         fields = ('id', 'username', 'courses')
@@ -66,10 +66,11 @@ class ListUserCoursesSerializer(serializers.HyperlinkedModelSerializer):
 class ListAllCoursesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Course
-        fields = ('name', 'startingBudget', 'enableNarrative', 'message', 'active', 'creator')
+        fields = ('name', 'startingBudget', 'enableNarrative', 'message',
+                  'active', 'creator')
 
 
-# 
+#
 # class CourseSerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:
 #         model = Course
@@ -80,10 +81,9 @@ class ListAllCoursesSerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:
 #         model = User
 #         fields = ('url', 'username', 'email', 'groups')
-# 
-# 
+#
+#
 # class GroupSerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:
 #         model = Group
 #         fields = ('url', 'name')
-        

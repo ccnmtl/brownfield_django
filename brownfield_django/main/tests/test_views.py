@@ -1,5 +1,5 @@
-import json
-from datetime import datetime
+# import json
+#from datetime import datetime
 
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
@@ -7,8 +7,9 @@ from django.contrib.auth.models import User
 
 from pagetree.helpers import get_hierarchy
 
-from factories import UserFactory, UserProfileFactory, TeacherProfileFactory, \
-    StudentProfileFactory, CourseFactory, TeamFactory
+# from factories import UserFactory, UserProfileFactory,
+# TeacherProfileFactory, \
+#    StudentProfileFactory, CourseFactory, TeamFactory
 
 '''
 Need to test:
@@ -27,7 +28,6 @@ Need to test:
     OnLoad
     OnSave
 '''
-
 
 
 class BasicTest(TestCase):
@@ -120,89 +120,71 @@ class TestStudentUserLogin(TestCase):
     def setUp(self):
         self.client = Client()
         self.factory = RequestFactory()
-        self.student = StudentProfileFactory().user
-        self.client.login(username=self.student.username, password="test")
+#         self.student = StudentProfileFactory().user
+#         self.client.login(username=self.student.username, password="test")
 
 #     def test_home(self):
 #         response = self.client.get("/", follow=True)
         #self.assertEquals(response.redirect_chain[0],[
-        #                  ('http://testserver/student/'+str(self.student.pk), 302)])
+        # ('http://testserver/student/'+str(self.student.pk), 302)])
         #self.assertTemplateUsed(response, 'main/student/student_home.html')
-        
 
 #     def test_home_noprofile(self):
 #         user = UserFactory()
 #         self.client.login(username=user.username, password="test")
-# 
+#
 #         response = self.client.get("/", follow=True)
 #         self.assertEqual(response.status_code, 200)
 #         self.assertEquals(response.redirect_chain[0],
 #                           ('http://testserver/register/', 302))
-# 
+#
 #     def test_dashboard(self):
 #         response = self.client.get('/dashboard/')
 #         self.assertEquals(response.status_code, 200)
-# 
+#
 #     def test_dashboard_context(self):
 #         request = RequestFactory().get('/dashboard/')
 #         request.user = self.student
-# 
+#
 #         view = UserProfileView()
 #         view.request = request
-# 
+#
 #         self.assertEquals(view.get_object(), request.user.profile)
-# 
+#
 #         view.object = request.user.profile
 #         ctx = view.get_context_data()
-# 
+#
 #         self.assertEquals(ctx['optionb'], self.hierarchy)
 #         self.assertIsNotNone(ctx['profile_form'])
 #         self.assertEquals(ctx['countries'], COUNTRY_CHOICES)
 #         self.assertEquals(ctx['joined_groups'].count(), 0)
 #         self.assertTrue('managed_groups' not in ctx)
 #         self.assertTrue('pending_teachers' not in ctx)
-# 
-# 
-# 
-# # 
-# # 
+#
+#
 # class TestTeacherUserLogin(TestCase):
-#  
+#
 #     def setUp(self):
 #         self.client = Client()
 #         self.factory = RequestFactory()
 #         self.student = TeacherProfileFactory().user
 #         self.client.login(username=self.student.username, password="test")
-#  
+#
 #     def test_home(self):
 #         response = self.client.get("/", follow=True)
 #         self.assertEqual(response.status_code, 200)
 #         self.assertEquals(response.redirect_chain[0],
 #                           ('http://testserver/accounts/login/?next=/', 302))
-#  
-#  
-#  
-# 
+#
+#
 # class TestStudentUserLogin(TestCase):
-# 
+#
 #     def setUp(self):
 #         self.client = Client()
 #         self.factory = RequestFactory()
-# 
-# 
+#
 #     def test_home(self):
 #         response = self.client.get("/", follow=True)
 #         self.assertEquals(response.redirect_chain[0],[
-#                           ('http://testserver/student/'+str(self.student.pk), 302)])
+#         ('http://testserver/student/'+str(self.student.pk), 302)])
 #         self.assertTemplateUsed(response, 'main/student/student_home.html')
-
-
-
-
-
-
-
-
-
-
-

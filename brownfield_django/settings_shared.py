@@ -206,11 +206,10 @@ REST_FRAMEWORK = {
 
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
     'DEFAULT_MODEL_SERIALIZER_CLASS':
-        'rest_framework.serializers.ModelSerializer',
- 
+    'rest_framework.serializers.ModelSerializer',
+
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-   ]
+        ]
 
 }
-

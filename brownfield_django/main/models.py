@@ -25,7 +25,6 @@ Old Tables:
 '''
 
 
-
 class Course(models.Model):
     '''Course'''
     name = models.CharField(max_length=255)
@@ -34,7 +33,8 @@ class Course(models.Model):
     enableNarrative = models.BooleanField(default=True)
     message = models.TextField(max_length=255)
     active = models.BooleanField(default=True)
-    creator = models.ForeignKey(User, related_name="created_by", null=True, default=None, blank=True)
+    creator = models.ForeignKey(User, related_name="created_by", null=True,
+                                default=None, blank=True)
     initial_budget = models.PositiveIntegerField(default=65000)
 
     def __unicode__(self):
@@ -44,7 +44,6 @@ class Course(models.Model):
         participants = UserProfile.objects.filter(course=self)
         # need to exclude teacher
         return participants
-
 
 
 class Document(models.Model):
@@ -75,17 +74,17 @@ class Team(models.Model):
 
     def __unicode__(self):
         return self.name
-    
+
     def get_members(self):
         try:
             members = self.userprofile_set.all()
             return members
         except:
             return None
-        
+
     def get_signed_contract(self):
         return self.signed_contract
-    
+
     def get_course(self):
         return self.course
 
@@ -122,9 +121,6 @@ class UserProfile(models.Model):
             return "faculty"
 
 
-
-    
-
 class History(models.Model):
     team = models.ForeignKey(Team)
     date = models.DateTimeField(default=datetime.datetime.now)
@@ -147,4 +143,4 @@ class PerformedTest(models.Model):
 
 
 class Visit(models.Model):
-    pass 
+    pass

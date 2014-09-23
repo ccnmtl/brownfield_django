@@ -3,19 +3,18 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.generic import TemplateView
-from rest_framework.routers import DefaultRouter
-from rest_framework import routers, serializers, viewsets, renderers
-#from rest_framework.urlpatterns import format_suffix_patterns
-from rest_framework import routers, serializers, viewsets
-from rest_framework.urlpatterns import format_suffix_patterns
+# from rest_framework.routers import DefaultRouter
+# from rest_framework.urlpatterns import format_suffix_patterns
 from pagetree.generic.views import PageView, EditView, InstructorView
-from brownfield_django.main.models import Course
 from brownfield_django.main.views import StudentHomeView, \
-    HomeView, RegistrationView, DemoHomeView, get_bfa, \
-    TeacherHomeView, TeacherCourseDetail, TeacherCreateCourse, \
-    TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
-    TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
-    TeacherBBHomeView, CourseView, BrownfieldDemoView, DemoHistoryView
+    HomeView, RegistrationView, \
+    TeacherHomeView, \
+    CourseView
+#     TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
+# get_bfa,  BrownfieldDemoView, DemoHomeView, TeacherBBHomeView,
+#     TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
+# , DemoHistoryView
+# TeacherCourseDetail, TeacherCreateCourse, \
 from brownfield_django.main.forms import CreateAccountForm
 import os.path
 admin.autodiscover()
@@ -36,7 +35,6 @@ if hasattr(settings, 'WIND_BASE'):
         {'next_page': redirect_after_logout})
 
 
-
 urlpatterns = patterns(
     '',
     auth_urls,
@@ -45,7 +43,8 @@ urlpatterns = patterns(
     url(r'^accounts/register/$', RegistrationView.as_view(
         form_class=CreateAccountForm),
         name='register'),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-auth/', include('rest_framework.urls',
+                               namespace='rest_framework')),
     (r'^$', HomeView.as_view()),
     (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
     # Teacher Views
@@ -53,19 +52,24 @@ urlpatterns = patterns(
     (r'^course/(?P<name>.*)/$', CourseView.as_view()),
     (r'^course/(?P<pk>\d+)$', CourseView.as_view()),
     (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),
-    (r'^demo/play$', TemplateView.as_view(template_name="main/flvplayer.html")),
+    (r'^demo/play$', TemplateView.as_view(
+        template_name="main/flvplayer.html")),
     (r'^media/history/$', "brownfield_django.main.views.get_demo"),
     (r'^demo/media/flash/$', "brownfield_django.main.views.get_bfa"),
     #([0-9]{15}\.[0-9]{15})
     # ([0-9]+) should it be ?cachebuster=(([0-9]+)(.?)([0-9]+))$ instead?
-    # almost? url(r'^media/history/?cachebuster=(?\d+.?\d*)$', DemoHomeView.as_view()),
+    # almost? url(r'^media/history/?cachebuster=(?\d+.?\d*)$',
+    # DemoHomeView.as_view()),
     #url(r'^media/history/?cachebuster=(/d*.?d*/)$', DemoHomeView.as_view()),
     (r'^demo/info/$', "brownfield_django.main.views.get_demo_info"),
     (r'^demo/test/$', "brownfield_django.main.views.get_demo_test"),
     (r'^demo/save/$', "brownfield_django.main.views.demo_save"),
-    (r'^visrecon/$', TemplateView.as_view(template_name="interactive/visrecon.html")),
-    (r'^demo/$', TemplateView.as_view(template_name="interactive/demo_layout.html")),
-    (r'^site_history/$', TemplateView.as_view(template_name="interactive/site_history.html")),
+    (r'^visrecon/$', TemplateView.as_view(
+        template_name="interactive/visrecon.html")),
+    (r'^demo/$', TemplateView.as_view(
+        template_name="interactive/demo_layout.html")),
+    (r'^site_history/$', TemplateView.as_view(
+        template_name="interactive/site_history.html")),
     (r'^student/(?P<pk>\d+)/$', StudentHomeView.as_view()),
     (r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
@@ -87,4 +91,3 @@ urlpatterns = patterns(
         hierarchy_name="main",
         hierarchy_base="/pages/")),
 )
-
