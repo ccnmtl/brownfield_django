@@ -214,11 +214,29 @@ class TestInstructorLogin(TestCase):
         and the course info (key) being returned to the browser to update
         the course list.
         '''
-        request = self.client.post("/course")  # , {'name': 'test name for course'})
-#         request.body = "{name : 'test name for course'}"
-#         self.assertEqual(request.status_code, 200)
+        request = self.client.post("/course", {}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+#         request.body = {'name': 'test new course'}
+#         # {'name' : 'test name for course'}
+#         self.assertEqual(request.status_code, 201)
+
+    def test_get_course(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        request = self.client.get("/course/" + str(self.course_one.pk) + '/')
+#         request.body = {'name': 'test new course'}
+#         # {'name' : 'test name for course'}
+#         self.assertEqual(request.status_code, 201)
+
+#                 response = self.client.get('/schools/%s/' % self.country.name, {},
+#                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+#         self.assertEquals(response.status_code, 200)
+#         the_json = json.loads(response.content)
+#         self.assertEquals(len(the_json['schools']), 0)
         # self.assertTemplateUsed(response, 'main/instructor/instructor_home.html')
- 
+
 #     (r'^course/$', CourseView.as_view()),
 #     (r'^course/(?P<name>.*)/$', CourseView.as_view()),
 #     (r'^course/(?P<pk>\d+)$', CourseView.as_view()),

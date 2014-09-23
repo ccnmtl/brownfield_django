@@ -89,12 +89,23 @@ class CourseView(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None, *args, **kwargs):
-        # cname = request.DATA['name']
+        '''
+        Creating new course with the name requested by user
+        with the user as the creator
+        '''
         serializer = AddCourseByNameSerializer(data=request.DATA)
         if serializer.is_valid():
-            serializer.save()
+            course_name = serializer.data['name']
+            new_course = Course.objects.create(name=course_name, creator=User.objects.get(pk=request.user.pk))
+            new_course.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, format=None, *args, **kwargs):
+        pass
+
+    def delete(self, request, format=None, *args, **kwargs):
+        pass
 
 
 class AddStudentView(APIView):
@@ -121,6 +132,11 @@ class AddStudentView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def update(self, request, format=None, *args, **kwargs):
+        pass
+
+    def delete(self, request, format=None, *args, **kwargs):
+        pass
 
 class ListCourseStudentsView(APIView):
     """

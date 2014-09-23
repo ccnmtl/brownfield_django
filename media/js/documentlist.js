@@ -37,7 +37,7 @@
 //};
 
 
-// creating course model
+// creating document model
 var Document = Backbone.Model.extend({
 
     urlRoot: '/document/',

@@ -1,6 +1,64 @@
-<testsuite errors="0" failures="1" name="Django Project Tests" skips="0" tests="19" time="2.482"><testcase classname="brownfield_django.main.tests.test_models.TestCourseFactory" name="test_unicode" time="0.069605" /><testcase classname="brownfield_django.main.tests.test_models.TestHistoryFactory" name="test_unicode" time="0.140242" /><testcase classname="brownfield_django.main.tests.test_models.TestPerformedTestFactory" name="test_unicode" time="0.001514" /><testcase classname="brownfield_django.main.tests.test_models.TestStudentProfileFactory" name="test_unicode" time="0.141319" /><testcase classname="brownfield_django.main.tests.test_models.TestTeacherProfileFactory" name="test_unicode" time="0.135842" /><testcase classname="brownfield_django.main.tests.test_models.TestTeamFactory" name="test_unicode" time="0.132822" /><testcase classname="brownfield_django.main.tests.test_models.TestUserFactory" name="test_unicode" time="0.065763" /><testcase classname="brownfield_django.main.tests.test_models.TestUserProfileFactory" name="test_unicode" time="0.129006" /><testcase classname="brownfield_django.main.tests.test_views.BasicTest" name="test_root" time="0.126244" /><testcase classname="brownfield_django.main.tests.test_views.BasicTest" name="test_smoketest" time="0.003459" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedIn" name="test_edit_page" time="0.401815" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedIn" name="test_instructor_page" time="0.169285" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedIn" name="test_page" time="0.183818" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedOut" name="test_edit_page" time="0.013962" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedOut" name="test_instructor_page" time="0.013843" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedOut" name="test_page" time="0.051417" /><testcase classname="brownfield_django.main.tests.test_views.TestAnnonymousUserLogin" name="test_home" time="0.017624" /><testcase classname="brownfield_django.main.tests.test_views.TestInstructorLogin" name="test_home" time="0.352278"><system-out>GET home view
-</system-out></testcase><testcase classname="brownfield_django.main.tests.test_views.TestInstructorLogin" name="test_post_course" time="0.323047"><failure message="301 != 200" type="exceptions.AssertionError">Traceback (most recent call last):
-  File "/home/cdunlop/brownfield_django/brownfield_django/main/tests/test_views.py", line 219, in test_post_course
-    self.assertEqual(request.status_code, 200)
-AssertionError: 301 != 200
-</failure></testcase></testsuite>
+<testsuite errors="1" failures="0" name="Django Project Tests" skips="0" tests="20" time="2.658"><testcase classname="brownfield_django.main.tests.test_models.TestCourseFactory" name="test_unicode" time="0.062799" /><testcase classname="brownfield_django.main.tests.test_models.TestHistoryFactory" name="test_unicode" time="0.124997" /><testcase classname="brownfield_django.main.tests.test_models.TestPerformedTestFactory" name="test_unicode" time="0.001605" /><testcase classname="brownfield_django.main.tests.test_models.TestStudentProfileFactory" name="test_unicode" time="0.129584" /><testcase classname="brownfield_django.main.tests.test_models.TestTeacherProfileFactory" name="test_unicode" time="0.117662" /><testcase classname="brownfield_django.main.tests.test_models.TestTeamFactory" name="test_unicode" time="0.141056" /><testcase classname="brownfield_django.main.tests.test_models.TestUserFactory" name="test_unicode" time="0.058460" /><testcase classname="brownfield_django.main.tests.test_models.TestUserProfileFactory" name="test_unicode" time="0.119278" /><testcase classname="brownfield_django.main.tests.test_views.BasicTest" name="test_root" time="0.112606" /><testcase classname="brownfield_django.main.tests.test_views.BasicTest" name="test_smoketest" time="0.003416" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedIn" name="test_edit_page" time="0.393161" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedIn" name="test_instructor_page" time="0.152856" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedIn" name="test_page" time="0.179133" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedOut" name="test_edit_page" time="0.011202" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedOut" name="test_instructor_page" time="0.010819" /><testcase classname="brownfield_django.main.tests.test_views.PagetreeViewTestsLoggedOut" name="test_page" time="0.046466" /><testcase classname="brownfield_django.main.tests.test_views.TestAnnonymousUserLogin" name="test_home" time="0.015588" /><testcase classname="brownfield_django.main.tests.test_views.TestInstructorLogin" name="test_get_course" time="0.355652"><error message="'bootstrap/css/bootstrap.min.css' isn't accessible via COMPRESS_URL ('/media/') and can't be compressed" type="compressor.exceptions.UncompressableFileError">Traceback (most recent call last):
+  File "/home/cdunlop/brownfield_django/brownfield_django/main/tests/test_views.py", line 228, in test_get_course
+    request = self.client.get("/course/" + str(self.course_one.pk) + '/')
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 473, in get
+    response = super(Client, self).get(path, data=data, **extra)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 280, in get
+    return self.request(**r)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 426, in request
+    response = self.handler(environ)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/client.py", line 109, in __call__
+    response = self.get_response(request)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 194, in get_response
+    response = self.handle_uncaught_exception(request, resolver, sys.exc_info())
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 236, in handle_uncaught_exception
+    return callback(request, **param_dict)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/utils/decorators.py", line 99, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/views/defaults.py", line 46, in server_error
+    return http.HttpResponseServerError(template.render(Context({})))
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 140, in render
+    return self._render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/utils.py", line 85, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 123, in render
+    return compiled_parent._render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/test/utils.py", line 85, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/base.py", line 840, in render
+    bit = self.render_node(node, context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/django/template/debug.py", line 78, in render_node
+    return node.render(context)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 147, in render
+    return self.render_compressed(context, self.kind, self.mode, forced=forced)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 101, in render_compressed
+    cache_key, cache_content = self.render_cached(compressor, kind, mode, forced=forced)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/templatetags/compress.py", line 80, in render_cached
+    cache_key = get_templatetag_cachekey(compressor, mode, kind)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/cache.py", line 93, in get_templatetag_cachekey
+    "templatetag.%s.%s.%s" % (compressor.cachekey, mode, kind))
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/utils/decorators.py", line 39, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 142, in cachekey
+    [self.content] + self.mtimes).encode(self.charset), 12)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/utils/decorators.py", line 39, in __get__
+    value = obj.__dict__[self.__name__] = self.__get(obj)
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 136, in mtimes
+    for kind, value, basename, elem in self.split_contents()
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/css.py", line 22, in split_contents
+    basename = self.get_basename(elem_attribs['href'])
+  File "/home/cdunlop/brownfield_django/ve/local/lib/python2.7/site-packages/compressor/base.py", line 75, in get_basename
+    "compressed" % (url, base_url))
+UncompressableFileError: 'bootstrap/css/bootstrap.min.css' isn't accessible via COMPRESS_URL ('/media/') and can't be compressed
+
+Stdout:
+&lt;brownfield_django.main.serializers.AddCourseByNameSerializer object at 0x2aec6dca23d0&gt;
+False
+</error><system-out>&lt;brownfield_django.main.serializers.AddCourseByNameSerializer object at 0x2aec6dca23d0&gt;
+False
+</system-out></testcase><testcase classname="brownfield_django.main.tests.test_views.TestInstructorLogin" name="test_home" time="0.312725"><system-out>GET home view
+</system-out></testcase><testcase classname="brownfield_django.main.tests.test_views.TestInstructorLogin" name="test_post_course" time="0.298378" /></testsuite>
