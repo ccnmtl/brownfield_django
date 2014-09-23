@@ -17,7 +17,7 @@ Need to test:
     StudentHomeView
     TeamHomeView
     TeacherHomeView
-    TeacherCourseDetail
+    TeacherAddStudent
     TeacherCreateCourse
     TeacherDeleteCourse
     TeacherAddStudent

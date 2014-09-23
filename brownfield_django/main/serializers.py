@@ -4,23 +4,44 @@ from rest_framework import serializers
 from brownfield_django.main.models import Course, Team
 # Serializers define the API representation
 
-class CourseByNameSerializer(serializers.HyperlinkedModelSerializer):
+
+class AddCourseByNameSerializer(serializers.HyperlinkedModelSerializer):
+    '''Allow professor to add a course by name as in original brownfield.'''
     class Meta:
         model = Course
         fields = ('name',)
 
-class CourseSerializer(serializers.HyperlinkedModelSerializer):
+
+class CompleteCourseSerializer(serializers.HyperlinkedModelSerializer):
+    '''Allow professor see, update all aspects of a course.'''
     class Meta:
         model = Course
         fields = ('name', 'password', 'startingBudget', 'enableNarrative',
                   'message', 'active', 'creator')
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+
+# class UserCoursesSerializer(serializers.HyperlinkedModelSerializer):
+#     courses = serializers.PrimaryKeyRelatedField(many=True)
+# 
+#     class Meta:
+#         model = User
+#         fields = ('id', 'username', 'courses')
+
+
+class UsersInCourseSerializer(serializers.HyperlinkedModelSerializer):
+    courses = serializers.PrimaryKeyRelatedField(many=True)
+ 
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'courses')
+
+
+class AddUserToCourseSerializer(serializers.HyperlinkedModelSerializer):
     courses = serializers.PrimaryKeyRelatedField(many=True)
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'courses')
+        fields = ('first_name', 'last_name', 'email')
 
 
 class TeamSerializer(serializers.ModelSerializer):
@@ -28,10 +49,19 @@ class TeamSerializer(serializers.ModelSerializer):
         model = Team
         fields = ('name', 'course', 'team_entity', 'signed_contract', 'budget')
 
-# class ListCourseSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Course
-#         fields = ('name')
+
+class ListUserCoursesSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Course
+        fields = ('name')
+
+
+class ListAllCoursesSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Course
+        fields = ('name', 'startingBudget', 'enableNarrative', 'message', 'active', 'creator')
+
+
 # 
 # class CourseSerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:
