@@ -35,7 +35,7 @@ class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
 #         fields = ('id', 'username', 'courses')
 
 
-class UsersInCourseSerializer(serializers.HyperlinkedModelSerializer):
+class StudentsInCourseSerializer(serializers.HyperlinkedModelSerializer):
     courses = serializers.PrimaryKeyRelatedField(many=True)
 
     class Meta:
@@ -43,7 +43,7 @@ class UsersInCourseSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'username', 'courses')
 
 
-class AddUserToCourseSerializer(serializers.HyperlinkedModelSerializer):
+class AddStudentToCourseSerializer(serializers.HyperlinkedModelSerializer):
     courses = serializers.PrimaryKeyRelatedField(many=True)
 
     class Meta:

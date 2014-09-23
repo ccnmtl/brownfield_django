@@ -7,9 +7,8 @@ from django.views.generic import TemplateView
 # from rest_framework.urlpatterns import format_suffix_patterns
 from pagetree.generic.views import PageView, EditView, InstructorView
 from brownfield_django.main.views import StudentHomeView, \
-    HomeView, RegistrationView, \
-    TeacherHomeView, \
-    CourseView
+    HomeView, RegistrationView, AddStudentView, ListCourseStudentsView, \
+    TeacherHomeView, CourseView
 #     TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
 # get_bfa,  BrownfieldDemoView, DemoHomeView, TeacherBBHomeView,
 #     TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
@@ -48,9 +47,19 @@ urlpatterns = patterns(
     (r'^$', HomeView.as_view()),
     (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
     # Teacher Views
+    # Teacher Course
     (r'^course/$', CourseView.as_view()),
     (r'^course/(?P<name>.*)/$', CourseView.as_view()),
     (r'^course/(?P<pk>\d+)$', CourseView.as_view()),
+    # Teacher Student
+    (r'^add_student/(?P<pk>\d+)$', AddStudentView.as_view()),
+    (r'^list_students/(?P<name>.*)/(?P<pk>\d+)$',
+        ListCourseStudentsView.as_view()),
+    # Teacher Team View
+    (r'^team/(?P<pk>\d+)$', CourseView.as_view()),
+    # Teacher Documents
+    (r'^documents/(?P<pk>\d+)$', CourseView.as_view()),
+    # Demo View
     (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),
     (r'^demo/play$', TemplateView.as_view(
         template_name="main/flvplayer.html")),

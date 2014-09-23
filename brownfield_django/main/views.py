@@ -2,7 +2,7 @@ import json
 # from datetime import datetime
 # from xml.dom.minidom import parseString
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect  # , Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.http.response import HttpResponseForbidden
 from django.contrib.auth.models import User
 # from django.core.mail import send_mail
@@ -27,12 +27,12 @@ from rest_framework.authentication import SessionAuthentication, \
     BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from brownfield_django.main.serializers import AddCourseByNameSerializer
-#, \
-#    CompleteCourseSerializer, CompleteDocumentSerializer, \
-#    UsersInCourseSerializer, AddUserToCourseSerializer, \
-#    ListUserCoursesSerializer, ListAllCoursesSerializer
-from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
+from brownfield_django.main.serializers import AddCourseByNameSerializer, \
+    StudentsInCourseSerializer, AddStudentToCourseSerializer, \
+    CompleteDocumentSerializer, TeamSerializer
+#    CompleteCourseSerializer
+#    ListStudentsCoursesSerializer, ListAllCoursesSerializer
+from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML, INFO_TEST
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.forms import CourseForm, TeamForm, \
     CreateAccountForm
@@ -40,37 +40,6 @@ from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
 # , LoggedInMixinSuperuser, \
 #    LoggedInMixinStaff
-
-
-# class UserViewSet(viewsets.ModelViewSet):
-#     """
-#     This viewset automatically provides `list` and `detail` actions.
-#     """
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-
-
-class CourseView(APIView):
-
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request, *args, **kwargs):
-        cname = kwargs.pop('name', None)
-        serializer = AddCourseByNameSerializer(cname)
-        print serializer.is_valid()
-        return Response(serializer.data)
-
-    def post(self, request, format=None, *args, **kwargs):
-        # cname = request.DATA['name']
-        serializer = AddCourseByNameSerializer(data=request.DATA)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-'''Moved Views From NEPI Over to Start With'''
 
 
 class HomeView(LoggedInMixin, View):
@@ -92,6 +61,9 @@ class HomeView(LoggedInMixin, View):
 
 
 class RegistrationView(FormView):
+    '''Should I remove the RegistrationView? Professors create Teams
+    and add students to the Course...'''
+
     template_name = 'registration/registration_form.html'
     form_class = CreateAccountForm
     success_url = '/account_created/'
@@ -99,6 +71,114 @@ class RegistrationView(FormView):
     def form_valid(self, form):
         form.save()
         return super(RegistrationView, self).form_valid(form)
+
+
+class CourseView(APIView):
+    """
+    This view interacts with backbone to allow instructors to
+    view, add, and edit courses.
+    """
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        cname = kwargs.pop('name', None)
+        serializer = AddCourseByNameSerializer(cname)
+        print serializer.is_valid()
+        return Response(serializer.data)
+
+    def post(self, request, format=None, *args, **kwargs):
+        # cname = request.DATA['name']
+        serializer = AddCourseByNameSerializer(data=request.DATA)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AddStudentView(APIView):
+    """
+    This view interacts with backbone, lists all students
+    in course to allow instructors to add a student to their course.
+    """
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        course = self.get_object(pk)
+        student_list = UserProfile.objects.filter(course=course)
+        serializer = StudentsInCourseSerializer(student_list)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = AddStudentToCourseSerializer(data=request.DATA)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ListCourseStudentsView(APIView):
+    """
+    This view interacts with backbone to allow instructors to
+    view and edit students to their course.
+    """
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        course = self.get_object(pk)
+        student_list = UserProfile.objects.filter(course=course)
+        serializer = StudentsInCourseSerializer(student_list)
+        return Response(serializer.data)
+
+
+class DocumentView(APIView):
+    """
+    This view interacts with backbone to allow instructors to
+    interact with documents, they can make them available to
+    students or revoke them so they are invisible.
+    """
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        course = self.get_object(pk)
+        document_list = Document.objects.filter(course=course)
+        serializer = CompleteDocumentSerializer(document_list)
+        return Response(serializer.data)
+
+
+class TeamView(APIView):
+    """
+    This view interacts with backbone to allow instructors to
+    interact with documents, they can make them available to
+    students or revoke them so they are invisible.
+    """
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        '''
+        I assume there is a way to also return the
+        users of each team with the teams...
+        '''
+        course = self.get_object(pk)
+        team_list = Team.objects.filter(course=course)
+        serializer = TeamSerializer(team_list)
+        return Response(serializer.data)
 
 
 '''I am using this view to play around with getting the
@@ -184,13 +264,6 @@ def get_bfa(request):
 def get_demo_history(request):
     print "made it to method"
     return HttpResponse(DEMO_XML, content_type="application/xhtml+xml")
-
-
-INFO_TEST = """
-        <information>
-            <info type="doc" name="policeReport" />
-        </information>
-"""
 
 
 def get_demo_info(request):
