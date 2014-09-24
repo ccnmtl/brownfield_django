@@ -56,14 +56,14 @@ var Document = Backbone.Model.extend({
 	    
 });
 
-	
+//creating document collection	
 var DocumentCollection = Backbone.Collection.extend({
 	 model: Document,
 	 url: '/document'
 });
 	
 	
-// creating course collection with test courses
+// creating document collection with test documents
 var document_collection = new DocumentCollection([
         {
     		id: 1,
@@ -152,7 +152,7 @@ var DocumentView = Backbone.View.extend({
    	{   
     	console.log("Releasing Document");
         this.model.save({
-           	headers : { 'method_called' : 'release', 'document' : this.model.id }
+           	headers : { 'method_called' : 'release'}//, 'document' : this.model.id }
         });
    	},
 
@@ -161,7 +161,7 @@ var DocumentView = Backbone.View.extend({
    	{
    		console.log("Revoking Document");
         this.model.save({
-           	headers : { 'method_called' : 'revoke', 'document' : this.model.id }
+           	headers : { 'method_called' : 'revoke'}//, 'document' : this.model.id }
         });
     }
 
@@ -184,50 +184,6 @@ var DocumentListView = Backbone.View.extend({
         }, this);
         return this;
     },
-
-//    releaseDocument: function(current_doc) {
-//        this.collection.create(
-//        		{name : current_doc}, 
-//        		{wait: true,
-//            	success: function(data_array){
-//            		data = data_array.models[0].attributes;
-//            		data = JSON.stringify(data);
-//            		console.log("data is " + data);
-//                    console.log("in success");
-//                    //console.log(data);
-//                },
-//                error: function(data_array){
-//                	data = data_array.models[0].attributes;
-//            		data = JSON.stringify(data);
-//                	console.log("data is " + data);
-//                    console.log("in error");
-//                }}
-//        );
-//        this.render();
-//        return this;
-//    }, //end release Document
-//
-//    revokeDocument: function(current_doc) {
-//        this.collection.create(
-//        		{name : new_dct}, 
-//        		{wait: true,
-//            	success: function(data_array){
-//            		data = data_array.models[0].attributes;
-//            		data = JSON.stringify(data);
-//            		console.log("data is " + data);
-//                    console.log("in success");
-//                    //console.log(data);
-//                },
-//                error: function(data_array){
-//                	data = data_array.models[0].attributes;
-//            		data = JSON.stringify(data);
-//                	console.log("data is " + data);
-//                    console.log("in error");
-//                }}
-//        );
-//        this.render();
-//        return this;
-//    }, //end revoke Document
     
 });// End CourseListView    
 

@@ -113,6 +113,28 @@ class TeacherHomeView(DetailView):
         return super(TeacherHomeView, self).dispatch(*args, **kwargs)
 
 
+class DocumentView(APIView):
+    """
+    This view interacts with backbone to allow instructors to
+    interact with documents, they can make them available to
+    students or revoke them so they are invisible.
+    """
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        course = self.get_object(pk)
+        document_list = Document.objects.filter(course=course)
+        serializer = CompleteDocumentSerializer(document_list)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        print request.DATA
+
+
 class TeacherCourseDetail(DetailView):
 
     model = Course
@@ -167,25 +189,6 @@ class ListCourseStudentsView(APIView):
         course = self.get_object(pk)
         student_list = UserProfile.objects.filter(course=course)
         serializer = StudentsInCourseSerializer(student_list)
-        return Response(serializer.data)
-
-
-class DocumentView(APIView):
-    """
-    This view interacts with backbone to allow instructors to
-    interact with documents, they can make them available to
-    students or revoke them so they are invisible.
-    """
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        course = self.get_object(pk)
-        document_list = Document.objects.filter(course=course)
-        serializer = CompleteDocumentSerializer(document_list)
         return Response(serializer.data)
 
 
