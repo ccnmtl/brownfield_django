@@ -1,5 +1,0 @@
-brownfield_django/main/views.py:35: [E] PYFLAKES:'INFO_TEST' imported but unused
-brownfield_django/main/tests/test_views.py:10: [E] PYFLAKES:'UserProfileFactory' imported but unused
-brownfield_django/main/tests/test_views.py:10: [E] PYFLAKES:'UserFactory' imported but unused
-brownfield_django/main/tests/__init__.py:2: [E] PYFLAKES:'from test_models import *' used; unable to detect undefined names
-brownfield_django/main/tests/__init__.py:3: [E] PYFLAKES:'from test_views import *' used; unable to detect undefined names

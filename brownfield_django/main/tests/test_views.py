@@ -227,7 +227,7 @@ class TestInstructorLogin(TestCase):
         and put students in teams.
         '''
         pass
-    
+
     def test_update_course(self):
         '''
         Calling get for a course should redirect the instructor to a
@@ -243,9 +243,9 @@ class TestInstructorLogin(TestCase):
         and put students in teams.
         '''
         pass
-    
+
     '''Test document related urls'''
-    
+
     def test_post_document(self):
         '''
         Calling post with desired name of the new course

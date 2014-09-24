@@ -1,17 +1,22 @@
 {% extends 'base.html' %}
+
 {% block js %}
-        <script type="text/javascript" src="/site_media/js/instructor.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/backbone_sync.js"></script>
 {% endblock %}
+
 {% block content %}
 
   <ul class="nav nav-tabs instructor-nav">
-    <li class="active"><a href="#user-courses" data-toggle="tab">Course Info</a></li>
-    <li><a href="#user-team-students" data-toggle="tab">Teams and Students</a></li>
+    <li class="active"><a href="#course-documents" data-toggle="tab">Course Info</a></li>
+    <li><a href="#course-team-students" data-toggle="tab">Teams and Students</a></li>
   </ul>
  
   <div class="instructor tab-content">
-    {% include "main/instructor/courses_tab.html" %}
+    {% include "main/instructor/course_detail_tab.html" %}
     {% include "main/instructor/student_team_tab.html" %}
   </div>
-
+  
+<script type="text/javascript" src="{{STATIC_URL}}js/documentlist.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/usercourselist.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/teams_students.js"></script>
 {% endblock %}

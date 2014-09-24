@@ -6,11 +6,6 @@ from brownfield_django.main.models import Course, UserProfile, Team, \
     PROFILE_CHOICES
 
 
-class CourseForm(ModelForm):
-    class Meta:
-        model = Course
-
-
 class TeamForm(ModelForm):
     class Meta:
         model = Team

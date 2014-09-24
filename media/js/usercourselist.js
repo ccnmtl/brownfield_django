@@ -1,50 +1,3 @@
-// need to send csrf token with requests
-
-  Backbone._sync = Backbone.sync;
-
-  Backbone.sync = function(method, model, options) {
-      //from django docs
-      function getCookie(name) {
-          var cookieValue = null;
-          if (document.cookie && document.cookie != '') {
-              var cookies = document.cookie.split(';');
-              for (var i = 0; i < cookies.length; i++) {
-                  var cookie = jQuery.trim(cookies[i]);
-                  // Does this cookie string begin with the name we want?
-                  if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                      break;
-                  }
-              }
-          }
-          return cookieValue;
-      }
-
-      /* only need a token for non-get requests */
-      if (method == 'create' || method == 'update' || method == 'delete') {
-          var csrfToken = getCookie('csrftoken');
-
-          options.beforeSend = function(xhr){
-              xhr.setRequestHeader('X-CSRFToken', csrfToken);
-          };
-      }
-
-      return Backbone._sync(method, model, options);
-  };
-
-
-//(function() {
-//  var _sync = Backbone.sync;
-//  Backbone.sync = function(method, model, options){
-//    options.beforeSend = function(xhr){
-//      var token = jQuery('meta[name="csrf-token"]').attr('content');
-//      xhr.setRequestHeader('X-CSRFToken', token);
-//    };
-//    return _sync(method, model, options);
-//  };
-//})();
-
-
 // creating course model
 var Course = Backbone.Model.extend({
 
@@ -55,20 +8,7 @@ var Course = Backbone.Model.extend({
             name: "Default Course"
         }
     },
-
-//	url : function() {
-//	    if (this.isNew())
-//	    	{
-//	    	console.log("Model is new"); 
-//	    	console.log("Model urlRoot : " + this.urlRoot);
-//	    	console.log("Model name : " + this.name); 
-//	    	return this.urlRoot + encodeURIComponent(this.name) + '/';
-//	    	}
-//		return this.urlRoot + this.id + '/';
-//    },
     
-
-	    
 	initialize: function(attributes) 
 	{   // not sure if this will cause problems
 	    this.name = attributes.name || '<EMPTY>';
@@ -116,28 +56,40 @@ var course_collection = new CourseCollection([
 			name: 'Test Course 7'
 		}
 ]);
-
 // End of Models/Collections
-    
+
+
 //Views 
 var CourseView = Backbone.View.extend({
 
    	tagName : 'li',
-   	template: _.template('Course Template <%= name %> <button class="del-crs"> Remove Course</button> <button class="destroy"> Destroy Class</button>'),
-   	//$container: null,
+   	template: _.template("Course Template <%= name %>" +
+   			              "<a href='/course/<%= id %>/'>" +
+   			              "View Course Details </a>" +
+   			              "<button class='view-crs'>" +
+   			              "View Course Details </button>" +
+   			              "<a href='/course/<%= id %>/'>" +
+			              "Edit Course Details </a>" +
+			              "<button class='edit-crs'>" +
+			              "Edit Course Details </button>" +
+   			              "<button class='del-crs'>" +
+   			              "Remove Course</button>" +
+   			              "<button class='destroy'>" +
+   			              "Destroy Class</button>"),
     	
    	/* using initialize to re-render the element if anything in its 
    	 * corresponding model changes use listenTo instead of on so it will automatically
-   	 *  unbind all events added when it is destroyed */
+   	 * unbind all events added when it is destroyed */
    	initialize: function () {
    	    this.listenTo(this.model, 'change', this.render);
    	    this.listenTo(this.model, 'destroy', this.remove);
    	},
-    	
+
    	// is there a build in way to remove the model?
    	events: {
-   		'click .del-crs' : 'onRemoveCourse',
-   		//TODO
+   		// 'click .del-crs' : 'onRemoveCourse',
+   		//'click .add-crs' : 'create',
+   		//'click .edit-crs' : 'edit',
    		'click .destroy' : 'clear'
    	},
     	
@@ -153,21 +105,13 @@ var CourseView = Backbone.View.extend({
         return this;
 
     },
-        
-  	onRemoveCourse: function()
-   	{
-   		//will add delete functionality later
-   		console.log("You tried to remove course " + this.model.get('id') + this.model.get('name'));
-   	},
-    	
-   	//TODO
-   	//This correctly adds the id to the url for the DELETE
-   	//but django still has internal error
+
+   	// Adds the id to the url for the DELETE
     clear: function() {
         this.model.destroy({
            	headers : { 'id' : this.model.id }
         });
-    }
+    }    
 
 });// End CourseView
 
@@ -191,6 +135,7 @@ var CourseListView = Backbone.View.extend({
 
         return this;
     },
+
     
     addCourse: function(new_crs) {
 
@@ -215,49 +160,46 @@ var CourseListView = Backbone.View.extend({
         return this;
   
     }, //end add course
-    
 
-    add_course: function(new_crs) {
-    	console.log("Inside collection add_course ");
-    	var nc = new Course({name : new_crs});
-    	nc.save();
-        this.collection.add(nc, {merge: true});
-        console.log("nc " + nc);
+
+    editCourse: function(crs) {
+
+        this.collection.create(
+        		{name : crs}, 
+        		{wait: true,
+            	success: function(data_array){
+            		data = data_array.models[0].attributes;
+            		data = JSON.stringify(data);
+            		console.log("data is " + data);
+                    console.log("in success");
+                    //console.log(data);
+                },
+                error: function(data_array){
+                	data = data_array.models[0].attributes;
+            		data = JSON.stringify(data);
+                	console.log("data is " + data);
+                    console.log("in error");
+                }}
+        );
+
         this.render();
         return this;
-  
-    } //end add_course
-    
-    
+
+    }, //end add course
+
 });// End CourseListView    
 
-    
 
 // should probably move this code to controller below not sure if that is be
 var course_collection_view = new CourseListView({
     collection: course_collection
 });
 
+
 // connecting the views to the html/page
 jQuery('.user_courses').append(course_collection_view.render().el);
 
 console.log(course_collection); // log collection to console
-
-
-////Need to test create()
-//var test = course_collection.create({
-//  name: "Othello"
-//});
-//
-//
-//
-////Need to test model save()
-//var mtest = new Course({ name : "why doesn't it use defaults?"});
-//mtest.save({data:{name:"why doesn't it use defaults?"},type:'POST' });
-
-
-
-
 
 /*For some reason I can't get the container of course list to respond on click to the button - because I specified tag ul maybe?*/
 jQuery('.add-crs').on('click',
@@ -272,25 +214,22 @@ jQuery('#add-crs-frm').on('submit',
         event.preventDefault();
         var new_name = jQuery('#add-crs-frm input.name').val();
         course_collection_view.addCourse(new_name);
-        //course_collection.create({name : something}]);
-
 });
 
-var CourseRouter = Backbone.Router.extend({
-	routes: {
-	'teacher/:id': 'showCourses',
-	//'user/:id': 'showUserDetails'//,
-	//'user/:id/update': 'updateUser',
-	//'user/:id/remove': 'removeUser'
-	},
-	showUsers: function () {
-	// Get all the courses from server and show
-		console.log("Router method running...");
-	    course_collection_view.render().el
-	}//,
-//	showUserDetails: function (userId) {
-//	// Get the user details for the user id as received
-//	},
-//	updateUser: function (userId) {},
-//	removeUser: function (userId) {}
-});
+
+//jQuery('.edit-crs').on('click',
+//		
+//		function() {
+//            jQuery('.controls form').show();
+//            jQuery('input.name').focus();
+//});
+//    
+//jQuery('#edit-crs-frm').on('submit',
+//    function(event) {
+//        event.preventDefault();
+//        var new_name = jQuery('#edit-crs-frm input.name').val();
+//        course_collection_view.addCourse(new_name);
+//        //course_collection.create({name : something}]);
+//
+//});
+

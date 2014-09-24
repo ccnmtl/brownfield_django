@@ -8,8 +8,7 @@ from django.contrib.auth.models import User
 # from django.core.mail import send_mail
 from django.views.generic import View
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView, FormView
-# CreateView,
+from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 #, reverse_lazy
 from django.shortcuts import get_object_or_404
@@ -34,8 +33,7 @@ from brownfield_django.main.serializers import AddCourseByNameSerializer, \
 #    ListStudentsCoursesSerializer, ListAllCoursesSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML, INFO_TEST
 from brownfield_django.main.models import Course, UserProfile, Document, Team
-from brownfield_django.main.forms import CourseForm, TeamForm, \
-    CreateAccountForm
+from brownfield_django.main.forms import TeamForm, CreateAccountForm
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
 # , LoggedInMixinSuperuser, \
@@ -81,12 +79,8 @@ class CourseView(APIView):
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, *args, **kwargs):
-        cname = kwargs.pop('name', None)
-        serializer = AddCourseByNameSerializer(cname)
-        print serializer
-        print serializer.is_valid()
-        return Response(serializer.data)
+    def get(self, request, pk, format=None):
+        return HttpResponseRedirect("../../course_details/" + str(pk) + "/")
 
     def post(self, request, format=None, *args, **kwargs):
         '''
@@ -107,12 +101,31 @@ class CourseView(APIView):
     def delete(self, request, format=None, *args, **kwargs):
         pass
 
+class TeacherHomeView(DetailView):
+
+    model = UserProfile
+    template_name = 'main/instructor/instructor_home.html'
+    success_url = '/'
+
+    def dispatch(self, *args, **kwargs):
+        if int(kwargs.get('pk')) != self.request.user.profile.id:
+            return HttpResponseForbidden("forbidden")
+        return super(TeacherHomeView, self).dispatch(*args, **kwargs)
+
+
+class TeacherCourseDetail(DetailView):
+
+    model = Course
+    template_name = 'main/instructor/course_home.html'
+    success_url = '/'
+
 
 class AddStudentView(APIView):
     """
     This view interacts with backbone, lists all students
     in course to allow instructors to add a student to their course.
     """
+
     def get_object(self, pk):
         try:
             return Course.objects.get(pk=pk)
@@ -137,6 +150,7 @@ class AddStudentView(APIView):
 
     def delete(self, request, format=None, *args, **kwargs):
         pass
+
 
 class ListCourseStudentsView(APIView):
     """
@@ -397,230 +411,9 @@ class TeamHomeView(DetailView):
         return context
 
 
-class TeacherHomeView(DetailView):
-    model = UserProfile
-    template_name = 'main/instructor/instructor_home.html'
-    success_url = '/'
+# return HttpResponseRedirect('/dashboard/#user-groups')
+# return HttpResponseRedirect('/dashboard/#user-groups')
 
-    def dispatch(self, *args, **kwargs):
-        if int(kwargs.get('pk')) != self.request.user.profile.id:
-            return HttpResponseForbidden("forbidden")
-        return super(TeacherHomeView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(TeacherHomeView, self).get_context_data(**kwargs)
-        context['user_courses'] = Course.objects.filter()
-        context['all_courses'] = Course.objects.all()
-        context['course_form'] = CourseForm()
-        return context
-
-    def post(self, *args, **kwargs):
-        self.object = self.get_object()
-        course_form = CourseForm(self.request.POST)
-
-        if course_form.is_valid():
-            course_form.save()
-            course_form.messages.add_message(
-                self.request, course_form.messages.INFO,
-                'Your changes have been saved.')
-
-            return HttpResponseRedirect('/dashboard/#course-list')
-
-        context = self.get_context_data(object=self.object)
-        context['course_form'] = course_form
-        return self.render_to_response(context)
-
-
-class TeacherBBHomeView(JSONResponseMixin, View):
-    '''Need to add proper permissions and groups,
-    worry about getting it workings first...'''
-
-    def delete(self, request, *args, **kwargs):
-        '''Backbone should send put request to update and object.'''
-        print json.loads(request.body)
-
-    def get(self, request, format=None):
-        '''If there is an id present get request is sent to retrieve
-        the rest of the model.'''
-        print json.loads(request.body)
-        print request.user
-        print request.DATA
-        courses = Course.objects.all()
-        serializer = AddCourseByNameSerializer(courses, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, format=None):
-        '''In backbone, if model has no id it sends post to create
-        a new model and server should create a new instance of model
-        and respond with its id'''
-        print request.body
-        print request.user
-        print request.DATA
-        print json.loads(request.body)
-#         course = Course.objects.get(id=drec['id'])
-#         return self.render_to_json_response()
-#         return HttpResponse(json.dumps(data),
-# content_type='application/json')
-
-    def put(self, request, *args, **kwargs):
-        '''Backbone should send put request to update and object.'''
-        print request.PUT
-        print request.body
-
-
-class TeacherCourseDetail(DetailView, UpdateView):
-
-    model = Course
-    template_name = 'main/instructor/course_home.html'
-    success_url = '/'
-
-    def dispatch(self, *args, **kwargs):
-        if int(kwargs.get('pk')) != self.request.user.profile.id:
-            return HttpResponseForbidden("forbidden")
-        return super(TeacherCourseDetail, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(TeacherCourseDetail, self).get_context_data(**kwargs)
-        # course documents
-        # message
-        # course form
-        # close course
-        # special actions
-        context['team_form'] = TeamForm()
-        return context
-#     def post(self, *args, **kwargs):
-#         self.object = self.get_object()
-#
-#         profile_form = UpdateProfileForm(self.request.POST)
-#
-#         if profile_form.is_valid():
-#             profile_form.save()
-#             url = '/%s-dashboard/%s/#user-profile' % (
-#                 self.request.user.profile.role(),
-#self.request.user.profile.id)
-#             return HttpResponseRedirect(url)
-#
-#         context = self.get_context_data(object=self.object)
-#         context['profile_form'] = profile_form
-#         return self.render_to_response(context)
-
-
-class TeacherCreateCourse(LoggedInMixin, JSONResponseMixin, View):
-    '''Do you use forms with ajax views or no?'''
-
-    def send_email(self):
-        pass
-
-    def post(self, *args, **kwargs):
-        course = Course()
-#        return self.render_to_json_response({'success': True})
-        course.name = self.request.POST.get('name')
-        course.password = self.request.POST.get('password')
-        course.startingBudget = self.request.POST.get('startingBudget')
-        course.enableNarrative = self.request.POST.get('enableNarrative')
-        course.message = self.request.POST.get('message')
-        '''Need to add notification that if they have not added the
-        students the students will not recieve the message'''
-        course.active = self.request.POST.get('active')
-        course.creator = self.request.user.user_profile
-        course.save()
-        # return HttpResponseRedirect('/dashboard/#user-groups')
-
-
-class TeacherDeleteCourse(LoggedInMixin, JSONResponseMixin, View):
-    '''s'''
-
-    def send_email(self):
-        pass
-
-    def post(self, *args, **kwargs):
-        course = Course()
-#        return self.render_to_json_response({'success': True})
-        course.name = self.request.POST.get('name')
-        course.password = self.request.POST.get('password')
-        course.startingBudget = self.request.POST.get('startingBudget')
-        course.enableNarrative = self.request.POST.get('enableNarrative')
-        course.message = self.request.POST.get('message')
-        '''Need to add notification that if they have not added the
-        students the students will not recieve the message'''
-        course.active = self.request.POST.get('active')
-        course.creator = self.request.user.user_profile
-        course.save()
-        # return HttpResponseRedirect('/dashboard/#user-groups')
-
-
-class TeacherAddStudent(LoggedInMixin, JSONResponseMixin, View):
-    '''Add students by adding email, when added send email asking them to go
-    to site and create account'''
-
-    def send_email(self):
-        pass
-
-    def post(self, *args, **kwargs):
-        '''Is uni username? or they create their own?'''
-        user = User()
-        user.first_name = self.request.POST.get('first_name')
-        user.last_name = self.request.POST.get('last_name')
-        user.email = self.request.POST.get('password')
-        user.save()
-
-
-class TeacherReleaseDocument(LoggedInMixin, JSONResponseMixin, View):
-    '''Will dynamically enable or revoke documents
-    - annoying to have page refresh'''
-
-    def send_email(self):
-        '''Is an email sent to users/teams that a document has been added?'''
-        pass
-
-    def post(self, *args, **kwargs):
-        course = get_object_or_404(Document,
-                                   pk=self.request.POST.get('course'))
-        document = get_object_or_404(Document,
-                                     pk=self.request.POST.get('document'))
-        if (self.request.user.profile.is_student() or
-            (self.request.user.profile.is_teacher() and
-             not course.creator == self.request.user)):
-            return HttpResponseForbidden(
-                'You are not authorized to release or revoke documents')
-        document.visible = True
-        document.save()
-        return self.render_to_json_response({'success': True})
-
-
-class TeacherRevokeDocument(LoggedInMixin, JSONResponseMixin, View):
-    '''Will dynamically enable or revoke documents
-    - annoying to have page refresh'''
-
-    def send_email(self):
-        '''Is an email sent to users/teams that a document has been added?'''
-        pass
-
-    def post(self, *args, **kwargs):
-        course = get_object_or_404(Document,
-                                   pk=self.request.POST.get('course'))
-        document = get_object_or_404(Document,
-                                     pk=self.request.POST.get('document'))
-        if (self.request.user.profile.is_student() or
-            (self.request.user.profile.is_teacher() and
-             not course.creator == self.request.user)):
-            return HttpResponseForbidden(
-                'You are not authorized to release or revoke documents')
-        document.visible = True
-        document.save()
-        return self.render_to_json_response({'success': True})
-
-
-class TeacherCreateTeam(LoggedInMixin, JSONResponseMixin, View):
-    pass
-
-
-class TeacherEditTeam(LoggedInMixin, JSONResponseMixin, View):
-    pass
-
-
-class TeacherDeleteTeam(LoggedInMixin, JSONResponseMixin, View):
-    pass
 
 
 class TeamPerformTest(LoggedInMixin, JSONResponseMixin, View):

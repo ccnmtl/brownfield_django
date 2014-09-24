@@ -1,5 +1,6 @@
 import datetime
 from django.db import models
+from django.forms import ModelForm
 from django.contrib.auth.models import User
 
 PROFILE_CHOICES = (
@@ -44,6 +45,23 @@ class Course(models.Model):
         participants = UserProfile.objects.filter(course=self)
         # need to exclude teacher
         return participants
+
+    def get_teams(self):
+        teams = Team.objects.filter(course=self)
+        return teams
+
+    def get_documents(self):
+        documents = Team.objects.filter(course=self)
+        return documents
+
+    def get_course_form(self):
+        form = CourseForm()
+        return form
+
+
+class CourseForm(ModelForm):
+    class Meta:
+        model = Course
 
 
 class Document(models.Model):
