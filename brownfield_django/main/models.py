@@ -36,10 +36,19 @@ class Course(models.Model):
     active = models.BooleanField(default=True)
     creator = models.ForeignKey(User, related_name="created_by", null=True,
                                 default=None, blank=True)
-    initial_budget = models.PositiveIntegerField(default=65000)
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            '''We want to initialize a document set for each course,
+            so the course "knows" which documents are available or
+            not'''
+            document_set = Document.objects.all()
+            for each in document_set:
+                self.document_set.add(each)
+        super(Course, self).save(*args, **kwargs)
 
     def get_students(self):
         participants = UserProfile.objects.filter(course=self)
@@ -51,7 +60,7 @@ class Course(models.Model):
         return teams
 
     def get_documents(self):
-        documents = Team.objects.filter(course=self)
+        documents = Document.objects.filter(course=self)
         return documents
 
     def get_course_form(self):
@@ -65,7 +74,8 @@ class CourseForm(ModelForm):
 
 
 class Document(models.Model):
-    course = models.ForeignKey(Course)
+    course = models.ForeignKey(Course, null=True,
+                               default=None, blank=True)
     name = models.CharField(max_length=255)
     link = models.CharField(max_length=255)
     visible = models.BooleanField(default=False)

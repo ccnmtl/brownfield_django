@@ -128,7 +128,7 @@ var CourseListView = Backbone.View.extend({
 
         // Iterate over the collection and add each name as a list item
         this.collection.each(function(model) {
-        this.$el.append(new CourseView({
+            this.$el.append(new CourseView({
                 model: model
             }).render().el);
         }, this);
@@ -140,13 +140,22 @@ var CourseListView = Backbone.View.extend({
     addCourse: function(new_crs) {
 
         this.collection.create(
-        		{name : new_crs}, 
+        		potential_course = new Course({name : new_crs}), 
         		{wait: true,
             	success: function(data_array){
-            		data = data_array.models[0].attributes;
-            		data = JSON.stringify(data);
-            		console.log("data is " + data);
-                    console.log("in success");
+            		
+            		console.log(data_array);
+            		//console.log(data_array['name']);
+            		//console.log(data_array.model.attributes);
+            		//this.$el.append(new CourseView({
+                    //    model: new_crs
+                    //}).render().el);
+            		//this.render()
+
+            		//data = data_array.models[0].attributes;
+            		//data = JSON.stringify(data);
+            		//console.log("data is " + data);
+                    //console.log("in success");
                     //console.log(data);
                 },
                 error: function(data_array){
