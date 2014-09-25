@@ -6,17 +6,18 @@ var Team = Backbone.Model.extend({
     defaults: function() {
         return {
         	id: 0,
-            name: "Default Document",
-            course: "Default Doc Course",
-            link: "",
-            visible : false
+            name: "Default Team",
+            course: "Default Team Course",
+            team_entity: "",
+            signed_contract : false,
+            budget: 65000
         }
     },
 
     initialize: function(attributes) 
 	{   
-	    this.name = attributes.name || '<EMPTY>';
-	    console.log("Initializing a new document model for '" +
+	    name = attributes.name || '<EMPTY>';
+	    console.log("Initializing a new team model for '" +
 	      name + "'."); 
 	}
 	    
@@ -29,6 +30,67 @@ var TeamCollection = Backbone.Collection.extend({
 });
 
 
+//creating team collection with test courses
+var team_collection = new TeamCollection([
+        {
+    		id: 1,
+			name: 'Test Team 1',
+			//course: "Default Doc Course",
+            team_entity: "",
+            signed_contract : false,
+            budget: 65000
+		},
+		{
+			id: 2,
+			name: 'Test Team 2',
+			//course: "Default Doc Course",
+            team_entity: "",
+            signed_contract : false,
+            budget: 65000
+		},
+		{
+			id: 3,
+			name: 'Test Team 3',
+			//course: "Default Doc Course",
+            team_entity: "",
+            signed_contract : false,
+            budget: 65000
+		},
+		{
+			id: 4,
+			name: 'Test Team 4',
+			//course: "Default Doc Course",
+            team_entity: "",
+            signed_contract : false,
+            budget: 65000
+		},
+		{
+			id: 5,
+			name: 'Test Team 5',
+			//course: "Default Doc Course",
+            team_entity: "",
+            signed_contract : false,
+            budget: 65000
+		},
+		{
+			id: 6,
+			name: 'Test Team 6',
+			//course: "Default Doc Course",
+            team_entity: "",
+            signed_contract : false,
+            budget: 65000
+		},
+		{
+			id: 7,
+			name: 'Test Team 7',
+			//course: "Default Doc Course",
+            team_entity: "",
+            signed_contract : false,
+            budget: 65000
+		}
+]);
+
+
 //creating student model
 var Student= Backbone.Model.extend({
 
@@ -37,74 +99,32 @@ var Student= Backbone.Model.extend({
     defaults: function() {
         return {
         	id: 0,
-            name: "Default Document",
-            course: "Default Doc Course",
-            link: "",
-            visible : false
+            first_name: "First Name Student",
+            last_name: "Last Name Student",
+            email: "email@email.com",
+            //course: "Default Student Course",
+            team: "Member of Team....()"
         }
     },
 
     initialize: function(attributes) 
 	{   
-	    this.name = attributes.name || '<EMPTY>';
-	    console.log("Initializing a new document model for '" +
-	      name + "'."); 
+	    first_name = attributes.first_name || '<EMPTY>';
+	    last_name = attributes.last_name || '<EMPTY>';
+	    console.log("Initializing a new student model for '" +
+	    		first_name + " " +  last_name + "'.");
 	}
 	    
 });
 
 
-var StudenttCollection = Backbone.Collection.extend({
-	 model: Document,
+var StudentCollection = Backbone.Collection.extend({
+	 model: Student,
 	 url: '/student'
 });
 	
 	
-// creating team collection with test courses
-var team_collection = new TeamCollection([
-        {
-    		id: 1,
-			name: 'Test Course 1',
-			link: "<a href='/path/to/document/link/download/'></a>",
-            visible : false
-		},
-		{
-			id: 2,
-			name: 'Test Course 2',
-			link: "<a href='/path/to/document/link/download/'></a>",
-            visible : false
-		},
-		{
-			id: 3,
-			name: 'Test Course 3',
-			link: "<a href='/path/to/document/link/download/'></a>",
-            visible : false
-		},
-		{
-			id: 4,
-			name: 'Test Course 4',
-			link: "<a href='/path/to/document/link/download/'></a>",
-            visible : false
-		},
-		{
-			id: 5,
-			name: 'Test Course 5',
-			link: "<a href='/path/to/document/link/download/'></a>",
-            visible : false
-		},
-		{
-			id: 6,
-			name: 'Test Course 6',
-			link: "<a href='/path/to/document/link/download/'></a>",
-            visible : false
-		},
-		{
-			id: 7,
-			name: 'Test Course 7',
-			link: "<a href='/path/to/document/link/download/'></a>",
-            visible : false
-		}
-]);
+
 
 	
 // creating student collection with test courses
@@ -159,3 +179,93 @@ var student_collection = new StudentCollection([
             team : ""
 		}
 ]);
+
+
+//End of Modes/Collections
+
+//Views 
+var StudentView = Backbone.View.extend({
+
+   	tagName : 'li',
+   	template: _.template("Student Template Name <%= first_name %>" +
+   			             "<%= last_name %> " +
+   			             "Email: " +
+   			             "<%= email %> " +
+   			             "Team Status: " +
+   			             "<%= team %> " +
+   			             "<button class='btn btn-xs jn-tm'>" +
+   			             "Add to Team" +
+   			             "</button>" +
+   			             "<button class='btn btn-xs rm-tm'>" +
+   			             "Remove From Team" +
+   			             "</button>"),
+
+   	initialize: function () {
+   	    this.listenTo(this.model, 'change', this.render);
+   	    this.listenTo(this.model, 'destroy', this.remove);
+   	},
+
+   	// Can probably combine into one function on change
+   	events: {
+   		'click .jn-tm' : 'joinTeam',
+   		'click .rm-tm' : 'removeTeam'
+   	},
+
+    render: function () {
+        if (!this.model) 
+        {
+            throw "Model is not set for this view";
+        }
+        var html = this.template(this.model.toJSON());
+        this.$el.html(html);
+        return this;
+    },
+
+    joinTeam: function()
+   	{   
+    	//console.log("Releasing Document");
+        this.model.destroy({
+           	headers : { 'id' : this.model.id }//{ 'method_called' : 'release'}//, 'document' : this.model.id }
+        });
+   	},
+
+   	//will need to do save which will automatically call sync
+   	removeTeam: function()
+   	{
+   		//console.log("Revoking Document");
+        this.model.save({
+           	headers : { 'id' : this.model.id }//{ 'method_called' : 'revoke'}//, 'document' : this.model.id }
+        });
+    }
+
+});// End DocumentView
+
+    
+/* Container to hold rows of documents */
+var DocumentListView = Backbone.View.extend({
+    	
+    tagName : 'ul',
+    
+    render: function() {
+        // Clean up the view first 
+        this.$el.empty();
+        // Iterate over the collection and add each name as a list item
+        this.collection.each(function(model) {
+        this.$el.append(new DocumentView({
+                model: model
+            }).render().el);
+        }, this);
+        return this;
+    },
+    
+});// End CourseListView    
+
+    
+
+//should probably move this code to controller below not sure if that is be
+var document_collection_view = new DocumentListView({
+    collection: document_collection
+});
+// connecting the views to the html/page
+jQuery('.documents_list').append(document_collection_view.render().el);
+

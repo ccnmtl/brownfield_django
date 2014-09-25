@@ -1,0 +1,10 @@
+brownfield_django/main/forms.py:5: [E] PYFLAKES:'Course' imported but unused
+brownfield_django/main/views.py:1: [E] PYFLAKES:'json' imported but unused
+brownfield_django/main/views.py:14: [E] PYFLAKES:'get_object_or_404' imported but unused
+brownfield_django/main/views.py:34: [E] PYFLAKES:'INFO_TEST' imported but unused
+brownfield_django/main/views.py:36: [E] PYFLAKES:'TeamForm' imported but unused
+brownfield_django/main/views.py:412: [E] PYFLAKES:undefined name 'CourseForm'
+brownfield_django/main/tests/test_views.py:10: [E] PYFLAKES:'UserProfileFactory' imported but unused
+brownfield_django/main/tests/test_views.py:10: [E] PYFLAKES:'UserFactory' imported but unused
+brownfield_django/main/tests/__init__.py:2: [E] PYFLAKES:'from test_models import *' used; unable to detect undefined names
+brownfield_django/main/tests/__init__.py:3: [E] PYFLAKES:'from test_views import *' used; unable to detect undefined names

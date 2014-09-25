@@ -1,0 +1,20 @@
+brownfield_django/main/views.py:93:80: E501 line too long (110 > 79 characters)
+brownfield_django/main/views.py:104:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/views.py:422:1: E303 too many blank lines (3)
+brownfield_django/main/tests/test_views.py:193:1: E302 expected 2 blank lines, found 1
+brownfield_django/main/tests/test_views.py:206:9: E128 continuation line under-indented for visual indent
+brownfield_django/main/tests/test_views.py:208:80: E501 line too long (81 > 79 characters)
+brownfield_django/main/tests/test_views.py:218:80: E501 line too long (91 > 79 characters)
+brownfield_django/main/tests/test_views.py:257:80: E501 line too long (91 > 79 characters)
+brownfield_django/main/tests/test_views.py:270:1: W293 blank line contains whitespace
+brownfield_django/main/tests/test_views.py:271:5: E303 too many blank lines (2)
+brownfield_django/main/tests/test_views.py:272:1: W293 blank line contains whitespace
+brownfield_django/main/tests/test_views.py:281:80: E501 line too long (91 > 79 characters)
+brownfield_django/main/tests/test_views.py:293:1: W293 blank line contains whitespace
+brownfield_django/main/tests/test_views.py:309:1: W293 blank line contains whitespace
+brownfield_django/main/tests/test_views.py:311:1: W293 blank line contains whitespace
+brownfield_django/main/tests/test_views.py:320:80: E501 line too long (91 > 79 characters)
+brownfield_django/main/tests/test_views.py:332:1: W293 blank line contains whitespace
+brownfield_django/main/tests/test_views.py:353:80: E501 line too long (84 > 79 characters)
+brownfield_django/main/tests/test_views.py:358:80: E501 line too long (83 > 79 characters)
+brownfield_django/main/tests/test_views.py:371:1: W391 blank line at end of file

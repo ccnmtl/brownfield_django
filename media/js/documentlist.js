@@ -1,37 +1,3 @@
-
-  Backbone._sync = Backbone.sync;
-
-  Backbone.sync = function(method, model, options) {
-      //from django docs
-      function getCookie(name) {
-          var cookieValue = null;
-          if (document.cookie && document.cookie != '') {
-              var cookies = document.cookie.split(';');
-              for (var i = 0; i < cookies.length; i++) {
-                  var cookie = jQuery.trim(cookies[i]);
-                  // Does this cookie string begin with the name we want?
-                  if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                      break;
-                  }
-              }
-          }
-          return cookieValue;
-      }
-
-      /* only need a token for non-get requests */
-      if (method == 'create' || method == 'update' || method == 'delete') {
-          var csrfToken = getCookie('csrftoken');
-
-          options.beforeSend = function(xhr){
-              xhr.setRequestHeader('X-CSRFToken', csrfToken);
-          };
-      }
-
-      return Backbone._sync(method, model, options);
-};
-
-
 // creating document model
 var Document = Backbone.Model.extend({
 
@@ -109,7 +75,7 @@ var document_collection = new DocumentCollection([
 		}
 ]);
 
-console.log(document_collection); // log collection to console
+//console.log(document_collection); // log collection to console
 // End of Models/Collections
     
 // Views 
@@ -150,18 +116,18 @@ var DocumentView = Backbone.View.extend({
         
     releaseDocument: function()
    	{   
-    	console.log("Releasing Document");
-        this.model.save({
-           	headers : { 'method_called' : 'release'}//, 'document' : this.model.id }
+    	//console.log("Releasing Document");
+        this.model.destroy({
+           	headers : { 'id' : this.model.id }//{ 'method_called' : 'release'}//, 'document' : this.model.id }
         });
    	},
 
    	//will need to do save which will automatically call sync
    	revokeDocument: function()
    	{
-   		console.log("Revoking Document");
+   		//console.log("Revoking Document");
         this.model.save({
-           	headers : { 'method_called' : 'revoke'}//, 'document' : this.model.id }
+           	headers : { 'id' : this.model.id }//{ 'method_called' : 'revoke'}//, 'document' : this.model.id }
         });
     }
 
