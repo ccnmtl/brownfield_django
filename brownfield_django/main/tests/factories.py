@@ -1,8 +1,8 @@
 import factory
 from datetime import datetime
 from django.contrib.auth.models import User
-from brownfield_django.main.models import Document, Course, Team, UserProfile, \
-    History, PerformedTest
+from brownfield_django.main.models import Document, Course, Team, \
+    UserProfile, History, PerformedTest
 
 
 class UserFactory(factory.DjangoModelFactory):
@@ -22,6 +22,14 @@ class CourseFactory(factory.DjangoModelFactory):
     creator = factory.SubFactory(UserFactory)
 
 
+class DocumentFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = Document
+    name = "Test Document for Course"
+    course = factory.SubFactory(CourseFactory)
+    link = "<a href='/path/to/the/course/document/here'></a>"
+    visible = False
+
+
 class UserProfileFactory(factory.DjangoModelFactory):
     FACTORY_FOR = UserProfile
     user = factory.SubFactory(UserFactory)
@@ -36,7 +44,30 @@ class StudentProfileFactory(UserProfileFactory):
 
 
 class TeacherProfileFactory(UserProfileFactory):
+    user = factory.SubFactory(UserFactory)
     profile_type = 'TE'
+
+
+class CourseOneFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = Course
+    name = "Test Course One"
+    password = "12345"
+    startingBudget = 65000
+    enableNarrative = True
+    message = "Hello you non existant students."
+    active = True
+    creator = factory.SubFactory(UserFactory)
+
+
+class CourseTwoFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = Course
+    name = "Test Course Two"
+    password = "12345"
+    startingBudget = 65000
+    enableNarrative = True
+    message = "Hello you non existant students."
+    active = True
+    creator = factory.SubFactory(UserFactory)
 
 
 class TeamFactory(factory.DjangoModelFactory):
@@ -55,7 +86,7 @@ class HistoryFactory(factory.DjangoModelFactory):
     description = "History Record"
     cost = 100
 
- 
+
 class PerformedTestFactory(factory.DjangoModelFactory):
     FACTORY_FOR = PerformedTest
     X = 10

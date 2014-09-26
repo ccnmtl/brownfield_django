@@ -3,14 +3,17 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.generic import TemplateView
+# from rest_framework.routers import DefaultRouter
+# from rest_framework.urlpatterns import format_suffix_patterns
 from pagetree.generic.views import PageView, EditView, InstructorView
 from brownfield_django.main.views import StudentHomeView, \
-    HomeView, RegistrationView, DemoHomeView, \
-    TeacherHomeView, TeacherCourseDetail, TeacherCreateCourse, \
-    TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
-    TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
-    TeacherBBHomeView
-    
+    HomeView, RegistrationView, AddStudentView, ListCourseStudentsView, \
+    TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView
+#     TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
+# get_bfa,  BrownfieldDemoView, DemoHomeView, TeacherBBHomeView,
+#     TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
+# , DemoHistoryView
+# TeacherCourseDetail, TeacherCreateCourse, \
 from brownfield_django.main.forms import CreateAccountForm
 import os.path
 admin.autodiscover()
@@ -39,42 +42,45 @@ urlpatterns = patterns(
     url(r'^accounts/register/$', RegistrationView.as_view(
         form_class=CreateAccountForm),
         name='register'),
+    url(r'^api-auth/', include('rest_framework.urls',
+                               namespace='rest_framework')),
+    (r'^$', HomeView.as_view()),
+    (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
+    # Teacher Views
+    # Teacher Course
+    (r'^course/$', CourseView.as_view()),
+    (r'^course/(?P<pk>\d+)/$', CourseView.as_view()),
+    (r'^course_details/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
+    (r'^document/(?P<pk>\d+)$', DocumentView.as_view()),
+    # Teacher Student
+    (r'^add_student/(?P<pk>\d+)$', AddStudentView.as_view()),
+    (r'^list_students/(?P<name>.*)/(?P<pk>\d+)$',
+        ListCourseStudentsView.as_view()),
+    # Teacher Team View
+    (r'^team/(?P<pk>\d+)$', CourseView.as_view()),
+    # Teacher Documents
+    (r'^documents/(?P<pk>\d+)$', CourseView.as_view()),
+    # Demo View
     (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),
-    #/media/history/?cachebuster=0.664656763430685
-
-    #url(r'^home_demo/$', DemoHomeView.as_view(), name="home"),
-    #url(r'^$', HomeView.as_view(), name="home"),
-    #(r'^demo/play/(?P<map_id>\d+)/display/flashConduit$', TemplateView.as_view(template_name="main/flvplayer.html")),
-    (r'^demo/play$', "brownfield_django.main.views.get_demo"),#TemplateView.as_view(template_name="main/flvplayer.html")),
+    (r'^demo/play$', TemplateView.as_view(
+        template_name="main/flvplayer.html")),
+    (r'^media/history/$', "brownfield_django.main.views.get_demo"),
     (r'^demo/media/flash/$', "brownfield_django.main.views.get_bfa"),
-    (r'^demo/history/$', "brownfield_django.main.views.get_demo_history"),
-    url(r'^media/history/?cachebuster=(\d+.?d+)$', DemoHomeView.as_view()), # Doesn't seem to work
-    url(r'^media/history/?cachebuster=(.*)$', DemoHomeView.as_view()), # Doesn't seem to work
     #([0-9]{15}\.[0-9]{15})
     # ([0-9]+) should it be ?cachebuster=(([0-9]+)(.?)([0-9]+))$ instead?
-    # almost? url(r'^media/history/?cachebuster=(?\d+.?\d*)$', DemoHomeView.as_view()),
+    # almost? url(r'^media/history/?cachebuster=(?\d+.?\d*)$',
+    # DemoHomeView.as_view()),
     #url(r'^media/history/?cachebuster=(/d*.?d*/)$', DemoHomeView.as_view()),
     (r'^demo/info/$', "brownfield_django.main.views.get_demo_info"),
     (r'^demo/test/$', "brownfield_django.main.views.get_demo_test"),
     (r'^demo/save/$', "brownfield_django.main.views.demo_save"),
-    (r'^visrecon/$', TemplateView.as_view(template_name="interactive/visrecon.html")),
-    (r'^demo/$', TemplateView.as_view(template_name="interactive/demo_layout.html")),
-    (r'^site_history/$', TemplateView.as_view(template_name="interactive/site_history.html")),
-    (r'^$', HomeView.as_view()),
+    (r'^visrecon/$', TemplateView.as_view(
+        template_name="interactive/visrecon.html")),
+    (r'^demo/$', TemplateView.as_view(
+        template_name="interactive/demo_layout.html")),
+    (r'^site_history/$', TemplateView.as_view(
+        template_name="interactive/site_history.html")),
     (r'^student/(?P<pk>\d+)/$', StudentHomeView.as_view()),
-    
-    # Teacher Views
-    (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
-    (r'^course$', TeacherBBHomeView.as_view()),
-    (r'^course/(?P<name>.*)/$', TeacherBBHomeView.as_view()),
-    (r'^courses/(?P<pk>\d+)$', TeacherBBHomeView.as_view()),
-    (r'^add_student/$', TeacherAddStudent.as_view()),
-    (r'^release_document/$', TeacherReleaseDocument.as_view()),
-    (r'^revoke_document/$', TeacherRevokeDocument.as_view()),
-    (r'^create_team/$', TeacherCreateTeam.as_view()),
-    (r'^delete_team/$', TeacherDeleteTeam.as_view()),
-    (r'^edit_team/$', TeacherEditTeam.as_view()),
-    
     (r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),

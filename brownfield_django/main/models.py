@@ -1,5 +1,6 @@
 import datetime
 from django.db import models
+from django.forms import ModelForm
 from django.contrib.auth.models import User
 
 PROFILE_CHOICES = (
@@ -25,7 +26,6 @@ Old Tables:
 '''
 
 
-
 class Course(models.Model):
     '''Course'''
     name = models.CharField(max_length=255)
@@ -34,21 +34,48 @@ class Course(models.Model):
     enableNarrative = models.BooleanField(default=True)
     message = models.TextField(max_length=255)
     active = models.BooleanField(default=True)
-    creator = models.ForeignKey(User, related_name="created_by", null=True, default=None, blank=True)
-    initial_budget = models.PositiveIntegerField(default=65000)
+    creator = models.ForeignKey(User, related_name="created_by", null=True,
+                                default=None, blank=True)
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            '''We want to initialize a document set for each course,
+            so the course "knows" which documents are available or
+            not'''
+            document_set = Document.objects.all()
+            for each in document_set:
+                self.document_set.add(each)
+        super(Course, self).save(*args, **kwargs)
 
     def get_students(self):
         participants = UserProfile.objects.filter(course=self)
         # need to exclude teacher
         return participants
 
+    def get_teams(self):
+        teams = Team.objects.filter(course=self)
+        return teams
+
+    def get_documents(self):
+        documents = Document.objects.filter(course=self)
+        return documents
+
+    def get_course_form(self):
+        form = CourseForm()
+        return form
+
+
+class CourseForm(ModelForm):
+    class Meta:
+        model = Course
 
 
 class Document(models.Model):
-    course = models.ForeignKey(Course)
+    course = models.ForeignKey(Course, null=True,
+                               default=None, blank=True)
     name = models.CharField(max_length=255)
     link = models.CharField(max_length=255)
     visible = models.BooleanField(default=False)
@@ -75,17 +102,17 @@ class Team(models.Model):
 
     def __unicode__(self):
         return self.name
-    
+
     def get_members(self):
         try:
             members = self.userprofile_set.all()
             return members
         except:
             return None
-        
+
     def get_signed_contract(self):
         return self.signed_contract
-    
+
     def get_course(self):
         return self.course
 
@@ -122,9 +149,6 @@ class UserProfile(models.Model):
             return "faculty"
 
 
-
-    
-
 class History(models.Model):
     team = models.ForeignKey(Team)
     date = models.DateTimeField(default=datetime.datetime.now)
@@ -147,4 +171,4 @@ class PerformedTest(models.Model):
 
 
 class Visit(models.Model):
-    pass 
+    pass

@@ -144,6 +144,7 @@ AjaxForm.prototype._success = function(response) {
 	self.form.reset();
     }    
     if (self.options.refresh_sections) {
+  	//var def  = doXHR('demo/history/?cachebuster='+random_string(), {
 	var def  = doXHR(location.href+'?cachebuster='+random_string(), {
 	    mimeType:'text/xml',
 	    headers:{'Accept': 'text/xml'}

@@ -4,7 +4,7 @@ import sys
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
 ADMINS = ()
 
 MANAGERS = ADMINS
@@ -108,6 +108,7 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'django.contrib.admin',
     'tagging',
+    'rest_framework',
     'typogrify',
     'south',
     'django_nose',
@@ -199,3 +200,16 @@ LOGGING = {
 }
 
 ACCOUNT_ACTIVATION_DAYS = 7
+
+
+REST_FRAMEWORK = {
+
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
+    'DEFAULT_MODEL_SERIALIZER_CLASS':
+    'rest_framework.serializers.ModelSerializer',
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+        ]
+
+}

@@ -8,10 +8,6 @@ jQuery(function() {
     jQuery('.instructor-nav a').on('shown', function (e) {
         window.location.hash = e.target.hash;
         scrollTo(0,0);
-    });
-	
-	
-	
-	
+    });	
 	
 });

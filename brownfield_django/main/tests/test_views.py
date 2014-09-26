@@ -1,5 +1,5 @@
-import json
-from datetime import datetime
+# import json
+#from datetime import datetime
 
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
@@ -7,8 +7,10 @@ from django.contrib.auth.models import User
 
 from pagetree.helpers import get_hierarchy
 
-from factories import UserFactory, UserProfileFactory, TeacherProfileFactory, \
-    StudentProfileFactory, CourseFactory, TeamFactory
+from factories import TeacherProfileFactory, \
+    CourseOneFactory, CourseTwoFactory
+# , \ UserFactory, UserProfileFactory,
+#    StudentProfileFactory, CourseFactory, TeamFactory
 
 '''
 Need to test:
@@ -17,7 +19,7 @@ Need to test:
     StudentHomeView
     TeamHomeView
     TeacherHomeView
-    TeacherCourseDetail
+    TeacherAddStudent
     TeacherCreateCourse
     TeacherDeleteCourse
     TeacherAddStudent
@@ -27,7 +29,6 @@ Need to test:
     OnLoad
     OnSave
 '''
-
 
 
 class BasicTest(TestCase):
@@ -120,89 +121,251 @@ class TestStudentUserLogin(TestCase):
     def setUp(self):
         self.client = Client()
         self.factory = RequestFactory()
-        self.student = StudentProfileFactory().user
-        self.client.login(username=self.student.username, password="test")
+#         self.student = StudentProfileFactory().user
+#         self.client.login(username=self.student.username, password="test")
 
 #     def test_home(self):
 #         response = self.client.get("/", follow=True)
         #self.assertEquals(response.redirect_chain[0],[
-        #                  ('http://testserver/student/'+str(self.student.pk), 302)])
+        # ('http://testserver/student/'+str(self.student.pk), 302)])
         #self.assertTemplateUsed(response, 'main/student/student_home.html')
-        
 
 #     def test_home_noprofile(self):
 #         user = UserFactory()
 #         self.client.login(username=user.username, password="test")
-# 
+#
 #         response = self.client.get("/", follow=True)
 #         self.assertEqual(response.status_code, 200)
 #         self.assertEquals(response.redirect_chain[0],
 #                           ('http://testserver/register/', 302))
-# 
+#
 #     def test_dashboard(self):
 #         response = self.client.get('/dashboard/')
 #         self.assertEquals(response.status_code, 200)
-# 
+#
 #     def test_dashboard_context(self):
 #         request = RequestFactory().get('/dashboard/')
 #         request.user = self.student
-# 
+#
 #         view = UserProfileView()
 #         view.request = request
-# 
+#
 #         self.assertEquals(view.get_object(), request.user.profile)
-# 
+#
 #         view.object = request.user.profile
 #         ctx = view.get_context_data()
-# 
+#
 #         self.assertEquals(ctx['optionb'], self.hierarchy)
 #         self.assertIsNotNone(ctx['profile_form'])
 #         self.assertEquals(ctx['countries'], COUNTRY_CHOICES)
 #         self.assertEquals(ctx['joined_groups'].count(), 0)
 #         self.assertTrue('managed_groups' not in ctx)
 #         self.assertTrue('pending_teachers' not in ctx)
-# 
-# 
-# 
-# # 
-# # 
+#
+#
 # class TestTeacherUserLogin(TestCase):
-#  
+#
 #     def setUp(self):
 #         self.client = Client()
 #         self.factory = RequestFactory()
 #         self.student = TeacherProfileFactory().user
 #         self.client.login(username=self.student.username, password="test")
-#  
+#
 #     def test_home(self):
 #         response = self.client.get("/", follow=True)
 #         self.assertEqual(response.status_code, 200)
 #         self.assertEquals(response.redirect_chain[0],
 #                           ('http://testserver/accounts/login/?next=/', 302))
-#  
-#  
-#  
-# 
+#
+#
 # class TestStudentUserLogin(TestCase):
-# 
+#
 #     def setUp(self):
 #         self.client = Client()
 #         self.factory = RequestFactory()
-# 
-# 
+#
 #     def test_home(self):
 #         response = self.client.get("/", follow=True)
 #         self.assertEquals(response.redirect_chain[0],[
-#                           ('http://testserver/student/'+str(self.student.pk), 302)])
+#         ('http://testserver/student/'+str(self.student.pk), 302)])
 #         self.assertTemplateUsed(response, 'main/student/student_home.html')
 
+class TestInstructorLogin(TestCase):
 
+    def setUp(self):
+        self.client = Client()
+        self.factory = RequestFactory()
+        self.teacher = TeacherProfileFactory().user
+        self.course_one = CourseOneFactory()
+        self.course_two = CourseTwoFactory()
+        self.client.login(username=self.teacher.username, password="test")
 
+    def test_home(self):
+        response = self.client.get("/", follow=True)
+        self.assertEquals(response.redirect_chain[0],
+        ('http://testserver/teacher/' + str(self.teacher.profile.pk) + '/',
+         302))
+        self.assertTemplateUsed(response, 'main/instructor/instructor_home.html')
 
+    def test_post_course(self):
+        '''
+        Calling post with desired name of the new course
+        should result in a new course with that name being created
+        and the course info (key) being returned to the browser to update
+        the course list.
+        '''
+        pass
+        # request = self.client.post("/course", {}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+#         request.body = {'name': 'test new course'}
+#         # {'name' : 'test name for course'}
+#         self.assertEqual(request.status_code, 201)
 
+    def test_get_course(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
 
+    def test_update_course(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
 
+    def test_remove_course(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
 
+    '''Test document related urls'''
 
+    def test_post_document(self):
+        '''
+        Calling post with desired name of the new course
+        should result in a new course with that name being created
+        and the course info (key) being returned to the browser to update
+        the course list.
+        '''
+        pass
+        # request = self.client.post("/course", {}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+#         request.body = {'name': 'test new course'}
+#         # {'name' : 'test name for course'}
+#         self.assertEqual(request.status_code, 201)
 
+    def test_get_document(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
+
+    
+    '''Test team related urls'''
+    
+    def test_post_team(self):
+        '''
+        Calling post with desired name of the new course
+        should result in a new course with that name being created
+        and the course info (key) being returned to the browser to update
+        the course list.
+        '''
+        pass
+        # request = self.client.post("/course", {}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+#         request.body = {'name': 'test new course'}
+#         # {'name' : 'test name for course'}
+#         self.assertEqual(request.status_code, 201)
+
+    def test_get_team(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
+    
+    def test_update_team(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
+
+    def teamtest_remove_course(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
+    
+    '''Test student related urls'''
+    
+    def test_post_student(self):
+        '''
+        Calling post with desired name of the new course
+        should result in a new course with that name being created
+        and the course info (key) being returned to the browser to update
+        the course list.
+        '''
+        pass
+        # request = self.client.post("/course", {}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+#         request.body = {'name': 'test new course'}
+#         # {'name' : 'test name for course'}
+#         self.assertEqual(request.status_code, 201)
+
+    def test_get_student(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
+    
+    def test_update_student(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
+
+    def test_remove_student(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
+#        request = self.client.get("/course/" + str(self.course_one.pk) + '/')
+#         request.body = {'name': 'test new course'}
+#         # {'name' : 'test name for course'}
+#         self.assertEqual(request.status_code, 201)
+
+#                 response = self.client.get('/schools/%s/' % self.country.name, {},
+#                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+#         self.assertEquals(response.status_code, 200)
+#         the_json = json.loads(response.content)
+#         self.assertEquals(len(the_json['schools']), 0)
+        # self.assertTemplateUsed(response, 'main/instructor/instructor_home.html')
+
+#     (r'^course/$', CourseView.as_view()),
+#     (r'^course/(?P<name>.*)/$', CourseView.as_view()),
+#     (r'^course/(?P<pk>\d+)$', CourseView.as_view()),
+#     def test_home_noprofile(self):
+#         user = UserFactory()
+#         self.client.login(username=user.username, password="test")
+#
+#         response = self.client.get("/", follow=True)
+#         self.assertEqual(response.status_code, 200)
+#         self.assertEquals(response.redirect_chain[0],
+#                           ('http://testserver/register/', 302))
 

@@ -25,6 +25,7 @@ DATABASES = {
 COMPRESS_ROOT = "/var/www/brownfield_django/brownfield_django/media/"
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
 STAGING_ENV = True
 
 STATSD_PREFIX = 'brownfield_django-staging'

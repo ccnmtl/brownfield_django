@@ -1,11 +1,17 @@
-from datetime import date
+# from datetime import date
 
 from django.test import TestCase
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
 from factories import UserFactory, UserProfileFactory, TeacherProfileFactory, \
     StudentProfileFactory, CourseFactory, TeamFactory, HistoryFactory, \
     PerformedTestFactory
+
+
+class TestUserFactory(TestCase):
+    def test_unicode(self):
+        user = UserFactory()
+        self.assertEqual(str(user), user.username)
 
 
 class TestCourseFactory(TestCase):
@@ -23,7 +29,7 @@ class TestTeamFactory(TestCase):
 class TestHistoryFactory(TestCase):
     def test_unicode(self):
         his = HistoryFactory()
-        self.assertEqual(str(his), '%s - %s' % (his.description, his.team)) 
+        self.assertEqual(str(his), '%s - %s' % (his.description, his.team))
 
 
 class TestPerformedTestFactory(TestCase):
@@ -42,19 +48,9 @@ class TestTeacherProfileFactory(TestCase):
     def test_unicode(self):
         teach = TeacherProfileFactory()
         self.assertEqual(str(teach), teach.user.username)
- 
- 
+
+
 class TestStudentProfileFactory(TestCase):
     def test_unicode(self):
         student = StudentProfileFactory()
         self.assertEqual(str(student), student.user.username)
-
-
-
-
-
-
-
-
-
-
