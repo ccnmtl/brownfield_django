@@ -1,46 +1,45 @@
 # import json
 # from datetime import datetime
 # from xml.dom.minidom import parseString
-from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.http.response import HttpResponseForbidden
-from django.contrib.auth.models import User
-# from django.core.mail import send_mail
+from django.shortcuts import render
 from django.views.generic import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
-from django.core.urlresolvers import reverse
-#, reverse_lazy
-# from django.shortcuts import get_object_or_404
-
 from rest_framework import status
-#    mixins, permissions, routers, serializers,
-# viewsets, renderers, generics, viewsets, authentication, filters
-from rest_framework.response import Response
-# from rest_framework.permissions import IsOwnerOrReadOnly
-# from rest_framework.decorators import api_view, detail_route
-from rest_framework.renderers import XMLRenderer  # ,JSONRenderer
-# from rest_framework.parsers import JSONParser
-from rest_framework.views import APIView
 from rest_framework.authentication import SessionAuthentication, \
     BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import XMLRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from brownfield_django.main.forms import CreateAccountForm  # TeamForm,
+from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
     StudentsInCourseSerializer, AddStudentToCourseSerializer, \
     CompleteDocumentSerializer, TeamSerializer, CompleteCourseSerializer
-#    CompleteCourseSerializer
-#    ListStudentsCoursesSerializer, ListAllCoursesSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
-# , INFO_TEST
-from brownfield_django.main.models import Course, UserProfile, Document, Team
-from brownfield_django.main.forms import CreateAccountForm  # TeamForm,
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
+
+
+# from django.core.mail import send_mail
+# , reverse_lazy
+# from django.shortcuts import get_object_or_404
+#    mixins, permissions, routers, serializers,
+# viewsets, renderers, generics, viewsets, authentication, filters
+# from rest_framework.permissions import IsOwnerOrReadOnly
+# from rest_framework.decorators import api_view, detail_route
+# from rest_framework.parsers import JSONParser
+#    CompleteCourseSerializer
+#    ListStudentsCoursesSerializer, ListAllCoursesSerializer
+# , INFO_TEST
 # , LoggedInMixinSuperuser, \
 #    LoggedInMixinStaff
-
-
 class HomeView(LoggedInMixin, View):
     '''redoing so that it simply redirects people where they need to be'''
 
@@ -91,7 +90,8 @@ class CourseView(APIView):
         serializer = AddCourseByNameSerializer(data=request.DATA)
         if serializer.is_valid():
             course_name = serializer.data['name']
-            new_course = Course.objects.create(name=course_name,
+            new_course = Course.objects.create(
+                name=course_name,
                 creator=User.objects.get(pk=request.user.pk))
             new_course.save()
             print new_course.pk
@@ -104,7 +104,8 @@ class CourseView(APIView):
         serializer = CompleteCourseSerializer(data=request.DATA)
         if serializer.is_valid():
             course_name = serializer.data['name']
-            new_course = Course.objects.create(name=course_name,
+            new_course = Course.objects.create(
+                name=course_name,
                 creator=User.objects.get(pk=request.user.pk))
             new_course.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

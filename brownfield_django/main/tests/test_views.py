@@ -1,5 +1,5 @@
 # import json
-#from datetime import datetime
+# from datetime import datetime
 
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
@@ -126,9 +126,9 @@ class TestStudentUserLogin(TestCase):
 
 #     def test_home(self):
 #         response = self.client.get("/", follow=True)
-        #self.assertEquals(response.redirect_chain[0],[
+        # self.assertEquals(response.redirect_chain[0],[
         # ('http://testserver/student/'+str(self.student.pk), 302)])
-        #self.assertTemplateUsed(response, 'main/student/student_home.html')
+        # self.assertTemplateUsed(response, 'main/student/student_home.html')
 
 #     def test_home_noprofile(self):
 #         user = UserFactory()
@@ -190,6 +190,7 @@ class TestStudentUserLogin(TestCase):
 #         ('http://testserver/student/'+str(self.student.pk), 302)])
 #         self.assertTemplateUsed(response, 'main/student/student_home.html')
 
+
 class TestInstructorLogin(TestCase):
 
     def setUp(self):
@@ -202,10 +203,12 @@ class TestInstructorLogin(TestCase):
 
     def test_home(self):
         response = self.client.get("/", follow=True)
-        self.assertEquals(response.redirect_chain[0],
-        ('http://testserver/teacher/' + str(self.teacher.profile.pk) + '/',
-         302))
-        self.assertTemplateUsed(response, 'main/instructor/instructor_home.html')
+        self.assertEquals(
+            response.redirect_chain[0],
+            ('http://testserver/teacher/' + str(self.teacher.profile.pk) + '/',
+             302))
+        self.assertTemplateUsed(response,
+                                'main/instructor/instructor_home.html')
 
     def test_post_course(self):
         '''
@@ -215,7 +218,8 @@ class TestInstructorLogin(TestCase):
         the course list.
         '''
         pass
-        # request = self.client.post("/course", {}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        # request = self.client.post("/course", {},
+        #                            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 #         request.body = {'name': 'test new course'}
 #         # {'name' : 'test name for course'}
 #         self.assertEqual(request.status_code, 201)
@@ -254,7 +258,8 @@ class TestInstructorLogin(TestCase):
         the course list.
         '''
         pass
-        # request = self.client.post("/course", {}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        # request = self.client.post("/course", {},
+        #                            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 #         request.body = {'name': 'test new course'}
 #         # {'name' : 'test name for course'}
 #         self.assertEqual(request.status_code, 201)
@@ -267,9 +272,7 @@ class TestInstructorLogin(TestCase):
         '''
         pass
 
-    
     '''Test team related urls'''
-    
     def test_post_team(self):
         '''
         Calling post with desired name of the new course
@@ -278,7 +281,8 @@ class TestInstructorLogin(TestCase):
         the course list.
         '''
         pass
-        # request = self.client.post("/course", {}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        # request = self.client.post("/course", {},
+        #                            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 #         request.body = {'name': 'test new course'}
 #         # {'name' : 'test name for course'}
 #         self.assertEqual(request.status_code, 201)
@@ -290,7 +294,7 @@ class TestInstructorLogin(TestCase):
         and put students in teams.
         '''
         pass
-    
+
     def test_update_team(self):
         '''
         Calling get for a course should redirect the instructor to a
@@ -306,9 +310,8 @@ class TestInstructorLogin(TestCase):
         and put students in teams.
         '''
         pass
-    
+
     '''Test student related urls'''
-    
     def test_post_student(self):
         '''
         Calling post with desired name of the new course
@@ -317,7 +320,8 @@ class TestInstructorLogin(TestCase):
         the course list.
         '''
         pass
-        # request = self.client.post("/course", {}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        # request = self.client.post("/course", {},
+        #                            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 #         request.body = {'name': 'test new course'}
 #         # {'name' : 'test name for course'}
 #         self.assertEqual(request.status_code, 201)
@@ -329,7 +333,7 @@ class TestInstructorLogin(TestCase):
         and put students in teams.
         '''
         pass
-    
+
     def test_update_student(self):
         '''
         Calling get for a course should redirect the instructor to a
@@ -350,12 +354,13 @@ class TestInstructorLogin(TestCase):
 #         # {'name' : 'test name for course'}
 #         self.assertEqual(request.status_code, 201)
 
-#                 response = self.client.get('/schools/%s/' % self.country.name, {},
+#         response = self.client.get('/schools/%s/' % self.country.name, {},
 #                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 #         self.assertEquals(response.status_code, 200)
 #         the_json = json.loads(response.content)
 #         self.assertEquals(len(the_json['schools']), 0)
-        # self.assertTemplateUsed(response, 'main/instructor/instructor_home.html')
+        # self.assertTemplateUsed(response,
+        #                         'main/instructor/instructor_home.html')
 
 #     (r'^course/$', CourseView.as_view()),
 #     (r'^course/(?P<name>.*)/$', CourseView.as_view()),
@@ -368,4 +373,3 @@ class TestInstructorLogin(TestCase):
 #         self.assertEqual(response.status_code, 200)
 #         self.assertEquals(response.redirect_chain[0],
 #                           ('http://testserver/register/', 302))
-

@@ -20,8 +20,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     search_fields = ['user__username']
     list_display = ['user', 'role']
 
-
-#class SchoolGroupAdmin(admin.ModelAdmin):
+# class SchoolGroupAdmin(admin.ModelAdmin):
 #    list_display = ['name', 'school', 'creator', 'archived']
 
 

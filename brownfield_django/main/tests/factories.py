@@ -35,7 +35,7 @@ class UserProfileFactory(factory.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
     profile_type = 'ST'
     # defaulting to student well get
-    #more specific in following facorties
+    # more specific in following facorties
     course = factory.SubFactory(CourseFactory)
 
 

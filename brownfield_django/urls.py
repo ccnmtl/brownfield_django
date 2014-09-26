@@ -1,21 +1,25 @@
+import os.path
+
+from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
-from django.conf import settings
 from django.views.generic import TemplateView
-# from rest_framework.routers import DefaultRouter
-# from rest_framework.urlpatterns import format_suffix_patterns
-from pagetree.generic.views import PageView, EditView, InstructorView
+from pagetree.generic.views import EditView, InstructorView, PageView
+
+from brownfield_django.main.forms import CreateAccountForm
 from brownfield_django.main.views import StudentHomeView, \
     HomeView, RegistrationView, AddStudentView, ListCourseStudentsView, \
     TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView
+
+
+# from rest_framework.routers import DefaultRouter
+# from rest_framework.urlpatterns import format_suffix_patterns
 #     TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
 # get_bfa,  BrownfieldDemoView, DemoHomeView, TeacherBBHomeView,
 #     TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
 # , DemoHistoryView
 # TeacherCourseDetail, TeacherCreateCourse, \
-from brownfield_django.main.forms import CreateAccountForm
-import os.path
 admin.autodiscover()
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
@@ -66,11 +70,11 @@ urlpatterns = patterns(
         template_name="main/flvplayer.html")),
     (r'^media/history/$', "brownfield_django.main.views.get_demo"),
     (r'^demo/media/flash/$', "brownfield_django.main.views.get_bfa"),
-    #([0-9]{15}\.[0-9]{15})
+    # ([0-9]{15}\.[0-9]{15})
     # ([0-9]+) should it be ?cachebuster=(([0-9]+)(.?)([0-9]+))$ instead?
     # almost? url(r'^media/history/?cachebuster=(?\d+.?\d*)$',
     # DemoHomeView.as_view()),
-    #url(r'^media/history/?cachebuster=(/d*.?d*/)$', DemoHomeView.as_view()),
+    # url(r'^media/history/?cachebuster=(/d*.?d*/)$', DemoHomeView.as_view()),
     (r'^demo/info/$', "brownfield_django.main.views.get_demo_info"),
     (r'^demo/test/$', "brownfield_django.main.views.get_demo_test"),
     (r'^demo/save/$', "brownfield_django.main.views.demo_save"),
