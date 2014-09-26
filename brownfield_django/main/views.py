@@ -1,4 +1,4 @@
-import json
+# import json
 # from datetime import datetime
 # from xml.dom.minidom import parseString
 from django.shortcuts import render
@@ -11,7 +11,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 #, reverse_lazy
-from django.shortcuts import get_object_or_404
+# from django.shortcuts import get_object_or_404
 
 from rest_framework import status
 #    mixins, permissions, routers, serializers,
@@ -28,12 +28,13 @@ from rest_framework.permissions import IsAuthenticated
 
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
     StudentsInCourseSerializer, AddStudentToCourseSerializer, \
-    CompleteDocumentSerializer, TeamSerializer
+    CompleteDocumentSerializer, TeamSerializer, CompleteCourseSerializer
 #    CompleteCourseSerializer
 #    ListStudentsCoursesSerializer, ListAllCoursesSerializer
-from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML, INFO_TEST
+from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
+# , INFO_TEST
 from brownfield_django.main.models import Course, UserProfile, Document, Team
-from brownfield_django.main.forms import TeamForm, CreateAccountForm
+from brownfield_django.main.forms import CreateAccountForm  # TeamForm,
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
 # , LoggedInMixinSuperuser, \
@@ -90,7 +91,8 @@ class CourseView(APIView):
         serializer = AddCourseByNameSerializer(data=request.DATA)
         if serializer.is_valid():
             course_name = serializer.data['name']
-            new_course = Course.objects.create(name=course_name, creator=User.objects.get(pk=request.user.pk))
+            new_course = Course.objects.create(name=course_name,
+                creator=User.objects.get(pk=request.user.pk))
             new_course.save()
             print new_course.pk
             print serializer.data
@@ -102,13 +104,15 @@ class CourseView(APIView):
         serializer = CompleteCourseSerializer(data=request.DATA)
         if serializer.is_valid():
             course_name = serializer.data['name']
-            new_course = Course.objects.create(name=course_name, creator=User.objects.get(pk=request.user.pk))
+            new_course = Course.objects.create(name=course_name,
+                creator=User.objects.get(pk=request.user.pk))
             new_course.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, format=None, *args, **kwargs):
         pass
+
 
 class TeacherHomeView(DetailView):
 
@@ -418,14 +422,13 @@ class TeamHomeView(DetailView):
         context = super(TeamHomeView, self).get_context_data(**kwargs)
         context['user_courses'] = Course.objects.filter()
         context['all_courses'] = Course.objects.all()
-        context['course_form'] = CourseForm()
+        # context['course_form'] = CourseForm()
         context['documents'] = Document.objects.all()
         return context
 
 
 # return HttpResponseRedirect('/dashboard/#user-groups')
 # return HttpResponseRedirect('/dashboard/#user-groups')
-
 
 
 class TeamPerformTest(LoggedInMixin, JSONResponseMixin, View):

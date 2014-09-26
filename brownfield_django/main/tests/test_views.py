@@ -7,9 +7,9 @@ from django.contrib.auth.models import User
 
 from pagetree.helpers import get_hierarchy
 
-from factories import UserFactory, UserProfileFactory, TeacherProfileFactory, \
+from factories import TeacherProfileFactory, \
     CourseOneFactory, CourseTwoFactory
-# , \
+# , \ UserFactory, UserProfileFactory,
 #    StudentProfileFactory, CourseFactory, TeamFactory
 
 '''

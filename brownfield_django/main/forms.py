@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from registration.forms import RegistrationForm
 from registration.signals import user_registered
-from brownfield_django.main.models import Course, UserProfile, Team, \
+from brownfield_django.main.models import UserProfile, Team, \
     PROFILE_CHOICES
 
 
