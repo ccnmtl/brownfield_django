@@ -12,6 +12,13 @@ class AddCourseByNameSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('name',)
 
 
+class CourseNameIDSerializer(serializers.HyperlinkedModelSerializer):
+    '''Allow professor to add a course by name as in original brownfield.'''
+    class Meta:
+        model = Course
+        fields = ('name', 'id')
+
+
 class CompleteCourseSerializer(serializers.HyperlinkedModelSerializer):
     '''Allow professor see, update all aspects of a course.'''
     class Meta:

@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 from pagetree.generic.views import PageView, EditView, InstructorView
 from brownfield_django.main.views import StudentHomeView, \
     HomeView, RegistrationView, AddStudentView, ListCourseStudentsView, \
-    TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView
+    TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, UserCourseView
 #     TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
 # get_bfa,  BrownfieldDemoView, DemoHomeView, TeacherBBHomeView,
 #     TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
@@ -52,6 +52,7 @@ urlpatterns = patterns(
     (r'^course/(?P<pk>\d+)/$', CourseView.as_view()),
     (r'^course_details/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
     (r'^document/(?P<pk>\d+)$', DocumentView.as_view()),
+    (r'^user_course/$', UserCourseView.as_view()),
     # Teacher Student
     (r'^add_student/(?P<pk>\d+)$', AddStudentView.as_view()),
     (r'^list_students/(?P<name>.*)/(?P<pk>\d+)$',

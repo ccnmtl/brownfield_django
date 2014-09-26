@@ -28,7 +28,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
     StudentsInCourseSerializer, AddStudentToCourseSerializer, \
-    CompleteDocumentSerializer, TeamSerializer, CompleteCourseSerializer
+    CompleteDocumentSerializer, TeamSerializer, CompleteCourseSerializer, CourseNameIDSerializer
 #    CompleteCourseSerializer
 #    ListStudentsCoursesSerializer, ListAllCoursesSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
@@ -114,6 +114,28 @@ class CourseView(APIView):
         pass
 
 
+class UserCourseView(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format=None):
+        courses = Course.objects.all()
+        serializer = CourseNameIDSerializer(courses, many=True)
+        print serializer.data
+        return Response(serializer.data)
+        #print "inside get"
+        #this_user = User.objects.get(pk=request.user.pk)
+        #courses = Course.objects.filter(creator=this_user)
+        #for each in queryset:
+        #    print each
+        #serializer = CourseNameIDSerializer(queryset, many=True)
+        #for each in serializer:
+        #print serializer
+        #return Response(courses)
+        #courses = [course.name, course.pk for course in Course.objects.filter(creator=request.user)]
+        #return Response(usernames)
+
+
 class TeacherHomeView(DetailView):
 
     model = UserProfile
@@ -124,6 +146,12 @@ class TeacherHomeView(DetailView):
         if int(kwargs.get('pk')) != self.request.user.profile.id:
             return HttpResponseForbidden("forbidden")
         return super(TeacherHomeView, self).dispatch(*args, **kwargs)
+
+#     def get_context_data(self, **kwargs):
+#         context = super(TeamHomeView, self).get_context_data(**kwargs)
+#         context['user_courses'] = Course.objects.filter(creator=request.user)
+#         context['all_courses'] = Course.objects.all()
+#         return context
 
 
 class DocumentView(APIView):
