@@ -119,21 +119,22 @@ class UserCourseView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
+        this_user = User.objects.get(pk=request.user.pk)
+        courses = Course.objects.filter(creator=this_user)
+        serializer = CourseNameIDSerializer(courses, many=True)
+        print serializer.data
+        return Response(serializer.data)
+
+
+class AllCourseView(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format=None):
         courses = Course.objects.all()
         serializer = CourseNameIDSerializer(courses, many=True)
         print serializer.data
         return Response(serializer.data)
-        #print "inside get"
-        #this_user = User.objects.get(pk=request.user.pk)
-        #courses = Course.objects.filter(creator=this_user)
-        #for each in queryset:
-        #    print each
-        #serializer = CourseNameIDSerializer(queryset, many=True)
-        #for each in serializer:
-        #print serializer
-        #return Response(courses)
-        #courses = [course.name, course.pk for course in Course.objects.filter(creator=request.user)]
-        #return Response(usernames)
 
 
 class TeacherHomeView(DetailView):

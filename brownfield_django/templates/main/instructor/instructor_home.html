@@ -38,3 +38,8 @@ jQuery(document).ready(function() {
   </div>
   
 {% endblock %}
+
+{% block bbjs %}
+{{ block.super }}
+<script type="text/javascript" src="{{STATIC_URL}}js/usercourselist.js"></script>
+{% endblock %}

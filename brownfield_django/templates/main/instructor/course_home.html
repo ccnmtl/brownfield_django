@@ -22,3 +22,9 @@
 <script type="text/javascript" src="{{STATIC_URL}}js/teams_students.js"></script> 
 -->
 {% endblock %}
+
+{% block bbjs %}
+{{ block.super }}
+<script type="text/javascript" src="{{STATIC_URL}}js/documentlist.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/teams_students.js"></script>
+{% endblock %}

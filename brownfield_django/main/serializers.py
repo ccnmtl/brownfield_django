@@ -1,7 +1,7 @@
 # from django.forms import widgets
 from django.contrib.auth.models import User  # , Group
 from rest_framework import serializers
-from brownfield_django.main.models import Course, Team
+from brownfield_django.main.models import Course, Team, Document
 # Serializers define the API representation
 
 
@@ -28,9 +28,9 @@ class CompleteCourseSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
-    '''Allow professor see, update all aspects of a course.'''
+    '''Return Document set with each documents associated attributes.'''
     class Meta:
-        model = Course
+        model = Document
         fields = ('name', 'course', 'link', 'visible')
 
 
