@@ -13,8 +13,6 @@ var Course = Backbone.Model.extend({
 	initialize: function(attributes) 
 	{   // not sure if this will cause problems
 	    name = attributes.name || '<EMPTY>';
-	    //console.log("Initializing a new course model for '" +
-	    //  name + "'."); 
 	}
 	    
 });
@@ -38,7 +36,7 @@ var AllCourseCollection = Backbone.Collection.extend({
 var CourseView = Backbone.View.extend({
 
    	tagName : 'li',
-   	template: _.template('Course Template <%= name %> <button class="del-crs"> Remove Course</button> <button class="destroy"> Destroy Class</button>'),
+   	template: _.template("Course Template <%= name %> <a href='/course/<%= id %>/'>View Course Details </a> <button class='del-crs'> Remove Course</button> <button class='destroy'> Destroy Class</button>"),
    	//$container: null,
     	
    	initialize: function () {
@@ -56,7 +54,7 @@ var CourseView = Backbone.View.extend({
         {
             throw "Model is not set for this view";
         }
-          
+         
         var html = this.template(this.model.toJSON());
         console.log("Inside course view");
         this.$el.html(html);
@@ -76,9 +74,6 @@ var CourseView = Backbone.View.extend({
     }
 
 });// End CourseView
-
-    
-
 
 /* Container to hold rows of users courses */
 var CourseListView = Backbone.View.extend({

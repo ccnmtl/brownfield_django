@@ -31,7 +31,7 @@ class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
     '''Return Document set with each documents associated attributes.'''
     class Meta:
         model = Document
-        fields = ('name', 'course', 'link', 'visible')
+        fields = ('id', 'name', 'course', 'link', 'visible')
 
 
 # class UserCoursesSerializer(serializers.HyperlinkedModelSerializer):

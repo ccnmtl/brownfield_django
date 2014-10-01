@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 from pagetree.generic.views import PageView, EditView, InstructorView
 from brownfield_django.main.views import StudentHomeView, \
     HomeView, RegistrationView, AddStudentView, ListCourseStudentsView, \
-    TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, UserCourseView, AllCourseView
+    TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, UserCourseView, AllCourseView, ActivateView
 #     TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
 # get_bfa,  BrownfieldDemoView, DemoHomeView, TeacherBBHomeView,
 #     TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
@@ -46,14 +46,16 @@ urlpatterns = patterns(
                                namespace='rest_framework')),
     (r'^$', HomeView.as_view()),
     (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
-    # Teacher Views
+    # Teacher Views/document
     # Teacher Course
     (r'^course/$', CourseView.as_view()),
     (r'^course/(?P<pk>\d+)/$', CourseView.as_view()),
     (r'^course_details/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
+    (r'^document/$', DocumentView.as_view()),
     (r'^document/(?P<pk>\d+)$', DocumentView.as_view()),
     (r'^user_courses/$', UserCourseView.as_view()),
     (r'^all_courses/$', AllCourseView.as_view()),
+    (r'^activate_course/$', ActivateView.as_view()),
     # Teacher Student
     (r'^add_student/(?P<pk>\d+)$', AddStudentView.as_view()),
     (r'^list_students/(?P<name>.*)/(?P<pk>\d+)$',
@@ -61,7 +63,7 @@ urlpatterns = patterns(
     # Teacher Team View
     (r'^team/(?P<pk>\d+)$', CourseView.as_view()),
     # Teacher Documents
-    (r'^documents/(?P<pk>\d+)$', CourseView.as_view()),
+    # (r'^documents/(?P<pk>\d+)$', CourseView.as_view()),
     # Demo View
     (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),
     (r'^demo/play$', TemplateView.as_view(

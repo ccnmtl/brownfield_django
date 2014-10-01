@@ -6,18 +6,10 @@
         {{object.message}}
     </div><!-- End Course Message -->
 
+    <h3>Course Documents</h3>
+    <form id="upt-doc-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
     <div class="documents_list">
-        <h3>Course Documents</h3>
-
-        <ul>
-            {% for d in object.get_documents %}
-            <li>
-                <a href=/document/{{d.pk}}> {{ d.name }} </a> State: {{o.visibile}}
-            </li>
-            {% empty %}
-            <li>There are no documents yet.</li>
-            {% endfor %}
-        </ul>
+        
     </div><!-- End Document List -->
 
 
@@ -53,7 +45,8 @@
             </p>
         </div><!-- End Course Activation Info -->
         <div class="crs-activate">
-            <button class="btn btn-mini btn-success">
+            <input type="text" style="display: none;"/>{{object.pk}}<br />
+            <button id="activation-btn" class="btn btn-mini btn-success">
                 Activate Course
             </button>
         </div>

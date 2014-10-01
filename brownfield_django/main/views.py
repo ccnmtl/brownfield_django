@@ -137,6 +137,62 @@ class AllCourseView(APIView):
         return Response(serializer.data)
 
 
+class ActivateView(APIView):
+
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        print "Document GET"
+        course = self.get_object(pk)
+        document_list = Document.objects.filter(course=course)
+        serializer = CompleteDocumentSerializer(document_list)
+        return Response(serializer.data)
+
+    def update(self, request, format=None, *args, **kwargs):
+        print "Document PUT"
+        course = self.get_object(pk)
+        document_list = Document.objects.filter(course=course)
+        serializer = CompleteDocumentSerializer(document_list)
+        return Response(serializer.data)
+
+
+class DocumentView(APIView):
+    """
+    This view interacts with backbone to allow instructors to
+    interact with documents, they can make them available to
+    students or revoke them so they are invisible.
+    """
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        print "Document GET"
+        course = self.get_object(pk)
+        document_list = Document.objects.filter(course=course)
+        serializer = CompleteDocumentSerializer(document_list)
+        return Response(serializer.data)
+
+    def update(self, request, format=None, *args, **kwargs):
+        print "Document PUT"
+        course = self.get_object(pk)
+        document_list = Document.objects.filter(course=course)
+        serializer = CompleteDocumentSerializer(document_list)
+        return Response(serializer.data)
+
+
 class TeacherHomeView(DetailView):
 
     model = UserProfile
@@ -155,26 +211,7 @@ class TeacherHomeView(DetailView):
 #         return context
 
 
-class DocumentView(APIView):
-    """
-    This view interacts with backbone to allow instructors to
-    interact with documents, they can make them available to
-    students or revoke them so they are invisible.
-    """
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
 
-    def get(self, request, pk, format=None):
-        course = self.get_object(pk)
-        document_list = Document.objects.filter(course=course)
-        serializer = CompleteDocumentSerializer(document_list)
-        return Response(serializer.data)
-
-    def put(self, request, pk, format=None):
-        print request.DATA
 
 
 class TeacherCourseDetail(DetailView):
