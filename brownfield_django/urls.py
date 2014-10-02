@@ -8,7 +8,8 @@ from django.views.generic import TemplateView
 from pagetree.generic.views import PageView, EditView, InstructorView
 from brownfield_django.main.views import StudentHomeView, \
     HomeView, RegistrationView, AddStudentView, ListCourseStudentsView, \
-    TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, UserCourseView, AllCourseView, ActivateView
+    TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, \
+    UserCourseView, AllCourseView, ActivateView
 #     TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
 # get_bfa,  BrownfieldDemoView, DemoHomeView, TeacherBBHomeView,
 #     TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \

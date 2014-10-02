@@ -28,7 +28,8 @@ from rest_framework.permissions import IsAuthenticated
 
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
     StudentsInCourseSerializer, AddStudentToCourseSerializer, \
-    CompleteDocumentSerializer, TeamSerializer, CompleteCourseSerializer, CourseNameIDSerializer
+    CompleteDocumentSerializer, TeamSerializer, CompleteCourseSerializer, \
+    CourseNameIDSerializer
 #    CompleteCourseSerializer
 #    ListStudentsCoursesSerializer, ListAllCoursesSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
@@ -91,7 +92,8 @@ class CourseView(APIView):
         serializer = AddCourseByNameSerializer(data=request.DATA)
         if serializer.is_valid():
             course_name = serializer.data['name']
-            new_course = Course.objects.create(name=course_name,
+            new_course = Course.objects.create(
+                name=course_name,
                 creator=User.objects.get(pk=request.user.pk))
             new_course.save()
             print new_course.pk
@@ -104,7 +106,8 @@ class CourseView(APIView):
         serializer = CompleteCourseSerializer(data=request.DATA)
         if serializer.is_valid():
             course_name = serializer.data['name']
-            new_course = Course.objects.create(name=course_name,
+            new_course = Course.objects.create(
+                name=course_name,
                 creator=User.objects.get(pk=request.user.pk))
             new_course.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -155,7 +158,7 @@ class ActivateView(APIView):
         serializer = CompleteDocumentSerializer(document_list)
         return Response(serializer.data)
 
-    def update(self, request, format=None, *args, **kwargs):
+    def update(self, request, pk, format=None, *args, **kwargs):
         print "Document PUT"
         course = self.get_object(pk)
         document_list = Document.objects.filter(course=course)
@@ -185,7 +188,7 @@ class DocumentView(APIView):
         serializer = CompleteDocumentSerializer(document_list)
         return Response(serializer.data)
 
-    def update(self, request, format=None, *args, **kwargs):
+    def update(self, request, pk, format=None, *args, **kwargs):
         print "Document PUT"
         course = self.get_object(pk)
         document_list = Document.objects.filter(course=course)
@@ -209,9 +212,6 @@ class TeacherHomeView(DetailView):
 #         context['user_courses'] = Course.objects.filter(creator=request.user)
 #         context['all_courses'] = Course.objects.all()
 #         return context
-
-
-
 
 
 class TeacherCourseDetail(DetailView):
