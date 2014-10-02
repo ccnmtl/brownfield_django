@@ -76,3 +76,4 @@ class TestTeamViews(TestCase):
                 "paramString": "blahblah",
                 "authkey": "enbwzfeqrsxtphevnnjnduqbyjxouh"}
         response = self.client.post('/course/1/team/1/test', data)
+        self.assertEqual(response.status_code, 200)

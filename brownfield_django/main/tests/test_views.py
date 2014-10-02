@@ -123,7 +123,6 @@ class TestStudentUserLogin(TestCase):
         self.factory = RequestFactory()
 
 
-
 class TestInstructorLogin(TestCase):
 
     def setUp(self):
@@ -241,7 +240,6 @@ class TestInstructorLogin(TestCase):
         the course list.
         '''
         pass
-
 
     def test_get_student(self):
         '''
