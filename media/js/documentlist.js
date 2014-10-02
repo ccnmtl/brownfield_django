@@ -1,4 +1,3 @@
-// creating document model
 var Document = Backbone.Model.extend({
 
     urlRoot: '/document/',
@@ -15,69 +14,23 @@ var Document = Backbone.Model.extend({
 
     initialize: function(attributes) 
 	{   
-	    this.name = attributes.name || '<EMPTY>';
-	    //console.log("Initializing a new document model for '" +
-	    //  name + "'."); 
+	    this.name = attributes.name || '<EMPTY>'; 
 	}
 	    
 });
 
-//creating document collection	
+var crs_id = jQuery(".crs-activate input[name='crs-id']").val();
+
 var DocumentCollection = Backbone.Collection.extend({
 	 model: Document,
-	 url: '/document'
+	 url: function() {
+		    return '/document/' + crs_id;
+	  }
+		 
 });
-	
-	
-// creating document collection with test documents
-var document_collection = new DocumentCollection([
-        {
-    		id: 1,
-			name: 'Test Course 1',
-			link: "<a href='/path/to/document/link/download/'></a>",
-            visible : false
-		},
-		{
-			id: 2,
-			name: 'Test Course 2',
-			link: "<a href='/path/to/document/link/download/'></a>",
-            visible : false
-		},
-		{
-			id: 3,
-			name: 'Test Course 3',
-			link: "<a href='/path/to/document/link/download/'></a>",
-            visible : false
-		},
-		{
-			id: 4,
-			name: 'Test Course 4',
-			link: "<a href='/path/to/document/link/download/'></a>",
-            visible : false
-		},
-		{
-			id: 5,
-			name: 'Test Course 5',
-			link: "<a href='/path/to/document/link/download/'></a>",
-            visible : false
-		},
-		{
-			id: 6,
-			name: 'Test Course 6',
-			link: "<a href='/path/to/document/link/download/'></a>",
-            visible : false
-		},
-		{
-			id: 7,
-			name: 'Test Course 7',
-			link: "<a href='/path/to/document/link/download/'></a>",
-            visible : false
-		}
-]);
-
-//console.log(document_collection); // log collection to console
 // End of Models/Collections
-    
+
+
 // Views 
 var DocumentView = Backbone.View.extend({
 
@@ -86,21 +39,16 @@ var DocumentView = Backbone.View.extend({
    			             "<%= link %> " +
    			             "Visibility of Document: " +
    			             "<%= visible %> " +
-   			             "<button class='btn btn-xs rel-dct'>" +
-   			             "Release Document" +
-   			             "</button>" +
-   			             "<button class='btn btn-xs rev-dct'>" +
-   			             "Revoke Document" +
+   			             "<button class='btn btn-xs chng-dct'>" +
+   			             "Release/Revoke Document" +
    			             "</button>"),
 
    	initialize: function () {
    	    this.listenTo(this.model, 'change', this.render);
    	},
 
-   	// Can probably combine into one function on change
    	events: {
-   		'click .rel-dct' : 'releaseDocument',
-   		'click .rev-dct' : 'revokeDocument'
+   		'click .chng-dct' : 'changeDocument'
    	},
 
     render: function () {
@@ -113,63 +61,69 @@ var DocumentView = Backbone.View.extend({
         return this;
     },
         
-    releaseDocument: function()
+    changeDocument: function()
    	{   
     	/*Can't figure out how to use backbone without getting authentication errors...*/
     	//console.log("Releasing Document");
         this.model.save(
-        	{id : this.model.id, visible : true}, {
+        	{
         	wait:true,
-        	success:function(model, response) {
+        	//success:function(model, response) {
+        	success: function(response) {
         	        console.log('Successfully saved!');
         	},
-        	error: function(model, error) {
-                console.log(model.toJSON());
+        	//error: function(model, error) {
+        	error: function(response) {
+                //console.log(model.toJSON());
                 console.log('error.responseText');
             }
         });// end model save
-   	},
-
-   	//will need to do save which will automatically call sync
-   	revokeDocument: function()
-   	{
-        this.model.save({
-        });// end model save
-    }
+   	}
 
 });// End DocumentView
 
 
 /* Container to hold rows of documents */
 var DocumentListView = Backbone.View.extend({
-    	
+
     tagName : 'ul',
-   	events: {
-   		'click .rel-dct' : 'releaseDocument',
-   		'click .rev-dct' : 'revokeDocument'
-   	},
+
+    initialize: function (options)
+    {
+    	_.bindAll(this,
+    			 'render',
+    			 'initialRender');
+    	console.log(crs_id);
+    	//create new collection to hold course documents
+    	this.course_document_collection = new DocumentCollection();
+    	this.course_document_collection.fetch({processData: true, reset: true});
+    	this.course_document_collection.on('reset', this.initialRender);
+	},
+
     render: function() {
-        // Clean up the view first 
+    },
+
+    initialRender: function() {
+
         this.$el.empty();
-        // Iterate over the collection and add each name as a list item
-        this.collection.each(function(model) {
+
+        this.course_document_collection.each(function(model) {
         this.$el.append(new DocumentView({
-                model: model
-            }).render().el);
+               model: model
+        }).render().el);
         }, this);
+
         return this;
     }
     
-});// End CourseListView    
+});// End DocumentListView    
 
-    
 
-//should probably move this code to controller below not sure if that is be
-var document_collection_view = new DocumentListView({
-    collection: document_collection
-});
+
+var document_collection_view = new DocumentListView({el : jQuery('.documents_list')});
+
 // connecting the views to the html/page
-jQuery('.documents_list').append(document_collection_view.render().el);
+//jQuery('.documents_list').append(document_collection_view.render().el);
 
 //jQuery("#good_con input[name='conversation']").val();.course-activation .crs-activate 
 //jQuery('#activation-btn').click(console.log("button clicked"));

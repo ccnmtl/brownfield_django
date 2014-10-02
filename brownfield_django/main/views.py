@@ -67,13 +67,13 @@ class CourseView(APIView):
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, pk, format=None):
+    def get(self, request, pk, format=None, *args, **kwargs):
         return HttpResponseRedirect("../../course_details/" + str(pk) + "/")
 
     def post(self, request, format=None, *args, **kwargs):
         '''
         Creating new course with the name requested by user
-        with the user as the creator
+        with the user as the creator.
         '''
         # print "Inside POST"
         # print request.DATA
@@ -84,12 +84,10 @@ class CourseView(APIView):
                 name=course_name,
                 creator=User.objects.get(pk=request.user.pk))
             new_course.save()
-            # print new_course.pk
-            # print serializer.data
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def update(self, request, format=None, *args, **kwargs):
+    def update(self, request, pk, format=None, *args, **kwargs):
         print request.DATA
         serializer = CompleteCourseSerializer(data=request.DATA)
         if serializer.is_valid():
@@ -101,8 +99,18 @@ class CourseView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, format=None, *args, **kwargs):
-        pass
+    def delete(self, request, pk, format=None, *args, **kwargs):
+        '''
+        Admin wishes to delete a course doesnt seem to work
+        '''
+        dc = Course.objects.get(pk=pk)
+        dc.delete()
+        try:
+            dc = Course.objects.get(pk=pk)
+            if dc:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class UserCourseView(APIView):
@@ -113,7 +121,7 @@ class UserCourseView(APIView):
         this_user = User.objects.get(pk=request.user.pk)
         courses = Course.objects.filter(creator=this_user)
         serializer = CourseNameIDSerializer(courses, many=True)
-        print serializer.data
+        # print serializer.data
         return Response(serializer.data)
 
 
@@ -124,7 +132,7 @@ class AllCourseView(APIView):
     def get(self, request, format=None):
         courses = Course.objects.all()
         serializer = CourseNameIDSerializer(courses, many=True)
-        print serializer.data
+        # print serializer.data
         return Response(serializer.data)
 
 
@@ -170,18 +178,20 @@ class DocumentView(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
-        print "Document GET"
         course = self.get_object(pk)
-        document_list = Document.objects.filter(course=course)
-        serializer = CompleteDocumentSerializer(document_list)
+        documents = Document.objects.filter(course=course)
+        serializer = CompleteDocumentSerializer(documents, many=True)
         return Response(serializer.data)
 
-    def update(self, request, pk, format=None, *args, **kwargs):
-        print "Document PUT"
-        course = self.get_object(pk)
-        document_list = Document.objects.filter(course=course)
-        serializer = CompleteDocumentSerializer(document_list)
-        return Response(serializer.data)
+    def put(self, request, pk, format=None, *args, **kwargs):
+        document = Document.objects.get(pk=pk)
+        if document.visible is True:
+            document.visible = False
+        elif document.visible is False:
+            document.visible = True
+        document.save()
+        serializer = CompleteDocumentSerializer(document)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class TeacherHomeView(DetailView):

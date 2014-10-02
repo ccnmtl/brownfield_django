@@ -36,7 +36,7 @@ var AllCourseCollection = Backbone.Collection.extend({
 var CourseView = Backbone.View.extend({
 
    	tagName : 'li',
-   	template: _.template("Course Template <%= name %> <a href='/course/<%= id %>/'>View Course Details </a> <button class='del-crs'> Remove Course</button> <button class='destroy'> Destroy Class</button>"),
+   	template: _.template("Course Template <%= name %> <a href='/course/<%= id %>/'>View Course Details </a> <button class='destroy del-crs'> Destroy Class</button>"),
    	//$container: null,
     	
    	initialize: function () {
@@ -61,16 +61,12 @@ var CourseView = Backbone.View.extend({
         return this;
 
     },
-        
-  	onRemoveCourse: function()
-   	{
-   		console.log("You tried to remove course " + this.model.get('id') + this.model.get('name'));
-   	},
     	
     clear: function() {
-        this.model.destroy({
-           	headers : { 'id' : this.model.id }
-        });
+        this.model.destroy();
+        //{
+        //   	headers : { 'id' : this.model.id }
+        //});
     }
 
 });// End CourseView
