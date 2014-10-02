@@ -19,7 +19,7 @@ class CourseFactory(factory.DjangoModelFactory):
     enableNarrative = True
     message = "Hello you non existant students."
     active = True
-    creator = factory.SubFactory(UserFactory)
+    professor = factory.SubFactory(UserFactory)
 
 
 class DocumentFactory(factory.DjangoModelFactory):
@@ -56,7 +56,7 @@ class CourseOneFactory(factory.DjangoModelFactory):
     enableNarrative = True
     message = "Hello you non existant students."
     active = True
-    creator = factory.SubFactory(UserFactory)
+    professor = factory.SubFactory(UserFactory)
 
 
 class CourseTwoFactory(factory.DjangoModelFactory):
@@ -67,7 +67,7 @@ class CourseTwoFactory(factory.DjangoModelFactory):
     enableNarrative = True
     message = "Hello you non existant students."
     active = True
-    creator = factory.SubFactory(UserFactory)
+    professor = factory.SubFactory(UserFactory)
 
 
 class TeamFactory(factory.DjangoModelFactory):
