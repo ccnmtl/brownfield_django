@@ -2,8 +2,12 @@ import datetime
 from django.db import models
 from django.forms import ModelForm
 from django.contrib.auth.models import User
+from brownfield_django.main.document_links import *
+
+
 
 PROFILE_CHOICES = (
+    ('AD', 'Administrator'),
     ('TE', 'Teacher'),
     ('ST', 'Student'),
 )
@@ -27,14 +31,23 @@ Old Tables:
 
 
 class Course(models.Model):
-    '''Course'''
+    '''
+    Course Model - I added an archive field to indicate if a
+    course should be excluded from the Dashboard, without necessarily
+    deleting all of the data in case it is needed at a later time.
+    
+    Added creator field but since only admins will be allowed to view
+    everyone's courses, and since they may create a course on a professor's
+    behalf, I changed it to be a professor/instructor field.
+    '''
     name = models.CharField(max_length=255)
     password = models.CharField(max_length=255, default='')
     startingBudget = models.PositiveIntegerField(default=60000)
     enableNarrative = models.BooleanField(default=True)
-    message = models.TextField(max_length=255)
-    active = models.BooleanField(default=True)
-    creator = models.ForeignKey(User, related_name="created_by", null=True,
+    message = models.TextField(max_length=255, default='')
+    active = models.BooleanField(default=False)
+    archive = models.BooleanField(default=False)
+    professor = models.ForeignKey(User, related_name="taught_by", null=True,
                                 default=None, blank=True)
 
     def __unicode__(self):
@@ -45,9 +58,17 @@ class Course(models.Model):
             '''We want to initialize a document set for each course,
             so the course "knows" which documents are available or
             not'''
-            document_set = Document.objects.all()
-            for each in document_set:
-                self.document_set.add(each)
+            d1 = Document.objects.create(course=self, name=NAME_ONE,
+                                         link=LINK_ONE)
+            d1.save()
+            self.document_set.add(d1)
+            d2 = Document.objects.create(course=self, name=NAME_TWO,
+                                         link=LINK_TWO)
+            d2.save()
+            self.document_set.add(d2)
+            #document_set = Document.objects.all()
+            #for each in document_set:
+            #    self.document_set.add(each)
         super(Course, self).save(*args, **kwargs)
 
     def get_students(self):
@@ -76,8 +97,8 @@ class CourseForm(ModelForm):
 class Document(models.Model):
     course = models.ForeignKey(Course, null=True,
                                default=None, blank=True)
-    name = models.CharField(max_length=255)
-    link = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, default='')
+    link = models.CharField(max_length=255, default='')
     visible = models.BooleanField(default=False)
     # in old application content is href not sure if it should be but...
 
@@ -142,11 +163,16 @@ class UserProfile(models.Model):
     def is_teacher(self):
         return self.profile_type == 'TE'
 
+    def is_admin(self):
+        return self.profile_type == 'AD'
+
     def role(self):
         if self.is_student():
             return "student"
         elif self.is_teacher():
             return "faculty"
+        elif self.is_adminr():
+            return "administrator"
 
 
 class History(models.Model):

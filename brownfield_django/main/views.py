@@ -81,7 +81,6 @@ class CourseView(APIView):
             new_course = Course.objects.create(
                 name=course_name,
                 creator=User.objects.get(pk=request.user.pk))
-            new_course.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -99,7 +98,8 @@ class CourseView(APIView):
 
     def delete(self, request, pk, format=None, *args, **kwargs):
         '''
-        Admin wishes to delete a course doesnt seem to work
+        Admin wishes to delete a course - perhaps well just
+        have it marked as archived?
         '''
         dc = Course.objects.get(pk=pk)
         dc.delete()
@@ -119,7 +119,6 @@ class UserCourseView(APIView):
         this_user = User.objects.get(pk=request.user.pk)
         courses = Course.objects.filter(creator=this_user)
         serializer = CourseNameIDSerializer(courses, many=True)
-        # print serializer.data
         return Response(serializer.data)
 
 
