@@ -120,10 +120,9 @@ class CourseView(APIView):
         try:
             dc = Course.objects.get(pk=pk)
             if dc:
-                return Response(serializer.data,
-                                status=status.HTTP_400_BAD_REQUEST)
+                return Response(status=status.HTTP_400_BAD_REQUEST)
         except:
-            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class UserCourseView(APIView):
@@ -204,7 +203,7 @@ class DocumentView(APIView):
             document.visible = True
         document.save()
         serializer = CompleteDocumentSerializer(document)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class TeacherHomeView(DetailView):

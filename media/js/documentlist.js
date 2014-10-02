@@ -39,21 +39,16 @@ var DocumentView = Backbone.View.extend({
    			             "<%= link %> " +
    			             "Visibility of Document: " +
    			             "<%= visible %> " +
-   			             "<button class='btn btn-xs rel-dct'>" +
-   			             "Release Document" +
-   			             "</button>" +
-   			             "<button class='btn btn-xs rev-dct'>" +
-   			             "Revoke Document" +
+   			             "<button class='btn btn-xs chng-dct'>" +
+   			             "Release/Revoke Document" +
    			             "</button>"),
 
    	initialize: function () {
    	    this.listenTo(this.model, 'change', this.render);
    	},
 
-   	// Can probably combine into one function on change
    	events: {
-   		'click .rel-dct' : 'releaseDocument',
-   		'click .rev-dct' : 'revokeDocument'
+   		'click .chng-dct' : 'changeDocument'
    	},
 
     render: function () {
@@ -66,29 +61,24 @@ var DocumentView = Backbone.View.extend({
         return this;
     },
         
-    releaseDocument: function()
+    changeDocument: function()
    	{   
     	/*Can't figure out how to use backbone without getting authentication errors...*/
     	//console.log("Releasing Document");
         this.model.save(
-        	{id : this.model.id, visible : true}, {
+        	{
         	wait:true,
-        	success:function(model, response) {
+        	//success:function(model, response) {
+        	success: function(response) {
         	        console.log('Successfully saved!');
         	},
-        	error: function(model, error) {
-                console.log(model.toJSON());
+        	//error: function(model, error) {
+        	error: function(response) {
+                //console.log(model.toJSON());
                 console.log('error.responseText');
             }
         });// end model save
-   	},
-
-   	//will need to do save which will automatically call sync
-   	revokeDocument: function()
-   	{
-        this.model.save({
-        });// end model save
-    }
+   	}
 
 });// End DocumentView
 
