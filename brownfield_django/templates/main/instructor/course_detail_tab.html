@@ -45,7 +45,7 @@
             </p>
         </div><!-- End Course Activation Info -->
         <div class="crs-activate">
-            <input type="text" style="display: none;"/>{{object.pk}}<br />
+            <input type="hidden" name="crs-id" value="{{object.pk}}"/>
             <button id="activation-btn" class="btn btn-mini btn-success">
                 Activate Course
             </button>
