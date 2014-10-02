@@ -192,20 +192,18 @@ class DocumentView(APIView):
 
     def get(self, request, pk, format=None):
         course = self.get_object(pk)
-        # print course
         documents = Document.objects.filter(course=course)
-        #print documents
         serializer = CompleteDocumentSerializer(documents, many=True)
-        print serializer.data
         return Response(serializer.data)
 
     def put(self, request, pk, format=None, *args, **kwargs):
-        print "Document PUT"
-        print request.DATA
-        course = self.get_object(pk)
-        document_list = Document.objects.filter(course=course, many=True)
-        
-        serializer = CompleteDocumentSerializer(document_list)
+        document = Document.objects.get(pk=pk)
+        if document.visible is True:
+            document.visible = False
+        elif document.visible is False:
+            document.visible = True
+        document.save()
+        serializer = CompleteDocumentSerializer(document)
         return Response(serializer.data)
 
 

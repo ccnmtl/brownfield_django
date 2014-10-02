@@ -33,7 +33,6 @@ class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
         model = Document
         fields = ('id', 'name', 'link', 'visible')
 
-
 # class UserCoursesSerializer(serializers.HyperlinkedModelSerializer):
 #     courses = serializers.PrimaryKeyRelatedField(many=True)
 #
