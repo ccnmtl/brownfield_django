@@ -2,8 +2,8 @@ import datetime
 from django.db import models
 from django.forms import ModelForm
 from django.contrib.auth.models import User
-from brownfield_django.main.document_links import *
-
+from brownfield_django.main.document_links import NAME_ONE, \
+    LINK_ONE, NAME_TWO, LINK_TWO
 
 
 PROFILE_CHOICES = (
@@ -35,7 +35,7 @@ class Course(models.Model):
     Course Model - I added an archive field to indicate if a
     course should be excluded from the Dashboard, without necessarily
     deleting all of the data in case it is needed at a later time.
-    
+
     Added creator field but since only admins will be allowed to view
     everyone's courses, and since they may create a course on a professor's
     behalf, I changed it to be a professor/instructor field.
@@ -48,7 +48,7 @@ class Course(models.Model):
     active = models.BooleanField(default=False)
     archive = models.BooleanField(default=False)
     professor = models.ForeignKey(User, related_name="taught_by", null=True,
-                                default=None, blank=True)
+                                  default=None, blank=True)
 
     def __unicode__(self):
         return self.name
