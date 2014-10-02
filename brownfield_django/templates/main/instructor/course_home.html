@@ -15,10 +15,11 @@
     {% include "main/instructor/course_detail_tab.html" %}
     {% include "main/instructor/student_team_tab.html" %}
   </div>
-<!--  
-<script type="text/javascript" src="{{STATIC_URL}}js/backbone_sync.js"></script>
-<script type="text/javascript" src="{{STATIC_URL}}js/usercourselist.js"></script>
+
+{% endblock %}
+
+{% block bbjs %}
+{{ block.super }}
 <script type="text/javascript" src="{{STATIC_URL}}js/documentlist.js"></script>
-<script type="text/javascript" src="{{STATIC_URL}}js/teams_students.js"></script> 
--->
+<script type="text/javascript" src="{{STATIC_URL}}js/teams_students.js"></script>
 {% endblock %}

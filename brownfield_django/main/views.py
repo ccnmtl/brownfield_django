@@ -21,25 +21,13 @@ from brownfield_django.main.forms import CreateAccountForm  # TeamForm,
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
     StudentsInCourseSerializer, AddStudentToCourseSerializer, \
-    CompleteDocumentSerializer, TeamSerializer, CompleteCourseSerializer
+    CompleteDocumentSerializer, TeamSerializer, CompleteCourseSerializer, \
+    CourseNameIDSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
 
 
-# from django.core.mail import send_mail
-# , reverse_lazy
-# from django.shortcuts import get_object_or_404
-#    mixins, permissions, routers, serializers,
-# viewsets, renderers, generics, viewsets, authentication, filters
-# from rest_framework.permissions import IsOwnerOrReadOnly
-# from rest_framework.decorators import api_view, detail_route
-# from rest_framework.parsers import JSONParser
-#    CompleteCourseSerializer
-#    ListStudentsCoursesSerializer, ListAllCoursesSerializer
-# , INFO_TEST
-# , LoggedInMixinSuperuser, \
-#    LoggedInMixinStaff
 class HomeView(LoggedInMixin, View):
     '''redoing so that it simply redirects people where they need to be'''
 
@@ -115,6 +103,85 @@ class CourseView(APIView):
         pass
 
 
+class UserCourseView(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format=None):
+        this_user = User.objects.get(pk=request.user.pk)
+        courses = Course.objects.filter(creator=this_user)
+        serializer = CourseNameIDSerializer(courses, many=True)
+        print serializer.data
+        return Response(serializer.data)
+
+
+class AllCourseView(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format=None):
+        courses = Course.objects.all()
+        serializer = CourseNameIDSerializer(courses, many=True)
+        print serializer.data
+        return Response(serializer.data)
+
+
+class ActivateView(APIView):
+
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        print "Document GET"
+        course = self.get_object(pk)
+        document_list = Document.objects.filter(course=course)
+        serializer = CompleteDocumentSerializer(document_list)
+        return Response(serializer.data)
+
+    def update(self, request, pk, format=None, *args, **kwargs):
+        print "Document PUT"
+        course = self.get_object(pk)
+        document_list = Document.objects.filter(course=course)
+        serializer = CompleteDocumentSerializer(document_list)
+        return Response(serializer.data)
+
+
+class DocumentView(APIView):
+    """
+    This view interacts with backbone to allow instructors to
+    interact with documents, they can make them available to
+    students or revoke them so they are invisible.
+    """
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        print "Document GET"
+        course = self.get_object(pk)
+        document_list = Document.objects.filter(course=course)
+        serializer = CompleteDocumentSerializer(document_list)
+        return Response(serializer.data)
+
+    def update(self, request, pk, format=None, *args, **kwargs):
+        print "Document PUT"
+        course = self.get_object(pk)
+        document_list = Document.objects.filter(course=course)
+        serializer = CompleteDocumentSerializer(document_list)
+        return Response(serializer.data)
+
+
 class TeacherHomeView(DetailView):
 
     model = UserProfile
@@ -126,27 +193,11 @@ class TeacherHomeView(DetailView):
             return HttpResponseForbidden("forbidden")
         return super(TeacherHomeView, self).dispatch(*args, **kwargs)
 
-
-class DocumentView(APIView):
-    """
-    This view interacts with backbone to allow instructors to
-    interact with documents, they can make them available to
-    students or revoke them so they are invisible.
-    """
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        course = self.get_object(pk)
-        document_list = Document.objects.filter(course=course)
-        serializer = CompleteDocumentSerializer(document_list)
-        return Response(serializer.data)
-
-    def put(self, request, pk, format=None):
-        print request.DATA
+#     def get_context_data(self, **kwargs):
+#         context = super(TeamHomeView, self).get_context_data(**kwargs)
+#         context['user_courses'] = Course.objects.filter(creator=request.user)
+#         context['all_courses'] = Course.objects.all()
+#         return context
 
 
 class TeacherCourseDetail(DetailView):
@@ -326,54 +377,6 @@ def demo_save(request):
     return HttpResponse("<data><response>OK</response></data>")
 
 
-# '''Old code looks like it is making a call to'''
-#
-#     (template='kid:brownfield.templates.bfaxml',
-#             content_type='application/xml',
-#             accept_format='application/xml',
-#             fragment=True,
-#             )
-#     #@identity.require(identity.in_any_group('admin','professor'))
-#     def history(self, **kw):
-#         class R:
-#             name="Brownfield Demo Team"
-#             info = []
-#             tests = []
-#             history = []
-#
-#             access = 'professor'
-#             if 'admin' in identity.current.groups:
-#                 access = 'admin'
-#             elif 'professor' in identity.current.groups:
-#                 access = 'professor'
-#
-#             class C:
-#                 startingBudget=0
-#                 enableNarrative = True
-#             course = C()
-#         return dict( record=R() )
-#     if not NO_SECURITY:
-#         history = identity.require(
-# identity.in_any_group('admin','professor'))
-# (history)
-#
-#     @expose()
-#     #@identity.require(identity.in_any_group('admin','professor'))
-#     def test(self, **kw):
-#         return "ok"
-#     if not NO_SECURITY:
-#         test = identity.require(identity.in_any_group('admin','professor'))
-# (test)
-#
-#     @expose()
-#     #@identity.require(identity.in_any_group('admin','professor'))
-#     def info(self, **kw):
-#         return "ok"
-#     if not NO_SECURITY:
-#         info = identity.require(identity.in_any_group('admin','professor'))
-# (info)
-
-
 class StudentHomeView(DetailView):
     '''In old application, students are shown a welcome message,
     followed by the instructor's email, and may join or leave teams'''
@@ -426,10 +429,6 @@ class TeamHomeView(DetailView):
         # context['course_form'] = CourseForm()
         context['documents'] = Document.objects.all()
         return context
-
-
-# return HttpResponseRedirect('/dashboard/#user-groups')
-# return HttpResponseRedirect('/dashboard/#user-groups')
 
 
 class TeamPerformTest(LoggedInMixin, JSONResponseMixin, View):

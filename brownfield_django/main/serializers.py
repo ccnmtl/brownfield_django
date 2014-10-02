@@ -1,7 +1,7 @@
 # from django.forms import widgets
 from django.contrib.auth.models import User  # , Group
 from rest_framework import serializers
-from brownfield_django.main.models import Course, Team
+from brownfield_django.main.models import Course, Team, Document
 # Serializers define the API representation
 
 
@@ -10,6 +10,13 @@ class AddCourseByNameSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Course
         fields = ('name',)
+
+
+class CourseNameIDSerializer(serializers.HyperlinkedModelSerializer):
+    '''Allow professor to add a course by name as in original brownfield.'''
+    class Meta:
+        model = Course
+        fields = ('name', 'id')
 
 
 class CompleteCourseSerializer(serializers.HyperlinkedModelSerializer):
@@ -21,10 +28,10 @@ class CompleteCourseSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
-    '''Allow professor see, update all aspects of a course.'''
+    '''Return Document set with each documents associated attributes.'''
     class Meta:
-        model = Course
-        fields = ('name', 'course', 'link', 'visible')
+        model = Document
+        fields = ('id', 'name', 'course', 'link', 'visible')
 
 
 # class UserCoursesSerializer(serializers.HyperlinkedModelSerializer):

@@ -16,8 +16,8 @@ var Document = Backbone.Model.extend({
     initialize: function(attributes) 
 	{   
 	    this.name = attributes.name || '<EMPTY>';
-	    console.log("Initializing a new document model for '" +
-	      name + "'."); 
+	    //console.log("Initializing a new document model for '" +
+	    //  name + "'."); 
 	}
 	    
 });
@@ -95,7 +95,6 @@ var DocumentView = Backbone.View.extend({
 
    	initialize: function () {
    	    this.listenTo(this.model, 'change', this.render);
-   	    this.listenTo(this.model, 'destroy', this.remove);
    	},
 
    	// Can probably combine into one function on change
@@ -116,29 +115,39 @@ var DocumentView = Backbone.View.extend({
         
     releaseDocument: function()
    	{   
+    	/*Can't figure out how to use backbone without getting authentication errors...*/
     	//console.log("Releasing Document");
-        this.model.destroy({
-           	headers : { 'id' : this.model.id }//{ 'method_called' : 'release'}//, 'document' : this.model.id }
-        });
+        this.model.save(
+        	{id : this.model.id, visible : true}, {
+        	wait:true,
+        	success:function(model, response) {
+        	        console.log('Successfully saved!');
+        	},
+        	error: function(model, error) {
+                console.log(model.toJSON());
+                console.log('error.responseText');
+            }
+        });// end model save
    	},
 
    	//will need to do save which will automatically call sync
    	revokeDocument: function()
    	{
-   		//console.log("Revoking Document");
         this.model.save({
-           	headers : { 'id' : this.model.id }//{ 'method_called' : 'revoke'}//, 'document' : this.model.id }
-        });
+        });// end model save
     }
 
 });// End DocumentView
 
-    
+
 /* Container to hold rows of documents */
 var DocumentListView = Backbone.View.extend({
     	
     tagName : 'ul',
-    
+   	events: {
+   		'click .rel-dct' : 'releaseDocument',
+   		'click .rev-dct' : 'revokeDocument'
+   	},
     render: function() {
         // Clean up the view first 
         this.$el.empty();
@@ -149,7 +158,7 @@ var DocumentListView = Backbone.View.extend({
             }).render().el);
         }, this);
         return this;
-    },
+    }
     
 });// End CourseListView    
 
@@ -162,3 +171,15 @@ var document_collection_view = new DocumentListView({
 // connecting the views to the html/page
 jQuery('.documents_list').append(document_collection_view.render().el);
 
+//jQuery("#good_con input[name='conversation']").val();.course-activation .crs-activate 
+//jQuery('#activation-btn').click(console.log("button clicked"));
+//'click',
+//    function(){
+//        console.log("you clicked on the button");
+//});
+
+
+//        this.activationForm = this.$(".crs-activate");
+//	    this.activationButton = this.$(".crs-activate .btn btn-mini btn-success");
+//	    
+//	    this.activationButton.on('click', this.activateCourse);

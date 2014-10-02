@@ -5,91 +5,47 @@ var Course = Backbone.Model.extend({
     
     defaults: function() {
         return {
+        	// should name have '' around it to match django response
             name: "Default Course"
         }
     },
-    
+       
 	initialize: function(attributes) 
 	{   // not sure if this will cause problems
-	    this.name = attributes.name || '<EMPTY>';
-	    console.log("Initializing a new course model for '" +
-	      name + "'."); 
+	    name = attributes.name || '<EMPTY>';
 	}
 	    
 });
 
-	
-var CourseCollection = Backbone.Collection.extend({
-	 model: Course,
-	 url: '/course'
-});
-	
-	
-// creating course collection with test courses
-var course_collection = new CourseCollection([
-        {
-    		id: 1,
-			name: 'Test Course 1'
-		},
-		{
-			id: 2,
-			name: 'Test Course 2'
-		},
-		{
-			id: 3,
-			name: 'Test Course 3'
-		},
-		{
-			id: 4,
-			name: 'Test Course 4'
-		},
-		{
-			id: 5,
-			name: 'Test Course 5'
-		},
-		{
-			id: 6,
-			name: 'Test Course 6'
-		},
-		{
-			id: 7,
-			name: 'Test Course 7'
-		}
-]);
-// End of Models/Collections
 
+/*Should this be two different collections or one collection
+ * with an over ridden url when instantiated?
+ */
+var UserCourseCollection = Backbone.Collection.extend({
+	 model: Course,
+	 headers: {"content-type": "application/json"},
+	 url: '/user_courses/'
+});
+var AllCourseCollection = Backbone.Collection.extend({
+	 model: Course,
+	 url: '/all_courses/'
+});
+// End of Models/Collections
 
 //Views 
 var CourseView = Backbone.View.extend({
 
    	tagName : 'li',
-   	template: _.template("Course Template <%= name %>" +
-   			              "<a href='/course/<%= id %>/'>" +
-   			              "View Course Details </a>" +
-   			              "<button class='view-crs'>" +
-   			              "View Course Details </button>" +
-   			              "<a href='/course/<%= id %>/'>" +
-			              "Edit Course Details </a>" +
-			              "<button class='edit-crs'>" +
-			              "Edit Course Details </button>" +
-   			              "<button class='del-crs'>" +
-   			              "Remove Course</button>" +
-   			              "<button class='destroy'>" +
-   			              "Destroy Class</button>"),
+   	template: _.template("Course Template <%= name %> <a href='/course/<%= id %>/'>View Course Details </a> <button class='del-crs'> Remove Course</button> <button class='destroy'> Destroy Class</button>"),
+   	//$container: null,
     	
-   	/* using initialize to re-render the element if anything in its 
-   	 * corresponding model changes use listenTo instead of on so it will automatically
-   	 * unbind all events added when it is destroyed */
    	initialize: function () {
    	    this.listenTo(this.model, 'change', this.render);
    	    this.listenTo(this.model, 'destroy', this.remove);
    	},
-
-   	// is there a build in way to remove the model?
+    	
    	events: {
-   		// 'click .del-crs' : 'onRemoveCourse',
-   		//'click .add-crs' : 'create',
-   		//'click .edit-crs' : 'edit',
+   		'click .del-crs' : 'clear',
    		'click .destroy' : 'clear'
    	},
     	
@@ -98,147 +54,138 @@ var CourseView = Backbone.View.extend({
         {
             throw "Model is not set for this view";
         }
-          
+         
         var html = this.template(this.model.toJSON());
-          
+        console.log("Inside course view");
         this.$el.html(html);
         return this;
 
     },
-
-   	// Adds the id to the url for the DELETE
+        
+  	onRemoveCourse: function()
+   	{
+   		console.log("You tried to remove course " + this.model.get('id') + this.model.get('name'));
+   	},
+    	
     clear: function() {
         this.model.destroy({
            	headers : { 'id' : this.model.id }
         });
-    }    
+    }
 
 });// End CourseView
 
-    
-/* Container to hold rows of courses */
+/* Container to hold rows of users courses */
 var CourseListView = Backbone.View.extend({
-    	
+   
     tagName : 'ul',
     
+    initialize: function (options)
+    {
+    	_.bindAll(this,
+    			 'render',
+    			 'initialRender');
+    	//create new collection to hold user courses
+    	this.user_course_collection = new UserCourseCollection();
+    	this.user_course_collection.fetch({processData: true, reset: true});
+    	this.user_course_collection.on('reset', this.initialRender);
+	},
+	
     render: function() {
-        	
+               
+   },
+   
+   initialRender: function() {
+	   
         // Clean up the view first 
         this.$el.empty();
 
-        // Iterate over the collection and add each name as a list item
-        this.collection.each(function(model) {
-            this.$el.append(new CourseView({
-                model: model
-            }).render().el);
+        // Iterate over the collection and add each name as a list item 
+        this.user_course_collection.each(function(model) {
+        this.$el.append(new CourseView({
+               model: model
+        }).render().el);
         }, this);
 
         return this;
+    }
+    
+});// End CourseListView   
+
+
+var user_course_collection_view = new CourseListView({el : jQuery('.user_courses #userlist')});
+
+/* Container to hold rows of all courses */
+var AllCoursesListView = Backbone.View.extend({
+   
+    tagName : 'ul',
+    
+    initialize: function (options)
+    {
+    	_.bindAll(this,
+    			 'render',
+    			 'initialRender');
+    	//create new collection to hold user courses
+    	this.all_courses_collection = new AllCourseCollection();
+    	this.all_courses_collection.fetch({processData: true, reset: true});
+    	this.all_courses_collection.on('reset', this.initialRender);
+	},
+	
+    render: function() {
+               
+   },
+   
+   initialRender: function() {
+	   
+        this.$el.empty();
+
+        this.all_courses_collection.each(function(model) {
+        this.$el.append(new CourseView({
+               model: model
+        }).render().el);
+        }, this);
+
+        return this;
+    }
+    
+});// End CourseListView   
+var all_courses_collection_view = new CourseListView({el : jQuery('.all_brwn_courses')});
+
+
+var UserControlView = Backbone.View.extend({
+    //el: $(".course_controls"),
+
+    events: {
+	//'click .edit-crs' : 'edit',
+	'click .add-crs' : 'showCourseForm',
+	'click .submit' :	'addCourse'
     },
 
-    
-    addCourse: function(new_crs) {
+    //initialize: function() {
+    //
+    //    this.input = this.$("#new-todo");
+    //    this.allCheckbox = this.$("#toggle-all")[0];
+    //},
 
-        this.collection.create(
-        		potential_course = new Course({name : new_crs}), 
-        		{wait: true,
-            	success: function(data_array){
-            		
-            		console.log(data_array);
-            		//console.log(data_array['name']);
-            		//console.log(data_array.model.attributes);
-            		//this.$el.append(new CourseView({
-                    //    model: new_crs
-                    //}).render().el);
-            		//this.render()
+    showCourseForm: function(e) {
+		console.log("clicked on show course");
+		jQuery(".add-crs").hide();
+		jQuery("#frm-title").show();
+		jQuery("#add-crs-frm").show();
+    },
 
-            		//data = data_array.models[0].attributes;
-            		//data = JSON.stringify(data);
-            		//console.log("data is " + data);
-                    //console.log("in success");
-                    //console.log(data);
-                },
-                error: function(data_array){
-                	data = data_array.models[0].attributes;
-            		data = JSON.stringify(data);
-                	console.log("data is " + data);
-                    console.log("in error");
-                }}
-        );
-        this.render();
-        return this;
-  
-    }, //end add course
+    addCourse: function(course) {
+    	
+    	user_course_collection_view.user_course_collection.create(
+    	{
+    				name : jQuery(".crs-name").val()
+    	});
 
+	    jQuery("#frm-title").hide();
+	    jQuery("#add-crs-frm").hide()
+    }
+});// End UserControlView  
 
-    editCourse: function(crs) {
+var user_control_view = new UserControlView({el : jQuery('.course_controls')});
 
-        this.collection.create(
-        		{name : crs}, 
-        		{wait: true,
-            	success: function(data_array){
-            		data = data_array.models[0].attributes;
-            		data = JSON.stringify(data);
-            		console.log("data is " + data);
-                    console.log("in success");
-                    //console.log(data);
-                },
-                error: function(data_array){
-                	data = data_array.models[0].attributes;
-            		data = JSON.stringify(data);
-                	console.log("data is " + data);
-                    console.log("in error");
-                }}
-        );
-
-        this.render();
-        return this;
-
-    }, //end add course
-
-});// End CourseListView    
-
-
-// should probably move this code to controller below not sure if that is be
-var course_collection_view = new CourseListView({
-    collection: course_collection
-});
-
-
-// connecting the views to the html/page
-jQuery('.user_courses').append(course_collection_view.render().el);
-
-console.log(course_collection); // log collection to console
-
-/*For some reason I can't get the container of course list to respond on click to the button - because I specified tag ul maybe?*/
-jQuery('.add-crs').on('click',
-		
-		function() {
-            jQuery('.controls form').show();
-            jQuery('input.name').focus();
-});
-    
-jQuery('#add-crs-frm').on('submit',
-    function(event) {
-        event.preventDefault();
-        var new_name = jQuery('#add-crs-frm input.name').val();
-        course_collection_view.addCourse(new_name);
-});
-
-
-//jQuery('.edit-crs').on('click',
-//		
-//		function() {
-//            jQuery('.controls form').show();
-//            jQuery('input.name').focus();
-//});
-//    
-//jQuery('#edit-crs-frm').on('submit',
-//    function(event) {
-//        event.preventDefault();
-//        var new_name = jQuery('#edit-crs-frm input.name').val();
-//        course_collection_view.addCourse(new_name);
-//        //course_collection.create({name : something}]);
-//
-//});
 

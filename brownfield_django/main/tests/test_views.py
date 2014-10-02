@@ -121,74 +121,7 @@ class TestStudentUserLogin(TestCase):
     def setUp(self):
         self.client = Client()
         self.factory = RequestFactory()
-#         self.student = StudentProfileFactory().user
-#         self.client.login(username=self.student.username, password="test")
 
-#     def test_home(self):
-#         response = self.client.get("/", follow=True)
-        # self.assertEquals(response.redirect_chain[0],[
-        # ('http://testserver/student/'+str(self.student.pk), 302)])
-        # self.assertTemplateUsed(response, 'main/student/student_home.html')
-
-#     def test_home_noprofile(self):
-#         user = UserFactory()
-#         self.client.login(username=user.username, password="test")
-#
-#         response = self.client.get("/", follow=True)
-#         self.assertEqual(response.status_code, 200)
-#         self.assertEquals(response.redirect_chain[0],
-#                           ('http://testserver/register/', 302))
-#
-#     def test_dashboard(self):
-#         response = self.client.get('/dashboard/')
-#         self.assertEquals(response.status_code, 200)
-#
-#     def test_dashboard_context(self):
-#         request = RequestFactory().get('/dashboard/')
-#         request.user = self.student
-#
-#         view = UserProfileView()
-#         view.request = request
-#
-#         self.assertEquals(view.get_object(), request.user.profile)
-#
-#         view.object = request.user.profile
-#         ctx = view.get_context_data()
-#
-#         self.assertEquals(ctx['optionb'], self.hierarchy)
-#         self.assertIsNotNone(ctx['profile_form'])
-#         self.assertEquals(ctx['countries'], COUNTRY_CHOICES)
-#         self.assertEquals(ctx['joined_groups'].count(), 0)
-#         self.assertTrue('managed_groups' not in ctx)
-#         self.assertTrue('pending_teachers' not in ctx)
-#
-#
-# class TestTeacherUserLogin(TestCase):
-#
-#     def setUp(self):
-#         self.client = Client()
-#         self.factory = RequestFactory()
-#         self.student = TeacherProfileFactory().user
-#         self.client.login(username=self.student.username, password="test")
-#
-#     def test_home(self):
-#         response = self.client.get("/", follow=True)
-#         self.assertEqual(response.status_code, 200)
-#         self.assertEquals(response.redirect_chain[0],
-#                           ('http://testserver/accounts/login/?next=/', 302))
-#
-#
-# class TestStudentUserLogin(TestCase):
-#
-#     def setUp(self):
-#         self.client = Client()
-#         self.factory = RequestFactory()
-#
-#     def test_home(self):
-#         response = self.client.get("/", follow=True)
-#         self.assertEquals(response.redirect_chain[0],[
-#         ('http://testserver/student/'+str(self.student.pk), 302)])
-#         self.assertTemplateUsed(response, 'main/student/student_home.html')
 
 
 class TestInstructorLogin(TestCase):
@@ -205,7 +138,8 @@ class TestInstructorLogin(TestCase):
         response = self.client.get("/", follow=True)
         self.assertEquals(
             response.redirect_chain[0],
-            ('http://testserver/teacher/' + str(self.teacher.profile.pk) + '/',
+            ('http://testserver/teacher/' +
+             str(self.teacher.profile.pk) + '/',
              302))
         self.assertTemplateUsed(response,
                                 'main/instructor/instructor_home.html')
@@ -218,11 +152,6 @@ class TestInstructorLogin(TestCase):
         the course list.
         '''
         pass
-        # request = self.client.post("/course", {},
-        #                            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-#         request.body = {'name': 'test new course'}
-#         # {'name' : 'test name for course'}
-#         self.assertEqual(request.status_code, 201)
 
     def test_get_course(self):
         '''
@@ -258,11 +187,6 @@ class TestInstructorLogin(TestCase):
         the course list.
         '''
         pass
-        # request = self.client.post("/course", {},
-        #                            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-#         request.body = {'name': 'test new course'}
-#         # {'name' : 'test name for course'}
-#         self.assertEqual(request.status_code, 201)
 
     def test_get_document(self):
         '''
@@ -273,6 +197,7 @@ class TestInstructorLogin(TestCase):
         pass
 
     '''Test team related urls'''
+
     def test_post_team(self):
         '''
         Calling post with desired name of the new course
@@ -281,11 +206,6 @@ class TestInstructorLogin(TestCase):
         the course list.
         '''
         pass
-        # request = self.client.post("/course", {},
-        #                            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-#         request.body = {'name': 'test new course'}
-#         # {'name' : 'test name for course'}
-#         self.assertEqual(request.status_code, 201)
 
     def test_get_team(self):
         '''
@@ -312,6 +232,7 @@ class TestInstructorLogin(TestCase):
         pass
 
     '''Test student related urls'''
+
     def test_post_student(self):
         '''
         Calling post with desired name of the new course
@@ -320,11 +241,7 @@ class TestInstructorLogin(TestCase):
         the course list.
         '''
         pass
-        # request = self.client.post("/course", {},
-        #                            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-#         request.body = {'name': 'test new course'}
-#         # {'name' : 'test name for course'}
-#         self.assertEqual(request.status_code, 201)
+
 
     def test_get_student(self):
         '''
@@ -349,27 +266,3 @@ class TestInstructorLogin(TestCase):
         and put students in teams.
         '''
         pass
-#        request = self.client.get("/course/" + str(self.course_one.pk) + '/')
-#         request.body = {'name': 'test new course'}
-#         # {'name' : 'test name for course'}
-#         self.assertEqual(request.status_code, 201)
-
-#         response = self.client.get('/schools/%s/' % self.country.name, {},
-#                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-#         self.assertEquals(response.status_code, 200)
-#         the_json = json.loads(response.content)
-#         self.assertEquals(len(the_json['schools']), 0)
-        # self.assertTemplateUsed(response,
-        #                         'main/instructor/instructor_home.html')
-
-#     (r'^course/$', CourseView.as_view()),
-#     (r'^course/(?P<name>.*)/$', CourseView.as_view()),
-#     (r'^course/(?P<pk>\d+)$', CourseView.as_view()),
-#     def test_home_noprofile(self):
-#         user = UserFactory()
-#         self.client.login(username=user.username, password="test")
-#
-#         response = self.client.get("/", follow=True)
-#         self.assertEqual(response.status_code, 200)
-#         self.assertEquals(response.redirect_chain[0],
-#                           ('http://testserver/register/', 302))
