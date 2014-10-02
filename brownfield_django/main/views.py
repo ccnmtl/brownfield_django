@@ -75,8 +75,6 @@ class CourseView(APIView):
         Creating new course with the name requested by user
         with the user as the creator.
         '''
-        # print "Inside POST"
-        # print request.DATA
         serializer = AddCourseByNameSerializer(data=request.DATA)
         if serializer.is_valid():
             course_name = serializer.data['name']
@@ -132,11 +130,10 @@ class AllCourseView(APIView):
     def get(self, request, format=None):
         courses = Course.objects.all()
         serializer = CourseNameIDSerializer(courses, many=True)
-        # print serializer.data
         return Response(serializer.data)
 
 
-class ActivateView(APIView):
+class ActivateCourseView(APIView):
 
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
@@ -148,14 +145,12 @@ class ActivateView(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
-        print "Document GET"
         course = self.get_object(pk)
         document_list = Document.objects.filter(course=course)
         serializer = CompleteDocumentSerializer(document_list)
         return Response(serializer.data)
 
     def update(self, request, pk, format=None, *args, **kwargs):
-        print "Document PUT"
         course = self.get_object(pk)
         document_list = Document.objects.filter(course=course)
         serializer = CompleteDocumentSerializer(document_list)
