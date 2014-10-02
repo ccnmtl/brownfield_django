@@ -75,6 +75,8 @@ class CourseView(APIView):
         Creating new course with the name requested by user
         with the user as the creator
         '''
+        # print "Inside POST"
+        # print request.DATA
         serializer = AddCourseByNameSerializer(data=request.DATA)
         if serializer.is_valid():
             course_name = serializer.data['name']
@@ -82,8 +84,8 @@ class CourseView(APIView):
                 name=course_name,
                 creator=User.objects.get(pk=request.user.pk))
             new_course.save()
-            print new_course.pk
-            print serializer.data
+            # print new_course.pk
+            # print serializer.data
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
