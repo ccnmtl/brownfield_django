@@ -1,0 +1,65 @@
+<div class="tab-pane active" id="course-documents">
+    <h1>Course Details</h1>
+
+    <div class="course_message">
+        <h3>Course message:</h3>
+        {{object.message}}
+    </div><!-- End Course Message -->
+
+    <div class="documents_list">
+        <h3>Course Documents</h3>
+
+        <ul>
+            {% for d in object.get_documents %}
+            <li>
+                <a href=/document/{{d.pk}}> {{ d.name }} </a> State: {{o.visibile}}
+            </li>
+            {% empty %}
+            <li>There are no documents yet.</li>
+            {% endfor %}
+        </ul>
+    </div><!-- End Document List -->
+
+
+    <div class="course-info">
+        <div id="course-from" class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#course-from" href="#collapseForm">
+                    Edit Form
+                    </a>
+                </h4>
+            </div><!-- End panel heading -->
+            <!-- <div id="collapseForm" class="panel-collapse collapse in"> -->
+            <div id="collapseForm" class="panel-collapse collapse">
+                <div class="panel-body">
+                    {{object.get_course_form.as_p}}
+                </div><!-- End panel body -->
+            </div><!-- End collapsing Form -->
+        </div><!-- End Course Form -->
+    </div><!-- End Course Info -->
+
+
+    <div class="course-activation">
+        <div class="crs-act-info">
+            <h3>Activate Course</h3>
+            <p>Activating the course teams will Every student should be a member of a team before you begin.
+               <ul>
+               This will:
+                   <li>Activate accounts for all non-activated teams with at least one student member.</li>
+                   <li>For those new teams, send the student members email (cc'ing you) with the username and password for their team.</li>
+                   <li>Disable the Class account password, so students cannot add or change teams.</li>
+               </ul>
+            </p>
+        </div><!-- End Course Activation Info -->
+        <div class="crs-activate">
+            <button class="btn btn-mini btn-success">
+                Activate Course
+            </button>
+        </div>
+    </div><!-- End Course Activation -->
+    
+    <div class="deactivate-course">
+    </div>
+    
+</div><!-- End Tab Content -->
