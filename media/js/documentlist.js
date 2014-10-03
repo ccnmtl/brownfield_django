@@ -63,7 +63,6 @@ var DocumentView = Backbone.View.extend({
         
     changeDocument: function()
    	{   
-    	/*Can't figure out how to use backbone without getting authentication errors...*/
     	//console.log("Releasing Document");
         this.model.save(
         	{
@@ -94,6 +93,7 @@ var DocumentListView = Backbone.View.extend({
     			 'render',
     			 'initialRender');
     	console.log(crs_id);
+    	console.log('inside initialize');
     	//create new collection to hold course documents
     	this.course_document_collection = new DocumentCollection();
     	this.course_document_collection.fetch({processData: true, reset: true});

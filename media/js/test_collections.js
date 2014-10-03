@@ -118,3 +118,147 @@ console.log(course_collection); // log collection to console
 ////Need to test model save()
 //var mtest = new Course({ name : "why doesn't it use defaults?"});
 //mtest.save({data:{name:"why doesn't it use defaults?"},type:'POST' });
+
+
+//creating team collection with test courses
+var team_collection = new TeamCollection([
+        {
+    		id: 1,
+			name: 'Test Team 1',
+			//course: "Default Doc Course",
+            team_entity: "",
+            signed_contract : false,
+            budget: 65000
+		},
+		{
+			id: 2,
+			name: 'Test Team 2',
+			//course: "Default Doc Course",
+            team_entity: "",
+            signed_contract : false,
+            budget: 65000
+		},
+		{
+			id: 3,
+			name: 'Test Team 3',
+			//course: "Default Doc Course",
+            team_entity: "",
+            signed_contract : false,
+            budget: 65000
+		},
+		{
+			id: 4,
+			name: 'Test Team 4',
+			//course: "Default Doc Course",
+            team_entity: "",
+            signed_contract : false,
+            budget: 65000
+		},
+		{
+			id: 5,
+			name: 'Test Team 5',
+			//course: "Default Doc Course",
+            team_entity: "",
+            signed_contract : false,
+            budget: 65000
+		},
+		{
+			id: 6,
+			name: 'Test Team 6',
+			//course: "Default Doc Course",
+            team_entity: "",
+            signed_contract : false,
+            budget: 65000
+		},
+		{
+			id: 7,
+			name: 'Test Team 7',
+			//course: "Default Doc Course",
+            team_entity: "",
+            signed_contract : false,
+            budget: 65000
+		}
+]);
+
+var student_collection = new StudentCollection([
+                                                {
+                                            		id: 1,
+                                        			first_name: 'Student 1',
+                                        			last_name: 'Student 1',
+                                        			email: "student@somewhere.com",
+                                                    team : ""
+                                        		},
+                                        		{
+                                        			id: 2,
+                                        			first_name: 'Student 2',
+                                        			last_name: 'Student 2',
+                                        			email: "student@somewhere.com",
+                                                    team : ""
+                                        		},
+                                        		{
+                                        			id: 3,
+                                        			first_name: 'Student 3',
+                                        			last_name: 'Student 3',
+                                        			email: "student@somewhere.com",
+                                                    team : ""
+                                        		},
+                                        		{
+                                        			id: 4,
+                                        			first_name: 'Student 4',
+                                        			last_name: 'Student 4',
+                                        			email: "student@somewhere.com",
+                                                    team : ""
+                                        		},
+                                        		{
+                                        			id: 5,
+                                        			first_name: 'Student 5',
+                                        			last_name: 'Student 5',
+                                        			email: "student@somewhere.com",
+                                                    team : ""
+                                        		},
+                                        		{
+                                        			id: 6,
+                                        			first_name: 'Student 6',
+                                        			last_name: 'Student 6',
+                                        			email: "student@somewhere.com",
+                                                    team : ""
+                                        		},
+                                        		{
+                                        			id: 7,
+                                        			first_name: 'Student 7',
+                                        			last_name: 'Student 7',
+                                        			email: "student@somewhere.com",
+                                                    team : ""
+                                        		}
+                                        ]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

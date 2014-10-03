@@ -24,7 +24,7 @@ class CompleteCourseSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Course
         fields = ('name', 'password', 'startingBudget', 'enableNarrative',
-                  'message', 'active', 'creator')
+                  'message', 'active', 'professor')
 
 
 class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
@@ -33,28 +33,21 @@ class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
         model = Document
         fields = ('id', 'name', 'link', 'visible')
 
-# class UserCoursesSerializer(serializers.HyperlinkedModelSerializer):
-#     courses = serializers.PrimaryKeyRelatedField(many=True)
-#
-#     class Meta:
-#         model = User
-#         fields = ('id', 'username', 'courses')
 
-
-class StudentsInCourseSerializer(serializers.HyperlinkedModelSerializer):
-    courses = serializers.PrimaryKeyRelatedField(many=True)
-
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'courses')
-
-
-class AddStudentToCourseSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.HyperlinkedModelSerializer):
     courses = serializers.PrimaryKeyRelatedField(many=True)
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
+
+
+class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
+    courses = serializers.PrimaryKeyRelatedField(many=True)
+
+    class Meta:
+        model = User
+        fields = ('profile_type', 'course', 'team')
 
 
 class TeamSerializer(serializers.ModelSerializer):
@@ -75,7 +68,6 @@ class ListAllCoursesSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('name', 'startingBudget', 'enableNarrative', 'message',
                   'active', 'creator')
 
-
 #
 # class CourseSerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:
@@ -93,3 +85,18 @@ class ListAllCoursesSerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:
 #         model = Group
 #         fields = ('url', 'name')
+
+# class UserCoursesSerializer(serializers.HyperlinkedModelSerializer):
+#     courses = serializers.PrimaryKeyRelatedField(many=True)
+#
+#     class Meta:
+#         model = User
+#         fields = ('id', 'username', 'courses')
+
+
+# class StudentsInCourseSerializer(serializers.HyperlinkedModelSerializer):
+#     courses = serializers.PrimaryKeyRelatedField(many=True)
+# 
+#     class Meta:
+#         model = User
+#         fields = ('id', 'username', 'courses')

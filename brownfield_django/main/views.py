@@ -20,12 +20,13 @@ from rest_framework.views import APIView
 from brownfield_django.main.forms import CreateAccountForm  # TeamForm,
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
-    StudentsInCourseSerializer, AddStudentToCourseSerializer, \
     CompleteDocumentSerializer, TeamSerializer, CompleteCourseSerializer, \
     CourseNameIDSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
+from brownfield_django.main.document_links import NAME_ONE, \
+    LINK_ONE, NAME_TWO, LINK_TWO
 
 
 class HomeView(LoggedInMixin, View):
@@ -73,22 +74,32 @@ class CourseView(APIView):
     def post(self, request, format=None, *args, **kwargs):
         '''
         Creating new course with the name requested by user
-        with the user as the creator.
+        with the user as the default professor - will change this later.
         '''
         serializer = AddCourseByNameSerializer(data=request.DATA)
         if serializer.is_valid():
             course_name = serializer.data['name']
-            # professor = serializer.data['name']
             new_course = Course.objects.create(
                 name=course_name,
-                creator=User.objects.get(pk=request.user.pk)
+                professor=User.objects.get(pk=request.user.pk)
             )
+            d1 = Document.objects.create(course=new_course, name=NAME_ONE,
+                                         link=LINK_ONE)
+            new_course.document_set.add(d1)
+            d2 = Document.objects.create(course=new_course, name=NAME_TWO, link=LINK_TWO)
+            new_course.document_set.add(d2)
             new_course.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk, format=None, *args, **kwargs):
-        print request.DATA
+        '''
+        Updating a course - not sure if I will add editing to home course page,
+        or if this should be the function to use with the course detail tab,
+        not sure if its good to use the same view for two different templates
+        and js files either.
+        '''
+        # print request.DATA
         serializer = CompleteCourseSerializer(data=request.DATA)
         if serializer.is_valid():
             course_name = serializer.data['name']
@@ -120,12 +131,17 @@ class UserCourseView(APIView):
 
     def get(self, request, format=None):
         this_user = User.objects.get(pk=request.user.pk)
-        courses = Course.objects.filter(creator=this_user)
+        courses = Course.objects.filter(professor=this_user)
         serializer = CourseNameIDSerializer(courses, many=True)
         return Response(serializer.data)
 
 
 class AllCourseView(APIView):
+    '''
+    Does the current layout even make sense? The admin can see all courses,
+    but teachers can't see a list of their courses or all courses? What is
+    the purpose to 2 different lists if there are not that many courses?
+    '''
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
@@ -135,8 +151,11 @@ class AllCourseView(APIView):
         return Response(serializer.data)
 
 
-class ActivateCourseView(APIView):
-
+class UpdateCourseView(APIView):
+    '''
+    For now I think it is best to have a separate view for the
+    course detail template.
+    '''
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
@@ -147,16 +166,70 @@ class ActivateCourseView(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
+        '''
+        Should probably retrieve the information for the course here
+        so it appears in the form/prepopulates the fields.
+        '''
         course = self.get_object(pk)
         document_list = Document.objects.filter(course=course)
         serializer = CompleteDocumentSerializer(document_list)
         return Response(serializer.data)
 
     def update(self, request, pk, format=None, *args, **kwargs):
-        course = self.get_object(pk)
-        document_list = Document.objects.filter(course=course)
-        serializer = CompleteDocumentSerializer(document_list)
+        '''
+        For now I am sticking with Backbone convention of using update
+        for editing and post for creating.
+        '''
+        serializer = CompleteCourseSerializer(data=request.DATA)
+        '''Also what exactly does is_valid do?'''
+        if serializer.is_valid():
+            '''There must be some way to automatically update a model?'''
+            course = self.get_object(pk)
+            course_name = serializer.data['name']
+            password = serializer.data['password']
+            startingBudget = serializer.data['startingBudget']
+            enableNarrative = serializer.data['enableNarrative']
+            message = serializer.data['message']
+            active = serializer.data['active']
+            professor = serializer.data['professor']
+            course.name = course_name
+            course.password = password
+            course.startingBudget = startingBudget
+            course.enableNarrative = enableNarrative
+            course.message = message
+            course.active = active
+            course.professor = professor
+            course.save()
         return Response(serializer.data)
+
+
+class ActivateCourseView(APIView):
+    '''
+    For now I think it is best to have a separate view for the
+    course detail template.
+    '''
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def put(self, request, pk, format=None, *args, **kwargs):
+        '''
+        For now I am sticking with Backbone convention of using put
+        for editing and post for creating.
+        '''
+        course = Course.objects.get(pk=pk)
+        if course.visible is True:
+            course.visible = False
+        elif course.visible is False:
+            course.visible = True
+        course.save()
+        serializer = CompleteDocumentSerializer(course)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class DocumentView(APIView):
@@ -175,8 +248,11 @@ class DocumentView(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
+        print "Inside GET"
         course = self.get_object(pk)
+        print course.document_set.all()
         documents = Document.objects.filter(course=course)
+        print documents
         serializer = CompleteDocumentSerializer(documents, many=True)
         return Response(serializer.data)
 
@@ -210,7 +286,6 @@ class TeacherHomeView(DetailView):
 
 
 class TeacherCourseDetail(DetailView):
-
     model = Course
     template_name = 'main/instructor/course_home.html'
     success_url = '/'

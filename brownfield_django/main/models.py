@@ -2,8 +2,6 @@ import datetime
 from django.db import models
 from django.forms import ModelForm
 from django.contrib.auth.models import User
-from brownfield_django.main.document_links import NAME_ONE, \
-    LINK_ONE, NAME_TWO, LINK_TWO
 
 
 PROFILE_CHOICES = (
@@ -52,24 +50,6 @@ class Course(models.Model):
 
     def __unicode__(self):
         return self.name
-
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            '''We want to initialize a document set for each course,
-            so the course "knows" which documents are available or
-            not'''
-            d1 = Document.objects.create(course=self, name=NAME_ONE,
-                                         link=LINK_ONE)
-            d1.save()
-            self.document_set.add(d1)
-            d2 = Document.objects.create(course=self, name=NAME_TWO,
-                                         link=LINK_TWO)
-            d2.save()
-            self.document_set.add(d2)
-            #document_set = Document.objects.all()
-            #for each in document_set:
-            #    self.document_set.add(each)
-        super(Course, self).save(*args, **kwargs)
 
     def get_students(self):
         participants = UserProfile.objects.filter(course=self)
