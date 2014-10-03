@@ -34,6 +34,14 @@ class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'name', 'link', 'visible')
 
 
+class AddUserSerializer(serializers.HyperlinkedModelSerializer):
+    courses = serializers.PrimaryKeyRelatedField(many=True)
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')
+
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     courses = serializers.PrimaryKeyRelatedField(many=True)
 
@@ -96,7 +104,7 @@ class ListAllCoursesSerializer(serializers.HyperlinkedModelSerializer):
 
 # class StudentsInCourseSerializer(serializers.HyperlinkedModelSerializer):
 #     courses = serializers.PrimaryKeyRelatedField(many=True)
-# 
+#
 #     class Meta:
 #         model = User
 #         fields = ('id', 'username', 'courses')

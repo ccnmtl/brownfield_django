@@ -30,9 +30,6 @@ var TeamCollection = Backbone.Collection.extend({
 });
 
 
-
-
-
 //creating student model
 var Student= Backbone.Model.extend({
 
@@ -65,8 +62,6 @@ var StudentCollection = Backbone.Collection.extend({
 	 url: '/student'
 });
 	
-	
-
 
 	
 // creating student collection with test courses
@@ -83,7 +78,7 @@ var StudentView = Backbone.View.extend({
    			             "Email: " +
    			             "<%= email %> " +
    			             "Team Status: " +
-   			             "<%= team %> " +
+   			             "<% if (team) { %> <%=team%><% } %>  " +
    			             "<button class='btn btn-xs jn-tm'>" +
    			             "Add to Team" +
    			             "</button>" +
@@ -98,8 +93,8 @@ var StudentView = Backbone.View.extend({
 
    	// Can probably combine into one function on change
    	events: {
-   		'click .jn-tm' : 'joinTeam',
-   		'click .rm-tm' : 'removeTeam'
+   		'click .ad-st' : 'addStudent',
+   		'click .rm-sm' : 'removeStudent'
    	},
 
     render: function () {
@@ -116,7 +111,7 @@ var StudentView = Backbone.View.extend({
    	{   
     	//console.log("Releasing Document");
         this.model.destroy({
-           	headers : { 'id' : this.model.id }//{ 'method_called' : 'release'}//, 'document' : this.model.id }
+           	headers : { 'id' : this.model.id }
         });
    	},
 
@@ -129,6 +124,110 @@ var StudentView = Backbone.View.extend({
         });
     }
 
-});// End DocumentView
+});// End Student View
 
+
+
+/* Container to hold rows of students */
+var StudentListView = Backbone.View.extend({
+
+    tagName : 'ul',
+
+    initialize: function (options)
+    {
+    	_.bindAll(this,
+    			 'render',
+    			 'initialRender');
+    	console.log(crs_id);
+    	console.log('inside initialize');
+    	//create new collection to hold students
+    	this.course_students = new StudentCollection();
+    	this.course_students.fetch({processData: true, reset: true});
+    	this.course_students.on('reset', this.initialRender);
+	},
+
+    render: function() {
+    },
+
+    initialRender: function() {
+
+        this.$el.empty();
+
+        this.course_students.each(function(model) {
+        this.$el.append(new StudentView({
+               model: model
+        }).render().el);
+        }, this);
+
+        return this;
+    }
+    
+});// End DocumentListView    
+
+
+
+var student_collection_view = new StudentListView({el : jQuery('.student-list')});
+
+
+var StudentControlView = Backbone.View.extend({
+
+    events: {
+	//'click .edit-crs' : 'edit',
+	'click .add-std-btn' : 'showStudentForm',
+	//'click .submit' :	'addStudent'
+    },
+
+    showStudentForm: function() {
+		console.log("clicked on show student form");
+		jQuery(".add-std-btn").hide();
+		jQuery(".add-std-frm-title").show();
+		jQuery(".add-std-frm").show();
+    },
+
+//    addStudent: function(course) {
+//    	
+//    	user_course_collection_view.user_course_collection.create(
+//    	{
+//    				name : jQuery(".crs-name").val()
+//    	});
+//
+//	    jQuery(".add-std-frm-title").hide();
+//	    jQuery(".add-std-frm").hide()
+//    }
+});// End UserControlView  
+
+var student_control_view = new StudentControlView({el : jQuery('.student_controls')});
+
+
+//var team_collection_view = new TeamListView({el : jQuery('#course-teams')});
+//
+//
+//var StudentControlView = Backbone.View.extend({
+//
+//    events: {
+//	//'click .edit-crs' : 'edit',
+//	'click .add-std' : 'showStudentForm',
+//	'click .submit' :	'addStudent'
+//    },
+//
+//    showStudentForm: function(e) {
+//		console.log("clicked on show student form");
+//		jQuery(".add-std").hide();
+//		jQuery(".add-std-frm-title").show();
+//		jQuery(".add-std-frm").show();
+//    },
+//
+//    addStudent: function(course) {
+//    	
+//    	user_course_collection_view.user_course_collection.create(
+//    	{
+//    				name : jQuery(".crs-name").val()
+//    	});
+//
+//	    jQuery(".add-std-frm-title").hide();
+//	    jQuery(".add-std-frm").hide()
+//    }
+//});// End UserControlView  
+//
+//var student_control_view = new StudentControlView({el : jQuery('.team_controls')});
 

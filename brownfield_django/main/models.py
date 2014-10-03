@@ -123,7 +123,6 @@ class UserProfile(models.Model):
     and associates the user with a team, course,
     and course progress.'''
     user = models.OneToOneField(User, related_name="profile")
-    # interactive = models.ForeignKey(Interactive, null=True, blank=True)
     profile_type = models.CharField(max_length=2, choices=PROFILE_CHOICES)
     course = models.ForeignKey(Course, null=True, default=None, blank=True)
     team = models.ForeignKey(Team, null=True, default=None, blank=True)

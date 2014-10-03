@@ -1,16 +1,10 @@
 brownfield_django/main/forms.py:39: [E1101, CreateAccountForm.clean_profile_type] Instance of 'CreateAccountForm' has no 'cleaned_data' member
 brownfield_django/main/forms.py:52: [E1101, user_created] Instance of 'CreateAccountForm' has no 'data' member
-brownfield_django/main/models.py:30: [W0105] String statement has no effect
-brownfield_django/main/models.py:56: [E1002, Course.save] Use of super on an old style class
-brownfield_django/main/models.py:60: [W0105, Course.save] String statement has no effect
-brownfield_django/main/models.py:61: [C0103, Course.save] Invalid name "d1" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/models.py:64: [E1101, Course.save] Instance of 'Course' has no 'document_set' member
-brownfield_django/main/models.py:65: [C0103, Course.save] Invalid name "d2" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/models.py:68: [E1101, Course.save] Instance of 'Course' has no 'document_set' member
-brownfield_django/main/models.py:129: [E1101, Team.get_members] Instance of 'Team' has no 'userprofile_set' member
-brownfield_django/main/models.py:152: [E1101, UserProfile.__unicode__] Instance of 'OneToOneField' has no 'username' member
-brownfield_django/main/models.py:158: [E1101, UserProfile.display_name] Instance of 'OneToOneField' has no 'username' member
-brownfield_django/main/models.py:174: [E1101, UserProfile.role] Instance of 'UserProfile' has no 'is_adminr' member
+brownfield_django/main/models.py:28: [W0105] String statement has no effect
+brownfield_django/main/models.py:109: [E1101, Team.get_members] Instance of 'Team' has no 'userprofile_set' member
+brownfield_django/main/models.py:131: [E1101, UserProfile.__unicode__] Instance of 'OneToOneField' has no 'username' member
+brownfield_django/main/models.py:137: [E1101, UserProfile.display_name] Instance of 'OneToOneField' has no 'username' member
+brownfield_django/main/models.py:153: [E1101, UserProfile.role] Instance of 'UserProfile' has no 'is_adminr' member
 brownfield_django/main/document_links.py:4: [C0301] Line too long (268/160)
 brownfield_django/main/document_links.py:6: [C0301] Line too long (263/160)
 brownfield_django/main/document_links.py:10: [C0301] Line too long (161/160)
@@ -44,55 +38,69 @@ NAME_EIGHT='''Link: Brownfield Action Reference Site'''
 brownfield_django/main/admin.py:15: [E0102, UserAdmin] class already defined line 2
 brownfield_django/main/admin.py:15: [R0904, UserAdmin] Too many public methods (58/50)
 brownfield_django/main/admin.py:19: [R0904, UserProfileAdmin] Too many public methods (57/50)
-brownfield_django/main/views.py:49: [R0901, RegistrationView] Too many ancestors (8/7)
-brownfield_django/main/views.py:70: [W0622, CourseView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:73: [W0622, CourseView.post] Redefining built-in 'format'
-brownfield_django/main/views.py:79: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'is_valid' member
-brownfield_django/main/views.py:80: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'data' member
-brownfield_django/main/views.py:87: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'data' member
-brownfield_django/main/views.py:88: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'errors' member
-brownfield_django/main/views.py:90: [W0622, CourseView.update] Redefining built-in 'format'
-brownfield_django/main/views.py:93: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'is_valid' member
-brownfield_django/main/views.py:94: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
-brownfield_django/main/views.py:99: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
-brownfield_django/main/views.py:100: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'errors' member
-brownfield_django/main/views.py:102: [W0622, CourseView.delete] Redefining built-in 'format'
-brownfield_django/main/views.py:107: [C0103, CourseView.delete] Invalid name "dc" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/views.py:110: [C0103, CourseView.delete] Invalid name "dc" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/views.py:121: [W0622, UserCourseView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:125: [E1101, UserCourseView.get] Instance of 'CourseNameIDSerializer' has no 'data' member
-brownfield_django/main/views.py:132: [W0622, AllCourseView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:135: [E1101, AllCourseView.get] Instance of 'CourseNameIDSerializer' has no 'data' member
-brownfield_django/main/views.py:149: [W0622, ActivateCourseView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:153: [E1101, ActivateCourseView.get] Instance of 'CompleteDocumentSerializer' has no 'data' member
-brownfield_django/main/views.py:155: [W0622, ActivateCourseView.update] Redefining built-in 'format'
-brownfield_django/main/views.py:159: [E1101, ActivateCourseView.update] Instance of 'CompleteDocumentSerializer' has no 'data' member
-brownfield_django/main/views.py:177: [W0622, DocumentView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:181: [E1101, DocumentView.get] Instance of 'CompleteDocumentSerializer' has no 'data' member
-brownfield_django/main/views.py:183: [W0622, DocumentView.put] Redefining built-in 'format'
-brownfield_django/main/views.py:191: [E1101, DocumentView.put] Instance of 'CompleteDocumentSerializer' has no 'data' member
-brownfield_django/main/views.py:194: [R0901, TeacherHomeView] Too many ancestors (8/7)
-brownfield_django/main/views.py:201: [E1101, TeacherHomeView.dispatch] Instance of 'TeacherHomeView' has no 'request' member
-brownfield_django/main/views.py:212: [R0901, TeacherCourseDetail] Too many ancestors (8/7)
-brownfield_django/main/views.py:231: [W0622, AddStudentView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:235: [E1101, AddStudentView.get] Instance of 'StudentsInCourseSerializer' has no 'data' member
-brownfield_django/main/views.py:237: [W0622, AddStudentView.post] Redefining built-in 'format'
-brownfield_django/main/views.py:239: [E1101, AddStudentView.post] Instance of 'AddStudentToCourseSerializer' has no 'is_valid' member
-brownfield_django/main/views.py:240: [E1101, AddStudentView.post] Instance of 'AddStudentToCourseSerializer' has no 'save' member
-brownfield_django/main/views.py:241: [E1101, AddStudentView.post] Instance of 'AddStudentToCourseSerializer' has no 'data' member
-brownfield_django/main/views.py:242: [E1101, AddStudentView.post] Instance of 'AddStudentToCourseSerializer' has no 'errors' member
-brownfield_django/main/views.py:244: [W0622, AddStudentView.update] Redefining built-in 'format'
-brownfield_django/main/views.py:247: [W0622, AddStudentView.delete] Redefining built-in 'format'
-brownfield_django/main/views.py:262: [W0622, ListCourseStudentsView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:266: [E1101, ListCourseStudentsView.get] Instance of 'StudentsInCourseSerializer' has no 'data' member
-brownfield_django/main/views.py:281: [W0622, TeamView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:289: [E1101, TeamView.get] Instance of 'TeamSerializer' has no 'data' member
-brownfield_django/main/views.py:293: [W0105] String statement has no effect
-brownfield_django/main/views.py:343: [W0622, DemoHistoryView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:389: [R0901, StudentHomeView] Too many ancestors (8/7)
-brownfield_django/main/views.py:397: [E1101, StudentHomeView.dispatch] Instance of 'StudentHomeView' has no 'request' member
-brownfield_django/main/views.py:409: [R0901, TeamHomeView] Too many ancestors (8/7)
-brownfield_django/main/views.py:430: [E1101, TeamHomeView.dispatch] Instance of 'TeamHomeView' has no 'request' member
+brownfield_django/main/views.py:1: [C0302] Too many lines in module (542)
+brownfield_django/main/views.py:51: [R0901, RegistrationView] Too many ancestors (8/7)
+brownfield_django/main/views.py:72: [W0622, CourseView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:75: [W0622, CourseView.post] Redefining built-in 'format'
+brownfield_django/main/views.py:81: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'is_valid' member
+brownfield_django/main/views.py:82: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'data' member
+brownfield_django/main/views.py:87: [C0103, CourseView.post] Invalid name "d1" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:90: [C0103, CourseView.post] Invalid name "d2" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:94: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'data' member
+brownfield_django/main/views.py:95: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'errors' member
+brownfield_django/main/views.py:97: [W0622, CourseView.update] Redefining built-in 'format'
+brownfield_django/main/views.py:106: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'is_valid' member
+brownfield_django/main/views.py:107: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
+brownfield_django/main/views.py:112: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
+brownfield_django/main/views.py:113: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'errors' member
+brownfield_django/main/views.py:115: [W0622, CourseView.delete] Redefining built-in 'format'
+brownfield_django/main/views.py:120: [C0103, CourseView.delete] Invalid name "dc" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:123: [C0103, CourseView.delete] Invalid name "dc" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:134: [W0622, UserCourseView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:138: [E1101, UserCourseView.get] Instance of 'CourseNameIDSerializer' has no 'data' member
+brownfield_django/main/views.py:150: [W0622, AllCourseView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:153: [E1101, AllCourseView.get] Instance of 'CourseNameIDSerializer' has no 'data' member
+brownfield_django/main/views.py:170: [W0622, UpdateCourseView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:178: [E1101, UpdateCourseView.get] Instance of 'CompleteDocumentSerializer' has no 'data' member
+brownfield_django/main/views.py:180: [W0622, UpdateCourseView.update] Redefining built-in 'format'
+brownfield_django/main/views.py:186: [W0105, UpdateCourseView.update] String statement has no effect
+brownfield_django/main/views.py:187: [E1101, UpdateCourseView.update] Instance of 'CompleteCourseSerializer' has no 'is_valid' member
+brownfield_django/main/views.py:188: [W0105, UpdateCourseView.update] String statement has no effect
+brownfield_django/main/views.py:190: [E1101, UpdateCourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
+brownfield_django/main/views.py:191: [E1101, UpdateCourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
+brownfield_django/main/views.py:192: [C0103, UpdateCourseView.update] Invalid name "startingBudget" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:192: [E1101, UpdateCourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
+brownfield_django/main/views.py:193: [C0103, UpdateCourseView.update] Invalid name "enableNarrative" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:193: [E1101, UpdateCourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
+brownfield_django/main/views.py:194: [E1101, UpdateCourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
+brownfield_django/main/views.py:195: [E1101, UpdateCourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
+brownfield_django/main/views.py:196: [E1101, UpdateCourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
+brownfield_django/main/views.py:205: [E1101, UpdateCourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
+brownfield_django/main/views.py:238: [W0622, ActivateCourseView.put] Redefining built-in 'format'
+brownfield_django/main/views.py:249: [E1101, ActivateCourseView.put] Instance of 'CompleteDocumentSerializer' has no 'data' member
+brownfield_django/main/views.py:267: [W0622, DocumentView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:271: [E1101, DocumentView.get] Instance of 'CompleteDocumentSerializer' has no 'data' member
+brownfield_django/main/views.py:273: [W0622, DocumentView.put] Redefining built-in 'format'
+brownfield_django/main/views.py:281: [E1101, DocumentView.put] Instance of 'CompleteDocumentSerializer' has no 'data' member
+brownfield_django/main/views.py:296: [W0622, AdminCourseStudentsView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:308: [E1101, AdminCourseStudentsView.get] Instance of 'UserSerializer' has no 'data' member
+brownfield_django/main/views.py:340: [W0622, AdminCourseTeamsView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:345: [E1101, AdminCourseTeamsView.get] Instance of 'TeamSerializer' has no 'data' member
+brownfield_django/main/views.py:347: [W0622, AdminCourseTeamsView.post] Redefining built-in 'format'
+brownfield_django/main/views.py:351: [E1101, AdminCourseTeamsView.post] Instance of 'TeamSerializer' has no 'is_valid' member
+brownfield_django/main/views.py:352: [E1101, AdminCourseTeamsView.post] Instance of 'TeamSerializer' has no 'data' member
+brownfield_django/main/views.py:353: [E1101, AdminCourseTeamsView.post] Instance of 'TeamSerializer' has no 'save' member
+brownfield_django/main/views.py:354: [E1101, AdminCourseTeamsView.post] Instance of 'TeamSerializer' has no 'data' member
+brownfield_django/main/views.py:355: [E1101, AdminCourseTeamsView.post] Instance of 'TeamSerializer' has no 'errors' member
+brownfield_django/main/views.py:358: [R0901, TeacherHomeView] Too many ancestors (8/7)
+brownfield_django/main/views.py:365: [E1101, TeacherHomeView.dispatch] Instance of 'TeacherHomeView' has no 'request' member
+brownfield_django/main/views.py:375: [R0901, TeacherCourseDetail] Too many ancestors (8/7)
+brownfield_django/main/views.py:383: [W0105] String statement has no effect
+brownfield_django/main/views.py:433: [W0622, DemoHistoryView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:479: [R0901, StudentHomeView] Too many ancestors (8/7)
+brownfield_django/main/views.py:487: [E1101, StudentHomeView.dispatch] Instance of 'StudentHomeView' has no 'request' member
+brownfield_django/main/views.py:499: [R0901, TeamHomeView] Too many ancestors (8/7)
+brownfield_django/main/views.py:520: [E1101, TeamHomeView.dispatch] Instance of 'TeamHomeView' has no 'request' member
 brownfield_django/main/tests/test_models.py:6: [W0403] Relative import 'factories', should be 'brownfield_django.main.tests.factories'
 brownfield_django/main/tests/test_models.py:11: [R0904, TestUserFactory] Too many public methods (66/50)
 brownfield_django/main/tests/test_models.py:17: [R0904, TestCourseFactory] Too many public methods (66/50)
@@ -142,7 +150,24 @@ brownfield_django/main/tests/__init__.py:3: [W0401] Wildcard import test_views
 
 Report
 ======
-708 statements analysed.
+730 statements analysed.
+
+Statistics by type
+------------------
+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |14     |14         |=          |0.00        |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|class    |89     |89         |=          |28.09       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|method   |87     |89         |-2.00      |48.28       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|function |7      |7          |=          |14.29       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+
+
 
 Messages by category
 --------------------
@@ -150,13 +175,13 @@ Messages by category
 +-----------+-------+---------+-----------+
 |type       |number |previous |difference |
 +===========+=======+=========+===========+
-|convention |32     |32       |=          |
+|convention |35     |35       |=          |
 +-----------+-------+---------+-----------+
 |refactor   |21     |21       |=          |
 +-----------+-------+---------+-----------+
-|warning    |30     |30       |=          |
+|warning    |29     |34       |-5.00      |
 +-----------+-------+---------+-----------+
-|error      |41     |41       |=          |
+|error      |47     |57       |-10.00     |
 +-----------+-------+---------+-----------+
 
 
@@ -167,19 +192,19 @@ Messages by category
 +-----------------------------------------+------+--------+---------+-----------+
 |module                                   |error |warning |refactor |convention |
 +=========================================+======+========+=========+===========+
-|brownfield_django.main.views             |58.54 |60.00   |23.81    |6.25       |
+|brownfield_django.main.views             |70.21 |62.07   |23.81    |20.00      |
 +-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.models            |17.07 |6.67    |0.00     |6.25       |
+|brownfield_django.main.tests.test_views  |8.51  |17.24   |28.57    |34.29      |
 +-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.tests.test_views  |9.76  |16.67   |28.57    |37.50      |
+|brownfield_django.main.models            |8.51  |3.45    |0.00     |0.00       |
 +-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.tests.test_models |7.32  |3.33    |38.10    |6.25       |
+|brownfield_django.main.tests.test_models |6.38  |3.45    |38.10    |5.71       |
 +-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.forms             |4.88  |0.00    |0.00     |0.00       |
+|brownfield_django.main.forms             |4.26  |0.00    |0.00     |0.00       |
 +-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.admin             |2.44  |0.00    |9.52     |0.00       |
+|brownfield_django.main.admin             |2.13  |0.00    |9.52     |0.00       |
 +-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.tests.__init__    |0.00  |13.33   |0.00     |0.00       |
+|brownfield_django.main.tests.__init__    |0.00  |13.79   |0.00     |0.00       |
 +-----------------------------------------+------+--------+---------+-----------+
 
 
@@ -190,17 +215,17 @@ Messages
 +-----------+------------+
 |message id |occurrences |
 +===========+============+
-|E1101      |34          |
+|E1101      |41          |
 +-----------+------------+
-|C0103      |18          |
-+-----------+------------+
-|W0622      |17          |
+|C0103      |20          |
 +-----------+------------+
 |R0904      |16          |
 +-----------+------------+
-|C0322      |8           |
+|W0622      |15          |
 +-----------+------------+
-|W0105      |7           |
+|W0105      |8           |
++-----------+------------+
+|C0322      |8           |
 +-----------+------------+
 |C0301      |6           |
 +-----------+------------+
@@ -212,16 +237,16 @@ Messages
 +-----------+------------+
 |W0401      |2           |
 +-----------+------------+
-|E1002      |1           |
-+-----------+------------+
 |E0102      |1           |
++-----------+------------+
+|C0302      |1           |
 +-----------+------------+
 
 
 
 Global evaluation
 -----------------
-Your code has been rated at 5.93/10 (previous run: 5.93/10)
+Your code has been rated at 5.62/10 (previous run: 5.01/10)
 
 Raw metrics
 -----------
@@ -229,31 +254,27 @@ Raw metrics
 +----------+-------+------+---------+-----------+
 |type      |number |%     |previous |difference |
 +==========+=======+======+=========+===========+
-|code      |824    |63.93 |824      |=          |
+|code      |844    |61.20 |869      |-25.00     |
 +----------+-------+------+---------+-----------+
-|docstring |220    |17.07 |220      |=          |
+|docstring |243    |17.62 |247      |-4.00      |
 +----------+-------+------+---------+-----------+
-|comment   |64     |4.97  |64       |=          |
+|comment   |100    |7.25  |68       |+32.00     |
 +----------+-------+------+---------+-----------+
-|empty     |181    |14.04 |181      |=          |
+|empty     |192    |13.92 |193      |-1.00      |
 +----------+-------+------+---------+-----------+
 
 
 
-Statistics by type
-------------------
+Duplication
+-----------
 
-+---------+-------+-----------+-----------+------------+---------+
-|type     |number |old number |difference |%documented |%badname |
-+=========+=======+===========+===========+============+=========+
-|module   |14     |14         |=          |0.00        |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|class    |87     |87         |=          |26.44       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|method   |90     |90         |=          |41.11       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|function |7      |7          |=          |14.29       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
++-------------------------+------+---------+-----------+
+|                         |now   |previous |difference |
++=========================+======+=========+===========+
+|nb duplicated lines      |0     |0        |=          |
++-------------------------+------+---------+-----------+
+|percent duplicated lines |0.000 |0.000    |=          |
++-------------------------+------+---------+-----------+
 
 
 
@@ -264,10 +285,10 @@ External dependencies
     brownfield_django 
       \-main 
       | \-document_links 
-      | | \-LINK_ONE (brownfield_django.main.models)
-      | | \-LINK_TWO (brownfield_django.main.models)
-      | | \-NAME_ONE (brownfield_django.main.models)
-      | | \-NAME_TWO (brownfield_django.main.models)
+      | | \-LINK_ONE (brownfield_django.main.views)
+      | | \-LINK_TWO (brownfield_django.main.views)
+      | | \-NAME_ONE (brownfield_django.main.views)
+      | | \-NAME_TWO (brownfield_django.main.views)
       | \-forms 
       | | \-CreateAccountForm (brownfield_django.main.views)
       | \-models 
@@ -280,12 +301,11 @@ External dependencies
       | | \-UserProfile (brownfield_django.main.admin,brownfield_django.main.views,brownfield_django.main.forms,brownfield_django.main.tests.factories)
       | \-serializers 
       | | \-AddCourseByNameSerializer (brownfield_django.main.views)
-      | | \-AddStudentToCourseSerializer (brownfield_django.main.views)
       | | \-CompleteCourseSerializer (brownfield_django.main.views)
       | | \-CompleteDocumentSerializer (brownfield_django.main.views)
       | | \-CourseNameIDSerializer (brownfield_django.main.views)
-      | | \-StudentsInCourseSerializer (brownfield_django.main.views)
       | | \-TeamSerializer (brownfield_django.main.views)
+      | | \-UserSerializer (brownfield_django.main.views)
       | \-tests 
       | | \-factories 
       | |   \-CourseFactory (brownfield_django.main.tests.test_models)
@@ -367,19 +387,6 @@ External dependencies
         \-APIView (brownfield_django.main.views)
     smoketest 
       \-SmokeTest (brownfield_django.main.smoke)
-
-
-
-Duplication
------------
-
-+-------------------------+------+---------+-----------+
-|                         |now   |previous |difference |
-+=========================+======+=========+===========+
-|nb duplicated lines      |0     |0        |=          |
-+-------------------------+------+---------+-----------+
-|percent duplicated lines |0.000 |0.000    |=          |
-+-------------------------+------+---------+-----------+
 
 
 

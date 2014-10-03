@@ -2,6 +2,7 @@
 # from datetime import datetime
 # from xml.dom.minidom import parseString
 from django.contrib.auth.models import User
+# from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.http.response import HttpResponseForbidden
@@ -21,7 +22,7 @@ from brownfield_django.main.forms import CreateAccountForm  # TeamForm,
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
     CompleteDocumentSerializer, TeamSerializer, CompleteCourseSerializer, \
-    CourseNameIDSerializer
+    CourseNameIDSerializer, UserSerializer  # , AddUserSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
@@ -86,7 +87,8 @@ class CourseView(APIView):
             d1 = Document.objects.create(course=new_course, name=NAME_ONE,
                                          link=LINK_ONE)
             new_course.document_set.add(d1)
-            d2 = Document.objects.create(course=new_course, name=NAME_TWO, link=LINK_TWO)
+            d2 = Document.objects.create(course=new_course, name=NAME_TWO,
+                                         link=LINK_TWO)
             new_course.document_set.add(d2)
             new_course.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -217,15 +219,30 @@ class ActivateCourseView(APIView):
         except Course.DoesNotExist:
             raise Http404
 
+#     def activate_this_course(self, pk):
+#         crs = Course.objects.get(pk=pk)
+#         crs_students = UserProfile.objects.filter(crs)
+#         # crs_teams = Team.objects.filter(crs)
+#         for student in crs_students:
+#             template = loader.get_template(
+#             'instructor/student_activation_notice.txt')
+#             subject = "Brownfield: You are in Course... "
+#             user_list =
+#             ctx = Context({'user': user, 'course': user.profile.course,
+#                            'team': user.profile.team,
+#                            'password': user.profile.team.password})
+#             message = template.render(ctx)
+#             sender = "cld2156@columbia.edu"
+#             send_mail(subject, message, sender, [user.email])
+
     def put(self, request, pk, format=None, *args, **kwargs):
         '''
         For now I am sticking with Backbone convention of using put
         for editing and post for creating.
         '''
         course = Course.objects.get(pk=pk)
-        if course.visible is True:
-            course.visible = False
-        elif course.visible is False:
+        # what else?
+        if course.visible is False:
             course.visible = True
         course.save()
         serializer = CompleteDocumentSerializer(course)
@@ -248,11 +265,8 @@ class DocumentView(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
-        print "Inside GET"
         course = self.get_object(pk)
-        print course.document_set.all()
         documents = Document.objects.filter(course=course)
-        print documents
         serializer = CompleteDocumentSerializer(documents, many=True)
         return Response(serializer.data)
 
@@ -265,6 +279,80 @@ class DocumentView(APIView):
         document.save()
         serializer = CompleteDocumentSerializer(document)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class AdminCourseStudentsView(APIView):
+    """
+    This view interacts with backbone to allow instructors to
+    view and edit students to their course, pk is for course.
+    """
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+    # best way to get all users of a course? Should it be a model method
+
+    def get(self, request, pk, format=None):
+        '''Retrieve students of course if there are any to list.'''
+        course = self.get_object(pk)
+        students = course.get_students()
+        profile_list = UserProfile.objects.filter(course=course)
+        print profile_list
+        # profile_type=='ST')
+        student_list = []
+        for each in profile_list:
+            student = User.objects.filter(user_profile=each)
+            student_list.append(student)
+        serializer = UserSerializer(students, many=True)
+        return Response(serializer.data)
+
+#     def post(self, request, pk, format=None):
+#         '''Add a Student'''
+#         serializer = AddUserSerializer(data=request.DATA)
+#         # if serializer.is_valid(): what validation does this do?
+#         course = self.get_object(pk)
+#         first_name = serializer.data['first_name']
+#         last_name = serializer.data['last_name']
+#         # is a username required? create one automatically
+#         ini = first_name[0]
+#         username = str(ini) + str(lastname)
+#         new_user = User.objects.create(username=username,
+#                                        first_name=first_name,
+#                                        last_name=last_name)
+#         new_profile = UserProfile.objects.create(course=new_course,
+#                                                  user=new_user,
+#                                                  profile_type='ST')
+#         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class AdminCourseTeamsView(APIView):
+    """
+    This view interacts with backbone to allow instructors to
+    view and edit students to their course.
+    """
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        '''Send back all teams currently in course.'''
+        course = self.get_object(pk)
+        teams = course.get_teams()
+        serializer = TeamSerializer(teams)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def post(self, request, pk, format=None):
+        '''Add a team.'''
+        # course = self.get_object(pk)
+        serializer = TeamSerializer(data=request.DATA)
+        if serializer.is_valid():
+            print serializer.data
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class TeacherHomeView(DetailView):
@@ -281,87 +369,14 @@ class TeacherHomeView(DetailView):
 #     def get_context_data(self, **kwargs):
 #         context = super(TeamHomeView, self).get_context_data(**kwargs)
 #         context['user_courses'] = Course.objects.filter(creator=request.user)
-#         context['all_courses'] = Course.objects.all()
 #         return context
 
 
 class TeacherCourseDetail(DetailView):
+
     model = Course
     template_name = 'main/instructor/course_home.html'
     success_url = '/'
-
-
-class AddStudentView(APIView):
-    """
-    This view interacts with backbone, lists all students
-    in course to allow instructors to add a student to their course.
-    """
-
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        course = self.get_object(pk)
-        student_list = UserProfile.objects.filter(course=course)
-        serializer = StudentsInCourseSerializer(student_list)
-        return Response(serializer.data)
-
-    def post(self, request, format=None):
-        serializer = AddStudentToCourseSerializer(data=request.DATA)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def update(self, request, format=None, *args, **kwargs):
-        pass
-
-    def delete(self, request, format=None, *args, **kwargs):
-        pass
-
-
-class ListCourseStudentsView(APIView):
-    """
-    This view interacts with backbone to allow instructors to
-    view and edit students to their course.
-    """
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        course = self.get_object(pk)
-        student_list = UserProfile.objects.filter(course=course)
-        serializer = StudentsInCourseSerializer(student_list)
-        return Response(serializer.data)
-
-
-class TeamView(APIView):
-    """
-    This view interacts with backbone to allow instructors to
-    interact with documents, they can make them available to
-    students or revoke them so they are invisible.
-    """
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        '''
-        I assume there is a way to also return the
-        users of each team with the teams...
-        '''
-        course = self.get_object(pk)
-        team_list = Team.objects.filter(course=course)
-        serializer = TeamSerializer(team_list)
-        return Response(serializer.data)
 
 
 '''I am using this view to play around with getting the

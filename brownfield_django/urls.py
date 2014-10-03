@@ -9,9 +9,9 @@ from pagetree.generic.views import EditView, InstructorView, PageView
 
 from brownfield_django.main.forms import CreateAccountForm
 from brownfield_django.main.views import StudentHomeView, \
-    HomeView, RegistrationView, AddStudentView, ListCourseStudentsView, \
+    HomeView, RegistrationView, AdminCourseStudentsView, \
     TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, \
-    UserCourseView, AllCourseView, ToggleActivationCourseView
+    UserCourseView, AllCourseView, ActivateCourseView
 admin.autodiscover()
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
@@ -52,11 +52,11 @@ urlpatterns = patterns(
     (r'^document/(?P<pk>\d+)$', DocumentView.as_view()),
     (r'^user_courses/$', UserCourseView.as_view()),
     (r'^all_courses/$', AllCourseView.as_view()),
-    (r'^toggle_activation/(?P<pk>\d+)/$', ToggleActivationCourseView.as_view()),
+    (r'^activate_course/(?P<pk>\d+)/$', ActivateCourseView.as_view()),
     # Teacher Student
-    (r'^add_student/(?P<pk>\d+)$', AddStudentView.as_view()),
-    (r'^list_students/(?P<name>.*)/(?P<pk>\d+)$',
-        ListCourseStudentsView.as_view()),
+    (r'^student/$', AdminCourseStudentsView.as_view()),
+    (r'^student/(?P<name>.*)/(?P<pk>\d+)$',
+        AdminCourseStudentsView.as_view()),
     # Teacher Team View
     (r'^team/(?P<pk>\d+)$', CourseView.as_view()),
     # Teacher Documents
