@@ -3,7 +3,7 @@
     <h3>Teams</h3>
     <div id="course-teams">
         <div class="team_controls">
-            <button class="add-tm">
+            <button class="add-tm-btn">
             Add New Team   
             </button>
             <p class="add-tm-frm-title" style="display: none;"> <b>Add New Team: </b></p>
@@ -22,20 +22,17 @@
     
     <h3>Students</h3>
     <div id="course-students">
-        <div class="course_controls">
-            <button class="add-std">
+        <div class="student_controls">
+            <button class="add-std-btn">
             Add New Student   
             </button>
             <p class="add-std-frm-title" style="display: none;"> <b>Add New Student: </b></p>
-            <form id="add-std-frm" method="" action="" style="display: none;">{% csrf_token %}
+            <form class="add-std-frm" method="" action="" style="display: none;">{% csrf_token %}
                 <meta name="csrf-token" content="{% csrf_token %}">
                 <input type="text" placeholder="First Name" class="frst-name" /><br />
                 <input type="text" placeholder="Last Name" class="last-name" /><br />
                 <input type="text" placeholder="Email" class="email" /><br />
                 <!-- <input type="submit" value="Save Student" class="submit"/> -->
-           <button id="add-std-btn" class="btn btn-mini btn-success">
-                Activate Course
-           </button>
             </form>
         </div>
         <div class="student-list"></div>

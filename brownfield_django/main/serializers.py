@@ -27,6 +27,14 @@ class CompleteCourseSerializer(serializers.HyperlinkedModelSerializer):
                   'message', 'active', 'professor')
 
 
+class UpdateCourseSerializer(serializers.HyperlinkedModelSerializer):
+    '''Allow professor see, update all aspects of a course.'''
+    class Meta:
+        model = Course
+        fields = ('name', 'password', 'startingBudget', 'enableNarrative',
+                  'message', 'active', 'professor')
+
+
 class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
     '''Return Document set with each documents associated attributes.'''
     class Meta:
@@ -35,7 +43,7 @@ class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class AddUserSerializer(serializers.HyperlinkedModelSerializer):
-    courses = serializers.PrimaryKeyRelatedField(many=True)
+    course = serializers.PrimaryKeyRelatedField()
 
     class Meta:
         model = User

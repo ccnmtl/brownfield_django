@@ -25,6 +25,7 @@
             <!-- <div id="collapseForm" class="panel-collapse collapse in"> -->
             <div id="collapseForm" class="panel-collapse collapse">
                 <div class="panel-body">
+                    <form id="upt-crs-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
                     {{object.get_course_form.as_p}}
                 </div><!-- End panel body -->
             </div><!-- End collapsing Form -->
@@ -45,10 +46,11 @@
             </p>
         </div><!-- End Course Activation Info -->
         <div class="crs-activate">
+            <form id="act-crs-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
             <input type="hidden" name="crs-id" value="{{object.pk}}"/>
-            <button id="activation-btn" class="btn btn-mini btn-success">
+            <button id="activation-btn" type="button">
                 Activate Course
-            </button>
+            </button><br /><br />
         </div>
     </div><!-- End Course Activation -->
     

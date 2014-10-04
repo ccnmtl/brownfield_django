@@ -3,6 +3,8 @@
 # from xml.dom.minidom import parseString
 from django.contrib.auth.models import User
 # from django.core.mail import send_mail
+# from django.template import loader
+# from django.template.context import Context
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.http.response import HttpResponseForbidden
@@ -18,11 +20,12 @@ from rest_framework.renderers import XMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from brownfield_django.main.forms import CreateAccountForm  # TeamForm,
+from brownfield_django.main.forms import CreateAccountForm
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
     CompleteDocumentSerializer, TeamSerializer, CompleteCourseSerializer, \
-    CourseNameIDSerializer, UserSerializer  # , AddUserSerializer
+    CourseNameIDSerializer, UserSerializer, UpdateCourseSerializer, \
+    AddUserSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
@@ -78,6 +81,7 @@ class CourseView(APIView):
         with the user as the default professor - will change this later.
         '''
         serializer = AddCourseByNameSerializer(data=request.DATA)
+        print serializer.data
         if serializer.is_valid():
             course_name = serializer.data['name']
             new_course = Course.objects.create(
@@ -115,19 +119,22 @@ class CourseView(APIView):
     def delete(self, request, pk, format=None, *args, **kwargs):
         '''
         Admin wishes to delete a course - perhaps well just
-        have it marked as archived?
+        have it marked as archived? If archived don't show?
+        not pressing functionality can add later...
         '''
-        dc = Course.objects.get(pk=pk)
-        dc.delete()
+        ac = Course.objects.get(pk=pk)
+        ac.archive = True
+        ac.save()
         try:
-            dc = Course.objects.get(pk=pk)
-            if dc:
+            ac = Course.objects.get(pk=pk)
+            if ac:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class UserCourseView(APIView):
+    '''This is to show the Admin or Instructor their own courses.'''
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
@@ -140,6 +147,7 @@ class UserCourseView(APIView):
 
 class AllCourseView(APIView):
     '''
+    Returns all brownfield courses.
     Does the current layout even make sense? The admin can see all courses,
     but teachers can't see a list of their courses or all courses? What is
     the purpose to 2 different lists if there are not that many courses?
@@ -153,7 +161,7 @@ class AllCourseView(APIView):
         return Response(serializer.data)
 
 
-class UpdateCourseView(APIView):
+class DetailJSONCourseView(APIView):
     '''
     For now I think it is best to have a separate view for the
     course detail template.
@@ -170,83 +178,59 @@ class UpdateCourseView(APIView):
     def get(self, request, pk, format=None):
         '''
         Should probably retrieve the information for the course here
-        so it appears in the form/prepopulates the fields.
+        so it appears in the form/pre-populates the fields.
         '''
         course = self.get_object(pk)
-        document_list = Document.objects.filter(course=course)
-        serializer = CompleteDocumentSerializer(document_list)
+        serializer = CompleteCourseSerializer(course)
+        print serializer
         return Response(serializer.data)
 
-    def update(self, request, pk, format=None, *args, **kwargs):
+    def update(self, request, format=None, *args, **kwargs):
         '''
         For now I am sticking with Backbone convention of using update
         for editing and post for creating.
         '''
-        serializer = CompleteCourseSerializer(data=request.DATA)
+        serializer = UpdateCourseSerializer(data=request.DATA)
+        print serializer
         '''Also what exactly does is_valid do?'''
         if serializer.is_valid():
             '''There must be some way to automatically update a model?'''
-            course = self.get_object(pk)
-            course_name = serializer.data['name']
-            password = serializer.data['password']
-            startingBudget = serializer.data['startingBudget']
-            enableNarrative = serializer.data['enableNarrative']
-            message = serializer.data['message']
-            active = serializer.data['active']
-            professor = serializer.data['professor']
-            course.name = course_name
-            course.password = password
-            course.startingBudget = startingBudget
-            course.enableNarrative = enableNarrative
-            course.message = message
-            course.active = active
-            course.professor = professor
-            course.save()
+            serializer.is_valid()
         return Response(serializer.data)
 
 
-class ActivateCourseView(APIView):
-    '''
-    For now I think it is best to have a separate view for the
-    course detail template.
-    '''
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
+class ActivateCourseView(JSONResponseMixin, View):
+    '''Again I'm just using this view to get the Flash working,
+    no permissions or users'''
 
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
-#     def activate_this_course(self, pk):
-#         crs = Course.objects.get(pk=pk)
-#         crs_students = UserProfile.objects.filter(crs)
-#         # crs_teams = Team.objects.filter(crs)
-#         for student in crs_students:
+    def post(self, request, *args, **kwargs):
+        #print request.POST
+        cr_pk = request.POST['crs_id']
+        print cr_pk
+        # print Course.objects.all()
+        # for each in Course.objects.all():
+        #    print each.pk
+        # from nepi end_date = self.request.POST.get('end_date')
+#         '''wouldn't work with get??? wtf?'''
+#         course = Course.objects.filter(pk=cr_pk)
+#         print course
+#         students = course.get_students()
+#         for student in students:
 #             template = loader.get_template(
 #             'instructor/student_activation_notice.txt')
 #             subject = "Brownfield: You are in Course... "
-#             user_list =
 #             ctx = Context({'user': user, 'course': user.profile.course,
 #                            'team': user.profile.team,
 #                            'password': user.profile.team.password})
 #             message = template.render(ctx)
 #             sender = "cld2156@columbia.edu"
-#             send_mail(subject, message, sender, [user.email])
+            # send_mail(subject, message, sender, [user.email])
 
-    def put(self, request, pk, format=None, *args, **kwargs):
-        '''
-        For now I am sticking with Backbone convention of using put
-        for editing and post for creating.
-        '''
-        course = Course.objects.get(pk=pk)
-        # what else?
-        if course.visible is False:
-            course.visible = True
-        course.save()
-        serializer = CompleteDocumentSerializer(course)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+#         schools = []
+#         for school in School.objects.filter(country=country):
+#             schools.append({'id': str(school.id), 'name': school.name})
+#
+#         return self.render_to_json_response({'schools': schools})
 
 
 class DocumentView(APIView):
@@ -265,12 +249,20 @@ class DocumentView(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
+        '''
+        In order to retrieve a courses documents we need
+        to tell it what course we want to get it from.
+        '''
         course = self.get_object(pk)
         documents = Document.objects.filter(course=course)
         serializer = CompleteDocumentSerializer(documents, many=True)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None, *args, **kwargs):
+        '''
+        We are sending pk of document since it is already associated
+        with the course it belongs to.
+        '''
         document = Document.objects.get(pk=pk)
         if document.visible is True:
             document.visible = False
@@ -307,23 +299,30 @@ class AdminCourseStudentsView(APIView):
         serializer = UserSerializer(students, many=True)
         return Response(serializer.data)
 
-#     def post(self, request, pk, format=None):
-#         '''Add a Student'''
-#         serializer = AddUserSerializer(data=request.DATA)
-#         # if serializer.is_valid(): what validation does this do?
-#         course = self.get_object(pk)
-#         first_name = serializer.data['first_name']
-#         last_name = serializer.data['last_name']
-#         # is a username required? create one automatically
-#         ini = first_name[0]
-#         username = str(ini) + str(lastname)
-#         new_user = User.objects.create(username=username,
-#                                        first_name=first_name,
-#                                        last_name=last_name)
-#         new_profile = UserProfile.objects.create(course=new_course,
-#                                                  user=new_user,
-#                                                  profile_type='ST')
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    # def post(self, request, pk, format=None):
+    def post(self, request, pk, format=None):
+        '''
+        Add a Student
+        Get course to associate with student and save, both in json.
+        '''
+        print "Adding Student"
+        serializer = AddUserSerializer(data=request.DATA)
+        print serializer.DATA
+        if serializer.is_valid():
+            course = self.get_object(pk)
+            first_name = serializer.data['first_name']
+            last_name = serializer.data['last_name']
+            # is a username required? create one automatically
+            ini = first_name[0]
+            username = str(ini) + str(last_name)
+            new_user = User.objects.create(username=username,
+                                           first_name=first_name,
+                                           last_name=last_name)
+            new_profile = UserProfile.objects.create(course=course,
+                                                     user=new_user,
+                                                     profile_type='ST')
+            new_profile.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class AdminCourseTeamsView(APIView):
@@ -366,17 +365,46 @@ class TeacherHomeView(DetailView):
             return HttpResponseForbidden("forbidden")
         return super(TeacherHomeView, self).dispatch(*args, **kwargs)
 
-#     def get_context_data(self, **kwargs):
-#         context = super(TeamHomeView, self).get_context_data(**kwargs)
-#         context['user_courses'] = Course.objects.filter(creator=request.user)
-#         return context
-
 
 class TeacherCourseDetail(DetailView):
 
     model = Course
     template_name = 'main/instructor/course_home.html'
     success_url = '/'
+
+
+class TeamHomeView(DetailView):
+    '''If team has signed their contract they are allowed to play,
+    if they have not signed their contract they are redirected
+    to the sign contract page.
+    the old play page url is: /course/%s/team/%s/play
+    the old contract url is: /course/%s/team/%s/contract
+
+    @expose(template='kid:brownfield.templates.bfaxml',
+            content_type='application/xml',
+            accept_format='application/xml',
+            fragment=True, #so kid doesn't serve a DOCTYPE HTML declaration
+            )
+    @expose(template='kid:restresource.templates.view')
+    @expose(template='json', accept_format='text/javascript')
+    @require_owns_resource()
+    '''
+    model = Team
+    template_name = 'main/team_home.html'
+    success_url = '/'
+
+    def dispatch(self, *args, **kwargs):
+        if int(kwargs.get('pk')) != self.request.user.profile.id:
+            return HttpResponseForbidden("forbidden")
+        return super(TeamHomeView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(TeamHomeView, self).get_context_data(**kwargs)
+        context['user_courses'] = Course.objects.filter()
+        context['all_courses'] = Course.objects.all()
+        # context['course_form'] = CourseForm()
+        context['documents'] = Document.objects.all()
+        return context
 
 
 '''I am using this view to play around with getting the
@@ -493,40 +521,6 @@ class StudentHomeView(DetailView):
         #context['user_courses'] = Course.objects.filter()
         #context['all_courses'] = Course.objects.all()
         #context['documents'] = Document.objects.all()
-        return context
-
-
-class TeamHomeView(DetailView):
-    '''If team has signed their contract they are allowed to play,
-    if they have not signed their contract they are redirected
-    to the sign contract page.
-    the old play page url is: /course/%s/team/%s/play
-    the old contract url is: /course/%s/team/%s/contract
-
-    @expose(template='kid:brownfield.templates.bfaxml',
-            content_type='application/xml',
-            accept_format='application/xml',
-            fragment=True, #so kid doesn't serve a DOCTYPE HTML declaration
-            )
-    @expose(template='kid:restresource.templates.view')
-    @expose(template='json', accept_format='text/javascript')
-    @require_owns_resource()
-    '''
-    model = Team
-    template_name = 'main/team_home.html'
-    success_url = '/'
-
-    def dispatch(self, *args, **kwargs):
-        if int(kwargs.get('pk')) != self.request.user.profile.id:
-            return HttpResponseForbidden("forbidden")
-        return super(TeamHomeView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(TeamHomeView, self).get_context_data(**kwargs)
-        context['user_courses'] = Course.objects.filter()
-        context['all_courses'] = Course.objects.all()
-        # context['course_form'] = CourseForm()
-        context['documents'] = Document.objects.all()
         return context
 
 

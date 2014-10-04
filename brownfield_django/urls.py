@@ -42,8 +42,7 @@ urlpatterns = patterns(
                                namespace='rest_framework')),
     (r'^$', HomeView.as_view()),
     (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
-    # Teacher Views/document
-    # Teacher Course
+    # Teacher and Admin Views
     (r'^course/$', CourseView.as_view()),
     (r'^course/(?P<pk>\d+)$', CourseView.as_view()),
     (r'^course/(?P<pk>\d+)/$', CourseView.as_view()),
@@ -52,9 +51,8 @@ urlpatterns = patterns(
     (r'^document/(?P<pk>\d+)$', DocumentView.as_view()),
     (r'^user_courses/$', UserCourseView.as_view()),
     (r'^all_courses/$', AllCourseView.as_view()),
-    (r'^activate_course/(?P<pk>\d+)/$', ActivateCourseView.as_view()),
-    # Teacher Student
-    (r'^student/$', AdminCourseStudentsView.as_view()),
+    (r'^activate_course/$', ActivateCourseView.as_view()),
+    (r'^student/(?P<pk>\d+)$', AdminCourseStudentsView.as_view()),
     (r'^student/(?P<name>.*)/(?P<pk>\d+)$',
         AdminCourseStudentsView.as_view()),
     # Teacher Team View

@@ -1,35 +1,3 @@
-// creating team model
-var Team = Backbone.Model.extend({
-
-    urlRoot: '/team/',
-    
-    defaults: function() {
-        return {
-        	id: 0,
-            name: "Default Team",
-            course: "Default Team Course",
-            team_entity: "",
-            signed_contract : false,
-            budget: 65000
-        }
-    },
-
-    initialize: function(attributes) 
-	{   
-	    name = attributes.name || '<EMPTY>';
-	    //console.log("Initializing a new team model for '" +
-	    //  name + "'."); 
-	}
-	    
-});
-
-	
-var TeamCollection = Backbone.Collection.extend({
-	 model: Team,
-	 url: '/team'
-});
-
-
 //creating student model
 var Student= Backbone.Model.extend({
 
@@ -59,14 +27,11 @@ var Student= Backbone.Model.extend({
 
 var StudentCollection = Backbone.Collection.extend({
 	 model: Student,
-	 url: '/student'
+	 url: function() {
+		    return '/student/' + crs_id;
+	  }
 });
 	
-
-	
-// creating student collection with test courses
-
-
 //End of Modes/Collections
 
 //Views 
