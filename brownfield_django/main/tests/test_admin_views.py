@@ -21,26 +21,24 @@ class TestAdminLogin(TestCase):
 
     def test_home_redirect(self):
         '''Keep getting random bootstrap can't be compressed errors.'''
-        pass
-#         request = self.client.get("/", follow=True)
-#         self.assertEquals(
-#             response.redirect_chain[0],
-#             ('http://testserver/teacher/' +
-#              str(self.teacher.profile.pk) + '/',
-#              302))
-#         self.assertTemplateUsed(response,
-#                                 'main/ccnmtl/ccnmtl_home.html')
+        request = self.client.get("/", follow=True)
+        self.assertEquals(
+            response.redirect_chain[0],
+            ('http://testserver/ccnmtl/' +
+             str(self.admin.profile.pk) + '/',
+             302))
+        self.assertTemplateUsed(response,
+                                'main/ccnmtl/ccnmtl_home.html')
 
     def test_home(self):
         '''
         See what happens if I request appropriate home directly
         instead of following redirect.
         '''
-        pass
-#         request = self.client.get("/ccnmtl/" + 
-# str(self.admin.profile.pk) + '/')
-#         self.assertTemplateUsed(request,
-#                                 'main/ccnmtl/ccnmtl_home.html')
+        request = self.client.get("/ccnmtl/" +
+                                  str(self.admin.profile.pk) + '/')
+        self.assertTemplateUsed(request,
+                                'main/ccnmtl/ccnmtl_home.html')
 
     def test_add_course_by_name(self):
         '''
@@ -49,7 +47,9 @@ class TestAdminLogin(TestCase):
         and the course info (key) being returned to the browser to update
         the course list.
         '''
-        pass
+        request = self.client.post("/course/")
+        # self.assertTemplateUsed(request,
+        #                        'main/ccnmtl/ccnmtl_home.html')
 
     def test_get_courses(self):
         '''
@@ -64,7 +64,10 @@ class TestAdminLogin(TestCase):
         course detail page where they can create teams, add students,
         and put students in teams.
         '''
-        pass
+        request = self.client.get("/ccnmtl/" +
+                                  str(self.admin.profile.pk) + '/')
+        self.assertTemplateUsed(request,
+                                'main/ccnmtl/ccnmtl_home.html')
 
     def test_update_course(self):
         '''

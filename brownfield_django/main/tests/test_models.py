@@ -48,3 +48,30 @@ class TestTeamProfileFactory(TestCase):
     def test_unicode(self):
         team = TeamProfileFactory()
         self.assertEqual(str(team), team.user.username)
+
+
+class TestCourseMethods(TestCase):
+
+    def test_course_get_teams(self):
+        team = TeamProfileFactory()
+        course = CourseFactory()
+        course.userprofile_set.add(team)
+        self.assertTrue(team in course.get_teams())
+
+    def test_course_get_documents(self):
+        team = TeamProfileFactory()
+        course = CourseFactory()
+        course.userprofile_set.add(team)
+        self.assertTrue(team in course.get_teams())
+        documents = Document.objects.filter(course=self)
+        return documents
+
+    def test_course_get_form(self):
+        team = TeamProfileFactory()
+        course = CourseFactory()
+        course.userprofile_set.add(team)
+        self.assertTrue(team in course.get_teams())
+        form = CourseForm()
+        return form
+
+

@@ -74,42 +74,6 @@ class Document(models.Model):
     name = models.CharField(max_length=255, default='')
     link = models.CharField(max_length=255, default='')
     visible = models.BooleanField(default=False)
-    # in old application content is href not sure if it should be but...
-
-
-# class Team(models.Model):
-#     '''Team: A team will have one login/username
-#     All accounting/history/actions is by team.
-#     SINCE USER PROFILE IS A TEAM DO WE NEED TO
-#     MAKE THIS HAVE A RELATION TO USER< OR JUST USE
-#     THIS TO STORE USER TYPE TEAM DATA?
-#     '''
-#     course = models.ForeignKey(Course)
-#     team_entity = models.OneToOneField(User, related_name="team")
-#
-#
-#     '''How to specify the reverse
-#     relationship to user?'''
-# #     class Meta:
-# #         '''We don't want teams with the same name in a course'''
-# #         ordering = ['name']
-# #         unique_together = ['name', 'course']
-#
-#     def __unicode__(self):
-#         return self.name
-#
-#     def get_members(self):
-#         try:
-#             members = self.userprofile_set.all()
-#             return members
-#         except:
-#             return None
-#
-#     def get_signed_contract(self):
-#         return self.signed_contract
-#
-#     def get_course(self):
-#         return self.course
 
 
 class UserProfile(models.Model):
