@@ -8,10 +8,10 @@ from django.views.generic import TemplateView
 from pagetree.generic.views import EditView, InstructorView, PageView
 
 from brownfield_django.main.forms import CreateAccountForm
-from brownfield_django.main.views import StudentHomeView, \
+from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, RegistrationView, AdminStudentView, \
     TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, \
-    UserCourseView, AllCourseView, ActivateCourseView, DetailJSONCourseView, \
+    UserCourseView, AllCourseView, ActivateCourseView, \
     AdminTeamView
 admin.autodiscover()
 
@@ -58,6 +58,7 @@ urlpatterns = patterns(
     (r'^student/(?P<pk>\d+)$', AdminStudentView.as_view()),
     (r'^team/(?P<pk>\d+)$', AdminTeamView.as_view()),
     (r'^team/(?P<pk>\d+)$', AdminTeamView.as_view()),
+    # student/team views
     # Demo View
     (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),
     (r'^demo/play$', TemplateView.as_view(
