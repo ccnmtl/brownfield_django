@@ -52,9 +52,7 @@ class Course(models.Model):
         return self.name
 
     def get_students(self):
-        participants = UserProfile.objects.filter(course=self)
-        # need to exclude teacher
-        return participants
+        return self.userprofile_set.filter(profile_type='ST')
 
     def get_teams(self):
         teams = Team.objects.filter(course=self)

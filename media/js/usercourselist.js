@@ -5,13 +5,12 @@ var Course = Backbone.Model.extend({
     
     defaults: function() {
         return {
-        	// should name have '' around it to match django response
             name: "Default Course"
         }
     },
        
 	initialize: function(attributes) 
-	{   // not sure if this will cause problems
+	{
 	    name = attributes.name || '<EMPTY>';
 	}
 	    
@@ -156,12 +155,6 @@ var UserControlView = Backbone.View.extend({
 	'click .add-crs' : 'showCourseForm',
 	'click .submit' :	'addCourse'
     },
-
-    //initialize: function() {
-    //
-    //    this.input = this.$("#new-todo");
-    //    this.allCheckbox = this.$("#toggle-all")[0];
-    //},
 
     showCourseForm: function(e) {
 		console.log("clicked on show course");

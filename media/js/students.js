@@ -1,16 +1,11 @@
 //creating student model
 var Student= Backbone.Model.extend({
-
-    urlRoot: '/student/',
     
     defaults: function() {
         return {
-        	id: 0,
             first_name: "First Name Student",
             last_name: "Last Name Student",
             email: "email@email.com",
-            //course: "Default Student Course",
-            team: "Member of Team....()"
         }
     },
 
@@ -31,8 +26,8 @@ var StudentCollection = Backbone.Collection.extend({
 		    return '/student/' + crs_id;
 	  }
 });
-	
 //End of Modes/Collections
+
 
 //Views 
 var StudentView = Backbone.View.extend({
@@ -42,14 +37,9 @@ var StudentView = Backbone.View.extend({
    			             "<%= last_name %> " +
    			             "Email: " +
    			             "<%= email %> " +
-   			             "Team Status: " +
-   			             "<% if (team) { %> <%=team%><% } %>  " +
-   			             "<button class='btn btn-xs jn-tm'>" +
-   			             "Add to Team" +
-   			             "</button>" +
-   			             "<button class='btn btn-xs rm-tm'>" +
-   			             "Remove From Team" +
-   			             "</button>"),
+   			             "<button class='btn btn-xs rm-st'>" +
+			             "Remove Student From Course" +
+			             "</button>"),
 
    	initialize: function () {
    	    this.listenTo(this.model, 'change', this.render);
@@ -58,8 +48,7 @@ var StudentView = Backbone.View.extend({
 
    	// Can probably combine into one function on change
    	events: {
-   		'click .ad-st' : 'addStudent',
-   		'click .rm-sm' : 'removeStudent'
+   		'click .rm-st' : 'removeStudent'
    	},
 
     render: function () {
@@ -72,21 +61,13 @@ var StudentView = Backbone.View.extend({
         return this;
     },
 
-    joinTeam: function()
-   	{   
-    	//console.log("Releasing Document");
-        this.model.destroy({
-           	headers : { 'id' : this.model.id }
-        });
-   	},
-
    	//will need to do save which will automatically call sync
-   	removeTeam: function()
+   	removeStudent: function()
    	{
-   		//console.log("Revoking Document");
-        this.model.save({
-           	headers : { 'id' : this.model.id }//{ 'method_called' : 'revoke'}//, 'document' : this.model.id }
-        });
+   		console.log("Removing student from course.");//console.log("Revoking Document");
+//        this.model.save({
+//           	headers : { 'id' : this.model.id }//{ 'method_called' : 'revoke'}//, 'document' : this.model.id }
+//        });
     }
 
 });// End Student View
@@ -103,9 +84,6 @@ var StudentListView = Backbone.View.extend({
     	_.bindAll(this,
     			 'render',
     			 'initialRender');
-    	console.log(crs_id);
-    	console.log('inside initialize');
-    	//create new collection to hold students
     	this.course_students = new StudentCollection();
     	this.course_students.fetch({processData: true, reset: true});
     	this.course_students.on('reset', this.initialRender);
@@ -127,7 +105,7 @@ var StudentListView = Backbone.View.extend({
         return this;
     }
     
-});// End DocumentListView    
+});// End StudentListView    
 
 
 
@@ -139,26 +117,30 @@ var StudentControlView = Backbone.View.extend({
     events: {
 	//'click .edit-crs' : 'edit',
 	'click .add-std-btn' : 'showStudentForm',
-	//'click .submit' :	'addStudent'
+	'click .student_submit' :	'addStudent'
     },
 
     showStudentForm: function() {
-		console.log("clicked on show student form");
+		//console.log("clicked on show student form");
 		jQuery(".add-std-btn").hide();
 		jQuery(".add-std-frm-title").show();
 		jQuery(".add-std-frm").show();
     },
 
-//    addStudent: function(course) {
-//    	
-//    	user_course_collection_view.user_course_collection.create(
-//    	{
-//    				name : jQuery(".crs-name").val()
-//    	});
-//
-//	    jQuery(".add-std-frm-title").hide();
-//	    jQuery(".add-std-frm").hide()
-//    }
+    addStudent: function(course) {
+    	
+    	student_collection_view.course_students.create(
+    	{
+    		first_name : jQuery(".frst-name").val(),
+    	    last_name : jQuery(".last-name").val(),
+    	    email : jQuery(".email").val(),
+    	});
+
+	    jQuery(".add-std-frm-title").hide();
+	    jQuery(".add-std-frm").hide();
+	    jQuery(".add-std-btn").show();
+    }
+    
 });// End UserControlView  
 
 var student_control_view = new StudentControlView({el : jQuery('.student_controls')});

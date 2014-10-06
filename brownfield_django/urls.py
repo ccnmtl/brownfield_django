@@ -9,9 +9,10 @@ from pagetree.generic.views import EditView, InstructorView, PageView
 
 from brownfield_django.main.forms import CreateAccountForm
 from brownfield_django.main.views import StudentHomeView, \
-    HomeView, RegistrationView, AdminCourseStudentsView, \
+    HomeView, RegistrationView, AdminStudentView, \
     TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, \
-    UserCourseView, AllCourseView, ActivateCourseView
+    UserCourseView, AllCourseView, ActivateCourseView, DetailJSONCourseView, \
+    AdminTeamView
 admin.autodiscover()
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
@@ -47,18 +48,16 @@ urlpatterns = patterns(
     (r'^course/(?P<pk>\d+)$', CourseView.as_view()),
     (r'^course/(?P<pk>\d+)/$', CourseView.as_view()),
     (r'^course_details/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
+    (r'^edit_course/(?P<pk>\d+)/$', DetailJSONCourseView.as_view()),
     (r'^document/$', DocumentView.as_view()),
     (r'^document/(?P<pk>\d+)$', DocumentView.as_view()),
     (r'^user_courses/$', UserCourseView.as_view()),
     (r'^all_courses/$', AllCourseView.as_view()),
     (r'^activate_course/$', ActivateCourseView.as_view()),
-    (r'^student/(?P<pk>\d+)$', AdminCourseStudentsView.as_view()),
-    (r'^student/(?P<name>.*)/(?P<pk>\d+)$',
-        AdminCourseStudentsView.as_view()),
-    # Teacher Team View
-    (r'^team/(?P<pk>\d+)$', CourseView.as_view()),
-    # Teacher Documents
-    # (r'^documents/(?P<pk>\d+)$', CourseView.as_view()),
+    (r'^student/$', AdminStudentView.as_view()),
+    (r'^student/(?P<pk>\d+)$', AdminStudentView.as_view()),
+    (r'^team/(?P<pk>\d+)$', AdminTeamView.as_view()),
+    (r'^team/(?P<pk>\d+)$', AdminTeamView.as_view()),
     # Demo View
     (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),
     (r'^demo/play$', TemplateView.as_view(
@@ -79,7 +78,6 @@ urlpatterns = patterns(
         template_name="interactive/demo_layout.html")),
     (r'^site_history/$', TemplateView.as_view(
         template_name="interactive/site_history.html")),
-    (r'^student/(?P<pk>\d+)/$', StudentHomeView.as_view()),
     (r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),

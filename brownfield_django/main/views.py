@@ -24,8 +24,7 @@ from brownfield_django.main.forms import CreateAccountForm
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
     CompleteDocumentSerializer, TeamSerializer, CompleteCourseSerializer, \
-    CourseNameIDSerializer, UserSerializer, UpdateCourseSerializer, \
-    AddUserSerializer
+    CourseNameIDSerializer, UserSerializer, UpdateCourseSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
@@ -81,7 +80,6 @@ class CourseView(APIView):
         with the user as the default professor - will change this later.
         '''
         serializer = AddCourseByNameSerializer(data=request.DATA)
-        print serializer.data
         if serializer.is_valid():
             course_name = serializer.data['name']
             new_course = Course.objects.create(
@@ -105,7 +103,6 @@ class CourseView(APIView):
         not sure if its good to use the same view for two different templates
         and js files either.
         '''
-        # print request.DATA
         serializer = CompleteCourseSerializer(data=request.DATA)
         if serializer.is_valid():
             course_name = serializer.data['name']
@@ -175,7 +172,7 @@ class DetailJSONCourseView(APIView):
         except Course.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk, format=None):
+    def get(self, request, pk, format=None, *args, **kwargs):
         '''
         Should probably retrieve the information for the course here
         so it appears in the form/pre-populates the fields.
@@ -191,7 +188,7 @@ class DetailJSONCourseView(APIView):
         for editing and post for creating.
         '''
         serializer = UpdateCourseSerializer(data=request.DATA)
-        print serializer
+        print serializer.data
         '''Also what exactly does is_valid do?'''
         if serializer.is_valid():
             '''There must be some way to automatically update a model?'''
@@ -273,7 +270,7 @@ class DocumentView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class AdminCourseStudentsView(APIView):
+class AdminStudentView(APIView):
     """
     This view interacts with backbone to allow instructors to
     view and edit students to their course, pk is for course.
@@ -283,49 +280,43 @@ class AdminCourseStudentsView(APIView):
             return Course.objects.get(pk=pk)
         except Course.DoesNotExist:
             raise Http404
-    # best way to get all users of a course? Should it be a model method
 
-    def get(self, request, pk, format=None):
+    def get(self, request, pk, format=None, *args, **kwargs):
         '''Retrieve students of course if there are any to list.'''
         course = self.get_object(pk)
-        students = course.get_students()
-        profile_list = UserProfile.objects.filter(course=course)
-        print profile_list
-        # profile_type=='ST')
-        student_list = []
-        for each in profile_list:
-            student = User.objects.filter(user_profile=each)
-            student_list.append(student)
-        serializer = UserSerializer(students, many=True)
-        return Response(serializer.data)
+        try:
+            students = course.get_students()
+            users = User.objects.filter(profile__in=students)
+            serializer = UserSerializer(users, many=True)
+            return Response(serializer.data)
+        except:
+            '''Assume collection is currently empty'''
+            return Response(status.HTTP_200_OK)
 
-    # def post(self, request, pk, format=None):
-    def post(self, request, pk, format=None):
+    def post(self, request, pk, format=None, *args, **kwargs):
         '''
         Add a Student
         Get course to associate with student and save, both in json.
         '''
-        print "Adding Student"
-        serializer = AddUserSerializer(data=request.DATA)
-        print serializer.DATA
+        course = self.get_object(pk)
+        serializer = UserSerializer(data=request.DATA)
         if serializer.is_valid():
-            course = self.get_object(pk)
             first_name = serializer.data['first_name']
             last_name = serializer.data['last_name']
-            # is a username required? create one automatically
             ini = first_name[0]
             username = str(ini) + str(last_name)
-            new_user = User.objects.create(username=username,
+            new_user = User.objects.create_user(username=username,
                                            first_name=first_name,
                                            last_name=last_name)
             new_profile = UserProfile.objects.create(course=course,
                                                      user=new_user,
                                                      profile_type='ST')
             new_profile.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data)
 
 
-class AdminCourseTeamsView(APIView):
+class AdminTeamView(APIView):
     """
     This view interacts with backbone to allow instructors to
     view and edit students to their course.
@@ -345,11 +336,11 @@ class AdminCourseTeamsView(APIView):
 
     def post(self, request, pk, format=None):
         '''Add a team.'''
-        # course = self.get_object(pk)
+        course = self.get_object(pk)
         serializer = TeamSerializer(data=request.DATA)
         if serializer.is_valid():
-            print serializer.data
             serializer.save()
+            course.team_set.add(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

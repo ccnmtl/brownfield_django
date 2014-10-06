@@ -92,8 +92,6 @@ var DocumentListView = Backbone.View.extend({
     	_.bindAll(this,
     			 'render',
     			 'initialRender');
-    	console.log(crs_id);
-    	console.log('inside initialize');
     	//create new collection to hold course documents
     	this.course_document_collection = new DocumentCollection();
     	this.course_document_collection.fetch({processData: true, reset: true});
@@ -121,19 +119,3 @@ var DocumentListView = Backbone.View.extend({
 
 
 var document_collection_view = new DocumentListView({el : jQuery('.documents_list')});
-
-// connecting the views to the html/page
-//jQuery('.documents_list').append(document_collection_view.render().el);
-
-//jQuery("#good_con input[name='conversation']").val();.course-activation .crs-activate 
-//jQuery('#activation-btn').click(console.log("button clicked"));
-//'click',
-//    function(){
-//        console.log("you clicked on the button");
-//});
-
-
-//        this.activationForm = this.$(".crs-activate");
-//	    this.activationButton = this.$(".crs-activate .btn btn-mini btn-success");
-//	    
-//	    this.activationButton.on('click', this.activateCourse);
