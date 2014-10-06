@@ -12,7 +12,7 @@ from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, RegistrationView, AdminStudentView, \
     TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, \
     UserCourseView, AllCourseView, ActivateCourseView, \
-    AdminTeamView
+    AdminTeamView, CCNMTLHomeView
 admin.autodiscover()
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
@@ -42,7 +42,10 @@ urlpatterns = patterns(
     url(r'^api-auth/', include('rest_framework.urls',
                                namespace='rest_framework')),
     (r'^$', HomeView.as_view()),
+    (r'^ccnmtl/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
     (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
+    # need to figure out url for students that doesn't not conflict with
+    # dashboard urls
     # Teacher and Admin Views
     (r'^course/$', CourseView.as_view()),
     (r'^course/(?P<pk>\d+)$', CourseView.as_view()),
@@ -56,7 +59,7 @@ urlpatterns = patterns(
     (r'^activate_course/$', ActivateCourseView.as_view()),
     (r'^student/$', AdminStudentView.as_view()),
     (r'^student/(?P<pk>\d+)$', AdminStudentView.as_view()),
-    (r'^team/(?P<pk>\d+)$', AdminTeamView.as_view()),
+    (r'^team/$', AdminTeamView.as_view()),
     (r'^team/(?P<pk>\d+)$', AdminTeamView.as_view()),
     # student/team views
     # Demo View

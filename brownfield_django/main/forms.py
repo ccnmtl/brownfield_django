@@ -1,19 +1,8 @@
 from django import forms
-from django.forms import ModelForm
 from registration.forms import RegistrationForm
 from registration.signals import user_registered
-from brownfield_django.main.models import UserProfile, Team, \
+from brownfield_django.main.models import UserProfile, \
     PROFILE_CHOICES
-
-
-class TeamForm(ModelForm):
-    class Meta:
-        model = Team
-
-
-class StudentForm(ModelForm):
-    class Meta:
-        model = UserProfile
 
 
 class CreateAccountForm(RegistrationForm):

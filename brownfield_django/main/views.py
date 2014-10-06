@@ -21,31 +21,33 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from brownfield_django.main.forms import CreateAccountForm
-from brownfield_django.main.models import Course, UserProfile, Document, Team
+from brownfield_django.main.models import Course, UserProfile, Document
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
     CompleteDocumentSerializer, TeamSerializer, CompleteCourseSerializer, \
     CourseNameIDSerializer, UserSerializer, UpdateCourseSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
-from brownfield_django.main.document_links import NAME_ONE, \
-    LINK_ONE, NAME_TWO, LINK_TWO
+from brownfield_django.main.document_links import NAME_1, \
+    LINK_1, NAME_2, LINK_2, NAME_3, LINK_3, NAME_4, LINK_4, \
+    NAME_5, LINK_5, NAME_6, LINK_6, NAME_7, LINK_7, NAME_8, LINK_8
 
 
 class HomeView(LoggedInMixin, View):
     '''redoing so that it simply redirects people where they need to be'''
 
     def get(self, request):
-        print "GET home view"
         try:
             user_profile = UserProfile.objects.get(user=request.user.pk)
         except UserProfile.DoesNotExist:
             return HttpResponseRedirect(reverse('register'))
 
-        if user_profile.is_student():
-            url = '/student/%s/' % (user_profile.id)
+        if user_profile.is_team():
+            url = '/team/%s/' % (user_profile.id)
         if user_profile.is_teacher():
             url = '/teacher/%s/' % (user_profile.id)
+        if user_profile.is_admin():
+            url = '/ccnmtl/%s/' % (user_profile.id)
 
         return HttpResponseRedirect(url)
 
@@ -86,12 +88,30 @@ class CourseView(APIView):
                 name=course_name,
                 professor=User.objects.get(pk=request.user.pk)
             )
-            d1 = Document.objects.create(course=new_course, name=NAME_ONE,
-                                         link=LINK_ONE)
+            d1 = Document.objects.create(course=new_course, name=NAME_1,
+                                         link=LINK_1)
             new_course.document_set.add(d1)
-            d2 = Document.objects.create(course=new_course, name=NAME_TWO,
-                                         link=LINK_TWO)
+            d2 = Document.objects.create(course=new_course, name=NAME_2,
+                                         link=LINK_2)
             new_course.document_set.add(d2)
+            d3 = Document.objects.create(course=new_course, name=NAME_3,
+                                         link=LINK_3)
+            new_course.document_set.add(d3)
+            d4 = Document.objects.create(course=new_course, name=NAME_4,
+                                         link=LINK_4)
+            new_course.document_set.add(d4)
+            d5 = Document.objects.create(course=new_course, name=NAME_5,
+                                         link=LINK_5)
+            new_course.document_set.add(d5)
+            d6 = Document.objects.create(course=new_course, name=NAME_6,
+                                         link=LINK_6)
+            new_course.document_set.add(d6)
+            d7 = Document.objects.create(course=new_course, name=NAME_7,
+                                         link=LINK_7)
+            new_course.document_set.add(d7)
+            d8 = Document.objects.create(course=new_course, name=NAME_8,
+                                         link=LINK_8)
+            new_course.document_set.add(d8)
             new_course.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -197,8 +217,10 @@ class DetailJSONCourseView(APIView):
 
 
 class ActivateCourseView(JSONResponseMixin, View):
-    '''Again I'm just using this view to get the Flash working,
-    no permissions or users'''
+    '''
+    The logic for activating a course should be out of
+    the Backbone related views
+    '''
 
     def post(self, request, *args, **kwargs):
         #print request.POST
@@ -319,7 +341,8 @@ class AdminStudentView(APIView):
 class AdminTeamView(APIView):
     """
     This view interacts with backbone to allow instructors to
-    view and edit students to their course.
+    view and add teams to their course. Will also probably be where
+    logic for keeping track of which students are where will be.
     """
     def get_object(self, pk):
         try:
@@ -330,19 +353,81 @@ class AdminTeamView(APIView):
     def get(self, request, pk, format=None):
         '''Send back all teams currently in course.'''
         course = self.get_object(pk)
-        teams = course.get_teams()
-        serializer = TeamSerializer(teams)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        try:
+            teams = course.get_teams()
+            serializer = TeamSerializer(teams, many=True)
+            return Response(serializer.data)
+        except:
+            '''Assume collection is currently empty'''
+            return Response(status.HTTP_200_OK)
 
-    def post(self, request, pk, format=None):
-        '''Add a team.'''
+#     def post(self, request, pk, format=None):
+#         '''Add a team.'''
+#         course = self.get_object(pk)
+#         print request.DATA
+#         username = request.DATA['name']
+#         password1 = request.DATA['password1']
+#         password2 = request.DATA['password2']
+#         if password1 == password2:
+#             print "passwords match"
+#             new_user = User.objects.create_user(username=username,
+#                                             password=password2)
+#             print "new_user"
+#             print new_user
+#             new_team = Team.objects.create(
+# team_entity=new_user, course=course)
+#             new_team.save()
+#             course.team_set.add(new_team)
+#             course.save()
+#             print "new_team"
+#             print new_team
+#             return Reponse(request.DATA, status=status.HTTP_201_CREATED)
+#         else:
+#             print "passwords dont match"
+#             return Response(
+# serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#        serializer = CreateTeamSerializer(data=request.DATA)
+#        print serializer.data
+#         if serializer.is_valid():
+#             serializer.save()
+#             course.team_set.add(serializer)
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors,
+# status=status.HTTP_400_BAD_REQUEST)
+
+
+class AddTeam(JSONResponseMixin, View):
+    '''
+    Couldn't figure out how to add team with serializers and backbone,
+    sticking in here to get it done fast.
+    '''
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def post(self, request, pk, *args, **kwargs):
         course = self.get_object(pk)
-        serializer = TeamSerializer(data=request.DATA)
-        if serializer.is_valid():
-            serializer.save()
-            course.team_set.add(serializer)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        username = self.get_object(pk)
+        username = request.POST['name']
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+        if password1 == password2:
+            print "passwords match"
+            new_user = User.objects.create_user(username=username,
+                                                password=password2)
+            print "new_user"
+            print new_user
+            new_team = UserProfile.objects.create(user=new_user, course=course)
+            new_team.save()
+            course.team_set.add(new_team)
+            course.save()
+            print "new_team"
+            print new_team
+            return self.render_to_json_response({'success': True})
+        else:
+            return self.render_to_json_response({'success': False})
 
 
 class TeacherHomeView(DetailView):
@@ -364,6 +449,28 @@ class TeacherCourseDetail(DetailView):
     success_url = '/'
 
 
+class CCNMTLHomeView(DetailView):
+
+    model = UserProfile
+    template_name = 'main/ccnmtl/ccnmtl_home.html'
+    success_url = '/'
+
+    def dispatch(self, *args, **kwargs):
+        if int(kwargs.get('pk')) != self.request.user.profile.id:
+            return HttpResponseForbidden("forbidden")
+        return super(TeacherHomeView, self).dispatch(*args, **kwargs)
+
+
+class CCNMTLCourseDetail(DetailView):
+
+    model = Course
+    template_name = 'main/instructor/course_home.html'
+    success_url = '/'
+
+
+'''Beginning of Team Views'''
+
+
 class TeamHomeView(DetailView):
     '''If team has signed their contract they are allowed to play,
     if they have not signed their contract they are redirected
@@ -380,7 +487,7 @@ class TeamHomeView(DetailView):
     @expose(template='json', accept_format='text/javascript')
     @require_owns_resource()
     '''
-    model = Team
+    model = UserProfile
     template_name = 'main/team_home.html'
     success_url = '/'
 

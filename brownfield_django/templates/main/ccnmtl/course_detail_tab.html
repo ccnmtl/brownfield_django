@@ -6,18 +6,10 @@
         {{object.message}}
     </div><!-- End Course Message -->
 
+    <h3>Course Documents</h3>
+    <form id="upt-doc-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
     <div class="documents_list">
-        <h3>Course Documents</h3>
-
-        <ul>
-            {% for d in object.get_documents %}
-            <li>
-                <a href=/document/{{d.pk}}> {{ d.name }} </a> State: {{o.visibile}}
-            </li>
-            {% empty %}
-            <li>There are no documents yet.</li>
-            {% endfor %}
-        </ul>
+        
     </div><!-- End Document List -->
 
 
@@ -33,6 +25,7 @@
             <!-- <div id="collapseForm" class="panel-collapse collapse in"> -->
             <div id="collapseForm" class="panel-collapse collapse">
                 <div class="panel-body">
+                    <form id="upt-crs-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
                     {{object.get_course_form.as_p}}
                 </div><!-- End panel body -->
             </div><!-- End collapsing Form -->
@@ -53,9 +46,11 @@
             </p>
         </div><!-- End Course Activation Info -->
         <div class="crs-activate">
-            <button class="btn btn-mini btn-success">
+            <form id="act-crs-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
+            <input type="hidden" name="crs-id" value="{{object.pk}}"/>
+            <button id="activation-btn" type="button">
                 Activate Course
-            </button>
+            </button><br /><br />
         </div>
     </div><!-- End Course Activation -->
     

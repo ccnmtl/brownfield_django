@@ -12,9 +12,9 @@ var Student= Backbone.Model.extend({
     initialize: function(attributes) 
 	{   
 	    first_name = attributes.first_name || '<EMPTY>';
-	    last_name = attributes.last_name || '<EMPTY>';
-	    console.log("Initializing a new student model for '" +
-	    		first_name + " " +  last_name + "'.");
+	    last_name = attributes.last_name || '<EMPTY>'//;
+	    //console.log("Initializing a new student model for '" +
+	    //		first_name + " " +  last_name + "'.");
 	}
 	    
 });
@@ -144,37 +144,3 @@ var StudentControlView = Backbone.View.extend({
 });// End UserControlView  
 
 var student_control_view = new StudentControlView({el : jQuery('.student_controls')});
-
-
-//var team_collection_view = new TeamListView({el : jQuery('#course-teams')});
-//
-//
-//var StudentControlView = Backbone.View.extend({
-//
-//    events: {
-//	//'click .edit-crs' : 'edit',
-//	'click .add-std' : 'showStudentForm',
-//	'click .submit' :	'addStudent'
-//    },
-//
-//    showStudentForm: function(e) {
-//		console.log("clicked on show student form");
-//		jQuery(".add-std").hide();
-//		jQuery(".add-std-frm-title").show();
-//		jQuery(".add-std-frm").show();
-//    },
-//
-//    addStudent: function(course) {
-//    	
-//    	user_course_collection_view.user_course_collection.create(
-//    	{
-//    				name : jQuery(".crs-name").val()
-//    	});
-//
-//	    jQuery(".add-std-frm-title").hide();
-//	    jQuery(".add-std-frm").hide()
-//    }
-//});// End UserControlView  
-//
-//var student_control_view = new StudentControlView({el : jQuery('.team_controls')});
-

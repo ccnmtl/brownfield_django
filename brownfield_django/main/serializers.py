@@ -1,7 +1,7 @@
 # from django.forms import widgets
 from django.contrib.auth.models import User  # , Group
 from rest_framework import serializers
-from brownfield_django.main.models import Course, Team, Document, UserProfile
+from brownfield_django.main.models import Course, Document, UserProfile
 
 
 class AddCourseByNameSerializer(serializers.HyperlinkedModelSerializer):
@@ -56,10 +56,16 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ('profile_type', 'course', 'team')
 
 
+class CreateTeamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ('name', 'password1', 'password2')
+
+
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Team
-        fields = ('name', 'course', 'team_entity', 'signed_contract', 'budget')
+        model = UserProfile
+        fields = ('name', 'signed_contract', 'budget')
 
 
 class ListUserCoursesSerializer(serializers.HyperlinkedModelSerializer):

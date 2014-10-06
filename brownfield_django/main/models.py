@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 PROFILE_CHOICES = (
     ('AD', 'Administrator'),
     ('TE', 'Teacher'),
-    ('ST', 'Student'),
+    ('TM', 'Team'),
 )
 
 
@@ -51,12 +51,8 @@ class Course(models.Model):
     def __unicode__(self):
         return self.name
 
-    def get_students(self):
-        return self.userprofile_set.filter(profile_type='ST')
-
     def get_teams(self):
-        teams = Team.objects.filter(course=self)
-        return teams
+        return self.userprofile_set.filter(profile_type='TM')
 
     def get_documents(self):
         documents = Document.objects.filter(course=self)
@@ -81,39 +77,39 @@ class Document(models.Model):
     # in old application content is href not sure if it should be but...
 
 
-class Team(models.Model):
-    '''Team: A team will have one login/username
-    All accounting/history/actions is by team.
-    SINCE USER PROFILE IS A TEAM DO WE NEED TO
-    MAKE THIS HAVE A RELATION TO USER< OR JUST USE
-    THIS TO STORE USER TYPE TEAM DATA?
-    '''
-    name = models.CharField(max_length=255)
-    course = models.ForeignKey(Course)
-    team_entity = models.OneToOneField(User)
-    signed_contract = models.BooleanField(default=False)
-    budget = models.PositiveIntegerField(default=65000)
-
-    class Meta:
-        '''We don't want teams with the same name in a course'''
-        ordering = ['name']
-        unique_together = ['name', 'course']
-
-    def __unicode__(self):
-        return self.name
-
-    def get_members(self):
-        try:
-            members = self.userprofile_set.all()
-            return members
-        except:
-            return None
-
-    def get_signed_contract(self):
-        return self.signed_contract
-
-    def get_course(self):
-        return self.course
+# class Team(models.Model):
+#     '''Team: A team will have one login/username
+#     All accounting/history/actions is by team.
+#     SINCE USER PROFILE IS A TEAM DO WE NEED TO
+#     MAKE THIS HAVE A RELATION TO USER< OR JUST USE
+#     THIS TO STORE USER TYPE TEAM DATA?
+#     '''
+#     course = models.ForeignKey(Course)
+#     team_entity = models.OneToOneField(User, related_name="team")
+#
+#
+#     '''How to specify the reverse
+#     relationship to user?'''
+# #     class Meta:
+# #         '''We don't want teams with the same name in a course'''
+# #         ordering = ['name']
+# #         unique_together = ['name', 'course']
+#
+#     def __unicode__(self):
+#         return self.name
+#
+#     def get_members(self):
+#         try:
+#             members = self.userprofile_set.all()
+#             return members
+#         except:
+#             return None
+#
+#     def get_signed_contract(self):
+#         return self.signed_contract
+#
+#     def get_course(self):
+#         return self.course
 
 
 class UserProfile(models.Model):
@@ -123,7 +119,12 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name="profile")
     profile_type = models.CharField(max_length=2, choices=PROFILE_CHOICES)
     course = models.ForeignKey(Course, null=True, default=None, blank=True)
-    team = models.ForeignKey(Team, null=True, default=None, blank=True)
+    '''
+    Even though these are only applicable to a Team
+    I'm sticking them here.
+    '''
+    signed_contract = models.BooleanField(default=False)
+    budget = models.PositiveIntegerField(default=65000)
 
     def __unicode__(self):
         return self.user.username
@@ -134,8 +135,8 @@ class UserProfile(models.Model):
     def display_name(self):
         return self.user.username
 
-    def is_student(self):
-        return self.profile_type == 'ST'
+    def is_team(self):
+        return self.profile_type == 'TM'
 
     def is_teacher(self):
         return self.profile_type == 'TE'
@@ -144,8 +145,8 @@ class UserProfile(models.Model):
         return self.profile_type == 'AD'
 
     def role(self):
-        if self.is_student():
-            return "student"
+        if self.is_team():
+            return "team"
         elif self.is_teacher():
             return "faculty"
         elif self.is_adminr():
@@ -153,7 +154,7 @@ class UserProfile(models.Model):
 
 
 class History(models.Model):
-    team = models.ForeignKey(Team)
+    team = models.ForeignKey(UserProfile)
     date = models.DateTimeField(default=datetime.datetime.now)
     description = models.CharField(max_length=255)
     cost = models.IntegerField(default=0)

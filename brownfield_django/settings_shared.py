@@ -169,7 +169,7 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
-COMPRESS_URL = "/media/"
+# COMPRESS_URL = "/media/"
 COMPRESS_ROOT = "media/"
 
 # WIND settings

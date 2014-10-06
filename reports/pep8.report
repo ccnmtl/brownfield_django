@@ -1,17 +1,18 @@
-brownfield_django/main/document_links.py:3:9: E225 missing whitespace around operator
-brownfield_django/main/document_links.py:4:80: E501 line too long (268 > 79 characters)
-brownfield_django/main/document_links.py:5:9: E225 missing whitespace around operator
-brownfield_django/main/document_links.py:6:80: E501 line too long (263 > 79 characters)
-brownfield_django/main/document_links.py:7:11: E225 missing whitespace around operator
-brownfield_django/main/document_links.py:8:80: E501 line too long (145 > 79 characters)
-brownfield_django/main/document_links.py:9:10: E225 missing whitespace around operator
-brownfield_django/main/document_links.py:10:80: E501 line too long (161 > 79 characters)
-brownfield_django/main/document_links.py:11:10: E225 missing whitespace around operator
-brownfield_django/main/document_links.py:12:80: E501 line too long (161 > 79 characters)
-brownfield_django/main/document_links.py:13:9: E225 missing whitespace around operator
-brownfield_django/main/document_links.py:14:80: E501 line too long (146 > 79 characters)
-brownfield_django/main/document_links.py:15:11: E225 missing whitespace around operator
-brownfield_django/main/document_links.py:16:80: E501 line too long (168 > 79 characters)
-brownfield_django/main/document_links.py:17:11: E225 missing whitespace around operator
-brownfield_django/main/document_links.py:18:80: E501 line too long (171 > 79 characters)
-brownfield_django/main/document_links.py:18:172: W292 no newline at end of file
+brownfield_django/main/document_links.py:3:7: E225 missing whitespace around operator
+brownfield_django/main/document_links.py:4:80: E501 line too long (266 > 79 characters)
+brownfield_django/main/document_links.py:5:7: E225 missing whitespace around operator
+brownfield_django/main/document_links.py:6:80: E501 line too long (261 > 79 characters)
+brownfield_django/main/document_links.py:7:7: E225 missing whitespace around operator
+brownfield_django/main/document_links.py:8:80: E501 line too long (141 > 79 characters)
+brownfield_django/main/document_links.py:9:7: E225 missing whitespace around operator
+brownfield_django/main/document_links.py:10:80: E501 line too long (158 > 79 characters)
+brownfield_django/main/document_links.py:11:7: E225 missing whitespace around operator
+brownfield_django/main/document_links.py:12:80: E501 line too long (158 > 79 characters)
+brownfield_django/main/document_links.py:13:7: E225 missing whitespace around operator
+brownfield_django/main/document_links.py:14:80: E501 line too long (144 > 79 characters)
+brownfield_django/main/document_links.py:15:7: E225 missing whitespace around operator
+brownfield_django/main/document_links.py:16:80: E501 line too long (164 > 79 characters)
+brownfield_django/main/document_links.py:17:7: E225 missing whitespace around operator
+brownfield_django/main/document_links.py:18:80: E501 line too long (167 > 79 characters)
+brownfield_django/main/document_links.py:18:168: W292 no newline at end of file
+brownfield_django/main/tests/test_admin_views.py:40:49: W291 trailing whitespace

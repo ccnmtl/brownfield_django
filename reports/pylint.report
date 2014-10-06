@@ -1,119 +1,126 @@
-brownfield_django/main/forms.py:39: [E1101, CreateAccountForm.clean_profile_type] Instance of 'CreateAccountForm' has no 'cleaned_data' member
-brownfield_django/main/forms.py:52: [E1101, user_created] Instance of 'CreateAccountForm' has no 'data' member
+brownfield_django/main/forms.py:28: [E1101, CreateAccountForm.clean_profile_type] Instance of 'CreateAccountForm' has no 'cleaned_data' member
+brownfield_django/main/forms.py:41: [E1101, user_created] Instance of 'CreateAccountForm' has no 'data' member
 brownfield_django/main/models.py:28: [W0105] String statement has no effect
-brownfield_django/main/models.py:55: [E1101, Course.get_students] Instance of 'Course' has no 'userprofile_set' member
-brownfield_django/main/models.py:107: [E1101, Team.get_members] Instance of 'Team' has no 'userprofile_set' member
-brownfield_django/main/models.py:129: [E1101, UserProfile.__unicode__] Instance of 'OneToOneField' has no 'username' member
-brownfield_django/main/models.py:135: [E1101, UserProfile.display_name] Instance of 'OneToOneField' has no 'username' member
-brownfield_django/main/models.py:151: [E1101, UserProfile.role] Instance of 'UserProfile' has no 'is_adminr' member
-brownfield_django/main/document_links.py:4: [C0301] Line too long (268/160)
-brownfield_django/main/document_links.py:6: [C0301] Line too long (263/160)
-brownfield_django/main/document_links.py:10: [C0301] Line too long (161/160)
-brownfield_django/main/document_links.py:12: [C0301] Line too long (161/160)
-brownfield_django/main/document_links.py:16: [C0301] Line too long (168/160)
-brownfield_django/main/document_links.py:18: [C0301] Line too long (171/160)
+brownfield_django/main/models.py:55: [E1101, Course.get_teams] Instance of 'Course' has no 'userprofile_set' member
+brownfield_django/main/models.py:125: [W0105, UserProfile] String statement has no effect
+brownfield_django/main/models.py:130: [E1101, UserProfile.__unicode__] Instance of 'OneToOneField' has no 'username' member
+brownfield_django/main/models.py:136: [E1101, UserProfile.display_name] Instance of 'OneToOneField' has no 'username' member
+brownfield_django/main/models.py:152: [E1101, UserProfile.role] Instance of 'UserProfile' has no 'is_adminr' member
+brownfield_django/main/document_links.py:4: [C0301] Line too long (266/160)
+brownfield_django/main/document_links.py:6: [C0301] Line too long (261/160)
+brownfield_django/main/document_links.py:16: [C0301] Line too long (164/160)
+brownfield_django/main/document_links.py:18: [C0301] Line too long (167/160)
 brownfield_django/main/document_links.py:3: [C0322] Operator not preceded by a space
-NAME_ONE='''Video: Esker County Community Television: O'Ryan's Express'''
-        ^
+NAME_1='''Video: Esker County Community Television: O'Ryan's Express'''
+      ^
 brownfield_django/main/document_links.py:5: [C0322] Operator not preceded by a space
-NAME_TWO='''Video: Press Conference Proceedings in Moraine Township'''
-        ^
+NAME_2='''Video: Press Conference Proceedings in Moraine Township'''
+      ^
 brownfield_django/main/document_links.py:7: [C0322] Operator not preceded by a space
-NAME_THREE='''News: Local Residents React to Prospect of Mall Plans'''
-          ^
+NAME_3='''News: Local Residents React to Prospect of Mall Plans'''
+      ^
 brownfield_django/main/document_links.py:9: [C0322] Operator not preceded by a space
-NAME_FOUR='''News: Water Testing Results Still Pending'''
-         ^
+NAME_4='''News: Water Testing Results Still Pending'''
+      ^
 brownfield_django/main/document_links.py:11: [C0322] Operator not preceded by a space
-NAME_FIVE='''News: Water Testing Reveal Contamination'''
-         ^
+NAME_5='''News: Water Testing Reveal Contamination'''
+      ^
 brownfield_django/main/document_links.py:13: [C0322] Operator not preceded by a space
-NAME_SIX='''News: IRS Explores Terrain'''
-        ^
+NAME_6='''News: IRS Explores Terrain'''
+      ^
 brownfield_django/main/document_links.py:15: [C0322] Operator not preceded by a space
-NAME_SEVEN='''News: Doctor Still Haunted By Death of Patient'''
-          ^
+NAME_7='''News: Doctor Still Haunted By Death of Patient'''
+      ^
 brownfield_django/main/document_links.py:17: [C0322] Operator not preceded by a space
-NAME_EIGHT='''Link: Brownfield Action Reference Site'''
-          ^
+NAME_8='''Link: Brownfield Action Reference Site'''
+      ^
 brownfield_django/main/admin.py:15: [E0102, UserAdmin] class already defined line 2
 brownfield_django/main/admin.py:15: [R0904, UserAdmin] Too many public methods (58/50)
 brownfield_django/main/admin.py:19: [R0904, UserProfileAdmin] Too many public methods (57/50)
-brownfield_django/main/views.py:1: [C0302] Too many lines in module (527)
-brownfield_django/main/views.py:53: [R0901, RegistrationView] Too many ancestors (8/7)
-brownfield_django/main/views.py:74: [W0622, CourseView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:77: [W0622, CourseView.post] Redefining built-in 'format'
-brownfield_django/main/views.py:83: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'is_valid' member
-brownfield_django/main/views.py:84: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'data' member
-brownfield_django/main/views.py:89: [C0103, CourseView.post] Invalid name "d1" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/views.py:92: [C0103, CourseView.post] Invalid name "d2" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/views.py:96: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'data' member
-brownfield_django/main/views.py:97: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'errors' member
-brownfield_django/main/views.py:99: [W0622, CourseView.update] Redefining built-in 'format'
-brownfield_django/main/views.py:107: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'is_valid' member
-brownfield_django/main/views.py:108: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
-brownfield_django/main/views.py:113: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
-brownfield_django/main/views.py:114: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'errors' member
-brownfield_django/main/views.py:116: [W0622, CourseView.delete] Redefining built-in 'format'
-brownfield_django/main/views.py:122: [C0103, CourseView.delete] Invalid name "ac" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/views.py:126: [C0103, CourseView.delete] Invalid name "ac" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/views.py:138: [W0622, UserCourseView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:142: [E1101, UserCourseView.get] Instance of 'CourseNameIDSerializer' has no 'data' member
-brownfield_django/main/views.py:155: [W0622, AllCourseView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:158: [E1101, AllCourseView.get] Instance of 'CourseNameIDSerializer' has no 'data' member
-brownfield_django/main/views.py:175: [W0622, DetailJSONCourseView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:183: [E1101, DetailJSONCourseView.get] Instance of 'CompleteCourseSerializer' has no 'data' member
-brownfield_django/main/views.py:185: [W0622, DetailJSONCourseView.update] Redefining built-in 'format'
-brownfield_django/main/views.py:191: [E1101, DetailJSONCourseView.update] Instance of 'UpdateCourseSerializer' has no 'data' member
-brownfield_django/main/views.py:192: [W0105, DetailJSONCourseView.update] String statement has no effect
-brownfield_django/main/views.py:193: [E1101, DetailJSONCourseView.update] Instance of 'UpdateCourseSerializer' has no 'is_valid' member
-brownfield_django/main/views.py:194: [W0105, DetailJSONCourseView.update] String statement has no effect
-brownfield_django/main/views.py:195: [E1101, DetailJSONCourseView.update] Instance of 'UpdateCourseSerializer' has no 'is_valid' member
-brownfield_django/main/views.py:196: [E1101, DetailJSONCourseView.update] Instance of 'UpdateCourseSerializer' has no 'data' member
-brownfield_django/main/views.py:248: [W0622, DocumentView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:256: [E1101, DocumentView.get] Instance of 'CompleteDocumentSerializer' has no 'data' member
-brownfield_django/main/views.py:258: [W0622, DocumentView.put] Redefining built-in 'format'
-brownfield_django/main/views.py:270: [E1101, DocumentView.put] Instance of 'CompleteDocumentSerializer' has no 'data' member
-brownfield_django/main/views.py:284: [W0622, AdminStudentView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:291: [E1101, AdminStudentView.get] Instance of 'UserSerializer' has no 'data' member
-brownfield_django/main/views.py:293: [W0105, AdminStudentView.get] String statement has no effect
-brownfield_django/main/views.py:296: [W0622, AdminStudentView.post] Redefining built-in 'format'
-brownfield_django/main/views.py:303: [E1101, AdminStudentView.post] Instance of 'UserSerializer' has no 'is_valid' member
-brownfield_django/main/views.py:304: [E1101, AdminStudentView.post] Instance of 'UserSerializer' has no 'data' member
-brownfield_django/main/views.py:305: [E1101, AdminStudentView.post] Instance of 'UserSerializer' has no 'data' member
-brownfield_django/main/views.py:315: [E1101, AdminStudentView.post] Instance of 'UserSerializer' has no 'data' member
-brownfield_django/main/views.py:316: [E1101, AdminStudentView.post] Instance of 'UserSerializer' has no 'data' member
-brownfield_django/main/views.py:330: [W0622, AdminTeamView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:335: [E1101, AdminTeamView.get] Instance of 'TeamSerializer' has no 'data' member
-brownfield_django/main/views.py:337: [W0622, AdminTeamView.post] Redefining built-in 'format'
-brownfield_django/main/views.py:341: [E1101, AdminTeamView.post] Instance of 'TeamSerializer' has no 'is_valid' member
-brownfield_django/main/views.py:342: [E1101, AdminTeamView.post] Instance of 'TeamSerializer' has no 'save' member
-brownfield_django/main/views.py:344: [E1101, AdminTeamView.post] Instance of 'TeamSerializer' has no 'data' member
-brownfield_django/main/views.py:345: [E1101, AdminTeamView.post] Instance of 'TeamSerializer' has no 'errors' member
-brownfield_django/main/views.py:348: [R0901, TeacherHomeView] Too many ancestors (8/7)
-brownfield_django/main/views.py:355: [E1101, TeacherHomeView.dispatch] Instance of 'TeacherHomeView' has no 'request' member
-brownfield_django/main/views.py:360: [R0901, TeacherCourseDetail] Too many ancestors (8/7)
-brownfield_django/main/views.py:367: [R0901, TeamHomeView] Too many ancestors (8/7)
-brownfield_django/main/views.py:388: [E1101, TeamHomeView.dispatch] Instance of 'TeamHomeView' has no 'request' member
-brownfield_django/main/views.py:402: [W0105] String statement has no effect
-brownfield_django/main/views.py:452: [W0622, DemoHistoryView.get] Redefining built-in 'format'
-brownfield_django/main/views.py:498: [R0901, StudentHomeView] Too many ancestors (8/7)
-brownfield_django/main/views.py:506: [E1101, StudentHomeView.dispatch] Instance of 'StudentHomeView' has no 'request' member
+brownfield_django/main/views.py:1: [C0302] Too many lines in module (634)
+brownfield_django/main/views.py:55: [R0901, RegistrationView] Too many ancestors (8/7)
+brownfield_django/main/views.py:76: [W0622, CourseView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:79: [W0622, CourseView.post] Redefining built-in 'format'
+brownfield_django/main/views.py:79: [R0914, CourseView.post] Too many local variables (16/15)
+brownfield_django/main/views.py:85: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'is_valid' member
+brownfield_django/main/views.py:86: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'data' member
+brownfield_django/main/views.py:91: [C0103, CourseView.post] Invalid name "d1" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:94: [C0103, CourseView.post] Invalid name "d2" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:97: [C0103, CourseView.post] Invalid name "d3" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:100: [C0103, CourseView.post] Invalid name "d4" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:103: [C0103, CourseView.post] Invalid name "d5" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:106: [C0103, CourseView.post] Invalid name "d6" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:109: [C0103, CourseView.post] Invalid name "d7" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:112: [C0103, CourseView.post] Invalid name "d8" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:116: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'data' member
+brownfield_django/main/views.py:117: [E1101, CourseView.post] Instance of 'AddCourseByNameSerializer' has no 'errors' member
+brownfield_django/main/views.py:119: [W0622, CourseView.update] Redefining built-in 'format'
+brownfield_django/main/views.py:127: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'is_valid' member
+brownfield_django/main/views.py:128: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
+brownfield_django/main/views.py:133: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'data' member
+brownfield_django/main/views.py:134: [E1101, CourseView.update] Instance of 'CompleteCourseSerializer' has no 'errors' member
+brownfield_django/main/views.py:136: [W0622, CourseView.delete] Redefining built-in 'format'
+brownfield_django/main/views.py:142: [C0103, CourseView.delete] Invalid name "ac" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:146: [C0103, CourseView.delete] Invalid name "ac" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/views.py:158: [W0622, UserCourseView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:162: [E1101, UserCourseView.get] Instance of 'CourseNameIDSerializer' has no 'data' member
+brownfield_django/main/views.py:175: [W0622, AllCourseView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:178: [E1101, AllCourseView.get] Instance of 'CourseNameIDSerializer' has no 'data' member
+brownfield_django/main/views.py:195: [W0622, DetailJSONCourseView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:203: [E1101, DetailJSONCourseView.get] Instance of 'CompleteCourseSerializer' has no 'data' member
+brownfield_django/main/views.py:205: [W0622, DetailJSONCourseView.update] Redefining built-in 'format'
+brownfield_django/main/views.py:211: [E1101, DetailJSONCourseView.update] Instance of 'UpdateCourseSerializer' has no 'data' member
+brownfield_django/main/views.py:212: [W0105, DetailJSONCourseView.update] String statement has no effect
+brownfield_django/main/views.py:213: [E1101, DetailJSONCourseView.update] Instance of 'UpdateCourseSerializer' has no 'is_valid' member
+brownfield_django/main/views.py:214: [W0105, DetailJSONCourseView.update] String statement has no effect
+brownfield_django/main/views.py:215: [E1101, DetailJSONCourseView.update] Instance of 'UpdateCourseSerializer' has no 'is_valid' member
+brownfield_django/main/views.py:216: [E1101, DetailJSONCourseView.update] Instance of 'UpdateCourseSerializer' has no 'data' member
+brownfield_django/main/views.py:270: [W0622, DocumentView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:278: [E1101, DocumentView.get] Instance of 'CompleteDocumentSerializer' has no 'data' member
+brownfield_django/main/views.py:280: [W0622, DocumentView.put] Redefining built-in 'format'
+brownfield_django/main/views.py:292: [E1101, DocumentView.put] Instance of 'CompleteDocumentSerializer' has no 'data' member
+brownfield_django/main/views.py:306: [W0622, AdminStudentView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:313: [E1101, AdminStudentView.get] Instance of 'UserSerializer' has no 'data' member
+brownfield_django/main/views.py:315: [W0105, AdminStudentView.get] String statement has no effect
+brownfield_django/main/views.py:318: [W0622, AdminStudentView.post] Redefining built-in 'format'
+brownfield_django/main/views.py:325: [E1101, AdminStudentView.post] Instance of 'UserSerializer' has no 'is_valid' member
+brownfield_django/main/views.py:326: [E1101, AdminStudentView.post] Instance of 'UserSerializer' has no 'data' member
+brownfield_django/main/views.py:327: [E1101, AdminStudentView.post] Instance of 'UserSerializer' has no 'data' member
+brownfield_django/main/views.py:337: [E1101, AdminStudentView.post] Instance of 'UserSerializer' has no 'data' member
+brownfield_django/main/views.py:338: [E1101, AdminStudentView.post] Instance of 'UserSerializer' has no 'data' member
+brownfield_django/main/views.py:353: [W0622, AdminTeamView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:359: [E1101, AdminTeamView.get] Instance of 'TeamSerializer' has no 'data' member
+brownfield_django/main/views.py:361: [W0105, AdminTeamView.get] String statement has no effect
+brownfield_django/main/views.py:433: [R0901, TeacherHomeView] Too many ancestors (8/7)
+brownfield_django/main/views.py:440: [E1101, TeacherHomeView.dispatch] Instance of 'TeacherHomeView' has no 'request' member
+brownfield_django/main/views.py:445: [R0901, TeacherCourseDetail] Too many ancestors (8/7)
+brownfield_django/main/views.py:452: [R0901, CCNMTLHomeView] Too many ancestors (8/7)
+brownfield_django/main/views.py:458: [E1003, CCNMTLHomeView.dispatch] Bad first argument 'TeacherHomeView' given to super class
+brownfield_django/main/views.py:459: [E1101, CCNMTLHomeView.dispatch] Instance of 'CCNMTLHomeView' has no 'request' member
+brownfield_django/main/views.py:464: [R0901, CCNMTLCourseDetail] Too many ancestors (8/7)
+brownfield_django/main/views.py:471: [W0105] String statement has no effect
+brownfield_django/main/views.py:474: [R0901, TeamHomeView] Too many ancestors (8/7)
+brownfield_django/main/views.py:495: [E1101, TeamHomeView.dispatch] Instance of 'TeamHomeView' has no 'request' member
+brownfield_django/main/views.py:509: [W0105] String statement has no effect
+brownfield_django/main/views.py:559: [W0622, DemoHistoryView.get] Redefining built-in 'format'
+brownfield_django/main/views.py:605: [R0901, StudentHomeView] Too many ancestors (8/7)
+brownfield_django/main/views.py:613: [E1101, StudentHomeView.dispatch] Instance of 'StudentHomeView' has no 'request' member
+brownfield_django/main/tests/test_team_views.py:8: [W0403] Relative import 'factories', should be 'brownfield_django.main.tests.factories'
+brownfield_django/main/tests/test_team_views.py:19: [E1101, TestTeamLogin.setUp] Instance of 'SubFactory' has no 'username' member
+brownfield_django/main/tests/test_team_views.py:13: [R0904, TestTeamLogin] Too many public methods (67/50)
 brownfield_django/main/tests/test_models.py:6: [W0403] Relative import 'factories', should be 'brownfield_django.main.tests.factories'
 brownfield_django/main/tests/test_models.py:11: [R0904, TestUserFactory] Too many public methods (66/50)
 brownfield_django/main/tests/test_models.py:17: [R0904, TestCourseFactory] Too many public methods (66/50)
-brownfield_django/main/tests/test_models.py:23: [R0904, TestTeamFactory] Too many public methods (66/50)
-brownfield_django/main/tests/test_models.py:29: [R0904, TestHistoryFactory] Too many public methods (66/50)
-brownfield_django/main/tests/test_models.py:37: [C0103, TestPerformedTestFactory.test_unicode] Invalid name "pt" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/tests/test_models.py:35: [R0904, TestPerformedTestFactory] Too many public methods (66/50)
-brownfield_django/main/tests/test_models.py:43: [C0103, TestUserProfileFactory.test_unicode] Invalid name "up" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
-brownfield_django/main/tests/test_models.py:44: [E1101, TestUserProfileFactory.test_unicode] Instance of 'SubFactory' has no 'username' member
-brownfield_django/main/tests/test_models.py:41: [R0904, TestUserProfileFactory] Too many public methods (66/50)
-brownfield_django/main/tests/test_models.py:50: [E1103, TestTeacherProfileFactory.test_unicode] Instance of 'SubFactory' has no 'username' member (but some types could not be inferred)
-brownfield_django/main/tests/test_models.py:47: [R0904, TestTeacherProfileFactory] Too many public methods (66/50)
-brownfield_django/main/tests/test_models.py:56: [E1101, TestStudentProfileFactory.test_unicode] Instance of 'SubFactory' has no 'username' member
-brownfield_django/main/tests/test_models.py:53: [R0904, TestStudentProfileFactory] Too many public methods (66/50)
-brownfield_django/main/tests/test_views.py:10: [W0403] Relative import 'factories', should be 'brownfield_django.main.tests.factories'
+brownfield_django/main/tests/test_models.py:23: [R0904, TestHistoryFactory] Too many public methods (66/50)
+brownfield_django/main/tests/test_models.py:31: [C0103, TestPerformedTestFactory.test_unicode] Invalid name "pt" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/tests/test_models.py:29: [R0904, TestPerformedTestFactory] Too many public methods (66/50)
+brownfield_django/main/tests/test_models.py:37: [C0103, TestUserProfileFactory.test_unicode] Invalid name "up" for type variable (should match [a-z_][a-z0-9_]{2,30}$)
+brownfield_django/main/tests/test_models.py:38: [E1101, TestUserProfileFactory.test_unicode] Instance of 'SubFactory' has no 'username' member
+brownfield_django/main/tests/test_models.py:35: [R0904, TestUserProfileFactory] Too many public methods (66/50)
+brownfield_django/main/tests/test_models.py:44: [E1103, TestTeacherProfileFactory.test_unicode] Instance of 'SubFactory' has no 'username' member (but some types could not be inferred)
+brownfield_django/main/tests/test_models.py:41: [R0904, TestTeacherProfileFactory] Too many public methods (66/50)
+brownfield_django/main/tests/test_models.py:50: [E1101, TestTeamProfileFactory.test_unicode] Instance of 'SubFactory' has no 'username' member
+brownfield_django/main/tests/test_models.py:47: [R0904, TestTeamProfileFactory] Too many public methods (66/50)
 brownfield_django/main/tests/test_views.py:31: [W0105] String statement has no effect
 brownfield_django/main/tests/test_views.py:36: [C0103, BasicTest.setUp] Invalid name "c" for type attribute (should match [a-z_][a-z0-9_]{2,30}$)
 brownfield_django/main/tests/test_views.py:34: [R0904, BasicTest] Too many public methods (67/50)
@@ -134,36 +141,154 @@ brownfield_django/main/tests/test_views.py:102: [C0103, PagetreeViewTestsLoggedI
 brownfield_django/main/tests/test_views.py:76: [R0904, PagetreeViewTestsLoggedIn] Too many public methods (68/50)
 brownfield_django/main/tests/test_views.py:106: [R0904, TestAnnonymousUserLogin] Too many public methods (66/50)
 brownfield_django/main/tests/test_views.py:119: [R0904, TestStudentUserLogin] Too many public methods (65/50)
-brownfield_django/main/tests/test_views.py:134: [E1103, TestInstructorLogin.setUp] Instance of 'SubFactory' has no 'username' member (but some types could not be inferred)
-brownfield_django/main/tests/test_views.py:141: [E1103, TestInstructorLogin.test_home] Instance of 'SubFactory' has no 'profile' member (but some types could not be inferred)
-brownfield_django/main/tests/test_views.py:179: [W0105, TestInstructorLogin] String statement has no effect
-brownfield_django/main/tests/test_views.py:198: [W0105, TestInstructorLogin] String statement has no effect
-brownfield_django/main/tests/test_views.py:233: [W0105, TestInstructorLogin] String statement has no effect
-brownfield_django/main/tests/test_views.py:126: [R0904, TestInstructorLogin] Too many public methods (80/50)
+brownfield_django/main/tests/test_teacher_views.py:10: [W0403] Relative import 'factories', should be 'brownfield_django.main.tests.factories'
+brownfield_django/main/tests/test_teacher_views.py:24: [E1103, TestInstructorLogin.setUp] Instance of 'SubFactory' has no 'username' member (but some types could not be inferred)
+brownfield_django/main/tests/test_teacher_views.py:31: [E1103, TestInstructorLogin.test_home] Instance of 'SubFactory' has no 'profile' member (but some types could not be inferred)
+brownfield_django/main/tests/test_teacher_views.py:69: [W0105, TestInstructorLogin] String statement has no effect
+brownfield_django/main/tests/test_teacher_views.py:88: [W0105, TestInstructorLogin] String statement has no effect
+brownfield_django/main/tests/test_teacher_views.py:123: [W0105, TestInstructorLogin] String statement has no effect
+brownfield_django/main/tests/test_teacher_views.py:16: [R0904, TestInstructorLogin] Too many public methods (80/50)
 brownfield_django/main/tests/__init__.py:2: [W0403] Relative import 'test_models', should be 'brownfield_django.main.tests.test_models'
 brownfield_django/main/tests/__init__.py:2: [W0401] Wildcard import test_models
 brownfield_django/main/tests/__init__.py:3: [W0403] Relative import 'test_views', should be 'brownfield_django.main.tests.test_views'
 brownfield_django/main/tests/__init__.py:3: [W0401] Wildcard import test_views
+brownfield_django/main/tests/__init__.py:4: [W0403] Relative import 'test_admin_views', should be 'brownfield_django.main.tests.test_admin_views'
+brownfield_django/main/tests/__init__.py:4: [W0401] Wildcard import test_admin_views
+brownfield_django/main/tests/test_admin_views.py:8: [W0403] Relative import 'factories', should be 'brownfield_django.main.tests.factories'
+brownfield_django/main/tests/test_admin_views.py:20: [E1103, TestAdminLogin.setUp] Instance of 'SubFactory' has no 'username' member (but some types could not be inferred)
+brownfield_django/main/tests/test_admin_views.py:85: [W0105, TestAdminLogin] String statement has no effect
+brownfield_django/main/tests/test_admin_views.py:104: [W0105, TestAdminLogin] String statement has no effect
+brownfield_django/main/tests/test_admin_views.py:139: [W0105, TestAdminLogin] String statement has no effect
+brownfield_django/main/tests/test_admin_views.py:14: [R0904, TestAdminLogin] Too many public methods (82/50)
+brownfield_django/main/tests/test_admin_views.py:1: [R0801] Similar lines in 2 files
+==brownfield_django.main.tests.test_admin_views:66
+==brownfield_django.main.tests.test_teacher_views:50
+        pass
+
+    def test_update_course(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
+
+    def test_remove_course(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
+
+    '''Test document related urls'''
+
+    def test_post_document(self):
+        '''
+        Calling post with desired name of the new course
+        should result in a new course with that name being created
+        and the course info (key) being returned to the browser to update
+        the course list.
+        '''
+        pass
+
+    def test_get_document(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
+
+    '''Test team related urls'''
+
+    def test_post_team(self):
+        '''
+        Calling post with desired name of the new course
+        should result in a new course with that name being created
+        and the course info (key) being returned to the browser to update
+        the course list.
+        '''
+        pass
+
+    def test_get_team(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
+
+    def test_update_team(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
+
+    def teamtest_remove_course(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
+
+    '''Test student related urls'''
+
+    def test_post_student(self):
+        '''
+        Calling post with desired name of the new course
+        should result in a new course with that name being created
+        and the course info (key) being returned to the browser to update
+        the course list.
+        '''
+        pass
+
+    def test_get_student(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
+
+    def test_update_student(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
+
+    def test_remove_student(self):
+        '''
+        Calling get for a course should redirect the instructor to a
+        course detail page where they can create teams, add students,
+        and put students in teams.
+        '''
+        pass
 
 
 Report
 ======
-725 statements analysed.
+800 statements analysed.
 
-Statistics by type
-------------------
+Raw metrics
+-----------
 
-+---------+-------+-----------+-----------+------------+---------+
-|type     |number |old number |difference |%documented |%badname |
-+=========+=======+===========+===========+============+=========+
-|module   |14     |14         |=          |0.00        |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|class    |93     |89         |+4.00      |30.11       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|method   |87     |87         |=          |50.57       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|function |7      |7          |=          |14.29       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
++----------+-------+------+---------+-----------+
+|type      |number |%     |previous |difference |
++==========+=======+======+=========+===========+
+|code      |923    |54.39 |923      |=          |
++----------+-------+------+---------+-----------+
+|docstring |346    |20.39 |346      |=          |
++----------+-------+------+---------+-----------+
+|comment   |189    |11.14 |188      |+1.00      |
++----------+-------+------+---------+-----------+
+|empty     |239    |14.08 |239      |=          |
++----------+-------+------+---------+-----------+
 
 
 
@@ -174,10 +299,22 @@ External dependencies
     brownfield_django 
       \-main 
       | \-document_links 
-      | | \-LINK_ONE (brownfield_django.main.views)
-      | | \-LINK_TWO (brownfield_django.main.views)
-      | | \-NAME_ONE (brownfield_django.main.views)
-      | | \-NAME_TWO (brownfield_django.main.views)
+      | | \-LINK_1 (brownfield_django.main.views)
+      | | \-LINK_2 (brownfield_django.main.views)
+      | | \-LINK_3 (brownfield_django.main.views)
+      | | \-LINK_4 (brownfield_django.main.views)
+      | | \-LINK_5 (brownfield_django.main.views)
+      | | \-LINK_6 (brownfield_django.main.views)
+      | | \-LINK_7 (brownfield_django.main.views)
+      | | \-LINK_8 (brownfield_django.main.views)
+      | | \-NAME_1 (brownfield_django.main.views)
+      | | \-NAME_2 (brownfield_django.main.views)
+      | | \-NAME_3 (brownfield_django.main.views)
+      | | \-NAME_4 (brownfield_django.main.views)
+      | | \-NAME_5 (brownfield_django.main.views)
+      | | \-NAME_6 (brownfield_django.main.views)
+      | | \-NAME_7 (brownfield_django.main.views)
+      | | \-NAME_8 (brownfield_django.main.views)
       | \-forms 
       | | \-CreateAccountForm (brownfield_django.main.views)
       | \-models 
@@ -186,7 +323,6 @@ External dependencies
       | | \-History (brownfield_django.main.tests.factories)
       | | \-PROFILE_CHOICES (brownfield_django.main.forms)
       | | \-PerformedTest (brownfield_django.main.tests.factories)
-      | | \-Team (brownfield_django.main.admin,brownfield_django.main.forms,brownfield_django.main.views,brownfield_django.main.serializers,brownfield_django.main.tests.factories)
       | | \-UserProfile (brownfield_django.main.admin,brownfield_django.main.forms,brownfield_django.main.views,brownfield_django.main.serializers,brownfield_django.main.tests.factories)
       | \-serializers 
       | | \-AddCourseByNameSerializer (brownfield_django.main.views)
@@ -198,14 +334,14 @@ External dependencies
       | | \-UserSerializer (brownfield_django.main.views)
       | \-tests 
       | | \-factories 
+      | |   \-AdminProfileFactory (brownfield_django.main.tests.test_admin_views)
       | |   \-CourseFactory (brownfield_django.main.tests.test_models)
-      | |   \-CourseOneFactory (brownfield_django.main.tests.test_views)
-      | |   \-CourseTwoFactory (brownfield_django.main.tests.test_views)
+      | |   \-CourseOneFactory (brownfield_django.main.tests.test_teacher_views)
+      | |   \-CourseTwoFactory (brownfield_django.main.tests.test_teacher_views)
       | |   \-HistoryFactory (brownfield_django.main.tests.test_models)
       | |   \-PerformedTestFactory (brownfield_django.main.tests.test_models)
-      | |   \-StudentProfileFactory (brownfield_django.main.tests.test_models)
-      | |   \-TeacherProfileFactory (brownfield_django.main.tests.test_views,brownfield_django.main.tests.test_models)
-      | |   \-TeamFactory (brownfield_django.main.tests.test_models)
+      | |   \-TeacherProfileFactory (brownfield_django.main.tests.test_models,brownfield_django.main.tests.test_teacher_views)
+      | |   \-TeamProfileFactory (brownfield_django.main.tests.test_models,brownfield_django.main.tests.test_team_views)
       | |   \-UserFactory (brownfield_django.main.tests.test_models)
       | |   \-UserProfileFactory (brownfield_django.main.tests.test_models)
       | \-xml_strings 
@@ -231,7 +367,7 @@ External dependencies
       \-db 
       | \-models (brownfield_django.main.models,brownfield_django.main.old_models)
       \-forms (brownfield_django.main.forms)
-      | \-ModelForm (brownfield_django.main.models,brownfield_django.main.forms)
+      | \-ModelForm (brownfield_django.main.models)
       \-http 
       | \-Http404 (brownfield_django.main.views)
       | \-HttpResponse (brownfield_django.main.views)
@@ -241,10 +377,10 @@ External dependencies
       \-shortcuts 
       | \-render (brownfield_django.main.views)
       \-test 
-      | \-RequestFactory (brownfield_django.main.tests.test_views)
-      | \-TestCase (brownfield_django.main.tests.test_views,brownfield_django.main.tests.test_models)
+      | \-RequestFactory (brownfield_django.main.tests.test_views,brownfield_django.main.tests.test_teacher_views,brownfield_django.main.tests.test_admin_views,brownfield_django.main.tests.test_team_views)
+      | \-TestCase (brownfield_django.main.tests.test_views,brownfield_django.main.tests.test_teacher_views,brownfield_django.main.tests.test_models,brownfield_django.main.tests.test_admin_views,brownfield_django.main.tests.test_team_views)
       | \-client 
-      |   \-Client (brownfield_django.main.tests.test_views)
+      |   \-Client (brownfield_django.main.tests.test_views,brownfield_django.main.tests.test_teacher_views,brownfield_django.main.tests.test_admin_views,brownfield_django.main.tests.test_team_views)
       \-views 
         \-generic 
           \-View (brownfield_django.main.views)
@@ -280,20 +416,20 @@ External dependencies
 
 
 
-Raw metrics
------------
+Statistics by type
+------------------
 
-+----------+-------+------+---------+-----------+
-|type      |number |%     |previous |difference |
-+==========+=======+======+=========+===========+
-|code      |842    |61.15 |844      |-2.00      |
-+----------+-------+------+---------+-----------+
-|docstring |256    |18.59 |243      |+13.00     |
-+----------+-------+------+---------+-----------+
-|comment   |87     |6.32  |100      |-13.00     |
-+----------+-------+------+---------+-----------+
-|empty     |192    |13.94 |192      |=          |
-+----------+-------+------+---------+-----------+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |17     |17         |=          |0.00        |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|class    |93     |93         |=          |29.03       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|method   |104    |104        |=          |61.54       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|function |7      |7          |=          |14.29       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
 
 
 
@@ -303,13 +439,13 @@ Messages by category
 +-----------+-------+---------+-----------+
 |type       |number |previous |difference |
 +===========+=======+=========+===========+
-|convention |33     |35       |-2.00      |
+|convention |37     |37       |=          |
 +-----------+-------+---------+-----------+
-|refactor   |21     |21       |=          |
+|refactor   |26     |26       |=          |
 +-----------+-------+---------+-----------+
-|warning    |30     |29       |+1.00      |
+|warning    |39     |39       |=          |
 +-----------+-------+---------+-----------+
-|error      |46     |47       |-1.00      |
+|error      |45     |45       |=          |
 +-----------+-------+---------+-----------+
 
 
@@ -317,23 +453,29 @@ Messages by category
 % errors / warnings by module
 -----------------------------
 
-+-----------------------------------------+------+--------+---------+-----------+
-|module                                   |error |warning |refactor |convention |
-+=========================================+======+========+=========+===========+
-|brownfield_django.main.views             |67.39 |63.33   |23.81    |15.15      |
-+-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.models            |10.87 |3.33    |0.00     |0.00       |
-+-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.tests.test_views  |8.70  |16.67   |28.57    |36.36      |
-+-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.tests.test_models |6.52  |3.33    |38.10    |6.06       |
-+-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.forms             |4.35  |0.00    |0.00     |0.00       |
-+-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.admin             |2.17  |0.00    |9.52     |0.00       |
-+-----------------------------------------+------+--------+---------+-----------+
-|brownfield_django.main.tests.__init__    |0.00  |13.33   |0.00     |0.00       |
-+-----------------------------------------+------+--------+---------+-----------+
++------------------------------------------------+------+--------+---------+-----------+
+|module                                          |error |warning |refactor |convention |
++================================================+======+========+=========+===========+
+|brownfield_django.main.views                    |64.44 |51.28   |30.77    |29.73      |
++------------------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.models                   |8.89  |5.13    |0.00     |0.00       |
++------------------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.tests.test_models        |6.67  |2.56    |26.92    |5.41       |
++------------------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.tests.test_teacher_views |4.44  |10.26   |3.85     |0.00       |
++------------------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.tests.test_views         |4.44  |2.56    |19.23    |32.43      |
++------------------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.forms                    |4.44  |0.00    |0.00     |0.00       |
++------------------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.tests.test_admin_views   |2.22  |10.26   |7.69     |0.00       |
++------------------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.tests.test_team_views    |2.22  |2.56    |3.85     |0.00       |
++------------------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.admin                    |2.22  |0.00    |7.69     |0.00       |
++------------------------------------------------+------+--------+---------+-----------+
+|brownfield_django.main.tests.__init__           |0.00  |15.38   |0.00     |0.00       |
++------------------------------------------------+------+--------+---------+-----------+
 
 
 
@@ -343,27 +485,33 @@ Messages
 +-----------+------------+
 |message id |occurrences |
 +===========+============+
-|E1101      |40          |
+|E1101      |37          |
 +-----------+------------+
-|C0103      |18          |
+|C0103      |24          |
 +-----------+------------+
-|R0904      |16          |
+|R0904      |17          |
 +-----------+------------+
-|W0622      |15          |
+|W0105      |15          |
 +-----------+------------+
-|W0105      |9           |
+|W0622      |14          |
 +-----------+------------+
 |C0322      |8           |
 +-----------+------------+
-|C0301      |6           |
+|W0403      |7           |
 +-----------+------------+
-|R0901      |5           |
+|R0901      |7           |
 +-----------+------------+
-|E1103      |5           |
+|E1103      |6           |
 +-----------+------------+
-|W0403      |4           |
+|C0301      |4           |
 +-----------+------------+
-|W0401      |2           |
+|W0401      |3           |
++-----------+------------+
+|R0914      |1           |
++-----------+------------+
+|R0801      |1           |
++-----------+------------+
+|E1003      |1           |
 +-----------+------------+
 |E0102      |1           |
 +-----------+------------+
@@ -374,7 +522,7 @@ Messages
 
 Global evaluation
 -----------------
-Your code has been rated at 5.67/10 (previous run: 5.62/10)
+Your code has been rated at 5.91/10 (previous run: 5.91/10)
 
 Duplication
 -----------
@@ -382,9 +530,9 @@ Duplication
 +-------------------------+------+---------+-----------+
 |                         |now   |previous |difference |
 +=========================+======+=========+===========+
-|nb duplicated lines      |0     |0        |=          |
+|nb duplicated lines      |106   |106      |=          |
 +-------------------------+------+---------+-----------+
-|percent duplicated lines |0.000 |0.000    |=          |
+|percent duplicated lines |5.866 |5.869    |-0.00      |
 +-------------------------+------+---------+-----------+
 
 

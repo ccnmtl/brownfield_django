@@ -1,7 +1,7 @@
 import factory
 from datetime import datetime
 from django.contrib.auth.models import User
-from brownfield_django.main.models import Document, Course, Team, \
+from brownfield_django.main.models import Document, Course, \
     UserProfile, History, PerformedTest
 
 
@@ -33,19 +33,22 @@ class DocumentFactory(factory.DjangoModelFactory):
 class UserProfileFactory(factory.DjangoModelFactory):
     FACTORY_FOR = UserProfile
     user = factory.SubFactory(UserFactory)
-    profile_type = 'ST'
-    # defaulting to student well get
-    # more specific in following facorties
+    profile_type = 'TM'
     course = factory.SubFactory(CourseFactory)
 
 
-class StudentProfileFactory(UserProfileFactory):
-    profile_type = 'ST'
+class TeamProfileFactory(UserProfileFactory):
+    profile_type = 'TM'
 
 
 class TeacherProfileFactory(UserProfileFactory):
     user = factory.SubFactory(UserFactory)
     profile_type = 'TE'
+
+
+class AdminProfileFactory(UserProfileFactory):
+    user = factory.SubFactory(UserFactory)
+    profile_type = 'AD'
 
 
 class CourseOneFactory(factory.DjangoModelFactory):
@@ -70,18 +73,9 @@ class CourseTwoFactory(factory.DjangoModelFactory):
     professor = factory.SubFactory(UserFactory)
 
 
-class TeamFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Team
-    name = "Team One"
-    course = factory.SubFactory(CourseFactory)
-    team_entity = factory.SubFactory(UserFactory)
-    signed_contract = False
-    budget = "65000"
-
-
 class HistoryFactory(factory.DjangoModelFactory):
     FACTORY_FOR = History
-    team = factory.SubFactory(TeamFactory)
+    team = factory.SubFactory(TeamProfileFactory)
     date = datetime.now()
     description = "History Record"
     cost = 100

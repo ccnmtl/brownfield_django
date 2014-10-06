@@ -3,22 +3,20 @@ var Team= Backbone.Model.extend({
     
     defaults: function() {
         return {
-            first_name: "First Name Team",
-            last_name: "Last Name Team",
-            email: "email@email.com",
+            name: "Team Name",
+            password1: "password1",
+            password2: "password2"
         }
     },
 
     initialize: function(attributes) 
 	{   
-	    first_name = attributes.first_name || '<EMPTY>';
-	    last_name = attributes.last_name || '<EMPTY>';
-	    console.log("Initializing a new team model for '" +
-	    		first_name + " " +  last_name + "'.");
+	    name = attributes.name || '<EMPTY>';
+	    password1 = attributes.password1 || '<EMPTY>';
+	    password2 = attributes.password2 || '<EMPTY>';
 	}
 	    
 });
-
 
 var TeamCollection = Backbone.Collection.extend({
 	 model: Team,
@@ -33,10 +31,7 @@ var TeamCollection = Backbone.Collection.extend({
 var TeamView = Backbone.View.extend({
 
    	tagName : 'li',
-   	template: _.template("Team Template Name <%= first_name %>" +
-   			             "<%= last_name %> " +
-   			             "Email: " +
-   			             "<%= email %> " +
+   	template: _.template("Team Template Name <%= name %>" +
    			             "<button class='btn btn-xs rm-st'>" +
 			             "Remove Team From Course" +
 			             "</button>"),
@@ -48,7 +43,7 @@ var TeamView = Backbone.View.extend({
 
    	// Can probably combine into one function on change
    	events: {
-   		'click .rm-st' : 'removeTeam'
+   		'click .rm-team' : 'removeTeam'
    	},
 
     render: function () {
@@ -116,64 +111,31 @@ var TeamControlView = Backbone.View.extend({
 
     events: {
 	//'click .edit-crs' : 'edit',
-	'click .add-std-btn' : 'showTeamForm',
+	'click .add-team-btn' : 'showTeamForm',
 	'click .team_submit' :	'addTeam'
     },
 
     showTeamForm: function() {
 		//console.log("clicked on show team form");
-		jQuery(".add-std-btn").hide();
-		jQuery(".add-std-frm-title").show();
-		jQuery(".add-std-frm").show();
+		jQuery(".add-team-btn").hide();
+		jQuery(".add-team-frm-title").show();
+		jQuery(".add-team-frm").show();
     },
 
     addTeam: function(course) {
     	
     	team_collection_view.course_teams.create(
     	{
-    		first_name : jQuery(".frst-name").val(),
-    	    last_name : jQuery(".last-name").val(),
-    	    email : jQuery(".email").val(),
+    		name : jQuery(".team-name").val(),
+    		password1 : jQuery(".team-pswd-1").val(),
+    		password2 : jQuery(".team-pswd-2").val()
     	});
 
-	    jQuery(".add-std-frm-title").hide();
-	    jQuery(".add-std-frm").hide();
-	    jQuery(".add-std-btn").show();
+	    jQuery(".add-team-frm-title").hide();
+	    jQuery(".add-team-frm").hide();
+	    jQuery(".add-team-btn").show();
     }
     
-});// End UserControlView  
+});// End TeamControlView  
 
 var team_control_view = new TeamControlView({el : jQuery('.team_controls')});
-
-
-//var team_collection_view = new TeamListView({el : jQuery('#course-teams')});
-//
-//
-//var TeamControlView = Backbone.View.extend({
-//
-//    events: {
-//	//'click .edit-crs' : 'edit',
-//	'click .add-std' : 'showTeamForm',
-//	'click .submit' :	'addTeam'
-//    },
-//
-//    showTeamForm: function(e) {
-//		console.log("clicked on show team form");
-//		jQuery(".add-std").hide();
-//		jQuery(".add-std-frm-title").show();
-//		jQuery(".add-std-frm").show();
-//    },
-//
-//    addTeam: function(course) {
-//    	
-//    	user_course_collection_view.user_course_collection.create(
-//    	{
-//    				name : jQuery(".crs-name").val()
-//    	});
-//
-//	    jQuery(".add-std-frm-title").hide();
-//	    jQuery(".add-std-frm").hide()
-//    }
-//});// End UserControlView  
-//
-//var team_control_view = new TeamControlView({el : jQuery('.team_controls')});
