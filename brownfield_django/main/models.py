@@ -39,7 +39,6 @@ class Course(models.Model):
     behalf, I changed it to be a professor/instructor field.
     '''
     name = models.CharField(max_length=255)
-    password = models.CharField(max_length=255, default='')
     startingBudget = models.PositiveIntegerField(default=60000)
     enableNarrative = models.BooleanField(default=True)
     message = models.TextField(max_length=255, default='')
@@ -51,8 +50,14 @@ class Course(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_students(self):
+        return self.userprofile_set.filter(profile_type='ST')
+
     def get_teams(self):
         return self.userprofile_set.filter(profile_type='TM')
+    
+    def get_team_members(self, name):
+        return self.userprofile_set.filter(profile_type='ST', team_name=name)
 
     def get_documents(self):
         documents = Document.objects.filter(course=self)
@@ -60,7 +65,7 @@ class Course(models.Model):
 
     def get_course_form(self):
         form = CourseForm()
-        return form
+        return form 
 
 
 class CourseForm(ModelForm):
@@ -89,6 +94,13 @@ class UserProfile(models.Model):
     '''
     signed_contract = models.BooleanField(default=False)
     budget = models.PositiveIntegerField(default=65000)
+    '''
+    Adding extra fields here to keep track of teams and students.
+    Fields should act as tags on Profiles of student type.
+    '''
+    in_team = models.BooleanField(default=False)
+    team_name = models.CharField(max_length=255, default="")
+
 
     def __unicode__(self):
         return self.user.username
@@ -98,6 +110,9 @@ class UserProfile(models.Model):
 
     def display_name(self):
         return self.user.username
+
+    def is_student(self):
+        return self.profile_type == 'ST'
 
     def is_team(self):
         return self.profile_type == 'TM'
@@ -109,11 +124,13 @@ class UserProfile(models.Model):
         return self.profile_type == 'AD'
 
     def role(self):
-        if self.is_team():
+        if self.is_student():
+            return "student"
+        elif self.is_team():
             return "team"
         elif self.is_teacher():
             return "faculty"
-        elif self.is_adminr():
+        elif self.is_admin():
             return "administrator"
 
 

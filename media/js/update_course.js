@@ -1,7 +1,7 @@
-// creating course model
-var Course = Backbone.Model.extend({
+// creating separate course model for updates
+var UpdateCourse = Backbone.Model.extend({
 
-    urlRoot: '/update_course/',
+    url: '/update_course/' + crs_id,
     
     defaults: function() {
         return {
@@ -23,71 +23,41 @@ var Course = Backbone.Model.extend({
 	    
 });
 
-var CourseView = Backbone.View.extend({
+var UpdateCourseView = Backbone.View.extend({
 
-   	tagName : 'li',
-   	template: _.template("Course Template <%= name %> <a href='/course/<%= id %>/'>View Course Details </a> <button class='destroy del-crs'> Destroy Class</button>"),
-   	//$container: null,
+   	tagName : 'upt-crs-frm',
     	
    	initialize: function () {
-   	    this.listenTo(this.model, 'change', this.render);
-   	    this.listenTo(this.model, 'destroy', this.remove);
+    	_.bindAll(this,
+   			 'render'
+   		);
+   	//create new model to hold course attributes
+   	this.update_course = new UpdateCourse({id: crs_id});
+   	console.log(this.update_course);
+   	this.update_course.fetch({processData: true, reset: true});
+   	this.update_course.on('reset', this.render);
+   	//    this.listenTo(this.model, 'change', this.render);
    	},
     	
    	events: {
-   		'click .del-crs' : 'clear',
-   		'click .destroy' : 'clear'
+   		'click .submit-edit' : 'sendEdit',
    	},
     	
     render: function () {
-        if (!this.model) 
-        {
-            throw "Model is not set for this view";
-        }
-         
-        var html = this.template(this.model.toJSON());
-        console.log("Inside course view");
-        this.$el.html(html);
-        return this;
-
-    },
+    	this.update_course.fetch({processData: true, reset: true});
+        jQuery('#id_name').val() = this.update_course.name;
+        jQuery('#id_startingBudget').val() = this.update_course.startingBudget;
+        jQuery('#id_enableNarrative').val() = this.update_course.enableNarrative;
+        jQuery('#id_message').val() = this.update_course.message;
+        jQuery('#id_active').val() = this.update_course.active;
+        jQuery('#id_archive').val() = this.update_course.archive;
+        jQuery('#id_professor').val() = this.update_course.professor;
+     },
     	
-    clear: function() {
+    sendEdit: function() {
         this.model.destroy();
-        //{
-        //   	headers : { 'id' : this.model.id }
-        //});
     }
 
-});// End CourseView
+});// End UpdateCourseView
 
-
-var UserControlView = Backbone.View.extend({
-    //el: $(".course_controls"),
-
-    events: {
-	//'click .edit-crs' : 'edit',
-	'click .add-crs' : 'showCourseForm',
-	'click .submit' :	'addCourse'
-    },
-
-    showCourseForm: function(e) {
-		console.log("clicked on show course");
-		jQuery(".add-crs").hide();
-		jQuery("#frm-title").show();
-		jQuery("#add-crs-frm").show();
-    },
-
-    addCourse: function(course) {
-    	
-    	user_course_collection_view.user_course_collection.create(
-    	{
-    				name : jQuery(".crs-name").val()
-    	});
-
-	    jQuery("#frm-title").hide();
-	    jQuery("#add-crs-frm").hide()
-    }
-});// End UserControlView  
-
-var user_control_view = new UserControlView({el : jQuery('.course_controls')});
+var update_course = new UpdateCourseView();

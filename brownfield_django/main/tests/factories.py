@@ -5,6 +5,11 @@ from brownfield_django.main.models import Document, Course, \
     UserProfile, History, PerformedTest
 
 
+'''
+Adding initial factories for model tests, will do more after for views.
+'''
+
+
 class UserFactory(factory.DjangoModelFactory):
     FACTORY_FOR = User
     username = factory.Sequence(lambda n: "user%d" % n)
@@ -14,10 +19,9 @@ class UserFactory(factory.DjangoModelFactory):
 class CourseFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Course
     name = "Test Course"
-    password = "12345"
     startingBudget = 65000
     enableNarrative = True
-    message = "Hello you non existant students."
+    message = "Hello you non existent students."
     active = True
     professor = factory.SubFactory(UserFactory)
 
@@ -54,7 +58,6 @@ class AdminProfileFactory(UserProfileFactory):
 class CourseOneFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Course
     name = "Test Course One"
-    password = "12345"
     startingBudget = 65000
     enableNarrative = True
     message = "Hello you non existant students."
@@ -65,7 +68,16 @@ class CourseOneFactory(factory.DjangoModelFactory):
 class CourseTwoFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Course
     name = "Test Course Two"
-    password = "12345"
+    startingBudget = 65000
+    enableNarrative = True
+    message = "Hello you non existant students."
+    active = True
+    professor = factory.SubFactory(UserFactory)
+
+
+class CourseThreeFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = Course
+    name = "Test Course Two"
     startingBudget = 65000
     enableNarrative = True
     message = "Hello you non existant students."
@@ -88,3 +100,44 @@ class PerformedTestFactory(factory.DjangoModelFactory):
     z = 60
     testNumber = 1
     paramString = '''Still need to find format for these...'''
+
+
+'''Adding another User and new User's Courses to
+test /user_courses/ vs /all_courses/'''
+
+
+# class NewUserFactory(factory.DjangoModelFactory):
+#     FACTORY_FOR = User
+#     username = factory.Sequence(lambda n: "user%d" % n)
+#     password = factory.PostGenerationMethodCall('set_password', 'test')
+# 
+# 
+# class CourseOneFactory(factory.DjangoModelFactory):
+#     FACTORY_FOR = Course
+#     name = "Test Course One"
+#     startingBudget = 65000
+#     enableNarrative = True
+#     message = "Hello you non existant students."
+#     active = True
+#     professor = factory.SubFactory(UserFactory)
+# 
+# 
+# class CourseTwoFactory(factory.DjangoModelFactory):
+#     FACTORY_FOR = Course
+#     name = "Test Course Two"
+#     startingBudget = 65000
+#     enableNarrative = True
+#     message = "Hello you non existant students."
+#     active = True
+#     professor = factory.SubFactory(UserFactory)
+# 
+# 
+# class CourseThreeFactory(factory.DjangoModelFactory):
+#     FACTORY_FOR = Course
+#     name = "Test Course Two"
+#     startingBudget = 65000
+#     enableNarrative = True
+#     message = "Hello you non existant students."
+#     active = True
+#     professor = factory.SubFactory(UserFactory)
+

@@ -32,7 +32,10 @@ var TeamView = Backbone.View.extend({
 
    	tagName : 'li',
    	template: _.template("Team Template Name <%= name %>" +
-   			             "<button class='btn btn-xs rm-st'>" +
+   			             "<button class='btn btn-xs add-team-member'>" +
+                         "Add Team Member" +
+                         "</button>" +
+   			             "<button class='btn btn-xs rm-team'>" +
 			             "Remove Team From Course" +
 			             "</button>"),
 
@@ -43,7 +46,8 @@ var TeamView = Backbone.View.extend({
 
    	// Can probably combine into one function on change
    	events: {
-   		'click .rm-team' : 'removeTeam'
+   		'click .rm-team' : 'removeTeam',
+   		'click .add-team-member' : 'addTeamMember'
    	},
 
     render: function () {
@@ -59,12 +63,19 @@ var TeamView = Backbone.View.extend({
    	//will need to do save which will automatically call sync
    	removeTeam: function()
    	{
-   		console.log("Removing team from course.");//console.log("Revoking Document");
-//        this.model.save({
-//           	headers : { 'id' : this.model.id }//{ 'method_called' : 'revoke'}//, 'document' : this.model.id }
-//        });
-    }
+   		console.log("Removing team from course.");
+    },
+    
+    addTeamMember: function()
+   	{
+   		console.log("Adding Team Member.");
+    },
 
+    addTeamMember: function()
+   	{
+   		console.log("Adding Team Member.");
+    }
+    
 });// End Team View
 
 

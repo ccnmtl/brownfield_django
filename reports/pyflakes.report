@@ -1,3 +1,26 @@
+brownfield_django/main/views.py:25: [E] PYFLAKES:'TeamNameSerializer' imported but unused
+brownfield_django/main/views.py:25: [E] PYFLAKES:'NewTeamSerializer' imported but unused
+brownfield_django/main/views.py:25: [E] PYFLAKES:'UpdateCourseSerializer' imported but unused
+brownfield_django/main/views.py:391: [E] PYFLAKES:undefined name 'TeamSerializer'
+brownfield_django/main/views.py:407: [E] PYFLAKES:local variable 'new_team_profile' is assigned to but never used
+brownfield_django/main/views.py:411: [E] PYFLAKES:undefined name 'TeamNameSerialzier'
+brownfield_django/main/views.py:413: [E] PYFLAKES:undefined name 'Reponse'
+brownfield_django/main/views.py:464: [E] PYFLAKES:undefined name 'TeamSerializer'
+brownfield_django/main/views.py:480: [E] PYFLAKES:local variable 'new_team_profile' is assigned to but never used
+brownfield_django/main/views.py:484: [E] PYFLAKES:undefined name 'TeamNameSerialzier'
+brownfield_django/main/views.py:486: [E] PYFLAKES:undefined name 'Reponse'
+brownfield_django/main/tests/test_teacher_views.py:4: [E] PYFLAKES:'TestCase' imported but unused
+brownfield_django/main/tests/test_teacher_views.py:4: [E] PYFLAKES:'RequestFactory' imported but unused
+brownfield_django/main/tests/test_teacher_views.py:5: [E] PYFLAKES:'Client' imported but unused
 brownfield_django/main/tests/__init__.py:2: [E] PYFLAKES:'from test_models import *' used; unable to detect undefined names
 brownfield_django/main/tests/__init__.py:3: [E] PYFLAKES:'from test_views import *' used; unable to detect undefined names
 brownfield_django/main/tests/__init__.py:4: [E] PYFLAKES:'from test_admin_views import *' used; unable to detect undefined names
+brownfield_django/main/tests/test_admin_views.py:6: [E] PYFLAKES:'APIRequestFactory' imported but unused
+brownfield_django/main/tests/test_admin_views.py:63: [E] PYFLAKES:local variable 'c1' is assigned to but never used
+brownfield_django/main/tests/test_admin_views.py:64: [E] PYFLAKES:local variable 'c2' is assigned to but never used
+brownfield_django/main/tests/test_admin_views.py:65: [E] PYFLAKES:local variable 'c3' is assigned to but never used
+brownfield_django/main/tests/test_admin_views.py:80: [E] PYFLAKES:local variable 'c1' is assigned to but never used
+brownfield_django/main/tests/test_admin_views.py:81: [E] PYFLAKES:local variable 'c2' is assigned to but never used
+brownfield_django/main/tests/test_admin_views.py:82: [E] PYFLAKES:local variable 'c3' is assigned to but never used
+brownfield_django/main/tests/test_models.py:4: [E] PYFLAKES:'User' imported but unused
+brownfield_django/main/tests/test_models.py:92: [E] PYFLAKES:local variable 'form' is assigned to but never used

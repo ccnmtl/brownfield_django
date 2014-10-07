@@ -23,8 +23,8 @@ from rest_framework.views import APIView
 from brownfield_django.main.forms import CreateAccountForm
 from brownfield_django.main.models import Course, UserProfile, Document
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
-    CompleteDocumentSerializer, TeamSerializer, CompleteCourseSerializer, \
-    CourseNameIDSerializer, UserSerializer, UpdateCourseSerializer
+    CompleteDocumentSerializer, NewTeamSerializer, CompleteCourseSerializer, \
+    CourseNameIDSerializer, UserSerializer, UpdateCourseSerializer, TeamNameSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
@@ -159,7 +159,7 @@ class UserCourseView(APIView):
         this_user = User.objects.get(pk=request.user.pk)
         courses = Course.objects.filter(professor=this_user)
         serializer = CourseNameIDSerializer(courses, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class AllCourseView(APIView):
@@ -175,16 +175,14 @@ class AllCourseView(APIView):
     def get(self, request, format=None):
         courses = Course.objects.all()
         serializer = CourseNameIDSerializer(courses, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class DetailJSONCourseView(APIView):
+class DetailJSONCourseView(JSONResponseMixin, View):
     '''
     For now I think it is best to have a separate view for the
     course detail template.
     '''
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
 
     def get_object(self, pk):
         try:
@@ -192,28 +190,63 @@ class DetailJSONCourseView(APIView):
         except Course.DoesNotExist:
             raise Http404
 
+    def convert_TF_to_json(self, attribute):
+        if attribute == True:
+            return 'true'
+        elif attribute == False:
+            return 'false'
+
+    def convert_TF_from_json(self, attribute):
+        if attribute == 'true':
+            return True
+        elif attribute == 'false':
+            return False
+
     def get(self, request, pk, format=None, *args, **kwargs):
         '''
         Should probably retrieve the information for the course here
         so it appears in the form/pre-populates the fields.
         '''
         course = self.get_object(pk)
-        serializer = CompleteCourseSerializer(course)
-        print serializer
-        return Response(serializer.data)
+        j_course = []
+        j_course.append({'id': str(course.id),
+                         'name': course.name,
+                         'startingBudget': course.startingBudget,
+                         'enableNarrative': self.convert_TF_to_json(course.enableNarrative),
+                         'message': course.message,
+                         'active': self.convert_TF_to_json(course.active),
+                         'archive': self.convert_TF_to_json(course.archive),
+                         'professor' : str(course.professor)
+                        })
+        return self.render_to_json_response({'course': j_course})
+        
 
-    def update(self, request, format=None, *args, **kwargs):
-        '''
-        For now I am sticking with Backbone convention of using update
-        for editing and post for creating.
-        '''
-        serializer = UpdateCourseSerializer(data=request.DATA)
-        print serializer.data
-        '''Also what exactly does is_valid do?'''
-        if serializer.is_valid():
-            '''There must be some way to automatically update a model?'''
-            serializer.is_valid()
-        return Response(serializer.data)
+    def post(self, request, pk, format=None, *args, **kwargs):
+        '''This is really really ugly as is get method need to clean up.'''
+        course = self.get_object(pk)
+        course.name = self.request.POST.get('name')
+        course.startingBudget = int(self.request.POST.get('startingBudget'))
+        course.enableNarrative = self.convert_TF_from_json(
+            self.request.POST.get('enableNarrative'))
+        course.message = self.request.POST.get('message')
+        course.active = self.convert_TF_from_json(
+            self.request.POST.get('active'))
+        course.archive = self.convert_TF_from_json(
+            self.request.POST.get('archive'))
+        userprof = User.objects.get(username=self.request.POST.get('professor'))
+        course.professor = userprof
+        course.save()
+        j_course = []
+        j_course.append({'id': str(course.id),
+                         'name': course.name,
+                         'startingBudget': course.startingBudget,
+                         'enableNarrative': self.convert_TF_to_json(course.enableNarrative),
+                         'message': course.message,
+                         'active': self.convert_TF_to_json(course.active),
+                         'archive': self.convert_TF_to_json(course.archive),
+                         'professor' : str(course.professor)
+                        })
+        return self.render_to_json_response({'course': j_course})
 
 
 class ActivateCourseView(JSONResponseMixin, View):
@@ -361,17 +394,34 @@ class AdminTeamView(APIView):
             '''Assume collection is currently empty'''
             return Response(status.HTTP_200_OK)
 
-#     def post(self, request, pk, format=None):
-#         '''Add a team.'''
-#         course = self.get_object(pk)
-#         print request.DATA
-#         username = request.DATA['name']
-#         password1 = request.DATA['password1']
-#         password2 = request.DATA['password2']
-#         if password1 == password2:
-#             print "passwords match"
-#             new_user = User.objects.create_user(username=username,
-#                                             password=password2)
+    def post(self, request, pk, format=None):
+        '''Add a team.'''
+        course = self.get_object(pk)
+        print request.DATA
+        username = request.DATA['name']
+        password1 = request.DATA['password1']
+        password2 = request.DATA['password2']
+        if password1 == password2:
+            new_team_user = User.objects.create_user(username=username,
+                                                     password=password2)
+            new_team_profile = UserProfile.objects.create(user=new_team_user,
+                                                          profile_type='TM',
+                                                          course=course,
+                                                          budget=course.startingBudget)
+            serializer = TeamNameSerialzier(new_team_user)
+            print serializer.data
+            return Reponse(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#             print new_team_profile.course
+#             print new_team_profile.budget
+#             serializer = NewTeamSerializer(new_team_profile)
+#             print "serializer"
+#             print serializer.data
+#             return Reponse(serializer.data, status=status.HTTP_201_CREATED)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #             print "new_user"
 #             print new_user
 #             new_team = Team.objects.create(
@@ -381,19 +431,64 @@ class AdminTeamView(APIView):
 #             course.save()
 #             print "new_team"
 #             print new_team
-#             return Reponse(request.DATA, status=status.HTTP_201_CREATED)
+#             
 #         else:
 #             print "passwords dont match"
-#             return Response(
-# serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#             
 #        serializer = CreateTeamSerializer(data=request.DATA)
 #        print serializer.data
 #         if serializer.is_valid():
 #             serializer.save()
-#             course.team_set.add(serializer)
+#             serializer)
 #             return Response(serializer.data, status=status.HTTP_201_CREATED)
 #         return Response(serializer.errors,
 # status=status.HTTP_400_BAD_REQUEST)
+
+
+class AdminTeamStudentView(APIView):
+    """
+    This view allows instructors to put students in teams,
+    and remove them from teams.
+    """
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        '''Send back all teams currently in course.'''
+        course = self.get_object(pk)
+        try:
+            teams = course.get_teams()
+            serializer = TeamSerializer(teams, many=True)
+            return Response(serializer.data)
+        except:
+            '''Assume collection is currently empty'''
+            return Response(status.HTTP_200_OK)
+
+    def post(self, request, pk, format=None):
+        '''Add a team.'''
+        course = self.get_object(pk)
+        print request.DATA
+        username = request.DATA['name']
+        password1 = request.DATA['password1']
+        password2 = request.DATA['password2']
+        if password1 == password2:
+            new_team_user = User.objects.create_user(username=username,
+                                                     password=password2)
+            new_team_profile = UserProfile.objects.create(user=new_team_user,
+                                                          profile_type='TM',
+                                                          course=course,
+                                                          budget=course.startingBudget)
+            serializer = TeamNameSerialzier(new_team_user)
+            print serializer.data
+            return Reponse(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 
 class AddTeam(JSONResponseMixin, View):

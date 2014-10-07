@@ -51,7 +51,7 @@ urlpatterns = patterns(
     (r'^course/(?P<pk>\d+)$', CourseView.as_view()),
     (r'^course/(?P<pk>\d+)/$', CourseView.as_view()),
     (r'^course_details/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
-    (r'^edit_course/(?P<pk>\d+)/$', DetailJSONCourseView.as_view()),
+    (r'^update_course/(?P<pk>\d+)$', DetailJSONCourseView.as_view()),
     (r'^document/$', DocumentView.as_view()),
     (r'^document/(?P<pk>\d+)$', DocumentView.as_view()),
     (r'^user_courses/$', UserCourseView.as_view()),

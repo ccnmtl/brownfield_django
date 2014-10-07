@@ -30,8 +30,8 @@ class UpdateCourseSerializer(serializers.HyperlinkedModelSerializer):
     '''Allow professor see, update all aspects of a course.'''
     class Meta:
         model = Course
-        fields = ('name', 'password', 'startingBudget', 'enableNarrative',
-                  'message', 'active', 'professor')
+        fields = ('name', 'startingBudget', 'enableNarrative',
+                  'active')
 
 
 class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
@@ -65,7 +65,20 @@ class CreateTeamSerializer(serializers.ModelSerializer):
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ('name', 'signed_contract', 'budget')
+        fields = ('signed_contract', 'budget')
+
+
+class TeamNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username',)
+
+
+class NewTeamSerializer(serializers.Serializer):
+    pk = serializers.Field()
+    name = serializers.CharField(max_length=255)
+    signed_contract = serializers.BooleanField()
+    # budget = serializers.IntField(required=False)
 
 
 class ListUserCoursesSerializer(serializers.HyperlinkedModelSerializer):
