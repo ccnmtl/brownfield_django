@@ -48,30 +48,30 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('first_name', 'last_name', 'email')
 
 
+class TeamNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username',)
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
     courses = serializers.PrimaryKeyRelatedField(many=True)
 
     class Meta:
         model = UserProfile
-        fields = ('profile_type', 'course', 'team')
+        fields = ('profile_type', 'course')
 
 
 class CreateTeamSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserProfile
-        fields = ('name', 'password1', 'password2')
+        model = User
+        fields = ('username', 'password1', 'password2')
 
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ('signed_contract', 'budget')
-
-
-class TeamNameSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('username',)
 
 
 class NewTeamSerializer(serializers.Serializer):

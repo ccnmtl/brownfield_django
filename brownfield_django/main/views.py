@@ -12,6 +12,7 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
+
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication, \
     BasicAuthentication
@@ -90,28 +91,21 @@ class CourseView(APIView):
             )
             d1 = Document.objects.create(course=new_course, name=NAME_1,
                                          link=LINK_1)
-            new_course.document_set.add(d1)
             d2 = Document.objects.create(course=new_course, name=NAME_2,
                                          link=LINK_2)
-            new_course.document_set.add(d2)
             d3 = Document.objects.create(course=new_course, name=NAME_3,
                                          link=LINK_3)
-            new_course.document_set.add(d3)
             d4 = Document.objects.create(course=new_course, name=NAME_4,
                                          link=LINK_4)
-            new_course.document_set.add(d4)
             d5 = Document.objects.create(course=new_course, name=NAME_5,
                                          link=LINK_5)
-            new_course.document_set.add(d5)
             d6 = Document.objects.create(course=new_course, name=NAME_6,
                                          link=LINK_6)
-            new_course.document_set.add(d6)
             d7 = Document.objects.create(course=new_course, name=NAME_7,
                                          link=LINK_7)
-            new_course.document_set.add(d7)
             d8 = Document.objects.create(course=new_course, name=NAME_8,
                                          link=LINK_8)
-            new_course.document_set.add(d8)
+            new_course.document_set.add(d1, d2, d3, d4, d5, d6, d7, d8)
             new_course.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -340,7 +334,7 @@ class AdminStudentView(APIView):
         '''Retrieve students of course if there are any to list.'''
         course = self.get_object(pk)
         try:
-            students = course.get_students()
+            students = course.get_students_without_team()
             users = User.objects.filter(profile__in=students)
             serializer = UserSerializer(users, many=True)
             return Response(serializer.data)
@@ -387,8 +381,13 @@ class AdminTeamView(APIView):
         '''Send back all teams currently in course.'''
         course = self.get_object(pk)
         try:
-            teams = course.get_teams()
-            serializer = TeamSerializer(teams, many=True)
+            teamprofiles = course.get_teams()
+            print 'teamprofiles'
+            print teamprofiles
+            teams = User.objects.filter(profile__in=teamprofiles)
+            print 'teams'
+            print teams
+            serializer = TeamNameSerializer(teams, many=True)
             return Response(serializer.data)
         except:
             '''Assume collection is currently empty'''
@@ -398,17 +397,22 @@ class AdminTeamView(APIView):
         '''Add a team.'''
         course = self.get_object(pk)
         print request.DATA
-        username = request.DATA['name']
+        username = request.DATA['username']
         password1 = request.DATA['password1']
         password2 = request.DATA['password2']
         if password1 == password2:
             new_team_user = User.objects.create_user(username=username,
                                                      password=password2)
+            new_team_user.save()
             new_team_profile = UserProfile.objects.create(user=new_team_user,
                                                           profile_type='TM',
                                                           course=course,
                                                           budget=course.startingBudget)
-            serializer = TeamNameSerialzier(new_team_user)
+            new_team_profile.save()
+            print type(new_team_user)
+            serializer = TeamNameSerializer(new_team_user)
+            # this works in shell
+            print 'serializer.data'
             print serializer.data
             return Reponse(serializer.data, status=status.HTTP_201_CREATED)
         else:
@@ -542,6 +546,49 @@ class TeacherCourseDetail(DetailView):
     model = Course
     template_name = 'main/instructor/course_home.html'
     success_url = '/'
+
+
+class TeamMembersView(APIView):
+    """
+    This view allows instructors to put students in teams,
+    and remove them from teams.
+    """
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        '''Send back all teams currently in course.'''
+        course = self.get_object(pk)
+        try:
+            teams = course.get_teams()
+            serializer = TeamSerializer(teams, many=True)
+            return Response(serializer.data)
+        except:
+            '''Assume collection is currently empty'''
+            return Response(status.HTTP_200_OK)
+
+    def post(self, request, pk, format=None):
+        '''Add a team.'''
+        course = self.get_object(pk)
+        print request.DATA
+        username = request.DATA['name']
+        password1 = request.DATA['password1']
+        password2 = request.DATA['password2']
+        if password1 == password2:
+            new_team_user = User.objects.create_user(username=username,
+                                                     password=password2)
+            new_team_profile = UserProfile.objects.create(user=new_team_user,
+                                                          profile_type='TM',
+                                                          course=course,
+                                                          budget=course.startingBudget)
+            serializer = TeamNameSerialzier(new_team_user)
+            print serializer.data
+            return Reponse(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CCNMTLHomeView(DetailView):

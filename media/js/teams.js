@@ -3,7 +3,7 @@ var Team= Backbone.Model.extend({
     
     defaults: function() {
         return {
-            name: "Team Name",
+            username: "Team Name",
             password1: "password1",
             password2: "password2"
         }
@@ -24,6 +24,20 @@ var TeamCollection = Backbone.Collection.extend({
 		    return '/team/' + crs_id;
 	  }
 });
+
+// we have our views and collection for a list of teams
+// now we make a box to hold the students in the team - collection of students
+// 
+
+
+var TeamMembersCollection = Backbone.Collection.extend({
+	 model: Student,
+	 url: function() {
+		    return '/team_members/' + this.model.username + '/';
+	  }
+});
+
+
 //End of Modes/Collections
 
 
@@ -31,10 +45,7 @@ var TeamCollection = Backbone.Collection.extend({
 var TeamView = Backbone.View.extend({
 
    	tagName : 'li',
-   	template: _.template("Team Template Name <%= name %>" +
-   			             "<button class='btn btn-xs add-team-member'>" +
-                         "Add Team Member" +
-                         "</button>" +
+   	template: _.template("Team Name <%= username %>" +
    			             "<button class='btn btn-xs rm-team'>" +
 			             "Remove Team From Course" +
 			             "</button>"),
@@ -46,8 +57,7 @@ var TeamView = Backbone.View.extend({
 
    	// Can probably combine into one function on change
    	events: {
-   		'click .rm-team' : 'removeTeam',
-   		'click .add-team-member' : 'addTeamMember'
+   		'click .rm-team' : 'removeTeam'
    	},
 
     render: function () {
@@ -99,7 +109,7 @@ var TeamListView = Backbone.View.extend({
     },
 
     initialRender: function() {
-
+        console.log("Team list view re-render");
         this.$el.empty();
 
         this.course_teams.each(function(model) {

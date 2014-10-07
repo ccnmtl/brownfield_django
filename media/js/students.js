@@ -12,9 +12,9 @@ var Student= Backbone.Model.extend({
     initialize: function(attributes) 
 	{   
 	    first_name = attributes.first_name || '<EMPTY>';
-	    last_name = attributes.last_name || '<EMPTY>'//;
-	    //console.log("Initializing a new student model for '" +
-	    //		first_name + " " +  last_name + "'.");
+	    last_name = attributes.last_name || '<EMPTY>';
+	    email = attributes.last_name || '<EMPTY>';
+	    //last_name = attributes.last_name || '<EMPTY>';
 	}
 	    
 });
@@ -37,6 +37,9 @@ var StudentView = Backbone.View.extend({
    			             "<%= last_name %> " +
    			             "Email: " +
    			             "<%= email %> " +
+   			             "<button class='btn btn-xs st-team'>" +
+			             "Put Student In Team" +
+			             "</button>" +
    			             "<button class='btn btn-xs rm-st'>" +
 			             "Remove Student From Course" +
 			             "</button>"),
@@ -48,6 +51,7 @@ var StudentView = Backbone.View.extend({
 
    	// Can probably combine into one function on change
    	events: {
+   		'click .st-team' : 'joinTeam',
    		'click .rm-st' : 'removeStudent'
    	},
 
@@ -65,11 +69,16 @@ var StudentView = Backbone.View.extend({
    	removeStudent: function()
    	{
    		console.log("Removing student from course.");//console.log("Revoking Document");
-//        this.model.save({
-//           	headers : { 'id' : this.model.id }//{ 'method_called' : 'revoke'}//, 'document' : this.model.id }
-//        });
-    }
+    },
 
+   	//will need to do save which will automatically call sync
+    joinTeam: function()
+   	{
+   		console.log("Putting student in team.");
+    }
+    
+    
+    
 });// End Student View
 
 

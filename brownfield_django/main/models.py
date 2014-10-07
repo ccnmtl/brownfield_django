@@ -53,6 +53,9 @@ class Course(models.Model):
     def get_students(self):
         return self.userprofile_set.filter(profile_type='ST')
 
+    def get_students_without_team(self):
+        return self.userprofile_set.filter(profile_type='ST', in_team=False)
+    
     def get_teams(self):
         return self.userprofile_set.filter(profile_type='TM')
     
