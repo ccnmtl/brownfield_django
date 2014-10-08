@@ -45,12 +45,15 @@ var StudentView = Backbone.View.extend({
 			             "</button>"),
 
    	initialize: function () {
+   		this.team_form = jQuery('#available-teams');
+   		this.team_template = jQuery('#actual-teams');
    	    this.listenTo(this.model, 'change', this.render);
    	    this.listenTo(this.model, 'destroy', this.remove);
    	},
 
    	// Can probably combine into one function on change
    	events: {
+   		'click .st-team' : 'joinTeam',
    		'click .rm-st' : 'removeStudent'
    	},
 
@@ -68,7 +71,15 @@ var StudentView = Backbone.View.extend({
    	removeStudent: function()
    	{
    		console.log("Removing student from course.");//console.log("Revoking Document");
-    }
+    },
+
+   	//will need to do save which will automatically call sync
+    joinTeam: function()
+   	{
+        console.log("Putting student in team through student view attribute team form.");
+        this.$el.append(jQuery('#available-teams'));
+   	}
+
     
 });// End Student View
 

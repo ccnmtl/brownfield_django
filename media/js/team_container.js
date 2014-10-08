@@ -12,7 +12,9 @@ var Team= Backbone.Model.extend({
 
     initialize: function(attributes) 
 	{   
-    	username = attributes.username || '<EMPTY>';
+	    name = attributes.name || '<EMPTY>';
+	    password1 = attributes.password1 || '<EMPTY>';
+	    password2 = attributes.password2 || '<EMPTY>';
 	}
 	    
 });
@@ -29,11 +31,11 @@ var TeamCollection = Backbone.Collection.extend({
 // Team View is to hold individual li elements in the course team list 
 var TeamView = Backbone.View.extend({
 
-   	tagName : 'li',
-   	template: _.template("Team Name <%= username %>" +
-   			             "<button class='btn btn-xs rm-team'>" +
-			             "Remove Team From Course" +
-			             "</button>"),
+   	//tagName : 'li',
+   	//template: _.template("Team Name <%= username %>" +
+   	//		             "<button class='btn btn-xs rm-team'>" +
+	//		             "Remove Team From Course" +
+	//		             "</button>"),
 
    	initialize: function () {
    	    this.listenTo(this.model, 'change', this.render);
@@ -55,6 +57,7 @@ var TeamView = Backbone.View.extend({
         return this;
     },
 
+   	//will need to do save which will automatically call sync
    	removeTeam: function()
    	{
    		console.log("Removing team from course.");
@@ -94,12 +97,7 @@ var TeamListView = Backbone.View.extend({
         return this;
     }
     
-});// End TeamListView    
-
-
-
-var team_collection_view = new TeamListView({el : jQuery('.team-list')});
-
+});// End TeamListView
 
 var TeamControlView = Backbone.View.extend({
 
@@ -133,3 +131,75 @@ var TeamControlView = Backbone.View.extend({
 });// End TeamControlView  
 
 var team_control_view = new TeamControlView({el : jQuery('.team_controls')});
+
+
+var TeamButtonView = Backbone.View.extend({
+	template: _.template('<button type="button" class="btn btn-success">Team Name <%= username %></button>'),
+
+    render: function ()
+    {
+        if (!this.model) 
+        {
+            throw "Model is not set for this view";
+        }
+        var html = this.template(this.model.toJSON());
+        this.$el.html(html);
+        return this;
+    }
+});// End TeamButtonView
+
+var TeamFromView = Backbone.View.extend({
+	//template: _.template('<div class="btn-group-vertical btn-group-sm btn-group-justified"></div>');
+
+	className: "btn-group-vertical btn-group-sm btn-group-justified",
+	
+    initialize: function (options)
+    {
+    	_.bindAll(this,
+    			 'render');
+	},
+	
+    render: function()
+    {
+        this.$el.empty();
+        team_collection_view.course_teams.each(
+        	function(model)
+        	{
+        		this.$el.append(new TeamButtonView(
+        		{
+           			model: model
+        		}).render().el);
+        	}, this);
+
+        return this;
+    }
+});// End TeamFormView
+
+var TeamMemberContainerView = Backbone.View.extend({
+	
+    initialize: function (options)
+    {
+    	_.bindAll(this,
+    			 'render');
+    	this.team_member_list = new TeamCollection();
+    	this.team_member_list.fetch({processData: true, reset: true});
+    	this.team_member_list.on('reset', this.render);
+	},
+	
+    render: function()
+    {
+        this.$el.empty();
+        team_collection_view.course_teams.each(
+        	function(model)
+        	{
+        		this.$el.append(new TeamButtonView(
+        		{
+           			model: model
+        		}).render().el);
+        	}, this);
+
+        return this;
+    }
+});// End TeamFormView
+var team_collection_view = new TeamListView({el : jQuery('.team-list')});
+var team_collection_view = new TeamListView({el : jQuery('.team-member-list')});

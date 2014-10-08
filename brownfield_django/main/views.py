@@ -250,33 +250,9 @@ class ActivateCourseView(JSONResponseMixin, View):
     '''
 
     def post(self, request, *args, **kwargs):
-        #print request.POST
         cr_pk = request.POST['crs_id']
         print cr_pk
-        # print Course.objects.all()
-        # for each in Course.objects.all():
-        #    print each.pk
-        # from nepi end_date = self.request.POST.get('end_date')
-#         '''wouldn't work with get??? wtf?'''
-#         course = Course.objects.filter(pk=cr_pk)
-#         print course
-#         students = course.get_students()
-#         for student in students:
-#             template = loader.get_template(
-#             'instructor/student_activation_notice.txt')
-#             subject = "Brownfield: You are in Course... "
-#             ctx = Context({'user': user, 'course': user.profile.course,
-#                            'team': user.profile.team,
-#                            'password': user.profile.team.password})
-#             message = template.render(ctx)
-#             sender = "cld2156@columbia.edu"
-            # send_mail(subject, message, sender, [user.email])
 
-#         schools = []
-#         for school in School.objects.filter(country=country):
-#             schools.append({'id': str(school.id), 'name': school.name})
-#
-#         return self.render_to_json_response({'schools': schools})
 
 
 class DocumentView(APIView):
@@ -361,6 +337,8 @@ class AdminStudentView(APIView):
                                                      user=new_user,
                                                      profile_type='ST')
             new_profile.save()
+            print "username"
+            print username
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.data)
 
@@ -382,11 +360,7 @@ class AdminTeamView(APIView):
         course = self.get_object(pk)
         try:
             teamprofiles = course.get_teams()
-            print 'teamprofiles'
-            print teamprofiles
             teams = User.objects.filter(profile__in=teamprofiles)
-            print 'teams'
-            print teams
             serializer = TeamNameSerializer(teams, many=True)
             return Response(serializer.data)
         except:
@@ -395,8 +369,8 @@ class AdminTeamView(APIView):
 
     def post(self, request, pk, format=None):
         '''Add a team.'''
+        # print "team post"
         course = self.get_object(pk)
-        print request.DATA
         username = request.DATA['username']
         password1 = request.DATA['password1']
         password2 = request.DATA['password2']
@@ -404,49 +378,19 @@ class AdminTeamView(APIView):
             new_team_user = User.objects.create_user(username=username,
                                                      password=password2)
             new_team_user.save()
+            print new_team_user
             new_team_profile = UserProfile.objects.create(user=new_team_user,
                                                           profile_type='TM',
                                                           course=course,
                                                           budget=course.startingBudget)
             new_team_profile.save()
-            print type(new_team_user)
+            # print new_team_profile
             serializer = TeamNameSerializer(new_team_user)
-            # this works in shell
-            print 'serializer.data'
-            print serializer.data
+            # print 'serializer.data'
+            # print serializer.data
             return Reponse(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-#             print new_team_profile.course
-#             print new_team_profile.budget
-#             serializer = NewTeamSerializer(new_team_profile)
-#             print "serializer"
-#             print serializer.data
-#             return Reponse(serializer.data, status=status.HTTP_201_CREATED)
-#         else:
-#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#             print "new_user"
-#             print new_user
-#             new_team = Team.objects.create(
-# team_entity=new_user, course=course)
-#             new_team.save()
-#             course.team_set.add(new_team)
-#             course.save()
-#             print "new_team"
-#             print new_team
-#             
-#         else:
-#             print "passwords dont match"
-#             
-#        serializer = CreateTeamSerializer(data=request.DATA)
-#        print serializer.data
-#         if serializer.is_valid():
-#             serializer.save()
-#             serializer)
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors,
-# status=status.HTTP_400_BAD_REQUEST)
 
 
 class AdminTeamStudentView(APIView):
