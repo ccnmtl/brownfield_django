@@ -7,42 +7,41 @@ from django.test.client import Client
 # from django.contrib.auth.models import User
 from rest_framework import status
 
-from factories import AdminProfileFactory
+from factories import ViewsAdminProfileFactory, AdminUserCourseFactory, \
+    AdminUserDocumentFactory
 #    CourseOneFactory, CourseTwoFactory, CourseThreeFactory
 # UserFactory, UserProfileFactory,
 #    StudentProfileFactory, CourseFactory, TeamFactory
 
 
-class TestAdminLogin(TestCase):
+class TestAdminViews(TestCase):
 
     def setUp(self):
         self.client = Client()
         self.factory = RequestFactory()
-        self.admin = AdminProfileFactory().user
-        self.client.login(username=self.admin.username, password="test")
+        self.admin = ViewsAdminProfileFactory().user
+        self.client.login(username=self.admin.username, password="Admin")
 
     def test_home_redirect(self):
         '''Keep getting random bootstrap can't be compressed errors.'''
-        pass
-#         request = self.client.get("/", follow=True)
-#         self.assertEquals(
-#             response.redirect_chain[0],
-#             ('http://testserver/ccnmtl/' +
-#              str(self.admin.profile.pk) + '/',
-#              302))
-#         self.assertTemplateUsed(response,
-#                                 'main/ccnmtl/ccnmtl_home.html')
+        request = self.client.get("/", follow=True)
+        self.assertEquals(
+            request.redirect_chain[0],
+            ('http://testserver/ccnmtl/' +
+             str(self.admin.profile.pk) + '/',
+             302))
+        self.assertTemplateUsed(request,
+                                'main/ccnmtl/home_dash/ccnmtl_home.html')
 
     def test_home(self):
         '''
         See what happens if I request appropriate home directly
         instead of following redirect.
         '''
-        pass
-#         request = self.client.get("/ccnmtl/" +
-#                                   str(self.admin.profile.pk) + '/')
-#         self.assertTemplateUsed(request,
-#                                 'main/ccnmtl/ccnmtl_home.html')
+        request = self.client.get("/ccnmtl/" +
+                                  str(self.admin.profile.pk) + '/')
+        self.assertTemplateUsed(request,
+                                'main/ccnmtl/home_dash/ccnmtl_home.html')
 
     def test_add_course_by_name(self):
         '''
@@ -121,22 +120,40 @@ class TestAdminLogin(TestCase):
 
     '''Test document related urls'''
 
-    def test_release_document(self):
+    def test_get_documents(self):
         '''
-        Calling post with desired name of the new course
-        should result in a new course with that name being created
-        and the course info (key) being returned to the browser to update
-        the course list.
+        Get all Course Documents.
         '''
-        pass
+        doc = AdminUserDocumentFactory()
+        crs = AdminUserCourseFactory()
+        crs.document_set.add(doc)
+        # ('id', 'name', 'link', 'visible')
+        response = self.client.get('/document/'+ str(crs.pk), format='json')
+        self.assertEqual(response.data, [{'id': doc.pk,
+                                         'name': u'Test Document for Admin',
+                                         'link': u"<a href='/path/to/the/course/document/here'></a>",
+                                         'visible': False}])
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_revoke_document(self):
+    def test_release_revoke_document(self):
         '''
-        Calling get for a course should redirect the instructor to a
-        course detail page where they can create teams, add students,
-        and put students in teams.
+        Release a document.
         '''
-        pass
+        doc = AdminUserDocumentFactory()
+        crs = AdminUserCourseFactory()
+        crs.document_set.add(doc)
+        response = self.client.put('/document/'+ str(doc.pk), format='json')
+        self.assertEqual(response.data, {'id': doc.pk,
+                                         'name': u'Test Document for Admin',
+                                         'link': u"<a href='/path/to/the/course/document/here'></a>",
+                                         'visible': True})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        response = self.client.put('/document/'+ str(doc.pk), format='json')
+        self.assertEqual(response.data, {'id': doc.pk,
+                                         'name': u'Test Document for Admin',
+                                         'link': u"<a href='/path/to/the/course/document/here'></a>",
+                                         'visible': False})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     '''Test student related urls'''
 

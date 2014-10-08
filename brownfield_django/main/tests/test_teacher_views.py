@@ -1,3 +1,7 @@
+from rest_framework import status
+
+from factories import ViewsTeacherProfileFactory
+
 # import json
 # from datetime import datetime
 

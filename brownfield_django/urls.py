@@ -12,7 +12,7 @@ from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, RegistrationView, AdminStudentView, \
     TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, \
     UserCourseView, AllCourseView, ActivateCourseView, \
-    AdminTeamView, CCNMTLHomeView, TeamMembersView
+    AdminTeamView, CCNMTLHomeView, TeamMembersView, CCNMTLCourseDetail
 admin.autodiscover()
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
@@ -44,13 +44,14 @@ urlpatterns = patterns(
     (r'^$', HomeView.as_view()),
     (r'^ccnmtl/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
     (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
+    (r'^ccnmtl/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
+    (r'^course_details/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
     # need to figure out url for students that doesn't not conflict with
     # dashboard urls
     # Teacher and Admin Views
     (r'^course/$', CourseView.as_view()),
     (r'^course/(?P<pk>\d+)$', CourseView.as_view()),
     (r'^course/(?P<pk>\d+)/$', CourseView.as_view()),
-    (r'^course_details/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
     (r'^update_course/(?P<pk>\d+)$', DetailJSONCourseView.as_view()),
     (r'^document/$', DocumentView.as_view()),
     (r'^document/(?P<pk>\d+)$', DocumentView.as_view()),

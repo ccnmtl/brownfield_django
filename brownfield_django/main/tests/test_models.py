@@ -76,6 +76,16 @@ class TestTeamProfileFactory(TestCase):
         self.assertEqual(team.is_teacher(), False)
 
 
+class TestStudentProfileFactory(TestCase):
+    '''The UserProfile Factory is a student so we will test that.'''
+    def test_unicode(self):
+        student = UserProfileFactory()
+        self.assertEqual(str(student), student.user.username)
+        self.assertEqual(student.role(), "student")
+        self.assertEqual(student.is_student(), True)
+        self.assertEqual(student.is_admin(), False)
+
+
 class TestCourseMethods(TestCase):
     '''
     Course model has several helper methods to assist

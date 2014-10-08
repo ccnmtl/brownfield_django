@@ -14,17 +14,17 @@
   <script src="../assets/js/respond.min.js"></script>
 <![endif]-->
 
-{% compress css %}
+{% comment %}{% compress css %}{% endcomment %}
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap-glyphicons.css" rel="stylesheet">
     <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
-{% endcompress %}
+{% comment %}{% endcompress %}{% endcomment %}
 	<link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.ico" type="image/x-icon" />
 	{% block css %}{% endblock %}
-    <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/underscore-min.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/backbone-min.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/utils.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/libraries/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/libraries/underscore-min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/libraries/backbone-min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/utils.js"></script>
     {% comment %}<script type="text/javascript" src="{{STATIC_URL}}old_javascript/ajaxify_forms.js"></script>{% endcomment %}
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/swfobject.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/MochiKit/MochiKit.js"></script>
@@ -209,10 +209,5 @@ You are impersonating.<br />
 </body>
 
 {% block bbjs %}{% endblock %}
-{% comment %}
-<script type="text/javascript" src="{{STATIC_URL}}js/usercourselist.js"></script>
-<script type="text/javascript" src="{{STATIC_URL}}js/documentlist.js"></script>
-<script type="text/javascript" src="{{STATIC_URL}}js/teams_students.js"></script>
-<script type="text/javascript" src="{{STATIC_URL}}js/test_collections.js"></script>
-{% endcomment %}
+
 </html>

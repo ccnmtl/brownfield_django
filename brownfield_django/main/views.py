@@ -513,19 +513,19 @@ class TeamMembersView(APIView):
 class CCNMTLHomeView(DetailView):
 
     model = UserProfile
-    template_name = 'main/ccnmtl/ccnmtl_home.html'
+    template_name = 'main/ccnmtl/home_dash/ccnmtl_home.html'
     success_url = '/'
 
     def dispatch(self, *args, **kwargs):
         if int(kwargs.get('pk')) != self.request.user.profile.id:
             return HttpResponseForbidden("forbidden")
-        return super(TeacherHomeView, self).dispatch(*args, **kwargs)
+        return super(CCNMTLHomeView, self).dispatch(*args, **kwargs)
 
 
 class CCNMTLCourseDetail(DetailView):
 
     model = Course
-    template_name = 'main/instructor/course_home.html'
+    template_name = 'main/ccnmtl/home_dash/course_home.html'
     success_url = '/'
 
 
@@ -549,7 +549,7 @@ class TeamHomeView(DetailView):
     @require_owns_resource()
     '''
     model = UserProfile
-    template_name = 'main/team_home.html'
+    template_name = 'main/team/team_home.html'
     success_url = '/'
 
     def dispatch(self, *args, **kwargs):
@@ -559,10 +559,10 @@ class TeamHomeView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(TeamHomeView, self).get_context_data(**kwargs)
-        context['user_courses'] = Course.objects.filter()
-        context['all_courses'] = Course.objects.all()
-        # context['course_form'] = CourseForm()
-        context['documents'] = Document.objects.all()
+        print self.model.course
+        #course = Course.objects.get(course=self.course)
+        context['visible_documents'] = Documents.objects.filter(visible=True)
+        # context['all_courses'] = Course.objects.all()
         return context
 
 

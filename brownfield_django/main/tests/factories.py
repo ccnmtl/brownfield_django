@@ -124,13 +124,13 @@ class ActualTeamUserFactory(factory.DjangoModelFactory):
     password = "Test_Team"
 
 
-class StudentProfileFactoryOne(UserProfileFactory):
+class StudentProfileFactoryOne(factory.DjangoModelFactory):
     FACTORY_FOR = UserProfile
     user = factory.SubFactory(StudentUserFactoryOne)
     profile_type = 'ST'
 
 
-class StudentProfileFactoryTwo(UserProfileFactory):
+class StudentProfileFactoryTwo(factory.DjangoModelFactory):
     FACTORY_FOR = UserProfile
     user = factory.SubFactory(StudentUserFactoryTwo)
     profile_type = 'ST'
@@ -143,18 +143,66 @@ class NewTeamProfileFactory(factory.DjangoModelFactory):
     course = factory.SubFactory(CourseFactory)
 
 
-class StudentInTeamProfileFactoryOne(UserProfileFactory):
+class StudentInTeamProfileFactoryOne(factory.DjangoModelFactory):
     FACTORY_FOR = UserProfile
     user = factory.SubFactory(StudentUserFactoryOne)
     profile_type = 'ST'
     team_name = "TeamLabel"
 
 
-class StudentInTeamProfileFactoryTwo(UserProfileFactory):
+class StudentInTeamProfileFactoryTwo(factory.DjangoModelFactory):
     FACTORY_FOR = UserProfile
     user = factory.SubFactory(StudentUserFactoryTwo)
     profile_type = 'ST'
     team_name = "TeamLabel"
+
+
+'''Creating Separate UserFactory and Profile for test_admin_views'''
+
+
+class AdminUserFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = User
+    username = "Admin"
+    password = factory.PostGenerationMethodCall('set_password', "Admin")
+
+
+class ViewsAdminProfileFactory(UserProfileFactory):
+    FACTORY_FOR = UserProfile
+    user = factory.SubFactory(AdminUserFactory)
+    profile_type = 'AD'
+
+
+class AdminUserCourseFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = Course
+    name = "Test Course"
+    startingBudget = 100000
+    enableNarrative = True
+    message = "Hello you non existent students."
+    active = True
+    professor = factory.SubFactory(UserFactory)
+
+
+class AdminUserDocumentFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = Document
+    name = "Test Document for Admin"
+    course = factory.SubFactory(CourseFactory)
+    link = "<a href='/path/to/the/course/document/here'></a>"
+    visible = False
+
+
+'''Creating Separate UserFactory and Profile for test_teacher_views'''
+
+
+class TeacherUserFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = User
+    username = "Teacher"
+    password = factory.PostGenerationMethodCall('set_password', "Teacher")
+
+
+class ViewsTeacherProfileFactory(UserProfileFactory):
+    FACTORY_FOR = UserProfile
+    user = factory.SubFactory(TeacherUserFactory)
+    profile_type = 'TE'
 
 
 '''Adding another User and new User's Courses to
