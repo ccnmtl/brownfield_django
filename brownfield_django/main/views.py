@@ -561,7 +561,7 @@ class TeamHomeView(DetailView):
         context = super(TeamHomeView, self).get_context_data(**kwargs)
         print self.model.course
         #course = Course.objects.get(course=self.course)
-        context['visible_documents'] = Documents.objects.filter(visible=True)
+        context['visible_documents'] = Document.objects.filter(visible=True)
         # context['all_courses'] = Course.objects.all()
         return context
 

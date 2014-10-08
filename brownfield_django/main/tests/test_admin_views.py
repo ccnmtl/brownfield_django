@@ -8,8 +8,9 @@ from django.test.client import Client
 from rest_framework import status
 
 from factories import ViewsAdminProfileFactory, AdminUserCourseFactory, \
-    AdminUserDocumentFactory, CourseOneFactory, CourseTwoFactory, \
-    CourseThreeFactory
+    AdminUserDocumentFactory
+#    CourseOneFactory, CourseTwoFactory, \
+#    CourseThreeFactory
 # UserFactory, UserProfileFactory,
 #    StudentProfileFactory, CourseFactory, TeamFactory
 
