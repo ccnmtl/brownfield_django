@@ -313,7 +313,7 @@ class AdminStudentView(APIView):
         '''Retrieve students of course if there are any to list.'''
         course = self.get_object(pk)
         try:
-            students = course.get_students_without_team()
+            students = course.get_students()
             users = User.objects.filter(profile__in=students)
             serializer = UserSerializer(users, many=True)
             return Response(serializer.data)
@@ -340,8 +340,6 @@ class AdminStudentView(APIView):
                                                      user=new_user,
                                                      profile_type='ST')
             new_profile.save()
-            print "username"
-            print username
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.data)
 
@@ -358,7 +356,7 @@ class AdminTeamView(APIView):
         except Course.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk, format=None):
+    def get(self, request, pk, format=None, *args, **kwargs):
         '''Send back all teams currently in course.'''
         course = self.get_object(pk)
         try:
@@ -370,22 +368,31 @@ class AdminTeamView(APIView):
             '''Assume collection is currently empty'''
             return Response(status.HTTP_200_OK)
 
-    def post(self, request, pk, format=None):
+    def post(self, request, pk, format=None, *args, **kwargs):
         '''Add a team.'''
-        # print "team post"
         course = self.get_object(pk)
-        username = request.DATA['username']
+        team_name = request.DATA['username']
+        # print type(team_name)
         password1 = request.DATA['password1']
         password2 = request.DATA['password2']
         if password1 == password2:
-            new_team_user = User.objects.create_user(username=username,
-                                                     password=password2)
-            new_team_user.save()
-            new_team_profile = UserProfile.objects.create(
-                user=new_team_user, profile_type='TM',
+            # print "password match"
+            # up to here works fine...
+            team_user = User.objects.create_user(
+                username=team_name, password=password2)
+            # print "new_team_user before save"
+            # print new_team_user
+            team_user.save()
+            # print team_user
+            # print team_user.username
+            # print team_user.password2
+            team_profile = UserProfile.objects.create(
+                user=team_user, profile_type='TM',
                 course=course, budget=course.startingBudget)
-            new_team_profile.save()
-            serializer = TeamNameSerializer(new_team_user)
+            team_profile.save()
+            # print team_user.profile
+            serializer = TeamNameSerializer(team_user)
+            # print serializer.data
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors,
@@ -417,7 +424,7 @@ class AdminTeamStudentView(APIView):
     def post(self, request, pk, format=None):
         '''Add a team.'''
         course = self.get_object(pk)
-        print request.DATA
+        # print request.DATA
         username = request.DATA['name']
         password1 = request.DATA['password1']
         password2 = request.DATA['password2']
@@ -431,7 +438,7 @@ class AdminTeamStudentView(APIView):
             # pylint is whining "new team profile assigned and not used"
             new_team_profile.save()
             serializer = TeamNameSerializer(new_team_user)
-            print serializer.data
+            # print serializer.data
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors,
