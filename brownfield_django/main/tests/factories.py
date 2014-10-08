@@ -102,6 +102,32 @@ class PerformedTestFactory(factory.DjangoModelFactory):
     paramString = '''Still need to find format for these...'''
 
 
+'''Adding Users and UserProfiles/Students to add to Course
+in test_models to see that it returns those Users.'''
+
+
+class StudentUserFactoryOne(factory.DjangoModelFactory):
+    FACTORY_FOR = User
+    username = "Student1"
+    password = "Student1"
+
+
+class StudentUserFactoryTwo(factory.DjangoModelFactory):
+    FACTORY_FOR = User
+    username = "Student2"
+    password = "Student2"
+
+
+class StudentProfileFactoryOne(UserProfileFactory):
+    user = factory.SubFactory(StudentUserFactoryOne)
+    profile_type = 'ST'
+
+
+class StudentProfileFactoryTwo(UserProfileFactory):
+    user = factory.SubFactory(StudentUserFactoryTwo)
+    profile_type = 'ST'
+
+
 '''Adding another User and new User's Courses to
 test /user_courses/ vs /all_courses/'''
 
