@@ -1,32 +1,29 @@
 <div class="tab-pane" id="course-team-students">
 
-<!-- <script type="text/template" id="available-teams"> -->
-<!-- <h3>Available Teams</h3> -->
-<!-- <div class="btn-group-vertical btn-group-sm btn-group-justified"></div> -->
-<!-- </script> -->
+<script type="text/template" id="available-teams">
+<div class="btn-group-vertical btn-group-sm btn-group-justified">
+{% for o in object.get_teams %}
+    <button type="button" class="btn btn-success">
+    {{o.username}}
+    </button>
+{% endfor %}
+</div>
+</script>
 <!-- <script type="text/template" id="actual-teams"> -->
-<!-- <button type="button" class="btn btn-success">Team Name <%= username %></button> -->
+<!--     Team Name <%= username %> -->
 <!-- </script> -->
 
-    <div id="team-divs">
-        <h3>Team Name</h3>
-        <div id="team-budget">Budget: </div>
-        <div id="team-members">
-            <h3>Team Members</h3>
-            <div class="team-member-list">
-            </div>
-        </div><!-- End Team Members div -->
-        
-    </div><!-- End Team Div -->
+<script type="text/template" id="team">
+<div class="course_team">
+    <div id="team-members">
+    <h3>Team Members</h3>
+    <div class="team-member-list">
+    </div>
+    </div><!-- End Team Members div -->
+</div>
+</script>
 
-
-
-
-
-
-
-    <h3>Teams</h3>
-    <div id="course-teams">
+    <div id="course_teams_students">
         <div class="team_controls">
             <button class="add-team-btn">
             Add New Team   
@@ -40,10 +37,11 @@
                 <input type="submit" value="Save Team" class="team_submit"/>
             </form>
         </div>
-        <div class="team-list"></div>
-    </div>
+        <div class="team-list">
+        </div>
+    <!-- </div> Moving to Bottom so students without teams are held in a list as a sub view-->
     
-    
+    <div id="student_info">
     <h3>Students</h3>
     <div id="course-students">
         <div class="student_controls">
@@ -59,7 +57,9 @@
                 <input type="submit" value="Save Student" class="student_submit"/>
             </form>
         </div>
+        <h3>Students not in a Team</h3>
         <div class="student-list"></div>
     </div>
-
+    </div>
+</div>
 </div>

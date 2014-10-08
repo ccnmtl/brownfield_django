@@ -1,4 +1,5 @@
 //creating team model
+// for adding teams to course
 var Team= Backbone.Model.extend({
     
     defaults: function() {
@@ -24,12 +25,10 @@ var TeamCollection = Backbone.Collection.extend({
 		    return '/team/' + crs_id;
 	  }
 });
-
-
 //End of Modes/Collections
 
 
-//Views 
+// Team View is to hold individual li elements in the course team list 
 var TeamView = Backbone.View.extend({
 
    	tagName : 'li',
@@ -62,20 +61,9 @@ var TeamView = Backbone.View.extend({
    	removeTeam: function()
    	{
    		console.log("Removing team from course.");
-    },
-    
-    addTeamMember: function()
-   	{
-   		console.log("Adding Team Member.");
-    },
-
-    removeTeamMember: function()
-   	{
-   		console.log("Adding Team Member.");
     }
-    
-});// End Team View
 
+});// End Team View
 
 
 /* Container to hold rows of teams */
@@ -191,3 +179,33 @@ var TeamFromView = Backbone.View.extend({
         return this;
     }
 });// End TeamFormView
+
+var TeamMemberContainerView = Backbone.View.extend({
+	
+    initialize: function (options)
+    {
+    	_.bindAll(this,
+    			 'render');
+    	this.team_member_list = new TeamCollection();
+    	this.team_member_list.fetch({processData: true, reset: true});
+    	this.team_member_list.on('reset', this.render);
+	},
+	
+    render: function()
+    {
+        this.$el.empty();
+        team_collection_view.course_teams.each(
+        	function(model)
+        	{
+        		this.$el.append(new TeamButtonView(
+        		{
+           			model: model
+        		}).render().el);
+        	}, this);
+
+        return this;
+    }
+});// End TeamFormView
+
+var team_collection_view = new TeamListView({el : jQuery('.team-member-list')});
+
