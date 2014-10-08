@@ -78,12 +78,11 @@ class TestAdminViews(TestCase):
         Return list of courses - those the admin user
         created and all others.
         '''
-        pass
-        #c1 = CourseOneFactory()
-        #c2 = CourseTwoFactory()
-        #c3 = CourseThreeFactory()
-        #response = self.client.get('/all_courses/', format='json')
-        #self.assertEqual(response.status_code, status.HTTP_200_OK)
+        c1 = CourseOneFactory()
+        c2 = CourseTwoFactory()
+        c3 = CourseThreeFactory()
+        response = self.client.get('/all_courses/', format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_course_details(self):
         '''
