@@ -378,7 +378,7 @@ class AdminTeamView(APIView):
             new_team_user = User.objects.create_user(username=username,
                                                      password=password2)
             new_team_user.save()
-            print new_team_user
+            # print new_team_user
             new_team_profile = UserProfile.objects.create(user=new_team_user,
                                                           profile_type='TM',
                                                           course=course,
@@ -434,43 +434,6 @@ class AdminTeamStudentView(APIView):
             return Reponse(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
-
-class AddTeam(JSONResponseMixin, View):
-    '''
-    Couldn't figure out how to add team with serializers and backbone,
-    sticking in here to get it done fast.
-    '''
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
-    def post(self, request, pk, *args, **kwargs):
-        course = self.get_object(pk)
-        username = self.get_object(pk)
-        username = request.POST['name']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
-        if password1 == password2:
-            print "passwords match"
-            new_user = User.objects.create_user(username=username,
-                                                password=password2)
-            print "new_user"
-            print new_user
-            new_team = UserProfile.objects.create(user=new_user, course=course)
-            new_team.save()
-            course.team_set.add(new_team)
-            course.save()
-            print "new_team"
-            print new_team
-            return self.render_to_json_response({'success': True})
-        else:
-            return self.render_to_json_response({'success': False})
 
 
 class TeacherHomeView(DetailView):
