@@ -77,7 +77,7 @@ class CourseTwoFactory(factory.DjangoModelFactory):
 
 class CourseThreeFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Course
-    name = "Test Course Two"
+    name = "Test Course Three"
     startingBudget = 65000
     enableNarrative = True
     message = "Hello you non existant students."

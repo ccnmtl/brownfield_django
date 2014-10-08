@@ -1,6 +1,7 @@
 brownfield_django/main/views.py:564: [E] PYFLAKES:undefined name 'Documents'
-brownfield_django/main/tests/test_teacher_views.py:1: [E] PYFLAKES:'status' imported but unused
-brownfield_django/main/tests/test_teacher_views.py:3: [E] PYFLAKES:'ViewsTeacherProfileFactory' imported but unused
 brownfield_django/main/tests/__init__.py:2: [E] PYFLAKES:'from test_models import *' used; unable to detect undefined names
 brownfield_django/main/tests/__init__.py:3: [E] PYFLAKES:'from test_views import *' used; unable to detect undefined names
 brownfield_django/main/tests/__init__.py:4: [E] PYFLAKES:'from test_admin_views import *' used; unable to detect undefined names
+brownfield_django/main/tests/test_admin_views.py:10: [E] PYFLAKES:'CourseOneFactory' imported but unused
+brownfield_django/main/tests/test_admin_views.py:10: [E] PYFLAKES:'CourseTwoFactory' imported but unused
+brownfield_django/main/tests/test_admin_views.py:10: [E] PYFLAKES:'CourseThreeFactory' imported but unused
