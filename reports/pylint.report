@@ -1,14 +1,14 @@
 brownfield_django/main/forms.py:28: [E1101, CreateAccountForm.clean_profile_type] Instance of 'CreateAccountForm' has no 'cleaned_data' member
 brownfield_django/main/forms.py:41: [E1101, user_created] Instance of 'CreateAccountForm' has no 'data' member
-brownfield_django/main/models.py:28: [W0105] String statement has no effect
-brownfield_django/main/models.py:54: [E1101, Course.get_students] Instance of 'Course' has no 'userprofile_set' member
-brownfield_django/main/models.py:57: [E1101, Course.get_students_without_team] Instance of 'Course' has no 'userprofile_set' member
-brownfield_django/main/models.py:60: [E1101, Course.get_teams] Instance of 'Course' has no 'userprofile_set' member
-brownfield_django/main/models.py:63: [E1101, Course.get_team_members] Instance of 'Course' has no 'userprofile_set' member
-brownfield_django/main/models.py:97: [W0105, UserProfile] String statement has no effect
-brownfield_django/main/models.py:103: [W0105, UserProfile] String statement has no effect
-brownfield_django/main/models.py:108: [E1101, UserProfile.__unicode__] Instance of 'OneToOneField' has no 'username' member
-brownfield_django/main/models.py:114: [E1101, UserProfile.display_name] Instance of 'OneToOneField' has no 'username' member
+brownfield_django/main/models.py:29: [W0105] String statement has no effect
+brownfield_django/main/models.py:55: [E1101, Course.get_students] Instance of 'Course' has no 'userprofile_set' member
+brownfield_django/main/models.py:58: [E1101, Course.get_students_without_team] Instance of 'Course' has no 'userprofile_set' member
+brownfield_django/main/models.py:61: [E1101, Course.get_teams] Instance of 'Course' has no 'userprofile_set' member
+brownfield_django/main/models.py:64: [E1101, Course.get_team_members] Instance of 'Course' has no 'userprofile_set' member
+brownfield_django/main/models.py:98: [W0105, UserProfile] String statement has no effect
+brownfield_django/main/models.py:104: [W0105, UserProfile] String statement has no effect
+brownfield_django/main/models.py:109: [E1101, UserProfile.__unicode__] Instance of 'OneToOneField' has no 'username' member
+brownfield_django/main/models.py:115: [E1101, UserProfile.display_name] Instance of 'OneToOneField' has no 'username' member
 brownfield_django/main/document_links.py:4: [C0301] Line too long (266/160)
 brownfield_django/main/document_links.py:6: [C0301] Line too long (261/160)
 brownfield_django/main/document_links.py:16: [C0301] Line too long (164/160)
@@ -209,33 +209,20 @@ Report
 ======
 931 statements analysed.
 
-Duplication
------------
+Statistics by type
+------------------
 
-+-------------------------+------+---------+-----------+
-|                         |now   |previous |difference |
-+=========================+======+=========+===========+
-|nb duplicated lines      |0     |0        |=          |
-+-------------------------+------+---------+-----------+
-|percent duplicated lines |0.000 |0.000    |=          |
-+-------------------------+------+---------+-----------+
-
-
-
-Raw metrics
------------
-
-+----------+-------+------+---------+-----------+
-|type      |number |%     |previous |difference |
-+==========+=======+======+=========+===========+
-|code      |1088   |53.81 |1089     |-1.00      |
-+----------+-------+------+---------+-----------+
-|docstring |307    |15.18 |307      |=          |
-+----------+-------+------+---------+-----------+
-|comment   |347    |17.16 |345      |+2.00      |
-+----------+-------+------+---------+-----------+
-|empty     |280    |13.85 |280      |=          |
-+----------+-------+------+---------+-----------+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |16     |16         |=          |0.00        |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|class    |109    |109        |=          |25.69       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|method   |101    |101        |=          |53.47       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|function |7      |7          |=          |14.29       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
 
 
 
@@ -249,9 +236,9 @@ Messages by category
 +-----------+-------+---------+-----------+
 |refactor   |26     |26       |=          |
 +-----------+-------+---------+-----------+
-|warning    |45     |48       |-3.00      |
+|warning    |45     |45       |=          |
 +-----------+-------+---------+-----------+
-|error      |81     |82       |-1.00      |
+|error      |81     |81       |=          |
 +-----------+-------+---------+-----------+
 
 
@@ -322,22 +309,35 @@ Messages
 
 Global evaluation
 -----------------
-Your code has been rated at 4.49/10 (previous run: 4.40/10)
+Your code has been rated at 4.49/10 (previous run: 4.49/10)
 
-Statistics by type
-------------------
+Duplication
+-----------
 
-+---------+-------+-----------+-----------+------------+---------+
-|type     |number |old number |difference |%documented |%badname |
-+=========+=======+===========+===========+============+=========+
-|module   |16     |16         |=          |0.00        |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|class    |109    |109        |=          |25.69       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|method   |101    |101        |=          |53.47       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
-|function |7      |7          |=          |14.29       |0.00     |
-+---------+-------+-----------+-----------+------------+---------+
++-------------------------+------+---------+-----------+
+|                         |now   |previous |difference |
++=========================+======+=========+===========+
+|nb duplicated lines      |0     |0        |=          |
++-------------------------+------+---------+-----------+
+|percent duplicated lines |0.000 |0.000    |=          |
++-------------------------+------+---------+-----------+
+
+
+
+Raw metrics
+-----------
+
++----------+-------+------+---------+-----------+
+|type      |number |%     |previous |difference |
++==========+=======+======+=========+===========+
+|code      |1089   |53.83 |1089     |=          |
++----------+-------+------+---------+-----------+
+|docstring |307    |15.18 |307      |=          |
++----------+-------+------+---------+-----------+
+|comment   |347    |17.15 |347      |=          |
++----------+-------+------+---------+-----------+
+|empty     |280    |13.84 |280      |=          |
++----------+-------+------+---------+-----------+
 
 
 

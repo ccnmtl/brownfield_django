@@ -47,7 +47,7 @@ urlpatterns = patterns(
     (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
     (r'^ccnmtl/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
     (r'^course_details/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
-    (r'^team/home/(?P<pk>\d+)/$',TeamHomeView.as_view()),
+    (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
     # need to figure out url for students that doesn't not conflict with
     # dashboard urls
     # Teacher and Admin Views
