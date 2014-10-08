@@ -25,18 +25,6 @@ var TeamCollection = Backbone.Collection.extend({
 	  }
 });
 
-// we have our views and collection for a list of teams
-// now we make a box to hold the students in the team - collection of students
-// 
-
-
-var TeamMembersCollection = Backbone.Collection.extend({
-	 model: Student,
-	 url: function() {
-		    return '/team_members/' + this.model.username + '/';
-	  }
-});
-
 
 //End of Modes/Collections
 
@@ -81,7 +69,7 @@ var TeamView = Backbone.View.extend({
    		console.log("Adding Team Member.");
     },
 
-    addTeamMember: function()
+    removeTeamMember: function()
    	{
    		console.log("Adding Team Member.");
     }
@@ -160,3 +148,46 @@ var TeamControlView = Backbone.View.extend({
 });// End TeamControlView  
 
 var team_control_view = new TeamControlView({el : jQuery('.team_controls')});
+
+
+var TeamButtonView = Backbone.View.extend({
+	template: _.template('<button type="button" class="btn btn-success">Team Name <%= username %></button>'),
+
+    render: function ()
+    {
+        if (!this.model) 
+        {
+            throw "Model is not set for this view";
+        }
+        var html = this.template(this.model.toJSON());
+        this.$el.html(html);
+        return this;
+    }
+});// End TeamButtonView
+
+var TeamFromView = Backbone.View.extend({
+	//template: _.template('<div class="btn-group-vertical btn-group-sm btn-group-justified"></div>');
+
+	className: "btn-group-vertical btn-group-sm btn-group-justified",
+	
+    initialize: function (options)
+    {
+    	_.bindAll(this,
+    			 'render');
+	},
+	
+    render: function()
+    {
+        this.$el.empty();
+        team_collection_view.course_teams.each(
+        	function(model)
+        	{
+        		this.$el.append(new TeamButtonView(
+        		{
+           			model: model
+        		}).render().el);
+        	}, this);
+
+        return this;
+    }
+});// End TeamFormView
