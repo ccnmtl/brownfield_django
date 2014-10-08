@@ -8,6 +8,7 @@ PROFILE_CHOICES = (
     ('AD', 'Administrator'),
     ('TE', 'Teacher'),
     ('TM', 'Team'),
+    ('ST', 'Student'),
 )
 
 

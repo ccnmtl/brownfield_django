@@ -46,7 +46,7 @@ class HomeView(LoggedInMixin, View):
             return HttpResponseRedirect(reverse('register'))
 
         if user_profile.is_team():
-            url = '/team/%s/' % (user_profile.id)
+            url = '/team/home/%s/' % (user_profile.id)
         if user_profile.is_teacher():
             url = '/teacher/%s/' % (user_profile.id)
         if user_profile.is_admin():

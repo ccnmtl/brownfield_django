@@ -3,7 +3,31 @@
 
 {% endblock %}
 {% block content %}
+    {% block course_documents %}
+    <div class="course-div">
+        <b>Course Documents</b>
+        <ul>
+            {% for document in visible_documents %}
+            <li>{{ document.name }} {{ document.link }}</li>
+            {% empty %}
+            <li>Sorry, no documents have been made available yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
 
+    {% endblock %}
+    
+    {% block team_info %}
+    <div class="team-div">
+        <h3>Team Information</h3> <br />
+        <b>Team Name: </b> {{object.user.username}} <br />
+        <b>Course: </b> {{object.course}} <br />
+        <b>Signed Contract: </b> {{object.signed_contract}} <br />
+        <b>Budget: </b> {{object.budget} <br />
+    </div>
+    {% endblock %}
+    
+    {% block brownfield %}
     <div id=flvplayer>
     The original application makes several calls to flash player which is actually just a div in a template
     <h3 id="flvtitle">Video</h3>
@@ -55,27 +79,12 @@
 		  <div id="playbfa">
 		    <a href="javascript:openPopWin('../../demo/play','800','600','no','yes','bfa',true)" title="Play Brownfield Action"><img src="{{STATIC_MEDIA}}images/playbfa.gif" alt="" width="152" height="166" border="0" />Click here</a>
 		  </div>
-    {% block course_documents %}
-    <div class="course-div">
-        <b>Course Documents</b>
-        <ul>
-            {% for document in visible_documents %}
-            <li>{{ document.name }} {{ document.link }}</li>
-            {% empty %}
-            <li>Sorry, no documents have been made available yet.</li>
-            {% endfor %}
-        </ul>
-    </div>
     {% endblock %}
-    {% block team_info %}
-    <div class="team-div">
-        <h3>Team Information</h3> <br />
-        <b>Team Name: </b> {{object.user.username}} <br />
-        <b>Course: </b> {{object.course}} <br />
-        <b>Signed Contract: </b> {{object.signed_contract}} <br />
-        <b>Budget: </b> {{object.budget} <br />
-    </div>
-    {% endblock %}
+
 
 
 {% endblock %}<!-- End Content Block -->
+<br />
+<br />
+<br />
+<br />
