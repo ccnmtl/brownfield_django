@@ -10,7 +10,9 @@ brownfield_django/main/views.py:490: [E] PYFLAKES:local variable 'new_team_profi
 brownfield_django/main/views.py:494: [E] PYFLAKES:undefined name 'TeamNameSerialzier'
 brownfield_django/main/views.py:496: [E] PYFLAKES:undefined name 'Reponse'
 brownfield_django/main/tests/test_models.py:4: [E] PYFLAKES:'User' imported but unused
-brownfield_django/main/tests/test_models.py:122: [E] PYFLAKES:local variable 'form' is assigned to but never used
+brownfield_django/main/tests/test_models.py:6: [E] PYFLAKES:'StudentInTeamProfileFactoryTwo' imported but unused
+brownfield_django/main/tests/test_models.py:6: [E] PYFLAKES:'StudentInTeamProfileFactoryOne' imported but unused
+brownfield_django/main/tests/test_models.py:123: [E] PYFLAKES:local variable 'form' is assigned to but never used
 brownfield_django/main/tests/test_teacher_views.py:4: [E] PYFLAKES:'TestCase' imported but unused
 brownfield_django/main/tests/test_teacher_views.py:4: [E] PYFLAKES:'RequestFactory' imported but unused
 brownfield_django/main/tests/test_teacher_views.py:5: [E] PYFLAKES:'Client' imported but unused

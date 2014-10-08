@@ -1,12 +1,13 @@
 # from datetime import date
 
 from django.test import TestCase
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
 from factories import UserFactory, UserProfileFactory, TeacherProfileFactory, \
     TeamProfileFactory, CourseFactory, HistoryFactory, \
     PerformedTestFactory, DocumentFactory, AdminProfileFactory, \
     StudentProfileFactoryOne, StudentProfileFactoryTwo
+#    StudentInTeamProfileFactoryOne, StudentInTeamProfileFactoryTwo
 
 from brownfield_django.main.models import CourseForm
 
@@ -119,15 +120,35 @@ class TestCourseMethods(TestCase):
     def test_course_get_form(self):
         '''Make sure get_form returns a course form.'''
         course = CourseFactory()
-        form = course.get_course_form()
         course_form = CourseForm()
         self.assertEqual(type(course_form), type(course.get_course_form()))
 
-#  def get_students_without_team(self):
-#         return self.userprofile_set.filter(profile_type='ST', in_team=False)
-#     
-#     def get_teams(self):
-#         return self.userprofile_set.filter(profile_type='TM')
-#     
+#     def test_course_get_students_without_team(self):
+#         '''
+#         Same as get students if we don't add any to teams yet.
+#         Guess to be thorough we should only change the 'in_team'
+#         label in one of them.
+#         '''
+#         student_one = StudentProfileFactoryOne()
+#         student_two = StudentProfileFactoryTwo()
+#         course = CourseFactory()
+#         course.userprofile_set.add(student_one, student_two)
+#         student_two.in_team = True
+#         self.assertTrue(student_one in course.get_students_without_team())
+#         self.assertFalse(student_two in course.get_students_without_team())
+
+#     def test_course_get_team_members(self):
+#         '''Now we need to create students, and put them in a team.
+#         This is done by giving them a team_name label and filtering.
+#         Not the best approach.'''
+#         student_one = StudentProfileFactoryOne()
+#         student_two = StudentProfileFactoryTwo()
+#         course = CourseFactory()
+#         course.userprofile_set.add(student_one, student_two)
+#         self.assertTrue(
+# student_one in course.get_team_members(name="TeamLabel"))
+#         self.assertTrue(
+# student_two in course.get_team_members(name="TeamLabel"))
+#
 #     def get_team_members(self, name):
 #         return self.userprofile_set.filter(profile_type='ST', team_name=name)

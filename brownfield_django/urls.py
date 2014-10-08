@@ -61,7 +61,8 @@ urlpatterns = patterns(
     (r'^student/(?P<pk>\d+)$', AdminStudentView.as_view()),
     (r'^team/$', AdminTeamView.as_view()),
     (r'^team/(?P<pk>\d+)$', AdminTeamView.as_view()),
-    (r'^teammembers/$', TemplateView.as_view(template_name="main/ccnmtl/team_members.html")),
+    (r'^teammembers/$', TemplateView.as_view(
+        template_name="main/ccnmtl/team_members.html")),
     (r'^team_members/$', TeamMembersView.as_view()),
     (r'^team_members/(?P<pk>\d+)$', TeamMembersView.as_view()),
     # student/team views

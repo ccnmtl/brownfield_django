@@ -55,10 +55,10 @@ class Course(models.Model):
 
     def get_students_without_team(self):
         return self.userprofile_set.filter(profile_type='ST', in_team=False)
-    
+
     def get_teams(self):
         return self.userprofile_set.filter(profile_type='TM')
-    
+
     def get_team_members(self, name):
         return self.userprofile_set.filter(profile_type='ST', team_name=name)
 
@@ -68,7 +68,7 @@ class Course(models.Model):
 
     def get_course_form(self):
         form = CourseForm()
-        return form 
+        return form
 
 
 class CourseForm(ModelForm):
@@ -103,7 +103,6 @@ class UserProfile(models.Model):
     '''
     in_team = models.BooleanField(default=False)
     team_name = models.CharField(max_length=255, default="")
-
 
     def __unicode__(self):
         return self.user.username

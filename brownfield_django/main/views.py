@@ -24,8 +24,10 @@ from rest_framework.views import APIView
 from brownfield_django.main.forms import CreateAccountForm
 from brownfield_django.main.models import Course, UserProfile, Document
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
-    CompleteDocumentSerializer, NewTeamSerializer, CompleteCourseSerializer, \
-    CourseNameIDSerializer, UserSerializer, UpdateCourseSerializer, TeamNameSerializer
+    CompleteDocumentSerializer, CompleteCourseSerializer, \
+    CourseNameIDSerializer, UserSerializer, TeamNameSerializer, \
+    TeamSerializer
+    # NewTeamSerializer, UpdateCourseSerializer,
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
@@ -185,9 +187,9 @@ class DetailJSONCourseView(JSONResponseMixin, View):
             raise Http404
 
     def convert_TF_to_json(self, attribute):
-        if attribute == True:
+        if attribute is True:
             return 'true'
-        elif attribute == False:
+        elif attribute is False:
             return 'false'
 
     def convert_TF_from_json(self, attribute):
@@ -206,14 +208,14 @@ class DetailJSONCourseView(JSONResponseMixin, View):
         j_course.append({'id': str(course.id),
                          'name': course.name,
                          'startingBudget': course.startingBudget,
-                         'enableNarrative': self.convert_TF_to_json(course.enableNarrative),
+                         'enableNarrative': self.convert_TF_to_json(
+                             course.enableNarrative),
                          'message': course.message,
                          'active': self.convert_TF_to_json(course.active),
                          'archive': self.convert_TF_to_json(course.archive),
-                         'professor' : str(course.professor)
-                        })
+                         'professor': str(course.professor)
+                         })
         return self.render_to_json_response({'course': j_course})
-        
 
     def post(self, request, pk, format=None, *args, **kwargs):
         '''This is really really ugly as is get method need to clean up.'''
@@ -227,19 +229,21 @@ class DetailJSONCourseView(JSONResponseMixin, View):
             self.request.POST.get('active'))
         course.archive = self.convert_TF_from_json(
             self.request.POST.get('archive'))
-        userprof = User.objects.get(username=self.request.POST.get('professor'))
+        userprof = User.objects.get(
+            username=self.request.POST.get('professor'))
         course.professor = userprof
         course.save()
         j_course = []
         j_course.append({'id': str(course.id),
                          'name': course.name,
                          'startingBudget': course.startingBudget,
-                         'enableNarrative': self.convert_TF_to_json(course.enableNarrative),
+                         'enableNarrative': self.convert_TF_to_json(
+                             course.enableNarrative),
                          'message': course.message,
                          'active': self.convert_TF_to_json(course.active),
                          'archive': self.convert_TF_to_json(course.archive),
-                         'professor' : str(course.professor)
-                        })
+                         'professor': str(course.professor)
+                         })
         return self.render_to_json_response({'course': j_course})
 
 
@@ -252,7 +256,6 @@ class ActivateCourseView(JSONResponseMixin, View):
     def post(self, request, *args, **kwargs):
         cr_pk = request.POST['crs_id']
         print cr_pk
-
 
 
 class DocumentView(APIView):
@@ -378,19 +381,15 @@ class AdminTeamView(APIView):
             new_team_user = User.objects.create_user(username=username,
                                                      password=password2)
             new_team_user.save()
-            # print new_team_user
-            new_team_profile = UserProfile.objects.create(user=new_team_user,
-                                                          profile_type='TM',
-                                                          course=course,
-                                                          budget=course.startingBudget)
+            new_team_profile = UserProfile.objects.create(
+                user=new_team_user, profile_type='TM',
+                course=course, budget=course.startingBudget)
             new_team_profile.save()
-            # print new_team_profile
             serializer = TeamNameSerializer(new_team_user)
-            # print 'serializer.data'
-            # print serializer.data
-            return Reponse(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class AdminTeamStudentView(APIView):
@@ -425,15 +424,18 @@ class AdminTeamStudentView(APIView):
         if password1 == password2:
             new_team_user = User.objects.create_user(username=username,
                                                      password=password2)
-            new_team_profile = UserProfile.objects.create(user=new_team_user,
-                                                          profile_type='TM',
-                                                          course=course,
-                                                          budget=course.startingBudget)
-            serializer = TeamNameSerialzier(new_team_user)
+            new_team_profile = UserProfile.objects.create(
+                user=new_team_user, profile_type='TM',
+                course=course, budget=course.startingBudget)
+            # I know the model is automatically saved upon creation but
+            # pylint is whining "new team profile assigned and not used"
+            new_team_profile.save()
+            serializer = TeamNameSerializer(new_team_user)
             print serializer.data
-            return Reponse(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class TeacherHomeView(DetailView):
@@ -487,15 +489,18 @@ class TeamMembersView(APIView):
         if password1 == password2:
             new_team_user = User.objects.create_user(username=username,
                                                      password=password2)
-            new_team_profile = UserProfile.objects.create(user=new_team_user,
-                                                          profile_type='TM',
-                                                          course=course,
-                                                          budget=course.startingBudget)
-            serializer = TeamNameSerialzier(new_team_user)
+            new_team_profile = UserProfile.objects.create(
+                user=new_team_user, profile_type='TM',
+                course=course, budget=course.startingBudget)
+            # I know the model is automatically saved upon creation but
+            # pylint is whining "new team profile assigned and not used"
+            new_team_profile.save()
+            serializer = TeamNameSerializer(new_team_user)
             print serializer.data
-            return Reponse(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class CCNMTLHomeView(DetailView):

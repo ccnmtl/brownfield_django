@@ -37,7 +37,7 @@ class DocumentFactory(factory.DjangoModelFactory):
 class UserProfileFactory(factory.DjangoModelFactory):
     FACTORY_FOR = UserProfile
     user = factory.SubFactory(UserFactory)
-    profile_type = 'TM'
+    profile_type = 'ST'
     course = factory.SubFactory(CourseFactory)
 
 
@@ -102,8 +102,8 @@ class PerformedTestFactory(factory.DjangoModelFactory):
     paramString = '''Still need to find format for these...'''
 
 
-'''Adding Users and UserProfiles/Students to add to Course
-in test_models to see that it returns those Users.'''
+'''Adding Users and UserProfiles/Students/Teams to add to Course
+and/or Teams in test_models to see that it returns those Users.'''
 
 
 class StudentUserFactoryOne(factory.DjangoModelFactory):
@@ -118,14 +118,43 @@ class StudentUserFactoryTwo(factory.DjangoModelFactory):
     password = "Student2"
 
 
+class ActualTeamUserFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = User
+    username = "Test_Team"
+    password = "Test_Team"
+
+
 class StudentProfileFactoryOne(UserProfileFactory):
+    FACTORY_FOR = UserProfile
     user = factory.SubFactory(StudentUserFactoryOne)
     profile_type = 'ST'
 
 
 class StudentProfileFactoryTwo(UserProfileFactory):
+    FACTORY_FOR = UserProfile
     user = factory.SubFactory(StudentUserFactoryTwo)
     profile_type = 'ST'
+
+
+class NewTeamProfileFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = UserProfile
+    user = factory.SubFactory(ActualTeamUserFactory)
+    profile_type = 'TM'
+    course = factory.SubFactory(CourseFactory)
+
+
+class StudentInTeamProfileFactoryOne(UserProfileFactory):
+    FACTORY_FOR = UserProfile
+    user = factory.SubFactory(StudentUserFactoryOne)
+    profile_type = 'ST'
+    team_name = "TeamLabel"
+
+
+class StudentInTeamProfileFactoryTwo(UserProfileFactory):
+    FACTORY_FOR = UserProfile
+    user = factory.SubFactory(StudentUserFactoryTwo)
+    profile_type = 'ST'
+    team_name = "TeamLabel"
 
 
 '''Adding another User and new User's Courses to
@@ -136,8 +165,8 @@ test /user_courses/ vs /all_courses/'''
 #     FACTORY_FOR = User
 #     username = factory.Sequence(lambda n: "user%d" % n)
 #     password = factory.PostGenerationMethodCall('set_password', 'test')
-# 
-# 
+#
+#
 # class CourseOneFactory(factory.DjangoModelFactory):
 #     FACTORY_FOR = Course
 #     name = "Test Course One"
@@ -146,8 +175,8 @@ test /user_courses/ vs /all_courses/'''
 #     message = "Hello you non existant students."
 #     active = True
 #     professor = factory.SubFactory(UserFactory)
-# 
-# 
+#
+#
 # class CourseTwoFactory(factory.DjangoModelFactory):
 #     FACTORY_FOR = Course
 #     name = "Test Course Two"
@@ -156,8 +185,8 @@ test /user_courses/ vs /all_courses/'''
 #     message = "Hello you non existant students."
 #     active = True
 #     professor = factory.SubFactory(UserFactory)
-# 
-# 
+#
+#
 # class CourseThreeFactory(factory.DjangoModelFactory):
 #     FACTORY_FOR = Course
 #     name = "Test Course Two"
@@ -166,4 +195,3 @@ test /user_courses/ vs /all_courses/'''
 #     message = "Hello you non existant students."
 #     active = True
 #     professor = factory.SubFactory(UserFactory)
-
