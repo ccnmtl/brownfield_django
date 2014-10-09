@@ -344,6 +344,31 @@ class AdminStudentView(APIView):
         return Response(serializer.data)
 
 
+class CreateTeamsView(DetailView):
+    """
+    Until I figure out nested views in Backbone or some Backbone plug-in...
+    """
+    model = Course
+    template_name = 'main/ccnmtl/course_dash/create_teams.html'
+    success_url = '/'
+
+#     def dispatch(self, *args, **kwargs):
+#         if int(kwargs.get('pk')) != self.request.user.profile.id:
+#             return HttpResponseForbidden("forbidden")
+#         return super(CreateTeamsView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateTeamsView, self).get_context_data(**kwargs)
+        '''How to reference 'this' object.pk? '''
+        print self.object
+        # course = Course.objects.get(course=self.course)
+        students = self.object.get_students()
+        print students
+        context['team_list'] = self.object.get_teams()
+        context['student_list'] = User.objects.filter(profile__in=students)
+        return context
+
+
 class AdminTeamView(APIView):
     """
     This view interacts with backbone to allow instructors to
@@ -448,7 +473,7 @@ class AdminTeamStudentView(APIView):
 class TeacherHomeView(DetailView):
 
     model = UserProfile
-    template_name = 'main/instructor/instructor_home.html'
+    template_name = 'main/instructor/home_dash/instructor_home.html'
     success_url = '/'
 
     def dispatch(self, *args, **kwargs):
@@ -460,7 +485,7 @@ class TeacherHomeView(DetailView):
 class TeacherCourseDetail(DetailView):
 
     model = Course
-    template_name = 'main/instructor/course_home.html'
+    template_name = 'main/instructor/course_dash/course_home.html'
     success_url = '/'
 
 
@@ -525,7 +550,7 @@ class CCNMTLHomeView(DetailView):
 class CCNMTLCourseDetail(DetailView):
 
     model = Course
-    template_name = 'main/ccnmtl/home_dash/course_home.html'
+    template_name = 'main/ccnmtl/course_dash/course_home.html'
     success_url = '/'
 
 
@@ -557,13 +582,7 @@ class TeamHomeView(DetailView):
             return HttpResponseForbidden("forbidden")
         return super(TeamHomeView, self).dispatch(*args, **kwargs)
 
-    def get_context_data(self, **kwargs):
-        context = super(TeamHomeView, self).get_context_data(**kwargs)
-        print self.model.course
-        #course = Course.objects.get(course=self.course)
-        context['visible_documents'] = Document.objects.filter(visible=True)
-        # context['all_courses'] = Course.objects.all()
-        return context
+
 
 
 '''I am using this view to play around with getting the
