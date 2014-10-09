@@ -43,11 +43,11 @@ urlpatterns = patterns(
     url(r'^api-auth/', include('rest_framework.urls',
                                namespace='rest_framework')),
     (r'^$', HomeView.as_view()),
-    (r'^ccnmtl/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
-    (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
-    (r'^ccnmtl/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
-    (r'^course_details/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
+    (r'^ccnmtl/home/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
+    (r'^teacher/home/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
     (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
+    (r'^ccnmtl/course_details/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
+    (r'^teacher/course_details/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
     (r'^create_teams/(?P<pk>\d+)/$', CreateTeamsView.as_view()),
     # need to figure out url for students that doesn't not conflict with
     # dashboard urls

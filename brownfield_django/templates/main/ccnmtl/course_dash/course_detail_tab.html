@@ -27,6 +27,9 @@
                 <div class="panel-body">
                     <form id="upt-crs-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
                     {{object.get_course_form.as_p}}
+                    <button id="update-crs-btn" type="button">
+                    Edit Course
+                    </button><br />
                 </div><!-- End panel body -->
             </div><!-- End collapsing Form -->
         </div><!-- End Course Form -->

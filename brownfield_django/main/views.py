@@ -26,7 +26,7 @@ from brownfield_django.main.models import Course, UserProfile, Document
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
     CompleteDocumentSerializer, CompleteCourseSerializer, \
     CourseNameIDSerializer, UserSerializer, TeamNameSerializer, \
-    TeamSerializer
+    TeamSerializer, CreateTeamSerializer
     # NewTeamSerializer, UpdateCourseSerializer,
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
@@ -48,9 +48,9 @@ class HomeView(LoggedInMixin, View):
         if user_profile.is_team():
             url = '/team/home/%s/' % (user_profile.id)
         if user_profile.is_teacher():
-            url = '/teacher/%s/' % (user_profile.id)
+            url = '/teacher/home/%s/' % (user_profile.id)
         if user_profile.is_admin():
-            url = '/ccnmtl/%s/' % (user_profile.id)
+            url = '/ccnmtl/home/%s/' % (user_profile.id)
 
         return HttpResponseRedirect(url)
 
@@ -77,7 +77,20 @@ class CourseView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, pk, format=None, *args, **kwargs):
-        return HttpResponseRedirect("../../course_details/" + str(pk) + "/")
+        try:
+            user_profile = UserProfile.objects.get(user=request.user.pk)
+        except UserProfile.DoesNotExist:
+            pass # make 'forbidden'
+            # return HttpResponseRedirect(reverse('register'))
+        # again make forbidden
+        # if user_profile.is_team():
+        #    url = '/team/home/%s/' % (user_profile.id)
+        if user_profile.is_teacher():
+            url = "/teacher/course_details/%s/" % str(pk)
+        if user_profile.is_admin():
+            url = '/ccnmtl/course_details/%s/' % str(pk)
+        return HttpResponseRedirect(url)
+
 
     def post(self, request, format=None, *args, **kwargs):
         '''
@@ -360,12 +373,16 @@ class CreateTeamsView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(CreateTeamsView, self).get_context_data(**kwargs)
         '''How to reference 'this' object.pk? '''
-        print self.object
-        # course = Course.objects.get(course=self.course)
-        students = self.object.get_students()
-        print students
-        context['team_list'] = self.object.get_teams()
-        context['student_list'] = User.objects.filter(profile__in=students)
+        # print self.object
+        # print type(self.object)
+        # students = self.object.get_students()
+        # teams = self.object.get_teams()
+        context['team_list'] = User.objects.filter(profile__in=self.object.get_teams())
+        print context['team_list']
+        context['student_list'] = User.objects.filter(profile__in=self.object.get_students())
+        print context['student_list']
+        #print self.object.get_students()
+        #print User.objects.filter(profile__in=self.object.get_students())
         return context
 
 
@@ -397,7 +414,6 @@ class AdminTeamView(APIView):
         '''Add a team.'''
         course = self.get_object(pk)
         team_name = request.DATA['username']
-        # print type(team_name)
         password1 = request.DATA['password1']
         password2 = request.DATA['password2']
         if password1 == password2:
