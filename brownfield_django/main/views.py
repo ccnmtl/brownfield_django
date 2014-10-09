@@ -583,8 +583,6 @@ class TeamHomeView(DetailView):
         return super(TeamHomeView, self).dispatch(*args, **kwargs)
 
 
-
-
 '''I am using this view to play around with getting the
 flash to run'''
 
