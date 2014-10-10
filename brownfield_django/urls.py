@@ -12,7 +12,7 @@ from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, RegistrationView, AdminStudentView, \
     TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, \
     UserCourseView, AllCourseView, ActivateCourseView, \
-    AdminTeamView, CCNMTLHomeView, TeamMembersView, CCNMTLCourseDetail, \
+    AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
     TeamHomeView, CreateTeamsView, ActivateTeamsView
 admin.autodiscover()
 
@@ -68,8 +68,6 @@ urlpatterns = patterns(
     (r'^student/(?P<pk>\d+)$', AdminStudentView.as_view()),
     (r'^teammembers/$', TemplateView.as_view(
         template_name="main/ccnmtl/team_members.html")),
-    (r'^team_members/$', TeamMembersView.as_view()),
-    (r'^team_members/(?P<pk>\d+)$', TeamMembersView.as_view()),
     # student/team views
     # Demo View
     (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),

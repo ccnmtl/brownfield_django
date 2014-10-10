@@ -25,8 +25,7 @@ from brownfield_django.main.forms import CreateAccountForm
 from brownfield_django.main.models import Course, UserProfile, Document
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
     CompleteDocumentSerializer, CompleteCourseSerializer, \
-    CourseNameIDSerializer, UserSerializer, TeamNameSerializer, \
-    TeamSerializer
+    CourseNameIDSerializer, UserSerializer, TeamNameSerializer
     # NewTeamSerializer, UpdateCourseSerializer,
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
