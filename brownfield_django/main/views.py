@@ -77,19 +77,7 @@ class CourseView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, pk, format=None, *args, **kwargs):
-        try:
-            user_profile = UserProfile.objects.get(user=request.user.pk)
-        except UserProfile.DoesNotExist:
-            pass # make 'forbidden'
-            # return HttpResponseRedirect(reverse('register'))
-        # again make forbidden
-        # if user_profile.is_team():
-        #    url = '/team/home/%s/' % (user_profile.id)
-        if user_profile.is_teacher():
-            url = "/teacher/course_details/%s/" % str(pk)
-        if user_profile.is_admin():
-            url = '/ccnmtl/course_details/%s/' % str(pk)
-        return HttpResponseRedirect(url)
+        return HttpResponseRedirect("../../course_details/" + str(pk) + "/")
 
 
     def post(self, request, format=None, *args, **kwargs):
@@ -262,13 +250,54 @@ class DetailJSONCourseView(JSONResponseMixin, View):
 
 class ActivateCourseView(JSONResponseMixin, View):
     '''
-    The logic for activating a course should be out of
-    the Backbone related views
+    This should be a FormView but not sure how to do variable # of arguments,
+    going to hack out to have working for now...
     '''
 
-    def post(self, request, *args, **kwargs):
-        cr_pk = request.POST['crs_id']
-        print cr_pk
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):#, format=None, *args, **kwargs):
+        print "does get work?"
+
+    def post(self, request, pk):#, format=None, *args, **kwargs):
+        '''This is really really ugly as is get method need to clean up.'''
+        print "inside post"
+        course = self.get_object(pk)
+
+#     def post(self, request, pk, format=None, *args, **kwargs):
+#         '''This is really really ugly - need to clean up.'''
+#         print "inside post"
+#         course = self.get_object(pk)
+#         print request.POST
+#         course.name = self.request.POST.get('name')
+#         course.startingBudget = int(self.request.POST.get('startingBudget'))
+#         course.enableNarrative = self.convert_TF_from_json(
+#             self.request.POST.get('enableNarrative'))
+#         course.message = self.request.POST.get('message')
+#         course.active = self.convert_TF_from_json(
+#             self.request.POST.get('active'))
+#         course.archive = self.convert_TF_from_json(
+#             self.request.POST.get('archive'))
+#         userprof = User.objects.get(
+#             username=self.request.POST.get('professor'))
+#         course.professor = userprof
+#         course.save()
+#         j_course = []
+#         j_course.append({'id': str(course.id),
+#                          'name': course.name,
+#                          'startingBudget': course.startingBudget,
+#                          'enableNarrative': self.convert_TF_to_json(
+#                              course.enableNarrative),
+#                          'message': course.message,
+#                          'active': self.convert_TF_to_json(course.active),
+#                          'archive': self.convert_TF_to_json(course.archive),
+#                          'professor': str(course.professor)
+#                          })
+#        return self.render_to_json_response({'course': j_course})
 
 
 class DocumentView(APIView):
@@ -365,25 +394,86 @@ class CreateTeamsView(DetailView):
     template_name = 'main/ccnmtl/course_dash/create_teams.html'
     success_url = '/'
 
-#     def dispatch(self, *args, **kwargs):
-#         if int(kwargs.get('pk')) != self.request.user.profile.id:
-#             return HttpResponseForbidden("forbidden")
-#         return super(CreateTeamsView, self).dispatch(*args, **kwargs)
-
     def get_context_data(self, **kwargs):
         context = super(CreateTeamsView, self).get_context_data(**kwargs)
-        '''How to reference 'this' object.pk? '''
-        # print self.object
-        # print type(self.object)
-        # students = self.object.get_students()
-        # teams = self.object.get_teams()
         context['team_list'] = User.objects.filter(profile__in=self.object.get_teams())
-        print context['team_list']
         context['student_list'] = User.objects.filter(profile__in=self.object.get_students())
-        print context['student_list']
-        #print self.object.get_students()
-        #print User.objects.filter(profile__in=self.object.get_students())
         return context
+
+
+class ActivateTeamsView(JSONResponseMixin, View):
+    '''
+    For now I think it is best to have a separate view for the
+    course detail template.
+    '''
+
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def convert_TF_to_json(self, attribute):
+        if attribute is True:
+            return 'true'
+        elif attribute is False:
+            return 'false'
+
+    def convert_TF_from_json(self, attribute):
+        if attribute == 'true':
+            return True
+        elif attribute == 'false':
+            return False
+
+    def get(self, request, pk, format=None, *args, **kwargs):
+        '''
+        Should probably retrieve the information for the course here
+        so it appears in the form/pre-populates the fields.
+        '''
+        course = self.get_object(pk)
+        j_course = []
+        j_course.append({'id': str(course.id),
+                         'name': course.name,
+                         'startingBudget': course.startingBudget,
+                         'enableNarrative': self.convert_TF_to_json(
+                             course.enableNarrative),
+                         'message': course.message,
+                         'active': self.convert_TF_to_json(course.active),
+                         'archive': self.convert_TF_to_json(course.archive),
+                         'professor': str(course.professor)
+                         })
+        return self.render_to_json_response({'course': j_course})
+
+    def post(self, request, pk, format=None, *args, **kwargs):
+        print "inside post"
+        '''This is really really ugly as is get method need to clean up.'''
+        course = self.get_object(pk)
+        course.name = self.request.POST.get('name')
+        course.startingBudget = int(self.request.POST.get('startingBudget'))
+        course.enableNarrative = self.convert_TF_from_json(
+            self.request.POST.get('enableNarrative'))
+        course.message = self.request.POST.get('message')
+        course.active = self.convert_TF_from_json(
+            self.request.POST.get('active'))
+        course.archive = self.convert_TF_from_json(
+            self.request.POST.get('archive'))
+        userprof = User.objects.get(
+            username=self.request.POST.get('professor'))
+        course.professor = userprof
+        course.save()
+        j_course = []
+        j_course.append({'id': str(course.id),
+                         'name': course.name,
+                         'startingBudget': course.startingBudget,
+                         'enableNarrative': self.convert_TF_to_json(
+                             course.enableNarrative),
+                         'message': course.message,
+                         'active': self.convert_TF_to_json(course.active),
+                         'archive': self.convert_TF_to_json(course.archive),
+                         'professor': str(course.professor)
+                         })
+        return self.render_to_json_response({'course': j_course})
+
 
 
 class AdminTeamView(APIView):
