@@ -550,52 +550,6 @@ class TeacherCourseDetail(DetailView):
     success_url = '/'
 
 
-class TeamMembersView(APIView):
-    """
-    This view allows instructors to put students in teams,
-    and remove them from teams.
-    """
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        '''Send back all teams currently in course.'''
-        course = self.get_object(pk)
-        try:
-            teams = course.get_teams()
-            serializer = TeamSerializer(teams, many=True)
-            return Response(serializer.data)
-        except:
-            '''Assume collection is currently empty'''
-            return Response(status.HTTP_200_OK)
-
-    def post(self, request, pk, format=None):
-        '''Add a team.'''
-        course = self.get_object(pk)
-        print request.DATA
-        username = request.DATA['name']
-        password1 = request.DATA['password1']
-        password2 = request.DATA['password2']
-        if password1 == password2:
-            new_team_user = User.objects.create_user(username=username,
-                                                     password=password2)
-            new_team_profile = UserProfile.objects.create(
-                user=new_team_user, profile_type='TM',
-                course=course, budget=course.startingBudget)
-            # I know the model is automatically saved upon creation but
-            # pylint is whining "new team profile assigned and not used"
-            new_team_profile.save()
-            serializer = TeamNameSerializer(new_team_user)
-            print serializer.data
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
-
-
 class CCNMTLHomeView(DetailView):
 
     model = UserProfile
