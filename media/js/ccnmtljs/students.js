@@ -14,7 +14,6 @@ var Student= Backbone.Model.extend({
 	    first_name = attributes.first_name || '<EMPTY>';
 	    last_name = attributes.last_name || '<EMPTY>';
 	    email = attributes.last_name || '<EMPTY>';
-	    //last_name = attributes.last_name || '<EMPTY>';
 	}
 	    
 });
@@ -37,8 +36,8 @@ var StudentView = Backbone.View.extend({
    			             "<%= last_name %> " +
    			             "Email: " +
    			             "<%= email %> " +
-   			             "<button class='btn btn-xs st-team'>" +
-			             "Put Student In Team" +
+   			             "<button class='btn btn-xs ed-st'>" +
+			             "Edit Student" +
 			             "</button>" +
    			             "<button class='btn btn-xs rm-st'>" +
 			             "Remove Student From Course" +
