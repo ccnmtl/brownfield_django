@@ -55,7 +55,6 @@ var CourseView = Backbone.View.extend({
         }
          
         var html = this.template(this.model.toJSON());
-        console.log("Inside course view");
         this.$el.html(html);
         return this;
 
@@ -63,9 +62,6 @@ var CourseView = Backbone.View.extend({
     	
     clear: function() {
         this.model.destroy();
-        //{
-        //   	headers : { 'id' : this.model.id }
-        //});
     }
 
 });// End CourseView
@@ -78,17 +74,12 @@ var CourseListView = Backbone.View.extend({
     initialize: function (options)
     {
     	_.bindAll(this,
-    			 'render',
     			 'initialRender');
     	//create new collection to hold user courses
     	this.user_course_collection = new UserCourseCollection();
     	this.user_course_collection.fetch({processData: true, reset: true});
     	this.user_course_collection.on('reset', this.initialRender);
 	},
-	
-    render: function() {
-               
-   },
    
    initialRender: function() {
 	   
@@ -157,7 +148,6 @@ var UserControlView = Backbone.View.extend({
     },
 
     showCourseForm: function(e) {
-		console.log("clicked on show course");
 		jQuery(".add-crs").hide();
 		jQuery("#frm-title").show();
 		jQuery("#add-crs-frm").show();

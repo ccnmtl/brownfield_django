@@ -28,7 +28,7 @@ class TestAdminViews(TestCase):
         request = self.client.get("/", follow=True)
         self.assertEquals(
             request.redirect_chain[0],
-            ('http://testserver/ccnmtl/' +
+            ('http://testserver/ccnmtl/home/' +
              str(self.admin.profile.pk) + '/',
              302))
         self.assertTemplateUsed(request,
@@ -39,7 +39,7 @@ class TestAdminViews(TestCase):
         See what happens if I request appropriate home directly
         instead of following redirect.
         '''
-        request = self.client.get("/ccnmtl/" +
+        request = self.client.get("/ccnmtl/home/" +
                                   str(self.admin.profile.pk) + '/')
         self.assertTemplateUsed(request,
                                 'main/ccnmtl/home_dash/ccnmtl_home.html')

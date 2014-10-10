@@ -4,7 +4,7 @@ var Team= Backbone.Model.extend({
     
     defaults: function() {
         return {
-            username: "Team Name",
+            team_name: "Team Name",
             password1: "password1",
             password2: "password2"
         }
@@ -12,7 +12,7 @@ var Team= Backbone.Model.extend({
 
     initialize: function(attributes) 
 	{   
-    	username = attributes.username || '<EMPTY>';
+    	team_name = attributes.team_name || '<EMPTY>';
 	}
 	    
 });
@@ -30,7 +30,7 @@ var TeamCollection = Backbone.Collection.extend({
 var TeamView = Backbone.View.extend({
 
    	tagName : 'li',
-   	template: _.template("Team Name <%= username %>" +
+   	template: _.template("Team Name <%= team_name %>" +
    			             "<button class='btn btn-xs rm-team'>" +
 			             "Remove Team From Course" +
 			             "</button>"),
@@ -40,7 +40,6 @@ var TeamView = Backbone.View.extend({
    	    this.listenTo(this.model, 'destroy', this.remove);
    	},
 
-   	// Can probably combine into one function on change
    	events: {
    		'click .rm-team' : 'removeTeam'
    	},
@@ -75,6 +74,7 @@ var TeamListView = Backbone.View.extend({
     			 'initialRender');
     	this.course_teams = new TeamCollection();
     	this.course_teams.fetch({processData: true, reset: true});
+    	console.log(this.course_teams);
     	this.course_teams.on('reset', this.initialRender);
 	},
 
@@ -116,13 +116,13 @@ var TeamControlView = Backbone.View.extend({
 		jQuery(".add-team-frm").show();
     },
 
-    addTeam: function(course) {
+    addTeam: function(team) {
     	
     	team_collection_view.course_teams.create(
     	{
-    		name : jQuery(".team-name").val(),
+    		team_name : jQuery(".team-name").val(),
     		password1 : jQuery(".team-pswd-1").val(),
-    		password2 : jQuery(".team-pswd-2").val()
+    		password2 : jQuery(".team-pswd-2").val(),
     	});
 
 	    jQuery(".add-team-frm-title").hide();

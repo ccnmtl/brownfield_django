@@ -26,7 +26,7 @@ from brownfield_django.main.models import Course, UserProfile, Document
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
     CompleteDocumentSerializer, CompleteCourseSerializer, \
     CourseNameIDSerializer, UserSerializer, TeamNameSerializer, \
-    TeamSerializer, CreateTeamSerializer
+    TeamSerializer
     # NewTeamSerializer, UpdateCourseSerializer,
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
@@ -73,12 +73,11 @@ class CourseView(APIView):
     This view interacts with backbone to allow instructors to
     view, add, and edit courses.
     """
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
+    # authentication_classes = (SessionAuthentication, BasicAuthentication)
+    # permission_classes = (IsAuthenticated,)
 
     def get(self, request, pk, format=None, *args, **kwargs):
         return HttpResponseRedirect("../../course_details/" + str(pk) + "/")
-
 
     def post(self, request, format=None, *args, **kwargs):
         '''
@@ -260,44 +259,12 @@ class ActivateCourseView(JSONResponseMixin, View):
         except Course.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk):#, format=None, *args, **kwargs):
+    def get(self, request, pk):  # , format=None, *args, **kwargs):
         print "does get work?"
 
-    def post(self, request, pk):#, format=None, *args, **kwargs):
+    def post(self, request, pk):  # , format=None, *args, **kwargs):
         '''This is really really ugly as is get method need to clean up.'''
         print "inside post"
-        course = self.get_object(pk)
-
-#     def post(self, request, pk, format=None, *args, **kwargs):
-#         '''This is really really ugly - need to clean up.'''
-#         print "inside post"
-#         course = self.get_object(pk)
-#         print request.POST
-#         course.name = self.request.POST.get('name')
-#         course.startingBudget = int(self.request.POST.get('startingBudget'))
-#         course.enableNarrative = self.convert_TF_from_json(
-#             self.request.POST.get('enableNarrative'))
-#         course.message = self.request.POST.get('message')
-#         course.active = self.convert_TF_from_json(
-#             self.request.POST.get('active'))
-#         course.archive = self.convert_TF_from_json(
-#             self.request.POST.get('archive'))
-#         userprof = User.objects.get(
-#             username=self.request.POST.get('professor'))
-#         course.professor = userprof
-#         course.save()
-#         j_course = []
-#         j_course.append({'id': str(course.id),
-#                          'name': course.name,
-#                          'startingBudget': course.startingBudget,
-#                          'enableNarrative': self.convert_TF_to_json(
-#                              course.enableNarrative),
-#                          'message': course.message,
-#                          'active': self.convert_TF_to_json(course.active),
-#                          'archive': self.convert_TF_to_json(course.archive),
-#                          'professor': str(course.professor)
-#                          })
-#        return self.render_to_json_response({'course': j_course})
 
 
 class DocumentView(APIView):
@@ -345,6 +312,9 @@ class AdminStudentView(APIView):
     This view interacts with backbone to allow instructors to
     view and edit students to their course, pk is for course.
     """
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
     def get_object(self, pk):
         try:
             return Course.objects.get(pk=pk)
@@ -396,8 +366,10 @@ class CreateTeamsView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(CreateTeamsView, self).get_context_data(**kwargs)
-        context['team_list'] = User.objects.filter(profile__in=self.object.get_teams())
-        context['student_list'] = User.objects.filter(profile__in=self.object.get_students())
+        context['team_list'] = User.objects.filter(
+            profile__in=self.object.get_teams())
+        context['student_list'] = User.objects.filter(
+            profile__in=self.object.get_students())
         return context
 
 
@@ -475,13 +447,15 @@ class ActivateTeamsView(JSONResponseMixin, View):
         return self.render_to_json_response({'course': j_course})
 
 
-
 class AdminTeamView(APIView):
     """
     This view interacts with backbone to allow instructors to
     view and add teams to their course. Will also probably be where
     logic for keeping track of which students are where will be.
     """
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
     def get_object(self, pk):
         try:
             return Course.objects.get(pk=pk)
@@ -503,31 +477,34 @@ class AdminTeamView(APIView):
     def post(self, request, pk, format=None, *args, **kwargs):
         '''Add a team.'''
         course = self.get_object(pk)
-        team_name = request.DATA['username']
+        print "INSIDE CREATE TEAM"
+        print request.DATA
+        team_name = request.DATA['team_name']
+        print team_name
         password1 = request.DATA['password1']
+        print password1
         password2 = request.DATA['password2']
+        print password2
         if password1 == password2:
-            # print "password match"
-            # up to here works fine...
-            team_user = User.objects.create_user(
-                username=team_name, password=password2)
-            # print "new_team_user before save"
-            # print new_team_user
-            team_user.save()
-            # print team_user
-            # print team_user.username
-            # print team_user.password2
+            team_user = User.objects.create_user(username=team_name,
+                                                 first_name=team_name,
+                                                 last_name=team_name)
+            print team_user
+            print team_user
             team_profile = UserProfile.objects.create(
                 user=team_user, profile_type='TM',
                 course=course, budget=course.startingBudget)
             team_profile.save()
-            # print team_user.profile
-            serializer = TeamNameSerializer(team_user)
-            # print serializer.data
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         else:
+#             return Response(serializer.errors,
+#                             status=status.HTTP_400_BAD_REQUEST)
+#             new_user = User.objects.create_user(username=username,
+#                                                 first_name=first_name,
+#                                                 last_name=last_name)
+#             new_profile = UserProfile.objects.create(course=course,
+#                                                      user=new_user,
+#                                                      profile_type='ST')
 
 
 class AdminTeamStudentView(APIView):
@@ -535,6 +512,9 @@ class AdminTeamStudentView(APIView):
     This view allows instructors to put students in teams,
     and remove them from teams.
     """
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
     def get_object(self, pk):
         try:
             return Course.objects.get(pk=pk)
@@ -554,6 +534,7 @@ class AdminTeamStudentView(APIView):
 
     def post(self, request, pk, format=None):
         '''Add a team.'''
+        print "inside create team"
         course = self.get_object(pk)
         # print request.DATA
         username = request.DATA['name']

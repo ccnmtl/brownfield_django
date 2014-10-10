@@ -19,7 +19,7 @@ var Document = Backbone.Model.extend({
 	    
 });
 
-var crs_id = jQuery(".crs-activate input[name='crs-id']").val();
+var crs_id = jQuery(".crs-deactivate input[name='crs-id']").val();
 
 var DocumentCollection = Backbone.Collection.extend({
 	 model: Document,
