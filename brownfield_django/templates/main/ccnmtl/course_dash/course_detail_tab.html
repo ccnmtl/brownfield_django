@@ -34,30 +34,19 @@
             </div><!-- End collapsing Form -->
         </div><!-- End Course Form -->
     </div><!-- End Course Info -->
-
-
-    <div class="course-activation">
-        <div class="crs-act-info">
-            <h3>Activate Course</h3>
-            <p>Activating the course teams will Every student should be a member of a team before you begin.
-               <ul>
-               This will:
-                   <li>Activate accounts for all non-activated teams with at least one student member.</li>
-                   <li>For those new teams, send the student members email (cc'ing you) with the username and password for their team.</li>
-                   <li>Disable the Class account password, so students cannot add or change teams.</li>
-               </ul>
-            </p>
-        </div><!-- End Course Activation Info -->
-        <div class="crs-activate">
-            <form id="act-crs-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
-            <input type="hidden" name="crs-id" value="{{object.pk}}"/>
-            <button id="activation-btn" type="button">
-                Activate Course
-            </button><br /><br />
-        </div>
-    </div><!-- End Course Activation -->
+    <div>
+        <p> After entering your course information, you should proceed to created your students and teams. Click on the 'Teams and Students' tab to begin.</p>
+    </div>
     
     <div class="deactivate-course">
+        <div class="crs-deactivate">
+            <p> If you are done with this course, you may remove it from your dashboard by deactivating it.</p>
+            <form id="de-act-crs-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
+            <input type="hidden" name="crs-id" value="{{object.pk}}"/>
+            <button id="deactivation-btn" type="button">
+                Deactivate Course
+            </button><br /><br />
+   </div>
     </div>
     
 </div><!-- End Tab Content -->

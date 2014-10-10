@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <table style="width:100%">
+    <th><td>First Name</td><td>Last Name</td><td>Email</td><td>Team</td></th>
+    {% for student in student_list %}
+
+    <tr><td>{{student.first_name}}</td><td>{{student.last_name}}</td><td>{{student.email}}</td>
+	<td>
+		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        	Team
+      		<span class="caret"></span>
+    	</button>
+		    <div class="btn-group-vertical btn-group-sm">
+			{% for team in team_list %}
+            	<button type="button" class="btn btn-default">
+            		{{team.username}}
+            	</button>
+			{% empty %}
+    			<button type="button" class="btn btn-default">
+    				Please add teams in order to create them.
+    			</button>
+			{% endfor %}
+		    </div><!-- End Button Group -->
+	    </td>
+    </tr>
+    {% empty %}
+        <p>Please add students in order to create teams.</p>
+    {% endfor %}
+    </table>
+
+
+    <div class="course-activation">
+        <div class="crs-act-info">
+            <h3>Activate Course</h3>
+            <p>Activating the course teams will Every student should be a member of a team before you begin.
+               <ul>
+               This will:
+                   <li>Activate accounts for all non-activated teams with at least one student member.</li>
+                   <li>For those new teams, send the student members email (cc'ing you) with the username and password for their team.</li>
+                   <li>Disable the Class account password, so students cannot add or change teams.</li>
+               </ul>
+            </p>
+        </div><!-- End Course Activation Info -->
+        <div class="crs-activate">
+            <form id="act-crs-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
+            <input type="hidden" name="crs-id" value="{{object.pk}}"/>
+            <button id="activation-btn" type="button">
+                Activate Course
+            </button><br /><br />
+        </div>
+    </div><!-- End Course Activation -->
+
+
+{% endblock %}

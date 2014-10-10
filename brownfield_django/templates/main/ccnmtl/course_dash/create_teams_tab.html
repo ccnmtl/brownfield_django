@@ -1,0 +1,58 @@
+<div class="tab-pane" id="create-teams">
+
+
+<table style="width:100%">
+<th><td>First Name</td><td>Last Name</td><td>Email</td><td>Team</td></th>
+<tr></tr>
+
+{% comment %}
+{% for students in student_list %}
+
+{% empty %}
+    <tr ></tr>
+{% endfor %}
+{% endcomment %}
+
+
+
+
+
+
+    <h3>Teams</h3>
+    <div id="course-teams">
+        <div class="team_controls">
+            <button class="add-team-btn">
+            Add New Team   
+            </button>
+            <p class="add-team-frm-title" style="display: none;"> <b>Add New Team: </b></p>
+            <form class="add-team-frm" method="" action="" style="display: none;">{% csrf_token %}
+                <meta name="csrf-token" content="{% csrf_token %}">
+                <input type="text" placeholder="Team Name" class="team-name" /><br />
+                <input type="password" placeholder="Password" class="team-pswd-1" /><br />
+                <input type="password" placeholder="Password" class="team-pswd-2" /><br />
+                <input type="submit" value="Save Team" class="team_submit"/>
+            </form>
+        </div>
+        <div class="team-list"></div>
+    </div>
+    
+    
+    <h3>Students</h3>
+    <div id="course-students">
+        <div class="student_controls">
+            <button class="add-std-btn">
+            Add New Student   
+            </button>
+            <p class="add-std-frm-title" style="display: none;"> <b>Add New Student: </b></p>
+            <form class="add-std-frm" method="" action="" style="display: none;">{% csrf_token %}
+                <meta name="csrf-token" content="{% csrf_token %}">
+                <input type="text" placeholder="First Name" class="frst-name" /><br />
+                <input type="text" placeholder="Last Name" class="last-name" /><br />
+                <input type="text" placeholder="Email" class="email" /><br />
+                <input type="submit" value="Save Student" class="student_submit"/>
+            </form>
+        </div>
+        <div class="student-list"></div>
+    </div>
+
+</div>
