@@ -32,7 +32,7 @@ var StudentCollection = Backbone.Collection.extend({
 var StudentView = Backbone.View.extend({
 
    	tagName : 'li',
-   	template: _.template("Student Template Name <%= first_name %>" +
+   	template: _.template("<%= first_name %> <space><space>" +
    			             "<%= last_name %> " +
    			             "Email: " +
    			             "<%= email %> " +
