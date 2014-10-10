@@ -356,6 +356,90 @@ class AdminStudentView(APIView):
         return Response(serializer.data)
 
 
+class AdminTeamView(APIView):
+    """
+    This view interacts with backbone to allow instructors to
+    view and add teams to their course. Will also probably be where
+    logic for keeping track of which students are where will be.
+    """
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None, *args, **kwargs):
+        '''Send back all teams currently in course.'''
+        course = self.get_object(pk)
+        try:
+            teamprofiles = course.get_teams()
+            teams = User.objects.filter(profile__in=teamprofiles)
+            serializer = TeamNameSerializer(teams, many=True)
+            return Response(serializer.data)
+        except:
+            '''Assume collection is currently empty'''
+            return Response(status.HTTP_200_OK)
+
+    def post(self, request, pk, format=None, *args, **kwargs):
+        '''Add a team.'''
+        pass
+#         course = self.get_object(pk)
+#         print "INSIDE CREATE TEAM"
+#         print request.DATA
+#         team_name = request.DATA['team_name']
+#         print team_name
+#         password1 = request.DATA['password1']
+#         print password1
+#         password2 = request.DATA['password2']
+#         print password2
+#         if password1 == password2:
+#             team_user = User.objects.create_user(username=team_name,
+#                                                  first_name=team_name,
+#                                                  last_name=team_name)
+#             print "team_user"
+#             print team_user
+#             team_user.save()
+#             team_profile = UserProfile.objects.create(
+#                 user=team_user, profile_type='TM',
+#                 course=course, budget=course.startingBudget)
+#             team_profile.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         else:
+#             return Response(serializer.errors,
+#                             status=status.HTTP_400_BAD_REQUEST)
+#             new_user = User.objects.create_user(username=username,
+#                                                 first_name=first_name,
+#                                                 last_name=last_name)
+#             new_profile = UserProfile.objects.create(course=course,
+#                                                      user=new_user,
+#                                                      profile_type='ST')
+
+#     def post(self, request, pk, format=None, *args, **kwargs):
+#         '''
+#         Add a Student
+#         Get course to associate with student and save, both in json.
+#         '''
+#         course = self.get_object(pk)
+#         serializer = UserSerializer(data=request.DATA)
+#         if serializer.is_valid():
+#             first_name = serializer.data['first_name']
+#             last_name = serializer.data['last_name']
+#             ini = first_name[0]
+#             username = str(ini) + str(last_name)
+#             new_user = User.objects.create_user(username=username,
+#                                                 first_name=first_name,
+#                                                 last_name=last_name)
+#             new_profile = UserProfile.objects.create(course=course,
+#                                                      user=new_user,
+#                                                      profile_type='ST')
+#             new_profile.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.data)
+
+
 class CreateTeamsView(DetailView):
     """
     Until I figure out nested views in Backbone or some Backbone plug-in...
@@ -445,116 +529,6 @@ class ActivateTeamsView(JSONResponseMixin, View):
                          'professor': str(course.professor)
                          })
         return self.render_to_json_response({'course': j_course})
-
-
-class AdminTeamView(APIView):
-    """
-    This view interacts with backbone to allow instructors to
-    view and add teams to their course. Will also probably be where
-    logic for keeping track of which students are where will be.
-    """
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
-
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None, *args, **kwargs):
-        '''Send back all teams currently in course.'''
-        course = self.get_object(pk)
-        try:
-            teamprofiles = course.get_teams()
-            teams = User.objects.filter(profile__in=teamprofiles)
-            serializer = TeamNameSerializer(teams, many=True)
-            return Response(serializer.data)
-        except:
-            '''Assume collection is currently empty'''
-            return Response(status.HTTP_200_OK)
-
-    def post(self, request, pk, format=None, *args, **kwargs):
-        '''Add a team.'''
-        course = self.get_object(pk)
-        print "INSIDE CREATE TEAM"
-        print request.DATA
-        team_name = request.DATA['team_name']
-        print team_name
-        password1 = request.DATA['password1']
-        print password1
-        password2 = request.DATA['password2']
-        print password2
-        if password1 == password2:
-            team_user = User.objects.create_user(username=team_name,
-                                                 first_name=team_name,
-                                                 last_name=team_name)
-            print team_user
-            print team_user
-            team_profile = UserProfile.objects.create(
-                user=team_user, profile_type='TM',
-                course=course, budget=course.startingBudget)
-            team_profile.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         else:
-#             return Response(serializer.errors,
-#                             status=status.HTTP_400_BAD_REQUEST)
-#             new_user = User.objects.create_user(username=username,
-#                                                 first_name=first_name,
-#                                                 last_name=last_name)
-#             new_profile = UserProfile.objects.create(course=course,
-#                                                      user=new_user,
-#                                                      profile_type='ST')
-
-
-class AdminTeamStudentView(APIView):
-    """
-    This view allows instructors to put students in teams,
-    and remove them from teams.
-    """
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
-
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        '''Send back all teams currently in course.'''
-        course = self.get_object(pk)
-        try:
-            teams = course.get_teams()
-            serializer = TeamSerializer(teams, many=True)
-            return Response(serializer.data)
-        except:
-            '''Assume collection is currently empty'''
-            return Response(status.HTTP_200_OK)
-
-    def post(self, request, pk, format=None):
-        '''Add a team.'''
-        print "inside create team"
-        course = self.get_object(pk)
-        # print request.DATA
-        username = request.DATA['name']
-        password1 = request.DATA['password1']
-        password2 = request.DATA['password2']
-        if password1 == password2:
-            new_team_user = User.objects.create_user(username=username,
-                                                     password=password2)
-            new_team_profile = UserProfile.objects.create(
-                user=new_team_user, profile_type='TM',
-                course=course, budget=course.startingBudget)
-            # I know the model is automatically saved upon creation but
-            # pylint is whining "new team profile assigned and not used"
-            new_team_profile.save()
-            serializer = TeamNameSerializer(new_team_user)
-            # print serializer.data
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class TeacherHomeView(DetailView):

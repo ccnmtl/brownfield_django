@@ -6,13 +6,15 @@ var Team= Backbone.Model.extend({
         return {
             team_name: "Team Name",
             password1: "password1",
-            password2: "password2"
+            password2: "password2",
         }
     },
 
     initialize: function(attributes) 
 	{   
     	team_name = attributes.team_name || '<EMPTY>';
+        password1 = '<EMPTY>';
+        password2 = '<EMPTY>';
 	}
 	    
 });
