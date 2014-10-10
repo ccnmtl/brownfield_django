@@ -104,6 +104,9 @@ class UserProfile(models.Model):
     '''
     in_team = models.BooleanField(default=False)
     team_name = models.CharField(max_length=255, default="")
+    '''
+    We need a plain text copy of the password to email the students
+    '''
     team_passwd = models.CharField(max_length=255, default="")
 
     def __unicode__(self):
