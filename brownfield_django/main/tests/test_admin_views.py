@@ -1,4 +1,4 @@
-import json
+# import json
 # from datetime import datetime
 
 from django.test import TestCase, RequestFactory
@@ -100,7 +100,7 @@ class TestAdminViews(TestCase):
         '''
         self.admin_course = AdminUserCourseFactory()
         request = self.client.get("/course_details/" +
-                                   str(self.admin_course.pk) + '/')
+                                  str(self.admin_course.pk) + '/')
         self.assertTemplateUsed(request,
                                 'main/ccnmtl/course_dash/course_home.html')
 
@@ -128,7 +128,7 @@ class TestAdminViews(TestCase):
 #              'active': self.admin_course.active,
 #              'archive': self.admin_course.archive,
 #              'professor': str(self.admin_course.professor)
-#              }]})        
+#              }]})
         # self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_remove_course(self):

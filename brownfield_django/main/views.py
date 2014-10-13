@@ -402,7 +402,8 @@ class AdminTeamView(APIView):
                 serializer = TeamNameSerializer(new_user)
                 # print "serializer.is_valid()"
                 # print serializer.is_valid()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                return Response(serializer.data,
+                                status=status.HTTP_201_CREATED)
             except:
                 print 'could not find user'
         else:
