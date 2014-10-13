@@ -3,30 +3,7 @@
     
 {% endblock %}
 {% block content %}
-<script>
-jQuery(document).ready(function() {
-	jQuery("#demo").on("click", 
-	    function()
-	    {   console.log("clicked on demo");
-			jQuery.ajax(
-            {
-                url: "/demo/history/",
-                type: "GET",
-                //data: {'scenario' : good_s, 'conversation' : good_c },
-                success: function () 
-                {
-					console.log("success");
-                },
-              
-                error: function(data) 
-                {
-                	console.log("error");
-                }
-            });	
-	    });
-});
 
-</script>
   <ul class="nav nav-tabs instructor-nav">
     <li class="active"><a href="#course-list" data-toggle="tab">Courses</a></li>
     <li><a href="#demo" data-toggle="tab">Demo</a></li>

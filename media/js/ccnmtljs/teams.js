@@ -4,7 +4,7 @@ var Team= Backbone.Model.extend({
     
     defaults: function() {
         return {
-            team_name: "Team Name",
+        	username: "Team Name",
             password1: "password1",
             password2: "password2",
         }
@@ -12,7 +12,7 @@ var Team= Backbone.Model.extend({
 
     initialize: function(attributes) 
 	{   
-    	team_name = attributes.team_name || '<EMPTY>';
+    	username = attributes.username || '<EMPTY>';
         password1 = '<EMPTY>';
         password2 = '<EMPTY>';
 	}
@@ -21,6 +21,7 @@ var Team= Backbone.Model.extend({
 
 var TeamCollection = Backbone.Collection.extend({
 	 model: Team,
+	 headers: {"content-type": "application/json"},
 	 url: function() {
 		    return '/team/' + crs_id;
 	  }
@@ -32,7 +33,7 @@ var TeamCollection = Backbone.Collection.extend({
 var TeamView = Backbone.View.extend({
 
    	tagName : 'li',
-   	template: _.template("Team Name <%= team_name %>" +
+   	template: _.template("Team Name <%= username %>" +
    			             "<button class='btn btn-xs rm-team'>" +
 			             "Remove Team From Course" +
 			             "</button>"),
@@ -122,7 +123,7 @@ var TeamControlView = Backbone.View.extend({
     	
     	team_collection_view.course_teams.create(
     	{
-    		team_name : jQuery(".team-name").val(),
+    		username : jQuery(".team-name").val(),
     		password1 : jQuery(".team-pswd-1").val(),
     		password2 : jQuery(".team-pswd-2").val(),
     	});
