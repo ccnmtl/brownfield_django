@@ -5,18 +5,28 @@
     <form id="act-crs-frm" method="post" action="../../activate_course/{{object.pk}}/">
         {% csrf_token %}
         <th>
+        <tr>
             <td>
+            <b>
                 First Name
+            </b>
             </td>
             <td>
+            <b>
                 Last Name
+            </b>
             </td>
             <td>
+            <b>
                 Email
+            </b>
             </td>
             <td>
+            <b>
                 Team
+            </b>
             </td>
+        </tr>
         </th>
     
         {% for student in student_list %}
@@ -36,10 +46,22 @@
                 {{student.email}}
             </td>
 	        <td>
+	            <select>
+	                {% for team in team_list %}
+                        <option value="{{team.pk}}"> {{team.username}} </option>
+		        	{% empty %}
+    	        		<p>
+            				Please add teams in order to create them.
+    	        		</p>
+	        	    {% endfor %}
+	            </select>
+	        {% comment %}
+	        <div class="btn-group">
 	        	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                 	Team
           	    	<span class="caret"></span>
     	        </button>
+    	        <ul class="dropdown-menu" role="menu">
 		        <div class="btn-group-vertical btn-group-sm">
 	        		{% for team in team_list %}
                     	<button type="button" class="btn btn-default">
@@ -51,38 +73,36 @@
             				Please add teams in order to create them.
     	        		</button>
 	        		{% endfor %}
+	            </ul>
 		        </div><!-- End Button Group -->
+		    </div>
+		    {% endcomment %}
+		    
 	        </td>
         </tr>
         {% empty %}
             <p>Please add students in order to create teams.</p>
         {% endfor %}
-    
-
-        <tr>
-            <div class="course-activation">
-                <div class="crs-act-info">
-                    <h3>Activate Course</h3>
-                    <p>Activating the course teams will Every student should be a member of a team before you begin.
-                       <ul>
-                       This will:
-                           <li>Activate accounts for all non-activated teams with at least one student member.</li>
-                           <li>For those new teams, send the student members email (cc'ing you) with the username and password for their team.</li>
-                           <li>Disable the Class account password, so students cannot add or change teams.</li>
-                       </ul>
-                    </p>
-                </div><!-- End Course Activation Info -->
-                <div class="crs-activate">
-                    <button id="activation-btn" type="submit">
-                        Activate Course
-                    </button><br /><br />
-                </div>
-            </div><!-- End Course Activation -->
-        <tr>
-    </form>
-    
-    
+    <!-- </form> -->
     </table>
+    <div class="course-activation">
+        <div class="crs-act-info">
+            <h3>Activate Course</h3>
+            <p>Activating the course teams will Every student should be a member of a team before you begin.
+                <ul>
+                    This will:
+                    <li>Activate accounts for all non-activated teams with at least one student member.</li>
+                    <li>For those new teams, send the student members email (cc'ing you) with the username and password for their team.</li>
+                </ul>
+            </p>
+        </div><!-- End Course Activation Info -->
+        <div class="crs-activate">
+            <button id="activation-btn" type="submit">
+                Activate Course
+            </button><br /><br />
+        </div>
+    </form>
+    </div><!-- End Course Activation -->
 
 {% endblock %}
 {% block bbjs %}
