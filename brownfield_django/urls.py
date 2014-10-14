@@ -51,7 +51,7 @@ urlpatterns = patterns(
     (r'^course_details/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
     (r'^teacher/course_details/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
     (r'^create_teams/(?P<pk>\d+)/$', CreateTeamsView.as_view()),
-    (r'^activate_course/(?P<pk>\d+)/$', ActivateCourseView.as_view()),
+    (r'^activate_course/(?P<pk>\d+)$', ActivateCourseView.as_view()),
     # need to figure out url for students that doesn't not conflict with
     # dashboard urls
     # Teacher and Admin Views  CreateTeamsView

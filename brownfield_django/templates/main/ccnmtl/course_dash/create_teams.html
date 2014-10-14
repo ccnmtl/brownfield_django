@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<br /><br />
+<br /><br /><input type="hidden" name="crs-id" value="{{object.pk}}"/>
 	        	<button type="button" class="btn btn-default">
                 	Sort by Student
     	        </button>
@@ -8,7 +8,7 @@
                 	Sort by Team
     	        </button>
 
-
+    <div class="course-activation">
     <table id="student_team_tables" style="width:100%">
     <form id="act-crs-frm" method="post" action="../../activate_course/{{object.pk}}/">
         {% csrf_token %}
@@ -94,8 +94,8 @@
     <!-- </form> -->
     </table>
     </form>
-    </div><!-- End Course Activation -->
-    <div class="course-activation">
+    </div>
+
         <div class="crs-act-info">
             <h3>Activate Course</h3>
             <p>Activating the course teams will Every student should be a member of a team before you begin.

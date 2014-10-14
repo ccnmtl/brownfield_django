@@ -1,5 +1,6 @@
 function get_students(){
 	var data = [];
+	var count = 0;
     jQuery('#student_team_tables tr').each(function(){
         var student = {'pk': jQuery(this).find("td input[name='std-id']").val(),
 				       'first_name': jQuery(this).find("td input[name='first_name']").val(), 
@@ -7,15 +8,16 @@ function get_students(){
 				       'email': jQuery(this).find("td input[name='email']").val(),
 				       'team': jQuery(this).find("td option:selected").text()
                        } // end var student
-        data.push(student);
+        data.push({ 'student' : [student] });
     })
     return data;
 } //end get_students();
 
 jQuery(function() {
-
+	var crs_id = jQuery("input[name='crs-id']").val();
     jQuery('#activation-btn').on('click', function(e)
-    {   
+    {   var student_list = get_students();
+        console.log(student_list);
     	jQuery(function()
     	{
     		
@@ -23,18 +25,19 @@ jQuery(function() {
     	    {
     	        url: "/activate_course/" + crs_id,
     	    	type: "POST",
+    	    	data: {'student_list' : student_list},//data=get_students(),// {},
     	    	success: function (data) 
     	    	{
     	    		//var crs_data = data;
-    	    		console.log(data);
-    	    	    var data = get_students();
-    	    	    console.log(data);
-        	    },
+    	    		//console.log(data);
+    	    	    //var data = get_students();
+    	    	    //console.log(data);
+        	    }//,
 	    	           
-        	    error: function(data) 
-	    	    {
-        	        console.log("There was an error getting course details.");
-	    	    }
+//        	    error: function(data) 
+//	    	    {
+//        	        console.log("There was an error getting course details.");
+//	    	    }
         	}); // end ajax POST
 	    }); // end inner on click function
     	e.preventDefault(); //we don't want the form submitting
