@@ -9,7 +9,7 @@
     	        </button>
 
 
-    <table style="width:100%">
+    <table id="student_team_tables" style="width:100%">
     <form id="act-crs-frm" method="post" action="../../activate_course/{{object.pk}}/">
         {% csrf_token %}
         <th>
@@ -39,7 +39,7 @@
     
         {% for student in student_list %}
 
-        <tr>
+        <tr class="student">
             <td>
                 <input type="hidden" name="std-id" value="{{student.pk}}"/>
                 <input type="hidden" name="first_name" value="{{student.first_name}}">
