@@ -112,8 +112,6 @@ class CourseView(APIView):
             professor=professor)
         serializer = AddCourseByNameSerializer(new_course)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-                # print "serializer.is_valid()"
-        #return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk, format=None, *args, **kwargs):
         '''
@@ -156,7 +154,7 @@ class UserCourseView(APIView):
 
     def get(self, request, format=None):
         this_user = User.objects.get(pk=request.user.pk)
-        courses = Course.objects.filter(professor=this_user)
+        courses = Course.objects.filter(professor=this_user, archive=False)
         serializer = CourseNameIDSerializer(courses, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -172,7 +170,7 @@ class AllCourseView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
-        courses = Course.objects.all()
+        courses = Course.objects.filter(archive=False)
         serializer = CourseNameIDSerializer(courses, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

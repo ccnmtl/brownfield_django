@@ -12,23 +12,6 @@ PROFILE_CHOICES = (
 )
 
 
-'''
-Old Tables:
-             "Visit",
-             "User",
-             "VisitIdentity",
-             "Permission",
-             "Group",
-             "Document",
-             "Course",
-             "Team",
-             "Student",
-             "History",
-             "PerformedTest",
-             "Information",
-'''
-
-
 class Course(models.Model):
     '''
     Course Model - I added an archive field to indicate if a
