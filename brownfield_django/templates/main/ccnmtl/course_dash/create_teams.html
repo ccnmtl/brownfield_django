@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
+<br /><br />
+	        	<button type="button" class="btn btn-default">
+                	Sort by Student
+    	        </button>
+    	        <button type="button" class="btn btn-default">
+                	Sort by Team
+    	        </button>
+
 
     <table style="width:100%">
     <form id="act-crs-frm" method="post" action="../../activate_course/{{object.pk}}/">
@@ -86,6 +94,6 @@
 
 {% endblock %}
 {% block bbjs %}
-<script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script>
+<!-- <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script> -->
 <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/activate_course.js"></script>
 {% endblock %}
