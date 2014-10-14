@@ -5,7 +5,7 @@ var Course = Backbone.Model.extend({
     
     defaults: function() {
         return {
-            name: "Default Course"
+            name : "Default Course"
         }
     },
        
@@ -27,6 +27,7 @@ var UserCourseCollection = Backbone.Collection.extend({
 });
 var AllCourseCollection = Backbone.Collection.extend({
 	 model: Course,
+	 headers: {"content-type": "application/json"},
 	 url: '/all_courses/'
 });
 // End of Models/Collections

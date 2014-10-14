@@ -103,11 +103,11 @@ class UserProfile(models.Model):
     Fields should act as tags on Profiles of student type.
     '''
     in_team = models.BooleanField(default=False)
-    team_name = models.CharField(max_length=255, default="")
+    team_name = models.CharField(max_length=255, default="", blank=True)
     '''
     We need a plain text copy of the password to email the students
     '''
-    team_passwd = models.CharField(max_length=255, default="")
+    team_passwd = models.CharField(max_length=255, default="", blank=True)
 
     def __unicode__(self):
         return self.user.username

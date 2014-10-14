@@ -72,8 +72,8 @@ class CourseView(APIView):
     This view interacts with backbone to allow instructors to
     view, add, and edit courses.
     """
-    # authentication_classes = (SessionAuthentication, BasicAuthentication)
-    # permission_classes = (IsAuthenticated,)
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, pk, format=None, *args, **kwargs):
         return HttpResponseRedirect("../../course_details/" + str(pk) + "/")
@@ -342,11 +342,14 @@ class AdminStudentView(APIView):
         if serializer.is_valid():
             first_name = serializer.data['first_name']
             last_name = serializer.data['last_name']
+            email = serializer.data['email']
             ini = first_name[0]
             username = str(ini) + str(last_name)
             new_user = User.objects.create_user(username=username,
                                                 first_name=first_name,
                                                 last_name=last_name)
+            new_user.email = email
+            new_user.save()
             new_profile = UserProfile.objects.create(course=course,
                                                      user=new_user,
                                                      profile_type='ST')
@@ -384,59 +387,31 @@ class AdminTeamView(APIView):
 
     def post(self, request, pk, format=None, *args, **kwargs):
         '''Add a team.'''
-        pass
-#         course = self.get_object(pk)
-#         print "INSIDE CREATE TEAM"
-#         print request.DATA
-#         team_name = request.DATA['team_name']
-#         print team_name
-#         password1 = request.DATA['password1']
-#         print password1
-#         password2 = request.DATA['password2']
-#         print password2
-#         if password1 == password2:
-#             team_user = User.objects.create_user(username=team_name,
-#                                                  first_name=team_name,
-#                                                  last_name=team_name)
-#             print "team_user"
-#             print team_user
-#             team_user.save()
-#             team_profile = UserProfile.objects.create(
-#                 user=team_user, profile_type='TM',
-#                 course=course, budget=course.startingBudget)
-#             team_profile.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         else:
-#             return Response(serializer.errors,
-#                             status=status.HTTP_400_BAD_REQUEST)
-#             new_user = User.objects.create_user(username=username,
-#                                                 first_name=first_name,
-#                                                 last_name=last_name)
-#             new_profile = UserProfile.objects.create(course=course,
-#                                                      user=new_user,
-#                                                      profile_type='ST')
-
-#     def post(self, request, pk, format=None, *args, **kwargs):
-#         '''
-#         Add a Student
-#         Get course to associate with student and save, both in json.
-#         '''
-#         course = self.get_object(pk)
-#         serializer = UserSerializer(data=request.DATA)
-#         if serializer.is_valid():
-#             first_name = serializer.data['first_name']
-#             last_name = serializer.data['last_name']
-#             ini = first_name[0]
-#             username = str(ini) + str(last_name)
-#             new_user = User.objects.create_user(username=username,
-#                                                 first_name=first_name,
-#                                                 last_name=last_name)
-#             new_profile = UserProfile.objects.create(course=course,
-#                                                      user=new_user,
-#                                                      profile_type='ST')
-#             new_profile.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.data)
+        course = self.get_object(pk)
+        team_name = request.DATA['team_name']
+        password1 = request.DATA['password1']
+        password2 = request.DATA['password2']
+        if password1 == password2:
+            team_user = User.objects.create_user(username=team_name,
+                                                 first_name=team_name,
+                                                 last_name=team_name)
+            team_user.save()
+            team_profile = UserProfile.objects.create(
+                user=team_user, profile_type='TM',
+                course=course, budget=course.startingBudget)
+            team_profile.save()
+            try:
+                new_user = User.objects.get(username=team_name)
+                serializer = TeamNameSerializer(new_user)
+                # print "serializer.is_valid()"
+                # print serializer.is_valid()
+                return Response(serializer.data,
+                                status=status.HTTP_201_CREATED)
+            except:
+                print 'could not find user'
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class CreateTeamsView(DetailView):

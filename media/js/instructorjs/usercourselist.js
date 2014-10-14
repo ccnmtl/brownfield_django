@@ -1,4 +1,3 @@
-// creating course model
 var Course = Backbone.Model.extend({
 
     urlRoot: '/course/',
@@ -25,11 +24,7 @@ var UserCourseCollection = Backbone.Collection.extend({
 	 headers: {"content-type": "application/json"},
 	 url: '/user_courses/'
 });
-var AllCourseCollection = Backbone.Collection.extend({
-	 model: Course,
-	 url: '/all_courses/'
-});
-// End of Models/Collections
+
 
 //Views 
 var CourseView = Backbone.View.extend({

@@ -4,21 +4,21 @@ from rest_framework import serializers
 from brownfield_django.main.models import Course, Document, UserProfile
 
 
-class AddCourseByNameSerializer(serializers.HyperlinkedModelSerializer):
+class AddCourseByNameSerializer(serializers.ModelSerializer):
     '''Allow professor to add a course by name as in original brownfield.'''
     class Meta:
         model = Course
         fields = ('name',)
 
 
-class CourseNameIDSerializer(serializers.HyperlinkedModelSerializer):
+class CourseNameIDSerializer(serializers.ModelSerializer):
     '''Allow professor to add a course by name as in original brownfield.'''
     class Meta:
         model = Course
         fields = ('name', 'id')
 
 
-class CompleteCourseSerializer(serializers.HyperlinkedModelSerializer):
+class CompleteCourseSerializer(serializers.ModelSerializer):
     '''Allow professor see, update all aspects of a course.'''
     class Meta:
         model = Course
@@ -26,7 +26,7 @@ class CompleteCourseSerializer(serializers.HyperlinkedModelSerializer):
                   'message', 'active', 'professor')
 
 
-class UpdateCourseSerializer(serializers.HyperlinkedModelSerializer):
+class UpdateCourseSerializer(serializers.ModelSerializer):
     '''Allow professor see, update all aspects of a course.'''
     class Meta:
         model = Course

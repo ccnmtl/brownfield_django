@@ -98,19 +98,38 @@ class TestAdminViews(TestCase):
         course detail page where they can create teams, add students,
         and put students in teams.
         '''
-        pass
-#         request = self.client.get("/ccnmtl/" +
-#                                   str(self.admin.profile.pk) + '/')
-#        self.assertTemplateUsed(request,
-#                                'main/ccnmtl/ccnmtl_home.html')
+        self.admin_course = AdminUserCourseFactory()
+        request = self.client.get("/course_details/" +
+                                  str(self.admin_course.pk) + '/')
+        self.assertTemplateUsed(request,
+                                'main/ccnmtl/course_dash/course_home.html')
 
     def test_update_course(self):
         '''
-        Calling get for a course should redirect the instructor to a
-        course detail page where they can create teams, add students,
-        and put students in teams.
+        Calling get for a update course should return the details of
+        the course to the page edit form so that the edit form is already
+        filled out. Calling post on update_course should update the course,
+        and return the details to the page.
         '''
         pass
+#         self.admin_course = AdminUserCourseFactory()
+#         response = self.client.get("/update_course/" +
+#                                    str(self.admin_course.pk),
+#                                    format='json')
+#         # self.assertEqual(response.status_code, 200)
+#         the_json = json.loads(response.content)
+#         self.assertEqual(
+#             the_json,
+#             {'course': [{'id': str(self.admin_course.id),
+#              'name': self.admin_course.name,
+#              'startingBudget': self.admin_course.startingBudget,
+#              'enableNarrative': self.admin_course.enableNarrative,
+#              'message': self.admin_course.message,
+#              'active': self.admin_course.active,
+#              'archive': self.admin_course.archive,
+#              'professor': str(self.admin_course.professor)
+#              }]})
+        # self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_remove_course(self):
         '''
@@ -134,7 +153,6 @@ class TestAdminViews(TestCase):
         doc = AdminUserDocumentFactory()
         crs = AdminUserCourseFactory()
         crs.document_set.add(doc)
-        # ('id', 'name', 'link', 'visible')
         response = self.client.get('/document/' + str(crs.pk), format='json')
         self.assertEqual(
             response.data,
