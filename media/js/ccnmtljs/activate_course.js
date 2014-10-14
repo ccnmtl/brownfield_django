@@ -8,9 +8,7 @@ function get_students(){
 				       'team': jQuery(this).find("td option:selected").text()
                        } // end var student
         data.push(student);
-		//console.log(student);
     })
-    console.log(data);
     return data;
 } //end get_students();
 
@@ -20,25 +18,29 @@ jQuery(function() {
     {   
     	jQuery(function()
     	{
-            var data = get_students();
-            console.log(data);
-    	    //console.log(get_students());
-            //data.push(get_students());
-            //console.log(data);
-    		//get_students();
-    		console.log("on click after get students");
+    		
+    	   	jQuery.ajax(
+    	    {
+    	        url: "/activate_course/" + crs_id,
+    	    	type: "GET",
+    	    	success: function (data) 
+    	    	{
+    	    		//var crs_data = data;
+    	    		console.log(data);
+    	    	    var data = get_students();
+    	    	    console.log(data);
+        	    },
+	    	           
+        	    error: function(data) 
+	    	    {
+        	        console.log("There was an error getting course details.");
+	    	    }
+        	}); // end ajax POST
 	    }); // end inner on click function
     	e.preventDefault(); //we don't want the form submitting
 	});// end on click function
 });
-//    	   	jQuery.ajax(
-//    	    {
-//    	        url: "/activate_course/" + crs_id,
-//    	    	type: "POST",
-//    	    	success: function (data) 
-//    	    	{
-//    	    		var crs_data = data;
-//    	    		console.log(data);
+
     	            //console.log(crs_data.course[0].professor);
     	    	    //jQuery('#id_name').val(crs_data.course[0].name);
     	            //jQuery('#id_startingBudget').val(crs_data.course[0].startingBudget);
@@ -48,13 +50,7 @@ jQuery(function() {
     	            //jQuery('#id_archive').val(crs_data.course[0].archive);
     	            //jQuery('#id_professor option:selected' ).text(crs_data.course[0].professor);
     	            
-//    	        },
-//    	    	           
-//    	    	error: function(data) 
-//    	    	{
-//    	    	     console.log("There was an error getting course details.");
-//    	        }
-//    	    }); // end ajax GET
+
 //    		
 //    		
 //    	    jQuery('#update-crs-btn').on('click', function(e)

@@ -83,33 +83,37 @@ class CourseView(APIView):
         Creating new course with the name requested by user
         with the user as the default professor - will change this later.
         '''
-        serializer = AddCourseByNameSerializer(data=request.DATA)
-        if serializer.is_valid():
-            course_name = serializer.data['name']
-            new_course = Course.objects.create(
-                name=course_name,
-                professor=User.objects.get(pk=request.user.pk)
-            )
-            d1 = Document.objects.create(course=new_course, name=NAME_1,
-                                         link=LINK_1)
-            d2 = Document.objects.create(course=new_course, name=NAME_2,
-                                         link=LINK_2)
-            d3 = Document.objects.create(course=new_course, name=NAME_3,
-                                         link=LINK_3)
-            d4 = Document.objects.create(course=new_course, name=NAME_4,
-                                         link=LINK_4)
-            d5 = Document.objects.create(course=new_course, name=NAME_5,
-                                         link=LINK_5)
-            d6 = Document.objects.create(course=new_course, name=NAME_6,
-                                         link=LINK_6)
-            d7 = Document.objects.create(course=new_course, name=NAME_7,
-                                         link=LINK_7)
-            d8 = Document.objects.create(course=new_course, name=NAME_8,
-                                         link=LINK_8)
-            new_course.document_set.add(d1, d2, d3, d4, d5, d6, d7, d8)
-            new_course.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        course_name = request.DATA['name']
+        new_course = Course.objects.create(
+            name=course_name,
+            professor=User.objects.get(pk=request.user.pk)
+        )
+        d1 = Document.objects.create(course=new_course, name=NAME_1,
+                                     link=LINK_1)
+        d2 = Document.objects.create(course=new_course, name=NAME_2,
+                                     link=LINK_2)
+        d3 = Document.objects.create(course=new_course, name=NAME_3,
+                                     link=LINK_3)
+        d4 = Document.objects.create(course=new_course, name=NAME_4,
+                                     link=LINK_4)
+        d5 = Document.objects.create(course=new_course, name=NAME_5,
+                                     link=LINK_5)
+        d6 = Document.objects.create(course=new_course, name=NAME_6,
+                                     link=LINK_6)
+        d7 = Document.objects.create(course=new_course, name=NAME_7,
+                                     link=LINK_7)
+        d8 = Document.objects.create(course=new_course, name=NAME_8,
+                                     link=LINK_8)
+        new_course.document_set.add(d1, d2, d3, d4, d5, d6, d7, d8)
+        new_course.save()
+        professor = User.objects.get(pk=request.user.pk)
+        new_course = Course.objects.get(
+            name=request.DATA['name'],
+            professor=professor)
+        serializer = AddCourseByNameSerializer(new_course)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+                # print "serializer.is_valid()"
+        #return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk, format=None, *args, **kwargs):
         '''
@@ -258,10 +262,10 @@ class ActivateCourseView(JSONResponseMixin, View):
         except Course.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk):  # , format=None, *args, **kwargs):
+    def get(self, request, pk):
         print "does get work?"
 
-    def post(self, request, pk):  # , format=None, *args, **kwargs):
+    def post(self, request, pk):
         '''This is really really ugly as is get method need to clean up.'''
         print "inside post"
 
