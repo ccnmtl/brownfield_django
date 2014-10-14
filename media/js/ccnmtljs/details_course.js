@@ -1,5 +1,5 @@
 jQuery(function() {
-
+    var crs_id = jQuery("input[name='crs-id']").val();
    	jQuery.ajax(
     {
         url: "/update_course/" + crs_id,

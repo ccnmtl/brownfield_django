@@ -13,7 +13,6 @@ var Course = Backbone.Model.extend({
 	{
 	    name = attributes.name || '<EMPTY>';
 	}
-	    
 });
 
 
@@ -36,12 +35,13 @@ var AllCourseCollection = Backbone.Collection.extend({
 var CourseView = Backbone.View.extend({
 
    	tagName : 'li',
-   	template: _.template("Course Template <%= name %> <a href='/course/<%= id %>/'>View Course Details </a> <button class='destroy del-crs'> Destroy Class</button>"),
    	//$container: null,
     	
    	initialize: function () {
    	    this.listenTo(this.model, 'change', this.render);
    	    this.listenTo(this.model, 'destroy', this.remove);
+   	    
+   	    this.template = _.template(jQuery("#add-course-template").html());
    	},
     	
    	events: {
@@ -50,15 +50,9 @@ var CourseView = Backbone.View.extend({
    	},
     	
     render: function () {
-        if (!this.model) 
-        {
-            throw "Model is not set for this view";
-        }
-         
         var html = this.template(this.model.toJSON());
         this.$el.html(html);
         return this;
-
     },
     	
     clear: function() {
@@ -83,10 +77,6 @@ var CourseListView = Backbone.View.extend({
 	},
    
    initialRender: function() {
-	   
-        // Clean up the view first 
-        this.$el.empty();
-
         // Iterate over the collection and add each name as a list item 
         this.user_course_collection.each(function(model) {
         this.$el.append(new CourseView({
@@ -100,7 +90,6 @@ var CourseListView = Backbone.View.extend({
 });// End CourseListView   
 
 
-var user_course_collection_view = new CourseListView({el : jQuery('.user_courses #userlist')});
 
 /* Container to hold rows of all courses */
 var AllCoursesListView = Backbone.View.extend({
@@ -136,7 +125,6 @@ var AllCoursesListView = Backbone.View.extend({
     }
     
 });// End CourseListView   
-var all_courses_collection_view = new CourseListView({el : jQuery('.all_brwn_courses')});
 
 
 var UserControlView = Backbone.View.extend({
@@ -147,6 +135,11 @@ var UserControlView = Backbone.View.extend({
 	'click .add-crs' : 'showCourseForm',
 	'click .submit' :	'addCourse'
     },
+    
+    initialize: function (options)
+    {
+        this.user_course_collection_view = options.user_course_collection_view;
+    },
 
     showCourseForm: function(e) {
 		jQuery(".add-crs").hide();
@@ -156,9 +149,8 @@ var UserControlView = Backbone.View.extend({
 
     addCourse: function(course) {
     	
-    	user_course_collection_view.user_course_collection.create(
-    	{
-    				name : jQuery(".crs-name").val()
+    	this.user_course_collection_view.user_course_collection.create({
+    		name : jQuery(".crs-name").val()
     	});
 
 	    jQuery("#frm-title").hide();
@@ -166,6 +158,13 @@ var UserControlView = Backbone.View.extend({
     }
 });// End UserControlView  
 
-var user_control_view = new UserControlView({el : jQuery('.course_controls')});
+jQuery(document).ready(function () {
+    var all_courses_collection_view = new CourseListView({el: jQuery('.all_brwn_courses')});
+    var user_course_collection_view = new CourseListView({el: jQuery('.user_courses #userlist')});
+    var user_control_view = new UserControlView({
+        el: jQuery('.course_controls'),
+        user_course_collection_view: user_course_collection_view
+    });
+});
 
 

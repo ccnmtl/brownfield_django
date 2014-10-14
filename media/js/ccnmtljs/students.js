@@ -22,7 +22,7 @@ var Student= Backbone.Model.extend({
 var StudentCollection = Backbone.Collection.extend({
 	 model: Student,
 	 url: function() {
-		    return '/student/' + crs_id;
+		    return '/student/' + this.course_id;
 	  }
 });
 //End of Modes/Collections
@@ -81,20 +81,15 @@ var StudentListView = Backbone.View.extend({
     initialize: function (options)
     {
     	_.bindAll(this,
-    			 'render',
     			 'initialRender');
     	this.course_students = new StudentCollection();
+    	this.course_students.course_id = options.course_id;
+    	
     	this.course_students.fetch({processData: true, reset: true});
     	this.course_students.on('reset', this.initialRender);
 	},
 
-    render: function() {
-    },
-
     initialRender: function() {
-
-        this.$el.empty();
-
         this.course_students.each(function(model) {
         this.$el.append(new StudentView({
                model: model
@@ -104,12 +99,7 @@ var StudentListView = Backbone.View.extend({
         return this;
     }
     
-});// End StudentListView    
-
-
-
-var student_collection_view = new StudentListView({el : jQuery('.student-list')});
-
+});// End StudentListView
 
 var StudentControlView = Backbone.View.extend({
 
@@ -117,6 +107,11 @@ var StudentControlView = Backbone.View.extend({
 	//'click .edit-crs' : 'edit',
 	'click .add-std-btn' : 'showStudentForm',
 	'click .student_submit' :	'addStudent'
+    },
+    
+    initialize: function (options)
+    {
+        this.student_collection_view = options.student_collection_view;
     },
 
     showStudentForm: function() {
@@ -128,7 +123,7 @@ var StudentControlView = Backbone.View.extend({
 
     addStudent: function(course) {
     	
-    	student_collection_view.course_students.create(
+    	this.student_collection_view.course_students.create(
     	{
     		first_name : jQuery(".frst-name").val(),
     	    last_name : jQuery(".last-name").val(),
@@ -142,4 +137,15 @@ var StudentControlView = Backbone.View.extend({
     
 });// End UserControlView  
 
-var student_control_view = new StudentControlView({el : jQuery('.student_controls')});
+jQuery(document).ready(function () {
+    var crs_id = jQuery("input[name='crs-id']").val();
+
+    var student_collection_view = new StudentListView({
+        el: jQuery('.student-list'),
+        course_id: crs_id});
+    
+    var student_control_view = new StudentControlView({
+        el: jQuery('.student_controls'),
+        student_collection_view: student_collection_view
+    });
+});
