@@ -342,11 +342,14 @@ class AdminStudentView(APIView):
         if serializer.is_valid():
             first_name = serializer.data['first_name']
             last_name = serializer.data['last_name']
+            email = serializer.data['email']
             ini = first_name[0]
             username = str(ini) + str(last_name)
             new_user = User.objects.create_user(username=username,
                                                 first_name=first_name,
                                                 last_name=last_name)
+            new_user.email = email
+            new_user.save()
             new_profile = UserProfile.objects.create(course=course,
                                                      user=new_user,
                                                      profile_type='ST')
