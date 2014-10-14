@@ -389,23 +389,11 @@ class AdminTeamView(APIView):
 
     def post(self, request, pk, format=None, *args, **kwargs):
         '''Add a team.'''
-        print request.DATA
         course = self.get_object(pk)
-        print "course"
-        print course
         team_name = request.DATA['username']
-        print "team_name"
-        print team_name
         password1 = request.DATA['password1']
-        print "password1"
-        print password1
         password2 = request.DATA['password2']
-        print "password2"
-        print password2
-        print "password1 == password2"
-        print password1 == password2
-        if str(password1) == str(password2):
-            print "passwords match"
+        if password1 == password2:
             team_user = User.objects.create_user(username=team_name,
                                                  first_name=team_name,
                                                  last_name=team_name)
