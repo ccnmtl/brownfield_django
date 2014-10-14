@@ -22,7 +22,7 @@ jQuery(function() {
     	   	jQuery.ajax(
     	    {
     	        url: "/activate_course/" + crs_id,
-    	    	type: "GET",
+    	    	type: "POST",
     	    	success: function (data) 
     	    	{
     	    		//var crs_data = data;

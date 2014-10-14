@@ -389,11 +389,23 @@ class AdminTeamView(APIView):
 
     def post(self, request, pk, format=None, *args, **kwargs):
         '''Add a team.'''
+        print request.DATA
         course = self.get_object(pk)
-        team_name = request.DATA['team_name']
+        print "course"
+        print course
+        team_name = request.DATA['username']
+        print "team_name"
+        print team_name
         password1 = request.DATA['password1']
+        print "password1"
+        print password1
         password2 = request.DATA['password2']
-        if password1 == password2:
+        print "password2"
+        print password2
+        print "password1 == password2"
+        print password1 == password2
+        if str(password1) == str(password2):
+            print "passwords match"
             team_user = User.objects.create_user(username=team_name,
                                                  first_name=team_name,
                                                  last_name=team_name)
@@ -405,6 +417,8 @@ class AdminTeamView(APIView):
             try:
                 new_user = User.objects.get(username=team_name)
                 serializer = TeamNameSerializer(new_user)
+                print "serializer"
+                print serializer
                 # print "serializer.is_valid()"
                 # print serializer.is_valid()
                 return Response(serializer.data,
@@ -412,6 +426,7 @@ class AdminTeamView(APIView):
             except:
                 print 'could not find user'
         else:
+            print "passwords do not match"
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
