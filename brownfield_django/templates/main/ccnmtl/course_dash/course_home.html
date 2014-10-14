@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 
 {% block js %}
-
+    <script type="text/template" id="document-list-template">
+        [<%= name %>]
+        <%= link %><br />
+        Visibility of Document: <%= visible %><br />
+        <button class='btn btn-xs chng-dct'>Release/Revoke Document</button>
+    </script>
 {% endblock %}
 
 {% block content %}
+   <input type="hidden" name="crs-id" value="{{object.pk}}"/>
 
   <ul class="nav nav-tabs instructor-nav">
     <li class="active"><a href="#course-documents" data-toggle="tab">Course Info</a></li>

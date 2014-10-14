@@ -1,5 +1,5 @@
 <div class="tab-pane active" id="course-documents">
-    <h1>Course Details</h1>
+    <h1>{{object.name}} Details</h1>
 
     <div class="course_message">
         <h3>Course message:</h3>
@@ -42,7 +42,6 @@
         <div class="crs-deactivate">
             <p> If you are done with this course, you may remove it from your dashboard by deactivating it.</p>
             <form id="de-act-crs-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
-            <input type="hidden" name="crs-id" value="{{object.pk}}"/>
             <button id="deactivation-btn" type="button">
                 Deactivate Course
             </button><br /><br />

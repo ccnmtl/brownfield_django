@@ -1,22 +1,6 @@
 <div class="tab-pane active" id="course-list">
 <br /><br />
 
-<script id="course-template" type="template">
-    <label>
-        Course Template <%= name %>
-        <% if (id) { %> <%=id%><% } %> 
-    </label>
-     <% if (id) { %>
-     <a href='/course/<%= id %>/'>View Course Details </a>
-     <button class='view-crs'>View Course Details </button>
-
-    <button class='edit-crs'> Edit Course Details </button>
-    <button class='del-crs'> Remove Course </button>
-    <button class='destroy'> Destroy Class </button>
-    <% } %>
-</script>
-
-
 <div class="courses">
     <div class='user_courses'>
         <div class="course_controls">
@@ -31,11 +15,14 @@
             </form>
         </div>
         
+        <h3>Your Courses</h3>
         <div id="userlist" >
             <!-- All user courses will be inserted here -->
         </div>
     </div>
     <br /><br /><br /><br />
+    
+    <h3>All Courses</h3>
     <div class="all_brwn_courses">
     </div>
 </div>

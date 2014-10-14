@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
+
 {% block js %}
-    
+    <script type="text/template" id="add-course-template">
+        [<%= name %>]
+        <a href='/course/<%= id %>/'>View Course Details </a>
+        <button class='destroy del-crs'> Destroy Class</button>
+    </script>
 {% endblock %}
+
 {% block content %}
 
   <ul class="nav nav-tabs instructor-nav">
