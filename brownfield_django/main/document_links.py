@@ -7,7 +7,7 @@ LINK_2 = '''<a href="javascript:openPopWin('{{STATIC_URL}}flvplayer.html?flv=new
 NAME_3='''News: Local Residents React to Prospect of Mall Plans'''
 LINK_3 = '''<a href="javascript:openPopWin('{{STATIC_URL}}documents/news1.jpg')">News: Local Residents React to Prospect of Mall Plans</a>'''
 NAME_4='''News: Water Testing Results Still Pending'''
-LINK_4 = '''a href="javascript:openPopWin('{{STATIC_URL}}documents/news2.jpg','430','950','no','no','bfaN2')">News: Water Testing Results Still Pending</a>'''
+LINK_4 = '''<a href="javascript:openPopWin('{{STATIC_URL}}documents/news2.jpg','430','950','no','no','bfaN2')">News: Water Testing Results Still Pending</a>'''
 NAME_5='''News: Water Testing Reveal Contamination'''
 LINK_5 = '''<a href="javascript:openPopWin('{{STATIC_URL}}documents/news3.jpg','250','820','no','no','bfaN3')">News: Water Testing Reveal Contamination</a>'''
 NAME_6='''News: IRS Explores Terrain'''
