@@ -268,10 +268,10 @@ class ActivateCourseView(JSONResponseMixin, View):
                 team = User.objects.get(pk=student['student']['team_id'])
                 student = User.objects.get(pk=student['student']['pk'])
                 profile = UserProfile.objects.get(user=student)
-                student.in_team = True
-                student.team_id = team.id
-                student.team_name = team.username
-                student.save()
+                profile.in_team = True
+                profile.team_id = team.id
+                profile.team_name = team.username
+                profile.save()
             except:
                 pass
 
