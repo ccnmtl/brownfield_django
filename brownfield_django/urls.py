@@ -9,8 +9,7 @@ from pagetree.generic.views import EditView, InstructorView, PageView
 from rest_framework import routers
 
 from brownfield_django.main.forms import CreateAccountForm
-from brownfield_django.main.views import CourseViewSet, UserViewSet, \
-    GroupViewSet
+from brownfield_django.main.views import CourseViewSet, UserViewSet
 from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, RegistrationView, AdminStudentView, \
     TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, \
@@ -40,7 +39,6 @@ if hasattr(settings, 'WIND_BASE'):
 router = routers.DefaultRouter()
 router.register(r'course', CourseViewSet)
 router.register(r'user', UserViewSet)
-router.register(r'group', GroupViewSet)
 
 urlpatterns = patterns(
     '',

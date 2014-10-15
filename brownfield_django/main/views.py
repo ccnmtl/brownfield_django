@@ -23,8 +23,7 @@ from brownfield_django.main.forms import CreateAccountForm
 from brownfield_django.main.models import Course, UserProfile, Document
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
     CompleteDocumentSerializer, CompleteCourseSerializer, \
-    UserSerializer, TeamNameSerializer, CourseSerializer, \
-    GroupSerializer
+    UserSerializer, TeamNameSerializer, CourseSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
@@ -66,12 +65,7 @@ class UserViewSet(viewsets.ModelViewSet):
         if self.request.user.profile.is_student():
             return User.objects.get(id=self.request.user.id)
         else:
-            return super(UserViewSet, self).get_query_set()
-
-
-class GroupViewSet(viewsets.ModelViewSet):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
+            return User.objects.all()
 
 
 class HomeView(LoggedInMixin, View):
