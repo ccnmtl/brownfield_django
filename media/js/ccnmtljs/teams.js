@@ -1,6 +1,22 @@
 //creating team model
 // for adding teams to course
 var Team = Backbone.Model.extend({
+	
+	     defaults: function() {
+		          return {
+		                  username: "Team Name",
+		              password1: "password1",
+		              password2: "password2",
+		          }
+		      },
+		  
+		      initialize: function(attributes) 
+		          {   
+		        username = attributes.username || '<EMPTY>';
+		         password1 = '<EMPTY>';
+		          password2 = '<EMPTY>';
+	       }
+	
 });
 
 var TeamCollection = Backbone.Collection.extend({

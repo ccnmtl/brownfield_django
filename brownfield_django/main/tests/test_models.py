@@ -33,7 +33,7 @@ class TestTeamFactory(TestCase):
 
 
 class TestHistoryFactory(TestCase):
- 
+
     def test_unicode(self):
         his = HistoryFactory()
         self.assertEqual(str(his), '%s - %s' % (his.description, his.team))

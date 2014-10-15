@@ -20,10 +20,10 @@ from brownfield_django.main.document_links import NAME_1, \
     LINK_1, NAME_2, LINK_2, NAME_3, LINK_3, NAME_4, LINK_4, \
     NAME_5, LINK_5, NAME_6, LINK_6, NAME_7, LINK_7, NAME_8, LINK_8
 from brownfield_django.main.forms import CreateAccountForm
-from brownfield_django.main.models import Course, UserProfile, Document
+from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
-    CompleteDocumentSerializer, CompleteCourseSerializer, \
-    UserSerializer, TeamNameSerializer, CourseSerializer
+    CompleteDocumentSerializer, \
+    UserSerializer, TeamNameSerializer, CourseSerializer, OtherUserSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
@@ -68,34 +68,41 @@ class UserViewSet(viewsets.ModelViewSet):
             return User.objects.all()
 
 
-class HomeView(LoggedInMixin, View):
-    '''redoing so that it simply redirects people where they need to be'''
+class DocumentView(APIView):
+    """
+    This view interacts with backbone to allow instructors to
+    interact with documents, they can make them available to
+    students or revoke them so they are invisible.
+    """
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
 
-    def get(self, request):
+    def get_object(self, pk):
         try:
-            user_profile = UserProfile.objects.get(user=request.user.pk)
-        except UserProfile.DoesNotExist:
-            return HttpResponseRedirect(reverse('register'))
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
 
-        if user_profile.is_teacher():
-            url = '/teacher/home/%s/' % (user_profile.id)
-        if user_profile.is_admin():
-            url = '/ccnmtl/home/%s/' % (user_profile.id)
+    def get(self, request, pk, format=None):
+        '''Using course id from url to retrieve documents.'''
+        course = self.get_object(pk)
+        documents = Document.objects.filter(course=course)
+        serializer = CompleteDocumentSerializer(documents, many=True)
+        return Response(serializer.data)
 
-        return HttpResponseRedirect(url)
-
-
-class RegistrationView(FormView):
-    '''Should I remove the RegistrationView? Professors create Teams
-    and add students to the Course...'''
-
-    template_name = 'registration/registration_form.html'
-    form_class = CreateAccountForm
-    success_url = '/account_created/'
-
-    def form_valid(self, form):
-        form.save()
-        return super(RegistrationView, self).form_valid(form)
+    def put(self, request, pk, format=None, *args, **kwargs):
+        '''
+        We are sending pk of document since it is already associated
+        with the course it belongs to.
+        '''
+        document = Document.objects.get(pk=pk)
+        if document.visible is True:
+            document.visible = False
+        elif document.visible is False:
+            document.visible = True
+        document.save()
+        serializer = CompleteDocumentSerializer(document)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class CourseView(APIView):
@@ -144,38 +151,145 @@ class CourseView(APIView):
         serializer = AddCourseByNameSerializer(new_course)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def update(self, request, pk, format=None, *args, **kwargs):
-        '''
-        Updating a course - not sure if I will add editing to home course page,
-        or if this should be the function to use with the course detail tab,
-        not sure if its good to use the same view for two different templates
-        and js files either.
-        '''
-        serializer = CompleteCourseSerializer(data=request.DATA)
-        if serializer.is_valid():
-            course_name = serializer.data['name']
-            new_course = Course.objects.create(
-                name=course_name,
-                professor=User.objects.get(pk=request.user.pk))
-            new_course.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None, *args, **kwargs):
-        '''
-        Admin wishes to delete a course - perhaps well just
-        have it marked as archived? If archived don't show?
-        not pressing functionality can add later...
-        '''
-        ac = Course.objects.get(pk=pk)
-        ac.archive = True
-        ac.save()
+class AdminStudentView(APIView):
+    """
+    This view interacts with backbone to allow instructors to
+    view and edit students to their course, pk is for course.
+    """
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, pk):
         try:
-            ac = Course.objects.get(pk=pk)
-            if ac:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None, *args, **kwargs):
+        '''Retrieve students of course if there are any to list.'''
+        course = self.get_object(pk)
+        try:
+            students = course.get_students()
+            users = User.objects.filter(profile__in=students)
+            serializer = UserSerializer(users, many=True)
+            return Response(serializer.data)
         except:
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            '''Assume collection is currently empty'''
+            return Response(status.HTTP_200_OK)
+
+    def post(self, request, pk, format=None, *args, **kwargs):
+        '''
+        Add a Student
+        Get course to associate with student and save, both in json.
+        '''
+        course = self.get_object(pk)
+        first_name = request.DATA['first_name']
+        last_name = request.DATA['last_name']
+        email = request.DATA['email']
+        ini = first_name[0]
+        username = str(ini) + str(last_name)
+        new_user = User.objects.create_user(username=username,
+                                            first_name=first_name,
+                                            last_name=last_name)
+        new_user.email = email
+        new_user.save()
+        new_profile = UserProfile.objects.create(course=course,
+                                                 user=new_user,
+                                                 profile_type='ST')
+        new_profile.save()
+        serializer = OtherUserSerializer(data=new_user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class AdminTeamView(APIView):
+    """
+    This view interacts with backbone to allow instructors to
+    view and add teams to their course. Will also probably be where
+    logic for keeping track of which students are where will be.
+    """
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None, *args, **kwargs):
+        '''Send back all teams currently in course.'''
+        course = self.get_object(pk)
+        try:
+            teamprofiles = course.get_teams()
+            teams = User.objects.filter(team__in=teamprofiles)
+            serializer = TeamNameSerializer(teams, many=True)
+            return Response(serializer.data)
+        except:
+            '''Assume collection is currently empty'''
+            return Response(status.HTTP_200_OK)
+
+    def post(self, request, pk, format=None, *args, **kwargs):
+        '''
+        Add a team.
+        Team creation is where we set the team
+        budgets so they are all the same.
+        '''
+        course = self.get_object(pk)
+        team_name = request.DATA['username']
+        password1 = request.DATA['password1']
+        password2 = request.DATA['password2']
+        if password1 == password2:
+            user = User.objects.create_user(username=team_name,
+                                            first_name=team_name,
+                                            last_name=team_name)
+            user.save()
+            team = Team.objects.create(
+                user=user,
+                course=course,
+                budget=course.startingBudget)
+            team.save()
+            try:
+                new_user = User.objects.get(username=team_name)
+                serializer = TeamNameSerializer(new_user)
+                return Response(serializer.data,
+                                status=status.HTTP_201_CREATED)
+            except:
+                print 'could not find user'
+        else:
+            print "passwords do not match"
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
+
+class HomeView(LoggedInMixin, View):
+    '''redoing so that it simply redirects people where they need to be'''
+
+    def get(self, request):
+        try:
+            user_profile = UserProfile.objects.get(user=request.user.pk)
+        except UserProfile.DoesNotExist:
+            return HttpResponseRedirect(reverse('register'))
+
+        if user_profile.is_teacher():
+            url = '/teacher/home/%s/' % (user_profile.id)
+        if user_profile.is_admin():
+            url = '/ccnmtl/home/%s/' % (user_profile.id)
+
+        return HttpResponseRedirect(url)
+
+
+class RegistrationView(FormView):
+    '''Should I remove the RegistrationView? Professors create Teams
+    and add students to the Course...'''
+
+    template_name = 'registration/registration_form.html'
+    form_class = CreateAccountForm
+    success_url = '/account_created/'
+
+    def form_valid(self, form):
+        form.save()
+        return super(RegistrationView, self).form_valid(form)
 
 
 class DetailJSONCourseView(JSONResponseMixin, View):
@@ -265,7 +379,6 @@ class ActivateCourseView(JSONResponseMixin, View):
 
     def post(self, request, pk):
         '''This is really really ugly as is get method need to clean up.'''
-        print "INSIDE ACTIVATION POST"
         student_list = json.loads(request.POST['student_list'])
         for student in student_list:
             try:
@@ -279,153 +392,6 @@ class ActivateCourseView(JSONResponseMixin, View):
                 return self.render_to_json_response({'success': 'true'})
             except:
                 return self.render_to_json_response({'success': 'false'})
-
-
-class DocumentView(APIView):
-    """
-    This view interacts with backbone to allow instructors to
-    interact with documents, they can make them available to
-    students or revoke them so they are invisible.
-    """
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
-
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        '''
-        In order to retrieve a courses documents we need
-        to tell it what course we want to get it from.
-        '''
-        course = self.get_object(pk)
-        documents = Document.objects.filter(course=course)
-        serializer = CompleteDocumentSerializer(documents, many=True)
-        return Response(serializer.data)
-
-    def put(self, request, pk, format=None, *args, **kwargs):
-        '''
-        We are sending pk of document since it is already associated
-        with the course it belongs to.
-        '''
-        document = Document.objects.get(pk=pk)
-        if document.visible is True:
-            document.visible = False
-        elif document.visible is False:
-            document.visible = True
-        document.save()
-        serializer = CompleteDocumentSerializer(document)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class AdminStudentView(APIView):
-    """
-    This view interacts with backbone to allow instructors to
-    view and edit students to their course, pk is for course.
-    """
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
-
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None, *args, **kwargs):
-        '''Retrieve students of course if there are any to list.'''
-        course = self.get_object(pk)
-        try:
-            students = course.get_students()
-            users = User.objects.filter(profile__in=students)
-            serializer = UserSerializer(users, many=True)
-            return Response(serializer.data)
-        except:
-            '''Assume collection is currently empty'''
-            return Response(status.HTTP_200_OK)
-
-    def post(self, request, pk, format=None, *args, **kwargs):
-        '''
-        Add a Student
-        Get course to associate with student and save, both in json.
-        '''
-        course = self.get_object(pk)
-        serializer = UserSerializer(data=request.DATA)
-        if serializer.is_valid():
-            first_name = serializer.data['first_name']
-            last_name = serializer.data['last_name']
-            email = serializer.data['email']
-            ini = first_name[0]
-            username = str(ini) + str(last_name)
-            new_user = User.objects.create_user(username=username,
-                                                first_name=first_name,
-                                                last_name=last_name)
-            new_user.email = email
-            new_user.save()
-            new_profile = UserProfile.objects.create(course=course,
-                                                     user=new_user,
-                                                     profile_type='ST')
-            new_profile.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.data)
-
-
-class AdminTeamView(APIView):
-    """
-    This view interacts with backbone to allow instructors to
-    view and add teams to their course. Will also probably be where
-    logic for keeping track of which students are where will be.
-    """
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
-
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None, *args, **kwargs):
-        '''Send back all teams currently in course.'''
-        course = self.get_object(pk)
-        try:
-            teamprofiles = course.get_teams()
-            teams = User.objects.filter(profile__in=teamprofiles)
-            serializer = TeamNameSerializer(teams, many=True)
-            return Response(serializer.data)
-        except:
-            '''Assume collection is currently empty'''
-            return Response(status.HTTP_200_OK)
-
-    def post(self, request, pk, format=None, *args, **kwargs):
-        '''Add a team.'''
-        course = self.get_object(pk)
-        team_name = request.DATA['username']
-        password1 = request.DATA['password1']
-        password2 = request.DATA['password2']
-        if password1 == password2:
-            team_user = User.objects.create_user(username=team_name,
-                                                 first_name=team_name,
-                                                 last_name=team_name)
-            team_user.save()
-            team_profile = UserProfile.objects.create(
-                user=team_user, profile_type='TM',
-                course=course, budget=course.startingBudget)
-            team_profile.save()
-            try:
-                new_user = User.objects.get(username=team_name)
-                serializer = TeamNameSerializer(new_user)
-                return Response(serializer.data,
-                                status=status.HTTP_201_CREATED)
-            except:
-                print 'could not find user'
-        else:
-            print "passwords do not match"
-            return Response(serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class CreateTeamsView(DetailView):

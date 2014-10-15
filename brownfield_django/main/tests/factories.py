@@ -31,6 +31,7 @@ class UserTeamFactory(factory.DjangoModelFactory):
     username = "Test_Team"
     password = "Test_Team"
 
+
 class TeamFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Team
     course = factory.SubFactory(CourseFactory)

@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 <br /><br />
-    <div>
+    <!-- Hiding the sort buttons until functionality is added -->
+    <div id="sort-table"  style="display: none;">
         <input type="hidden" name="crs-id" value="{{object.pk}}"/>
 	    <button type="button" class="btn btn-default">
             Sort by Student

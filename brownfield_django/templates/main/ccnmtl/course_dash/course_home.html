@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 
+{% block bbjs %}
+    <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/documentlist.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/students.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/teams.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/details_course.js"></script>
+{% endblock %}
+
 {% block js %}
     <script type="text/template" id="document-list-template">
         [<%= name %>]
@@ -7,6 +15,7 @@
         Visibility of Document: <%= visible %><br />
         <button class='btn btn-xs chng-dct'>Release/Revoke Document</button>
     </script>
+
 {% endblock %}
 
 {% block content %}
@@ -24,11 +33,3 @@
 {% comment %}{% endcomment %}
 {% endblock %}
 
-{% block bbjs %}
-<script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script>
-<script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/documentlist.js"></script>
-<script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/students.js"></script>
-<script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/teams.js"></script>
-<script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/details_course.js"></script>
-<script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/deactivate_course.js"></script>
-{% endblock %}

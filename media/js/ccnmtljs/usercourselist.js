@@ -9,7 +9,6 @@ var User = Backbone.Model.extend({
    }
 });
 
-// creating course model
 var Course = Backbone.Model.extend({
     urlRoot: '/api/course/',
     url: function() {
@@ -21,10 +20,6 @@ var Course = Backbone.Model.extend({
     }
 });
 
-
-/*Should this be two different collections or one collection
- * with an over ridden url when instantiated?
- */
 var CourseCollection = Backbone.Collection.extend({
 	 model: Course,
 	 urlRoot: '/api/course/',
@@ -42,6 +37,7 @@ var CourseCollection = Backbone.Collection.extend({
 	 }
 });
 // End of Models/Collections
+
 
 //Views 
 var CourseView = Backbone.View.extend({

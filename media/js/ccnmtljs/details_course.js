@@ -7,7 +7,6 @@ jQuery(function() {
     	success: function (data) 
     	{
     		var crs_data = data;
-            //console.log(crs_data.course[0].professor);
     	    jQuery('#id_name').val(crs_data.course[0].name);
             jQuery('#id_startingBudget').val(crs_data.course[0].startingBudget);
             jQuery('#id_enableNarrative').val(crs_data.course[0].enableNarrative);
@@ -20,7 +19,7 @@ jQuery(function() {
     	           
     	error: function(data) 
     	{
-    	     console.log("There was an error getting course details.");
+    		alert("There was a problem getting the course details, please try reloading the page.");
         }
     }); // end ajax GET
 	
@@ -56,7 +55,7 @@ jQuery(function() {
                   
             error: function(data) 
             {
-                console.log("There was an error submitting your form.");
+                alert("There was a problem submitting your form, please try again.");
             }
           }); //end ajax UPDATE
     	  e.preventDefault();
