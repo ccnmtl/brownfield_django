@@ -262,6 +262,7 @@ class ActivateCourseView(JSONResponseMixin, View):
 
     def post(self, request, pk):
         '''This is really really ugly as is get method need to clean up.'''
+        print "INSIDE ACTIVATION POST"
         student_list = json.loads(request.POST['student_list'])
         for student in student_list:
             try:
@@ -272,8 +273,9 @@ class ActivateCourseView(JSONResponseMixin, View):
                 profile.team_id = team.id
                 profile.team_name = team.username
                 profile.save()
+                return self.render_to_json_response({'success': 'true'})
             except:
-                pass
+                return self.render_to_json_response({'success': 'false'})
 
 
 class DocumentView(APIView):
@@ -428,7 +430,7 @@ class CreateTeamsView(DetailView):
     Until I figure out nested views in Backbone or some Backbone plug-in...
     """
     model = Course
-    template_name = 'main/ccnmtl/course_dash/create_teams.html'
+    template_name = 'main/ccnmtl/course_activation/create_teams.html'
     success_url = '/'
 
     def get_context_data(self, **kwargs):
@@ -476,6 +478,25 @@ class CCNMTLCourseDetail(DetailView):
     model = Course
     template_name = 'main/ccnmtl/course_dash/course_home.html'
     success_url = '/'
+
+
+class CCNMTLViewTeamsDetail(DetailView):
+
+    def post(self, request, pk):
+        '''This is really really ugly as is get method need to clean up.'''
+        student_list = json.loads(request.POST['student_list'])
+        for student in student_list:
+            try:
+                team = User.objects.get(pk=student['student']['team_id'])
+                student = User.objects.get(pk=student['student']['pk'])
+                profile = UserProfile.objects.get(user=student)
+                profile.in_team = True
+                profile.team_id = team.id
+                profile.team_name = team.username
+                profile.save()
+                return self.render_to_json_response({'success': 'true'})
+            except:
+                return self.render_to_json_response({'success': 'false'})
 
 
 '''Beginning of Team Views'''

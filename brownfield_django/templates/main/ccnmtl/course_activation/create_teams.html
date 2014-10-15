@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-<br /><br /><input type="hidden" name="crs-id" value="{{object.pk}}"/>
-	        	<button type="button" class="btn btn-default">
-                	Sort by Student
-    	        </button>
-    	        <button type="button" class="btn btn-default">
-                	Sort by Team
-    	        </button>
+<br /><br />
+    <div>
+        <input type="hidden" name="crs-id" value="{{object.pk}}"/>
+	    <button type="button" class="btn btn-default">
+            Sort by Student
+    	</button>
+    	<button type="button" class="btn btn-default">
+            Sort by Team
+    	</button>
+    </div>
 
     <div class="course-activation">
     <table id="student_team_tables" style="width:100%">
@@ -14,26 +17,10 @@
         {% csrf_token %}
         <th>
         <tr>
-            <td>
-            <b>
-                First Name
-            </b>
-            </td>
-            <td>
-            <b>
-                Last Name
-            </b>
-            </td>
-            <td>
-            <b>
-                Email
-            </b>
-            </td>
-            <td>
-            <b>
-                Team
-            </b>
-            </td>
+            <td><b>First Name</b></td>
+            <td><b>Last Name</b></td>
+            <td><b>Email</b></td>
+            <td><b>Team</b></td>
         </tr>
         </th>
     
@@ -68,13 +55,12 @@
         {% empty %}
             <p>Please add students in order to create teams.</p>
         {% endfor %}
-    <!-- </form> -->
     </table>
     </form>
     </div>
 
-        <div class="crs-act-info">
-            <h3>Activate Course</h3>
+    <div class="crs-act-info">
+        <h3>Activate Course</h3>
             <p>Activating the course teams will Every student should be a member of a team before you begin.
                 <ul>
                     This will:
@@ -82,12 +68,41 @@
                     <li>For those new teams, send the student members email (cc'ing you) with the username and password for their team.</li>
                 </ul>
             </p>
-        </div><!-- End Course Activation Info -->
-        <div class="crs-activate">
-            <button id="activation-btn" type="submit">
-                Activate Course
-            </button><br /><br />
+    </div><!-- End Course Activation Info -->
+
+    <div class="crs-activate">
+        <button id="activation-btn" type="submit" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+            Activate Course
+        </button><br /><br />
     </div>
+
+
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Course Activation</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+            Congratulations! Your course has been successfully activated!&hellip;
+            An email will be sent to each of your students informing them of their team and password.
+            You may click on the button below to view your course with its current teams and download their progress.
+            You may edit you course teams anytime.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">View Teams</button>
+        <a href="../../course_teams/{{object.pk}}/" class="btn btn-primary">View Teams</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 {% endblock %}
