@@ -13,7 +13,7 @@ from brownfield_django.main.views import DetailJSONCourseView, \
     TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, \
     UserCourseView, AllCourseView, ActivateCourseView, \
     AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
-    TeamHomeView, CreateTeamsView  # , ActivateTeamsView
+    TeamHomeView, CreateTeamsView, CCNMTLViewTeamsDetail
 admin.autodiscover()
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
@@ -63,11 +63,9 @@ urlpatterns = patterns(
     (r'^document/(?P<pk>\d+)$', DocumentView.as_view()),
     (r'^user_courses/$', UserCourseView.as_view()),
     (r'^all_courses/$', AllCourseView.as_view()),
-    # (r'^activate_course/(?P<pk>\d+)/$', ActivateCourseView.as_view()),
     (r'^student/$', AdminStudentView.as_view()),
     (r'^student/(?P<pk>\d+)$', AdminStudentView.as_view()),
-    (r'^course_teams/(?P<pk>\d+)/$', TemplateView.as_view(
-        template_name="main/ccnmtl/course_activation/teams.html")),
+    (r'^current_teams/(?P<pk>\d+)/$', CCNMTLViewTeamsDetail.as_view()),
     # student/team views
     # Demo View
     (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),

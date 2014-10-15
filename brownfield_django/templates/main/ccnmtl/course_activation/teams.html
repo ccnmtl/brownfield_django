@@ -3,14 +3,14 @@
 <br /><br />
 
 <div class="course-teams">
-
+<h3>Your Current Teams and Team Members are:</h3>
         {% for team in object.get_teams %}
-            <p>{{team}}</p>        
-            {% comment %}
-                {% for student in team %}
-                    {% empty %}
+            <b>{{team}}</b>        
+                {% for student in team.get_team_members %}
+                    {{student}}
+                {% empty %}
+                    <p>There are no students in this team.</p>
                 {% endfor %}
-            {% endcomment %}
         {% empty %}
             <p>There are no teams in the course yet, please add teams and students and activate them.</p>
         {% endfor %}

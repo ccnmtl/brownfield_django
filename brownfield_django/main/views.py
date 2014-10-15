@@ -482,21 +482,17 @@ class CCNMTLCourseDetail(DetailView):
 
 class CCNMTLViewTeamsDetail(DetailView):
 
-    def post(self, request, pk):
-        '''This is really really ugly as is get method need to clean up.'''
-        student_list = json.loads(request.POST['student_list'])
-        for student in student_list:
-            try:
-                team = User.objects.get(pk=student['student']['team_id'])
-                student = User.objects.get(pk=student['student']['pk'])
-                profile = UserProfile.objects.get(user=student)
-                profile.in_team = True
-                profile.team_id = team.id
-                profile.team_name = team.username
-                profile.save()
-                return self.render_to_json_response({'success': 'true'})
-            except:
-                return self.render_to_json_response({'success': 'false'})
+    model = Course
+    template_name = 'main/ccnmtl/course_activation/teams.html'
+    success_url = '/'
+
+#     def get_context_data(self, **kwargs):
+#         context = super(CreateTeamsView, self).get_context_data(**kwargs)
+#         context['team_list'] = User.objects.filter(
+#             profile__in=self.object.get_teams())
+#         context['student_list'] = User.objects.filter(
+#             profile__in=self.object.get_students())
+#         return context
 
 
 '''Beginning of Team Views'''
