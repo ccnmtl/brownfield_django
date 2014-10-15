@@ -2,7 +2,7 @@
 // for adding teams to course
 var Team = Backbone.Model.extend({
 	
-	     defaults: function() {
+	    defaults: function() {
 		          return {
 		                  username: "Team Name",
 		              password1: "password1",

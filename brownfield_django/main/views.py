@@ -171,7 +171,7 @@ class AdminStudentView(APIView):
         try:
             students = course.get_students()
             users = User.objects.filter(profile__in=students)
-            serializer = UserSerializer(users, many=True)
+            serializer = OtherUserSerializer(users, many=True)
             return Response(serializer.data)
         except:
             '''Assume collection is currently empty'''

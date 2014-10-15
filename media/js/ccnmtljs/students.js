@@ -13,7 +13,7 @@ var Student= Backbone.Model.extend({
 	{   
 	    first_name = attributes.first_name || '<EMPTY>';
 	    last_name = attributes.last_name || '<EMPTY>';
-	    email = attributes.last_name || '<EMPTY>';
+	    email = attributes.email || '<EMPTY>';
 	}
 	    
 });
