@@ -1,6 +1,5 @@
 import json
-
-from django.contrib.auth.models import User  # , Group
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.http.response import HttpResponseForbidden
