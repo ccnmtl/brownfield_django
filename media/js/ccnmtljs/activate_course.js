@@ -1,31 +1,36 @@
 function get_students(){
+	//when looking at SO looks like most js methods dealing with json deal with strings...
+	//going return a string... doesn't seem right to me 
 	var data = [];
-	var count = 0;
-    jQuery('#student_team_tables tr').each(function(){
-        var student = {'pk': jQuery(this).find("td input[name='std-id']").val(),
-				       'first_name': jQuery(this).find("td input[name='first_name']").val(), 
-				       'last_name': jQuery(this).find("td input[name='last_name']").val(), 
-				       'email': jQuery(this).find("td input[name='email']").val(),
-				       'team': jQuery(this).find("td option:selected").text()
-                       } // end var student
-        data.push({ 'student' : [student] });
+	
+    jQuery('#student_team_tables tr').each(
+        function(){
+            var student = {'pk': jQuery(this).find("td input[name='std-id']").val(),
+				           'first_name': jQuery(this).find("td input[name='first_name']").val(), 
+				           'last_name': jQuery(this).find("td input[name='last_name']").val(), 
+				           'email': jQuery(this).find("td input[name='email']").val(),
+				           'team_id': jQuery(this).find("td option:selected").val(),
+				           'team_name': jQuery(this).find("td option:selected").text()
+                           }
+      data.push({ 'student' : student });
+            
     })
     return data;
-} //end get_students();
+}
 
 jQuery(function() {
 	var crs_id = jQuery("input[name='crs-id']").val();
     jQuery('#activation-btn').on('click', function(e)
     {   var student_list = get_students();
-        console.log(student_list);
+        var student_list_2 =JSON.stringify(student_list);
     	jQuery(function()
     	{
-    		
     	   	jQuery.ajax(
     	    {
     	        url: "/activate_course/" + crs_id,
     	    	type: "POST",
-    	    	data: {'student_list' : student_list},//data=get_students(),// {},
+    	    	dataType: 'json',
+    	    	data: {'student_list' : student_list_2},
     	    	success: function (data) 
     	    	{
     	    		//var crs_data = data;

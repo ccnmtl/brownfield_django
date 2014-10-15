@@ -87,6 +87,7 @@ class UserProfile(models.Model):
     '''
     in_team = models.BooleanField(default=False)
     team_name = models.CharField(max_length=255, default="", blank=True)
+    team_id = models.IntegerField(null=True, blank=True)
     '''
     We need a plain text copy of the password to email the students
     '''
