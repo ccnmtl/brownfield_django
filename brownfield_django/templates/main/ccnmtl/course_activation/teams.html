@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<br /><br />
+
+<div class="course-teams">
+
+        {% for team in object.get_teams %}
+            <p>{{team}}</p>        
+            {% comment %}
+                {% for student in team %}
+                    {% empty %}
+                {% endfor %}
+            {% endcomment %}
+        {% empty %}
+            <p>There are no teams in the course yet, please add teams and students and activate them.</p>
+        {% endfor %}
+
+</div>
+{% endblock %}
