@@ -15,7 +15,7 @@ from brownfield_django.main.views import DetailJSONCourseView, \
     TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, \
     ActivateCourseView, \
     AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
-    TeamHomeView, CreateTeamsView  # , ActivateTeamsView
+    TeamHomeView, CreateTeamsView, CCNMTLViewTeamsDetail
 
 
 admin.autodiscover()

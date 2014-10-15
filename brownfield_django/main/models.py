@@ -14,13 +14,7 @@ PROFILE_CHOICES = (
 
 class Course(models.Model):
     '''
-    Course Model - I added an archive field to indicate if a
-    course should be excluded from the Dashboard, without necessarily
-    deleting all of the data in case it is needed at a later time.
-
-    Added creator field but since only admins will be allowed to view
-    everyone's courses, and since they may create a course on a professor's
-    behalf, I changed it to be a professor/instructor field.
+    Course Model
     '''
     name = models.CharField(max_length=255)
     startingBudget = models.PositiveIntegerField(default=60000)
@@ -37,11 +31,11 @@ class Course(models.Model):
     def get_students(self):
         return self.userprofile_set.filter(profile_type='ST')
 
-    def get_students_without_team(self):
-        return self.userprofile_set.filter(profile_type='ST', in_team=False)
+#     def get_students_without_team(self):
+#         return self.userprofile_set.filter(profile_type='ST', in_team=False)
 
     def get_teams(self):
-        return self.userprofile_set.filter(profile_type='TM')
+        return self.team_set.filter(course=self)
 
     def get_team_members(self, name):
         return self.userprofile_set.filter(profile_type='ST', team_name=name)
@@ -68,30 +62,35 @@ class Document(models.Model):
     visible = models.BooleanField(default=False)
 
 
-class UserProfile(models.Model):
-    '''UserProfile adds extra information to a user,
-    and associates the user with a team, course,
-    and course progress.'''
-    user = models.OneToOneField(User, related_name="profile")
-    profile_type = models.CharField(max_length=2, choices=PROFILE_CHOICES)
+class Team(models.Model):
+    '''
+    Students log in as a team, teams hold progress.
+    '''
+    user = models.OneToOneField(User, related_name="team")
     course = models.ForeignKey(Course, null=True, default=None, blank=True)
-    '''
-    Even though these are only applicable to a Team
-    I'm sticking them here.
-    '''
     signed_contract = models.BooleanField(default=False)
     budget = models.PositiveIntegerField(default=65000)
-    '''
-    Adding extra fields here to keep track of teams and students.
-    Fields should act as tags on Profiles of student type.
-    '''
-    in_team = models.BooleanField(default=False)
-    team_name = models.CharField(max_length=255, default="", blank=True)
-    team_id = models.IntegerField(null=True, blank=True)
     '''
     We need a plain text copy of the password to email the students
     '''
     team_passwd = models.CharField(max_length=255, default="", blank=True)
+
+    def __unicode__(self):
+        return self.user.username
+
+    class Meta:
+        ordering = ["user"]
+
+
+class UserProfile(models.Model):
+    '''UserProfile adds extra information to a user,
+    and associates the user with a course.'''
+    user = models.OneToOneField(User, related_name="profile")
+    profile_type = models.CharField(max_length=2, choices=PROFILE_CHOICES)
+    '''Leaving course null/blank because admins and
+    teachers do not necessarily belong to a course.'''
+    course = models.ForeignKey(Course, null=True, default=None, blank=True)
+    team = models.ForeignKey(Team, null=True, default=None, blank=True)
 
     def __unicode__(self):
         return self.user.username
@@ -105,9 +104,6 @@ class UserProfile(models.Model):
     def is_student(self):
         return self.profile_type == 'ST'
 
-    def is_team(self):
-        return self.profile_type == 'TM'
-
     def is_teacher(self):
         return self.profile_type == 'TE'
 
@@ -117,8 +113,6 @@ class UserProfile(models.Model):
     def role(self):
         if self.is_student():
             return "student"
-        elif self.is_team():
-            return "team"
         elif self.is_teacher():
             return "faculty"
         elif self.is_admin():
@@ -126,7 +120,7 @@ class UserProfile(models.Model):
 
 
 class History(models.Model):
-    team = models.ForeignKey(UserProfile)
+    team = models.ForeignKey(Team)
     date = models.DateTimeField(default=datetime.datetime.now)
     description = models.CharField(max_length=255)
     cost = models.IntegerField(default=0)
