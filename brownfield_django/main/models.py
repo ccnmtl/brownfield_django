@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 PROFILE_CHOICES = (
     ('AD', 'Administrator'),
     ('TE', 'Teacher'),
-    ('TM', 'Team'),
     ('ST', 'Student'),
 )
 

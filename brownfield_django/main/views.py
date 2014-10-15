@@ -77,8 +77,6 @@ class HomeView(LoggedInMixin, View):
         except UserProfile.DoesNotExist:
             return HttpResponseRedirect(reverse('register'))
 
-        if user_profile.is_team():
-            url = '/team/home/%s/' % (user_profile.id)
         if user_profile.is_teacher():
             url = '/teacher/home/%s/' % (user_profile.id)
         if user_profile.is_admin():

@@ -4,7 +4,7 @@ from django.test import TestCase
 # from django.contrib.auth.models import User
 
 from factories import UserFactory, UserProfileFactory, TeacherProfileFactory, \
-    TeamProfileFactory, CourseFactory, HistoryFactory, \
+    TeamFactory, CourseFactory, HistoryFactory, \
     PerformedTestFactory, DocumentFactory, AdminProfileFactory, \
     StudentProfileFactoryOne, StudentProfileFactoryTwo
 #    StudentInTeamProfileFactoryOne, StudentInTeamProfileFactoryTwo
@@ -26,8 +26,14 @@ class TestCourseFactory(TestCase):
         self.assertEqual(str(course), course.name)
 
 
-class TestHistoryFactory(TestCase):
+class TestTeamFactory(TestCase):
+    def test_unicode(self):
+        team = TeamFactory()
+        self.assertEqual(str(team), team.user.username)
 
+
+class TestHistoryFactory(TestCase):
+ 
     def test_unicode(self):
         his = HistoryFactory()
         self.assertEqual(str(his), '%s - %s' % (his.description, his.team))
@@ -54,7 +60,7 @@ class TestAdminProfileFactory(TestCase):
         self.assertEqual(str(admin), admin.user.username)
         self.assertEqual(admin.role(), "administrator")
         self.assertEqual(admin.is_admin(), True)
-        self.assertEqual(admin.is_team(), False)
+        self.assertEqual(admin.is_student(), False)
 
 
 class TestTeacherProfileFactory(TestCase):
@@ -64,16 +70,7 @@ class TestTeacherProfileFactory(TestCase):
         self.assertEqual(str(teach), teach.user.username)
         self.assertEqual(teach.role(), "faculty")
         self.assertEqual(teach.is_teacher(), True)
-        self.assertEqual(teach.is_team(), False)
-
-
-class TestTeamProfileFactory(TestCase):
-    def test_unicode(self):
-        team = TeamProfileFactory()
-        self.assertEqual(str(team), team.user.username)
-        self.assertEqual(team.role(), "team")
-        self.assertEqual(team.is_team(), True)
-        self.assertEqual(team.is_teacher(), False)
+        self.assertEqual(teach.is_student(), False)
 
 
 class TestStudentProfileFactory(TestCase):
@@ -105,13 +102,12 @@ class TestCourseMethods(TestCase):
         self.assertTrue(student_one in course.get_students())
         self.assertTrue(student_two in course.get_students())
 
-    def test_course_get_teams(self):
-        '''Create team and add to course, make sure
-        get teams returns the team from the course.'''
-        team = TeamProfileFactory()
-        course = CourseFactory()
-        course.userprofile_set.add(team)
-        self.assertTrue(team in course.get_teams())
+#     def test_course_get_teams(self):
+#         '''Create team and add to course, make sure
+#         get teams returns the team from the course.'''
+#         course = CourseFactory()
+#         course.team_set.add(team)
+#         self.assertTrue(team in course.get_teams())
 
     def test_course_get_documents(self):
         '''Right now the documents are added in the view,

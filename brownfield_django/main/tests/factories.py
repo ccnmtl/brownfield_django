@@ -2,7 +2,7 @@ import factory
 from datetime import datetime
 from django.contrib.auth.models import User
 from brownfield_django.main.models import Document, Course, \
-    UserProfile, History, PerformedTest
+    UserProfile, History, PerformedTest, Team
 
 
 '''
@@ -26,6 +26,17 @@ class CourseFactory(factory.DjangoModelFactory):
     professor = factory.SubFactory(UserFactory)
 
 
+class UserTeamFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = User
+    username = "Test_Team"
+    password = "Test_Team"
+
+class TeamFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = Team
+    course = factory.SubFactory(CourseFactory)
+    user = factory.SubFactory(UserTeamFactory)
+
+
 class DocumentFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Document
     name = "Test Document for Course"
@@ -39,10 +50,6 @@ class UserProfileFactory(factory.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
     profile_type = 'ST'
     course = factory.SubFactory(CourseFactory)
-
-
-class TeamProfileFactory(UserProfileFactory):
-    profile_type = 'TM'
 
 
 class TeacherProfileFactory(UserProfileFactory):
@@ -87,7 +94,7 @@ class CourseThreeFactory(factory.DjangoModelFactory):
 
 class HistoryFactory(factory.DjangoModelFactory):
     FACTORY_FOR = History
-    team = factory.SubFactory(TeamProfileFactory)
+    team = factory.SubFactory(TeamFactory)
     date = datetime.now()
     description = "History Record"
     cost = 100
