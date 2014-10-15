@@ -6,14 +6,18 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from pagetree.generic.views import EditView, InstructorView, PageView
+from rest_framework import routers
 
 from brownfield_django.main.forms import CreateAccountForm
+from brownfield_django.main.views import CourseViewSet, UserViewSet
 from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, RegistrationView, AdminStudentView, \
     TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, \
-    UserCourseView, AllCourseView, ActivateCourseView, \
+    ActivateCourseView, \
     AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
-    TeamHomeView, CreateTeamsView, CCNMTLViewTeamsDetail
+    TeamHomeView, CreateTeamsView  # , ActivateTeamsView
+
+
 admin.autodiscover()
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
@@ -32,6 +36,10 @@ if hasattr(settings, 'WIND_BASE'):
         {'next_page': redirect_after_logout})
 
 
+router = routers.DefaultRouter()
+router.register(r'course', CourseViewSet)
+router.register(r'user', UserViewSet)
+
 urlpatterns = patterns(
     '',
     auth_urls,
@@ -40,14 +48,16 @@ urlpatterns = patterns(
     url(r'^accounts/register/$', RegistrationView.as_view(
         form_class=CreateAccountForm),
         name='register'),
+    url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls',
                                namespace='rest_framework')),
     (r'^$', HomeView.as_view()),
     (r'^ccnmtl/home/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
     (r'^teacher/home/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
+    (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
+
     (r'^team/$', AdminTeamView.as_view()),
     (r'^team/(?P<pk>\d+)$', AdminTeamView.as_view()),
-    (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
     (r'^course_details/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
     (r'^teacher/course_details/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
     (r'^create_teams/(?P<pk>\d+)/$', CreateTeamsView.as_view()),
@@ -61,8 +71,7 @@ urlpatterns = patterns(
     (r'^update_course/(?P<pk>\d+)$', DetailJSONCourseView.as_view()),
     (r'^document/$', DocumentView.as_view()),
     (r'^document/(?P<pk>\d+)$', DocumentView.as_view()),
-    (r'^user_courses/$', UserCourseView.as_view()),
-    (r'^all_courses/$', AllCourseView.as_view()),
+    # (r'^activate_course/(?P<pk>\d+)/$', ActivateCourseView.as_view()),
     (r'^student/$', AdminStudentView.as_view()),
     (r'^student/(?P<pk>\d+)$', AdminStudentView.as_view()),
     (r'^current_teams/(?P<pk>\d+)/$', CCNMTLViewTeamsDetail.as_view()),
