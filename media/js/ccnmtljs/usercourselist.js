@@ -1,33 +1,45 @@
+var User = Backbone.Model.extend({
+   urlRoot: '/api/user/',
+   url: function() {
+       var url = this.urlRoot;
+       if (this.get('id') !== undefined) {
+           url += this.get('id') + '/';
+       }
+       return url;
+   }
+});
+
 // creating course model
 var Course = Backbone.Model.extend({
-
-    urlRoot: '/course/',
-    
-    defaults: function() {
-        return {
-            name : "Default Course"
+    urlRoot: '/api/course/',
+    url: function() {
+        var url = this.urlRoot;
+        if (this.get('id') !== undefined) {
+            url += this.get('id') + '/';
         }
-    },
-       
-	initialize: function(attributes) 
-	{
-	    name = attributes.name || '<EMPTY>';
-	}
+        return url;
+    }
 });
 
 
 /*Should this be two different collections or one collection
  * with an over ridden url when instantiated?
  */
-var UserCourseCollection = Backbone.Collection.extend({
+var CourseCollection = Backbone.Collection.extend({
 	 model: Course,
-	 headers: {"content-type": "application/json"},
-	 url: '/user_courses/'
-});
-var AllCourseCollection = Backbone.Collection.extend({
-	 model: Course,
-	 headers: {"content-type": "application/json"},
-	 url: '/all_courses/'
+	 urlRoot: '/api/course/',
+	 url: function() {
+	     var url = this.urlRoot;
+	     if (this.exclude_username) {
+	         url += '?exclude_username=' + this.exclude_username;
+	     }
+	     return url
+	 },
+	 initialize : function(options) {
+	     if (options && 'exclude_username' in options) {
+	         this.exclude_username = options.exclude_username;
+	     }
+	 }
 });
 // End of Models/Collections
 
@@ -35,28 +47,30 @@ var AllCourseCollection = Backbone.Collection.extend({
 var CourseView = Backbone.View.extend({
 
    	tagName : 'li',
-   	//$container: null,
     	
    	initialize: function () {
    	    this.listenTo(this.model, 'change', this.render);
-   	    this.listenTo(this.model, 'destroy', this.remove);
    	    
    	    this.template = _.template(jQuery("#add-course-template").html());
    	},
     	
    	events: {
-   		'click .del-crs' : 'clear',
    		'click .destroy' : 'clear'
    	},
     	
     render: function () {
-        var html = this.template(this.model.toJSON());
-        this.$el.html(html);
+        if (this.model.get('archive') === true) {
+            this.$el.remove();
+        } else {
+            var html = this.template(this.model.toJSON());
+            this.$el.html(html);
+        }
         return this;
     },
-    	
+
     clear: function() {
-        this.model.destroy();
+        this.model.set('archive', true);
+        this.model.save();
     }
 
 });// End CourseView
@@ -68,103 +82,82 @@ var CourseListView = Backbone.View.extend({
     
     initialize: function (options)
     {
-    	_.bindAll(this,
-    			 'initialRender');
+    	_.bindAll(this, 'initialRender', 'addCourse');
+    	
     	//create new collection to hold user courses
-    	this.user_course_collection = new UserCourseCollection();
-    	this.user_course_collection.fetch({processData: true, reset: true});
-    	this.user_course_collection.on('reset', this.initialRender);
+    	this.course_collection = new CourseCollection(options);
+    	this.course_collection.fetch({processData: true, reset: true});
+    	this.course_collection.on('reset', this.initialRender);
+    	this.course_collection.on('add', this.addCourse);
 	},
    
-   initialRender: function() {
+	initialRender: function() {
         // Iterate over the collection and add each name as a list item 
-        this.user_course_collection.each(function(model) {
-        this.$el.append(new CourseView({
-               model: model
-        }).render().el);
+        this.course_collection.each(function(model) {
+            this.$el.append(new CourseView({
+                   model: model
+            }).render().el);
         }, this);
 
         return this;
-    }
-    
-});// End CourseListView   
+    },
 
-
-
-/* Container to hold rows of all courses */
-var AllCoursesListView = Backbone.View.extend({
-   
-    tagName : 'ul',
-    
-    initialize: function (options)
-    {
-    	_.bindAll(this,
-    			 'render',
-    			 'initialRender');
-    	//create new collection to hold user courses
-    	this.all_courses_collection = new AllCourseCollection();
-    	this.all_courses_collection.fetch({processData: true, reset: true});
-    	this.all_courses_collection.on('reset', this.initialRender);
-	},
-	
-    render: function() {
-               
-   },
-   
-   initialRender: function() {
-	   
-        this.$el.empty();
-
-        this.all_courses_collection.each(function(model) {
+    addCourse: function(model, collection, options) {
         this.$el.append(new CourseView({
-               model: model
+            model: model
         }).render().el);
-        }, this);
-
-        return this;
     }
-    
 });// End CourseListView   
 
 
-var UserControlView = Backbone.View.extend({
-    //el: $(".course_controls"),
-
+var ManageCoursesView = Backbone.View.extend({
     events: {
-	//'click .edit-crs' : 'edit',
-	'click .add-crs' : 'showCourseForm',
-	'click .submit' :	'addCourse'
+    	//'click .edit-crs' : 'edit',
+    	'click .add-crs': 'showCourseForm',
+    	'click .submit': 'addCourse'
     },
     
-    initialize: function (options)
-    {
-        this.user_course_collection_view = options.user_course_collection_view;
+    initialize: function (options) {
+        _.bindAll(this,
+                  'addCourse',
+                  'fetchCourses',
+                  'showCourseForm');
+
+        this.options = options;
+        
+        this.user = new User({id: options.user_id});
+        this.user.on('change', this.fetchCourses);
+        this.user.fetch();
+    },
+    
+    fetchCourses: function() {
+        this.user_course_view =  new CourseListView({
+            el: this.options.elUserCourses
+        });
+        
+        if ('elOtherCourses' in this.options) {
+            this.other_course_view =  new CourseListView({
+                el: this.options.elOtherCourses,
+                exclude_username: this.user.get('username')
+            });
+        }
     },
 
     showCourseForm: function(e) {
 		jQuery(".add-crs").hide();
-		jQuery("#frm-title").show();
 		jQuery("#add-crs-frm").show();
     },
 
-    addCourse: function(course) {
-    	
-    	this.user_course_collection_view.user_course_collection.create({
-    		name : jQuery(".crs-name").val()
-    	});
+    addCourse: function(evt) {
+        evt.stopPropagation();
+    	this.user_course_view.course_collection.create({
+    		name: jQuery(".crs-name").val(),
+    		message: 'default message',
+    		professor: this.user.get('url')
+    	}, {wait: true});
 
-	    jQuery("#frm-title").hide();
-	    jQuery("#add-crs-frm").hide()
+	    jQuery("#add-crs-frm").hide();
+	    jQuery(".add-crs").show();
+	    return false;
     }
 });// End UserControlView  
-
-jQuery(document).ready(function () {
-    var all_courses_collection_view = new CourseListView({el: jQuery('.all_brwn_courses')});
-    var user_course_collection_view = new CourseListView({el: jQuery('.user_courses #userlist')});
-    var user_control_view = new UserControlView({
-        el: jQuery('.course_controls'),
-        user_course_collection_view: user_course_collection_view
-    });
-});
-
-

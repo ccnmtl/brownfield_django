@@ -23,8 +23,8 @@ var Student= Backbone.Model.extend({
 var StudentCollection = Backbone.Collection.extend({
 	 model: Student,
 	 url: function() {
-		    return '/student/' + crs_id;
-	  }
+         return '/student/' + crs_id;
+	 }
 });
 //End of Modes/Collections
 

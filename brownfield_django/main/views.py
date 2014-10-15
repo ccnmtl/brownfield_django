@@ -1,10 +1,6 @@
 import json
-# from datetime import datetime
-# from xml.dom.minidom import parseString
-from django.contrib.auth.models import User
-# from django.core.mail import send_mail
-# from django.template import loader
-# from django.template.context import Context
+
+from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.http.response import HttpResponseForbidden
@@ -12,8 +8,7 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
-
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.authentication import SessionAuthentication, \
     BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -21,18 +16,62 @@ from rest_framework.renderers import XMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from brownfield_django.main.document_links import NAME_1, \
+    LINK_1, NAME_2, LINK_2, NAME_3, LINK_3, NAME_4, LINK_4, \
+    NAME_5, LINK_5, NAME_6, LINK_6, NAME_7, LINK_7, NAME_8, LINK_8
 from brownfield_django.main.forms import CreateAccountForm
 from brownfield_django.main.models import Course, UserProfile, Document
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
     CompleteDocumentSerializer, CompleteCourseSerializer, \
-    CourseNameIDSerializer, UserSerializer, TeamNameSerializer
-    # NewTeamSerializer, UpdateCourseSerializer,
+    UserSerializer, TeamNameSerializer, CourseSerializer, \
+    GroupSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
-from brownfield_django.main.document_links import NAME_1, \
-    LINK_1, NAME_2, LINK_2, NAME_3, LINK_3, NAME_4, LINK_4, \
-    NAME_5, LINK_5, NAME_6, LINK_6, NAME_7, LINK_7, NAME_8, LINK_8
+
+
+class CourseViewSet(viewsets.ModelViewSet):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+
+    def get_queryset(self):
+        """
+        Optionally restricts the returned courses
+        filtering against the request.user
+        excluding against an `exclude_username` query parameter in the URL.
+        """
+        if self.request.user.profile.is_student():
+            return Course.objects.none()
+
+        queryset = Course.objects.filter(archive=False)
+
+        if self.request.user.profile.is_teacher():
+            return queryset.filter(professor=self.request.user)
+
+        if self.request.user.profile.is_admin():
+            exclude = self.request.QUERY_PARAMS.get('exclude_username', None)
+            if exclude is not None:
+                queryset = queryset.exclude(professor__username=exclude)
+            else:
+                queryset = queryset.filter(professor=self.request.user)
+
+        return queryset
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        if self.request.user.profile.is_student():
+            return User.objects.get(id=self.request.user.id)
+        else:
+            return super(UserViewSet, self).get_query_set()
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
 
 
 class HomeView(LoggedInMixin, View):
@@ -145,34 +184,6 @@ class CourseView(APIView):
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class UserCourseView(APIView):
-    '''This is to show the Admin or Instructor their own courses.'''
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request, format=None):
-        this_user = User.objects.get(pk=request.user.pk)
-        courses = Course.objects.filter(professor=this_user, archive=False)
-        serializer = CourseNameIDSerializer(courses, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class AllCourseView(APIView):
-    '''
-    Returns all brownfield courses.
-    Does the current layout even make sense? The admin can see all courses,
-    but teachers can't see a list of their courses or all courses? What is
-    the purpose to 2 different lists if there are not that many courses?
-    '''
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request, format=None):
-        courses = Course.objects.filter(archive=False)
-        serializer = CourseNameIDSerializer(courses, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class DetailJSONCourseView(JSONResponseMixin, View):
@@ -442,7 +453,7 @@ class CreateTeamsView(DetailView):
 class TeacherHomeView(DetailView):
 
     model = UserProfile
-    template_name = 'main/instructor/home_dash/instructor_home.html'
+    template_name = 'main/ccnmtl/home_dash/ccnmtl_home.html'
     success_url = '/'
 
     def dispatch(self, *args, **kwargs):

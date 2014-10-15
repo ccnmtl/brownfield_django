@@ -7,8 +7,8 @@
             <button class="add-crs">
             Add New Course   
             </button>
-            <p id="frm-title" style="display: none;"> <b>Add New Course: </b></p>
             <form id="add-crs-frm" method="" action="" style="display: none;">{% csrf_token %}
+                <p id="frm-title"> <b>Add New Course: </b></p>
                 <meta name="csrf-token" content="{% csrf_token %}">
                 <input type="text" placeholder="Course Name" class="crs-name" /><br />
                 <input type="submit" value="Save Course" class="submit"/>
@@ -22,8 +22,10 @@
     </div>
     <br /><br /><br /><br />
     
-    <h3>All Courses</h3>
-    <div class="all_brwn_courses">
-    </div>
+    {% if request.user.is_admin %}
+        <h3>Other Courses</h3>
+        <div class="all_brwn_courses">
+        </div>
+    {% endif %}
 </div>
 </div>

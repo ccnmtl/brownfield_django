@@ -1,7 +1,28 @@
 # from django.forms import widgets
+from django.contrib.auth.models import Group
 from django.contrib.auth.models import User  # , Group
 from rest_framework import serializers
+
 from brownfield_django.main.models import Course, Document, UserProfile
+
+
+class GroupSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Group
+        fields = ('url', 'name')
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ('url', 'username', 'email', 'groups')
+
+
+class CourseSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Course
+        fields = ('id', 'url', 'name', 'startingBudget', 'enableNarrative',
+                  'message', 'active', 'archive', 'professor')
 
 
 class AddCourseByNameSerializer(serializers.ModelSerializer):
@@ -39,13 +60,6 @@ class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Document
         fields = ('id', 'name', 'link', 'visible')
-
-
-class UserSerializer(serializers.ModelSerializer):
-    '''Get three user fields.'''
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'email')
 
 
 class TeamNameSerializer(serializers.ModelSerializer):
@@ -109,23 +123,6 @@ class CourseUserSerializer(serializers.ModelSerializer):
         model = Course
         # fields = ('first_name', 'last_name', 'email')
 
-#
-# class CourseSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Course
-#         fields = ('name')
-
-
-# class UserSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ('url', 'username', 'email', 'groups')
-#
-#
-# class GroupSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Group
-#         fields = ('url', 'name')
 
 # class UserCoursesSerializer(serializers.HyperlinkedModelSerializer):
 #     courses = serializers.PrimaryKeyRelatedField(many=True)
