@@ -271,15 +271,20 @@ class ActivateCourseView(JSONResponseMixin, View):
         except Course.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk):
-        print "does get work?"
-
     def post(self, request, pk):
         '''This is really really ugly as is get method need to clean up.'''
-        print "inside post"
-        print request.POST
         student_list = json.loads(request.POST['student_list'])
-        print student_list
+        for student in student_list:
+            try:
+                team = User.objects.get(pk=student['student']['team_id'])
+                student = User.objects.get(pk=student['student']['pk'])
+                profile = UserProfile.objects.get(user=student)
+                profile.in_team = True
+                profile.team_id = team.id
+                profile.team_name = team.username
+                profile.save()
+            except:
+                pass
 
 
 class DocumentView(APIView):
@@ -419,10 +424,6 @@ class AdminTeamView(APIView):
             try:
                 new_user = User.objects.get(username=team_name)
                 serializer = TeamNameSerializer(new_user)
-                print "serializer"
-                print serializer
-                # print "serializer.is_valid()"
-                # print serializer.is_valid()
                 return Response(serializer.data,
                                 status=status.HTTP_201_CREATED)
             except:

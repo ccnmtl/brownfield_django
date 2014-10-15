@@ -63,30 +63,7 @@
     	        		</p>
 	        	    {% endfor %}
 	            </select>
-	        {% comment %}
-	        <div class="btn-group">
-	        	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                	Team
-          	    	<span class="caret"></span>
-    	        </button>
-    	        <ul class="dropdown-menu" role="menu">
-		        <div class="btn-group-vertical btn-group-sm">
-	        		{% for team in team_list %}
-                    	<button type="button" class="btn btn-default">
-                    	    <input type="hidden" name="team-id" value="{{team.pk}}"/>
-                    		{{team.username}}
-                    	</button>
-		        	{% empty %}
-    	        		<button type="button" class="btn btn-default">
-            				Please add teams in order to create them.
-    	        		</button>
-	        		{% endfor %}
-	            </ul>
-		        </div><!-- End Button Group -->
-		    </div>
-		    {% endcomment %}
-		    
-	        </td>
+            </td>
         </tr>
         {% empty %}
             <p>Please add students in order to create teams.</p>
