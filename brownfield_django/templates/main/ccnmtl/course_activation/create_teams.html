@@ -44,7 +44,7 @@
 	        <td>
 	            <select>
 	                {% for team in team_list %}
-                        <option value="{{team.pk}}"> {{team.username}} </option>
+                        <option value="{{team.pk}}"> {{team}} </option>
 		        	{% empty %}
     	        		<p>
             				Please add teams in order to create them.

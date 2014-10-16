@@ -143,6 +143,7 @@ class CourseView(APIView):
                                      link=LINK_8)
         new_course.document_set.add(d1, d2, d3, d4, d5, d6, d7, d8)
         new_course.save()
+        print new_course.document_set.all()
         professor = User.objects.get(pk=request.user.pk)
         new_course = Course.objects.get(
             name=request.DATA['name'],
@@ -404,7 +405,7 @@ class CreateTeamsView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(CreateTeamsView, self).get_context_data(**kwargs)
         context['team_list'] = User.objects.filter(
-            profile__in=self.object.get_teams())
+            team__in=self.object.get_teams())
         context['student_list'] = User.objects.filter(
             profile__in=self.object.get_students())
         return context

@@ -4,7 +4,7 @@ var Team = Backbone.Model.extend({
 	
 	    defaults: function() {
 		          return {
-		                  username: "Team Name",
+		              username: "Team Name",
 		              password1: "password1",
 		              password2: "password2",
 		          }
