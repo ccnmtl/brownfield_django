@@ -1,12 +1,16 @@
 import json
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.http.response import HttpResponseForbidden
 from django.shortcuts import render
+from django.template import loader
+from django.template.context import Context
 from django.views.generic import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
+
 from rest_framework import status, viewsets
 from rest_framework.authentication import SessionAuthentication, \
     BasicAuthentication
@@ -242,13 +246,15 @@ class AdminTeamView(APIView):
         if password1 == password2:
             user = User.objects.create_user(username=team_name,
                                             first_name=team_name,
-                                            last_name=team_name)
-            user.save()
+                                            password=password1)
+            
+            # user.save()
             team = Team.objects.create(
                 user=user,
                 course=course,
-                budget=course.startingBudget)
-            team.save()
+                budget=course.startingBudget,
+                team_passwd=password1)
+#            team.save()
             try:
                 new_user = User.objects.get(username=team_name)
                 serializer = TeamNameSerializer(new_user)
@@ -371,6 +377,16 @@ class ActivateCourseView(JSONResponseMixin, View):
     going to hack out to have working for now...
     '''
 
+    def send_student_email(self, student):
+        template = loader.get_template(
+            'main/ccnmtl/course_activation/student_activation_notice.txt')
+        subject = "Welcome to Brownfield!"
+        ctx = Context({'student': student, 'team': student.profile.team})
+        message = template.render(ctx)
+        '''who is the sender?'''
+        sender = 'cdunlop@columbia.edu'#settings.BNFD_MAIL
+        send_mail(subject, message, sender, [student.email])
+
     def post(self, request, pk):
         '''This is really really ugly as is get method need to clean up.'''
         student_list = json.loads(request.POST['student_list'])
@@ -379,6 +395,7 @@ class ActivateCourseView(JSONResponseMixin, View):
             student = User.objects.get(pk=student['student']['pk'])
             profile = UserProfile.objects.get(user=student)
             team.userprofile_set.add(profile)
+            self.send_student_email(student)
         act_crs = Course.objects.get(pk=pk)
         act_crs.active = True
         act_crs.save()
