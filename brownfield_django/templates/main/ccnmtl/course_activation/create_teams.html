@@ -16,18 +16,16 @@
     <table id="student_team_tables" style="width:100%">
     <form id="act-crs-frm" method="post" action="../../activate_course/{{object.pk}}/">
         {% csrf_token %}
-        <th>
-        <tr>
+        <tr class='someclass'>
             <td><b>First Name</b></td>
             <td><b>Last Name</b></td>
             <td><b>Email</b></td>
             <td><b>Team</b></td>
         </tr>
-        </th>
     
         {% for student in student_list %}
 
-        <tr class="student">
+        <tr class="student-row">
             <td>
                 <input type="hidden" name="std-id" value="{{student.pk}}"/>
                 <input type="hidden" name="first_name" value="{{student.first_name}}">

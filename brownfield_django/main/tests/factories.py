@@ -68,7 +68,7 @@ class CourseOneFactory(factory.DjangoModelFactory):
     name = "Test Course One"
     startingBudget = 65000
     enableNarrative = True
-    message = "Hello you non existant students."
+    message = "Hello you non existent students."
     active = True
     professor = factory.SubFactory(UserFactory)
 
@@ -78,7 +78,7 @@ class CourseTwoFactory(factory.DjangoModelFactory):
     name = "Test Course Two"
     startingBudget = 65000
     enableNarrative = True
-    message = "Hello you non existant students."
+    message = "Hello you non existent students."
     active = True
     professor = factory.SubFactory(UserFactory)
 
@@ -88,7 +88,7 @@ class CourseThreeFactory(factory.DjangoModelFactory):
     name = "Test Course Three"
     startingBudget = 65000
     enableNarrative = True
-    message = "Hello you non existant students."
+    message = "Hello you non existent students."
     active = True
     professor = factory.SubFactory(UserFactory)
 

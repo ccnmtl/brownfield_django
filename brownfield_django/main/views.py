@@ -371,32 +371,24 @@ class ActivateCourseView(JSONResponseMixin, View):
     going to hack out to have working for now...
     '''
 
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
     def post(self, request, pk):
         '''This is really really ugly as is get method need to clean up.'''
         student_list = json.loads(request.POST['student_list'])
         for student in student_list:
-            try:
-                team = User.objects.get(pk=student['student']['team_id'])
-                student = User.objects.get(pk=student['student']['pk'])
-                profile = UserProfile.objects.get(user=student)
-                profile.in_team = True
-                profile.team_id = team.id
-                profile.team_name = team.username
-                profile.save()
-                return self.render_to_json_response({'success': 'true'})
-            except:
-                return self.render_to_json_response({'success': 'false'})
+            team = Team.objects.get(pk=student['student']['team_id'])
+            student = User.objects.get(pk=student['student']['pk'])
+            profile = UserProfile.objects.get(user=student)
+            team.userprofile_set.add(profile)
+        act_crs = Course.objects.get(pk=pk)
+        act_crs.active = True
+        act_crs.save()
+        return self.render_to_json_response({'success': 'true'})
 
 
 class CreateTeamsView(DetailView):
     """
     Until I figure out nested views in Backbone or some Backbone plug-in...
+    Having one page with drop downs to add students to teams
     """
     model = Course
     template_name = 'main/ccnmtl/course_activation/create_teams.html'
@@ -404,11 +396,19 @@ class CreateTeamsView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(CreateTeamsView, self).get_context_data(**kwargs)
-        context['team_list'] = User.objects.filter(
-            team__in=self.object.get_teams())
+        context['team_list'] = self.object.get_teams()
         context['student_list'] = User.objects.filter(
             profile__in=self.object.get_students())
         return context
+
+
+class EditCourseTeamsView(View):
+
+    def get(self, request, pk):
+        course = Course.objects.get(pk=pk)
+        course.active = False
+        url = '../../create_teams/' + str(course.pk) + '/'
+        return HttpResponseRedirect(url)
 
 
 class TeacherHomeView(DetailView):

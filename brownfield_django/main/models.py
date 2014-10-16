@@ -105,6 +105,11 @@ class Team(models.Model):
     class Meta:
         ordering = ["user"]
 
+    def get_team_members(self):
+        '''Should I explicitly set it to return
+        only profiles of 'ST' type?'''
+        return self.userprofile_set.all()
+
 
 class UserProfile(models.Model):
     '''UserProfile adds extra information to a user,
@@ -123,7 +128,7 @@ class UserProfile(models.Model):
         ordering = ["user"]
 
     def display_name(self):
-        return self.user.username
+        return '%s - %s' % (self.user.first_name, self.user.last_name)
 
     def is_student(self):
         return self.profile_type == 'ST'

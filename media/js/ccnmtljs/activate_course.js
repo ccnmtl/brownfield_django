@@ -2,7 +2,8 @@ function get_students(){
 
 	var data = [];
 	
-    jQuery('#student_team_tables tr').each(
+    //jQuery('#student_team_tables tr').each(
+	jQuery('.student-row').each(
         function(){
             var student = {'pk': jQuery(this).find("td input[name='std-id']").val(),
 				           'first_name': jQuery(this).find("td input[name='first_name']").val(), 

@@ -28,7 +28,13 @@
  
   <div class="instructor tab-content">
     {% include "main/ccnmtl/course_dash/course_detail_tab.html" %}
+    {% if not object.active %}
     {% include "main/ccnmtl/course_dash/student_team_tab.html" %}
+    {% endif %}
+    
+    {% if object.active %}
+    {% include "main/ccnmtl/course_dash/active_teams_tab.html" %}
+    {% endif %}
   </div>
 {% comment %}{% endcomment %}
 {% endblock %}

@@ -13,7 +13,7 @@ from brownfield_django.main.views import CourseViewSet, UserViewSet
 from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, RegistrationView, AdminStudentView, \
     TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, \
-    ActivateCourseView, \
+    ActivateCourseView, EditCourseTeamsView, \
     AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
     TeamHomeView, CreateTeamsView, CCNMTLViewTeamsDetail
 
@@ -53,6 +53,7 @@ urlpatterns = patterns(
                                namespace='rest_framework')),
     (r'^$', HomeView.as_view()),
     (r'^ccnmtl/home/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
+    (r'^edit_course_teams/(?P<pk>\d+)/$', EditCourseTeamsView.as_view()),
     (r'^teacher/home/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
     (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
 
