@@ -247,14 +247,12 @@ class AdminTeamView(APIView):
             user = User.objects.create_user(username=team_name,
                                             first_name=team_name,
                                             password=password1)
-            
-            # user.save()
             team = Team.objects.create(
                 user=user,
                 course=course,
                 budget=course.startingBudget,
                 team_passwd=password1)
-#            team.save()
+            team.save()  # saving bc pylint complains it is not used
             try:
                 new_user = User.objects.get(username=team_name)
                 serializer = TeamNameSerializer(new_user)
@@ -384,7 +382,7 @@ class ActivateCourseView(JSONResponseMixin, View):
         ctx = Context({'student': student, 'team': student.profile.team})
         message = template.render(ctx)
         '''who is the sender?'''
-        sender = 'cdunlop@columbia.edu'#settings.BNFD_MAIL
+        sender = 'cdunlop@columbia.edu'  # settings.BNFD_MAIL
         send_mail(subject, message, sender, [student.email])
 
     def post(self, request, pk):
