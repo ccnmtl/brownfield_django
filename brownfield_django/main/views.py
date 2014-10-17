@@ -69,15 +69,62 @@ class DocumentViewSet(viewsets.ModelViewSet):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
 
+    def get_object(self):
+        print "inside get object"
+        queryset = self.get_queryset(self.kwargs['pk'])
+        print queryset
+#         filter = {}
+#         for field in self.multiple_lookup_fields:
+#             filter[field] = self.kwargs[field]
+# 
+#         obj = get_object_or_404(queryset, **filter)
+#         self.check_object_permissions(self.request, obj)
+#        return obj
+
+
+    def update(self, request, pk=None):
+        print "inside update"
+        document = Document.objects.get(id=pk)
+        if document.visible is True:
+            document.visible = False
+        elif document.visible is False:
+            document.visible = True
+        document.save()
+        print self.get_object(pk=pk)
+        # print Document.objects.filter(id=pk)
+        # print self.get_object(queryset=Document.objects.filter(id=pk)).link
+#         queryset = Document.objects.filter(id=pk)
+#         print queryset
+#         # return self.get_object(queryset=Document.objects.filter(id=pk))
+#         return queryset
+    
+        doc = get_object_or_404(queryset, pk=pk)
+        print get_object_or_404(queryset, pk=pk)
+        serializer = DocumentSerializer(doc)
+        print serializer
+        return get_object_or_none()
+    
+#         queryset = User.objects.all()
+#         user = get_object_or_404(queryset, pk=pk)
+#         serializer = UserSerializer(user)
+#         return Response(serializer.data)
+
     def get_queryset(self):
-        '''This returns all documents a course.'''
+        '''
+        Form Docs: queryset that should be used for list views,
+        and that should be used as the base for lookups in detail views.
+        '''
         course_pk = self.request.QUERY_PARAMS.get('course', None)
         if course_pk is not None:
             queryset = Document.objects.filter(course__pk=course_pk)
         else:
-            '''Return nothing if no course is specified.'''
+            '''Appears this is no called if update is...'''
+            print "How to connect these two?"
+#             '''Return nothing if no course is specified.'''
             queryset = Document.objects.none()
         return queryset
+
+
 
 
 class AdminStudentView(APIView):

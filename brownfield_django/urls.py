@@ -39,6 +39,7 @@ router = routers.DefaultRouter()
 router.register(r'course', CourseViewSet)
 router.register(r'user', UserViewSet)
 router.register(r'document', DocumentViewSet)
+router.register(r'document', DocumentViewSet, 'update')
 
 urlpatterns = patterns(
     '',
