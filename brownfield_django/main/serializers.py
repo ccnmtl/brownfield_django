@@ -129,19 +129,3 @@ class CourseUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         # fields = ('first_name', 'last_name', 'email')
-
-
-# class UserCoursesSerializer(serializers.HyperlinkedModelSerializer):
-#     courses = serializers.PrimaryKeyRelatedField(many=True)
-#
-#     class Meta:
-#         model = User
-#         fields = ('id', 'username', 'courses')
-
-
-# class StudentsInCourseSerializer(serializers.HyperlinkedModelSerializer):
-#     courses = serializers.PrimaryKeyRelatedField(many=True)
-#
-#     class Meta:
-#         model = User
-#         fields = ('id', 'username', 'courses')

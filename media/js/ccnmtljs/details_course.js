@@ -15,8 +15,7 @@ jQuery(function() {
             jQuery('#id_archive').val(crs_data.course[0].archive);
             jQuery('#id_professor option:selected' ).text(crs_data.course[0].professor);
             
-        },
-    	           
+        }, 
     	error: function(data) 
     	{
     		alert("There was a problem getting the course details, please try reloading the page.");

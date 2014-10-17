@@ -1,34 +1,8 @@
-# import json
-# from datetime import datetime
-
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
 from django.contrib.auth.models import User
 
 from pagetree.helpers import get_hierarchy
-
-# from factories import TeacherProfileFactory  # , \
-#    CourseOneFactory, CourseTwoFactory
-# , \ UserFactory, UserProfileFactory,
-#    StudentProfileFactory, CourseFactory, TeamFactory
-
-'''
-Need to test:
-    HomeView
-    RegistrationView
-    StudentHomeView
-    TeamHomeView
-    TeacherHomeView
-    TeacherAddStudent
-    TeacherCreateCourse
-    TeacherDeleteCourse
-    TeacherAddStudent
-    TeacherReleaseDocument
-    TeacherRevokeDocument
-    TeamPreformTest
-    OnLoad
-    OnSave
-'''
 
 
 class BasicTest(TestCase):

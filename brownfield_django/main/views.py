@@ -204,27 +204,14 @@ class HomeView(LoggedInMixin, View):
         try:
             user_profile = UserProfile.objects.get(user=request.user.pk)
         except UserProfile.DoesNotExist:
-            return HttpResponseRedirect(reverse('register'))
-
+            '''We are not allowing users to register.'''
+            return HttpResponseForbidden("forbidden")
         if user_profile.is_teacher():
-            url = '/teacher/home/%s/' % (user_profile.id)
+            url = '/ccnmtl/home/%s/' % (user_profile.id)
         if user_profile.is_admin():
             url = '/ccnmtl/home/%s/' % (user_profile.id)
 
         return HttpResponseRedirect(url)
-
-
-class RegistrationView(FormView):
-    '''Should I remove the RegistrationView? Professors create Teams
-    and add students to the Course...'''
-
-    template_name = 'registration/registration_form.html'
-    form_class = CreateAccountForm
-    success_url = '/account_created/'
-
-    def form_valid(self, form):
-        form.save()
-        return super(RegistrationView, self).form_valid(form)
 
 
 class DetailJSONCourseView(JSONResponseMixin, View):
@@ -355,25 +342,6 @@ class EditCourseTeamsView(View):
         course.active = False
         url = '../../create_teams/' + str(course.pk) + '/'
         return HttpResponseRedirect(url)
-
-
-class TeacherHomeView(DetailView):
-
-    model = UserProfile
-    template_name = 'main/ccnmtl/home_dash/ccnmtl_home.html'
-    success_url = '/'
-
-    def dispatch(self, *args, **kwargs):
-        if int(kwargs.get('pk')) != self.request.user.profile.id:
-            return HttpResponseForbidden("forbidden")
-        return super(TeacherHomeView, self).dispatch(*args, **kwargs)
-
-
-class TeacherCourseDetail(DetailView):
-
-    model = Course
-    template_name = 'main/instructor/course_dash/course_home.html'
-    success_url = '/'
 
 
 class CCNMTLHomeView(DetailView):

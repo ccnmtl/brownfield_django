@@ -8,12 +8,10 @@ from django.views.generic import TemplateView
 from pagetree.generic.views import EditView, InstructorView, PageView
 from rest_framework import routers
 
-from brownfield_django.main.forms import CreateAccountForm
 from brownfield_django.main.views import CourseViewSet, UserViewSet, \
     DocumentViewSet
 from brownfield_django.main.views import DetailJSONCourseView, \
-    HomeView, RegistrationView, AdminStudentView, \
-    TeacherHomeView, TeacherCourseDetail, \
+    HomeView, AdminStudentView, \
     ActivateCourseView, EditCourseTeamsView, \
     AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
     TeamHomeView, CreateTeamsView, CCNMTLViewTeamsDetail
@@ -47,21 +45,16 @@ urlpatterns = patterns(
     auth_urls,
     logout_page,
     (r'^accounts/', include('registration.backends.default.urls')),
-    url(r'^accounts/register/$', RegistrationView.as_view(
-        form_class=CreateAccountForm),
-        name='register'),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls',
                                namespace='rest_framework')),
     (r'^$', HomeView.as_view()),
     (r'^ccnmtl/home/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
     (r'^edit_course_teams/(?P<pk>\d+)/$', EditCourseTeamsView.as_view()),
-    (r'^teacher/home/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
     (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
     (r'^team/$', AdminTeamView.as_view()),
     (r'^team/(?P<pk>\d+)$', AdminTeamView.as_view()),
     (r'^course_details/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
-    (r'^teacher/course_details/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
     (r'^create_teams/(?P<pk>\d+)/$', CreateTeamsView.as_view()),
     (r'^activate_course/(?P<pk>\d+)$', ActivateCourseView.as_view()),
     # need to figure out url for students that doesn't not conflict with
