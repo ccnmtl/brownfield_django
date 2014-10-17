@@ -20,6 +20,7 @@ class TestAdminViews(TestCase):
         self.factory = RequestFactory()
         # self.ajax_factory = APIRequestFactory()
         self.admin = ViewsAdminProfileFactory().user
+        self.client.login(username=self.admin.username, password="Admin")
 
     def test_home_redirect(self):
         '''Keep getting random bootstrap can't be compressed errors.'''
