@@ -32,13 +32,6 @@ class OtherUserSerializer(serializers.ModelSerializer):
         fields = ('first_name',  'last_name', 'email')
 
 
-class AddCourseByNameSerializer(serializers.ModelSerializer):
-    '''Allow professor to add a course by name as in original brownfield.'''
-    class Meta:
-        model = Course
-        fields = ('name',)
-
-
 class CourseNameIDSerializer(serializers.ModelSerializer):
     '''Allow professor to add a course by name as in original brownfield.'''
     class Meta:
@@ -60,13 +53,6 @@ class UpdateCourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = ('name', 'startingBudget', 'enableNarrative',
                   'active')
-
-
-class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
-    '''Return Document set with each documents associated attributes.'''
-    class Meta:
-        model = Document
-        fields = ('id', 'name', 'link', 'visible')
 
 
 class TeamNameSerializer(serializers.ModelSerializer):

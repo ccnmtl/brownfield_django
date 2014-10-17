@@ -1,7 +1,6 @@
 import json
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.http.response import HttpResponseForbidden
 from django.shortcuts import render
@@ -9,7 +8,6 @@ from django.template import loader
 from django.template.context import Context
 from django.views.generic import View
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import FormView
 
 from rest_framework import status, viewsets
 from rest_framework.authentication import SessionAuthentication, \
@@ -19,14 +17,9 @@ from rest_framework.renderers import XMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from brownfield_django.main.document_links import NAME_1, \
-    LINK_1, NAME_2, LINK_2, NAME_3, LINK_3, NAME_4, LINK_4, \
-    NAME_5, LINK_5, NAME_6, LINK_6, NAME_7, LINK_7, NAME_8, LINK_8
-from brownfield_django.main.forms import CreateAccountForm
 from brownfield_django.main.models import Course, UserProfile, Document, Team
-from brownfield_django.main.serializers import AddCourseByNameSerializer, \
-    CompleteDocumentSerializer, \
-    UserSerializer, TeamNameSerializer, CourseSerializer, DocumentSerializer, \
+from brownfield_django.main.serializers import UserSerializer, \
+    TeamNameSerializer, CourseSerializer, DocumentSerializer, \
     OtherUserSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
@@ -80,7 +73,7 @@ class DocumentViewSet(viewsets.ModelViewSet):
         '''This returns all documents a course.'''
         course_pk = self.request.QUERY_PARAMS.get('course', None)
         if course_pk is not None:
-           queryset = Document.objects.filter(course__pk=course_pk)
+            queryset = Document.objects.filter(course__pk=course_pk)
         else:
             '''Return nothing if no course is specified.'''
             queryset = Document.objects.none()
