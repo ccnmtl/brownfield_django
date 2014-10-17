@@ -26,7 +26,8 @@ from brownfield_django.main.forms import CreateAccountForm
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.serializers import AddCourseByNameSerializer, \
     CompleteDocumentSerializer, \
-    UserSerializer, TeamNameSerializer, CourseSerializer, OtherUserSerializer
+    UserSerializer, TeamNameSerializer, CourseSerializer, DocumentSerializer, \
+    OtherUserSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
@@ -71,89 +72,19 @@ class UserViewSet(viewsets.ModelViewSet):
             return User.objects.all()
 
 
-class DocumentView(APIView):
-    """
-    This view interacts with backbone to allow instructors to
-    interact with documents, they can make them available to
-    students or revoke them so they are invisible.
-    """
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
+class DocumentViewSet(viewsets.ModelViewSet):
+    queryset = Document.objects.all()
+    serializer_class = DocumentSerializer
 
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        '''Using course id from url to retrieve documents.'''
-        course = self.get_object(pk)
-        documents = Document.objects.filter(course=course)
-        serializer = CompleteDocumentSerializer(documents, many=True)
-        return Response(serializer.data)
-
-    def put(self, request, pk, format=None, *args, **kwargs):
-        '''
-        We are sending pk of document since it is already associated
-        with the course it belongs to.
-        '''
-        document = Document.objects.get(pk=pk)
-        if document.visible is True:
-            document.visible = False
-        elif document.visible is False:
-            document.visible = True
-        document.save()
-        serializer = CompleteDocumentSerializer(document)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class CourseView(APIView):
-    """
-    This view interacts with backbone to allow instructors to
-    view, add, and edit courses.
-    """
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request, pk, format=None, *args, **kwargs):
-        return HttpResponseRedirect("../../course_details/" + str(pk) + "/")
-
-    def post(self, request, format=None, *args, **kwargs):
-        '''
-        Creating new course with the name requested by user
-        with the user as the default professor - will change this later.
-        '''
-        course_name = request.DATA['name']
-        new_course = Course.objects.create(
-            name=course_name,
-            professor=User.objects.get(pk=request.user.pk)
-        )
-        d1 = Document.objects.create(course=new_course, name=NAME_1,
-                                     link=LINK_1)
-        d2 = Document.objects.create(course=new_course, name=NAME_2,
-                                     link=LINK_2)
-        d3 = Document.objects.create(course=new_course, name=NAME_3,
-                                     link=LINK_3)
-        d4 = Document.objects.create(course=new_course, name=NAME_4,
-                                     link=LINK_4)
-        d5 = Document.objects.create(course=new_course, name=NAME_5,
-                                     link=LINK_5)
-        d6 = Document.objects.create(course=new_course, name=NAME_6,
-                                     link=LINK_6)
-        d7 = Document.objects.create(course=new_course, name=NAME_7,
-                                     link=LINK_7)
-        d8 = Document.objects.create(course=new_course, name=NAME_8,
-                                     link=LINK_8)
-        new_course.document_set.add(d1, d2, d3, d4, d5, d6, d7, d8)
-        new_course.save()
-        print new_course.document_set.all()
-        professor = User.objects.get(pk=request.user.pk)
-        new_course = Course.objects.get(
-            name=request.DATA['name'],
-            professor=professor)
-        serializer = AddCourseByNameSerializer(new_course)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    def get_queryset(self):
+        '''This returns all documents a course.'''
+        course_pk = self.request.QUERY_PARAMS.get('course', None)
+        if course_pk is not None:
+           queryset = Document.objects.filter(course__pk=course_pk)
+        else:
+            '''Return nothing if no course is specified.'''
+            queryset = Document.objects.none()
+        return queryset
 
 
 class AdminStudentView(APIView):

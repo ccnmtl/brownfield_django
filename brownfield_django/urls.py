@@ -9,10 +9,11 @@ from pagetree.generic.views import EditView, InstructorView, PageView
 from rest_framework import routers
 
 from brownfield_django.main.forms import CreateAccountForm
-from brownfield_django.main.views import CourseViewSet, UserViewSet
+from brownfield_django.main.views import CourseViewSet, UserViewSet, \
+    DocumentViewSet
 from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, RegistrationView, AdminStudentView, \
-    TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, \
+    TeacherHomeView, TeacherCourseDetail, \
     ActivateCourseView, EditCourseTeamsView, \
     AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
     TeamHomeView, CreateTeamsView, CCNMTLViewTeamsDetail
@@ -39,6 +40,7 @@ if hasattr(settings, 'WIND_BASE'):
 router = routers.DefaultRouter()
 router.register(r'course', CourseViewSet)
 router.register(r'user', UserViewSet)
+router.register(r'document', DocumentViewSet)
 
 urlpatterns = patterns(
     '',
@@ -56,7 +58,6 @@ urlpatterns = patterns(
     (r'^edit_course_teams/(?P<pk>\d+)/$', EditCourseTeamsView.as_view()),
     (r'^teacher/home/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
     (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
-
     (r'^team/$', AdminTeamView.as_view()),
     (r'^team/(?P<pk>\d+)$', AdminTeamView.as_view()),
     (r'^course_details/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
@@ -66,12 +67,7 @@ urlpatterns = patterns(
     # need to figure out url for students that doesn't not conflict with
     # dashboard urls
     # Teacher and Admin Views  CreateTeamsView
-    (r'^course/$', CourseView.as_view()),
-    (r'^course/(?P<pk>\d+)$', CourseView.as_view()),
-    (r'^course/(?P<pk>\d+)/$', CourseView.as_view()),
     (r'^update_course/(?P<pk>\d+)$', DetailJSONCourseView.as_view()),
-    (r'^document/$', DocumentView.as_view()),
-    (r'^document/(?P<pk>\d+)$', DocumentView.as_view()),
     # (r'^activate_course/(?P<pk>\d+)/$', ActivateCourseView.as_view()),
     (r'^student/$', AdminStudentView.as_view()),
     (r'^student/(?P<pk>\d+)$', AdminStudentView.as_view()),

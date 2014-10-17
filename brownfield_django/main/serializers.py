@@ -11,17 +11,25 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'username', 'email')
 
 
-class OtherUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('first_name',  'last_name', 'email')
-
-
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Course
         fields = ('id', 'url', 'name', 'startingBudget', 'enableNarrative',
                   'message', 'active', 'archive', 'professor')
+
+
+class DocumentSerializer(serializers.HyperlinkedModelSerializer):
+    course = serializers.RelatedField()
+
+    class Meta:
+        model = Document
+        fields = ('id', 'course', 'url', 'name', 'link', 'visible')
+
+
+class OtherUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('first_name',  'last_name', 'email')
 
 
 class AddCourseByNameSerializer(serializers.ModelSerializer):
