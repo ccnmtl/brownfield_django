@@ -1,0 +1,55 @@
+<div class="tab-pane active" id="course-documents">
+    <h1>{{object.name}} Details</h1>
+
+    <div class="course_message">
+        <h3>Course message:</h3>
+        {{object.message}}
+    </div><!-- End Course Message -->
+
+    <h3>Course Documents</h3>
+    <form id="upt-doc-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
+    <div class="documents_list">
+        
+    </div><!-- End Document List -->
+
+
+    <div class="course-info">
+        <div id="course-from" class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#course-from" href="#collapseForm">
+                    Edit Course
+                    </a>
+                </h4>
+            </div><!-- End panel heading -->
+            <!-- <div id="collapseForm" class="panel-collapse collapse in"> -->
+            <div id="collapseForm" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <form id="upt-crs-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
+                    {{object.get_course_form.as_p}}
+                    <button id="update-crs-btn" type="button">
+                    Save
+                    </button><br />
+                </div><!-- End panel body -->
+            </div><!-- End collapsing Form -->
+        </div><!-- End Course Form -->
+    </div><!-- End Course Info -->
+    <div>
+        <p> 
+            After entering your course information, you should proceed to create your students and teams.
+            Click on the 'Teams and Students' tab to begin.
+        </p>
+    </div>
+    
+    <!-- This is currently invisible, don't see point in deactivating here when they can do it in course list, may add back -->
+    <div class="deactivate-course" style="display: none;">
+        <div class="crs-deactivate">
+            <p> If you are done with this course, you may remove it from your dashboard by deactivating it.</p>
+            <form id="de-act-crs-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
+            <button id="deactivation-btn" type="button">
+                Deactivate Course
+            </button><br /><br />
+       </div>
+    </div>
+    
+</div><!-- End Tab Content -->

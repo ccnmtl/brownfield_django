@@ -1,23 +1,10 @@
 from django import forms
-from django.forms import ModelForm
 from registration.forms import RegistrationForm
 from registration.signals import user_registered
-from brownfield_django.main.models import Course, UserProfile, Team, PROFILE_CHOICES
+from brownfield_django.main.models import UserProfile, \
+    PROFILE_CHOICES
 
 
-class CourseForm(ModelForm):
-    class Meta:
-        model = Course
-
-class TeamForm(ModelForm):
-    class Meta:
-        model = Team
-
-class StudentForm(ModelForm):
-    class Meta:
-        model = UserProfile
-
-        
 class CreateAccountForm(RegistrationForm):
     '''This is a form class that will be used
     to allow guest users to create guest accounts.'''
@@ -42,6 +29,7 @@ class CreateAccountForm(RegistrationForm):
         if data == '-----':
             raise forms.ValidationError(
                 "Please indicate whether you are faculty, team, or a student.")
+
 
 def user_created(sender, user, request, **kwargs):
     form = CreateAccountForm(request.POST)

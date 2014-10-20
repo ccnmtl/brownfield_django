@@ -1,8 +1,11 @@
+import os.path
+
+from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
-from django.conf import settings
 from django.views.generic import TemplateView
+<<<<<<< HEAD
 from rest_framework import routers, serializers, viewsets
 from pagetree.generic.views import PageView, EditView, InstructorView
 from brownfield_django.main.models import Course
@@ -13,8 +16,21 @@ from brownfield_django.main.views import StudentHomeView, \
     TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
     TeacherBBHomeView #, CourseViewSet
     
+=======
+from pagetree.generic.views import EditView, InstructorView, PageView
+from rest_framework import routers
+
+>>>>>>> d5c32171a49bede16845d7417e684bd4ce426bfc
 from brownfield_django.main.forms import CreateAccountForm
-import os.path
+from brownfield_django.main.views import CourseViewSet, UserViewSet
+from brownfield_django.main.views import DetailJSONCourseView, \
+    HomeView, RegistrationView, AdminStudentView, \
+    TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, \
+    ActivateCourseView, EditCourseTeamsView, \
+    AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
+    TeamHomeView, CreateTeamsView, CCNMTLViewTeamsDetail
+
+
 admin.autodiscover()
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
@@ -32,10 +48,10 @@ if hasattr(settings, 'WIND_BASE'):
         'djangowind.views.logout',
         {'next_page': redirect_after_logout})
 
-# Routers provide an easy way of automatically determining the URL conf.
+
 router = routers.DefaultRouter()
 router.register(r'course', CourseViewSet)
-
+router.register(r'user', UserViewSet)
 
 urlpatterns = patterns(
     '',
@@ -45,42 +61,55 @@ urlpatterns = patterns(
     url(r'^accounts/register/$', RegistrationView.as_view(
         form_class=CreateAccountForm),
         name='register'),
-    url(r'^router/$', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-
-        # Teacher Views
+    url(r'^api/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls',
+                               namespace='rest_framework')),
     (r'^$', HomeView.as_view()),
-    (r'^teacher/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
-    (r'^course$', TeacherBBHomeView.as_view()),
-    (r'^course/(?P<name>.*)/$', TeacherBBHomeView.as_view()),
-    (r'^courses/(?P<pk>\d+)$', TeacherBBHomeView.as_view()),
-    (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),
-    #/media/history/?cachebuster=0.664656763430685
+    (r'^ccnmtl/home/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
+    (r'^edit_course_teams/(?P<pk>\d+)/$', EditCourseTeamsView.as_view()),
+    (r'^teacher/home/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
+    (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
 
-    #(r'^demo/play/(?P<map_id>\d+)/display/flashConduit$', TemplateView.as_view(template_name="main/flvplayer.html")),
-    (r'^demo/play$', "brownfield_django.main.views.get_demo"),#TemplateView.as_view(template_name="main/flvplayer.html")),
+    (r'^team/$', AdminTeamView.as_view()),
+    (r'^team/(?P<pk>\d+)$', AdminTeamView.as_view()),
+    (r'^course_details/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
+    (r'^teacher/course_details/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
+    (r'^create_teams/(?P<pk>\d+)/$', CreateTeamsView.as_view()),
+    (r'^activate_course/(?P<pk>\d+)$', ActivateCourseView.as_view()),
+    # need to figure out url for students that doesn't not conflict with
+    # dashboard urls
+    # Teacher and Admin Views  CreateTeamsView
+    (r'^course/$', CourseView.as_view()),
+    (r'^course/(?P<pk>\d+)$', CourseView.as_view()),
+    (r'^course/(?P<pk>\d+)/$', CourseView.as_view()),
+    (r'^update_course/(?P<pk>\d+)$', DetailJSONCourseView.as_view()),
+    (r'^document/$', DocumentView.as_view()),
+    (r'^document/(?P<pk>\d+)$', DocumentView.as_view()),
+    # (r'^activate_course/(?P<pk>\d+)/$', ActivateCourseView.as_view()),
+    (r'^student/$', AdminStudentView.as_view()),
+    (r'^student/(?P<pk>\d+)$', AdminStudentView.as_view()),
+    (r'^current_teams/(?P<pk>\d+)/$', CCNMTLViewTeamsDetail.as_view()),
+    # student/team views
+    # Demo View
+    (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),
+    (r'^demo/play$', TemplateView.as_view(
+        template_name="main/flvplayer.html")),
+    (r'^media/history/$', "brownfield_django.main.views.get_demo"),
     (r'^demo/media/flash/$', "brownfield_django.main.views.get_bfa"),
-    (r'^demo/history/$', "brownfield_django.main.views.get_demo_history"),
-    url(r'^media/history/?cachebuster=(\d+.?d+)$', DemoHomeView.as_view()), # Doesn't seem to work
-    url(r'^media/history/?cachebuster=(.*)$', DemoHomeView.as_view()), # Doesn't seem to work
-    #([0-9]{15}\.[0-9]{15})
+    # ([0-9]{15}\.[0-9]{15})
     # ([0-9]+) should it be ?cachebuster=(([0-9]+)(.?)([0-9]+))$ instead?
-    # almost? url(r'^media/history/?cachebuster=(?\d+.?\d*)$', DemoHomeView.as_view()),
-    #url(r'^media/history/?cachebuster=(/d*.?d*/)$', DemoHomeView.as_view()),
+    # almost? url(r'^media/history/?cachebuster=(?\d+.?\d*)$',
+    # DemoHomeView.as_view()),
+    # url(r'^media/history/?cachebuster=(/d*.?d*/)$', DemoHomeView.as_view()),
     (r'^demo/info/$', "brownfield_django.main.views.get_demo_info"),
     (r'^demo/test/$', "brownfield_django.main.views.get_demo_test"),
     (r'^demo/save/$', "brownfield_django.main.views.demo_save"),
-    (r'^visrecon/$', TemplateView.as_view(template_name="interactive/visrecon.html")),
-    (r'^demo/$', TemplateView.as_view(template_name="interactive/demo_layout.html")),
-    (r'^site_history/$', TemplateView.as_view(template_name="interactive/site_history.html")),
-    (r'^student/(?P<pk>\d+)/$', StudentHomeView.as_view()),
-    (r'^add_student/$', TeacherAddStudent.as_view()),
-    (r'^release_document/$', TeacherReleaseDocument.as_view()),
-    (r'^revoke_document/$', TeacherRevokeDocument.as_view()),
-    (r'^create_team/$', TeacherCreateTeam.as_view()),
-    (r'^delete_team/$', TeacherDeleteTeam.as_view()),
-    (r'^edit_team/$', TeacherEditTeam.as_view()),
-    
+    (r'^visrecon/$', TemplateView.as_view(
+        template_name="interactive/visrecon.html")),
+    (r'^demo/$', TemplateView.as_view(
+        template_name="interactive/demo_layout.html")),
+    (r'^site_history/$', TemplateView.as_view(
+        template_name="interactive/site_history.html")),
     (r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),

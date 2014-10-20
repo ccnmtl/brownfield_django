@@ -1,0 +1,46 @@
+<html>
+<head>
+    <script type="text/javascript" src="{{STATIC_URL}}old_javascript/MochiKit/MochiKit.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}old_javascript/brownfield.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}old_javascript/swfobject.js"></script>
+    
+</head>
+<body>
+
+	<div id="main_content">
+	    <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="761" height="521" id="bfa" align="middle">
+    		<param name="allowScriptAccess" value="sameDomain" />
+      		<param name="movie" value="{{STATIC_URL}}flash/bfa.swf" />
+      		<param name="quality" value="high" />
+      		<param name="bgcolor" value="#4d3e1b" />
+      		<param name="flashVars" value="serverURL={{site.domain}}&amp;resourceRootURL={{STATIC_URL}}flash/" />
+      		<embed src="{{STATIC_URL}}flash/bfa.swf" quality="high" bgcolor="#4d3e1b" width="761" height="521" name="bfa" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashVars="serverURL={{STATIC_URL}}&amp;resourceRootURL={{STATIC_URL}}flash/" />
+    	</object>
+    
+    	<div id="userlogout" class="notice">
+    		<a href="/logout">Logout</a>
+   		</div>
+	</div> 
+<script>
+jQuery(document).ready(function() {
+	
+	jQuery.ajax(
+            {
+                url: "/demo/history/",
+                type: "GET",
+                //data: {'scenario' : good_s, 'conversation' : good_c },
+                success: function () 
+                {
+					console.log("success");
+                },
+              
+                error: function(data) 
+                {
+                	console.log("error");
+                }
+            });	
+}
+</script>
+
+</body>
+</html>

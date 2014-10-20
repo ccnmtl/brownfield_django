@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<br /><br />
+
+<div class="course-teams">
+<h3>Your Current Teams and Team Members are:</h3>
+        {% for team in object.get_teams %}
+            <b>{{team}}</b>        
+                {% for student in team.get_team_members %}
+                    <p>{{student.display_name}}</p>
+                {% empty %}
+                    <p>There are no students in this team.</p>
+                {% endfor %}
+        {% empty %}
+            <p>There are no teams in the course yet, please add teams and students and activate them.</p>
+        {% endfor %}
+
+    	<a href="../../edit_course_teams/{{object.pk}}/" class="btn btn-default">
+            Edit Teams
+    	</a>
+
+</div>
+{% endblock %}

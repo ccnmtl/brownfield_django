@@ -1,9 +1,9 @@
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http.response import HttpResponseNotAllowed, HttpResponse, \
-    HttpResponseForbidden
-from django.utils.decorators import method_decorator
-# from django.views.decorators.csrf import csrf_exempt
 import json
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http.response import HttpResponseNotAllowed, HttpResponse
+from django.utils.decorators import method_decorator
+from xml.dom.minidom import parseString  # parse,
+# Think parse is from file path, parse string is from randome snippets
 
 
 def ajax_required(func):
@@ -37,10 +37,20 @@ class JSONResponseMixin(object):
                             content_type='application/json',
                             **response_kwargs)
 
-# class CsrfDisableMixin(object):
-#     @method_decorator(csrf_exempt)
-#     def dispatch(self, *args, **kwargs):
-#         return super(CsrfDisableMixin, self).dispatch(*args, **kwargs)
+
+class XMLResponseMixin(object):
+
+    def dispatch(self, *args, **kwargs):
+        return super(XMLResponseMixin, self).dispatch(*args, **kwargs)
+
+    def render_to_xml_response(self, context, **response_kwargs):
+        """
+        Returns a XML response, transforming 'context' to make the payload.
+        """
+        return HttpResponse(parseString(context),
+                            content_type="application/xhtml+xml",
+                            **response_kwargs)
+
 
 class LoggedInMixin(object):
     @method_decorator(login_required)

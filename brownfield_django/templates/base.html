@@ -3,7 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
 <head>
 	<meta charset="utf-8" />
-	<title>djangoquizblock3: {% block title %}{% endblock %}</title>
+	<title>Brownfield Action: {% block title %}{% endblock %}</title>
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	  <meta name="description" content="djangoquizblock3">
 	  <meta name="author" content="CCNMTL">
@@ -14,18 +14,18 @@
   <script src="../assets/js/respond.min.js"></script>
 <![endif]-->
 
-{% compress css %}
+{% comment %}{% compress css %}{% endcomment %}
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap-glyphicons.css" rel="stylesheet">
     <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
-{% endcompress %}
+{% comment %}{% endcompress %}{% endcomment %}
 	<link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.ico" type="image/x-icon" />
 	{% block css %}{% endblock %}
-    <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/underscore-min.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/backbone-min.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/utils.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}old_javascript/ajaxify_forms.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/libraries/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/libraries/underscore-min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/libraries/backbone-min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/utils.js"></script>
+    {% comment %}<script type="text/javascript" src="{{STATIC_URL}}old_javascript/ajaxify_forms.js"></script>{% endcomment %}
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/swfobject.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/MochiKit/MochiKit.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/brownfield.js"></script>
@@ -174,11 +174,7 @@
 
 <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
 
-{% compress js %}
 <script src="{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
-{% endcompress %}
-
-{% block js %}{% endblock %}
 
 {% if STAGING_ENV %}
 <div class="alert alert-danger alert-dismissable" style="position: fixed; bottom: 0px;">
@@ -209,6 +205,9 @@ You are impersonating.<br />
 </script>
 {% endif %}
 </body>
-<script type="text/javascript" src="{{STATIC_URL}}js/usercourselist.js"></script>
-<script type="text/javascript" src="{{STATIC_URL}}js/other.js"></script>
+
+{% block bbjs %}{% endblock %}
+{% block js %}{% endblock %}
+
+
 </html>

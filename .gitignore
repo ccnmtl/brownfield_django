@@ -4,3 +4,9 @@
 ve
 reports/
 media/CACHE
+.project
+.pydevproject
+.settings
+local_settings.py
+uploads
+.coverage

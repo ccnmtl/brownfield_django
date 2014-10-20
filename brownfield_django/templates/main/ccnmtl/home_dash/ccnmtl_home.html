@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block bbjs %}
+    <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/usercourselist.js"></script>
+{% endblock %}
+
+{% block js %}
+    <script type="text/template" id="add-course-template">
+        [<%= name %>]
+        <a href='/course/<%= id %>/'>View Course Details </a>
+        <button class='destroy del-crs'> Archive Class</button>
+    </script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            var control_view = new ManageCoursesView({
+                el: jQuery('.course_controls'),
+                elUserCourses: jQuery('.user_courses #userlist'),
+                {% if request.user.profile.is_admin %}
+                    elOtherCourses: jQuery('.all_brwn_courses'),
+                {% endif %}
+                user_id: "{{request.user.id}}"
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+
+  <ul class="nav nav-tabs instructor-nav">
+    <li class="active"><a href="#course-list" data-toggle="tab">Courses</a></li>
+    <li><a href="#demo" data-toggle="tab">Demo</a></li>
+  </ul>
+ 
+  <div class="instructor tab-content">
+    {% include "main/ccnmtl/home_dash/course_list_tab.html" %}
+    {% include "main/ccnmtl/home_dash/demo_tab.html" %}
+  </div>
+  {% comment %}{% endcomment %}
+{% endblock %}

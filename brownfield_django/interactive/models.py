@@ -7,7 +7,7 @@ TEST_OPTIONS = (
     ('MD', 'MMD'),
     ('SG', 'SGSA'),
     ('TS', 'Topographic Survey'),
-    ('ST', 'Super Test'),                               
+    ('ST', 'Super Test')
 )
 
 
@@ -35,4 +35,3 @@ class Testing(models.Model):
 
     def __unicode__(self):
         return self.name
-
