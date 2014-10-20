@@ -31,7 +31,8 @@ class Course(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        if self.pk is None:
+        super(Course, self).save(*args, **kwargs)
+        if self.document_set.count() == 0:
             d1 = Document.objects.create(course=self, name=NAME_1,
                                          link=LINK_1)
             d2 = Document.objects.create(course=self, name=NAME_2,
@@ -48,9 +49,7 @@ class Course(models.Model):
                                          link=LINK_7)
             d8 = Document.objects.create(course=self, name=NAME_8,
                                          link=LINK_8)
-            self.document_set.add(d1, d2, d3, d4, d5, d6, d7, d8)
-            self.document_set.add(d1)
-        super(Course, self).save(*args, **kwargs)
+
 
     def get_students(self):
         return self.userprofile_set.filter(profile_type='ST')
