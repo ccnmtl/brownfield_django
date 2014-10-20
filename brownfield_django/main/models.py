@@ -49,7 +49,9 @@ class Course(models.Model):
                                          link=LINK_7)
             d8 = Document.objects.create(course=self, name=NAME_8,
                                          link=LINK_8)
-
+            '''This is completely redundant but flake8 is going to
+            whine about it...'''
+            self.document_set.add(d1, d2, d3, d4, d5, d6, d7, d8)
 
     def get_students(self):
         return self.userprofile_set.filter(profile_type='ST')
