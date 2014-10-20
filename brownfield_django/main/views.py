@@ -4,10 +4,13 @@ from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.http.response import HttpResponseForbidden
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_none
 from django.template import loader
 from django.template.context import Context
 from django.views.generic import View
 from django.views.generic.detail import DetailView
+
 
 from rest_framework import status, viewsets
 from rest_framework.authentication import SessionAuthentication, \
@@ -76,11 +79,10 @@ class DocumentViewSet(viewsets.ModelViewSet):
 #         filter = {}
 #         for field in self.multiple_lookup_fields:
 #             filter[field] = self.kwargs[field]
-# 
+#
 #         obj = get_object_or_404(queryset, **filter)
 #         self.check_object_permissions(self.request, obj)
 #        return obj
-
 
     def update(self, request, pk=None):
         print "inside update"
@@ -97,18 +99,15 @@ class DocumentViewSet(viewsets.ModelViewSet):
 #         print queryset
 #         # return self.get_object(queryset=Document.objects.filter(id=pk))
 #         return queryset
-    
-        doc = get_object_or_404(queryset, pk=pk)
-        print get_object_or_404(queryset, pk=pk)
+        doc = get_object_or_404(self.queryset, pk=pk)
+        print get_object_or_404(self.queryset, pk=pk)
         serializer = DocumentSerializer(doc)
         print serializer
         return get_object_or_none()
-    
 #         queryset = User.objects.all()
 #         user = get_object_or_404(queryset, pk=pk)
 #         serializer = UserSerializer(user)
 #         return Response(serializer.data)
-
 
     def get_queryset(self):
         '''

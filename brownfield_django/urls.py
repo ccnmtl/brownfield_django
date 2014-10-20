@@ -3,16 +3,9 @@ import os.path
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.contrib.auth.decorators import login_required
+# from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from rest_framework import routers
-<<<<<<< HEAD
-from pagetree.generic.views import PageView, EditView, InstructorView
-from brownfield_django.main.views import CourseViewSet, UserViewSet
-from brownfield_django.main.views import DetailJSONCourseView, \
-    HomeView, AdminStudentView, DocumentView, ActivateCourseView, \
-    EditCourseTeamsView, AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
-=======
 
 from brownfield_django.main.views import CourseViewSet, UserViewSet, \
     DocumentViewSet
@@ -20,7 +13,6 @@ from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, AdminStudentView, \
     ActivateCourseView, EditCourseTeamsView, \
     AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
->>>>>>> c8fef468695654da95a70947361a96b834104576
     TeamHomeView, CreateTeamsView, CCNMTLViewTeamsDetail
 
 
@@ -100,17 +92,4 @@ urlpatterns = patterns(
     (r'smoketest/', include('smoketest.urls')),
     (r'^uploads/(?P<path>.*)$',
      'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
-    (r'^pagetree/', include('pagetree.urls')),
-    (r'^quizblock/', include('quizblock.urls')),
-    (r'^pages/edit/(?P<path>.*)$', login_required(EditView.as_view(
-        hierarchy_name="main",
-        hierarchy_base="/pages/")),
-     {}, 'edit-page'),
-    (r'^pages/instructor/(?P<path>.*)$',
-        login_required(InstructorView.as_view(
-            hierarchy_name="main",
-            hierarchy_base="/pages/"))),
-    (r'^pages/(?P<path>.*)$', PageView.as_view(
-        hierarchy_name="main",
-        hierarchy_base="/pages/")),
 )
