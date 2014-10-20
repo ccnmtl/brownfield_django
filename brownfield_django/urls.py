@@ -5,29 +5,12 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
-<<<<<<< HEAD
-from rest_framework import routers, serializers, viewsets
-from pagetree.generic.views import PageView, EditView, InstructorView
-from brownfield_django.main.models import Course
-from brownfield_django.main.views import StudentHomeView, \
-    HomeView, RegistrationView, DemoHomeView, \
-    TeacherHomeView, TeacherCourseDetail, TeacherCreateCourse, \
-    TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
-    TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
-    TeacherBBHomeView #, CourseViewSet
-    
-=======
-from pagetree.generic.views import EditView, InstructorView, PageView
 from rest_framework import routers
-
->>>>>>> d5c32171a49bede16845d7417e684bd4ce426bfc
-from brownfield_django.main.forms import CreateAccountForm
+from pagetree.generic.views import PageView, EditView, InstructorView
 from brownfield_django.main.views import CourseViewSet, UserViewSet
 from brownfield_django.main.views import DetailJSONCourseView, \
-    HomeView, RegistrationView, AdminStudentView, \
-    TeacherHomeView, CourseView, TeacherCourseDetail, DocumentView, \
-    ActivateCourseView, EditCourseTeamsView, \
-    AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
+    HomeView, AdminStudentView, DocumentView, ActivateCourseView, \
+    EditCourseTeamsView, AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
     TeamHomeView, CreateTeamsView, CCNMTLViewTeamsDetail
 
 
@@ -58,30 +41,21 @@ urlpatterns = patterns(
     auth_urls,
     logout_page,
     (r'^accounts/', include('registration.backends.default.urls')),
-    url(r'^accounts/register/$', RegistrationView.as_view(
-        form_class=CreateAccountForm),
-        name='register'),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls',
                                namespace='rest_framework')),
     (r'^$', HomeView.as_view()),
     (r'^ccnmtl/home/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
     (r'^edit_course_teams/(?P<pk>\d+)/$', EditCourseTeamsView.as_view()),
-    (r'^teacher/home/(?P<pk>\d+)/$', TeacherHomeView.as_view()),
     (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
-
     (r'^team/$', AdminTeamView.as_view()),
     (r'^team/(?P<pk>\d+)$', AdminTeamView.as_view()),
     (r'^course_details/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
-    (r'^teacher/course_details/(?P<pk>\d+)/$', TeacherCourseDetail.as_view()),
     (r'^create_teams/(?P<pk>\d+)/$', CreateTeamsView.as_view()),
     (r'^activate_course/(?P<pk>\d+)$', ActivateCourseView.as_view()),
     # need to figure out url for students that doesn't not conflict with
     # dashboard urls
     # Teacher and Admin Views  CreateTeamsView
-    (r'^course/$', CourseView.as_view()),
-    (r'^course/(?P<pk>\d+)$', CourseView.as_view()),
-    (r'^course/(?P<pk>\d+)/$', CourseView.as_view()),
     (r'^update_course/(?P<pk>\d+)$', DetailJSONCourseView.as_view()),
     (r'^document/$', DocumentView.as_view()),
     (r'^document/(?P<pk>\d+)$', DocumentView.as_view()),

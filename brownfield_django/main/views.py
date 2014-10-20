@@ -1,7 +1,6 @@
 import json
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.http.response import HttpResponseForbidden
 from django.shortcuts import render
@@ -17,8 +16,7 @@ from rest_framework.renderers import XMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from brownfield_django.main.models import Course, UserProfile, Document, Team
-from brownfield_django.main.serializers import AddCourseByNameSerializer, \
-    CompleteDocumentSerializer, \
+from brownfield_django.main.serializers import DocumentSerializer, \
     UserSerializer, TeamNameSerializer, CourseSerializer, OtherUserSerializer
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
@@ -99,54 +97,6 @@ class DocumentView(APIView):
         document.save()
         serializer = CompleteDocumentSerializer(document)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class CourseView(APIView):
-    """
-    This view interacts with backbone to allow instructors to
-    view, add, and edit courses.
-    """
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request, pk, format=None, *args, **kwargs):
-        return HttpResponseRedirect("../../course_details/" + str(pk) + "/")
-
-    def post(self, request, format=None, *args, **kwargs):
-        '''
-        Creating new course with the name requested by user
-        with the user as the default professor - will change this later.
-        '''
-        course_name = request.DATA['name']
-        new_course = Course.objects.create(
-            name=course_name,
-            professor=User.objects.get(pk=request.user.pk)
-        )
-        d1 = Document.objects.create(course=new_course, name=NAME_1,
-                                     link=LINK_1)
-        d2 = Document.objects.create(course=new_course, name=NAME_2,
-                                     link=LINK_2)
-        d3 = Document.objects.create(course=new_course, name=NAME_3,
-                                     link=LINK_3)
-        d4 = Document.objects.create(course=new_course, name=NAME_4,
-                                     link=LINK_4)
-        d5 = Document.objects.create(course=new_course, name=NAME_5,
-                                     link=LINK_5)
-        d6 = Document.objects.create(course=new_course, name=NAME_6,
-                                     link=LINK_6)
-        d7 = Document.objects.create(course=new_course, name=NAME_7,
-                                     link=LINK_7)
-        d8 = Document.objects.create(course=new_course, name=NAME_8,
-                                     link=LINK_8)
-        new_course.document_set.add(d1, d2, d3, d4, d5, d6, d7, d8)
-        new_course.save()
-        print new_course.document_set.all()
-        professor = User.objects.get(pk=request.user.pk)
-        new_course = Course.objects.get(
-            name=request.DATA['name'],
-            professor=professor)
-        serializer = AddCourseByNameSerializer(new_course)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class AdminStudentView(APIView):
@@ -266,27 +216,14 @@ class HomeView(LoggedInMixin, View):
         try:
             user_profile = UserProfile.objects.get(user=request.user.pk)
         except UserProfile.DoesNotExist:
-            return HttpResponseRedirect(reverse('register'))
+            return HttpResponse("Forbidden")
 
         if user_profile.is_teacher():
-            url = '/teacher/home/%s/' % (user_profile.id)
+            url = '/ccnmtl/home/%s/' % (user_profile.id)
         if user_profile.is_admin():
             url = '/ccnmtl/home/%s/' % (user_profile.id)
 
         return HttpResponseRedirect(url)
-
-
-class RegistrationView(FormView):
-    '''Should I remove the RegistrationView? Professors create Teams
-    and add students to the Course...'''
-
-    template_name = 'registration/registration_form.html'
-    form_class = CreateAccountForm
-    success_url = '/account_created/'
-
-    def form_valid(self, form):
-        form.save()
-        return super(RegistrationView, self).form_valid(form)
 
 
 class DetailJSONCourseView(JSONResponseMixin, View):
