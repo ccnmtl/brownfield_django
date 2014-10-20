@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 from rest_framework import routers
 
 from brownfield_django.main.views import CourseViewSet, UserViewSet, \
-    DocumentViewSet
+    DocumentViewSet, StudentViewSet
 from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, AdminStudentView, \
     ActivateCourseView, EditCourseTeamsView, \
@@ -21,17 +21,24 @@ admin.autodiscover()
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
 
 redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
+
 auth_urls = (r'^accounts/', include('django.contrib.auth.urls'))
-logout_page = (
-    r'^accounts/logout/$',
-    'django.contrib.auth.views.logout',
-    {'next_page': redirect_after_logout})
-if hasattr(settings, 'WIND_BASE'):
+
+logout_page = (r'^accounts/logout/$',
+               'django.contrib.auth.views.logout',
+               {'next_page': redirect_after_logout})
+admin_logout_page = (r'^accounts/logout/$',
+                     'django.contrib.auth.views.logout',
+                     {'next_page': '/admin/'})
+
+if hasattr(settings, 'CAS_BASE'):
     auth_urls = (r'^accounts/', include('djangowind.urls'))
-    logout_page = (
-        r'^accounts/logout/$',
-        'djangowind.views.logout',
-        {'next_page': redirect_after_logout})
+    logout_page = (r'^accounts/logout/$',
+                   'djangowind.views.logout',
+                   {'next_page': redirect_after_logout})
+    admin_logout_page = (r'^admin/logout/$',
+                         'djangowind.views.logout',
+                         {'next_page': redirect_after_logout})
 
 
 router = routers.DefaultRouter()
@@ -39,11 +46,13 @@ router.register(r'course', CourseViewSet)
 router.register(r'user', UserViewSet)
 router.register(r'document', DocumentViewSet)
 router.register(r'document', DocumentViewSet, 'update')
+router.register(r'student', StudentViewSet)
 
 urlpatterns = patterns(
     '',
-    auth_urls,
     logout_page,
+    admin_logout_page,
+    auth_urls,
     (r'^accounts/', include('registration.backends.default.urls')),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls',

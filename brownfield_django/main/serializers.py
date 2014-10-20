@@ -26,35 +26,6 @@ class DocumentSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'course', 'url', 'name', 'link', 'visible')
 
 
-class OtherUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('first_name',  'last_name', 'email')
-
-
-class CourseNameIDSerializer(serializers.ModelSerializer):
-    '''Allow professor to add a course by name as in original brownfield.'''
-    class Meta:
-        model = Course
-        fields = ('name', 'id')
-
-
-class CompleteCourseSerializer(serializers.ModelSerializer):
-    '''Allow professor see, update all aspects of a course.'''
-    class Meta:
-        model = Course
-        fields = ('name', 'password', 'startingBudget', 'enableNarrative',
-                  'message', 'active', 'professor')
-
-
-class UpdateCourseSerializer(serializers.ModelSerializer):
-    '''Allow professor see, update all aspects of a course.'''
-    class Meta:
-        model = Course
-        fields = ('name', 'startingBudget', 'enableNarrative',
-                  'active')
-
-
 class TeamNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -86,20 +57,6 @@ class NewTeamSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)
     signed_contract = serializers.BooleanField()
     # budget = serializers.IntField(required=False)
-
-
-class ListUserCoursesSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Course
-        fields = ('name')
-
-
-class ListAllCoursesSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Course
-        fields = ('name', 'startingBudget', 'enableNarrative', 'message',
-                  'active', 'creator')
-
 
 class CourseTeamSerializer(serializers.ModelSerializer):
     teams = serializers.RelatedField(many=True)

@@ -21,7 +21,7 @@ from rest_framework.views import APIView
 
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.serializers import DocumentSerializer, \
-    UserSerializer, TeamNameSerializer, CourseSerializer, OtherUserSerializer
+    UserSerializer, TeamNameSerializer, CourseSerializer
 
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
@@ -94,6 +94,28 @@ class DocumentViewSet(viewsets.ModelViewSet):
             '''Appears this is not called if update is...
             Return nothing if no course or doc is specified.'''
             queryset = Document.objects.none()
+        return queryset
+
+
+class StudentViewSet(viewsets.ModelViewSet):
+    '''Redoing Student Ajax handling the correct way
+    with a model viewset.'''
+    
+    def update(self, request, pk=None):
+        student = get_object(pk=pk)
+        print student
+        return Response(student, status.HTTP_200_OK)
+    
+    def get_queryset(self):
+        course_pk = self.request.QUERY_PARAMS.get('course', None)
+        if course_pk is not None:
+            students = UserProfile.objects.filter(course__pk=course_pk,
+                                                  profile_type='ST')
+            queryset = User.objects.filter(profile__in=students)
+        else:
+            '''Is it safe to assume there are no students
+            if something goes wrong.'''
+            queryset = Student.objects.none()
         return queryset
 
 
