@@ -1,13 +1,31 @@
+
 var Document = Backbone.Model.extend({
-    urlRoot: '/document/',
+   urlRoot: '/api/document/',
+   url: function() {
+       var url = this.urlRoot;
+       if (this.get('id') !== undefined) {
+           url += this.get('id') + '/';
+       }
+       return url;
+   }
 });
 
 var DocumentCollection = Backbone.Collection.extend({
 	 model: Document,
-	 urlRoot: '/document/',
-     url: function() {
-        return this.urlRoot + this.course_id;
-    }
+	 urlRoot: '/api/document/',
+	 url: function() {
+	     var url = this.urlRoot;
+	     if (this.course) {
+	         url += '?course=' + this.course;
+	     }
+	     return url
+	 },
+	 
+	 initialize : function(options){
+	     if (options && 'course' in options) {
+	         this.course = options.course;
+	     }
+	 }
 });
 // End of Models/Collections
 
@@ -33,14 +51,23 @@ var DocumentView = Backbone.View.extend({
     },
         
     changeDocument: function()
-   	{   
-        this.model.save({
-        	wait: true
-        });// end model save
+   	{
+    	console.log(this.model.attributes.visible);
+    	if(this.model.attributes.visible === true)
+    	{
+    		this.model.set('visible', false);
+    		//this.model.save({wait: true});
+    		this.model.save();
+    	}
+    	else if (this.model.attributes.visible === false)
+    	{
+    		this.model.set('visible', true);
+    		//this.model.save({wait: true});
+    		this.model.save();
+    	}
    	}
 
 });// End DocumentView
-
 
 /* Container to hold rows of documents */
 var DocumentListView = Backbone.View.extend({
@@ -49,23 +76,21 @@ var DocumentListView = Backbone.View.extend({
 
     initialize: function (options)
     {
-    	_.bindAll(this,
-    			 'initialRender');
-    	
-    	//create new collection to hold course documents
-    	this.course_document_collection = new DocumentCollection();
-    	this.course_document_collection.course_id = options.course_id;
-
-    	this.course_document_collection.fetch({processData: true, reset: true});
-    	this.course_document_collection.on('reset', this.initialRender);
+        _.bindAll(this, 'initialRender');
+  	
+  	    this.course_document_collection = new DocumentCollection(options);
+  	    this.course_document_collection.fetch({processData: true, reset: true});
+  	    this.course_document_collection.on('reset', this.initialRender);
 	},
 
-    initialRender: function() {
-        this.course_document_collection.each(function(model) {
-        this.$el.append(new DocumentView({
-               model: model,
-               
-        }).render().el);
+    initialRender: function()
+    {
+        this.course_document_collection.each(function(model)
+        {
+            this.$el.append(new DocumentView(
+            {
+                model: model
+            }).render().el);
         }, this);
 
         return this;
@@ -73,10 +98,10 @@ var DocumentListView = Backbone.View.extend({
 });// End DocumentListView    
 
 jQuery(document).ready(function () {
-    var crs_id = jQuery("input[name='crs-id']").val();
+    var course = jQuery("input[name='crs-id']").val();
 
     var document_collection_view = new DocumentListView({
         el: jQuery('.documents_list'),
-        course_id: crs_id
+        course: course
     });
 });

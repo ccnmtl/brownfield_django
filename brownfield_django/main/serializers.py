@@ -11,12 +11,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'username', 'email')
 
 
-class OtherUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('first_name',  'last_name', 'email')
-
-
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Course
@@ -24,11 +18,18 @@ class CourseSerializer(serializers.HyperlinkedModelSerializer):
                   'message', 'active', 'archive', 'professor')
 
 
-class AddCourseByNameSerializer(serializers.ModelSerializer):
-    '''Allow professor to add a course by name as in original brownfield.'''
+class DocumentSerializer(serializers.HyperlinkedModelSerializer):
+    course = serializers.RelatedField()
+
     class Meta:
-        model = Course
-        fields = ('name',)
+        model = Document
+        fields = ('id', 'course', 'url', 'name', 'link', 'visible')
+
+
+class OtherUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('first_name',  'last_name', 'email')
 
 
 class CourseNameIDSerializer(serializers.ModelSerializer):
@@ -52,13 +53,6 @@ class UpdateCourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = ('name', 'startingBudget', 'enableNarrative',
                   'active')
-
-
-class CompleteDocumentSerializer(serializers.HyperlinkedModelSerializer):
-    '''Return Document set with each documents associated attributes.'''
-    class Meta:
-        model = Document
-        fields = ('id', 'name', 'link', 'visible')
 
 
 class TeamNameSerializer(serializers.ModelSerializer):
@@ -121,19 +115,3 @@ class CourseUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         # fields = ('first_name', 'last_name', 'email')
-
-
-# class UserCoursesSerializer(serializers.HyperlinkedModelSerializer):
-#     courses = serializers.PrimaryKeyRelatedField(many=True)
-#
-#     class Meta:
-#         model = User
-#         fields = ('id', 'username', 'courses')
-
-
-# class StudentsInCourseSerializer(serializers.HyperlinkedModelSerializer):
-#     courses = serializers.PrimaryKeyRelatedField(many=True)
-#
-#     class Meta:
-#         model = User
-#         fields = ('id', 'username', 'courses')

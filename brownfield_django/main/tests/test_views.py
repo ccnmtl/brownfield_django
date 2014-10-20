@@ -1,6 +1,3 @@
-# import json
-# from datetime import datetime
-
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
 from django.contrib.auth.models import User

@@ -6,11 +6,21 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from rest_framework import routers
+<<<<<<< HEAD
 from pagetree.generic.views import PageView, EditView, InstructorView
 from brownfield_django.main.views import CourseViewSet, UserViewSet
 from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, AdminStudentView, DocumentView, ActivateCourseView, \
     EditCourseTeamsView, AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
+=======
+
+from brownfield_django.main.views import CourseViewSet, UserViewSet, \
+    DocumentViewSet
+from brownfield_django.main.views import DetailJSONCourseView, \
+    HomeView, AdminStudentView, \
+    ActivateCourseView, EditCourseTeamsView, \
+    AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
+>>>>>>> c8fef468695654da95a70947361a96b834104576
     TeamHomeView, CreateTeamsView, CCNMTLViewTeamsDetail
 
 
@@ -35,6 +45,8 @@ if hasattr(settings, 'WIND_BASE'):
 router = routers.DefaultRouter()
 router.register(r'course', CourseViewSet)
 router.register(r'user', UserViewSet)
+router.register(r'document', DocumentViewSet)
+router.register(r'document', DocumentViewSet, 'update')
 
 urlpatterns = patterns(
     '',
@@ -57,8 +69,6 @@ urlpatterns = patterns(
     # dashboard urls
     # Teacher and Admin Views  CreateTeamsView
     (r'^update_course/(?P<pk>\d+)$', DetailJSONCourseView.as_view()),
-    (r'^document/$', DocumentView.as_view()),
-    (r'^document/(?P<pk>\d+)$', DocumentView.as_view()),
     # (r'^activate_course/(?P<pk>\d+)/$', ActivateCourseView.as_view()),
     (r'^student/$', AdminStudentView.as_view()),
     (r'^student/(?P<pk>\d+)$', AdminStudentView.as_view()),

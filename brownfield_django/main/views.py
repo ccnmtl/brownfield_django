@@ -8,6 +8,7 @@ from django.template import loader
 from django.template.context import Context
 from django.views.generic import View
 from django.views.generic.detail import DetailView
+
 from rest_framework import status, viewsets
 from rest_framework.authentication import SessionAuthentication, \
     BasicAuthentication
@@ -15,9 +16,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import XMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.serializers import DocumentSerializer, \
     UserSerializer, TeamNameSerializer, CourseSerializer, OtherUserSerializer
+
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     XMLResponseMixin
@@ -62,41 +65,65 @@ class UserViewSet(viewsets.ModelViewSet):
             return User.objects.all()
 
 
-class DocumentView(APIView):
-    """
-    This view interacts with backbone to allow instructors to
-    interact with documents, they can make them available to
-    students or revoke them so they are invisible.
-    """
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
+class DocumentViewSet(viewsets.ModelViewSet):
+    queryset = Document.objects.all()
+    serializer_class = DocumentSerializer
 
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
+    def get_object(self):
+        print "inside get object"
+        queryset = self.get_queryset(self.kwargs['pk'])
+        print queryset
+#         filter = {}
+#         for field in self.multiple_lookup_fields:
+#             filter[field] = self.kwargs[field]
+# 
+#         obj = get_object_or_404(queryset, **filter)
+#         self.check_object_permissions(self.request, obj)
+#        return obj
 
-    def get(self, request, pk, format=None):
-        '''Using course id from url to retrieve documents.'''
-        course = self.get_object(pk)
-        documents = Document.objects.filter(course=course)
-        serializer = CompleteDocumentSerializer(documents, many=True)
-        return Response(serializer.data)
 
-    def put(self, request, pk, format=None, *args, **kwargs):
-        '''
-        We are sending pk of document since it is already associated
-        with the course it belongs to.
-        '''
-        document = Document.objects.get(pk=pk)
+    def update(self, request, pk=None):
+        print "inside update"
+        document = Document.objects.get(id=pk)
         if document.visible is True:
             document.visible = False
         elif document.visible is False:
             document.visible = True
         document.save()
-        serializer = CompleteDocumentSerializer(document)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        print self.get_object(pk=pk)
+        # print Document.objects.filter(id=pk)
+        # print self.get_object(queryset=Document.objects.filter(id=pk)).link
+#         queryset = Document.objects.filter(id=pk)
+#         print queryset
+#         # return self.get_object(queryset=Document.objects.filter(id=pk))
+#         return queryset
+    
+        doc = get_object_or_404(queryset, pk=pk)
+        print get_object_or_404(queryset, pk=pk)
+        serializer = DocumentSerializer(doc)
+        print serializer
+        return get_object_or_none()
+    
+#         queryset = User.objects.all()
+#         user = get_object_or_404(queryset, pk=pk)
+#         serializer = UserSerializer(user)
+#         return Response(serializer.data)
+
+
+    def get_queryset(self):
+        '''
+        Form Docs: queryset that should be used for list views,
+        and that should be used as the base for lookups in detail views.
+        '''
+        course_pk = self.request.QUERY_PARAMS.get('course', None)
+        if course_pk is not None:
+            queryset = Document.objects.filter(course__pk=course_pk)
+        else:
+            '''Appears this is no called if update is...'''
+            print "How to connect these two?"
+#             '''Return nothing if no course is specified.'''
+            queryset = Document.objects.none()
+        return queryset
 
 
 class AdminStudentView(APIView):
@@ -216,8 +243,8 @@ class HomeView(LoggedInMixin, View):
         try:
             user_profile = UserProfile.objects.get(user=request.user.pk)
         except UserProfile.DoesNotExist:
-            return HttpResponse("Forbidden")
-
+            '''We are not allowing users to register.'''
+            return HttpResponseForbidden("forbidden")
         if user_profile.is_teacher():
             url = '/ccnmtl/home/%s/' % (user_profile.id)
         if user_profile.is_admin():
@@ -354,25 +381,6 @@ class EditCourseTeamsView(View):
         course.active = False
         url = '../../create_teams/' + str(course.pk) + '/'
         return HttpResponseRedirect(url)
-
-
-class TeacherHomeView(DetailView):
-
-    model = UserProfile
-    template_name = 'main/ccnmtl/home_dash/ccnmtl_home.html'
-    success_url = '/'
-
-    def dispatch(self, *args, **kwargs):
-        if int(kwargs.get('pk')) != self.request.user.profile.id:
-            return HttpResponseForbidden("forbidden")
-        return super(TeacherHomeView, self).dispatch(*args, **kwargs)
-
-
-class TeacherCourseDetail(DetailView):
-
-    model = Course
-    template_name = 'main/instructor/course_dash/course_home.html'
-    success_url = '/'
 
 
 class CCNMTLHomeView(DetailView):
