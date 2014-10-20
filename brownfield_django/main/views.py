@@ -5,7 +5,6 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.http.response import HttpResponseForbidden
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-from django.shortcuts import get_object_or_none
 from django.template import loader
 from django.template.context import Context
 from django.views.generic import View
@@ -103,7 +102,7 @@ class DocumentViewSet(viewsets.ModelViewSet):
         print get_object_or_404(self.queryset, pk=pk)
         serializer = DocumentSerializer(doc)
         print serializer
-        return get_object_or_none()
+        return get_object_or_404()
 #         queryset = User.objects.all()
 #         user = get_object_or_404(queryset, pk=pk)
 #         serializer = UserSerializer(user)
