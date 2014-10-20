@@ -17,15 +17,15 @@ from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse, reverse_lazy
 
-from rest_framework import viewsets
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import authentication, permissions
+# from rest_framework import viewsets
+# from rest_framework.renderers import JSONRenderer
+# from rest_framework.parsers import JSONParser
+# from rest_framework.views import APIView
+# from rest_framework.response import Response
+# from rest_framework import authentication, permissions
 
 
-from brownfield_django.main.serializers import CourseSerializer
+#from brownfield_django.main.serializers import CourseSerializer
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.forms import CourseForm, TeamForm, CreateAccountForm
 from brownfield_django.mixins import LoggedInMixin, LoggedInMixinSuperuser, \
@@ -33,12 +33,12 @@ from brownfield_django.mixins import LoggedInMixin, LoggedInMixinSuperuser, \
 
 
 
-class CourseViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows Courses to be viewed or edited.
-    """
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+# class CourseViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows Courses to be viewed or edited.
+#     """
+#     queryset = Course.objects.all()
+#     serializer_class = CourseSerializer
 
 
 '''Moved Views From NEPI Over to Start With'''

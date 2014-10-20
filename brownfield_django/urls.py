@@ -11,7 +11,7 @@ from brownfield_django.main.views import StudentHomeView, \
     TeacherHomeView, TeacherCourseDetail, TeacherCreateCourse, \
     TeacherAddStudent, TeacherCreateTeam, TeacherEditTeam, \
     TeacherDeleteTeam, TeacherReleaseDocument, TeacherRevokeDocument, \
-    TeacherBBHomeView, CourseViewSet
+    TeacherBBHomeView #, CourseViewSet
     
 from brownfield_django.main.forms import CreateAccountForm
 import os.path
