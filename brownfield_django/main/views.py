@@ -104,6 +104,11 @@ class StudentViewSet(viewsets.ModelViewSet):
     serializer_class = StudentUserSerializer
 
     def create(self, request):
+        #print request.DATA
+        #serializer = StudentUserSerializer(data=request.DATA)
+        #print serializer.data
+        key = self.request.QUERY_PARAMS.get('course', None)
+        course = Course.objects.get(pk=key)
         username = str(request.DATA['first_name']) + \
             str(request.DATA['last_name'])
         student = User.objects.create_user(
@@ -111,11 +116,13 @@ class StudentViewSet(viewsets.ModelViewSet):
             first_name=request.DATA['first_name'],
             last_name=request.DATA['last_name'],
             email=request.DATA['email'])
-        #new_profile = UserProfile.objects.create(course=course,
-        #                                         user=student,
-        #                                         profile_type='ST')
+        new_profile = UserProfile.objects.create(course=course,
+                                                 user=student,
+                                                 profile_type='ST')
         #new_profile.save()
-        return Response(student, status.HTTP_200_OK)
+        #print serializer.data
+        #print serializer.is_valid()
+        return Response(request.DATA, status.HTTP_200_OK)
 
     def update(self, request, pk=None):
         student = User.objects.get(pk=pk)
@@ -124,12 +131,8 @@ class StudentViewSet(viewsets.ModelViewSet):
         student.email = request.DATA['email']
         student.save()
         '''This is completely wrong... will play around with later.'''
-        student = {'id': request.DATA['id'],
-                   'first_name': request.DATA['first_name'],
-                   'last_name': request.DATA['last_name'],
-                   'email': request.DATA['email']
-                   }
-        return Response(student, status.HTTP_200_OK)
+        serializer = StudentUserSerializer(data=request.DATA)
+        return Response(serializer.data, status.HTTP_200_OK)
 
     def get_queryset(self):
         course_pk = self.request.QUERY_PARAMS.get('course', None)
