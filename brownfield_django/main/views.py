@@ -104,9 +104,6 @@ class StudentViewSet(viewsets.ModelViewSet):
     serializer_class = StudentUserSerializer
 
     def create(self, request):
-        #print request.DATA
-        #serializer = StudentUserSerializer(data=request.DATA)
-        #print serializer.data
         key = self.request.QUERY_PARAMS.get('course', None)
         course = Course.objects.get(pk=key)
         username = str(request.DATA['first_name']) + \
@@ -119,9 +116,10 @@ class StudentViewSet(viewsets.ModelViewSet):
         new_profile = UserProfile.objects.create(course=course,
                                                  user=student,
                                                  profile_type='ST')
-        #new_profile.save()
-        #print serializer.data
-        #print serializer.is_valid()
+        new_profile.save()
+        # queryset = self.get_queryset()
+        #print queryset
+        # obj = get_object_or_404(queryset, **filter)
         return Response(request.DATA, status.HTTP_200_OK)
 
     def update(self, request, pk=None):
