@@ -10,7 +10,7 @@ from rest_framework import routers
 from brownfield_django.main.views import CourseViewSet, UserViewSet, \
     DocumentViewSet, StudentViewSet
 from brownfield_django.main.views import DetailJSONCourseView, \
-    HomeView, AdminStudentView, \
+    HomeView, \
     ActivateCourseView, EditCourseTeamsView, \
     AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
     TeamHomeView, CreateTeamsView, CCNMTLViewTeamsDetail
@@ -45,7 +45,6 @@ router = routers.DefaultRouter()
 router.register(r'course', CourseViewSet)
 router.register(r'user', UserViewSet)
 router.register(r'document', DocumentViewSet)
-router.register(r'document', DocumentViewSet, 'update')
 router.register(r'student', StudentViewSet)
 
 urlpatterns = patterns(
@@ -71,8 +70,6 @@ urlpatterns = patterns(
     # Teacher and Admin Views  CreateTeamsView
     (r'^update_course/(?P<pk>\d+)$', DetailJSONCourseView.as_view()),
     # (r'^activate_course/(?P<pk>\d+)/$', ActivateCourseView.as_view()),
-    (r'^student/$', AdminStudentView.as_view()),
-    (r'^student/(?P<pk>\d+)$', AdminStudentView.as_view()),
     (r'^current_teams/(?P<pk>\d+)/$', CCNMTLViewTeamsDetail.as_view()),
     # student/team views
     # Demo View

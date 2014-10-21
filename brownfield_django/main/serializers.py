@@ -32,6 +32,14 @@ class TeamNameSerializer(serializers.ModelSerializer):
         fields = ('username',)
 
 
+class StudentUserSerializer(serializers.HyperlinkedModelSerializer):
+   # course = serializers.RelatedField()
+
+    class Meta:
+        model = User
+        fields = ('url', 'first_name', 'last_name', 'email', 'id')
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
     courses = serializers.PrimaryKeyRelatedField(many=True)
 
@@ -57,6 +65,7 @@ class NewTeamSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)
     signed_contract = serializers.BooleanField()
     # budget = serializers.IntField(required=False)
+
 
 class CourseTeamSerializer(serializers.ModelSerializer):
     teams = serializers.RelatedField(many=True)

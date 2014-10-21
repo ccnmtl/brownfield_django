@@ -1,29 +1,31 @@
 //creating student model
 var Student= Backbone.Model.extend({
-    
-    defaults: function() {
-        return {
-            first_name: "First Name Student",
-            last_name: "Last Name Student",
-            email: "email@email.com",
-        }
-    },
 
-    initialize: function(attributes) 
-	{   
-	    first_name = attributes.first_name || '<EMPTY>';
-	    last_name = attributes.last_name || '<EMPTY>';
-	    email = attributes.email || '<EMPTY>';
-	}
-	    
+	   urlRoot: '/api/student/',
+	   url: function() {
+	       var url = this.urlRoot;
+	       if (this.get('id') !== undefined) {
+	           url += this.get('id') + '/';
+	       }
+	       return url;
+	   }	    
 });
-
 
 var StudentCollection = Backbone.Collection.extend({
 	 model: Student,
+	 urlRoot: '/api/student/',
 	 url: function() {
-		    return '/student/' + this.course_id;
-	  }
+	     var url = this.urlRoot;
+	     if (this.course) {
+	         url += '?course=' + this.course;
+	     }
+	     return url
+	 },
+	 initialize : function(options){
+	     if (options && 'course' in options) {
+	         this.course = options.course;
+	     }
+	 }
 });
 //End of Modes/Collections
 
@@ -31,44 +33,57 @@ var StudentCollection = Backbone.Collection.extend({
 //Views 
 var StudentView = Backbone.View.extend({
 
-   	tagName : 'li',
-   	template: _.template("<%= first_name %> <space><space>" +
-   			             "<%= last_name %> " +
-   			             "Email: " +
-   			             "<%= email %> " +
-   			             "<button class='btn btn-xs ed-st'>" +
-			             "Edit Student" +
-			             "</button>" +
-   			             "<button class='btn btn-xs rm-st'>" +
-			             "Remove Student From Course" +
-			             "</button>"),
+    //editTemplate: _.template(jQuery("#student-edit-template").html()),
+	tagName : 'li',
 
-   	initialize: function () {
-   	    this.listenTo(this.model, 'change', this.render);
-   	    this.listenTo(this.model, 'destroy', this.remove);
-   	},
+	initialize: function(options)
+	{
+		this.template = _.template(jQuery("#student-list-template").html()),
 
-   	// Can probably combine into one function on change
+		this.listenTo(this.model, 'change', this.render);
+		this.listenTo(this.model, 'destroy', this.remove);
+	},
+
    	events: {
+   		'click .ed-st' : 'showEditForm',
+   		'click .save-edit-student' : 'editStudent',
    		'click .rm-st' : 'removeStudent'
    	},
 
     render: function () {
-        if (!this.model) 
-        {
-            throw "Model is not set for this view";
-        }
         var html = this.template(this.model.toJSON());
         this.$el.html(html);
         return this;
     },
 
-   	//will need to do save which will automatically call sync
+//    renderEditForm: function () {
+//        var html = this.editTemplate(this.model.toJSON());
+//        this.$el.html(html);
+//        return this;
+//    },
+    
+   	showEditForm: function()
+   	{
+   		//console.log("Show edit form.");
+   	    var html = _.template(jQuery("#student-edit-template").html())(this.model.toJSON());
+        this.$el.html(html);
+    },
+    
+   	editStudent: function(e)
+   	{
+   		e.preventDefault();
+   		//console.log(jQuery(this.el).find("input.edt-frst-name").val());
+  		this.model.set('first_name', jQuery(this.el).find("input.edt-frst-name").val());
+  		this.model.set('last_name', jQuery(this.el).find("input.edt-last-name").val());
+  		this.model.set('email', jQuery(this.el).find("input.edt-email").val());
+   		this.model.save();
+    },
+    
    	removeStudent: function()
    	{
-   		console.log("Removing student from course.");//console.log("Revoking Document");
+   		//console.log("Removing student from course.");
+   		this.model.destroy();
     }
-    
 });// End Student View
 
 
@@ -80,15 +95,12 @@ var StudentListView = Backbone.View.extend({
 
     initialize: function (options)
     {
-    	_.bindAll(this,
-    			 'initialRender');
-    	this.course_students = new StudentCollection();
-    	this.course_students.course_id = options.course_id;
-    	
+    	_.bindAll(this, 'initialRender');
+    	this.course_students = new StudentCollection(options);    	
     	this.course_students.fetch({processData: true, reset: true});
     	this.course_students.on('reset', this.initialRender);
-	},
-
+	},	
+	
     initialRender: function() {
         this.course_students.each(function(model) {
         this.$el.append(new StudentView({
@@ -103,28 +115,37 @@ var StudentListView = Backbone.View.extend({
 
 var StudentControlView = Backbone.View.extend({
 
+	course: jQuery("input[name='crs-id']").val(),
+
     events: {
-	//'click .edit-crs' : 'edit',
 	'click .add-std-btn' : 'showStudentForm',
 	'click .student_submit' :	'addStudent'
     },
     
     initialize: function (options)
     {
-        this.student_collection_view = options.student_collection_view;
+    	/* HERE WE INITIALIZE THE LIST VIEW WITE A COURSE, SHOULD BE INCLUDED
+    	 * IN ALL COLLECTION ACTIONS BUT IS NOT BEING INCLUDED IN ADD STUDENT
+    	 * FOR SOME REASON. 
+    	 * Ahhh... because right now we are in the control view not the collection view
+    	 * */
+        this.student_collection_view = new StudentListView({
+            el: jQuery('.student-list'),
+            course: this.course
+        });
     },
 
     showStudentForm: function() {
 		//console.log("clicked on show student form");
+    	//console.log(this.student_collection_view.url),
 		jQuery(".add-std-btn").hide();
 		jQuery(".add-std-frm-title").show();
 		jQuery(".add-std-frm").show();
     },
 
     addStudent: function(course) {
-    	
     	this.student_collection_view.course_students.create(
-    	{
+    	{   
     		first_name : jQuery(".frst-name").val(),
     	    last_name : jQuery(".last-name").val(),
     	    email : jQuery(".email").val(),
@@ -138,14 +159,7 @@ var StudentControlView = Backbone.View.extend({
 });// End UserControlView  
 
 jQuery(document).ready(function () {
-    var crs_id = jQuery("input[name='crs-id']").val();
-
-    var student_collection_view = new StudentListView({
-        el: jQuery('.student-list'),
-        course_id: crs_id});
-    
     var student_control_view = new StudentControlView({
-        el: jQuery('.student_controls'),
-        student_collection_view: student_collection_view
+        el: jQuery('.student_controls')
     });
 });

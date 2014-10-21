@@ -21,7 +21,7 @@ from rest_framework.views import APIView
 
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.serializers import DocumentSerializer, \
-    UserSerializer, TeamNameSerializer, CourseSerializer
+    UserSerializer, TeamNameSerializer, CourseSerializer, StudentUserSerializer
 
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
@@ -100,12 +100,37 @@ class DocumentViewSet(viewsets.ModelViewSet):
 class StudentViewSet(viewsets.ModelViewSet):
     '''Redoing Student Ajax handling the correct way
     with a model viewset.'''
-    
-    def update(self, request, pk=None):
-        student = get_object(pk=pk)
-        print student
+    queryset = User.objects.filter(profile__profile_type='ST')
+    serializer_class = StudentUserSerializer
+
+    def create(self, request):
+        username = str(request.DATA['first_name']) + \
+            str(request.DATA['last_name'])
+        student = User.objects.create_user(
+            username=username,
+            first_name=request.DATA['first_name'],
+            last_name=request.DATA['last_name'],
+            email=request.DATA['email'])
+        #new_profile = UserProfile.objects.create(course=course,
+        #                                         user=student,
+        #                                         profile_type='ST')
+        #new_profile.save()
         return Response(student, status.HTTP_200_OK)
-    
+
+    def update(self, request, pk=None):
+        student = User.objects.get(pk=pk)
+        student.first_name = request.DATA['first_name']
+        student.last_name = request.DATA['last_name']
+        student.email = request.DATA['email']
+        student.save()
+        '''This is completely wrong... will play around with later.'''
+        student = {'id': request.DATA['id'],
+                   'first_name': request.DATA['first_name'],
+                   'last_name': request.DATA['last_name'],
+                   'email': request.DATA['email']
+                   }
+        return Response(student, status.HTTP_200_OK)
+
     def get_queryset(self):
         course_pk = self.request.QUERY_PARAMS.get('course', None)
         if course_pk is not None:
@@ -115,58 +140,8 @@ class StudentViewSet(viewsets.ModelViewSet):
         else:
             '''Is it safe to assume there are no students
             if something goes wrong.'''
-            queryset = Student.objects.none()
+            queryset = User.objects.none()
         return queryset
-
-
-class AdminStudentView(APIView):
-    """
-    This view interacts with backbone to allow instructors to
-    view and edit students to their course, pk is for course.
-    """
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
-
-    def get_object(self, pk):
-        try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None, *args, **kwargs):
-        '''Retrieve students of course if there are any to list.'''
-        course = self.get_object(pk)
-        try:
-            students = course.get_students()
-            users = User.objects.filter(profile__in=students)
-            serializer = OtherUserSerializer(users, many=True)
-            return Response(serializer.data)
-        except:
-            '''Assume collection is currently empty'''
-            return Response(status.HTTP_200_OK)
-
-    def post(self, request, pk, format=None, *args, **kwargs):
-        '''
-        Add a Student
-        Get course to associate with student and save, both in json.
-        '''
-        course = self.get_object(pk)
-        first_name = request.DATA['first_name']
-        last_name = request.DATA['last_name']
-        email = request.DATA['email']
-        ini = first_name[0]
-        username = str(ini) + str(last_name)
-        new_user = User.objects.create_user(username=username,
-                                            first_name=first_name,
-                                            last_name=last_name)
-        new_user.email = email
-        new_user.save()
-        new_profile = UserProfile.objects.create(course=course,
-                                                 user=new_user,
-                                                 profile_type='ST')
-        new_profile.save()
-        serializer = OtherUserSerializer(data=new_user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class AdminTeamView(APIView):

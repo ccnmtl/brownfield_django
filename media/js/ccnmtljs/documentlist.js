@@ -52,7 +52,6 @@ var DocumentView = Backbone.View.extend({
         
     changeDocument: function()
    	{
-    	console.log(this.model.attributes.visible);
     	if(this.model.attributes.visible === true)
     	{
     		this.model.set('visible', false);
