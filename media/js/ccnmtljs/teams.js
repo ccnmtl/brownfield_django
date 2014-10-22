@@ -56,7 +56,7 @@ var TeamView = Backbone.View.extend({
 
    	removeTeam: function()
    	{
-   		console.log("Removing team from course.");
+   		this.model.destroy();
     }
 
 });// End Team View
