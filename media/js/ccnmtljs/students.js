@@ -86,11 +86,12 @@ var StudentListView = Backbone.View.extend({
 
     initialize: function (options)
     {
-    	_.bindAll(this, 'initialRender');
+    	_.bindAll(this, 'initialRender', 'addStudent');
     	this.course_students = new StudentCollection(options);
     	this.course_students.fetch({processData: true, reset: true});
     	//this.course_students.on('change', this.initialRender);
     	this.course_students.on('reset', this.initialRender);
+    	this.course_students.on('add', this.addStudent);
 	},	
 
     initialRender: function() {
@@ -101,6 +102,12 @@ var StudentListView = Backbone.View.extend({
         }, this);
 
         return this;
+    },
+    
+    addStudent: function(model, collection, options) {
+        this.$el.append(new StudentView({
+            model: model
+        }).render().el);
     }
     
 });// End StudentListView
@@ -135,6 +142,7 @@ var StudentControlView = Backbone.View.extend({
     	            email : jQuery(".email").val()
     	    },
     	    {
+    	        wait: true,
     	    	url: this.student_collection_view.course_students.url()
     	    }
     	);
@@ -143,6 +151,7 @@ var StudentControlView = Backbone.View.extend({
 	    jQuery(".add-std-frm-title").hide();
 	    jQuery(".add-std-frm").hide();
 	    jQuery(".add-std-btn").show();
+	    return false;
     }
     
 });// End UserControlView  
