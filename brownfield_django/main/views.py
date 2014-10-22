@@ -117,9 +117,12 @@ class StudentViewSet(viewsets.ModelViewSet):
                                                  user=student,
                                                  profile_type='ST')
         new_profile.save()
-        # queryset = self.get_queryset()
-        #print queryset
-        # obj = get_object_or_404(queryset, **filter)
+        print "after profile save"
+        queryset = self.get_queryset()
+        print queryset
+        print dir(queryset)
+        obj = get_object_or_404(queryset, **filter)
+        print obj
         return Response(request.DATA, status.HTTP_200_OK)
 
     def update(self, request, pk=None):
@@ -129,8 +132,13 @@ class StudentViewSet(viewsets.ModelViewSet):
         student.email = request.DATA['email']
         student.save()
         '''This is completely wrong... will play around with later.'''
-        serializer = StudentUserSerializer(data=request.DATA)
-        return Response(serializer.data, status.HTTP_200_OK)
+        #obj = self.queryset.filter(pk=pk)
+        #print student.serializable_value
+        #print dir(student.serializable_value)
+        serializer = StudentUserSerializer(data=student)
+        print serializer.data
+        #return Response(request.DATA, status.HTTP_200_OK)
+        return request.DATA
 
     def get_queryset(self):
         course_pk = self.request.QUERY_PARAMS.get('course', None)
