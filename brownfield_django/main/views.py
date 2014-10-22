@@ -119,7 +119,7 @@ class StudentViewSet(viewsets.ModelViewSet):
                                                  profile_type='ST')
         new_profile.save()
         studentserializer = StudentMUserSerializer(student)
-        print studentserializer.errors # No input provided?
+        # print studentserializer.errors  # No input provided?
         return Response(studentserializer.data, status.HTTP_200_OK)
 
     def update(self, request, pk=None):
@@ -205,9 +205,10 @@ class AdminTeamView(APIView):
                 return Response(serializer.data,
                                 status=status.HTTP_201_CREATED)
             except:
-                print 'could not find user'
+                pass
+                # print 'could not find user'
         else:
-            print "passwords do not match"
+            # print "passwords do not match"
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
@@ -315,7 +316,7 @@ class ActivateCourseView(JSONResponseMixin, View):
 
     def send_student_email(self, student):
         template = loader.get_template(
-            'main/ccnmtl/course_activation/student_activation_notice.txt')
+            'main/ccnmtl/course_dash/student_activation_notice.txt')
         subject = "Welcome to Brownfield!"
         ctx = Context({'student': student, 'team': student.profile.team})
         message = template.render(ctx)
@@ -338,30 +339,26 @@ class ActivateCourseView(JSONResponseMixin, View):
         return self.render_to_json_response({'success': 'true'})
 
 
-class CreateTeamsView(DetailView):
-    """
-    Until I figure out nested views in Backbone or some Backbone plug-in...
-    Having one page with drop downs to add students to teams
-    """
-    model = Course
-    template_name = 'main/ccnmtl/course_activation/create_teams.html'
-    success_url = '/'
-
-    def get_context_data(self, **kwargs):
-        context = super(CreateTeamsView, self).get_context_data(**kwargs)
-        context['team_list'] = self.object.get_teams()
-        context['student_list'] = User.objects.filter(
-            profile__in=self.object.get_students())
-        return context
-
-
-class EditCourseTeamsView(View):
+class EditTeamsView(View):
 
     def get(self, request, pk):
+        template = loader.get_template(
+            'main/ccnmtl/course_dash/team_form.html')
         course = Course.objects.get(pk=pk)
-        course.active = False
-        url = '../../create_teams/' + str(course.pk) + '/'
-        return HttpResponseRedirect(url)
+        ctx = Context({'object': course})
+        edit_template = template.render(ctx)
+        return HttpResponse(edit_template)
+
+
+class ShowTeamsView(View):
+
+    def get(self, request, pk):
+        template = loader.get_template(
+            'main/ccnmtl/course_dash/team_table.html')
+        course = Course.objects.get(pk=pk)
+        ctx = Context({'object': course})
+        edit_template = template.render(ctx)
+        return HttpResponse(edit_template)
 
 
 class CCNMTLHomeView(DetailView):
@@ -381,21 +378,6 @@ class CCNMTLCourseDetail(DetailView):
     model = Course
     template_name = 'main/ccnmtl/course_dash/course_home.html'
     success_url = '/'
-
-
-class CCNMTLViewTeamsDetail(DetailView):
-
-    model = Course
-    template_name = 'main/ccnmtl/course_activation/teams.html'
-    success_url = '/'
-
-#     def get_context_data(self, **kwargs):
-#         context = super(CreateTeamsView, self).get_context_data(**kwargs)
-#         context['team_list'] = User.objects.filter(
-#             profile__in=self.object.get_teams())
-#         context['student_list'] = User.objects.filter(
-#             profile__in=self.object.get_students())
-#         return context
 
 
 '''Beginning of Team Views'''

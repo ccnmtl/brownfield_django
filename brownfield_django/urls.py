@@ -10,10 +10,8 @@ from rest_framework import routers
 from brownfield_django.main.views import CourseViewSet, UserViewSet, \
     DocumentViewSet, StudentViewSet
 from brownfield_django.main.views import DetailJSONCourseView, \
-    HomeView, \
-    ActivateCourseView, EditCourseTeamsView, \
-    AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
-    TeamHomeView, CreateTeamsView, CCNMTLViewTeamsDetail
+    HomeView, AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
+    TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView
 
 
 admin.autodiscover()
@@ -58,19 +56,17 @@ urlpatterns = patterns(
                                namespace='rest_framework')),
     (r'^$', HomeView.as_view()),
     (r'^ccnmtl/home/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
-    (r'^edit_course_teams/(?P<pk>\d+)/$', EditCourseTeamsView.as_view()),
     (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
     (r'^team/$', AdminTeamView.as_view()),
     (r'^team/(?P<pk>\d+)/$', AdminTeamView.as_view()),
     (r'^course_details/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
-    (r'^create_teams/(?P<pk>\d+)/$', CreateTeamsView.as_view()),
     (r'^activate_course/(?P<pk>\d+)$', ActivateCourseView.as_view()),
+    (r'^edit_teams/(?P<pk>\d+)/$', EditTeamsView.as_view()),
+    (r'^show_teams/(?P<pk>\d+)/$', ShowTeamsView.as_view()),
     # need to figure out url for students that doesn't not conflict with
     # dashboard urls
     # Teacher and Admin Views  CreateTeamsView
     (r'^update_course/(?P<pk>\d+)$', DetailJSONCourseView.as_view()),
-    # (r'^activate_course/(?P<pk>\d+)/$', ActivateCourseView.as_view()),
-    (r'^current_teams/(?P<pk>\d+)/$', CCNMTLViewTeamsDetail.as_view()),
     # student/team views
     # Demo View
     (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),

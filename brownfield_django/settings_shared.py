@@ -154,8 +154,11 @@ STATSD_HOST = '127.0.0.1'
 STATSD_PORT = 8125
 
 THUMBNAIL_SUBDIR = "thumbs"
-EMAIL_SUBJECT_PREFIX = "[brownfield_django] "
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+
+EMAIL_SUBJECT_PREFIX = "[brownfield_django] "
 SERVER_EMAIL = "brownfield_django@ccnmtl.columbia.edu"
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
