@@ -132,6 +132,11 @@ class StudentViewSet(viewsets.ModelViewSet):
         serializer = StudentUserSerializer(data=request.DATA)
         return Response(serializer.data, status.HTTP_200_OK)
 
+    def destroy(self, request, pk=None):
+        print "inside delete"
+        obj = get_object_or_404(self.queryset, pk=pk)
+        print obj
+
     def get_queryset(self):
         course_pk = self.request.QUERY_PARAMS.get('course', None)
         if course_pk is not None:
