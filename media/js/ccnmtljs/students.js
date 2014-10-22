@@ -68,7 +68,19 @@ var StudentView = Backbone.View.extend({
   		this.model.set('first_name', jQuery(this.el).find("input.edt-frst-name").val());
   		this.model.set('last_name', jQuery(this.el).find("input.edt-last-name").val());
   		this.model.set('email', jQuery(this.el).find("input.edt-email").val());
-   		this.model.save();
+   		this.model.save(
+//	        //wait: true,
+//	        null,
+//	        {
+//	            success: function (model, response) {
+//	                console.log("success");
+//	            },
+//	            error: function (model, response)
+//	            {
+//	                console.log("error");
+//	            }
+	//        }
+    );
     },
     
    	removeStudent: function()

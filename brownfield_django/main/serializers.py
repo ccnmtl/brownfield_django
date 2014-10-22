@@ -40,6 +40,13 @@ class StudentUserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'url', 'first_name', 'last_name', 'email')
 
 
+class StudentMUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'email')
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
     courses = serializers.PrimaryKeyRelatedField(many=True)
 

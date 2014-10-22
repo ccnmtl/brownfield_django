@@ -36,8 +36,6 @@
         <button class='btn btn-xs save-edit-student'> Save Changes </button>  <br />
     </form>
     </script>
-
-
 {% endblock %}
 
 {% block content %}
@@ -45,23 +43,14 @@
 
   <ul class="nav nav-tabs instructor-nav">
     <li class="active"><a href="#course-documents" data-toggle="tab">Course Info</a></li>
-    {% if not object.active %}
     <li><a href="#course-team-students" data-toggle="tab">Teams and Students</a></li>
-    {% endif %}
-    {% if object.active %}
     <li><a href="#course-active-teams" data-toggle="tab">View Teams</a></li>
-    {% endif %}
   </ul>
  
   <div class="instructor tab-content">
     {% include "main/ccnmtl/course_dash/course_detail_tab.html" %}
-    {% if not object.active %}
     {% include "main/ccnmtl/course_dash/student_team_tab.html" %}
-    {% endif %}
-    
-    {% if object.active %}
     {% include "main/ccnmtl/course_dash/active_teams_tab.html" %}
-    {% endif %}
   </div>
 {% comment %}{% endcomment %}
 {% endblock %}

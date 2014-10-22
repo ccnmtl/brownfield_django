@@ -22,7 +22,7 @@ from rest_framework.views import APIView
 from brownfield_django.main.models import Course, UserProfile, Document, Team
 from brownfield_django.main.serializers import DocumentSerializer, \
     UserSerializer, TeamNameSerializer, CourseSerializer, \
-    StudentUserSerializer, TeamSerializer
+    StudentUserSerializer, TeamSerializer, StudentMUserSerializer
 
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
@@ -118,12 +118,9 @@ class StudentViewSet(viewsets.ModelViewSet):
                                                  user=student,
                                                  profile_type='ST')
         new_profile.save()
-        #queryset = self.get_queryset()
-        #obj = get_object_or_404(queryset, **filter)
-        new_student = {'first_name': student.first_name,
-                       'last_name': student.last_name,
-                       'email': student.email}
-        return Response(new_student, status.HTTP_200_OK)
+        studentserializer = StudentMUserSerializer(student)
+        print studentserializer.errors # No input provided?
+        return Response(studentserializer.data, status.HTTP_200_OK)
 
     def update(self, request, pk=None):
         student = User.objects.get(pk=pk)
@@ -132,15 +129,10 @@ class StudentViewSet(viewsets.ModelViewSet):
         student.email = request.DATA['email']
         student.save()
         '''This is completely wrong... will play around with later.'''
-        #obj = self.queryset.filter(pk=pk)
-        #print student.serializable_value
-        #print dir(student.serializable_value)
-        #serializer = StudentUserSerializer(data=student)
         new_student = {'first_name': student.first_name,
                        'last_name': student.last_name,
                        'email': student.email}
         return Response(new_student, status.HTTP_200_OK)
-        #return Response(serializer.data, status.HTTP_200_OK)
 
     def destroy(self, request, pk=None):
         student = User.objects.get(pk=pk)
@@ -182,7 +174,6 @@ class AdminTeamView(APIView):
             teamprofiles = course.get_teams()
             teams = User.objects.filter(team__in=teamprofiles)
             serializer = TeamSerializer(teams, many=True)
-            print serializer.data
             return Response(serializer.data)
         except:
             '''Assume collection is currently empty'''
@@ -221,7 +212,6 @@ class AdminTeamView(APIView):
                             status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk=None):
-        print "Inside delete"
         team = User.objects.get(pk=pk)
         team.delete()
         return Response(status.HTTP_200_OK)
