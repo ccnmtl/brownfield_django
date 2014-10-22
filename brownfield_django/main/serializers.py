@@ -67,6 +67,11 @@ class NewTeamSerializer(serializers.Serializer):
     # budget = serializers.IntField(required=False)
 
 
+class OtherUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('first_name',  'last_name', 'email')
+
 class CourseTeamSerializer(serializers.ModelSerializer):
     teams = serializers.RelatedField(many=True)
 
