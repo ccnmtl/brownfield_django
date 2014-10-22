@@ -220,8 +220,8 @@ class AdminTeamView(APIView):
 
     def delete(self, request, pk=None):
         print "Inside delete"
-        student = User.objects.get(pk=pk)
-        student.delete()
+        team = User.objects.get(pk=pk)
+        team.delete()
         return Response(status.HTTP_200_OK)
 
 
