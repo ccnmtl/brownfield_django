@@ -98,8 +98,8 @@ class DocumentViewSet(viewsets.ModelViewSet):
 
 
 class StudentViewSet(viewsets.ModelViewSet):
-    '''Redoing Student Ajax handling the correct way
-    with a model viewset.'''
+    '''Attempting to redo Student Ajax handling
+    the correct way with a model viewset - still very wrong.'''
     queryset = User.objects.filter(profile__profile_type='ST')
     serializer_class = StudentUserSerializer
 
@@ -117,10 +117,12 @@ class StudentViewSet(viewsets.ModelViewSet):
                                                  user=student,
                                                  profile_type='ST')
         new_profile.save()
-        # queryset = self.get_queryset()
-        #print queryset
-        # obj = get_object_or_404(queryset, **filter)
-        return Response(request.DATA, status.HTTP_200_OK)
+        #queryset = self.get_queryset()
+        #obj = get_object_or_404(queryset, **filter)
+        new_student = {'first_name': student.first_name,
+                       'last_name': student.last_name,
+                       'email': student.email}
+        return Response(new_student, status.HTTP_200_OK)
 
     def update(self, request, pk=None):
         student = User.objects.get(pk=pk)
@@ -129,8 +131,20 @@ class StudentViewSet(viewsets.ModelViewSet):
         student.email = request.DATA['email']
         student.save()
         '''This is completely wrong... will play around with later.'''
-        serializer = StudentUserSerializer(data=request.DATA)
-        return Response(serializer.data, status.HTTP_200_OK)
+        #obj = self.queryset.filter(pk=pk)
+        #print student.serializable_value
+        #print dir(student.serializable_value)
+        #serializer = StudentUserSerializer(data=student)
+        new_student = {'first_name': student.first_name,
+                       'last_name': student.last_name,
+                       'email': student.email}
+        return Response(new_student, status.HTTP_200_OK)
+        #return Response(serializer.data, status.HTTP_200_OK)
+
+    def destroy(self, request, pk=None):
+        student = User.objects.get(pk=pk)
+        student.delete()
+        return Response(status.HTTP_200_OK)
 
     def destroy(self, request, pk=None):
         print "inside delete"
@@ -208,6 +222,12 @@ class AdminTeamView(APIView):
             print "passwords do not match"
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk=None):
+        print "Inside delete"
+        student = User.objects.get(pk=pk)
+        student.delete()
+        return Response(status.HTTP_200_OK)
 
 
 class HomeView(LoggedInMixin, View):
