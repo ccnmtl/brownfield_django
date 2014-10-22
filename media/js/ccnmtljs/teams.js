@@ -1,31 +1,33 @@
-//creating team model
-// for adding teams to course
 var Team = Backbone.Model.extend({
 	
-	    defaults: function() {
-		          return {
-		              username: "Team Name",
-		              password1: "password1",
-		              password2: "password2",
-		          }
-		      },
-		  
-		      initialize: function(attributes) 
-		          {   
-		        username = attributes.username || '<EMPTY>';
-		         password1 = '<EMPTY>';
-		          password2 = '<EMPTY>';
+	   urlRoot: '/team/',
+	   url: function() {
+	       var url = this.urlRoot;
+	       if (this.get('id') !== undefined) {
+	           url += this.get('id') + '/';
 	       }
+	       return url;
+	   }
 	
 });
 
 var TeamCollection = Backbone.Collection.extend({
-    model: Team,
-	headers: {"content-type": "application/json"},
-	urlRoot: '/team/',
-	url: function() {
-	    return this.urlRoot + this.course_id;
-	}
+	
+	 model: Team,
+	 urlRoot: '/team/',
+	 headers: {"content-type": "application/json"},
+	 url: function() {
+	     var url = this.urlRoot;
+	     if (this.course) {
+	         url += this.course + '/';
+	     }
+	     return url
+	 },
+	 initialize : function(options){
+	     if (options && 'course' in options) {
+	         this.course = options.course;
+	     }
+	 }
 });
 //End of Modes/Collections
 
@@ -69,13 +71,11 @@ var TeamListView = Backbone.View.extend({
 
     initialize: function (options)
     {
-    	_.bindAll(this,
-    			 'initialRender');
-    	this.course_teams = new TeamCollection();
-    	this.course_teams.course_id = options.course_id;
-    	
+    	_.bindAll(this, 'initialRender', 'addTeam');
+    	this.course_teams = new TeamCollection(options);
     	this.course_teams.fetch({processData: true, reset: true});
     	this.course_teams.on('reset', this.initialRender);
+    	this.course_teams.on('add', this.addTeam);
 	},
 
 	initialRender: function() {
@@ -86,6 +86,12 @@ var TeamListView = Backbone.View.extend({
         }, this);
 
         return this;
+    },
+
+    addTeam: function(model, collection, options) {
+        this.$el.append(new TeamView({
+            model: model
+        }).render().el);
     }
     
 });// End TeamListView    
@@ -103,7 +109,8 @@ var TeamControlView = Backbone.View.extend({
     initialize: function (options) {
         this.team_collection_view = new TeamListView({
             el: jQuery('.team-list'),
-            course_id: options.course_id});
+            course: options.course
+        });
     },
 
     showTeamForm: function() {
@@ -114,25 +121,31 @@ var TeamControlView = Backbone.View.extend({
     },
 
     addTeam: function(team) {
-    	
+    	team.preventDefault();
     	this.team_collection_view.course_teams.create(
     	{
     		username : jQuery(".team-name").val(),
     		password1 : jQuery(".team-pswd-1").val(),
     		password2 : jQuery(".team-pswd-2").val(),
-    	});
+    	},
+	    {
+	        wait: true,
+	    	url: this.team_collection_view.course_teams.url()
+	    }
+    	);
 
 	    jQuery(".add-team-frm-title").hide();
 	    jQuery(".add-team-frm").hide();
 	    jQuery(".add-team-btn").show();
+	    return false;
     }
     
 });// End TeamControlView  
 
 jQuery(document).ready(function () {
-    var crs_id = jQuery("input[name='crs-id']").val();
+    var course = jQuery("input[name='crs-id']").val();
     var team_control_view = new TeamControlView({
         el: jQuery('.team_controls'),
-        course_id: crs_id
+        course: course
     });
 });

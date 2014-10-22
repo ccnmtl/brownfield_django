@@ -89,7 +89,6 @@ var StudentListView = Backbone.View.extend({
     	_.bindAll(this, 'initialRender', 'addStudent');
     	this.course_students = new StudentCollection(options);
     	this.course_students.fetch({processData: true, reset: true});
-    	//this.course_students.on('change', this.initialRender);
     	this.course_students.on('reset', this.initialRender);
     	this.course_students.on('add', this.addStudent);
 	},	

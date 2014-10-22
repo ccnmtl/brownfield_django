@@ -61,7 +61,7 @@ urlpatterns = patterns(
     (r'^edit_course_teams/(?P<pk>\d+)/$', EditCourseTeamsView.as_view()),
     (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
     (r'^team/$', AdminTeamView.as_view()),
-    (r'^team/(?P<pk>\d+)$', AdminTeamView.as_view()),
+    (r'^team/(?P<pk>\d+)/$', AdminTeamView.as_view()),
     (r'^course_details/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
     (r'^create_teams/(?P<pk>\d+)/$', CreateTeamsView.as_view()),
     (r'^activate_course/(?P<pk>\d+)$', ActivateCourseView.as_view()),

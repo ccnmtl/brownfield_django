@@ -54,10 +54,18 @@ class CreateTeamSerializer(serializers.ModelSerializer):
         fields = ('username', 'password1', 'password2')
 
 
-class TeamSerializer(serializers.ModelSerializer):
+class CompleteTeamSerializer(serializers.ModelSerializer):
+    user = serializers.RelatedField()
+
     class Meta:
         model = UserProfile
-        fields = ('signed_contract', 'budget')
+        fields = ('id', 'user', 'signed_contract', 'budget', 'team_passwd')
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username')
 
 
 class NewTeamSerializer(serializers.Serializer):
