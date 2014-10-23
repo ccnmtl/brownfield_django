@@ -11,7 +11,8 @@ from brownfield_django.main.views import CourseViewSet, UserViewSet, \
     DocumentViewSet, StudentViewSet
 from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
-    TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView
+    TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView, \
+    BrownfieldInfoView, BrownfieldHistoryView, BrownfieldTestView
 
 
 admin.autodiscover()
@@ -67,9 +68,10 @@ urlpatterns = patterns(
     # Demo View
     (r'^demo/play$', TemplateView.as_view(
         template_name="main/flvplayer.html")),
-    (r'^demo/info/$', "brownfield_django.main.views.get_demo_info"),
-    (r'^demo/history/', "brownfield_django.main.views.get_demo"),
-    (r'^demo/test/$', "brownfield_django.main.views.get_demo_test"),
+    (r'^demo/info/$', BrownfieldInfoView.as_view()),
+    # "brownfield_django.main.views.get_demo_info"),
+    (r'^demo/history/', BrownfieldHistoryView.as_view()),
+    (r'^demo/test/$', BrownfieldTestView.as_view()),
     (r'^demo/save/$', "brownfield_django.main.views.demo_save"),
     (r'^site_history/$', TemplateView.as_view(
         template_name="interactive/site_history.html")),

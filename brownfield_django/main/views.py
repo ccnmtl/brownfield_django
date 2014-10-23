@@ -14,7 +14,6 @@ from rest_framework import status, viewsets
 from rest_framework.authentication import SessionAuthentication, \
     BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.renderers import XMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -24,8 +23,7 @@ from brownfield_django.main.serializers import DocumentSerializer, \
     StudentUserSerializer, TeamSerializer, StudentMUserSerializer
 
 from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
-from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
-    XMLResponseMixin
+from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -405,57 +403,96 @@ class TeamHomeView(DetailView):
 flash to run'''
 
 
-class BrownfieldDemoView(XMLResponseMixin, View):
-    '''Initial view/controller uses templates play, bfaxml
-    think like in ssnm it has one page and a second call to the flash app
-    base template: play
-    over template bfaxml
-
-    Added xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:py="http://purl.org/kid/ns#"
-    to html header - not sure if I need it
-    '''
-    template_name = 'main/flvplayer.html'
-    success_url = '/'
+class BrownfieldInitialView(View):
 
     def get(self, request):
-        print "inside get"
-        # print type(DEMO_XML)
-        # print type(self.render_to_xml_response(DEMO_XML))
-        # return self.render_to_xml_response(DEMO_XML)
-        # return render(request, 'main/flvplayer.html',
-        # content_type="application/xhtml+xml")
-        return render(request, 'main/flvplayer.html')
+        if request.user.profile.is_admin():
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_teacher():
+            '''This may need to be changed...'''
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_team():
+            '''Get appropriate team record'''
+            return HttpResponse(INITIAL_XML)
+
+    def post(self, request):
+        if request.user.profile.is_admin():
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_teacher():
+            '''This may need to be changed...'''
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_team():
+            '''Get appropriate team record'''
+            return HttpResponse(INITIAL_XML)
 
 
-class DemoHomeView(JSONResponseMixin, View):
-    '''Again I'm just using this view to get the Flash working,
-    no permissions or users'''
-    pass
-#     def get(self, request, *args, **kwargs):  # , *args, **kwargs):
-#         print request.GET
-#         country_id = kwargs.pop('country_id', None)
-#         country = get_object_or_404(Country, name=country_id)
-#
-#         schools = []
-#         for school in School.objects.filter(country=country):
-#             schools.append({'id': str(school.id), 'name': school.name})
-#
-#         return self.render_to_json_response({'schools': schools})
+class BrownfieldInfoView(View):
+    '''Corresponds to "demo/info/"'''
+    def get(self, request):
+        if request.user.profile.is_admin():
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_teacher():
+            '''This may need to be changed...'''
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_team():
+            '''Get appropriate team record'''
+            return HttpResponse(INITIAL_XML)
+
+    def post(self, request):
+        if request.user.profile.is_admin():
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_teacher():
+            '''This may need to be changed...'''
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_team():
+            '''Get appropriate team record'''
+            return HttpResponse(INITIAL_XML)
 
 
-class DemoHistoryView(APIView):
-    """
-    A view that returns the XML.
-    """
-    renderer_classes = (XMLRenderer)
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
+class BrownfieldHistoryView(View):
 
-    def get(self, request, format=None):
-        print "inside demo history get"
-        content = {'demo': DEMO_XML}
-        return Response(content)
+    def get(self, request):
+        if request.user.profile.is_admin():
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_teacher():
+            '''This may need to be changed...'''
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_team():
+            '''Get appropriate team record'''
+            return HttpResponse(INITIAL_XML)
+
+    def post(self, request):
+        if request.user.profile.is_admin():
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_teacher():
+            '''This may need to be changed...'''
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_team():
+            '''Get appropriate team record'''
+            return HttpResponse(INITIAL_XML)
+
+
+class BrownfieldTestView(View):
+
+    def get(self, request):
+        if request.user.profile.is_admin():
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_teacher():
+            '''This may need to be changed...'''
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_team():
+            '''Get appropriate team record'''
+            return HttpResponse(INITIAL_XML)
+
+    def post(self, request):
+        if request.user.profile.is_admin():
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_teacher():
+            '''This may need to be changed...'''
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_team():
+            '''Get appropriate team record'''
+            return HttpResponse(INITIAL_XML)
 
 
 def get_demo(request):
@@ -463,7 +500,7 @@ def get_demo(request):
         # print "inside get"
         return HttpResponse(INITIAL_XML)
 
-    if request.method == "POSTT":
+    if request.method == "POST":
         print "demo response"
         return HttpResponse(DEMO_XML)
     # return render(request, 'main/flvplayer.html', {'demo': DEMO_XML},
