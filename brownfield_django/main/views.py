@@ -1,6 +1,6 @@
 import json
 
-from xml.dom.minidom import parseString
+# from xml.dom.minidom import parseString
 
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -411,7 +411,7 @@ flash to run'''
 
 class BrownfieldInitialView(View):
     pass
-# 
+#
 #     def get(self, request):
 #         if request.user.profile.is_admin():
 #             return HttpResponse(INITIAL_XML)
@@ -421,7 +421,7 @@ class BrownfieldInitialView(View):
 #         elif request.user.profile.is_team():
 #             '''Get appropriate team record'''
 #             return HttpResponse(INITIAL_XML)
-# 
+#
 #     def post(self, request):
 #         if request.user.profile.is_admin():
 #             return HttpResponse(INITIAL_XML)
@@ -459,10 +459,10 @@ class BrownfieldInfoView(View):
 # dom = parseString(post)
 #     action = dom.getElementsByTagName("action")[0].firstChild.toxml()
 #     ecomap = Ecomap.objects.get(pk=map_id)
-# 
+#
 #     if action == "load":
 #         return HttpResponse(ecomap.ecomap_xml)  # return saved xml
-# 
+#
 #     if action == "save":
 #         name = dom.getElementsByTagName("name")[0].toxml()
 #         flash_data = dom.getElementsByTagName("flashData")[0].toxml()
@@ -471,8 +471,6 @@ class BrownfieldInfoView(View):
 #         ecomap.ecomap_xml = map_to_save
 #         ecomap.save()
 #         return HttpResponse("<data><response>OK</response></data>")
-
-
 
 
 class BrownfieldHistoryView(View):
