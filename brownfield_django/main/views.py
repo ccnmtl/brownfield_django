@@ -10,7 +10,6 @@ from django.template.context import Context
 from django.views.generic import View
 from django.views.generic.detail import DetailView
 
-
 from rest_framework import status, viewsets
 from rest_framework.authentication import SessionAuthentication, \
     BasicAuthentication
@@ -73,8 +72,6 @@ class DocumentViewSet(viewsets.ModelViewSet):
     serializer_class = DocumentSerializer
 
     def update(self, request, pk=None):
-        '''Apparently the Serializer classes need
-        to be passed a request to be valid'''
         document = Document.objects.get(id=pk)
         if document.visible is True:
             document.visible = False
@@ -92,8 +89,6 @@ class DocumentViewSet(viewsets.ModelViewSet):
         if course_pk is not None:
             queryset = Document.objects.filter(course__pk=course_pk)
         else:
-            '''Appears this is not called if update is...
-            Return nothing if no course or doc is specified.'''
             queryset = Document.objects.none()
         return queryset
 
@@ -119,25 +114,20 @@ class StudentViewSet(viewsets.ModelViewSet):
                                                  profile_type='ST')
         new_profile.save()
         studentserializer = StudentMUserSerializer(student)
-        # print studentserializer.errors  # No input provided?
         return Response(studentserializer.data, status.HTTP_200_OK)
 
     def update(self, request, pk=None):
-        #print request.DATA
         student = User.objects.get(pk=pk)
         student.first_name = request.DATA['first_name']
         student.last_name = request.DATA['last_name']
         student.email = request.DATA['email']
         student.save()
-        # print StudentUserSerializer(data={'first_name': student.first_name,
-        #                              'last_name': student.last_name,
-        #                              'email': student.email}).is_valid()
-        studentserializer =  StudentUserSerializer(
-                data=request.DATA)
+        studentserializer = StudentUserSerializer(
+            data=request.DATA)
         if studentserializer.is_valid():
-            return Response(studentserialize.data, status.HTTP_200_OK)
+            return Response(studentserializer.data, status.HTTP_200_OK)
         elif studentserializer.is_valid() is False:
-            return Response(studentserialize.errors,
+            return Response(studentserializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
@@ -469,10 +459,13 @@ class DemoHistoryView(APIView):
 
 
 def get_demo(request):
-    print "get demo"
-    print HttpResponse(INITIAL_XML, mime_type='application/xml')
-    return HttpResponse(INITIAL_XML, content_type="application/xhtml+xml")
+    if request.method == "GET":
+        # print "inside get"
+        return HttpResponse(INITIAL_XML)
 
+    if request.method == "POSTT":
+        print "demo response"
+        return HttpResponse(DEMO_XML)
     # return render(request, 'main/flvplayer.html', {'demo': DEMO_XML},
     # content_type="application/xhtml+xml")
 #    return render(request, 'main/flvplayer.html',

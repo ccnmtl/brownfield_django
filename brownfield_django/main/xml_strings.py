@@ -76,7 +76,6 @@ INITIAL_XML = """<bfaxml>
     </budget>
     </bfaxml>"""
 
-
 INFO_TEST = """
         <information>
             <info type="doc" name="policeReport" />

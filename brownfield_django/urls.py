@@ -63,29 +63,14 @@ urlpatterns = patterns(
     (r'^activate_course/(?P<pk>\d+)$', ActivateCourseView.as_view()),
     (r'^edit_teams/(?P<pk>\d+)/$', EditTeamsView.as_view()),
     (r'^show_teams/(?P<pk>\d+)/$', ShowTeamsView.as_view()),
-    # need to figure out url for students that doesn't not conflict with
-    # dashboard urls
-    # Teacher and Admin Views  CreateTeamsView
     (r'^update_course/(?P<pk>\d+)$', DetailJSONCourseView.as_view()),
-    # student/team views
     # Demo View
-    (r'^demo/$', TemplateView.as_view(template_name="main/demo.html")),
     (r'^demo/play$', TemplateView.as_view(
         template_name="main/flvplayer.html")),
-    (r'^media/history/$', "brownfield_django.main.views.get_demo"),
-    (r'^demo/media/flash/$', "brownfield_django.main.views.get_bfa"),
-    # ([0-9]{15}\.[0-9]{15})
-    # ([0-9]+) should it be ?cachebuster=(([0-9]+)(.?)([0-9]+))$ instead?
-    # almost? url(r'^media/history/?cachebuster=(?\d+.?\d*)$',
-    # DemoHomeView.as_view()),
-    # url(r'^media/history/?cachebuster=(/d*.?d*/)$', DemoHomeView.as_view()),
     (r'^demo/info/$', "brownfield_django.main.views.get_demo_info"),
+    (r'^demo/history/', "brownfield_django.main.views.get_demo"),
     (r'^demo/test/$', "brownfield_django.main.views.get_demo_test"),
     (r'^demo/save/$', "brownfield_django.main.views.demo_save"),
-    (r'^visrecon/$', TemplateView.as_view(
-        template_name="interactive/visrecon.html")),
-    (r'^demo/$', TemplateView.as_view(
-        template_name="interactive/demo_layout.html")),
     (r'^site_history/$', TemplateView.as_view(
         template_name="interactive/site_history.html")),
     (r'^admin/', include(admin.site.urls)),
