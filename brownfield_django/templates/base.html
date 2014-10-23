@@ -14,11 +14,11 @@
   <script src="../assets/js/respond.min.js"></script>
 <![endif]-->
 
-{% comment %}{% compress css %}{% endcomment %}
+{% compress css %}{% comment %}{% endcomment %}
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap-glyphicons.css" rel="stylesheet">
     <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
-{% comment %}{% endcompress %}{% endcomment %}
+{% endcompress %}{% comment %}{% endcomment %}
 	<link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.ico" type="image/x-icon" />
 	{% block css %}{% endblock %}
     <script type="text/javascript" src="{{STATIC_URL}}js/libraries/jquery-1.11.1.min.js"></script>

@@ -1,10 +1,13 @@
 import json
+
+from xml.dom.minidom import parseString
+
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.http.response import HttpResponseForbidden
 from django.shortcuts import render
-# from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.template import loader
 from django.template.context import Context
 from django.views.generic import View
@@ -98,34 +101,38 @@ class StudentViewSet(viewsets.ModelViewSet):
     serializer_class = StudentUserSerializer
 
     def create(self, request):
-        key = self.request.QUERY_PARAMS.get('course', None)
-        course = Course.objects.get(pk=key)
-        username = str(request.DATA['first_name']) + \
-            str(request.DATA['last_name'])
-        student = User.objects.create_user(
-            username=username,
-            first_name=request.DATA['first_name'],
-            last_name=request.DATA['last_name'],
-            email=request.DATA['email'])
-        new_profile = UserProfile.objects.create(course=course,
-                                                 user=student,
-                                                 profile_type='ST')
-        new_profile.save()
-        studentserializer = StudentMUserSerializer(student)
-        return Response(studentserializer.data, status.HTTP_200_OK)
+        try:
+            key = self.request.QUERY_PARAMS.get('course', None)
+            course = Course.objects.get(pk=key)
+            username = str(request.DATA['first_name']) + \
+                str(request.DATA['last_name'])
+            student = User.objects.create_user(
+                username=username,
+                first_name=request.DATA['first_name'],
+                last_name=request.DATA['last_name'],
+                email=request.DATA['email'])
+            new_profile = UserProfile.objects.create(course=course,
+                                                     user=student,
+                                                     profile_type='ST')
+            new_profile.save()
+            serializer = StudentMUserSerializer(student)
+            return Response(serializer.data, status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
-        student = User.objects.get(pk=pk)
+        student = get_object_or_404(User, pk=pk)
+        #.objects.get(pk=pk)
         student.first_name = request.DATA['first_name']
         student.last_name = request.DATA['last_name']
         student.email = request.DATA['email']
         student.save()
-        studentserializer = StudentUserSerializer(
+        serializer = StudentUserSerializer(
             data=request.DATA)
-        if studentserializer.is_valid():
-            return Response(studentserializer.data, status.HTTP_200_OK)
-        elif studentserializer.is_valid() is False:
-            return Response(studentserializer.errors,
+        if serializer.is_valid():
+            return Response(serializer.data, status.HTTP_200_OK)
+        elif serializer.is_valid() is False:
+            return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
@@ -225,7 +232,6 @@ class HomeView(LoggedInMixin, View):
             url = '/ccnmtl/home/%s/' % (user_profile.id)
         if user_profile.is_admin():
             url = '/ccnmtl/home/%s/' % (user_profile.id)
-
         return HttpResponseRedirect(url)
 
 
@@ -404,33 +410,34 @@ flash to run'''
 
 
 class BrownfieldInitialView(View):
-
-    def get(self, request):
-        if request.user.profile.is_admin():
-            return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_teacher():
-            '''This may need to be changed...'''
-            return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_team():
-            '''Get appropriate team record'''
-            return HttpResponse(INITIAL_XML)
-
-    def post(self, request):
-        if request.user.profile.is_admin():
-            return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_teacher():
-            '''This may need to be changed...'''
-            return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_team():
-            '''Get appropriate team record'''
-            return HttpResponse(INITIAL_XML)
+    pass
+# 
+#     def get(self, request):
+#         if request.user.profile.is_admin():
+#             return HttpResponse(INITIAL_XML)
+#         elif request.user.profile.is_teacher():
+#             '''This may need to be changed...'''
+#             return HttpResponse(INITIAL_XML)
+#         elif request.user.profile.is_team():
+#             '''Get appropriate team record'''
+#             return HttpResponse(INITIAL_XML)
+# 
+#     def post(self, request):
+#         if request.user.profile.is_admin():
+#             return HttpResponse(INITIAL_XML)
+#         elif request.user.profile.is_teacher():
+#             '''This may need to be changed...'''
+#             return HttpResponse(INITIAL_XML)
+#         elif request.user.profile.is_team():
+#             '''Get appropriate team record'''
+#             return HttpResponse(INITIAL_XML)
 
 
 class BrownfieldInfoView(View):
     '''Corresponds to "demo/info/"'''
     def get(self, request):
         if request.user.profile.is_admin():
-            return HttpResponse(INITIAL_XML)
+            return HttpResponse("<data><response>OK</response></data>")
         elif request.user.profile.is_teacher():
             '''This may need to be changed...'''
             return HttpResponse(INITIAL_XML)
@@ -440,13 +447,32 @@ class BrownfieldInfoView(View):
 
     def post(self, request):
         if request.user.profile.is_admin():
-            return HttpResponse(INITIAL_XML)
+            return HttpResponse("<data><response>OK</response></data>")
         elif request.user.profile.is_teacher():
             '''This may need to be changed...'''
             return HttpResponse(INITIAL_XML)
         elif request.user.profile.is_team():
             '''Get appropriate team record'''
             return HttpResponse(INITIAL_XML)
+
+
+# dom = parseString(post)
+#     action = dom.getElementsByTagName("action")[0].firstChild.toxml()
+#     ecomap = Ecomap.objects.get(pk=map_id)
+# 
+#     if action == "load":
+#         return HttpResponse(ecomap.ecomap_xml)  # return saved xml
+# 
+#     if action == "save":
+#         name = dom.getElementsByTagName("name")[0].toxml()
+#         flash_data = dom.getElementsByTagName("flashData")[0].toxml()
+#         map_to_save = ("<data><response>OK</response><isreadonly>false"
+#                        "</isreadonly>%s%s</data>" % (name, flash_data))
+#         ecomap.ecomap_xml = map_to_save
+#         ecomap.save()
+#         return HttpResponse("<data><response>OK</response></data>")
+
+
 
 
 class BrownfieldHistoryView(View):
