@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block js %}
+    {% comment %}List Templates{% endcomment %}
     <script type="text/template" id="document-list-template">
         [<%= name %>]
         <%= link %><br />
@@ -25,8 +26,33 @@
         <button class='btn btn-xs rm-st'> Remove Student From Course </button>  <space><space><br />
     </script>
 
+    <script type="text/template" id="student-list-template">
+        [<%= first_name %>] <space><space>
+        [<%= last_name %>] <space><space>
+        Email: [<%= email %>]
+        <button class='btn btn-xs ed-st'> Edit Student </button>  <space><space>
+        <button class='btn btn-xs rm-st'> Remove Student From Course </button>  <space><space><br />
+    </script>
+
+
+    {% comment %}Edit Templates{% endcomment %}
     <script type="text/template" id="student-edit-template">
     <form class="edit-student-frm" method="" action="" style="display: inline;">{% csrf_token %}
+        <meta name="csrf-token" content="{% csrf_token %}">
+        <label>First Name: </label>
+        <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> <space><space>
+        <label>Last Name: </label>
+        <input type="text" placeholder="Last Name: " class="edt-last-name" value="<%= last_name %>" /> <space><space>
+        <label>Email: </label>
+        <input type="text" placeholder="Email: " class="edt-email" value="<%= email %>" />
+        <button class='btn btn-xs save-edit-student'> Save Changes </button>  <br />
+    </form>
+    </script>
+    
+    
+    {% comment %}Create Teamplates{% endcomment %}
+    <script type="text/template" id="student-create-template">
+    <form class="create-student-frm" method="" action="" style="display: inline;">{% csrf_token %}
         <meta name="csrf-token" content="{% csrf_token %}">
         <label>First Name: </label>
         <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> <space><space>

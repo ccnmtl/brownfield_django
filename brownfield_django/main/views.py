@@ -123,16 +123,22 @@ class StudentViewSet(viewsets.ModelViewSet):
         return Response(studentserializer.data, status.HTTP_200_OK)
 
     def update(self, request, pk=None):
+        #print request.DATA
         student = User.objects.get(pk=pk)
         student.first_name = request.DATA['first_name']
         student.last_name = request.DATA['last_name']
         student.email = request.DATA['email']
         student.save()
-        '''This is completely wrong... will play around with later.'''
-        new_student = {'first_name': student.first_name,
-                       'last_name': student.last_name,
-                       'email': student.email}
-        return Response(new_student, status.HTTP_200_OK)
+        # print StudentUserSerializer(data={'first_name': student.first_name,
+        #                              'last_name': student.last_name,
+        #                              'email': student.email}).is_valid()
+        studentserializer =  StudentUserSerializer(
+                data=request.DATA)
+        if studentserializer.is_valid():
+            return Response(studentserialize.data, status.HTTP_200_OK)
+        elif studentserializer.is_valid() is False:
+            return Response(studentserialize.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
         student = User.objects.get(pk=pk)
@@ -309,10 +315,6 @@ class DetailJSONCourseView(JSONResponseMixin, View):
 
 
 class ActivateCourseView(JSONResponseMixin, View):
-    '''
-    This should be a FormView but not sure how to do variable # of arguments,
-    going to hack out to have working for now...
-    '''
 
     def send_student_email(self, student):
         template = loader.get_template(
