@@ -12,7 +12,8 @@ from brownfield_django.main.views import CourseViewSet, UserViewSet, \
 from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
     TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView, \
-    BrownfieldInfoView, BrownfieldHistoryView, BrownfieldTestView
+    BrownfieldInfoView, BrownfieldHistoryView, BrownfieldTestView, \
+    TeamHistoryView, TeamInfoView
 
 
 admin.autodiscover()
@@ -69,10 +70,17 @@ urlpatterns = patterns(
     (r'^demo/play$', TemplateView.as_view(
         template_name="main/flvplayer.html")),
     (r'^demo/info/$', BrownfieldInfoView.as_view()),
-    # "brownfield_django.main.views.get_demo_info"),
     (r'^demo/history/', BrownfieldHistoryView.as_view()),
     (r'^demo/test/$', BrownfieldTestView.as_view()),
     (r'^demo/save/$', "brownfield_django.main.views.demo_save"),
+    # /course/164/team/1020/play/history/
+    # (r'^course/(?P<crs_pk>\d+)/team/(?P<team_pk>\d+)/play$',
+    #    TeamHistoryView.as_view()),
+    # (r'^course/(?P<crs_pk>\d+)/team/(?P<team_pk>\d+)/history/$',
+    #     TeamHistoryView.as_view()),
+    (r'^team/(?P<pk>\d+)/play$', TeamHistoryView.as_view()),
+    (r'^team/(?P<pk>\d+)/info/$', TeamInfoView.as_view()),
+    (r'^team/(?P<pk>\d+)/history/', TeamHistoryView.as_view()),
     (r'^site_history/$', TemplateView.as_view(
         template_name="interactive/site_history.html")),
     (r'^admin/', include(admin.site.urls)),

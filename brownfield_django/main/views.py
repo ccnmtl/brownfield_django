@@ -25,7 +25,8 @@ from brownfield_django.main.serializers import DocumentSerializer, \
     UserSerializer, TeamNameSerializer, CourseSerializer, \
     StudentUserSerializer, TeamSerializer, StudentMUserSerializer
 
-from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML
+from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML, \
+    TEAM_HISTORY_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin
 
 
@@ -225,13 +226,19 @@ class HomeView(LoggedInMixin, View):
     def get(self, request):
         try:
             user_profile = UserProfile.objects.get(user=request.user.pk)
+            if user_profile.is_teacher():
+                url = '/ccnmtl/home/%s/' % (user_profile.id)
+            if user_profile.is_admin():
+                url = '/ccnmtl/home/%s/' % (user_profile.id)
         except UserProfile.DoesNotExist:
-            '''We are not allowing users to register.'''
-            return HttpResponseForbidden("forbidden")
-        if user_profile.is_teacher():
-            url = '/ccnmtl/home/%s/' % (user_profile.id)
-        if user_profile.is_admin():
-            url = '/ccnmtl/home/%s/' % (user_profile.id)
+            pass  # we need to see if user is a team
+            # '''We are not allowing users to register.'''
+            # return HttpResponseForbidden("forbidden")
+        try:
+            team = Team.objects.get(user=request.user.pk)
+            url = '/team/home/%s/' % (team.id)
+        except:
+            pass
         return HttpResponseRedirect(url)
 
 
@@ -380,57 +387,25 @@ class CCNMTLCourseDetail(DetailView):
 
 
 class TeamHomeView(DetailView):
-    '''If team has signed their contract they are allowed to play,
-    if they have not signed their contract they are redirected
-    to the sign contract page.
-    the old play page url is: /course/%s/team/%s/play
-    the old contract url is: /course/%s/team/%s/contract
 
-    @expose(template='kid:brownfield.templates.bfaxml',
-            content_type='application/xml',
-            accept_format='application/xml',
-            fragment=True, #so kid doesn't serve a DOCTYPE HTML declaration
-            )
-    @expose(template='kid:restresource.templates.view')
-    @expose(template='json', accept_format='text/javascript')
-    @require_owns_resource()
-    '''
-    model = UserProfile
+    model = Team
     template_name = 'main/team/team_home.html'
     success_url = '/'
 
     def dispatch(self, *args, **kwargs):
-        if int(kwargs.get('pk')) != self.request.user.profile.id:
+        if int(kwargs.get('pk')) != self.request.user.team.id:
             return HttpResponseForbidden("forbidden")
         return super(TeamHomeView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(TeamHomeView, self).get_context_data(**kwargs)
+        course = Course.objects.get(pk=self.object.course.pk)
+        context['document_list'] = course.document_set.filter(visible=True)
+        return context
 
 
 '''I am using this view to play around with getting the
 flash to run'''
-
-
-class BrownfieldInitialView(View):
-    pass
-#
-#     def get(self, request):
-#         if request.user.profile.is_admin():
-#             return HttpResponse(INITIAL_XML)
-#         elif request.user.profile.is_teacher():
-#             '''This may need to be changed...'''
-#             return HttpResponse(INITIAL_XML)
-#         elif request.user.profile.is_team():
-#             '''Get appropriate team record'''
-#             return HttpResponse(INITIAL_XML)
-#
-#     def post(self, request):
-#         if request.user.profile.is_admin():
-#             return HttpResponse(INITIAL_XML)
-#         elif request.user.profile.is_teacher():
-#             '''This may need to be changed...'''
-#             return HttpResponse(INITIAL_XML)
-#         elif request.user.profile.is_team():
-#             '''Get appropriate team record'''
-#             return HttpResponse(INITIAL_XML)
 
 
 class BrownfieldInfoView(View):
@@ -481,9 +456,6 @@ class BrownfieldHistoryView(View):
         elif request.user.profile.is_teacher():
             '''This may need to be changed...'''
             return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_team():
-            '''Get appropriate team record'''
-            return HttpResponse(INITIAL_XML)
 
     def post(self, request):
         if request.user.profile.is_admin():
@@ -491,9 +463,63 @@ class BrownfieldHistoryView(View):
         elif request.user.profile.is_teacher():
             '''This may need to be changed...'''
             return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_team():
-            '''Get appropriate team record'''
-            return HttpResponse(INITIAL_XML)
+
+
+class TeamHistoryView(View):
+
+    def get(self, request, pk):
+        """Need to parse the XML and substitute the correct values"""
+        return HttpResponse(TEAM_HISTORY_XML)
+
+
+class TeamInfoView(View):
+
+    def post(self, request, pk):
+        print "inside info view"
+        print request.POST
+        return HttpResponse(TEAM_HISTORY_XML)
+        #team = get_object_or_404(Team, pk=team_pk)
+        #print team
+        #course = get_object_or_404(Course, pk=crs_pk)
+        #print course
+
+#     #  parse post request and get information
+#     dom = parseString(post)
+#     action = dom.getElementsByTagName("action")[0].firstChild.toxml()
+#     ecomap = Ecomap.objects.get(pk=map_id)
+#
+#     if action == "load":
+#         return HttpResponse(ecomap.ecomap_xml)  # return saved xml
+#
+#     if action == "save":
+#         name = dom.getElementsByTagName("name")[0].toxml()
+#         flash_data = dom.getElementsByTagName("flashData")[0].toxml()
+#         map_to_save = ("<data><response>OK</response><isreadonly>false"
+#                        "</isreadonly>%s%s</data>" % (name, flash_data))
+#         ecomap.ecomap_xml = map_to_save
+#         ecomap.save()
+#         return HttpResponse("<data><response>OK</response></data>")
+
+#     ecomap.name = form.cleaned_data['name']
+#     old_xml = ecomap.ecomap_xml
+#     new_xml = old_xml.replace(
+#         "<name>" + old_name + "</name>",
+#         "<name>" + form.cleaned_data['name'] + "</name>")
+#     ecomap.ecomap_xml = new_xml
+#     ecomap.description = form.cleaned_data['description']
+#     if ecomap.name != '':
+#         ecomap.save()
+#     return HttpResponseRedirect('/ecomap/' + str(ecomap.pk))
+
+#     def post(self, request):
+#         if request.user.profile.is_admin():
+#             return HttpResponse(INITIAL_XML)
+#         elif request.user.profile.is_teacher():
+#             '''This may need to be changed...'''
+#             return HttpResponse(INITIAL_XML)
+#         elif request.user.profile.is_team():
+#             '''Get appropriate team record'''
+#             return HttpResponse(INITIAL_XML)
 
 
 class BrownfieldTestView(View):

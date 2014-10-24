@@ -81,3 +81,23 @@ INFO_TEST = """
             <info type="doc" name="policeReport" />
         </information>
 """
+
+
+TEAM_HISTORY_XML = """
+<bfaxml>
+  <config>
+    <user signedcontract="true" startingbudget="65000" realname="Company 2">
+    </user>
+    <narrative enabled="True"></narrative>
+    <information>
+      <info type="recon"></info><info type="doc" name="recon"></info>
+    </information>
+  </config>
+  <testdata>
+  </testdata>
+  <budget>
+    <i a="100" t="2014/10/24/13/06" d="Performed visual reconnaissance.">
+    </i><i a="0" t="2014/10/24/13/06" d="Received Visual reconnaissance."></i>
+  </budget>
+</bfaxml>
+"""
