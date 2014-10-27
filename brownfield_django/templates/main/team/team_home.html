@@ -3,6 +3,13 @@
 
 {% endblock %}
 {% block content %}
+    {% block course_message %}
+    <div class="course-message">
+        <h3>Course Message</h3>
+        {{object.course.message}}
+    </div>
+    {% endblock %}
+
     {% block course_documents %}
     <div class="course-div">
         <b>Course Documents</b>

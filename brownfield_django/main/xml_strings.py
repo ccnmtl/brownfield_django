@@ -83,6 +83,22 @@ INFO_TEST = """
 """
 
 
+TEAM_HISTORY = """
+<bfaxml>
+  <config>
+    <user signedcontract="true" startingbudget="65000" realname="Company 1">
+    </user>
+    <narrative enabled="True"></narrative>
+    <information>
+    </information>
+  </config>
+  <testdata>
+  </testdata>
+  <budget>
+  </budget>
+</bfaxml>
+"""
+
 TEAM_HISTORY_XML = """
 <bfaxml>
   <config>

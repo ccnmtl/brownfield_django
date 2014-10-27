@@ -1,12 +1,11 @@
 import json
 
-# from xml.dom.minidom import parseString
+# import xml.etree.ElementTree as ET
 
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.http.response import HttpResponseForbidden
-from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.template import loader
 from django.template.context import Context
@@ -20,13 +19,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from brownfield_django.main.models import Course, UserProfile, Document, Team
+from brownfield_django.main.models import Course, UserProfile, Document, \
+    Team, History
 from brownfield_django.main.serializers import DocumentSerializer, \
     UserSerializer, TeamNameSerializer, CourseSerializer, \
     StudentUserSerializer, TeamSerializer, StudentMUserSerializer
 
-from brownfield_django.main.xml_strings import DEMO_XML, INITIAL_XML, \
-    TEAM_HISTORY_XML
+from brownfield_django.main.xml_strings import INITIAL_XML, \
+    TEAM_HISTORY
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin
 
 
@@ -404,8 +404,7 @@ class TeamHomeView(DetailView):
         return context
 
 
-'''I am using this view to play around with getting the
-flash to run'''
+"""Views for interactive."""
 
 
 class BrownfieldInfoView(View):
@@ -416,9 +415,6 @@ class BrownfieldInfoView(View):
         elif request.user.profile.is_teacher():
             '''This may need to be changed...'''
             return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_team():
-            '''Get appropriate team record'''
-            return HttpResponse(INITIAL_XML)
 
     def post(self, request):
         if request.user.profile.is_admin():
@@ -426,26 +422,6 @@ class BrownfieldInfoView(View):
         elif request.user.profile.is_teacher():
             '''This may need to be changed...'''
             return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_team():
-            '''Get appropriate team record'''
-            return HttpResponse(INITIAL_XML)
-
-
-# dom = parseString(post)
-#     action = dom.getElementsByTagName("action")[0].firstChild.toxml()
-#     ecomap = Ecomap.objects.get(pk=map_id)
-#
-#     if action == "load":
-#         return HttpResponse(ecomap.ecomap_xml)  # return saved xml
-#
-#     if action == "save":
-#         name = dom.getElementsByTagName("name")[0].toxml()
-#         flash_data = dom.getElementsByTagName("flashData")[0].toxml()
-#         map_to_save = ("<data><response>OK</response><isreadonly>false"
-#                        "</isreadonly>%s%s</data>" % (name, flash_data))
-#         ecomap.ecomap_xml = map_to_save
-#         ecomap.save()
-#         return HttpResponse("<data><response>OK</response></data>")
 
 
 class BrownfieldHistoryView(View):
@@ -466,60 +442,64 @@ class BrownfieldHistoryView(View):
 
 
 class TeamHistoryView(View):
+    """Need to parse the XML and substitute the correct
+    values for each student interaction."""
+
+    def send_history(self):
+        pass
+#     th = TEAM_HISTORY
+#         print th
+#         et = ET.fromstring(th)
+#         print et
+#         for each in et.iter('user'):
+#             print each.attrib
+#             each.set('signedcontract', team.signed_contract)
+#             each.set('startingbudget', team.budget)
+#             each.set('realname', team.user.username)
 
     def get(self, request, pk):
-        """Need to parse the XML and substitute the correct values"""
-        return HttpResponse(TEAM_HISTORY_XML)
+        """Get retrieves the current team values for the flash."""
+        team = Team.objects.get(user=request.user)
+        try:
+            team_history = History.objects.get(team=team)
+            team_history.save()  # flake8 says it is unused if not saved
+            return HttpResponse(self.send_history())
+        except:
+            '''If there is no history record associated with,
+            the team yet it is their first log in.'''
+            return HttpResponse(TEAM_HISTORY)
 
 
 class TeamInfoView(View):
 
     def post(self, request, pk):
-        print "inside info view"
-        print request.POST
-        return HttpResponse(TEAM_HISTORY_XML)
-        #team = get_object_or_404(Team, pk=team_pk)
-        #print team
-        #course = get_object_or_404(Course, pk=crs_pk)
-        #print course
+        team = Team.objects.get(user=request.user)
+        req_type = request.POST['infoType']
 
-#     #  parse post request and get information
-#     dom = parseString(post)
-#     action = dom.getElementsByTagName("action")[0].firstChild.toxml()
-#     ecomap = Ecomap.objects.get(pk=map_id)
-#
-#     if action == "load":
-#         return HttpResponse(ecomap.ecomap_xml)  # return saved xml
-#
-#     if action == "save":
-#         name = dom.getElementsByTagName("name")[0].toxml()
-#         flash_data = dom.getElementsByTagName("flashData")[0].toxml()
-#         map_to_save = ("<data><response>OK</response><isreadonly>false"
-#                        "</isreadonly>%s%s</data>" % (name, flash_data))
-#         ecomap.ecomap_xml = map_to_save
-#         ecomap.save()
-#         return HttpResponse("<data><response>OK</response></data>")
+        if req_type == "recon":
+            th = History.objects.create(
+                team=team,
+                date=request.POST['date'],
+                description=request.POST['description'],
+                cost=request.POST['cost'])
+            return HttpResponse("<data><response>OK</response></data>")
 
-#     ecomap.name = form.cleaned_data['name']
-#     old_xml = ecomap.ecomap_xml
-#     new_xml = old_xml.replace(
-#         "<name>" + old_name + "</name>",
-#         "<name>" + form.cleaned_data['name'] + "</name>")
-#     ecomap.ecomap_xml = new_xml
-#     ecomap.description = form.cleaned_data['description']
-#     if ecomap.name != '':
-#         ecomap.save()
-#     return HttpResponseRedirect('/ecomap/' + str(ecomap.pk))
+        elif req_type == "visit":
+            th = History.objects.create(
+                team=team,
+                date=request.POST['date'],
+                description=request.POST['description'],
+                cost=request.POST['cost'])
+            th.save()
+            return HttpResponse("<data><response>OK</response></data>")
 
-#     def post(self, request):
-#         if request.user.profile.is_admin():
-#             return HttpResponse(INITIAL_XML)
-#         elif request.user.profile.is_teacher():
-#             '''This may need to be changed...'''
-#             return HttpResponse(INITIAL_XML)
-#         elif request.user.profile.is_team():
-#             '''Get appropriate team record'''
-#             return HttpResponse(INITIAL_XML)
+        elif req_type == "question":
+            th = History.objects.create(
+                team=team,
+                date=request.POST['date'],
+                description=request.POST['description'],
+                cost=request.POST['cost'])
+            return HttpResponse("<data><response>OK</response></data>")
 
 
 class BrownfieldTestView(View):
@@ -543,49 +523,6 @@ class BrownfieldTestView(View):
         elif request.user.profile.is_team():
             '''Get appropriate team record'''
             return HttpResponse(INITIAL_XML)
-
-
-def get_demo(request):
-    if request.method == "GET":
-        # print "inside get"
-        return HttpResponse(INITIAL_XML)
-
-    if request.method == "POST":
-        print "demo response"
-        return HttpResponse(DEMO_XML)
-    # return render(request, 'main/flvplayer.html', {'demo': DEMO_XML},
-    # content_type="application/xhtml+xml")
-#    return render(request, 'main/flvplayer.html',
-#            content_type="application/xhtml+xml")
-#    return HttpResponse(DEMO_XML)
-#    #return render(request, 'main/flvplayer.html', {'demo': DEMO_XML},
-# content_type="application/xhtml+xml")
-
-
-def get_bfa(request):
-    '''Flash is making calls to demo/media/flash/bfa.swf
-    so we will give it'''
-
-    print request.GET
-    return render(request, 'main/bfa.swf',
-                  content_type="application/xhtml+xml")
-
-
-def get_demo_history(request):
-    print "made it to method"
-    return HttpResponse(DEMO_XML, content_type="application/xhtml+xml")
-
-
-def get_demo_info(request):
-    return HttpResponse(DEMO_XML)
-
-
-def get_demo_test(request):
-    return HttpResponse("<data><response>OK</response></data>")
-
-
-def demo_save(request):
-    return HttpResponse("<data><response>OK</response></data>")
 
 
 class TeamPerformTest(LoggedInMixin, JSONResponseMixin, View):

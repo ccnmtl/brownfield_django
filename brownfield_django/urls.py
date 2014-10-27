@@ -59,8 +59,8 @@ urlpatterns = patterns(
     (r'^$', HomeView.as_view()),
     (r'^ccnmtl/home/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
     (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
-    (r'^team/$', AdminTeamView.as_view()),
-    (r'^team/(?P<pk>\d+)/$', AdminTeamView.as_view()),
+    (r'^admin_team/$', AdminTeamView.as_view()),
+    (r'^admin_team/(?P<pk>\d+)/$', AdminTeamView.as_view()),
     (r'^course_details/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
     (r'^activate_course/(?P<pk>\d+)$', ActivateCourseView.as_view()),
     (r'^edit_teams/(?P<pk>\d+)/$', EditTeamsView.as_view()),
@@ -75,7 +75,7 @@ urlpatterns = patterns(
     (r'^demo/save/$', "brownfield_django.main.views.demo_save"),
     # /course/164/team/1020/play/history/
     # (r'^course/(?P<crs_pk>\d+)/team/(?P<team_pk>\d+)/play$',
-    #    TeamHistoryView.as_view()),
+    #    TeamHistoryView.as_view()),course/164/team/1020/play
     # (r'^course/(?P<crs_pk>\d+)/team/(?P<team_pk>\d+)/history/$',
     #     TeamHistoryView.as_view()),
     (r'^team/(?P<pk>\d+)/play$', TeamHistoryView.as_view()),

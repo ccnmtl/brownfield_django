@@ -1,4 +1,3 @@
-import datetime
 from django.db import models
 from django.forms import ModelForm
 from django.contrib.auth.models import User
@@ -153,7 +152,7 @@ class UserProfile(models.Model):
 
 class History(models.Model):
     team = models.ForeignKey(Team)
-    date = models.DateTimeField(default=datetime.datetime.now)
+    date = models.CharField(max_length=16)
     description = models.CharField(max_length=255)
     cost = models.IntegerField(default=0)
 

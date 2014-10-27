@@ -1,6 +1,6 @@
 var Team = Backbone.Model.extend({
 	
-	   urlRoot: '/team/',
+	   urlRoot: '/admin_team/',
 	   url: function() {
 	       var url = this.urlRoot;
 	       if (this.get('id') !== undefined) {
@@ -14,7 +14,7 @@ var Team = Backbone.Model.extend({
 var TeamCollection = Backbone.Collection.extend({
 	
 	 model: Team,
-	 urlRoot: '/team/',
+	 urlRoot: '/admin_team/',
 	 headers: {"content-type": "application/json"},
 	 url: function() {
 	     var url = this.urlRoot;
