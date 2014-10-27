@@ -26,18 +26,19 @@
         <button class='btn btn-xs rm-st'> Remove Student From Course </button>  <space><space><br />
     </script>
 
-    <script type="text/template" id="student-list-template">
-        [<%= first_name %>] <space><space>
-        [<%= last_name %>] <space><space>
-        Email: [<%= email %>]
-        <button class='btn btn-xs ed-st'> Edit Student </button>  <space><space>
-        <button class='btn btn-xs rm-st'> Remove Student From Course </button>  <space><space><br />
+    <script type="text/template" id="team-list-template">
+        <label>Team Name: </label>[<%= first_name %>] <space><space>
+        <label>Login: </label>[<%= username %>] <space><space>
+        <label>Password: </label> [<%= team_passwd %>]
+        <button class='btn btn-xs ed-st'> Edit Team </button>  <space><space>
+        <button class='btn btn-xs rm-st'> Remove Team From Course </button>  <space><space><br />
     </script>
 
 
     {% comment %}Edit Templates{% endcomment %}
     <script type="text/template" id="student-edit-template">
-    <form class="edit-student-frm" method="" action="" style="display: inline;">{% csrf_token %}
+    <form class="edit-student-frm" method="" action="" style="display: inline;">
+        {% csrf_token %}
         <meta name="csrf-token" content="{% csrf_token %}">
         <label>First Name: </label>
         <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> <space><space>
@@ -49,8 +50,24 @@
     </form>
     </script>
     
+    <script type="text/template" id="team-edit-template">
+    <form class="edit-team-frm" method="" action="" style="display: inline;">
+        {% csrf_token %}
+        <meta name="csrf-token" content="{% csrf_token %}">
+        <b>Team Username: <%= user_name %> </b>
+        <label>Team Name: </label>
+        <input type="text" placeholder="Team Name: " class="edt-teamt-name" value="<%= first_name %>" />
+        <space><space>
+        <label>Password: </label>
+        <input type="text" placeholder="Password: " class="edt-team-passwd" value="<%= team_passwd %>" />
+        <space><space>
+        <button class='btn btn-xs save-edit-student'> Save Changes </button>  <br />
+    </form>
+    </script>
     
-    {% comment %}Create Teamplates{% endcomment %}
+    
+    
+    {% comment %}Create Teamplates
     <script type="text/template" id="student-create-template">
     <form class="create-student-frm" method="" action="" style="display: inline;">{% csrf_token %}
         <meta name="csrf-token" content="{% csrf_token %}">
@@ -63,6 +80,22 @@
         <button class='btn btn-xs save-edit-student'> Save Changes </button>  <br />
     </form>
     </script>
+    
+    <script type="text/template" id="team-create-template">
+    <form class="create-team-frm" method="" action="" style="display: inline;">
+        {% csrf_token %}
+        <meta name="csrf-token" content="{% csrf_token %}">
+        <label>Team Name: </label>
+        <input type="text" placeholder="Team Name: " class="edt-frst-name" value="<%= first_name %>" /> 
+        <space><space>
+        <label>Password: </label>
+        <input type="text" placeholder="Password: " class="edt-team-passwd" value="<%= team_passwd %>" />
+        <button class='btn btn-xs save-edit-student'> Save Changes </button>  <br />
+    </form>
+    </script>
+    {% endcomment %}
+    
+    
 {% endblock %}
 
 {% block content %}
