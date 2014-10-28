@@ -383,28 +383,7 @@ class CCNMTLCourseDetail(DetailView):
     success_url = '/'
 
 
-'''Beginning of Team Views'''
-
-
-class TeamHomeView(DetailView):
-
-    model = Team
-    template_name = 'main/team/team_home.html'
-    success_url = '/'
-
-    def dispatch(self, *args, **kwargs):
-        if int(kwargs.get('pk')) != self.request.user.team.id:
-            return HttpResponseForbidden("forbidden")
-        return super(TeamHomeView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(TeamHomeView, self).get_context_data(**kwargs)
-        course = Course.objects.get(pk=self.object.course.pk)
-        context['document_list'] = course.document_set.filter(visible=True)
-        return context
-
-
-"""Views for interactive."""
+'''CCNMTL/Admin Interactive Views'''
 
 
 class BrownfieldInfoView(View):
@@ -439,6 +418,53 @@ class BrownfieldHistoryView(View):
         elif request.user.profile.is_teacher():
             '''This may need to be changed...'''
             return HttpResponse(INITIAL_XML)
+
+
+class BrownfieldTestView(View):
+
+    def get(self, request):
+        if request.user.profile.is_admin():
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_teacher():
+            '''This may need to be changed...'''
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_team():
+            '''Get appropriate team record'''
+            return HttpResponse(INITIAL_XML)
+
+    def post(self, request):
+        if request.user.profile.is_admin():
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_teacher():
+            '''This may need to be changed...'''
+            return HttpResponse(INITIAL_XML)
+        elif request.user.profile.is_team():
+            '''Get appropriate team record'''
+            return HttpResponse(INITIAL_XML)
+
+
+'''Beginning of Team Views'''
+
+
+class TeamHomeView(DetailView):
+
+    model = Team
+    template_name = 'main/team/team_home.html'
+    success_url = '/'
+
+    def dispatch(self, *args, **kwargs):
+        if int(kwargs.get('pk')) != self.request.user.team.id:
+            return HttpResponseForbidden("forbidden")
+        return super(TeamHomeView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(TeamHomeView, self).get_context_data(**kwargs)
+        course = Course.objects.get(pk=self.object.course.pk)
+        context['document_list'] = course.document_set.filter(visible=True)
+        return context
+
+
+"""Team Views for interactive."""
 
 
 class TeamHistoryView(View):
@@ -500,29 +526,6 @@ class TeamInfoView(View):
                 description=request.POST['description'],
                 cost=request.POST['cost'])
             return HttpResponse("<data><response>OK</response></data>")
-
-
-class BrownfieldTestView(View):
-
-    def get(self, request):
-        if request.user.profile.is_admin():
-            return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_teacher():
-            '''This may need to be changed...'''
-            return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_team():
-            '''Get appropriate team record'''
-            return HttpResponse(INITIAL_XML)
-
-    def post(self, request):
-        if request.user.profile.is_admin():
-            return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_teacher():
-            '''This may need to be changed...'''
-            return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_team():
-            '''Get appropriate team record'''
-            return HttpResponse(INITIAL_XML)
 
 
 class TeamPerformTest(LoggedInMixin, JSONResponseMixin, View):

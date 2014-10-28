@@ -6,10 +6,13 @@ from django.test import TestCase
 from factories import UserFactory, UserProfileFactory, TeacherProfileFactory, \
     TeamFactory, CourseFactory, HistoryFactory, \
     PerformedTestFactory, DocumentFactory, AdminProfileFactory, \
-    StudentProfileFactoryOne, StudentProfileFactoryTwo
+    StudentProfileFactoryOne, StudentProfileFactoryTwo, InformationTestFactory
 #    StudentInTeamProfileFactoryOne, StudentInTeamProfileFactoryTwo
 
 from brownfield_django.main.models import CourseForm
+
+
+'''Very basic model tests...'''
 
 
 class TestUserFactory(TestCase):
@@ -27,6 +30,7 @@ class TestCourseFactory(TestCase):
 
 
 class TestTeamFactory(TestCase):
+
     def test_unicode(self):
         team = TeamFactory()
         self.assertEqual(str(team), team.user.username)
@@ -43,7 +47,15 @@ class TestPerformedTestFactory(TestCase):
 
     def test_unicode(self):
         pt = PerformedTestFactory()
-        self.assertEqual(str(pt), pt.paramString)
+        self.assertEqual(str(pt), '%s - %s' % (pt.testDetails, pt.paramString))
+
+
+class TestInformationTestFactory(TestCase):
+
+    def test_unicode(self):
+        inf_t = InformationTestFactory()
+        self.assertEqual(str(inf_t),
+                         '%s - %s' % (inf_t.infoType, inf_t.internalName))
 
 
 class TestUserProfileFactory(TestCase):

@@ -33,12 +33,20 @@
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/swfobject.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/MochiKit/MochiKit.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/brownfield.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script>
+
+    {% if request.user.userprofile.is_teacher %}
+        <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script>
+    {% endif %}
+
+    {% if request.user.userprofile.is_admin %}
+        <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script>
+    {% endif %}
 
 	{% block feeds %}{% endblock %}
 </head>
+
 <body class="{% block bodyclass %}{% endblock %}" id="{% block bodyid %}{% endblock %}">
-<a class="sr-only" href="#content">Skip navigation</a>
+    <a class="sr-only" href="#content">Skip navigation</a>
 
 {% block topnavbar %}
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">

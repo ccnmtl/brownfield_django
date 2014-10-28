@@ -1,16 +1,28 @@
-# # import json
-# # from datetime import datetime
-#
 # from django.test import TestCase, RequestFactory
 # from django.test.client import Client
-# # from django.contrib.auth.models import User
 #
-# from factories import TeamProfileFactory
-# # , \ UserFactory, UserProfileFactory,
-# #    StudentProfileFactory, CourseFactory, TeamFactory
+# from factories import TeamFactory
+# # # , \ UserFactory, UserProfileFactory,
+# # #    StudentProfileFactory, CourseFactory, TeamFactory
+# #
+# #
+# class TestTeamViews(TestCase):
 #
+#     def setUp(self):
+#         self.client = Client()
+#         self.factory = RequestFactory()
+#         self.team = TeamFactory()
+#         self.client.login(username=self.team, password="Test_Team")
 #
-# class TestTeamLogin(TestCase):
+#     def test_home(self):
+#         '''
+#         Student logs in as team and sees team home page.
+#         '''
+#         request = self.client.get("/team/home/" +
+#                                   str(self.team.user.pk) + '/')
+#         self.assertTemplateUsed(request,
+#                                 'main/team/home_dash/team_home.html')
+
 #
 #     def setUp(self):
 #         self.client = Client()

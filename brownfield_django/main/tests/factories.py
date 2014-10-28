@@ -1,12 +1,7 @@
 import factory
 from django.contrib.auth.models import User
 from brownfield_django.main.models import Document, Course, \
-    UserProfile, History, PerformedTest, Team
-
-
-'''
-Adding initial factories for model tests, will do more after for views.
-'''
+    UserProfile, History, PerformedTest, Team, Information
 
 
 class UserFactory(factory.DjangoModelFactory):
@@ -102,11 +97,20 @@ class HistoryFactory(factory.DjangoModelFactory):
 
 class PerformedTestFactory(factory.DjangoModelFactory):
     FACTORY_FOR = PerformedTest
+    history = factory.SubFactory(HistoryFactory)
     X = 10
     y = 30
     z = 60
     testNumber = 1
     paramString = '''Still need to find format for these...'''
+    testDetails = "Test Details Here..."
+
+
+class InformationTestFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = Information
+    history = factory.SubFactory(HistoryFactory)
+    infoType = "recon"
+    internalName = "recon"
 
 
 '''Adding Users and UserProfiles/Students/Teams to add to Course

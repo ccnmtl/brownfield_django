@@ -173,7 +173,7 @@ class PerformedTest(models.Model):
     paramString = models.CharField(default="", max_length=255)
 
     def __unicode__(self):
-        return '%s - %s' % (self.description, self.paramString)
+        return '%s - %s' % (self.testDetails, self.paramString)
 
 
 class Information(models.Model):
@@ -182,7 +182,6 @@ class Information(models.Model):
         Documents and News Items made available to or found by the Team
     """
     history = models.ForeignKey(History, null=True, default=None, blank=True)
-    X = models.IntegerField(default=0)
     infoType = models.CharField(default="", max_length=255)
     internalName = models.CharField(default="", max_length=255)
 
