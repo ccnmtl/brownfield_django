@@ -39,7 +39,6 @@
     <script type="text/template" id="student-edit-template">
     <form class="edit-student-frm" method="" action="" style="display: inline;">
         {% csrf_token %}
-        <meta name="csrf-token" content="{% csrf_token %}">
         <label>First Name: </label>
         <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> <space><space>
         <label>Last Name: </label>
@@ -53,7 +52,6 @@
     <script type="text/template" id="team-edit-template">
     <form class="edit-team-frm" method="" action="" style="display: inline;">
         {% csrf_token %}
-        <meta name="csrf-token" content="{% csrf_token %}">
         <b>Team Username: <%= user_name %> </b>
         <label>Team Name: </label>
         <input type="text" placeholder="Team Name: " class="edt-teamt-name" value="<%= first_name %>" />
@@ -70,7 +68,6 @@
     {% comment %}Create Teamplates
     <script type="text/template" id="student-create-template">
     <form class="create-student-frm" method="" action="" style="display: inline;">{% csrf_token %}
-        <meta name="csrf-token" content="{% csrf_token %}">
         <label>First Name: </label>
         <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> <space><space>
         <label>Last Name: </label>
@@ -84,7 +81,6 @@
     <script type="text/template" id="team-create-template">
     <form class="create-team-frm" method="" action="" style="display: inline;">
         {% csrf_token %}
-        <meta name="csrf-token" content="{% csrf_token %}">
         <label>Team Name: </label>
         <input type="text" placeholder="Team Name: " class="edt-frst-name" value="<%= first_name %>" /> 
         <space><space>

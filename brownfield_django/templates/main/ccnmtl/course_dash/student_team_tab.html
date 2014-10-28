@@ -12,7 +12,6 @@
             </button>
             <p class="add-team-frm-title" style="display: none;"> <b>Add New Team: </b></p>
             <form class="add-team-frm" method="" action="" style="display: none;">{% csrf_token %}
-                <meta name="csrf-token" content="{% csrf_token %}">
                 <input type="text" placeholder="Team Name" class="team-name" /><br />
                 <input type="password" placeholder="Password" class="team-pswd-1" /><br />
                 <input type="password" placeholder="Password" class="team-pswd-2" /><br />
@@ -31,7 +30,6 @@
             </button>
             <p class="add-std-frm-title" style="display: none;"> <b>Add New Student: </b></p>
             <form class="add-std-frm" method="" action="" style="display: none;">{% csrf_token %}
-                <meta name="csrf-token" content="{% csrf_token %}">
                 <input type="text" placeholder="First Name" class="frst-name" /><br />
                 <input type="text" placeholder="Last Name" class="last-name" /><br />
                 <input type="text" placeholder="Email" class="email" /><br />

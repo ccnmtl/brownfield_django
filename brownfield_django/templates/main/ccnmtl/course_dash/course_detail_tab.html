@@ -7,7 +7,7 @@
     </div><!-- End Course Message -->
 
     <h3>Course Documents</h3>
-    <form id="upt-doc-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
+    
     <div class="documents_list">
         
     </div><!-- End Document List -->
@@ -25,8 +25,9 @@
             <!-- <div id="collapseForm" class="panel-collapse collapse in"> -->
             <div id="collapseForm" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <form id="upt-crs-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
+                    <form id="upt-crs-frm" method="" action="">{% csrf_token %}
                     {{object.get_course_form.as_p}}
+                    </form>
                     <button id="update-crs-btn" type="button">
                     Save
                     </button><br />
@@ -45,8 +46,7 @@
     <div class="deactivate-course" style="display: none;">
         <div class="crs-deactivate">
             <p> If you are done with this course, you may remove it from your dashboard by deactivating it.</p>
-            <form id="de-act-crs-frm" method="" action="" style="display: none;">{% csrf_token %}</form>
-            <button id="deactivation-btn" type="button">
+             <button id="deactivation-btn" type="button">
                 Deactivate Course
             </button><br /><br />
        </div>

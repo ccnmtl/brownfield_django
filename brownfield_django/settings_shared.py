@@ -74,6 +74,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'gacontext.ga_processor',
     'djangowind.context.context_processor',
     'django.core.context_processors.static',
+    'django.core.context_processors.csrf'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -87,6 +88,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'impersonate.middleware.ImpersonateMiddleware',
     'waffle.middleware.WaffleMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware'
 )
 
 ROOT_URLCONF = 'brownfield_django.urls'
