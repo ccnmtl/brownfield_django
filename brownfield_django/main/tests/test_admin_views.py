@@ -8,7 +8,8 @@ from rest_framework.test import APIRequestFactory
 # from rest_framework import status
 from factories import ViewsAdminProfileFactory, AdminUserCourseFactory
 
-from brownfield_django.main.views import DetailJSONCourseView, CourseViewSet
+from brownfield_django.main.views import CourseViewSet
+# DetailJSONCourseView
 
 
 class TestAdminViews(TestCase):
@@ -44,7 +45,7 @@ class TestAdminViews(TestCase):
 #         filled out.
 #         '''
 #         self.admin_course = AdminUserCourseFactory()
-# 
+#
 #         request = RequestFactory().get('/update_course/' +
 #                                        str(self.admin_course.pk))
 #         request.user = self.admin
@@ -53,12 +54,12 @@ class TestAdminViews(TestCase):
 
 #         view.object = request.user.profile
 #         ctx = view.get_context_data()
-# 
+#
 #         admin_group = SchoolGroupFactory(creator=self.admin,
 #                                          school=self.admin.profile.school)
 #         teacher_group = SchoolGroupFactory(creator=self.teacher,
-#                                            school=self.teacher.profile.school)
-# 
+#                                         school=self.teacher.profile.school)
+#
 #         # archived groups
 #         SchoolGroupFactory(creator=self.teacher,
 #                            school=self.teacher.profile.school,
@@ -66,10 +67,10 @@ class TestAdminViews(TestCase):
 #         SchoolGroupFactory(creator=self.admin,
 #                            school=self.admin.profile.school,
 #                            archived=True)
-# 
+#
 #         # alt_creator/alt school
 #         SchoolGroupFactory(creator=TeacherProfileFactory().user)
-# 
+#
 #         self.assertEquals(ctx['optionb'], self.hierarchy)
 #         self.assertIsNotNone(ctx['profile_form'])
 #         self.assertEquals(ctx['countries'], COUNTRY_CHOICES)
@@ -77,8 +78,8 @@ class TestAdminViews(TestCase):
 #         self.assertEquals(len(ctx['managed_groups']), 2)
 #         self.assertEquals(ctx['managed_groups'][0], admin_group)
 #         self.assertEquals(ctx['managed_groups'][1], teacher_group)
-        
-        
+
+
         # self.assertEqual(response.status_code, 200)
 #         the_json = json.loads(response.content)
 #         self.assertEqual(
@@ -137,12 +138,12 @@ class TestAdminRESTViews(TestCase):
 #                                     format='json')
 #         response = view(request)
 
-    def test_add_course_by_name(self):
-        view = CourseViewSet.as_view()
-        request = self.factory.post('/api/course/',
-                                    json.dumps({'name': 'new_course_name'}),
-                                    format='json')
-        response = view(request)
+#     def test_add_course_by_name(self):
+#         view = CourseViewSet.as_view()
+#         request = self.factory.post('/api/course/',
+#                                     json.dumps({'name': 'new_course_name'}),
+#                                     format='json')
+#         response = view(request)
         #self.assertEqual(response.data, {'name': 'new_course_name'})
         #self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 

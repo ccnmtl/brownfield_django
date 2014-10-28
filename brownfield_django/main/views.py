@@ -419,6 +419,7 @@ class BrownfieldHistoryView(View):
             '''This may need to be changed...'''
             return HttpResponse(INITIAL_XML)
 
+
 class BrownfieldTestView(View):
 
     def get(self, request):
@@ -487,7 +488,7 @@ class TeamHistoryView(View):
         team = Team.objects.get(user=request.user)
         try:
             team_history = History.objects.get(team=team)
-            # team_history.save()  # flake8 says it is unused if not saved
+            team_history.save()  # flake8 says it is unused if not saved
             return HttpResponse(self.send_history())
         except:
             '''If there is no history record associated with,
@@ -533,7 +534,7 @@ class TeamPerformTest(View):
         print request
 #         team = Team.objects.get(user=request.user)
 #         req_type = request.POST['description']
-# 
+#
 #         if req_type == "recon":
 #             th = History.objects.create(
 #                 team=team,
@@ -541,14 +542,14 @@ class TeamPerformTest(View):
 #                 description=request.POST['description'],
 #                 cost=request.POST['cost'])
 #             return HttpResponse("<data><response>OK</response></data>")
-# 
-# 
+#
+#
 #     team = models.ForeignKey(Team)
 #     date = models.CharField(max_length=16)
 #     # date = models.DateTimeField(default=datetime.now())
 #     description = models.CharField(max_length=255)
 #     cost = models.IntegerField(default=0)
-# 
+#
 #     def __unicode__(self):
 #         return '%s - %s' % (self.description, self.team)
 
@@ -561,8 +562,6 @@ class TeamPerformTest(View):
 #     testDetails = models.CharField(default="", max_length=255)
 #     testNumber = models.IntegerField(default=0)
 #     paramString = models.CharField(default="", max_length=255)
-
-
 
 
 class OnLoad(LoggedInMixin, JSONResponseMixin, View):
