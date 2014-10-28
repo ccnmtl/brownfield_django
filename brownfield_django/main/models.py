@@ -1,3 +1,5 @@
+# from datetime import datetime
+
 from django.db import models
 from django.forms import ModelForm
 from django.contrib.auth.models import User
@@ -153,6 +155,7 @@ class UserProfile(models.Model):
 class History(models.Model):
     team = models.ForeignKey(Team)
     date = models.CharField(max_length=16)
+    # date = models.DateTimeField(default=datetime.now())
     description = models.CharField(max_length=255)
     cost = models.IntegerField(default=0)
 
@@ -161,15 +164,43 @@ class History(models.Model):
 
 
 class PerformedTest(models.Model):
+    history = models.ForeignKey(History, null=True, default=None, blank=True)
     X = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
     z = models.IntegerField(default=0)
+    testDetails = models.CharField(default="", max_length=255)
     testNumber = models.IntegerField(default=0)
-    paramString = models.CharField(max_length=255)
+    paramString = models.CharField(default="", max_length=255)
 
     def __unicode__(self):
-        return self.paramString
+        return '%s - %s' % (self.description, self.paramString)
+
+
+class Information(models.Model):
+    """
+    Comment from Old Code:
+        Documents and News Items made available to or found by the Team
+    """
+    history = models.ForeignKey(History, null=True, default=None, blank=True)
+    X = models.IntegerField(default=0)
+    infoType = models.CharField(default="", max_length=255)
+    internalName = models.CharField(default="", max_length=255)
+
+    def __unicode__(self):
+        return '%s - %s' % (self.infoType, self.internalName)
 
 
 class Visit(models.Model):
     pass
+#     visit_key = StringCol(length=40, alternateID=True,
+#                           alternateMethodName="by_visit_key")
+#     created = DateTimeCol(default=datetime.now)
+#     expiry = DateTimeCol()
+#     lastPing = DateTimeCol(default=datetime.now)
+#
+#     def lookup_visit(cls, visit_key):
+#         try:
+#             return cls.by_visit_key(visit_key)
+#         except SQLObjectNotFound:
+#             return None
+#     lookup_visit = classmethod(lookup_visit)
