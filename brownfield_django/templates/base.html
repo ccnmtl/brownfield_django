@@ -35,14 +35,17 @@
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/MochiKit/MochiKit.js"></script>
     
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/brownfield.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script>
+{% comment %}
+    {% if request.user.userprofile.is_admin %}
+        <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script>
+    {% endif %}
 
     {% if request.user.userprofile.is_teacher %}
         <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script>
     {% endif %}
+{% endcomment %}
 
-    {% if request.user.userprofile.is_admin %}
-        <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script>
-    {% endif %}
 
 	{% block feeds %}{% endblock %}
 </head>

@@ -1,14 +1,14 @@
-import json
+# import json
 # from datetime import datetime
 
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
-from rest_framework.test import APIRequestFactory
+# from rest_framework.test import APIRequestFactory
 # from django.contrib.auth.models import User
 # from rest_framework import status
 from factories import ViewsAdminProfileFactory, AdminUserCourseFactory
 
-from brownfield_django.main.views import CourseViewSet
+# from brownfield_django.main.views import CourseViewSet
 # DetailJSONCourseView
 
 
@@ -118,18 +118,18 @@ class TestAdminViews(TestCase):
 #              }]})
 #         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-class TestAdminRESTViews(TestCase):
+# class TestAdminRESTViews(TestCase):
 
-    def setUp(self):
-        self.client = Client()
-        self.factory = APIRequestFactory()
-        self.admin = ViewsAdminProfileFactory().user
-        self.client.login(username=self.admin.username, password="Admin")
+#     def setUp(self):
+#         self.client = Client()
+#         self.factory = APIRequestFactory()
+#         self.admin = ViewsAdminProfileFactory().user
+#         self.client.login(username=self.admin.username, password="Admin")
 
-    def test_get_all_courses(self):
-        view = CourseViewSet.as_view()
-        request = self.factory.get('/api/course/')
-        response = view(request)
+#     def test_get_all_courses(self):
+#         view = CourseViewSet.as_view()
+#         request = self.factory.get('/api/course/')
+#         response = view(request)
 
 #     def test_get_user_courses(self):
 #         view = CourseViewSet.as_view()
