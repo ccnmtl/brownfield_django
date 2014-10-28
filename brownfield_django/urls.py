@@ -1,5 +1,3 @@
-import os.path
-
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
@@ -17,8 +15,6 @@ from brownfield_django.main.views import DetailJSONCourseView, \
 
 
 admin.autodiscover()
-
-site_media_root = os.path.join(os.path.dirname(__file__), "../media")
 
 redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
 

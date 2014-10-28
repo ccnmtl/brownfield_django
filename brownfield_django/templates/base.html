@@ -29,7 +29,7 @@
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/swfobject.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/MochiKit/MochiKit.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/brownfield.js"></script>
-    
+
 	{% block feeds %}{% endblock %}
 </head>
 <body class="{% block bodyclass %}{% endblock %}" id="{% block bodyid %}{% endblock %}">
@@ -173,8 +173,7 @@
 {% endblock %}
 
 <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
-
-<script src="{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
+<script src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>
 
 {% if STAGING_ENV %}
 <div class="alert alert-danger alert-dismissable" style="position: fixed; bottom: 0px;">
