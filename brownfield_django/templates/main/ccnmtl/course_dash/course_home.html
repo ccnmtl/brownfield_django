@@ -9,6 +9,8 @@
 {% endblock %}
 
 {% block js %}
+
+    
     {% comment %}List Templates{% endcomment %}
     <script type="text/template" id="document-list-template">
         [<%= name %>]
@@ -21,7 +23,8 @@
         [<%= first_name %>] <space><space>
         [<%= last_name %>] <space><space>
         Email: [<%= email %>]
-        <button class='btn btn-xs ed-st'> Edit Student </button>  <space><space>
+        <button class='btn btn-xs ed-st'> Edit Student </button>
+        <space><space>
         <button class='btn btn-xs rm-st'> Remove Student From Course </button>  <space><space><br />
     </script>
 
@@ -95,6 +98,7 @@
 
 {% block content %}
    <input type="hidden" name="crs-id" value="{{object.pk}}"/>
+   <input type="hidden" name="crs-active" value="{{object.active}}"/>
 
   <ul class="nav nav-tabs instructor-nav">
     <li class="active"><a href="#course-documents" data-toggle="tab">Course Info</a></li>

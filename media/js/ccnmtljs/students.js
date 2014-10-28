@@ -69,17 +69,6 @@ var StudentView = Backbone.View.extend({
   		this.model.set('last_name', jQuery(this.el).find("input.edt-last-name").val());
   		this.model.set('email', jQuery(this.el).find("input.edt-email").val());
    		this.model.save(
-//	        //wait: true,
-//	        null,
-//	        {
-//	            success: function (model, response) {
-//	                console.log("success");
-//	            },
-//	            error: function (model, response)
-//	            {
-//	                console.log("error");
-//	            }
-	//        }
     );
     },
     
@@ -157,8 +146,6 @@ var StudentControlView = Backbone.View.extend({
     	    	url: this.student_collection_view.course_students.url()
     	    }
     	);
-    	//this.student_collection_view.course_students.fetch({processData: true, reset: true});
-        //console.log(this.student_collection_view.course_students);
 	    jQuery(".add-std-frm-title").hide();
 	    jQuery(".add-std-frm").hide();
 	    jQuery(".add-std-btn").show();
@@ -168,7 +155,8 @@ var StudentControlView = Backbone.View.extend({
 });// End UserControlView  
 
 jQuery(document).ready(function () {
-
+	
+	//var crs_active = jQuery("input[name='crs-active']").val();
 	var course = jQuery("input[name='crs-id']").val();
 
     var student_control_view = new StudentControlView({

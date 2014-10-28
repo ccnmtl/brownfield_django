@@ -7,7 +7,8 @@
             <button class="add-crs">
             Add New Course   
             </button>
-            <form id="add-crs-frm" method="" action="" style="display: none;">{% csrf_token %}
+            <form id="add-crs-frm" method="" action="" style="display: none;">
+            {% csrf_token %}
                 <p id="frm-title"> <b>Add New Course: </b></p>
                 <input type="text" placeholder="Course Name" class="crs-name" /><br />
                 <input type="submit" value="Save Course" class="submit"/>
