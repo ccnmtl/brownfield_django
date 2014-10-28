@@ -33,8 +33,6 @@ class TeamNameSerializer(serializers.ModelSerializer):
 
 
 class StudentUserSerializer(serializers.HyperlinkedModelSerializer):
-   # course = serializers.RelatedField()
-
     class Meta:
         model = User
         fields = ('id', 'url', 'first_name', 'last_name', 'email')
