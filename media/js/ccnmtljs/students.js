@@ -74,7 +74,6 @@ var StudentView = Backbone.View.extend({
   		this.model.set('first_name', std_fname);
   		this.model.set('last_name', std_lname);
   		this.model.set('email', std_email);
-  		console.log(this.model.attributes);
    		this.model.save(
     );
     },
