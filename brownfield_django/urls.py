@@ -18,8 +18,6 @@ from brownfield_django.main.views import DetailJSONCourseView, \
 
 admin.autodiscover()
 
-site_media_root = os.path.join(os.path.dirname(__file__), "../media")
-
 redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
 
 auth_urls = (r'^accounts/', include('django.contrib.auth.urls'))
@@ -72,7 +70,7 @@ urlpatterns = patterns(
     (r'^demo/info/$', BrownfieldInfoView.as_view()),
     (r'^demo/history/', BrownfieldHistoryView.as_view()),
     (r'^demo/test/$', BrownfieldTestView.as_view()),
-    (r'^demo/save/$', "brownfield_django.main.views.demo_save"),
+    # (r'^demo/save/$', "brownfield_django.main.views.demo_save"),
     # /course/164/team/1020/play/history/
     # (r'^course/(?P<crs_pk>\d+)/team/(?P<team_pk>\d+)/play$',
     #    TeamHistoryView.as_view()),course/164/team/1020/play
