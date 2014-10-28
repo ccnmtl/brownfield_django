@@ -23,9 +23,6 @@
       		  pluginspage="http://www.macromedia.com/go/getflashplayer"
       		  flashVars="serverURL={{site.domain}}../../../demo/&amp;resourceRootURL={{STATIC_URL}}flash/" />
     	</object>
-    	<div id="userlogout" class="notice">
-    		<a href="/logout">Logout</a>
-   		</div>
 	</div> 
 	
 	<div id="demo">
@@ -35,24 +32,4 @@
 		  </div>
 	</div>
 	
-	{% comment %}
-      <!-- Static -->
-      <param name="movie" 
-          value="http://brownfield.ccnmtl.columbia.edu/static20071220/flash/bfa.swf" />
-      <!-- Domain & Static -->
-      <param name="flashVars" 
-          value="serverURL=http://brownfield.ccnmtl.columbia.edu/demo/&amp;
-          resourceRootURL=http://brownfield.ccnmtl.columbia.edu/static20071220/flash/" />
-      <!-- Static & Plugins & Domain & Static -->
-      <embed 
-          src="http://brownfield.ccnmtl.columbia.edu/static20071220/flash/bfa.swf"
-          pluginspage="http://www.macromedia.com/go/getflashplayer"
-          name="bfa" bgcolor="#4d3e1b" type="application/x-shockwave-flash"
-          align="middle" height="521" width="761" quality="high" 
-          flashVars="serverURL=http://brownfield.ccnmtl.columbia.edu/demo/&amp;
-          resourceRootURL=http://brownfield.ccnmtl.columbia.edu/static20071220/flash/"
-          allowScriptAccess="sameDomain">
-      </embed>
-    {% endcomment %}
-
 </div> <!-- tab-pane -->

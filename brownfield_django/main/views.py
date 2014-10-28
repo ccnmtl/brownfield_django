@@ -231,14 +231,14 @@ class HomeView(LoggedInMixin, View):
             if user_profile.is_admin():
                 url = '/ccnmtl/home/%s/' % (user_profile.id)
         except UserProfile.DoesNotExist:
-            pass  # we need to see if user is a team
+            # pass  # we need to see if user is a team
             # '''We are not allowing users to register.'''
             # return HttpResponseForbidden("forbidden")
-        try:
-            team = Team.objects.get(user=request.user.pk)
-            url = '/team/home/%s/' % (team.id)
-        except:
-            pass
+            try:
+                team = Team.objects.get(user=request.user.pk)
+                url = '/team/home/%s/' % (team.id)
+            except:
+                pass
         return HttpResponseRedirect(url)
 
 
@@ -419,7 +419,6 @@ class BrownfieldHistoryView(View):
             '''This may need to be changed...'''
             return HttpResponse(INITIAL_XML)
 
-
 class BrownfieldTestView(View):
 
     def get(self, request):
@@ -488,7 +487,7 @@ class TeamHistoryView(View):
         team = Team.objects.get(user=request.user)
         try:
             team_history = History.objects.get(team=team)
-            team_history.save()  # flake8 says it is unused if not saved
+            # team_history.save()  # flake8 says it is unused if not saved
             return HttpResponse(self.send_history())
         except:
             '''If there is no history record associated with,
@@ -528,8 +527,42 @@ class TeamInfoView(View):
             return HttpResponse("<data><response>OK</response></data>")
 
 
-class TeamPerformTest(LoggedInMixin, JSONResponseMixin, View):
-    pass
+class TeamPerformTest(View):
+
+    def post(self, request, pk):
+        print request
+#         team = Team.objects.get(user=request.user)
+#         req_type = request.POST['description']
+# 
+#         if req_type == "recon":
+#             th = History.objects.create(
+#                 team=team,
+#                 date=request.POST['date'],
+#                 description=request.POST['description'],
+#                 cost=request.POST['cost'])
+#             return HttpResponse("<data><response>OK</response></data>")
+# 
+# 
+#     team = models.ForeignKey(Team)
+#     date = models.CharField(max_length=16)
+#     # date = models.DateTimeField(default=datetime.now())
+#     description = models.CharField(max_length=255)
+#     cost = models.IntegerField(default=0)
+# 
+#     def __unicode__(self):
+#         return '%s - %s' % (self.description, self.team)
+
+
+# class PerformedTest(models.Model):
+#     history = models.ForeignKey(History, null=True, default=None, blank=True)
+#     X = models.IntegerField(default=0)
+#     y = models.IntegerField(default=0)
+#     z = models.IntegerField(default=0)
+#     testDetails = models.CharField(default="", max_length=255)
+#     testNumber = models.IntegerField(default=0)
+#     paramString = models.CharField(default="", max_length=255)
+
+
 
 
 class OnLoad(LoggedInMixin, JSONResponseMixin, View):

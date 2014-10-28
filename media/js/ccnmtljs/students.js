@@ -65,9 +65,16 @@ var StudentView = Backbone.View.extend({
    	editStudent: function(e)
    	{
    		e.preventDefault();
-  		this.model.set('first_name', jQuery(this.el).find("input.edt-frst-name").val());
-  		this.model.set('last_name', jQuery(this.el).find("input.edt-last-name").val());
-  		this.model.set('email', jQuery(this.el).find("input.edt-email").val());
+   		var std_fname = jQuery(this.el).find("input.edt-frst-name").val();
+   		var std_lname = jQuery(this.el).find("input.edt-last-name").val();
+        var std_email = jQuery(this.el).find("input.edt-email").val();
+   		/* For some reason setting the attributes below only sets correctly if you edit
+   		 * email, pulling the varibles here because here they are correct and then passing.
+   		 * */
+  		this.model.set('first_name', std_fname);
+  		this.model.set('last_name', std_lname);
+  		this.model.set('email', std_email);
+  		console.log(this.model.attributes);
    		this.model.save(
     );
     },

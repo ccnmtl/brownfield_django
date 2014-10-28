@@ -1,8 +1,4 @@
 {% extends 'base.html' %}
-{% comment %}
-    I am adding the bbjs block here to override the one in base,
-    really need to seperate into base template for ccnmtl/faculty users.
-{% endcomment %}
 {% block js %}
 
 {% endblock %}
@@ -16,7 +12,7 @@
 
     {% block course_documents %}
     <div class="course-div">
-        <b>Course Documents</b>
+        <h3>Course Documents</h3>
         <ul>
             {% for document in document_list %}
             <li>{{ document.name }} {{ document.link }}</li>
@@ -62,8 +58,8 @@
       		  flashVars="serverURL={{site.domain}}../../../team/{{object.pk}}/&amp;resourceRootURL={{STATIC_URL}}flash/" />
     	</object>
     	<div id="userlogout" class="notice">
-    		<a href="/logout">Logout</a>
-   		</div>
+            <a href="/logout">Logout</a>
+        </div> 
 	</div> 
 	
     {% endblock %}

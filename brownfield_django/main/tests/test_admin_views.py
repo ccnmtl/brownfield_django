@@ -3,12 +3,12 @@ import json
 
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
-# from rest_framework.test import APIRequestFactory
+from rest_framework.test import APIRequestFactory
 # from django.contrib.auth.models import User
 # from rest_framework import status
 from factories import ViewsAdminProfileFactory, AdminUserCourseFactory
 
-from brownfield_django.main.views import DetailJSONCourseView
+from brownfield_django.main.views import DetailJSONCourseView, CourseViewSet
 
 
 class TestAdminViews(TestCase):
@@ -117,43 +117,34 @@ class TestAdminViews(TestCase):
 #              }]})
 #         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-# class TestAdminRESTViews(TestCase):
-#
-#     def setUp(self):
-#         self.client = Client()
-#         self.factory = RequestFactory()
-#         # self.ajax_factory = APIRequestFactory()
-#         self.admin = ViewsAdminProfileFactory().user
-#         self.client.login(username=self.admin.username, password="Admin")
-#
-#     def test_home_redirect(self):
-#         '''Keep getting random bootstrap can't be compressed errors.'''
-#         request = self.client.get("/", follow=True)
-#         self.assertEquals(
-#             request.redirect_chain[0],
-#             ('http://testserver/ccnmtl/home/' +
-#              str(self.admin.profile.pk) + '/',
-#              302))
-#         self.assertTemplateUsed(request,
-#                                 'main/ccnmtl/home_dash/ccnmtl_home.html')
-#
-#
-#     def test_add_course_by_name(self):
-#         '''
-#         Calling post with desired name of the new course
-#         should result in a new course with that name being created
-#         and the course info (key) being returned to the browser to update
-#         the course list.
-#         '''
-#         pass
-#         request = self.ajax_factory.put('api/course/',
+class TestAdminRESTViews(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.factory = APIRequestFactory()
+        self.admin = ViewsAdminProfileFactory().user
+        self.client.login(username=self.admin.username, password="Admin")
+
+    def test_get_all_courses(self):
+        view = CourseViewSet.as_view()
+        request = self.factory.get('/api/course/')
+        response = view(request)
+
+#     def test_get_user_courses(self):
+#         view = CourseViewSet.as_view()
+#         request = self.ajax_factory.post('/api/course/',
 #                                     {'name': 'new_course_name'},
 #                                     format='json')
-#         view = CourseViewSet.as_view()
-#         force_authenticate(request, user=self.admin)
 #         response = view(request)
-#         #self.assertEqual(response.data, {'name': 'new_course_name'})
-#         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_add_course_by_name(self):
+        view = CourseViewSet.as_view()
+        request = self.factory.post('/api/course/',
+                                    json.dumps({'name': 'new_course_name'}),
+                                    format='json')
+        response = view(request)
+        #self.assertEqual(response.data, {'name': 'new_course_name'})
+        #self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 #     def test_get_user_courses(self):
 #         '''

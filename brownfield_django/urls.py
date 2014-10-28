@@ -11,7 +11,7 @@ from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
     TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView, \
     BrownfieldInfoView, BrownfieldHistoryView, BrownfieldTestView, \
-    TeamHistoryView, TeamInfoView
+    TeamHistoryView, TeamInfoView, TeamPerformTest
 
 
 admin.autodiscover()
@@ -54,7 +54,6 @@ urlpatterns = patterns(
                                namespace='rest_framework')),
     (r'^$', HomeView.as_view()),
     (r'^ccnmtl/home/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
-    (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
     (r'^admin_team/$', AdminTeamView.as_view()),
     (r'^admin_team/(?P<pk>\d+)/$', AdminTeamView.as_view()),
     (r'^course_details/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
@@ -62,15 +61,16 @@ urlpatterns = patterns(
     (r'^edit_teams/(?P<pk>\d+)/$', EditTeamsView.as_view()),
     (r'^show_teams/(?P<pk>\d+)/$', ShowTeamsView.as_view()),
     (r'^update_course/(?P<pk>\d+)$', DetailJSONCourseView.as_view()),
-    # Demo View
     (r'^demo/play$', TemplateView.as_view(
         template_name="main/flvplayer.html")),
     (r'^demo/info/$', BrownfieldInfoView.as_view()),
     (r'^demo/history/', BrownfieldHistoryView.as_view()),
     (r'^demo/test/$', BrownfieldTestView.as_view()),
+    (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
     (r'^team/(?P<pk>\d+)/play$', TeamHistoryView.as_view()),
-    (r'^team/(?P<pk>\d+)/info/$', TeamInfoView.as_view()),
     (r'^team/(?P<pk>\d+)/history/', TeamHistoryView.as_view()),
+    (r'^team/(?P<pk>\d+)/info/$', TeamInfoView.as_view()),
+    (r'^team/(?P<pk>\d+)/test/$', TeamPerformTest.as_view()),
     (r'^site_history/$', TemplateView.as_view(
         template_name="interactive/site_history.html")),
     (r'^admin/', include(admin.site.urls)),
