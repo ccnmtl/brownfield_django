@@ -1,5 +1,4 @@
 import factory
-from datetime import datetime
 from django.contrib.auth.models import User
 from brownfield_django.main.models import Document, Course, \
     UserProfile, History, PerformedTest, Team
@@ -96,7 +95,7 @@ class CourseThreeFactory(factory.DjangoModelFactory):
 class HistoryFactory(factory.DjangoModelFactory):
     FACTORY_FOR = History
     team = factory.SubFactory(TeamFactory)
-    date = datetime.now()
+    date = '2014/10/23 13:14'
     description = "History Record"
     cost = 100
 
