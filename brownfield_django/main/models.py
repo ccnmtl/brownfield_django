@@ -114,6 +114,10 @@ class Team(models.Model):
         only profiles of 'ST' type?'''
         return self.userprofile_set.all()
 
+    def get_team_history(self):
+        history = History.objects.filter(team=self)
+        return history
+
 
 class UserProfile(models.Model):
     '''UserProfile adds extra information to a user,
@@ -162,10 +166,18 @@ class History(models.Model):
     def __unicode__(self):
         return '%s - %s' % (self.description, self.team)
 
+    def get_tests_performed(self):
+        performed_tests = PerformedTest.objects.filter(history=self)
+        return performed_tests
+
+    def get_information(self):
+        information = Information.objects.filter(history=self)
+        return information
+
 
 class PerformedTest(models.Model):
     history = models.ForeignKey(History, null=True, default=None, blank=True)
-    X = models.IntegerField(default=0)
+    x = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
     z = models.IntegerField(default=0)
     testDetails = models.CharField(default="", max_length=255)
@@ -182,24 +194,8 @@ class Information(models.Model):
         Documents and News Items made available to or found by the Team
     """
     history = models.ForeignKey(History, null=True, default=None, blank=True)
-    infoType = models.CharField(default="", max_length=255)
-    internalName = models.CharField(default="", max_length=255)
+    infoType = models.CharField(default="", max_length=255, blank=True)
+    internalName = models.CharField(default="", max_length=255, blank=True)
 
     def __unicode__(self):
         return '%s - %s' % (self.infoType, self.internalName)
-
-
-class Visit(models.Model):
-    pass
-#     visit_key = StringCol(length=40, alternateID=True,
-#                           alternateMethodName="by_visit_key")
-#     created = DateTimeCol(default=datetime.now)
-#     expiry = DateTimeCol()
-#     lastPing = DateTimeCol(default=datetime.now)
-#
-#     def lookup_visit(cls, visit_key):
-#         try:
-#             return cls.by_visit_key(visit_key)
-#         except SQLObjectNotFound:
-#             return None
-#     lookup_visit = classmethod(lookup_visit)

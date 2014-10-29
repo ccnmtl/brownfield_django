@@ -98,7 +98,7 @@ class HistoryFactory(factory.DjangoModelFactory):
 class PerformedTestFactory(factory.DjangoModelFactory):
     FACTORY_FOR = PerformedTest
     history = factory.SubFactory(HistoryFactory)
-    X = 10
+    x = 10
     y = 30
     z = 60
     testNumber = 1

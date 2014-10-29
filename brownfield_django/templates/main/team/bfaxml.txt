@@ -1,0 +1,52 @@
+<bfaxml>
+    <config>
+        <user realname="{{team.user.username}}" 
+	          signedcontract="{{team.signed_contract}}" 
+	          startingbudget="{{team.course.startingBudget}}" 
+	    />
+    <narrative enabled="{{team.course.enableNarrative}}" />
+
+    <information>
+      {% for info in team_info %}
+      <info type="{{info.infoType}}" {% if info.internalName %}name="{{info.internalName}}"{% endif %}></info>
+      {% endfor %}
+    </information>
+    </config>
+
+    <testdata>
+        {% for test in team_tests %}
+            <test y="{{test.y}}" x="{{test.x}}" n="{{test.testNumber}}"
+            {% if test.date %}
+                date="{{test.date}}"
+            {% endif %}
+            
+            {% if test.cost %}
+                cost="{{test.cost}}"
+            {% endif %}
+            
+            {% if test.testNumber %}
+                testNumber="{{test.testNumber}}"
+            {% endif %}
+            
+            {% if test.paramString %}
+                paramString="{{test.paramString}}"
+            {% endif %}
+            
+            {% if test.z %}
+                z="{{test.z}}"
+            {% endif %}
+            
+            {% if test.description %}
+                description="{{test.description}}"
+            {% endif %}
+            ></test>
+       
+        {% endfor %}
+    </testdata>
+
+    <budget>
+        {% for hist in team_history %}
+            <i a="{{hist.cost}}" t="{{hist.date}}" d="{{hist.description}}"></i>
+       {% endfor %}
+    </budget>
+</bfaxml>

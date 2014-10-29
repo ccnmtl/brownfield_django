@@ -20,14 +20,15 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from brownfield_django.main.models import Course, UserProfile, Document, \
-    Team, History
+    Team, History, Information, PerformedTest
 from brownfield_django.main.serializers import DocumentSerializer, \
     UserSerializer, TeamNameSerializer, CourseSerializer, \
     StudentUserSerializer, TeamSerializer, StudentMUserSerializer
 
 from brownfield_django.main.xml_strings import INITIAL_XML, \
     TEAM_HISTORY
-from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin
+from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
+    CSRFExemptMixin
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -467,106 +468,119 @@ class TeamHomeView(DetailView):
 """Team Views for interactive."""
 
 
-class TeamHistoryView(View):
+class TeamHistoryView(CSRFExemptMixin, View):
     """Need to parse the XML and substitute the correct
     values for each student interaction."""
 
-    def send_history(self):
-        pass
-#     th = TEAM_HISTORY
-#         print th
-#         et = ET.fromstring(th)
-#         print et
-#         for each in et.iter('user'):
-#             print each.attrib
-#             each.set('signedcontract', team.signed_contract)
-#             each.set('startingbudget', team.budget)
-#             each.set('realname', team.user.username)
+    def send_team_history(self, team):
+        template = loader.get_template(
+            'main/team/bfaxml.txt')
+        history = History.objects.filter(team=team)
+        team_info = Information.objects.filter(history=history)
+        tests_perf = PerformedTest.objects.filter(history=history)
+
+        ctx = Context({'team': team, 'team_info': team_info,
+                       'team_tests': tests_perf, 'team_history': history})
+        xml_history = template.render(ctx)
+        return xml_history
 
     def get(self, request, pk):
         """Get retrieves the current team values for the flash."""
         team = Team.objects.get(user=request.user)
-        try:
-            team_history = History.objects.get(team=team)
-            team_history.save()  # flake8 says it is unused if not saved
-            return HttpResponse(self.send_history())
-        except:
-            '''If there is no history record associated with,
-            the team yet it is their first log in.'''
+        chk_history = History.objects.filter(team=team)
+
+        if chk_history.count() == 0:
             return HttpResponse(TEAM_HISTORY)
+        elif chk_history.count() > 0:
+            # team_info = self.send_team_history(team)
+            return HttpResponse(self.send_team_history(team))
 
 
-class TeamInfoView(View):
+class TeamInfoView(CSRFExemptMixin, View):
 
     def post(self, request, pk):
         team = Team.objects.get(user=request.user)
-        req_type = request.POST['infoType']
+        infoType = request.POST['infoType']
 
-        if req_type == "recon":
+        if infoType == "recon":
             th = History.objects.create(
                 team=team,
                 date=request.POST['date'],
                 description=request.POST['description'],
                 cost=request.POST['cost'])
+            inf = Information.objects.create(
+                history=th,
+                infoType=request.POST['infoType'],
+                internalName=request.POST['internalName'])
             return HttpResponse("<data><response>OK</response></data>")
 
-        elif req_type == "visit":
+        elif infoType == "visit":
             th = History.objects.create(
                 team=team,
                 date=request.POST['date'],
                 description=request.POST['description'],
                 cost=request.POST['cost'])
             th.save()
+            inf = Information.objects.create(
+                history=th,
+                internalName=request.POST['internalName'],
+                infoType=request.POST['infoType'])
             return HttpResponse("<data><response>OK</response></data>")
 
-        elif req_type == "question":
+        elif infoType == "question":
             th = History.objects.create(
                 team=team,
                 date=request.POST['date'],
                 description=request.POST['description'],
                 cost=request.POST['cost'])
+            inf = Information.objects.create(
+                history=th,
+                internalName=request.POST['internalName'],
+                infoType=request.POST['infoType'])
+            return HttpResponse("<data><response>OK</response></data>")
+
+        elif infoType == "doc":
+            th = History.objects.create(
+                team=team,
+                date=request.POST['date'],
+                description=request.POST['description'],
+                cost=request.POST['cost'])
+            inf = Information.objects.create(
+                history=th,
+                internalName=request.POST['internalName'],
+                infoType=request.POST['infoType'])
+            inf.save()
             return HttpResponse("<data><response>OK</response></data>")
 
 
-class TeamPerformTest(View):
+class TeamPerformTest(CSRFExemptMixin, View):
 
     def post(self, request, pk):
-        print request
-#         team = Team.objects.get(user=request.user)
-#         req_type = request.POST['description']
-#
-#         if req_type == "recon":
-#             th = History.objects.create(
-#                 team=team,
-#                 date=request.POST['date'],
-#                 description=request.POST['description'],
-#                 cost=request.POST['cost'])
-#             return HttpResponse("<data><response>OK</response></data>")
-#
-#
-#     team = models.ForeignKey(Team)
-#     date = models.CharField(max_length=16)
-#     # date = models.DateTimeField(default=datetime.now())
-#     description = models.CharField(max_length=255)
-#     cost = models.IntegerField(default=0)
-#
-#     def __unicode__(self):
-#         return '%s - %s' % (self.description, self.team)
+        team = Team.objects.get(user=request.user)
 
-
-# class PerformedTest(models.Model):
-#     history = models.ForeignKey(History, null=True, default=None, blank=True)
-#     X = models.IntegerField(default=0)
-#     y = models.IntegerField(default=0)
-#     z = models.IntegerField(default=0)
-#     testDetails = models.CharField(default="", max_length=255)
-#     testNumber = models.IntegerField(default=0)
-#     paramString = models.CharField(default="", max_length=255)
-
-
-class OnLoad(LoggedInMixin, JSONResponseMixin, View):
-    pass
-
-
-class OnSave(LoggedInMixin, JSONResponseMixin, View):
-    pass
+        th = History.objects.create(
+            team=team,
+            date=request.POST['date'],
+            description=request.POST['description'],
+            cost=request.POST['cost'])
+        pf = PerformedTest.objects.create(
+            history=th,
+            x=int(request.POST['x']),
+            y=int(request.POST['y']),
+            testNumber=int(request.POST['testNumber']))
+        try:
+            pf.z = request.POST['z']
+            pf.save()
+        except:
+            pass
+        try:
+            pf.testDetails = request.POST['testDetails']
+            pf.save()
+        except:
+            pass
+        try:
+            pf.paramString = request.POST['paramString']
+            pf.save()
+        except:
+            pass
+        return HttpResponse("<data><response>OK</response></data>")

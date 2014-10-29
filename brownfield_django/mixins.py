@@ -4,6 +4,7 @@ from django.http.response import HttpResponseNotAllowed, HttpResponse
 from django.utils.decorators import method_decorator
 from xml.dom.minidom import parseString  # parse,
 # Think parse is from file path, parse string is from randome snippets
+from django.views.decorators.csrf import csrf_exempt
 
 
 def ajax_required(func):
@@ -36,6 +37,13 @@ class JSONResponseMixin(object):
         return HttpResponse(json.dumps(context),
                             content_type='application/json',
                             **response_kwargs)
+
+
+class CSRFExemptMixin(object):
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(CSRFExemptMixin, self).dispatch(*args, **kwargs)
 
 
 class XMLResponseMixin(object):
