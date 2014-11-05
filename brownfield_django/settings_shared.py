@@ -1,3 +1,6 @@
+# flake8: noqa
+from settings_local import *
+
 # Django settings for brownfield_django project.
 import os.path
 import sys
@@ -60,7 +63,7 @@ USE_I18N = False
 MEDIA_ROOT = "/var/www/brownfield_django/uploads/"
 MEDIA_URL = '/uploads/'
 STATIC_URL = '/media/'
-SECRET_KEY = ')ng#)ef_u@_^zvvu@dxm7ql-yb^_!a6%v3v^j3b(mp+)l+5%@h'
+
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
