@@ -1,15 +1,15 @@
 var windows_to_close_on_logout = [];
 
-addLoadEvent(function() {
-    var lgout = $('userlogout');
-    if (lgout) {
-	lgout.innerHTML = "<span><a href=\"javascript:logOut('/logout')\">Log out</a></span>";
-    }
-    //ajaxify all forms
-    try {
-	AjaxFormManager.init(document,brownfieldAjaxFormDecorator);
-    } catch(e) { /*oops, maybe no ajaxformmanager here, like in play window */ }
-});
+//addLoadEvent(function() {
+//    var lgout = $('userlogout');
+//    if (lgout) {
+//	lgout.innerHTML = "<span><a href=\"javascript:logOut('/logout')\">Log out</a></span>";
+//    }
+//    //ajaxify all forms
+//    try {
+//	AjaxFormManager.init(document,brownfieldAjaxFormDecorator);
+//    } catch(e) { /*oops, maybe no ajaxformmanager here, like in play window */ }
+//});
 
 function openPopWin(theURL,w,h,resizing,scrolling,winname,closeOnLogout) {
 	var winl = (screen.width - w) / 2;

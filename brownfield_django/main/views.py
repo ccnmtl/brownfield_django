@@ -243,7 +243,7 @@ class HomeView(LoggedInMixin, View):
         return HttpResponseRedirect(url)
 
 
-class DetailJSONCourseView(JSONResponseMixin, View):
+class DetailJSONCourseView(CSRFExemptMixin, JSONResponseMixin, View):
     '''
     For now I think it is best to have a separate view for the
     course detail template.
@@ -267,13 +267,21 @@ class DetailJSONCourseView(JSONResponseMixin, View):
         elif attribute == 'false':
             return False
 
-    def get(self, request, pk, format=None, *args, **kwargs):
+    def get(self, request, pk):
         '''
         Should probably retrieve the information for the course here
         so it appears in the form/pre-populates the fields.
         '''
+        print ""
         course = self.get_object(pk)
         j_course = []
+        professors = User.objects.filter(profile__profile_type='AD')
+        print professors
+        professor_list = []
+        for each in professors:
+            professor_list.append([{'first_name': each.first_name, 'last_name': each.last_name,
+                                    'username': each.username, 'pk': each.pk}])
+        print professor_list
         j_course.append({'id': str(course.id),
                          'name': course.name,
                          'startingBudget': course.startingBudget,
@@ -282,12 +290,17 @@ class DetailJSONCourseView(JSONResponseMixin, View):
                          'message': course.message,
                          'active': self.convert_TF_to_json(course.active),
                          'archive': self.convert_TF_to_json(course.archive),
-                         'professor': str(course.professor)
+                         'professor': str(course.professor),
+                         'professor_list' : str(professor_list)
                          })
+        print j_course
         return self.render_to_json_response({'course': j_course})
 
-    def post(self, request, pk, format=None, *args, **kwargs):
+    def post(self, request, pk):
         '''This is really really ugly as is get method need to clean up.'''
+        print ""
+        print "Inside POST"
+        print request.POST
         course = self.get_object(pk)
         course.name = self.request.POST.get('name')
         course.startingBudget = int(self.request.POST.get('startingBudget'))
@@ -303,6 +316,13 @@ class DetailJSONCourseView(JSONResponseMixin, View):
         course.professor = userprof
         course.save()
         j_course = []
+        professors = User.objects.filter(profile__profile_type='AD')
+        print professors
+        professor_list = []
+        for each in professors:
+            professor_list.append([{'first_name': each.first_name, 'last_name': each.last_name,
+                                    'username': each.username, 'pk': each.pk}])
+        print professor_list
         j_course.append({'id': str(course.id),
                          'name': course.name,
                          'startingBudget': course.startingBudget,
@@ -311,7 +331,8 @@ class DetailJSONCourseView(JSONResponseMixin, View):
                          'message': course.message,
                          'active': self.convert_TF_to_json(course.active),
                          'archive': self.convert_TF_to_json(course.archive),
-                         'professor': str(course.professor)
+                         'professor': str(course.professor),
+                         'professor_list' : str(professor_list)
                          })
         return self.render_to_json_response({'course': j_course})
 
