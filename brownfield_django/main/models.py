@@ -65,9 +65,6 @@ class Course(models.Model):
     def get_teams(self):
         return self.team_set.filter(course=self)
 
-    def get_team_members(self, name):
-        return self.userprofile_set.filter(profile_type='ST', team_name=name)
-
     def get_documents(self):
         documents = Document.objects.filter(course=self)
         return documents
