@@ -387,7 +387,7 @@ class CCNMTLCourseDetail(DetailView):
 '''CCNMTL/Admin Interactive Views'''
 
 
-class BrownfieldInfoView(View):
+class BrownfieldInfoView(CSRFExemptMixin, View):
     '''Corresponds to "demo/info/"'''
     def get(self, request):
         if request.user.profile.is_admin():
@@ -400,11 +400,12 @@ class BrownfieldInfoView(View):
         if request.user.profile.is_admin():
             return HttpResponse("<data><response>OK</response></data>")
         elif request.user.profile.is_teacher():
+            print "User is teacher"
             '''This may need to be changed...'''
-            return HttpResponse(INITIAL_XML)
+            return HttpResponse("<data><response>OK</response></data>")
 
 
-class BrownfieldHistoryView(View):
+class BrownfieldHistoryView(CSRFExemptMixin, View):
 
     def get(self, request):
         if request.user.profile.is_admin():
@@ -421,7 +422,7 @@ class BrownfieldHistoryView(View):
             return HttpResponse(INITIAL_XML)
 
 
-class BrownfieldTestView(View):
+class BrownfieldTestView(CSRFExemptMixin, View):
 
     def get(self, request):
         if request.user.profile.is_admin():

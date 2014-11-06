@@ -63,7 +63,7 @@ urlpatterns = patterns(
     (r'^update_course/(?P<pk>\d+)$', DetailJSONCourseView.as_view()),
     (r'^demo/play$', TemplateView.as_view(
         template_name="main/flvplayer.html")),
-    (r'^demo/info/$', BrownfieldInfoView.as_view()),
+    (r'^demo/info/', BrownfieldInfoView.as_view()),
     (r'^demo/history/', BrownfieldHistoryView.as_view()),
     (r'^demo/test/$', BrownfieldTestView.as_view()),
     (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),

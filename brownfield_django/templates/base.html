@@ -28,24 +28,11 @@
     <script type="text/javascript" src="{{STATIC_URL}}js/libraries/backbone-min.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/utils.js"></script>
     
-    {% comment %}<script type="text/javascript" src="{{STATIC_URL}}old_javascript/ajaxify_forms.js"></script>{% endcomment %}
-    
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/swfobject.js"></script>
     {% comment %}{% endcomment %}
-    <script type="text/javascript" src="{{STATIC_URL}}old_javascript/MochiKit/MochiKit.js"></script>
     
     <script type="text/javascript" src="{{STATIC_URL}}old_javascript/brownfield.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script>
-{% comment %}
-    {% if request.user.userprofile.is_admin %}
-        <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script>
-    {% endif %}
-
-    {% if request.user.userprofile.is_teacher %}
-        <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script>
-    {% endif %}
-{% endcomment %}
-
 
 	{% block feeds %}{% endblock %}
 </head>
