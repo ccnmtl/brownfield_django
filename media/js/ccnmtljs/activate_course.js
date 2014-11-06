@@ -12,11 +12,11 @@ function get_students(){
 				           'email': jQuery(this).find("td input[name='email']").val(),
 				           'team_id': jQuery(this).find("td option:selected").val(),
 				           'team_name': jQuery(this).find("td option:selected").text()
-                           }
+                           };
             
         data.push({ 'student' : student });
             
-    })
+    });
 
     return data;
 }

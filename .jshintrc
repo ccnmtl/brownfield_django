@@ -1,0 +1,22 @@
+{
+    // should be able to set undef to true,
+    // but there is an import conflict on 'Team'
+    // between student-teams.js and teams.js
+    // that needs to be resolved first
+		"undef": false,
+		"browser": true,
+		"predef": [
+		"$",
+		"define",
+		"jQuery",
+		"Backbone",
+		"_",
+		"console",
+		"alert",
+
+    // this variable appears in update_course.js
+    // without being defined. it should be fixed
+    // there and then this can be removed
+		"crs_id"
+		]
+}

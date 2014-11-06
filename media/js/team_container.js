@@ -7,7 +7,7 @@ var Team= Backbone.Model.extend({
             username: "Team Name",
             password1: "password1",
             password2: "password2"
-        }
+        };
     },
 
     initialize: function(attributes) 

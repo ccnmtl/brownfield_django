@@ -6,7 +6,7 @@ var Student= Backbone.Model.extend({
             first_name: "First Name Student",
             last_name: "Last Name Student",
             email: "email@email.com",
-        }
+        };
     },
 
     initialize: function(attributes) 

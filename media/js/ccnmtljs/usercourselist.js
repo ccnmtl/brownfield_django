@@ -28,7 +28,7 @@ var CourseCollection = Backbone.Collection.extend({
 	     if (this.exclude_username) {
 	         url += '?exclude_username=' + this.exclude_username;
 	     }
-	     return url
+	     return url;
 	 },
 	 initialize : function(options) {
 	     if (options && 'exclude_username' in options) {

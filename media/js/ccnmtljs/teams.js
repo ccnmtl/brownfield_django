@@ -21,7 +21,7 @@ var TeamCollection = Backbone.Collection.extend({
 	     if (this.course) {
 	         url += this.course + '/';
 	     }
-	     return url
+	     return url;
 	 },
 	 initialize : function(options){
 	     if (options && 'course' in options) {

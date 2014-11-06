@@ -13,12 +13,12 @@ var UpdateCourse = Backbone.Model.extend({
             active: false,
             archive: false,
             professor: "Default professor"
-        }
+        };
     },
        
 	initialize: function(attributes) 
 	{
-	    name = attributes.name || '<EMPTY>';
+	    this.name = attributes.name || '<EMPTY>';
 	}
 	    
 });
@@ -45,13 +45,13 @@ var UpdateCourseView = Backbone.View.extend({
     	
     render: function () {
     	this.update_course.fetch({processData: true, reset: true});
-        jQuery('#id_name').val() = this.update_course.name;
-        jQuery('#id_startingBudget').val() = this.update_course.startingBudget;
-        jQuery('#id_enableNarrative').val() = this.update_course.enableNarrative;
-        jQuery('#id_message').val() = this.update_course.message;
-        jQuery('#id_active').val() = this.update_course.active;
-        jQuery('#id_archive').val() = this.update_course.archive;
-        jQuery('#id_professor').val() = this.update_course.professor;
+        jQuery('#id_name').val(this.update_course.name);
+        jQuery('#id_startingBudget').val(this.update_course.startingBudget);
+        jQuery('#id_enableNarrative').val(this.update_course.enableNarrative);
+        jQuery('#id_message').val(this.update_course.message);
+        jQuery('#id_active').val(this.update_course.active);
+        jQuery('#id_archive').val(this.update_course.archive);
+        jQuery('#id_professor').val(this.update_course.professor);
      },
     	
     sendEdit: function() {
