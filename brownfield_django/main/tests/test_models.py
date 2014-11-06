@@ -26,6 +26,11 @@ class TestCourseFactory(TestCase):
         course = CourseFactory()
         self.assertEqual(str(course), course.name)
 
+    def test_get_student_users_empty(self):
+        course = CourseFactory()
+        r = course.get_student_users()
+        self.assertEqual(r.count(), 0)
+
 
 class TestTeamFactory(TestCase):
 
