@@ -68,7 +68,7 @@ var Team= Backbone.Model.extend({
             name: "Team Name",
             password1: "password1",
             password2: "password2"
-        }
+        };
     },
 
     initialize: function(attributes) 
@@ -98,18 +98,15 @@ var TeamView = Backbone.View.extend({
 			             "Remove Team From Course" +
 			             "</button>"),
 
-   	initialize: function () {
+   	initialize: function (objects) {
 
-   	    initialize: function (options)
-   	    {
    	    	_.bindAll(this,
    	    			 'render',
    	    			 'initialRender');
    	    	this.course_teams = new TeamCollection();
    	    	this.course_teams.fetch({processData: true, reset: true});
    	    	this.course_teams.on('reset', this.initialRender);
-   		},
-   		
+
    		this.team_members = new TeamMemberView();
    		this.team_members.fetch({processData: true, reset: true});
    	    this.listenTo(this.model, 'change', this.render);
@@ -141,13 +138,8 @@ var TeamView = Backbone.View.extend({
     addTeamMember: function()
    	{
    		console.log("Adding Team Member.");
-    },
-
-    addTeamMember: function()
-   	{
-   		console.log("Adding Team Member.");
     }
-    
+
 });// End Team View
 
 

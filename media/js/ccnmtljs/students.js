@@ -20,7 +20,7 @@ var StudentCollection = Backbone.Collection.extend({
 	     if (this.course) {
 	         url += '?course=' + this.course;
 	     }
-	     return url
+	     return url;
 	 },
 	 initialize : function(options){
 	     if (options && 'course' in options) {
@@ -38,7 +38,7 @@ var StudentView = Backbone.View.extend({
 
 	initialize: function(options)
 	{
-		this.template = _.template(jQuery("#student-list-template").html()),
+		this.template = _.template(jQuery("#student-list-template").html());
 
 		this.listenTo(this.model, 'change', this.render);
 		this.listenTo(this.model, 'destroy', this.remove);

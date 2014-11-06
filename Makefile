@@ -2,10 +2,16 @@ MANAGE=./manage.py
 APP=brownfield_django
 FLAKE8=./ve/bin/flake8
 
-jenkins: ./ve/bin/python validate test flake8
+jenkins: ./ve/bin/python jshint validate test flake8
 
 ./ve/bin/python: requirements.txt bootstrap.py virtualenv.py
 	./bootstrap.py
+
+jshint: node_modules/jshint/bin/jshint
+	./node_modules/jshint/bin/jshint media/js/ccnmtljs
+
+node_modules/jshint/bin/jshint:
+	npm install jshint --prefix .
 
 test: ./ve/bin/python
 	$(MANAGE) jenkins

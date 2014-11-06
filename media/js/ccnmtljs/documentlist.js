@@ -18,7 +18,7 @@ var DocumentCollection = Backbone.Collection.extend({
 	     if (this.course) {
 	         url += '?course=' + this.course;
 	     }
-	     return url
+	     return url;
 	 },
 	 
 	 initialize : function(options){

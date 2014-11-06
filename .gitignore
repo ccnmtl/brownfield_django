@@ -10,3 +10,4 @@ media/CACHE
 local_settings.py
 uploads
 .coverage
+node_modules/
