@@ -60,9 +60,11 @@
 					<p>
 						<label for="id_professor">Professor:</label>
 						<select id="id_professor" name="professor">
+						    {% comment %}
 							<option value="" selected="selected">---------</option>
-							<div id="option_area"></div>
+							
 							{% comment %}
+							<div id="option_area"></div>
 							{% for p in professor_list %}
 								<option value="p.pk">{{p.first_name}} <space><space> {{p.last_name}}</option>
 							{% endfor %}

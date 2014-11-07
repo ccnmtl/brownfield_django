@@ -257,14 +257,14 @@ class DetailJSONCourseView(CSRFExemptMixin, JSONResponseMixin, View):
 
     def convert_TF_to_json(self, attribute):
         if attribute is True:
-            return 'true'
+            return "true"
         elif attribute is False:
-            return 'false'
+            return "false"
 
     def convert_TF_from_json(self, attribute):
-        if attribute == 'true':
+        if attribute == "true":
             return True
-        elif attribute == 'false':
+        elif attribute == "false":
             return False
 
     def get(self, request, pk):
@@ -272,29 +272,25 @@ class DetailJSONCourseView(CSRFExemptMixin, JSONResponseMixin, View):
         Should probably retrieve the information for the course here
         so it appears in the form/pre-populates the fields.
         '''
-        print ""
         course = self.get_object(pk)
         j_course = []
         professors = User.objects.filter(profile__profile_type='AD')
-        print professors
         professor_list = []
         for each in professors:
-            professor_list.append([{'first_name': each.first_name, 'last_name': each.last_name,
-                                    'username': each.username, 'pk': each.pk}])
-        print professor_list
-        j_course.append({'id': str(course.id),
-                         'name': course.name,
-                         'startingBudget': course.startingBudget,
-                         'enableNarrative': self.convert_TF_to_json(
+            professor_list.append({"first_name": str(each.first_name), "last_name": str(each.last_name),
+                                    "username": str(each.username), "pk": str(each.pk)})
+        j_course.append({"id": str(course.id),
+                         "name": course.name,
+                         "startingBudget": course.startingBudget,
+                         "enableNarrative": self.convert_TF_to_json(
                              course.enableNarrative),
-                         'message': course.message,
-                         'active': self.convert_TF_to_json(course.active),
-                         'archive': self.convert_TF_to_json(course.archive),
-                         'professor': str(course.professor),
-                         'professor_list' : str(professor_list)
+                         "message": str(course.message),
+                         "active": self.convert_TF_to_json(course.active),
+                         "archive": self.convert_TF_to_json(course.archive),
+                         "professor": str(course.professor),
+                         "professor_list" : json.dumps(professor_list)
                          })
-        print j_course
-        return self.render_to_json_response({'course': j_course})
+        return self.render_to_json_response({"course": j_course })
 
     def post(self, request, pk):
         '''This is really really ugly as is get method need to clean up.'''
@@ -315,26 +311,26 @@ class DetailJSONCourseView(CSRFExemptMixin, JSONResponseMixin, View):
             username=self.request.POST.get('professor'))
         course.professor = userprof
         course.save()
-        j_course = []
         professors = User.objects.filter(profile__profile_type='AD')
-        print professors
         professor_list = []
         for each in professors:
-            professor_list.append([{'first_name': each.first_name, 'last_name': each.last_name,
-                                    'username': each.username, 'pk': each.pk}])
-        print professor_list
-        j_course.append({'id': str(course.id),
-                         'name': course.name,
-                         'startingBudget': course.startingBudget,
-                         'enableNarrative': self.convert_TF_to_json(
+            professor_list.append({"first_name": str(each.first_name), "last_name": str(each.last_name),
+                                    "username": str(each.username), "pk": str(each.pk)})
+        j_course = []
+        j_course.append({"id": str(course.id),
+                         "name": course.name,
+                         "startingBudget": course.startingBudget,
+                         "enableNarrative": self.convert_TF_to_json(
                              course.enableNarrative),
-                         'message': course.message,
-                         'active': self.convert_TF_to_json(course.active),
-                         'archive': self.convert_TF_to_json(course.archive),
-                         'professor': str(course.professor),
-                         'professor_list' : str(professor_list)
+                         "message": str(course.message),
+                         "active": self.convert_TF_to_json(course.active),
+                         "archive": self.convert_TF_to_json(course.archive),
+                         "professor": str(course.professor),
+                         "professor_list" : json.dumps(professor_list)
                          })
-        return self.render_to_json_response({'course': j_course})
+        print "j_course"
+        print json.dumps(j_course)
+        return self.render_to_json_response({"course": j_course})
 
 
 class ActivateCourseView(JSONResponseMixin, View):

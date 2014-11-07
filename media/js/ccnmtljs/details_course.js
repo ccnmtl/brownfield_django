@@ -6,23 +6,32 @@ jQuery(function() {
     	type: "GET",
     	success: function (data) 
     	{
-    		//console.log(data);
-    		
-    		//jQuery('#option_area').html();
+    		var html = '<option value="" selected="selected">---------</option>'; //creating a string to return
+    		var prof_list = data.course[0].professor_list;
+    		var json = jQuery.parseJSON(prof_list);
+
+    		for(var i=0; i<json.length; i++)
+    		{
+	            var obj = json;
+	            html = html + 
+	                   '<option value="' + obj[i].username + '">' 
+	                   + obj[i].first_name + ' ' + obj[i].last_name 
+	                   + '</option>';
+		    }
+    		jQuery('#id_professor').html(html)//#option_area').html(html);
     		var crs_data = data;
-    		//console.log(crs_data.course[0].name);
     	    jQuery('#id_name').val(crs_data.course[0].name);
             jQuery('#id_startingBudget').val(crs_data.course[0].startingBudget);
             jQuery('#id_enableNarrative').val(crs_data.course[0].enableNarrative);
             jQuery('#id_message').val(crs_data.course[0].message);
             jQuery('#id_active').val(crs_data.course[0].active);
             jQuery('#id_archive').val(crs_data.course[0].archive);
-            jQuery('#id_professor option:selected' ).text(crs_data.course[0].professor);
-            //console.log(data);
+            jQuery('#id_professor option:selected' ).val(crs_data.course[0].professor);
+            // come back to this to fill out the professor name
+            //jQuery('#id_professor option:selected' ).text(crs_data.course[0].professor);
         }, 
     	error: function(data) 
     	{
-    		console.log(data);
     		alert("There was a problem getting the course details, please try reloading the page.");
         }
     }); // end ajax GET
@@ -30,37 +39,63 @@ jQuery(function() {
 	
     jQuery('#update-crs-btn').on('click', function(e)
     {
-    	console.log(data);
-    	//console.log(jQuery('#upt-crs-frm').serializeArray());
-    	//var array_vars = jQuery('#upt-crs-frm').serializeArray();
-    	//console.log(array_vars);
-    	//console.log(JSON.stringify(array_vars));
-    	//console.log(JSON.stringify(array_vars));
+    	//Setting the values to send here
     	var data = $('#upt-crs-frm').serializeArray().reduce(function(obj, item) {
     	    obj[item.name] = item.value;
     	    return obj;
     	}, {});
-    	console.log(data);
-    	console.log(JSON.stringify(data));
-    	var json_data = JSON.stringify(data);
+    	
+    	data.professor = jQuery('#id_professor').val();
+    	//console.log("professor");
+    	//console.log(data.professor);
+    	// now for the booleans
+        if (jQuery('#id_enableNarrative').is(':checked'))
+        {
+        	data.enableNarrative = 'true';
+        }
+        if (jQuery('#id_enableNarrative').is(':checked') === false)
+        {
+        	data.enableNarrative = 'false';
+        }
+
+        if (jQuery('#id_active').is(':checked'))
+        {
+        	data.active = 'true';
+        }
+        if (jQuery('#id_active').is(':checked') === false)
+        {
+        	data.active = 'false';
+        }
+
+       if (jQuery('#id_archive').is(':checked'))
+       {
+    	   data.archive = 'true';
+       }
+       if (jQuery('#id_archive').is(':checked') === false)
+       {
+    	   data.archive = 'false';
+       }
     	
     	jQuery.ajax(
         {
             url: "/update_course/" + crs_id,
             type: "POST",
+            dataType: 'json',
             data: data,
-//            		{'name' : jQuery('#id_name').val(),
-//            	   'startingBudget' : jQuery('#id_startingBudget').val(),
-//            	   'enableNarrative' : jQuery('#id_enableNarrative').val(),
-//            	   'message' : jQuery('#id_message').val(),
-//            	   'active' : jQuery('#id_active').val(),
-//            	   'archive' : jQuery('#id_archive').val(),
-//            	   'professor' : jQuery('#id_professor option:selected' ).text()
-//            	   },
 
-            success: function (data) 
+
+            success: function (json, textStatus, xhr) 
             {
-        		var crs_data = data;
+            	console.log(json);
+            	var crs_json = json.course[0];///jQuery.parseJSON(json);
+        		console.log("crs_json");
+        		console.log(crs_json);
+        		//data.course[0]
+        		var crs_data = crs_json;
+        		
+        		console.log("crs_data");
+        		console.log(crs_data);
+        		
         		
         		//simple text replace values in form
         	    jQuery('#id_name').val(crs_data.course[0].name);
@@ -74,7 +109,7 @@ jQuery(function() {
                 //jQuery('#id_active').val();
                 //jQuery('#id_archive').val();
                 
-                jQuery('#id_professor option:selected' ).text(crs_data.course[0].professor);
+                jQuery('#id_professor option:selected' ).val(crs_data.course[0].professor);
                 
                 //replace course message at top of page with new one
                 jQuery('#course_message').html(crs_data.course[0].message)
@@ -116,8 +151,9 @@ jQuery(function() {
                 //console.log(JSON.stringify(data));
             },
                   
-            error: function(data) 
+            error: function(json, textStatus, xhr) 
             {
+            	console.log(json);
                 alert("There was a problem submitting your form, please try again.");
             }
           }); //end ajax UPDATE
