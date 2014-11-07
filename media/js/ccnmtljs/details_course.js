@@ -4,10 +4,11 @@ jQuery(function() {
     {
         url: "/update_course/" + crs_id,
     	type: "GET",
-    	success: function (data) 
+    	success: function (json, textStatus, xhr) 
     	{
-    		var html = '<option value="" selected="selected">---------</option>'; //creating a string to return
-    		var prof_list = data.course[0].professor_list;
+    		var crs_data = json.course[0];
+    		var html = '<option value="" selected="selected">---------</option>'; 
+    		var prof_list = crs_data.professor_list;
     		var json = jQuery.parseJSON(prof_list);
 
     		for(var i=0; i<json.length; i++)
@@ -18,15 +19,41 @@ jQuery(function() {
 	                   + obj[i].first_name + ' ' + obj[i].last_name 
 	                   + '</option>';
 		    }
-    		jQuery('#id_professor').html(html)//#option_area').html(html);
-    		var crs_data = data;
-    	    jQuery('#id_name').val(crs_data.course[0].name);
-            jQuery('#id_startingBudget').val(crs_data.course[0].startingBudget);
-            jQuery('#id_enableNarrative').val(crs_data.course[0].enableNarrative);
-            jQuery('#id_message').val(crs_data.course[0].message);
-            jQuery('#id_active').val(crs_data.course[0].active);
-            jQuery('#id_archive').val(crs_data.course[0].archive);
-            jQuery('#id_professor option:selected' ).val(crs_data.course[0].professor);
+    		jQuery('#id_professor').html(html)
+    	    jQuery('#id_name').val(crs_data.name);
+            jQuery('#id_startingBudget').val(crs_data.startingBudget);
+            jQuery('#id_message').val(crs_data.message);
+
+            if (crs_data.enableNarrative === 'true')
+            {
+                    jQuery('#id_enableNarrative').prop('checked', true);
+            }
+            if (crs_data.enableNarrative === 'false')
+            {
+                    jQuery('#id_enableNarrative').prop('checked', false);
+            }
+            
+            if (crs_data.active === 'true')
+            {
+                    jQuery('#id_active').prop('checked', true);
+            }
+            if (crs_data.active === 'false')
+            {
+                    jQuery('#id_active').prop('checked', false);
+            }
+            
+            if (crs_data.archive === 'true')
+            {
+                    jQuery('#id_archive').prop('checked', true);
+            }
+            if (crs_data.archive === 'false')
+            {
+                    jQuery('#id_archive').prop('checked', false);
+            }
+            
+            //not sure what problem with this is...
+            jQuery('#id_professor option:selected' ).val(crs_data.professor);
+            //jQuery('#id_professor option:selected' ).text(crs_data.course[0].professor.first_name + " " + crs_data.course[0].professor.last_name);
             // come back to this to fill out the professor name
             //jQuery('#id_professor option:selected' ).text(crs_data.course[0].professor);
         }, 
@@ -46,8 +73,7 @@ jQuery(function() {
     	}, {});
     	
     	data.professor = jQuery('#id_professor').val();
-    	//console.log("professor");
-    	//console.log(data.professor);
+
     	// now for the booleans
         if (jQuery('#id_enableNarrative').is(':checked'))
         {
@@ -86,74 +112,50 @@ jQuery(function() {
 
             success: function (json, textStatus, xhr) 
             {
-            	console.log(json);
-            	var crs_json = json.course[0];///jQuery.parseJSON(json);
-        		console.log("crs_json");
-        		console.log(crs_json);
-        		//data.course[0]
-        		var crs_data = crs_json;
-        		
-        		console.log("crs_data");
-        		console.log(crs_data);
-        		
-        		
+        		var crs_data = json.course[0];
         		//simple text replace values in form
-        	    jQuery('#id_name').val(crs_data.course[0].name);
-                jQuery('#id_startingBudget').val(crs_data.course[0].startingBudget);
-                jQuery('#id_message').val(crs_data.course[0].message);
+        	    jQuery('#id_name').val(crs_data.name);
+                jQuery('#id_startingBudget').val(crs_data.startingBudget);
+                jQuery('#id_message').val(crs_data.message);
                 
-                var enableNarrative = crs_data.course[0].enableNarrative;
-                var active = crs_data.course[0].active;
-                var archive = crs_data.course[0].archive;
-                //jQuery('#id_enableNarrative').val();
-                //jQuery('#id_active').val();
-                //jQuery('#id_archive').val();
+                var enableNarrative = crs_data.enableNarrative;
+                var active = crs_data.active;
+                var archive = crs_data.archive;
+
+                jQuery('#course_message').html(crs_data.message)
                 
-                jQuery('#id_professor option:selected' ).val(crs_data.course[0].professor);
-                
-                //replace course message at top of page with new one
-                jQuery('#course_message').html(crs_data.course[0].message)
-                console.log(crs_data.course[0].enableNarrative);
-                console.log(crs_data.course[0].active);
-                console.log(crs_data.course[0].archive);
-                
-                
-                if (enableNarrative === 'true')
+                if (crs_data.enableNarrative === 'true')
                 {
                         jQuery('#id_enableNarrative').prop('checked', true);
                 }
-                if (enableNarrative === 'false')
+                if (crs_data.enableNarrative === 'false')
                 {
                         jQuery('#id_enableNarrative').prop('checked', false);
                 }
-// 
-//        if (model.get('active') === 'true')
-//                {
-//                        jQuery('#id_active').prop('checked', true);
-//                }
-//                if (model.get('active') === 'false')
-//                {
-//                        jQuery('#id_active').prop('checked', false);
-//                }
-//
-//        if (model.get('archive') === 'true')
-//                {
-//                        jQuery('#id_archive').prop('checked', true);
-//                }
-//                if (model.get('archive') === 'false')
-//                {
-//                        jQuery('#id_archive').prop('checked', false);
-//                }
-//            jQuery('#id_professor option:selected').text(model.get('professor'));
-//        }
                 
-                //console.log(data);
-                //console.log(JSON.stringify(data));
+                if (crs_data.active === 'true')
+                {
+                        jQuery('#id_active').prop('checked', true);
+                }
+                if (crs_data.active === 'false')
+                {
+                        jQuery('#id_active').prop('checked', false);
+                }
+                
+                if (crs_data.archive === 'true')
+                {
+                        jQuery('#id_archive').prop('checked', true);
+                }
+                if (crs_data.archive === 'false')
+                {
+                        jQuery('#id_archive').prop('checked', false);
+                }
+                jQuery('#id_professor option:selected' ).val(crs_data.professor);
+
             },
                   
             error: function(json, textStatus, xhr) 
             {
-            	console.log(json);
                 alert("There was a problem submitting your form, please try again.");
             }
           }); //end ajax UPDATE

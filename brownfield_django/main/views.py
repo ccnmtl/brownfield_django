@@ -294,9 +294,6 @@ class DetailJSONCourseView(CSRFExemptMixin, JSONResponseMixin, View):
 
     def post(self, request, pk):
         '''This is really really ugly as is get method need to clean up.'''
-        print ""
-        print "Inside POST"
-        print request.POST
         course = self.get_object(pk)
         course.name = self.request.POST.get('name')
         course.startingBudget = int(self.request.POST.get('startingBudget'))
@@ -328,8 +325,6 @@ class DetailJSONCourseView(CSRFExemptMixin, JSONResponseMixin, View):
                          "professor": str(course.professor),
                          "professor_list" : json.dumps(professor_list)
                          })
-        print "j_course"
-        print json.dumps(j_course)
         return self.render_to_json_response({"course": j_course})
 
 
