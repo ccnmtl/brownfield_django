@@ -60,26 +60,10 @@
 					<p>
 						<label for="id_professor">Professor:</label>
 						<select id="id_professor" name="professor">
-						    {% comment %}
-							<option value="" selected="selected">---------</option>
-							
-							{% comment %}
-							<div id="option_area"></div>
-							{% for p in professor_list %}
-								<option value="p.pk">{{p.first_name}} <space><space> {{p.last_name}}</option>
-							{% endfor %}
-							{% for a in ad_profs %}
-								<option value="a.pk">{{a.first_name}} <space><space> {{a.last_name}}</option>
-							{% endfor %}
-							{% endcomment %}
                     	</select>
                     </p>
                     
-                    
-                    {% comment %}
-                    {% csrf_token %}
-                    {{object.get_course_form.as_p}}
-                    {% endcomment %}
+                 
                     </form>
                     <button id="update-crs-btn" type="button">
                     Save

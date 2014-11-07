@@ -1,6 +1,7 @@
 import json
+import random
 
-# import xml.etree.ElementTree as ET
+from string import letters, digits
 
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -170,6 +171,14 @@ class AdminTeamView(APIView):
         except Course.DoesNotExist:
             raise Http404
 
+    def get_password(self):
+        char_digits = letters + digits
+        passwd = ''
+        for x in range(0, 7):
+            add_char = random.choice(char_digits)
+            passwd = passwd + add_char
+        return passwd
+
     def get(self, request, pk, format=None, *args, **kwargs):
         '''Send back all teams currently in course.'''
         course = self.get_object(pk)
@@ -189,26 +198,24 @@ class AdminTeamView(APIView):
         budgets so they are all the same.
         '''
         course = self.get_object(pk)
-        team_name = request.DATA['username']
-        password1 = request.DATA['password1']
-        password2 = request.DATA['password2']
-        if password1 == password2:
-            user = User.objects.create_user(username=team_name,
-                                            first_name=team_name,
-                                            password=password1)
-            team = Team.objects.create(
-                user=user,
-                course=course,
-                budget=course.startingBudget,
-                team_passwd=password1)
-            team.save()  # saving bc pylint complains it is not used
-            try:
-                new_user = User.objects.get(username=team_name)
-                serializer = TeamNameSerializer(new_user)
-                return Response(serializer.data,
-                                status=status.HTTP_201_CREATED)
-            except:
-                pass
+        team_name = request.DATA['team_ame']
+        user.username = team_name + str(user.pk)
+        user.first_name = team_name
+        user.password = get_password()
+        user.save()
+        team = Team.objects.create(
+            user=user,
+            course=course,
+            budget=course.startingBudget,
+            team_passwd=password1)
+        team.save()  # saving bc pylint complains it is not used
+        try:
+            new_user = User.objects.get(username=team_name)
+            serializer = TeamNameSerializer(new_user)
+            return Response(serializer.data,
+                            status=status.HTTP_201_CREATED)
+        except:
+            pass
                 # print 'could not find user'
         else:
             # print "passwords do not match"

@@ -69,10 +69,6 @@ class Course(models.Model):
         documents = Document.objects.filter(course=self)
         return documents
 
-    def get_course_form(self):
-        form = CourseForm()
-        return form
-
 
 class CourseForm(ModelForm):
     class Meta:
