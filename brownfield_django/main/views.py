@@ -207,11 +207,12 @@ class AdminTeamView(APIView):
         user.password = tmpasswd
         user.save()
         team.user = user
-        team.team_passwd=tmpasswd
+        team.team_passwd = tmpasswd
         team.save()
         try:
             '''Is there a better way to check that the team was created?'''
-            new_user = User.objects.get(first_name=team_name, username=team_name + "_" + str(team.pk))
+            new_user = User.objects.get(
+                first_name=team_name, username=team_name + "_" + str(team.pk))
             serializer = TeamNameSerializer(new_user)
             return Response(serializer.data,
                             status=status.HTTP_201_CREATED)
@@ -220,7 +221,6 @@ class AdminTeamView(APIView):
             return Response(serializer.data,
                             status=status.HTTP_400_BAD_REQUEST)
         else:
-            # print "passwords do not match"
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
@@ -286,8 +286,10 @@ class DetailJSONCourseView(CSRFExemptMixin, JSONResponseMixin, View):
         professors = User.objects.filter(profile__profile_type='AD')
         professor_list = []
         for each in professors:
-            professor_list.append({"first_name": str(each.first_name), "last_name": str(each.last_name),
-                                    "username": str(each.username), "pk": str(each.pk)})
+            professor_list.append({"first_name": str(each.first_name),
+                                   "last_name": str(each.last_name),
+                                   "username": str(each.username),
+                                   "pk": str(each.pk)})
         j_course.append({"id": str(course.id),
                          "name": course.name,
                          "startingBudget": course.startingBudget,
@@ -297,9 +299,9 @@ class DetailJSONCourseView(CSRFExemptMixin, JSONResponseMixin, View):
                          "active": self.convert_TF_to_json(course.active),
                          "archive": self.convert_TF_to_json(course.archive),
                          "professor": str(course.professor),
-                         "professor_list" : json.dumps(professor_list)
+                         "professor_list": json.dumps(professor_list)
                          })
-        return self.render_to_json_response({"course": j_course })
+        return self.render_to_json_response({"course": j_course})
 
     def post(self, request, pk):
         '''This is really really ugly as is get method need to clean up.'''
@@ -320,8 +322,10 @@ class DetailJSONCourseView(CSRFExemptMixin, JSONResponseMixin, View):
         professors = User.objects.filter(profile__profile_type='AD')
         professor_list = []
         for each in professors:
-            professor_list.append({"first_name": str(each.first_name), "last_name": str(each.last_name),
-                                    "username": str(each.username), "pk": str(each.pk)})
+            professor_list.append({"first_name": str(each.first_name),
+                                   "last_name": str(each.last_name),
+                                   "username": str(each.username),
+                                   "pk": str(each.pk)})
         j_course = []
         j_course.append({"id": str(course.id),
                          "name": course.name,
@@ -332,7 +336,7 @@ class DetailJSONCourseView(CSRFExemptMixin, JSONResponseMixin, View):
                          "active": self.convert_TF_to_json(course.active),
                          "archive": self.convert_TF_to_json(course.archive),
                          "professor": str(course.professor),
-                         "professor_list" : json.dumps(professor_list)
+                         "professor_list": json.dumps(professor_list)
                          })
         return self.render_to_json_response({"course": j_course})
 
