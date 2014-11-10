@@ -12,8 +12,8 @@ LINK_2 = ("""<a href="javascript:openPopWin('{{STATIC_URL}}"""
           """Press Conference Proceedings in Moraine Township</a>""")
 NAME_3 = """News: Local Residents React to Prospect of Mall Plans"""
 LINK_3 = ("""<a href="javascript:openPopWin('{{STATIC_URL}}documents/"""
-          """news1.jpg')">News: Local Residents React to Prospect """
-          """of Mall Plans</a>""")
+          """news1.jpg','830','500','no','no','bfaN1')">"""
+          """News: Local Residents React to Prospect of Mall Plans</a>""")
 NAME_4 = """News: Water Testing Results Still Pending"""
 LINK_4 = ("""<a href="javascript:openPopWin('{{STATIC_URL}}documents/"""
           """news2.jpg','430','950','no','no','bfaN2')">News: """

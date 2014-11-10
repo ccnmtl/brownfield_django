@@ -25,9 +25,11 @@ function openPopWin(theURL,w,h,resizing,scrolling,winname,closeOnLogout) {
     console.log(res);
     console.log("Try explicitly casting to string");
     console.log(String(res));
+    console.log(res.toString());
     //popwin = window.open(String(res), winname, winprops);
     
-    popwin = window.open(str.replace("{{STATIC_URL}}", window.location.hostname + ':8000/media/'), winname, winprops);
+    //popwin = window.open(str.replace("{{STATIC_URL}}", window.location.hostname + ':8000/media/'), winname, winprops);
+    popwin = window.open(res.toString(), winname, winprops);
     
     if (/\.jpg$/.test(res)) {
 	popwin.document.write(
