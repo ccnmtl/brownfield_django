@@ -53,12 +53,9 @@
     <script type="text/template" id="team-edit-template">
     <form class="edit-team-frm" method="" action="" style="display: inline;">
         {% csrf_token %}
-        <b>Team Username: <%= user_name %> </b>
+        <b> Create Team </b>
         <label>Team Name: </label>
-        <input type="text" placeholder="Team Name: " class="edt-teamt-name" value="<%= first_name %>" />
-        <space><space>
-        <label>Password: </label>
-        <input type="text" placeholder="Password: " class="edt-team-passwd" value="<%= team_passwd %>" />
+        <input type="text" placeholder="Team Name" class="edt-team-name" value="<%= first_name %>" />
         <space><space>
         <button class='btn btn-xs save-edit-student'> Save Changes </button>  <br />
     </form>

@@ -87,7 +87,8 @@ class Team(models.Model):
     '''
     Students log in as a team, teams hold progress.
     '''
-    user = models.OneToOneField(User, related_name="team")
+    user = models.OneToOneField(User, null=True, default=None,
+                                blank=True, related_name="team")
     course = models.ForeignKey(Course, null=True, default=None, blank=True)
     signed_contract = models.BooleanField(default=False)
     budget = models.PositiveIntegerField(default=65000)

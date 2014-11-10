@@ -36,7 +36,9 @@ var TeamCollection = Backbone.Collection.extend({
 var TeamView = Backbone.View.extend({
 
    	tagName : 'li',
-   	template: _.template("Team Name <%= username %>" +
+   	template: _.template("Team Name: <%= first_name %>" +
+   			             "<space><space>" +
+   			             "Team Login: <%= username %>" +
    			             "<button class='btn btn-xs rm-team'>" +
 			             "Remove Team From Course" +
 			             "</button>"),
@@ -124,9 +126,7 @@ var TeamControlView = Backbone.View.extend({
     	team.preventDefault();
     	this.team_collection_view.course_teams.create(
     	{
-    		username : jQuery(".team-name").val(),
-    		password1 : jQuery(".team-pswd-1").val(),
-    		password2 : jQuery(".team-pswd-2").val(),
+    		team_name : jQuery(".team-name").val()
     	},
 	    {
 	        wait: true,

@@ -179,7 +179,7 @@ class AdminTeamView(APIView):
             passwd = passwd + add_char
         return passwd
 
-    def get(self, request, pk, format=None, *args, **kwargs):
+    def get(self, request, pk):
         '''Send back all teams currently in course.'''
         course = self.get_object(pk)
         try:
@@ -191,32 +191,34 @@ class AdminTeamView(APIView):
             '''Assume collection is currently empty'''
             return Response(status.HTTP_200_OK)
 
-    def post(self, request, pk, format=None, *args, **kwargs):
+    def post(self, request, pk):
         '''
-        Add a team.
-        Team creation is where we set the team
-        budgets so they are all the same.
+        Create a team and auto generate unique username and password.
+        Set starting team budget to the initial budget set for the course.
         '''
         course = self.get_object(pk)
-        team_name = request.DATA['team_ame']
-        user.username = team_name + str(user.pk)
+        team_name = request.DATA['team_name']
+        '''creating team with no attributes first so we can
+        create a unique username for user based on team pk'''
+        team = Team.objects.create(course=course, budget=course.startingBudget)
+        user = User.objects.create(username=team_name + "_" + str(team.pk))
         user.first_name = team_name
-        user.password = get_password()
+        tmpasswd = self.get_password()
+        user.password = tmpasswd
         user.save()
-        team = Team.objects.create(
-            user=user,
-            course=course,
-            budget=course.startingBudget,
-            team_passwd=password1)
-        team.save()  # saving bc pylint complains it is not used
+        team.user = user
+        team.team_passwd=tmpasswd
+        team.save()
         try:
-            new_user = User.objects.get(username=team_name)
+            '''Is there a better way to check that the team was created?'''
+            new_user = User.objects.get(first_name=team_name, username=team_name + "_" + str(team.pk))
             serializer = TeamNameSerializer(new_user)
             return Response(serializer.data,
                             status=status.HTTP_201_CREATED)
         except:
-            pass
-                # print 'could not find user'
+            '''For some reason user was not created'''
+            return Response(serializer.data,
+                            status=status.HTTP_400_BAD_REQUEST)
         else:
             # print "passwords do not match"
             return Response(serializer.errors,
