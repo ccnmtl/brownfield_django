@@ -204,11 +204,11 @@ class AdminTeamView(APIView):
         user = User.objects.create(username=team_name + "_" + str(team.pk))
         user.first_name = team_name
         tmpasswd = self.get_password()
-        user.password = tmpasswd
-        user.save()
+        user.set_password(tmpasswd)
         team.user = user
         team.team_passwd = tmpasswd
         team.save()
+        user.save()
         try:
             '''Is there a better way to check that the team was created?'''
             new_user = User.objects.get(
@@ -425,7 +425,6 @@ class BrownfieldInfoView(CSRFExemptMixin, View):
         if request.user.profile.is_admin():
             return HttpResponse("<data><response>OK</response></data>")
         elif request.user.profile.is_teacher():
-            print "User is teacher"
             '''This may need to be changed...'''
             return HttpResponse("<data><response>OK</response></data>")
 

@@ -4,6 +4,8 @@ LINK_1 = ("""<a href="javascript:openPopWin('{{STATIC_URL}}"""
           """Esker%20County%20Community%20Television:%20O,Ryan,"""
           """s%20Express','500','500','no','no','bfaV1')">Video: """
           """Esker County Community Television: O'Ryan's Express</a>""")
+
+
 NAME_2 = """Video: Press Conference Proceedings in Moraine Township"""
 LINK_2 = ("""<a href="javascript:openPopWin('{{STATIC_URL}}"""
           """flvplayer.html?flv=news_conference.flv&amp;title="""
