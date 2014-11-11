@@ -23,34 +23,12 @@ jQuery(function() {
     	    jQuery('#id_name').val(crs_data.name);
             jQuery('#id_startingBudget').val(crs_data.startingBudget);
             jQuery('#id_message').val(crs_data.message);
-
-            if (crs_data.enableNarrative === 'true')
-            {
-                    jQuery('#id_enableNarrative').prop('checked', true);
-            }
-            if (crs_data.enableNarrative === 'false')
-            {
-                    jQuery('#id_enableNarrative').prop('checked', false);
-            }
-            
-            if (crs_data.active === 'true')
-            {
-                    jQuery('#id_active').prop('checked', true);
-            }
-            if (crs_data.active === 'false')
-            {
-                    jQuery('#id_active').prop('checked', false);
-            }
-            
-            if (crs_data.archive === 'true')
-            {
-                    jQuery('#id_archive').prop('checked', true);
-            }
-            if (crs_data.archive === 'false')
-            {
-                    jQuery('#id_archive').prop('checked', false);
-            }
-            
+            jQuery('#id_enableNarrative').prop(
+            	    'checked', crs_data.enableNarrative === 'true');
+            jQuery('#id_active').prop(
+            	    'checked', crs_data.active === 'true');
+            jQuery('#id_archive').prop(
+            	    'checked', crs_data.archive === 'true');
             //not sure what problem with this is...
             jQuery('#id_professor option:selected' ).val(crs_data.professor);
             //jQuery('#id_professor option:selected' ).text(crs_data.course[0].professor.first_name + " " + crs_data.course[0].professor.last_name);
@@ -73,42 +51,16 @@ jQuery(function() {
     	}, {});
     	
     	data.professor = jQuery('#id_professor').val();
+    	data.enableNarrative = jQuery('#id_enableNarrative').is(':checked');
+        data.active = jQuery('#id_active').is(':checked');
+        data.archive = jQuery('#id_archive').is(':checked');
 
-    	// now for the booleans
-        if (jQuery('#id_enableNarrative').is(':checked'))
-        {
-        	data.enableNarrative = 'true';
-        }
-        if (jQuery('#id_enableNarrative').is(':checked') === false)
-        {
-        	data.enableNarrative = 'false';
-        }
-
-        if (jQuery('#id_active').is(':checked'))
-        {
-        	data.active = 'true';
-        }
-        if (jQuery('#id_active').is(':checked') === false)
-        {
-        	data.active = 'false';
-        }
-
-       if (jQuery('#id_archive').is(':checked'))
-       {
-    	   data.archive = 'true';
-       }
-       if (jQuery('#id_archive').is(':checked') === false)
-       {
-    	   data.archive = 'false';
-       }
-    	
-    	jQuery.ajax(
+        jQuery.ajax(
         {
             url: "/update_course/" + crs_id,
             type: "POST",
             dataType: 'json',
             data: data,
-
 
             success: function (json, textStatus, xhr) 
             {
@@ -123,37 +75,15 @@ jQuery(function() {
                 var archive = crs_data.archive;
 
                 jQuery('#course_message').html(crs_data.message)
-                
-                if (crs_data.enableNarrative === 'true')
-                {
-                        jQuery('#id_enableNarrative').prop('checked', true);
-                }
-                if (crs_data.enableNarrative === 'false')
-                {
-                        jQuery('#id_enableNarrative').prop('checked', false);
-                }
-                
-                if (crs_data.active === 'true')
-                {
-                        jQuery('#id_active').prop('checked', true);
-                }
-                if (crs_data.active === 'false')
-                {
-                        jQuery('#id_active').prop('checked', false);
-                }
-                
-                if (crs_data.archive === 'true')
-                {
-                        jQuery('#id_archive').prop('checked', true);
-                }
-                if (crs_data.archive === 'false')
-                {
-                        jQuery('#id_archive').prop('checked', false);
-                }
+                jQuery('#id_enableNarrative').prop(
+            	    'checked', crs_data.enableNarrative === 'true');
+                jQuery('#id_active').prop(
+            	    'checked', crs_data.active === 'true');
+                jQuery('#id_archive').prop(
+            	    'checked', crs_data.archive === 'true');
                 jQuery('#id_professor option:selected' ).val(crs_data.professor);
 
-            },
-                  
+            },  
             error: function(json, textStatus, xhr) 
             {
                 alert("There was a problem submitting your form, please try again.");
