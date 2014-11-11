@@ -74,32 +74,11 @@ var DocumentView = Backbone.View.extend({
    		var link = this.model.get('link').replace("{{STATIC_URL}}", window.location.hostname + ':8000/media/'); 
    		console.log("link");
    		console.log(link);
-//   		var winl = (screen.width - w) / 2;
-//   		var wint = (screen.height - h) / 2;
-//   	    winprops = 'height='+h+',width='+w+',top='+wint+',left='+winl+',
-//						resizable='+resizing+',scrollbars='+scrolling+',location=no,status=no,menubar=no,directories=no,toolbar=no';
-//   	    console.log("link before window.open - seems to be adding %3");
-//   	    console.log(link);
-//   	    console.log("Try explicitly casting to string");
-//   	    console.log(String(link));
-//   	    console.log(link.toString());
-   	    //popwin = window.open(String(link), winname, winprops);
-   	    
-   	    //popwin = window.open(str.replace("{{STATIC_URL}}", window.location.hostname + ':8000/media/'), winname, winprops);
-//   	    popwin = window.open(link.toString(), winname, winprops);
-//   	    
-//   	    if (/\.jpg$/.test(link)) {
-//   		popwin.document.write(
-//   				'<a href="javascript:void(0)" onclick="window.print()">print article</a><br />' + 
-//   				'<img src="' + link + '" alt="news article"/>');
-//   		//popwin.document.write('<img src="'+link+'" alt="news article"/>');
-//   		popwin.document.close();
-//   	    }
-//   	    if (closeOnLogout) {
-//   		windows_to_close_on_logout.push(popwin);
-//   	    }
-//   	    if (parseInt(navigator.appVersion) >= 4) { popwin.window.focus(); }
-//   	    if (popwin.opener == null) { popwin.opener = self; }
+   		//window.open(link);
+   		var href = jQuery(link).attr('href');
+   		console.log("Does link attr() work");
+   		console.log(href);
+   		//window.open(href);
    	}
    	
 
