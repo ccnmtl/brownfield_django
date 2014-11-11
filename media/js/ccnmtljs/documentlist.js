@@ -78,7 +78,8 @@ var DocumentView = Backbone.View.extend({
    		var href = jQuery(link).attr('href');
    		console.log("Does link attr() work");
    		console.log(href);
-   		//window.open(href);
+   		window.open(href.replace('%3', ''));
+   		window.open(href.replace('"', ''));
    	}
    	
 
