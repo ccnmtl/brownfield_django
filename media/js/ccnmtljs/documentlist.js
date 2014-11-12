@@ -68,21 +68,16 @@ var DocumentView = Backbone.View.extend({
    	},
    	
    	viewDocument: function()
-   	{  //theURL,w,h,resizing,scrolling,winname,closeOnLogout
+   	{  
    		console.log(this.model.attributes);
-   		console.log(this.model.get('link'));
-   		window.open("../../media/" + this.model.get('link'));
-   		//user origin or hostname?
-   		//var link = '<a href="' + window.location.hostname + ':8000/media/' + this.model.get('link') + '">' + this.model.get('name') + '</a>'
-   		//var link = this.model.get('link').replace("{{STATIC_URL}}", window.location.hostname + ':8000/media/'); 
-   		//console.log("link");
-   		//console.log(link);
-   		//window.open(link);
-   		//var href = jQuery(link).attr('href');
-   		//console.log("Does link attr() work");
-   		//console.log(href);
-   		//window.open(href.replace('%3', ''));
-   		//window.open(href.replace('"', ''));
+   		if(this.model.get('name') === "Link: Brownfield Action Reference Site")
+   		{
+   			document.location = "http://brownfieldref.ccnmtl.columbia.edu/";
+   		}
+   		else
+		{
+    		window.open("../../media/" + this.model.get('link'));
+		}
    	}
    	
 
