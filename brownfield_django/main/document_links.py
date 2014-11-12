@@ -1,11 +1,11 @@
 NAME_1 = """Video: Esker County Community Television: O'Ryan's Express"""
 LINK_1 = ("""flvplayer.html?flv=oryans_express.flv"""
-          """&amp;title=Esker%20County%20Community%20Television:%20O,"""
+          """&title=Esker%20County%20Community%20Television:%20O,"""
           """Ryan,s%20Express""")
 
 NAME_2 = """Video: Press Conference Proceedings in Moraine Township"""
 LINK_2 = ("""flvplayer.html?flv=news_conference.flv"""
-          """&amp;title=Press%20Conference%20Proceedings%20in%20Moraine%20"""
+          """&title=Press%20Conference%20Proceedings%20in%20Moraine%20"""
           """Township""")
 
 NAME_3 = """News: Local Residents React to Prospect of Mall Plans"""
