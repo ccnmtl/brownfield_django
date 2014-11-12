@@ -13,9 +13,17 @@
     {% comment %}List Templates{% endcomment %}
     <script type="text/template" id="document-list-template">
         <span class="document-click">[<%= name %>]</span>
-        <%= link %><br />
-        Visibility of Document: <%= visible %><br />
-        <button class='btn btn-xs chng-dct'>Release/Revoke Document</button>
+        <space><space>
+        Visibility of Document: <%= visible %>
+        <%
+            if(visible)
+            {
+                %><button class='btn btn-xs btn-success chng-dct'>Release/Revoke Document</button><%
+            }else
+            {
+                %><button class='btn btn-xs btn-danger chng-dct'>Release/Revoke Document</button><%
+            }
+        %>
     </script>
 
     <script type="text/template" id="student-list-template">
