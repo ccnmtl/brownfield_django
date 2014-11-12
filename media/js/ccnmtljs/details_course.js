@@ -64,6 +64,11 @@ jQuery(function() {
 
             success: function (json, textStatus, xhr) 
             {
+            	//see if course already has successful save p in it
+            	//if (jQuery( "#panel-title-id" ).has( "p" ).length === 1)
+            	//{
+            	//	console.log("Successful save already visable");
+            	//}
         		var crs_data = json.course[0];
         		//simple text replace values in form
         	    jQuery('#id_name').val(crs_data.name);
@@ -82,7 +87,9 @@ jQuery(function() {
                 jQuery('#id_archive').prop(
             	    'checked', crs_data.archive === 'true');
                 jQuery('#id_professor option:selected' ).val(crs_data.professor);
-
+                jQuery('#collapseForm').removeClass('panel-collapse in').addClass('panel-collapse collapse');
+                jQuery('#panel-title-id').append("<p style='color:red;'>Your Edit has been saved</p>");
+                
             },  
             error: function(json, textStatus, xhr) 
             {
@@ -91,5 +98,8 @@ jQuery(function() {
           }); //end ajax UPDATE
     	  e.preventDefault();
     });// end update course on submit function
-	
+   
+    
+    
+    
 });// end doc on ready
