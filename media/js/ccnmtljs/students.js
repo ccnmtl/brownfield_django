@@ -38,8 +38,9 @@ var StudentView = Backbone.View.extend({
 
 	initialize: function(options)
 	{
+		_.bindAll(this, 'editStudent');
 		this.template = _.template(jQuery("#student-list-template").html());
-
+        // need to bind the edit form to the model - when change made to form change model
 		this.listenTo(this.model, 'change', this.render);
 		this.listenTo(this.model, 'destroy', this.remove);
 	},
@@ -74,8 +75,16 @@ var StudentView = Backbone.View.extend({
   		this.model.set('first_name', std_fname);
   		this.model.set('last_name', std_lname);
   		this.model.set('email', std_email);
-   		this.model.save(
-    );
+   		this.model.save({
+	        success: function(model, response) 
+	        {},
+            error: function(model, response)
+            {
+            	alert("An error occured!");
+            	//this.$el.append("<p>Something went wrong, please try again.</p>");
+            },
+            wait: true
+        });//end save
     },
     
    	removeStudent: function()
@@ -149,15 +158,8 @@ var StudentControlView = Backbone.View.extend({
     	            email : jQuery(".email").val()
     	    },
     	    {
-        	    success: function(model, response) 
-        	    {
-                    //console.log(model);
-                    //console.log(response);
-                    //console.log('success');
-                },
-                error: function(model, response) {
-                    //console.log(model);
-                    //console.log('error');
+                error: function(model, response)
+                {
                 	jQuery(".add-team-frm").append("<p>Something went wrong, please try again.</p>");
                 },
     	        wait: true,

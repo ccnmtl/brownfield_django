@@ -48,12 +48,20 @@
     <script type="text/template" id="student-edit-template">
     <form class="edit-student-frm" method="" action="" style="display: inline;">
         {% csrf_token %}
-        <label>First Name: </label>
-        <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> <space><space>
-        <label>Last Name: </label>
-        <input type="text" placeholder="Last Name: " class="edt-last-name" value="<%= last_name %>" /> <space><space>
-        <label>Email: </label>
-        <input type="text" placeholder="Email: " class="edt-email" value="<%= email %>" />
+        <span class="sedt-first-name">
+            <label>First Name: </label>
+            <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> 
+            <space><space>
+        </span>
+        <span class="sedt-last-name">
+            <label>Last Name: </label>
+            <input type="text" placeholder="Last Name: " class="edt-last-name" value="<%= last_name %>" /> 
+            <space><space>
+        </span>
+        <span class="sedt-email">
+            <label>Email: </label>
+            <input type="text" placeholder="Email: " class="edt-email" value="<%= email %>" />
+        </span>
         <button class='btn btn-xs save-edit-student'> Save Changes </button>  <br />
     </form>
     </script>

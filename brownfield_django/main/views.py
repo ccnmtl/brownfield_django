@@ -125,18 +125,25 @@ class StudentViewSet(viewsets.ModelViewSet):
 
     def update(self, request, pk=None):
         student = get_object_or_404(User, pk=pk)
-        #.objects.get(pk=pk)
-        student.first_name = request.DATA['first_name']
-        student.last_name = request.DATA['last_name']
-        student.email = request.DATA['email']
-        student.save()
-        serializer = StudentUserSerializer(
-            data=request.DATA)
-        if serializer.is_valid():
-            return Response(serializer.data, status.HTTP_200_OK)
-        elif serializer.is_valid() is False:
-            return Response(serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
+        try:
+            student.first_name = request.DATA['first_name']
+            student.last_name = request.DATA['last_name']
+            student.email = request.DATA['email']
+            student.save()
+            return Response(
+                status=status.HTTP_201_CREATED)
+        except:
+            '''For some reason update failed'''
+            return Response({"success": False})
+
+#         serializer = StudentUserSerializer(
+#             data=request.DATA)
+#         if serializer.is_valid():
+#             return Response(serializer.data, status.HTTP_200_OK)
+#         elif serializer.is_valid() is False:
+#             print 'serializer false'
+#             return Response(serializer.errors,
+#                             status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
         student = User.objects.get(pk=pk)
