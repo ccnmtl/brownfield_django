@@ -24,7 +24,7 @@ from brownfield_django.main.models import Course, UserProfile, Document, \
     Team, History, Information, PerformedTest
 from brownfield_django.main.serializers import DocumentSerializer, \
     UserSerializer, TeamNameSerializer, CourseSerializer, \
-    StudentUserSerializer, TeamSerializer, StudentMUserSerializer
+    StudentUserSerializer, StudentMUserSerializer
 
 from brownfield_django.main.xml_strings import INITIAL_XML, \
     TEAM_HISTORY
@@ -185,7 +185,7 @@ class AdminTeamView(APIView):
         try:
             teamprofiles = course.get_teams()
             teams = User.objects.filter(team__in=teamprofiles)
-            serializer = TeamSerializer(teams, many=True)
+            serializer = TeamNameSerializer(teams, many=True)
             return Response(serializer.data)
         except:
             '''Assume collection is currently empty'''

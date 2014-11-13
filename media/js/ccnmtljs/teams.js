@@ -39,6 +39,7 @@ var TeamView = Backbone.View.extend({
    	template: _.template("Team Name: <%= first_name %>" +
    			             "<space><space>" +
    			             "Team Login: <%= username %>" +
+   			             "<space><space>" +
    			             "<button class='btn btn-xs rm-team'>" +
 			             "Remove Team From Course" +
 			             "</button>"),
@@ -129,15 +130,35 @@ var TeamControlView = Backbone.View.extend({
     		team_name : jQuery(".team-name").val()
     	},
 	    {
+    	    success: function(model, response) 
+    	    {
+                console.log(model);
+                console.log(response);
+                //o.render();
+                //showSuccess();
+                console.log('success');
+            },
+            error: function(model, response) {
+                console.log(model);
+                //showError();
+                console.log('error');
+            },
 	        wait: true,
 	    	url: this.team_collection_view.course_teams.url()
 	    }
     	);
-
 	    jQuery(".add-team-frm-title").hide();
 	    jQuery(".add-team-frm").hide();
 	    jQuery(".add-team-btn").show();
 	    return false;
+    },
+    
+    showError: function() {
+		console.log("showError called");
+    },
+    
+    showSuccess: function() {
+		console.log("showSuccess called");
     }
     
 });// End TeamControlView  

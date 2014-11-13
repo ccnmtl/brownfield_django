@@ -56,14 +56,12 @@ var DocumentView = Backbone.View.extend({
     	if(this.model.attributes.visible === true)
     	{
     		this.model.set('visible', false);
-    		//this.model.save({wait: true});
-    		this.model.save();
+    		this.model.save({wait: true});
     	}
     	else if (this.model.attributes.visible === false)
     	{
     		this.model.set('visible', true);
-    		//this.model.save({wait: true});
-    		this.model.save();
+    		this.model.save({wait: true});
     	}
    	},
    	
