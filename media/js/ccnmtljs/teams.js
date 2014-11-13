@@ -132,16 +132,14 @@ var TeamControlView = Backbone.View.extend({
 	    {
     	    success: function(model, response) 
     	    {
-                console.log(model);
-                console.log(response);
-                //o.render();
-                //showSuccess();
-                console.log('success');
+                //console.log(model);
+                //console.log(response);
+                //console.log('success');
             },
             error: function(model, response) {
-                console.log(model);
-                //showError();
-                console.log('error');
+                //console.log(model);
+                //console.log('error');
+            	jQuery(".add-team-frm").append("<p>Something went wrong, please try again.</p>");
             },
 	        wait: true,
 	    	url: this.team_collection_view.course_teams.url()

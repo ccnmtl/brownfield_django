@@ -122,7 +122,7 @@ var StudentControlView = Backbone.View.extend({
 
     events: {
 	'click .add-std-btn' : 'showStudentForm',
-	'click .student_submit' :	'addStudent'
+	'click .student_submit' :	'validateStudentForm'//'addStudent'
     },
     
     initialize: function (options)
@@ -138,7 +138,7 @@ var StudentControlView = Backbone.View.extend({
 		jQuery(".add-std-frm-title").show();
 		jQuery(".add-std-frm").show();
     },
-
+    
     addStudent: function(e) {
     	e.preventDefault();
     	this.student_collection_view.course_students.create(
@@ -148,6 +148,17 @@ var StudentControlView = Backbone.View.extend({
     	            email : jQuery(".email").val()
     	    },
     	    {
+        	    success: function(model, response) 
+        	    {
+                    //console.log(model);
+                    //console.log(response);
+                    //console.log('success');
+                },
+                error: function(model, response) {
+                    //console.log(model);
+                    //console.log('error');
+                	jQuery(".add-team-frm").append("<p>Something went wrong, please try again.</p>");
+                },
     	        wait: true,
     	    	url: this.student_collection_view.course_students.url()
     	    }
@@ -156,6 +167,26 @@ var StudentControlView = Backbone.View.extend({
 	    jQuery(".add-std-frm").hide();
 	    jQuery(".add-std-btn").show();
 	    return false;
+    },
+    
+    
+    validateStudentForm: function(e) {
+    	e.preventDefault();
+    	if((jQuery(".add-std-frm input[class=frst-name").val().length) === 0)
+    	{
+    		//console.log("FN Error");
+    		jQuery(".first-name-box").append("<b>Please enter a first name.</b>");
+    	}
+    	if((jQuery(".add-std-frm input[class=last-name").val().length) === 0)
+    	{
+    		//console.log("LN Error");
+    		jQuery(".last-name-box").append("<b>Please enter a last name.</b>");
+    	}
+    	if((jQuery(".add-std-frm input[class=email").val().length) === 0)
+    	{
+    		//console.log("EM Error");
+    		jQuery(".email-box").append("<b>Please enter a email.</b>");
+    	}
     }
     
 });// End UserControlView  

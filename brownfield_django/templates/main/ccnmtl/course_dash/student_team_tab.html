@@ -32,12 +32,18 @@
             <p class="add-std-frm-title" style="display: none;"> <b>Add New Student: </b></p>
             <form class="add-std-frm" method="" action="" style="display: none;">
                 {% csrf_token %}
-                <label>First Name: </label>
-                    <input type="text" placeholder="First Name" class="frst-name" /><br />
-                <label>Last Name: </label>
-                    <input type="text" placeholder="Last Name" class="last-name" /><br />
-                <label>Email: </label>
-                    <input type="text" placeholder="Email" class="email" /><br />
+                <div class="first-name-box">
+                    <label>First Name: </label>
+                    <input type="text" placeholder="First Name" class="frst-name" />
+                </div>
+                <div class="last-name-box">
+                    <label>Last Name: </label>
+                    <input type="text" placeholder="Last Name" class="last-name" />
+                </div>
+                <div class="email-box">
+                    <label>Email: </label>
+                    <input type="text" placeholder="Email" class="email" />
+                </div>
                 <input type="submit" value="Save Student" class="student_submit"/>
             </form>
         </div>
