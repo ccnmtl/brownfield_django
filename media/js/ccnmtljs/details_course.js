@@ -9,17 +9,17 @@ jQuery(function() {
     		var crs_data = json.course[0];
     		var html = '<option value="" selected="selected">---------</option>'; 
     		var prof_list = crs_data.professor_list;
-    		var json = jQuery.parseJSON(prof_list);
+    		var returned_json = jQuery.parseJSON(prof_list);
 
-    		for(var i=0; i<json.length; i++)
+    		for(var i=0; i<returned_json.length; i++)
     		{
-	            var obj = json;
+	            var obj = returned_json;
 	            html = html + 
-	                   '<option value="' + obj[i].username + '">' 
-	                   + obj[i].first_name + ' ' + obj[i].last_name 
-	                   + '</option>';
+	                   '<option value="' + obj[i].username + '">' +
+	                   obj[i].first_name + ' ' + obj[i].last_name + 
+	                   '</option>';
 		    }
-    		jQuery('#id_professor').html(html)
+    		jQuery('#id_professor').html(html);
     	    jQuery('#id_name').val(crs_data.name);
             jQuery('#id_startingBudget').val(crs_data.startingBudget);
             jQuery('#id_message').val(crs_data.message);
@@ -79,7 +79,7 @@ jQuery(function() {
                 var active = crs_data.active;
                 var archive = crs_data.archive;
 
-                jQuery('#course_message').html(crs_data.message)
+                jQuery('#course_message').html(crs_data.message);
                 jQuery('#id_enableNarrative').prop(
             	    'checked', crs_data.enableNarrative === 'true');
                 jQuery('#id_active').prop(
