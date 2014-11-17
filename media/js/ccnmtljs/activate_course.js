@@ -59,14 +59,15 @@ jQuery(function() {
 
 jQuery('#myModal').on('click', function(e)
 {
+	console.log("function");
 	
-}
+});
 
 
 /*Set up calls for the get teams/edit teams*/
 
 jQuery(function() {
-	
+
 	var crs_id = jQuery("input[name='crs-id']").val();
 
 	jQuery('#edit-team-members').on('click', function(e)

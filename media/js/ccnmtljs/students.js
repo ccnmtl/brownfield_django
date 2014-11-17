@@ -175,7 +175,7 @@ var StudentControlView = Backbone.View.extend({
     
     validateStudentForm: function(e) {
     	e.preventDefault();
-
+    	
     	//there is probably a better way to do this... should also be it's own method like checkBlank
     	if((jQuery(".add-std-frm input[class=frst-name").val().length) === 0)
     	{
