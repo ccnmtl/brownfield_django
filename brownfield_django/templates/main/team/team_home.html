@@ -15,7 +15,12 @@
         <h3>Course Documents</h3>
         <ul>
             {% for document in document_list %}
-            <li>{{ document.name }} {{ document.link }}</li>
+            <li>{{ document.name }}
+                {% if document.name == "Link: Brownfield Action Reference Site" %}
+                    <a href=http://brownfieldref.ccnmtl.columbia.edu/">link</a></li>
+                {% else %}
+                     <a href="../../..{{STATIC_URL}}{{ document.link }}">link</a></li>
+                {% endif %}
             {% empty %}
             <li>Sorry, no documents have been made available yet.</li>
             {% endfor %}

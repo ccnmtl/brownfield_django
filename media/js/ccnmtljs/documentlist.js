@@ -67,7 +67,7 @@ var DocumentView = Backbone.View.extend({
    	
    	viewDocument: function()
    	{  
-   		console.log(this.model.attributes);
+   		//console.log(this.model.attributes);
    		if(this.model.get('name') === "Link: Brownfield Action Reference Site")
    		{
    			document.location = "http://brownfieldref.ccnmtl.columbia.edu/";
