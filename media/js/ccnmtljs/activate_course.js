@@ -28,7 +28,7 @@ jQuery(function() {
 	jQuery('#activation-btn').on('click', function(e)
     {   
 		var student_list = get_students();
-        var student_list_2 =JSON.stringify(student_list);
+        var student_list_2 = JSON.stringify(student_list);
 
         jQuery(function()
     	{
@@ -56,6 +56,14 @@ jQuery(function() {
 
     });
 });
+
+jQuery('#myModal').on('click', function(e)
+{
+	
+}
+
+
+/*Set up calls for the get teams/edit teams*/
 
 jQuery(function() {
 	
