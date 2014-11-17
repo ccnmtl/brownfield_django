@@ -3,11 +3,9 @@
 from django.test import TestCase
 
 from factories import UserFactory, UserProfileFactory, TeacherProfileFactory, \
-    TeamFactory, CourseFactory, HistoryFactory, \
+    CourseFactory, HistoryFactory, \
     PerformedTestFactory, DocumentFactory, AdminProfileFactory, \
     StudentProfileFactoryOne, StudentProfileFactoryTwo, InformationTestFactory
-
-from brownfield_django.main.models import CourseForm
 
 
 '''Very basic model tests...'''
@@ -32,11 +30,11 @@ class TestCourseFactory(TestCase):
         self.assertEqual(r.count(), 0)
 
 
-class TestTeamFactory(TestCase):
-
-    def test_unicode(self):
-        team = TeamFactory()
-        self.assertEqual(str(team), team.user.username)
+# class TestTeamFactory(TestCase):
+#
+#     def test_unicode(self):
+#         team = TeamFactory()
+#         self.assertEqual(str(team), team.user.username)
 
 
 class TestHistoryFactory(TestCase):
@@ -130,9 +128,3 @@ class TestCourseMethods(TestCase):
         self.assertTrue(document1 in course.get_documents())
         self.assertTrue(document2 in course.get_documents())
         self.assertTrue(document3 in course.get_documents())
-
-    def test_course_get_form(self):
-        '''Make sure get_form returns a course form.'''
-        course = CourseFactory()
-        course_form = CourseForm()
-        self.assertEqual(type(course_form), type(course.get_course_form()))

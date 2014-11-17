@@ -34,14 +34,15 @@ var DocumentCollection = Backbone.Collection.extend({
 var DocumentView = Backbone.View.extend({
 
    	tagName : 'li',
+   	//className: 'document-click',
    	initialize: function(options) {
         this.template = _.template(jQuery("#document-list-template").html());
-
         this.listenTo(this.model, 'change', this.render);
    	},
 
    	events: {
-   		'click .chng-dct' : 'changeDocument'
+   		'click .chng-dct' : 'changeDocument',
+   		'click .document-click' : 'viewDocument'
    	},
 
     render: function () {
@@ -55,16 +56,28 @@ var DocumentView = Backbone.View.extend({
     	if(this.model.attributes.visible === true)
     	{
     		this.model.set('visible', false);
-    		//this.model.save({wait: true});
-    		this.model.save();
+    		this.model.save({wait: true});
     	}
     	else if (this.model.attributes.visible === false)
     	{
     		this.model.set('visible', true);
-    		//this.model.save({wait: true});
-    		this.model.save();
+    		this.model.save({wait: true});
     	}
+   	},
+   	
+   	viewDocument: function()
+   	{  
+   		console.log(this.model.attributes);
+   		if(this.model.get('name') === "Link: Brownfield Action Reference Site")
+   		{
+   			document.location = "http://brownfieldref.ccnmtl.columbia.edu/";
+   		}
+   		else
+		{
+    		window.open("../../media/" + this.model.get('link'));
+		}
    	}
+   	
 
 });// End DocumentView
 

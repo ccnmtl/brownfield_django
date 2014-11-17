@@ -3,7 +3,7 @@
 
     <div class="course_message">
         <h3>Course message:</h3>
-        {{object.message}}
+        <div id="course_message">{{object.message}}</div>
     </div><!-- End Course Message -->
 
     <h3>Course Documents</h3>
@@ -16,7 +16,7 @@
     <div class="course-info">
         <div id="course-from" class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title">
+                <h4 id='panel-title-id' class="panel-title">
                     <a data-toggle="collapse" data-parent="#course-from" href="#collapseForm">
                     Edit Course
                     </a>
@@ -26,8 +26,44 @@
             <div id="collapseForm" class="panel-collapse collapse">
                 <div class="panel-body">
                     <form id="upt-crs-frm" method="" action="">
-                    {% csrf_token %}
-                    {{object.get_course_form.as_p}}
+                    <p>
+                    	<label for="id_name">Name:</label>
+                    	<input id="id_name" maxlength="255" name="name" type="text" />
+                    </p>
+                    
+					<p>
+						<label for="id_startingBudget">StartingBudget:</label> 
+						<input id="id_startingBudget" min="0" name="startingBudget" type="number" value="60000" />
+					</p>
+					
+					<p>
+						<label for="id_enableNarrative">EnableNarrative:</label> 
+						<input checked="checked" id="id_enableNarrative" name="enableNarrative" type="checkbox" />
+					</p>
+
+					<p>
+						<label for="id_message">Message:</label> 
+						<textarea cols="80" id="id_message" name="message" rows="10">
+						</textarea>
+					</p>
+					
+					<p>
+						<label for="id_active">Active:</label> 
+						<input id="id_active" name="active" type="checkbox" />
+					</p>
+					
+					<p>
+						<label for="id_archive">Archive:</label> 
+						<input id="id_archive" name="archive" type="checkbox" />
+					</p>
+					
+					<p>
+						<label for="id_professor">Professor:</label>
+						<select id="id_professor" name="professor">
+                    	</select>
+                    </p>
+                    
+                 
                     </form>
                     <button id="update-crs-btn" type="button">
                     Save

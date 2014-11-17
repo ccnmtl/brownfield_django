@@ -12,10 +12,18 @@
 
     {% comment %}List Templates{% endcomment %}
     <script type="text/template" id="document-list-template">
-        [<%= name %>]
-        <%= link %><br />
-        Visibility of Document: <%= visible %><br />
-        <button class='btn btn-xs chng-dct'>Release/Revoke Document</button>
+        <span class="document-click"><b><%= name %></b></span>
+        <space><space>
+        Visibility of Document: <%= visible %>
+        <%
+            if(visible)
+            {
+                %><button class='btn btn-xs btn-success chng-dct'>Release/Revoke Document</button><%
+            }else
+            {
+                %><button class='btn btn-xs btn-danger chng-dct'>Release/Revoke Document</button><%
+            }
+        %>
     </script>
 
     <script type="text/template" id="student-list-template">
@@ -40,12 +48,20 @@
     <script type="text/template" id="student-edit-template">
     <form class="edit-student-frm" method="" action="" style="display: inline;">
         {% csrf_token %}
-        <label>First Name: </label>
-        <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> <space><space>
-        <label>Last Name: </label>
-        <input type="text" placeholder="Last Name: " class="edt-last-name" value="<%= last_name %>" /> <space><space>
-        <label>Email: </label>
-        <input type="text" placeholder="Email: " class="edt-email" value="<%= email %>" />
+        <span class="sedt-first-name">
+            <label>First Name: </label>
+            <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> 
+            <space><space>
+        </span>
+        <span class="sedt-last-name">
+            <label>Last Name: </label>
+            <input type="text" placeholder="Last Name: " class="edt-last-name" value="<%= last_name %>" /> 
+            <space><space>
+        </span>
+        <span class="sedt-email">
+            <label>Email: </label>
+            <input type="text" placeholder="Email: " class="edt-email" value="<%= email %>" />
+        </span>
         <button class='btn btn-xs save-edit-student'> Save Changes </button>  <br />
     </form>
     </script>
@@ -53,12 +69,9 @@
     <script type="text/template" id="team-edit-template">
     <form class="edit-team-frm" method="" action="" style="display: inline;">
         {% csrf_token %}
-        <b>Team Username: <%= user_name %> </b>
+        <b> Create Team </b>
         <label>Team Name: </label>
-        <input type="text" placeholder="Team Name: " class="edt-teamt-name" value="<%= first_name %>" />
-        <space><space>
-        <label>Password: </label>
-        <input type="text" placeholder="Password: " class="edt-team-passwd" value="<%= team_passwd %>" />
+        <input type="text" placeholder="Team Name" class="edt-team-name" value="<%= first_name %>" />
         <space><space>
         <button class='btn btn-xs save-edit-student'> Save Changes </button>  <br />
     </form>

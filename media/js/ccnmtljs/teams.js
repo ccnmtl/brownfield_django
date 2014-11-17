@@ -36,7 +36,10 @@ var TeamCollection = Backbone.Collection.extend({
 var TeamView = Backbone.View.extend({
 
    	tagName : 'li',
-   	template: _.template("Team Name <%= username %>" +
+   	template: _.template("Team Name: <%= first_name %>" +
+   			             "<space><space>" +
+   			             "Team Login: <%= username %>" +
+   			             "<space><space>" +
    			             "<button class='btn btn-xs rm-team'>" +
 			             "Remove Team From Course" +
 			             "</button>"),
@@ -124,20 +127,36 @@ var TeamControlView = Backbone.View.extend({
     	team.preventDefault();
     	this.team_collection_view.course_teams.create(
     	{
-    		username : jQuery(".team-name").val(),
-    		password1 : jQuery(".team-pswd-1").val(),
-    		password2 : jQuery(".team-pswd-2").val(),
+    		team_name : jQuery(".team-name").val()
     	},
 	    {
+    	    success: function(model, response) 
+    	    {
+                //console.log(model);
+                //console.log(response);
+                //console.log('success');
+            },
+            error: function(model, response) {
+                //console.log(model);
+                //console.log('error');
+            	jQuery(".add-team-frm").append("<p>Something went wrong, please try again.</p>");
+            },
 	        wait: true,
 	    	url: this.team_collection_view.course_teams.url()
 	    }
     	);
-
 	    jQuery(".add-team-frm-title").hide();
 	    jQuery(".add-team-frm").hide();
 	    jQuery(".add-team-btn").show();
 	    return false;
+    },
+    
+    showError: function() {
+		console.log("showError called");
+    },
+    
+    showSuccess: function() {
+		console.log("showSuccess called");
     }
     
 });// End TeamControlView  

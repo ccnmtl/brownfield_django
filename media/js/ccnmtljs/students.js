@@ -38,8 +38,9 @@ var StudentView = Backbone.View.extend({
 
 	initialize: function(options)
 	{
+		_.bindAll(this, 'editStudent');
 		this.template = _.template(jQuery("#student-list-template").html());
-
+        // need to bind the edit form to the model - when change made to form change model
 		this.listenTo(this.model, 'change', this.render);
 		this.listenTo(this.model, 'destroy', this.remove);
 	},
@@ -74,8 +75,16 @@ var StudentView = Backbone.View.extend({
   		this.model.set('first_name', std_fname);
   		this.model.set('last_name', std_lname);
   		this.model.set('email', std_email);
-   		this.model.save(
-    );
+   		this.model.save({
+	        success: function(model, response) 
+	        {},
+            error: function(model, response)
+            {
+            	alert("An error occured!");
+            	//this.$el.append("<p>Something went wrong, please try again.</p>");
+            },
+            wait: true
+        });//end save
     },
     
    	removeStudent: function()
@@ -122,11 +131,12 @@ var StudentControlView = Backbone.View.extend({
 
     events: {
 	'click .add-std-btn' : 'showStudentForm',
-	'click .student_submit' :	'addStudent'
+	'click .student_submit' :	'validateStudentForm'//'addStudent'
     },
     
     initialize: function (options)
     {
+    	_.bindAll(this, 'addStudent', 'validateStudentForm');
         this.student_collection_view = new StudentListView({
             el: jQuery('.student-list'),
             course: options.course
@@ -138,9 +148,9 @@ var StudentControlView = Backbone.View.extend({
 		jQuery(".add-std-frm-title").show();
 		jQuery(".add-std-frm").show();
     },
-
+    
     addStudent: function(e) {
-    	e.preventDefault();
+    	
     	this.student_collection_view.course_students.create(
     	    {   
     	        	first_name : jQuery(".frst-name").val(),
@@ -148,6 +158,10 @@ var StudentControlView = Backbone.View.extend({
     	            email : jQuery(".email").val()
     	    },
     	    {
+                error: function(model, response)
+                {
+                	jQuery(".add-team-frm").append("<p>Something went wrong, please try again.</p>");
+                },
     	        wait: true,
     	    	url: this.student_collection_view.course_students.url()
     	    }
@@ -156,6 +170,48 @@ var StudentControlView = Backbone.View.extend({
 	    jQuery(".add-std-frm").hide();
 	    jQuery(".add-std-btn").show();
 	    return false;
+    },
+    
+    
+    validateStudentForm: function(e) {
+    	e.preventDefault();
+
+    	//there is probably a better way to do this... should also be it's own method like checkBlank
+    	if((jQuery(".add-std-frm input[class=frst-name").val().length) === 0)
+    	{
+    		if((jQuery(".first-name-box").has('b').length) === 0)
+    		{
+    			jQuery(".first-name-box").append("<b>Please enter a first name.</b>").css('color', 'red');
+    		}
+    	}
+    	if((jQuery(".add-std-frm input[class=last-name").val().length) === 0)
+    	{
+    		if((jQuery(".last-name-box").has('b').length) === 0)
+    		{
+    			jQuery(".last-name-box").append("<b>Please enter a last name.</b>").css('color', 'red');
+    		}
+    	}
+    	if((jQuery(".add-std-frm input[class=email").val().length) === 0)
+    	{
+    		if((jQuery(".email-box").has('b').length) === 0)
+    		{
+    			jQuery(".email-box").append("<b>Please enter a email.</b>").css('color', 'red');
+    		}
+    	}
+    	//check whatever they put for email looks something like an actual address
+    	else if((jQuery(".add-std-frm input[class=email").val().length) !== 0)
+    	{
+    	    if((jQuery(".add-std-frm input[class=email").val().indexOf("@")  === -1) && 
+    	       (jQuery(".add-std-frm input[class=email").val().indexOf(".") === -1))
+    	    {
+    		    if((jQuery(".email-box").has('b').length) === 0)
+    		    {
+    			    jQuery(".email-box").append("<b>Please enter a valid email.</b>").css('color', 'red');
+    		    }
+    	    }
+    	}
+    	//if above tests pass reasonable to submit
+    	this.addStudent();
     }
     
 });// End UserControlView  

@@ -1,6 +1,7 @@
 import json
+import random
 
-# import xml.etree.ElementTree as ET
+from string import letters, digits
 
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -23,7 +24,7 @@ from brownfield_django.main.models import Course, UserProfile, Document, \
     Team, History, Information, PerformedTest
 from brownfield_django.main.serializers import DocumentSerializer, \
     UserSerializer, TeamNameSerializer, CourseSerializer, \
-    StudentUserSerializer, TeamSerializer, StudentMUserSerializer
+    StudentUserSerializer, StudentMUserSerializer
 
 from brownfield_django.main.xml_strings import INITIAL_XML, \
     TEAM_HISTORY
@@ -124,18 +125,25 @@ class StudentViewSet(viewsets.ModelViewSet):
 
     def update(self, request, pk=None):
         student = get_object_or_404(User, pk=pk)
-        #.objects.get(pk=pk)
-        student.first_name = request.DATA['first_name']
-        student.last_name = request.DATA['last_name']
-        student.email = request.DATA['email']
-        student.save()
-        serializer = StudentUserSerializer(
-            data=request.DATA)
-        if serializer.is_valid():
-            return Response(serializer.data, status.HTTP_200_OK)
-        elif serializer.is_valid() is False:
-            return Response(serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
+        try:
+            student.first_name = request.DATA['first_name']
+            student.last_name = request.DATA['last_name']
+            student.email = request.DATA['email']
+            student.save()
+            return Response(
+                status=status.HTTP_201_CREATED)
+        except:
+            '''For some reason update failed'''
+            return Response({"success": False})
+
+#         serializer = StudentUserSerializer(
+#             data=request.DATA)
+#         if serializer.is_valid():
+#             return Response(serializer.data, status.HTTP_200_OK)
+#         elif serializer.is_valid() is False:
+#             print 'serializer false'
+#             return Response(serializer.errors,
+#                             status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
         student = User.objects.get(pk=pk)
@@ -170,48 +178,56 @@ class AdminTeamView(APIView):
         except Course.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk, format=None, *args, **kwargs):
+    def get_password(self):
+        char_digits = letters + digits
+        passwd = ''
+        for x in range(0, 7):
+            add_char = random.choice(char_digits)
+            passwd = passwd + add_char
+        return passwd
+
+    def get(self, request, pk):
         '''Send back all teams currently in course.'''
         course = self.get_object(pk)
         try:
             teamprofiles = course.get_teams()
             teams = User.objects.filter(team__in=teamprofiles)
-            serializer = TeamSerializer(teams, many=True)
+            serializer = TeamNameSerializer(teams, many=True)
             return Response(serializer.data)
         except:
             '''Assume collection is currently empty'''
             return Response(status.HTTP_200_OK)
 
-    def post(self, request, pk, format=None, *args, **kwargs):
+    def post(self, request, pk):
         '''
-        Add a team.
-        Team creation is where we set the team
-        budgets so they are all the same.
+        Create a team and auto generate unique username and password.
+        Set starting team budget to the initial budget set for the course.
         '''
         course = self.get_object(pk)
-        team_name = request.DATA['username']
-        password1 = request.DATA['password1']
-        password2 = request.DATA['password2']
-        if password1 == password2:
-            user = User.objects.create_user(username=team_name,
-                                            first_name=team_name,
-                                            password=password1)
-            team = Team.objects.create(
-                user=user,
-                course=course,
-                budget=course.startingBudget,
-                team_passwd=password1)
-            team.save()  # saving bc pylint complains it is not used
-            try:
-                new_user = User.objects.get(username=team_name)
-                serializer = TeamNameSerializer(new_user)
-                return Response(serializer.data,
-                                status=status.HTTP_201_CREATED)
-            except:
-                pass
-                # print 'could not find user'
+        team_name = request.DATA['team_name']
+        '''creating team with no attributes first so we can
+        create a unique username for user based on team pk'''
+        team = Team.objects.create(course=course, budget=course.startingBudget)
+        user = User.objects.create(username=team_name + "_" + str(team.pk))
+        user.first_name = team_name
+        tmpasswd = self.get_password()
+        user.set_password(tmpasswd)
+        team.user = user
+        team.team_passwd = tmpasswd
+        team.save()
+        user.save()
+        try:
+            '''Is there a better way to check that the team was created?'''
+            new_user = User.objects.get(
+                first_name=team_name, username=team_name + "_" + str(team.pk))
+            serializer = TeamNameSerializer(new_user)
+            return Response(serializer.data,
+                            status=status.HTTP_201_CREATED)
+        except:
+            '''For some reason user was not created'''
+            return Response(serializer.data,
+                            status=status.HTTP_400_BAD_REQUEST)
         else:
-            # print "passwords do not match"
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
@@ -243,7 +259,7 @@ class HomeView(LoggedInMixin, View):
         return HttpResponseRedirect(url)
 
 
-class DetailJSONCourseView(JSONResponseMixin, View):
+class DetailJSONCourseView(CSRFExemptMixin, JSONResponseMixin, View):
     '''
     For now I think it is best to have a separate view for the
     course detail template.
@@ -257,36 +273,44 @@ class DetailJSONCourseView(JSONResponseMixin, View):
 
     def convert_TF_to_json(self, attribute):
         if attribute is True:
-            return 'true'
+            return "true"
         elif attribute is False:
-            return 'false'
+            return "false"
 
     def convert_TF_from_json(self, attribute):
-        if attribute == 'true':
+        if attribute == "true":
             return True
-        elif attribute == 'false':
+        elif attribute == "false":
             return False
 
-    def get(self, request, pk, format=None, *args, **kwargs):
+    def get(self, request, pk):
         '''
         Should probably retrieve the information for the course here
         so it appears in the form/pre-populates the fields.
         '''
         course = self.get_object(pk)
         j_course = []
-        j_course.append({'id': str(course.id),
-                         'name': course.name,
-                         'startingBudget': course.startingBudget,
-                         'enableNarrative': self.convert_TF_to_json(
+        professors = User.objects.filter(profile__profile_type='AD')
+        professor_list = []
+        for each in professors:
+            professor_list.append({"first_name": str(each.first_name),
+                                   "last_name": str(each.last_name),
+                                   "username": str(each.username),
+                                   "pk": str(each.pk)})
+        j_course.append({"id": str(course.id),
+                         "name": course.name,
+                         "startingBudget": course.startingBudget,
+                         "enableNarrative": self.convert_TF_to_json(
                              course.enableNarrative),
-                         'message': course.message,
-                         'active': self.convert_TF_to_json(course.active),
-                         'archive': self.convert_TF_to_json(course.archive),
-                         'professor': str(course.professor)
+                         "message": str(course.message),
+                         "active": self.convert_TF_to_json(course.active),
+                         "archive": self.convert_TF_to_json(course.archive),
+                         "professor": str(course.professor),
+                         "professor_list": json.dumps(professor_list)
                          })
-        return self.render_to_json_response({'course': j_course})
+        return self.render_to_json_response({"course": j_course})
 
-    def post(self, request, pk, format=None, *args, **kwargs):
+    def post(self, request, pk):
         '''This is really really ugly as is get method need to clean up.'''
         course = self.get_object(pk)
         course.name = self.request.POST.get('name')
@@ -302,18 +326,26 @@ class DetailJSONCourseView(JSONResponseMixin, View):
             username=self.request.POST.get('professor'))
         course.professor = userprof
         course.save()
+        professors = User.objects.filter(profile__profile_type='AD')
+        professor_list = []
+        for each in professors:
+            professor_list.append({"first_name": str(each.first_name),
+                                   "last_name": str(each.last_name),
+                                   "username": str(each.username),
+                                   "pk": str(each.pk)})
         j_course = []
-        j_course.append({'id': str(course.id),
-                         'name': course.name,
-                         'startingBudget': course.startingBudget,
-                         'enableNarrative': self.convert_TF_to_json(
+        j_course.append({"id": str(course.id),
+                         "name": course.name,
+                         "startingBudget": course.startingBudget,
+                         "enableNarrative": self.convert_TF_to_json(
                              course.enableNarrative),
-                         'message': course.message,
-                         'active': self.convert_TF_to_json(course.active),
-                         'archive': self.convert_TF_to_json(course.archive),
-                         'professor': str(course.professor)
+                         "message": str(course.message),
+                         "active": self.convert_TF_to_json(course.active),
+                         "archive": self.convert_TF_to_json(course.archive),
+                         "professor": str(course.professor),
+                         "professor_list": json.dumps(professor_list)
                          })
-        return self.render_to_json_response({'course': j_course})
+        return self.render_to_json_response({"course": j_course})
 
 
 class ActivateCourseView(JSONResponseMixin, View):
@@ -400,7 +432,6 @@ class BrownfieldInfoView(CSRFExemptMixin, View):
         if request.user.profile.is_admin():
             return HttpResponse("<data><response>OK</response></data>")
         elif request.user.profile.is_teacher():
-            print "User is teacher"
             '''This may need to be changed...'''
             return HttpResponse("<data><response>OK</response></data>")
 
