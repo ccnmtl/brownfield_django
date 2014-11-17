@@ -1,7 +1,7 @@
 jQuery('#edit-team-members').hide();
 
 function get_students(){
-
+    //getting students from table
 	var data = [];
 	
 	jQuery('.student-row').each(
@@ -27,41 +27,42 @@ jQuery(function() {
 
 	jQuery('#activation-btn').on('click', function(e)
     {   
-		var student_list = get_students();
-        var student_list_2 = JSON.stringify(student_list);
+		jQuery('#confirmAct').modal('show');
+		jQuery('#conf-act').on('click', function(e)
+		{
+			jQuery('#confirmAct').modal('hide');
+    		var student_list = get_students();
+        	var student_list_2 = JSON.stringify(student_list);
 
-        jQuery(function()
-    	{
-    	   	jQuery.ajax(
-    	    {
-    	        url: "/activate_course/" + crs_id,
-    	    	type: "POST",
-    	    	dataType: 'json',
-    	    	data: {'student_list' : student_list_2},
-    	    	success: function (data) 
+        	jQuery(function()
+    		{
+    	   		jQuery.ajax(
     	    	{
-    	    		//alert('Success');
-    	    		//jQuery("#activation-btn").click();
-        	    },
-	    	           
-        	    error: function(data) 
-	    	    {
-        	    	alert('Something went wrong, please try again');
-	    	    }
-        	});
-    	
-    	});
-    	
+    	        	url: "/activate_course/" + crs_id,
+    	    		type: "POST",
+    	    		dataType: 'json',
+    	    		data: {'student_list' : student_list_2},
+    	    		success: function (data) 
+    	    		{
+    	    			jQuery('#activationSuccess').modal('show');
+        	    	},
+        	    	error: function(data) 
+	    	    	{
+        	    		alert('Something went wrong, please try again');
+	    	    	}
+        		});// end ajax
+    		  });// end outer function
+    		});// end conf-act on click
+		
         e.preventDefault();
+    });// end activation-btn on click
+});// end outer function
 
-    });
-});
-
-jQuery('#myModal').on('click', function(e)
-{
-	console.log("function");
-	
-});
+//jQuery('#').on('click', function(e)
+//{
+//	console.log("function");
+//	
+//});
 
 
 /*Set up calls for the get teams/edit teams*/
