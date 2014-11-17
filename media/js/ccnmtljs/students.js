@@ -177,21 +177,22 @@ var StudentControlView = Backbone.View.extend({
     	e.preventDefault();
     	
     	//there is probably a better way to do this... should also be it's own method like checkBlank
-    	if((jQuery(".add-std-frm input[class=frst-name").val().length) === 0)
+    	//if((jQuery(".add-std-frm input[class=frst-name").val().length) === 0)
+    	if((jQuery(".add-std-frm input.frst-name").val().length) === 0)
     	{
     		if((jQuery(".first-name-box").has('b').length) === 0)
     		{
     			jQuery(".first-name-box").append("<b>Please enter a first name.</b>").css('color', 'red');
     		}
     	}
-    	if((jQuery(".add-std-frm input[class=last-name").val().length) === 0)
+    	if((jQuery(".add-std-frm input.last-name").val().length) === 0)
     	{
     		if((jQuery(".last-name-box").has('b').length) === 0)
     		{
     			jQuery(".last-name-box").append("<b>Please enter a last name.</b>").css('color', 'red');
     		}
     	}
-    	if((jQuery(".add-std-frm input[class=email").val().length) === 0)
+    	if((jQuery(".add-std-frm input.email").val().length) === 0)
     	{
     		if((jQuery(".email-box").has('b').length) === 0)
     		{
@@ -199,10 +200,10 @@ var StudentControlView = Backbone.View.extend({
     		}
     	}
     	//check whatever they put for email looks something like an actual address
-    	else if((jQuery(".add-std-frm input[class=email").val().length) !== 0)
+    	else if((jQuery(".add-std-frm input.email").val().length) !== 0)
     	{
-    	    if((jQuery(".add-std-frm input[class=email").val().indexOf("@")  === -1) && 
-    	       (jQuery(".add-std-frm input[class=email").val().indexOf(".") === -1))
+    	    if((jQuery(".add-std-frm input.email").val().indexOf("@")  === -1) && 
+    	       (jQuery(".add-std-frm input.email").val().indexOf(".") === -1))
     	    {
     		    if((jQuery(".email-box").has('b').length) === 0)
     		    {

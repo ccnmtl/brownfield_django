@@ -58,12 +58,6 @@ jQuery(function() {
     });// end activation-btn on click
 });// end outer function
 
-//jQuery('#').on('click', function(e)
-//{
-//	console.log("function");
-//	
-//});
-
 
 /*Set up calls for the get teams/edit teams*/
 
