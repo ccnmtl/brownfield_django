@@ -1,15 +1,18 @@
-# import json
+import json
 # from datetime import datetime
 
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
-# from rest_framework.test import APIRequestFactory
 # from django.contrib.auth.models import User
-# from rest_framework import status
-from factories import ViewsAdminProfileFactory, AdminUserCourseFactory
+from factories import ViewsAdminProfileFactory, AdminUserCourseFactory, AdminUserDocumentFactory
 
 # from brownfield_django.main.views import CourseViewSet
 # DetailJSONCourseView
+# from django.core.urlresolvers import reverse
+from rest_framework import status
+from rest_framework.test import APITestCase
+from rest_framework.test import APIRequestFactory
+from rest_framework.test import APIClient
 
 
 class TestAdminViews(TestCase):
@@ -38,14 +41,74 @@ class TestAdminViews(TestCase):
         self.assertTemplateUsed(request,
                                 'main/ccnmtl/course_dash/course_home.html')
 
-#     def test_get_update_course(self):
-#         '''
-#         Calling get for a update course should return the details of
-#         the course to the page edit form so that the edit form is already
-#         filled out.
-#         '''
+class TestDocumentRestViews(APITestCase):
+    '''Test document related urls'''
+
+    def setUp(self):
+        self.client = APIClient()
+        self.factory = APIRequestFactory()
+        self.admin = ViewsAdminProfileFactory().user
+        self.client.login(username=self.admin.username, password="Admin")
+
+    def test_get_documents(self):
+        ''' Get all Course Documents. '''
+        crs = AdminUserCourseFactory()
+        response = self.client.get('/api/document/?course=' + str(crs.pk), format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_release_revoke_document(self):
+        ''' Release a document. '''
+        crs = AdminUserCourseFactory()
+        doc = crs.document_set.all()[0]
+        response = self.client.put(
+            '/api/document/' + str(doc.pk) + '/', {'id': doc.pk, 'name': u'Test Document for Admin',
+             'link': u"<a href='/path/to/the/course/document/here'></a>",
+             'visible': True}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, True)
+        response = self.client.put(
+             '/api/document/' + str(doc.pk) + '/', format='json')
+        self.assertEqual(response.data, False)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_update_course(self):
+        '''
+        Calling get for a update course should return the details of
+        the course to the page edit form so that the edit form is already
+        filled out.
+        '''
+        self.admin_course = AdminUserCourseFactory()
+        response = self.client.get('/update_course/' + str(self.admin_course.pk),
+                                   {}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEquals(response.status_code, 200)
+        the_json = json.loads(response.content)
+        self.assertTrue('course' in the_json)#'enableNarrative' in the_json)#the_json['enableNarrative'])#, True)
+#         self.assertTrue(the_json['course']['active'], True)
+#         self.assertTrue(the_json['name'], "Test Course")
+#         self.assertTrue(the_json['startingBudget'], 100000)
+#         self.assertTrue(the_json['message'], "Hello you non existent students.")
+
+#    professor = factory.SubFactory(UserFactory)
+#     def test_login_post_ajax(self):
+#         response = self.client.post('/accounts/login/',
+#                                     {'username': '',
+#                                       'password': ''},
+#                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+#  158         self.assertEquals(response.status_code, 200)
+#  159         the_json = json.loads(response.content)
+#  160         self.assertTrue(the_json['error'], True)
+#  161 
+#  162         response = self.client.post('/accounts/login/',
+#  163                                     {'username': self.user.username,
+#  164                                      'password': 'test'},
+#  165                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+#  166         self.assertEquals(response.status_code, 200)
+#  167         the_json = json.loads(response.content)
+#  168         self.assertTrue(the_json['next'], "/")
+#  169         self.assertTrue('error' not in the_json)
+
 #         self.admin_course = AdminUserCourseFactory()
-#
+# 
 #         request = RequestFactory().get('/update_course/' +
 #                                        str(self.admin_course.pk))
 #         request.user = self.admin
@@ -195,46 +258,7 @@ class TestAdminViews(TestCase):
 #         c3 = CourseThreeFactory()
 #         response = self.client.delete('/course/' + str(c1.pk), format='json')
 #         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#    '''Test document related urls'''
-#     def test_get_documents(self):
-#         '''
-#         Get all Course Documents.
-#         '''
-#         doc = AdminUserDocumentFactory()
-#         crs = AdminUserCourseFactory()
-#         crs.document_set.add(doc)
-#         response = self.client.get(
-# 'api/document/' + str(crs.pk), format='json')
-#         self.assertEqual(
-#             response.data,
-#             [{'id': doc.pk, 'name': u'Test Document for Admin',
-#               'link': u"<a href='/path/to/the/course/document/here'></a>",
-#               'visible': False}])
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#
-#     def test_release_revoke_document(self):
-#         '''
-#         Release a document.
-#         '''
-#         doc = AdminUserDocumentFactory()
-#         crs = AdminUserCourseFactory()
-#         crs.document_set.add(doc)
-#         response = self.client.put(
-# 'api/document/' + str(doc.pk), format='json')
-#         self.assertEqual(
-#             response.data,
-#             {'id': doc.pk, 'name': u'Test Document for Admin',
-#              'link': u"<a href='/path/to/the/course/document/here'></a>",
-#              'visible': True})
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         response = self.client.put(
-# 'api/document/' + str(doc.pk), format='json')
-#         self.assertEqual(
-#             response.data,
-#             {'id': doc.pk, 'name': u'Test Document for Admin',
-#              'link': u"<a href='/path/to/the/course/document/here'></a>",
-#              'visible': False})
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
 #    '''Test student related urls'''
 #     def test_create_student(self):
 #         '''
