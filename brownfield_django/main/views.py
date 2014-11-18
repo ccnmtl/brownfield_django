@@ -136,15 +136,6 @@ class StudentViewSet(viewsets.ModelViewSet):
             '''For some reason update failed'''
             return Response({"success": False})
 
-#         serializer = StudentUserSerializer(
-#             data=request.DATA)
-#         if serializer.is_valid():
-#             return Response(serializer.data, status.HTTP_200_OK)
-#         elif serializer.is_valid() is False:
-#             print 'serializer false'
-#             return Response(serializer.errors,
-#                             status=status.HTTP_400_BAD_REQUEST)
-
     def destroy(self, request, pk=None):
         student = User.objects.get(pk=pk)
         student.delete()
