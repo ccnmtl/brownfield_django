@@ -4,9 +4,9 @@ import json
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
 # from django.contrib.auth.models import User
-from factories import ViewsAdminProfileFactory, AdminUserCourseFactory, AdminUserDocumentFactory
+from factories import ViewsAdminProfileFactory, AdminUserCourseFactory
 
-# from brownfield_django.main.views import CourseViewSet
+# from brownfield_django.main.views import CourseViewSet52
 # DetailJSONCourseView
 # from django.core.urlresolvers import reverse
 from rest_framework import status
@@ -41,6 +41,21 @@ class TestAdminViews(TestCase):
         self.assertTemplateUsed(request,
                                 'main/ccnmtl/course_dash/course_home.html')
 
+    def test_get_update_course(self):
+        '''
+        Calling get for a update course should return the details of
+        the course to the page edit form so that the edit form is already
+        filled out.
+        '''
+        self.admin_course = AdminUserCourseFactory()
+        response = self.client.get('/update_course/' +
+                                   str(self.admin_course.pk),
+                                   {}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEquals(response.status_code, 200)
+        the_json = json.loads(response.content)
+        self.assertTrue('course' in the_json)
+
+
 class TestDocumentRestViews(APITestCase):
     '''Test document related urls'''
 
@@ -53,7 +68,8 @@ class TestDocumentRestViews(APITestCase):
     def test_get_documents(self):
         ''' Get all Course Documents. '''
         crs = AdminUserCourseFactory()
-        response = self.client.get('/api/document/?course=' + str(crs.pk), format='json')
+        response = self.client.get('/api/document/?course=' + str(crs.pk),
+                                   format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_release_revoke_document(self):
@@ -61,269 +77,149 @@ class TestDocumentRestViews(APITestCase):
         crs = AdminUserCourseFactory()
         doc = crs.document_set.all()[0]
         response = self.client.put(
-            '/api/document/' + str(doc.pk) + '/', {'id': doc.pk, 'name': u'Test Document for Admin',
+            '/api/document/' + str(doc.pk) + '/',
+            {'id': doc.pk, 'name': u'Test Document for Admin',
              'link': u"<a href='/path/to/the/course/document/here'></a>",
              'visible': True}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, True)
         response = self.client.put(
-             '/api/document/' + str(doc.pk) + '/', format='json')
+            '/api/document/' + str(doc.pk) + '/', format='json')
         self.assertEqual(response.data, False)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_get_update_course(self):
-        '''
-        Calling get for a update course should return the details of
-        the course to the page edit form so that the edit form is already
-        filled out.
-        '''
-        self.admin_course = AdminUserCourseFactory()
-        response = self.client.get('/update_course/' + str(self.admin_course.pk),
-                                   {}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        self.assertEquals(response.status_code, 200)
-        the_json = json.loads(response.content)
-        self.assertTrue('course' in the_json)#'enableNarrative' in the_json)#the_json['enableNarrative'])#, True)
-#         self.assertTrue(the_json['course']['active'], True)
-#         self.assertTrue(the_json['name'], "Test Course")
-#         self.assertTrue(the_json['startingBudget'], 100000)
-#         self.assertTrue(the_json['message'], "Hello you non existent students.")
 
-#    professor = factory.SubFactory(UserFactory)
-#     def test_login_post_ajax(self):
-#         response = self.client.post('/accounts/login/',
-#                                     {'username': '',
-#                                       'password': ''},
-#                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-#  158         self.assertEquals(response.status_code, 200)
-#  159         the_json = json.loads(response.content)
-#  160         self.assertTrue(the_json['error'], True)
-#  161 
-#  162         response = self.client.post('/accounts/login/',
-#  163                                     {'username': self.user.username,
-#  164                                      'password': 'test'},
-#  165                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-#  166         self.assertEquals(response.status_code, 200)
-#  167         the_json = json.loads(response.content)
-#  168         self.assertTrue(the_json['next'], "/")
-#  169         self.assertTrue('error' not in the_json)
+class TestStudentRestViews(APITestCase):
+    '''Test student related urls and methods, has GET, PUT/update,
+    POST/create, DELETE/destroy'''
 
-#         self.admin_course = AdminUserCourseFactory()
-# 
-#         request = RequestFactory().get('/update_course/' +
-#                                        str(self.admin_course.pk))
-#         request.user = self.admin
-#         view = DetailJSONCourseView()
-#         view.request = request
+    def setUp(self):
+        ''' Admin will log in, and navigate to a course page. '''
+        self.client = APIClient()
+        self.factory = APIRequestFactory()
+        self.crs = AdminUserCourseFactory()
+        self.admin = ViewsAdminProfileFactory().user
+        self.client.login(username=self.admin.username, password="Admin")
 
-#         view.object = request.user.profile
-#         ctx = view.get_context_data()
-#
-#         admin_group = SchoolGroupFactory(creator=self.admin,
-#                                          school=self.admin.profile.school)
-#         teacher_group = SchoolGroupFactory(creator=self.teacher,
-#                                         school=self.teacher.profile.school)
-#
-#         # archived groups
-#         SchoolGroupFactory(creator=self.teacher,
-#                            school=self.teacher.profile.school,
-#                            archived=True)
-#         SchoolGroupFactory(creator=self.admin,
-#                            school=self.admin.profile.school,
-#                            archived=True)
-#
-#         # alt_creator/alt school
-#         SchoolGroupFactory(creator=TeacherProfileFactory().user)
-#
-#         self.assertEquals(ctx['optionb'], self.hierarchy)
-#         self.assertIsNotNone(ctx['profile_form'])
-#         self.assertEquals(ctx['countries'], COUNTRY_CHOICES)
-#         self.assertEquals(ctx['joined_groups'].count(), 0)
-#         self.assertEquals(len(ctx['managed_groups']), 2)
-#         self.assertEquals(ctx['managed_groups'][0], admin_group)
-#         self.assertEquals(ctx['managed_groups'][1], teacher_group)
+    def test_get_students(self):
+        ''' Any students in the course will be returned via GET '''
+        response = self.client.get('/api/student/?course=' +
+                                   str(self.crs.pk), format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        '''No students have been added so test
+        response.data - should be empty'''
+        self.assertEqual(response.data, [])
 
+    def test_create_student(self):
+        ''' Any students in the course will be returned via GET '''
+        response = self.client.post('/api/student/?course=' + str(self.crs.pk),
+                                    {'first_name': 'Student First Name',
+                                     'last_name': 'Student Last Name',
+                                     'email': 'studentemail@email.com'},
+                                    format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        '''After student is created, it should return the student data
+        in response.data'''
+        # The student id should not be hard coded - manually look up?
+        self.assertEqual(response.data, {'id': 4,
+                                         'first_name': u'Student First Name',
+                                         'last_name': u'Student Last Name',
+                                         'email': u'studentemail@email.com'})
 
-        # self.assertEqual(response.status_code, 200)
-#         the_json = json.loads(response.content)
-#         self.assertEqual(
-#             the_json,
-#             {'course': [{'id': str(self.admin_course.id),
-#              'name': self.admin_course.name,
-#              'startingBudget': self.admin_course.startingBudget,
-#              'enableNarrative': self.admin_course.enableNarrative,
-#              'message': self.admin_course.message,
-#              'active': self.admin_course.active,
-#              'archive': self.admin_course.archive,
-#              'professor': str(self.admin_course.professor)
-#              }]})
-        # self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    def test_create_then_update_student(self):
+        ''' Any students in the course will be returned via GET '''
+        response = self.client.post('/api/student/?course=' + str(self.crs.pk),
+                                    {'first_name': 'Student First Name',
+                                     'last_name': 'Student Last Name',
+                                     'email': 'studentemail@email.com'},
+                                    format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        '''After student is created, it should return the student data
+        in response.data'''
+        self.assertEqual(response.data, {'id': 4,
+                                         'first_name': u'Student First Name',
+                                         'last_name': u'Student Last Name',
+                                         'email': u'studentemail@email.com'})
+        # need to update view possibly to return student data, although it
+        # seems backbone doesn't need it, it is probably good for testing
+        # and diagnostics, also change wrong status codes
+        response = self.client.put('/api/student/4/',
+                                   {'first_name': 'Edit First Name',
+                                    'last_name': 'Edit Last Name',
+                                    'email': 'editmail@email.com'},
+                                   format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-#     def test_post_update_course(self):
-#         '''
-#         Calling post on update_course should update the course,
-#         and return the details to the page.
-#         '''
-#         self.admin_course = AdminUserCourseFactory()
-#         response = self.client.post("/update_course/" +
-#                                    str(self.admin_course.pk),
-#                                    format='json')
-#         the_json = json.loads(response.content)
-#         self.assertEqual(
-#             the_json,
-#             {'course': [{'id': str(self.admin_course.id),
-#              'name': self.admin_course.name,
-#              'startingBudget': self.admin_course.startingBudget,
-#              'enableNarrative': self.admin_course.enableNarrative,
-#              'message': self.admin_course.message,
-#              'active': self.admin_course.active,
-#              'archive': self.admin_course.archive,
-#              'professor': str(self.admin_course.professor)
-#              }]})
-#         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
-# class TestAdminRESTViews(TestCase):
-
-#     def setUp(self):
-#         self.client = Client()
-#         self.factory = APIRequestFactory()
-#         self.admin = ViewsAdminProfileFactory().user
-#         self.client.login(username=self.admin.username, password="Admin")
-
-#     def test_get_all_courses(self):
-#         view = CourseViewSet.as_view()
-#         request = self.factory.get('/api/course/')
-#         response = view(request)
-
-#     def test_get_user_courses(self):
-#         view = CourseViewSet.as_view()
-#         request = self.ajax_factory.post('/api/course/',
-#                                     {'name': 'new_course_name'},
-#                                     format='json')
-#         response = view(request)
-
-#     def test_add_course_by_name(self):
-#         view = CourseViewSet.as_view()
-#         request = self.factory.post('/api/course/',
-#                                     json.dumps({'name': 'new_course_name'}),
-#                                     format='json')
-#         response = view(request)
-        #self.assertEqual(response.data, {'name': 'new_course_name'})
-        #self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
-#     def test_get_user_courses(self):
-#         '''
-#         Return list of user created courses - just
-#         those the admin user created.
-#         '''
-#         pass
-#         crs = AdminUserCourseFactory()
-#         c1 = CourseOneFactory()
-#         c2 = CourseTwoFactory()
-#         c3 = CourseThreeFactory()
-#         response = self.client.get('/user_courses/', format='json')
-#         self.assertEqual(response.data, [{'id': crs.pk,
-#                                          'name': u'Test Course'}])
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-#     def test_get_all_courses(self):
-#         '''
-#         Return list of courses - those the admin user
-#         created and all others.
-#         '''
-#         pass
-#         c1 = CourseOneFactory()
-#         c2 = CourseTwoFactory()
-#         c3 = CourseThreeFactory()
-#         response = self.client.get('/all_courses/', format='json')
-#         '''KEEPS RETURNING TEST COURSE NO IDEA WHY - THERE
-#         ARE ONLY 3 FACTORIES HERE'''
-#         self.assertEqual(
-#             response.data,
-#             [{'name': u'Test Course', 'id': c1.pk},
-#              {'name': u'Test Course One', 'id': c1.pk},
-#              {'name': u'Test Course Two', 'id': c2.pk},
-#              {'name': u'Test Course Three', 'id': c3.pk}])
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
+    def test_create_update_delete_student(self):
+        ''' Any students in the course will be returned via GET '''
+        response = self.client.post('/api/student/?course=' + str(self.crs.pk),
+                                    {'first_name': 'Student First Name',
+                                     'last_name': 'Student Last Name',
+                                     'email': 'studentemail@email.com'},
+                                    format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        '''After student is created, it should return the student data
+        in response.data'''
+        self.assertEqual(response.data, {'id': 4,
+                                         'first_name': u'Student First Name',
+                                         'last_name': u'Student Last Name',
+                                         'email': u'studentemail@email.com'})
+        response = self.client.put('/api/student/4/',
+                                   {'first_name': 'Edit First Name',
+                                    'last_name': 'Edit Last Name',
+                                    'email': 'editmail@email.com'},
+                                   format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        response = self.client.delete('/api/student/4/', format='json')
+        # is there as success code for delete?
+        # should I test the models to see if they were deleted as well?
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-#     def test_remove_course(self):
-#         '''
-#         Calling get for a course should redirect the instructor to a
-#         course detail page where they can create teams, add students,
-#         and put students in teams.
-#         '''
-#         pass
-#         c1 = CourseOneFactory()
-#         c2 = CourseTwoFactory()
-#         c3 = CourseThreeFactory()
-#         response = self.client.delete('/course/' + str(c1.pk), format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
+class TestTeamRestViews(APITestCase):
+    '''Test team related urls and methods, has GET, PUT/update,
+    POST/create, DELETE/destroy'''
 
-#    '''Test student related urls'''
-#     def test_create_student(self):
-#         '''
-#         Calling post with desired name of the new course
-#         should result in a new course with that name being created
-#         and the course info (key) being returned to the browser to update
-#         the course list.
-#         '''
-#         pass
+    def setUp(self):
+        ''' Admin will log in, and navigate to a course page. '''
+        self.client = APIClient()
+        self.factory = APIRequestFactory()
+        self.crs = AdminUserCourseFactory()
+        self.admin = ViewsAdminProfileFactory().user
+        self.client.login(username=self.admin.username, password="Admin")
 
-#     def test_get_students(self):
-#         '''
-#         Calling get for a course should redirect the instructor to a
-#         course detail page where they can create teams, add students,
-#         and put students in teams.
-#         '''
-#         pass
+    def test_get_teams(self):
+        ''' Any teams in the course will be returned via GET '''
+        response = self.client.get('/admin_team/' + str(self.crs.pk) + '/',
+                                   format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        '''No teams have been added so test
+        response.data - should be empty'''
+        self.assertEqual(response.data, [])
 
-#     def test_update_student(self):
-#         '''
-#         Calling get for a course should redirect the instructor to a
-#         course detail page where they can create teams, add students,
-#         and put students in teams.
-#         '''
-#         pass
+    def test_create_team(self):
+        ''' Teams created via POST '''
+        response = self.client.post('/admin_team/' + str(self.crs.pk) + '/',
+                                    {'team_name': 'Test Team Name'},
+                                    format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        '''After team is created, it should return the team data
+        in response.data'''
+        # The student id should not be hard coded - manually look up?
+        self.assertEqual(response.data, {'username': u'Test Team Name_1',
+                                         'first_name': u'Test Team Name'})
 
-#     def test_remove_student(self):
-#         '''
-#         Calling get for a course should redirect the instructor to a
-#         course detail page where they can create teams, add students,
-#         and put students in teams.
-#         '''
-#         pass
+    def test_create_then_update_team(self):
+        pass
 
-#     '''Test team related urls'''
-
-#     def test_post_team(self):
-#         '''
-#         Calling post with desired name of the new course
-#         should result in a new course with that name being created
-#         and the course info (key) being returned to the browser to update
-#         the course list.
-#         '''
-#         pass
-
-#     def test_get_team(self):
-#         '''
-#         Calling get for a course should redirect the instructor to a
-#         course detail page where they can create teams, add students,
-#         and put students in teams.
-#         '''
-#         pass
-
-#     def test_update_team(self):
-#         '''
-#         Calling get for a course should redirect the instructor to a
-#         course detail page where they can create teams, add students,
-#         and put students in teams.
-#         '''
-#         pass
-
-#     def teamtest_remove_course(self):
-#         '''
-#         Calling get for a course should redirect the instructor to a
-#         course detail page where they can create teams, add students,
-#         and put students in teams.
-#         '''
-#         pass
+    def test_create_update_delete_team(self):
+        ''' Any students in the course will be returned via GET '''
+        response = self.client.post('/admin_team/' + str(self.crs.pk) + '/',
+                                    {'team_name': 'Test Team Name'},
+                                    format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data, {'username': u'Test Team Name_1',
+                                         'first_name': u'Test Team Name'})
+        response = self.client.delete('/admin_team/' + str(self.crs.pk) + '/',
+                                      format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
