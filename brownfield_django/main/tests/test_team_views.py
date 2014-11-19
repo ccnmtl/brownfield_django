@@ -11,16 +11,15 @@
 #     def setUp(self):
 #         self.client = Client()
 #         self.factory = RequestFactory()
-#         self.team = TeamFactory()
-#         # self.user = UserTeamFactory()
-#         self.client.login(username=self.team.user.username,
-# password="Test_Team")
+#         self.team = TeamFactory().user
+#         self.client.login(username=self.team.username, password="Test_Team")
 #
 #     def test_home(self):
+#         # team_pk = Team.objects.get(user=self.team.pk)
 #         request = self.client.get("/team/home/" +
 #                                   str(self.team.id) + '/')
-#  #       self.assertTemplateUsed(request,
-#  #                               'main/ccnmtl/home_dash/ccnmtl_home.html')
+#       self.assertTemplateUsed(request,
+#                               'main/ccnmtl/home_dash/ccnmtl_home.html')
 
 #     def test_get_course_details(self):
 #         '''

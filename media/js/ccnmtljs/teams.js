@@ -36,15 +36,9 @@ var TeamCollection = Backbone.Collection.extend({
 var TeamView = Backbone.View.extend({
 
    	tagName : 'li',
-   	template: _.template("Team Name: <%= first_name %>" +
-   			             "<space><space>" +
-   			             "Team Login: <%= username %>" +
-   			             "<space><space>" +
-   			             "<button class='btn btn-xs rm-team'>" +
-			             "Remove Team From Course" +
-			             "</button>"),
 
-   	initialize: function () {
+   	initialize: function (options) {
+   		this.template = _.template(jQuery("#team-list-template").html());
    	    this.listenTo(this.model, 'change', this.render);
    	    this.listenTo(this.model, 'destroy', this.remove);
    	},

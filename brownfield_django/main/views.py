@@ -226,6 +226,7 @@ class AdminTeamView(APIView):
                             status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk=None):
+        print "team delete"
         team = User.objects.get(pk=pk)
         team.delete()
         return Response(status.HTTP_200_OK)

@@ -31,7 +31,7 @@ var StudentCollection = Backbone.Collection.extend({
 //End of Modes/Collections
 
 
-//Views 
+//Views
 var StudentView = Backbone.View.extend({
 
 	tagName : 'li',
