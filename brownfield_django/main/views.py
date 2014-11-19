@@ -106,6 +106,7 @@ class StudentViewSet(viewsets.ModelViewSet):
     def create(self, request):
         try:
             key = self.request.QUERY_PARAMS.get('course', None)
+            # how to condense this?
             course = Course.objects.get(pk=key)
             username = str(request.DATA['first_name']) + \
                 str(request.DATA['last_name'])
@@ -119,19 +120,21 @@ class StudentViewSet(viewsets.ModelViewSet):
                                                      profile_type='ST')
             new_profile.save()
             serializer = StudentMUserSerializer(student)
-            return Response(serializer.data, status.HTTP_200_OK)
+            return Response(serializer.data, status.HTTP_201_CREATED)
         except:
+            # is it considered good practice to return serializer.data
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
         student = get_object_or_404(User, pk=pk)
         try:
+            # should I be sticking this in StudentMUserSerializer
             student.first_name = request.DATA['first_name']
             student.last_name = request.DATA['last_name']
             student.email = request.DATA['email']
             student.save()
             return Response(
-                status=status.HTTP_201_CREATED)
+                status=status.HTTP_200_OK)
         except:
             '''For some reason update failed'''
             return Response({"success": False})

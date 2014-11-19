@@ -202,18 +202,3 @@ class ViewsTeacherProfileFactory(UserProfileFactory):
     FACTORY_FOR = UserProfile
     user = factory.SubFactory(TeacherUserFactory)
     profile_type = 'TE'
-
-
-# '''Creating Separate UserFactory and Profile for test_team_views'''
-# 
-# 
-# class TeamUserFactory(factory.DjangoModelFactory):
-#     FACTORY_FOR = User
-#     username = "TeamUser"
-#     password = factory.PostGenerationMethodCall('set_password', "TeamUser")
-# 
-# 
-# class ViewsTeamProfileFactory(UserProfileFactory):
-#     FACTORY_FOR = UserProfile
-#     user = factory.SubFactory(TeacherUserFactory)
-#     profile_type = 'TE'

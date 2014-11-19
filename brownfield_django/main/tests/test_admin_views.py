@@ -1,14 +1,10 @@
 import json
-# from datetime import datetime
 
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
-# from django.contrib.auth.models import User
+
 from factories import ViewsAdminProfileFactory, AdminUserCourseFactory
 
-# from brownfield_django.main.views import CourseViewSet52
-# DetailJSONCourseView
-# from django.core.urlresolvers import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework.test import APIRequestFactory
@@ -117,7 +113,7 @@ class TestStudentRestViews(APITestCase):
                                      'last_name': 'Student Last Name',
                                      'email': 'studentemail@email.com'},
                                     format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         '''After student is created, it should return the student data
         in response.data'''
         # The student id should not be hard coded - manually look up?
@@ -133,7 +129,7 @@ class TestStudentRestViews(APITestCase):
                                      'last_name': 'Student Last Name',
                                      'email': 'studentemail@email.com'},
                                     format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         '''After student is created, it should return the student data
         in response.data'''
         self.assertEqual(response.data, {'id': 4,
@@ -148,7 +144,7 @@ class TestStudentRestViews(APITestCase):
                                     'last_name': 'Edit Last Name',
                                     'email': 'editmail@email.com'},
                                    format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_update_delete_student(self):
         ''' Any students in the course will be returned via GET '''
@@ -157,7 +153,7 @@ class TestStudentRestViews(APITestCase):
                                      'last_name': 'Student Last Name',
                                      'email': 'studentemail@email.com'},
                                     format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         '''After student is created, it should return the student data
         in response.data'''
         self.assertEqual(response.data, {'id': 4,
@@ -169,7 +165,7 @@ class TestStudentRestViews(APITestCase):
                                     'last_name': 'Edit Last Name',
                                     'email': 'editmail@email.com'},
                                    format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         response = self.client.delete('/api/student/4/', format='json')
         # is there as success code for delete?
         # should I test the models to see if they were deleted as well?
