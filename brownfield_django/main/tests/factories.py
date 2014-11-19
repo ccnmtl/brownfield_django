@@ -30,6 +30,7 @@ class TeamFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Team
     course = factory.SubFactory(CourseFactory)
     user = factory.SubFactory(UserTeamFactory)
+    team_passwd = "Test_Team"
 
 
 class DocumentFactory(factory.DjangoModelFactory):
@@ -113,7 +114,7 @@ class InformationTestFactory(factory.DjangoModelFactory):
     internalName = "recon"
 
 
-'''Adding Users and UserProfiles/Students/Teams to add to Course
+'''Adding Users and UserProfiles/Students to add to Course
 and/or Teams in test_models to see that it returns those Users.'''
 
 
@@ -129,12 +130,6 @@ class StudentUserFactoryTwo(factory.DjangoModelFactory):
     password = "Student2"
 
 
-class ActualTeamUserFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = User
-    username = "Test_Team"
-    password = "Test_Team"
-
-
 class StudentProfileFactoryOne(factory.DjangoModelFactory):
     FACTORY_FOR = UserProfile
     user = factory.SubFactory(StudentUserFactoryOne)
@@ -145,13 +140,6 @@ class StudentProfileFactoryTwo(factory.DjangoModelFactory):
     FACTORY_FOR = UserProfile
     user = factory.SubFactory(StudentUserFactoryTwo)
     profile_type = 'ST'
-
-
-class NewTeamProfileFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = UserProfile
-    user = factory.SubFactory(ActualTeamUserFactory)
-    profile_type = 'TM'
-    course = factory.SubFactory(CourseFactory)
 
 
 class StudentInTeamProfileFactoryOne(factory.DjangoModelFactory):
