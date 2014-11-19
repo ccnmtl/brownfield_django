@@ -202,7 +202,8 @@ class TestTeamRestViews(APITestCase):
         '''After team is created, it should return the team data
         in response.data'''
         # The student id should not be hard coded - manually look up?
-        self.assertEqual(response.data, {'username': u'Test Team Name_1',
+        self.assertEqual(response.data, {'id': 4,
+                                         'username': u'Test Team Name_1',
                                          'first_name': u'Test Team Name'})
 
     def test_create_then_update_team(self):
@@ -214,7 +215,8 @@ class TestTeamRestViews(APITestCase):
                                     {'team_name': 'Test Team Name'},
                                     format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data, {'username': u'Test Team Name_1',
+        self.assertEqual(response.data, {'id': 4,
+                                         'username': u'Test Team Name_1',
                                          'first_name': u'Test Team Name'})
         response = self.client.delete('/admin_team/' + str(self.crs.pk) + '/',
                                       format='json')
