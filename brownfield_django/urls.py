@@ -11,7 +11,7 @@ from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
     TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView, \
     BrownfieldInfoView, BrownfieldHistoryView, BrownfieldTestView, \
-    TeamHistoryView, TeamInfoView, TeamPerformTest
+    TeamHistoryView, TeamInfoView, TeamPerformTest, InstructorViewSet
 
 
 admin.autodiscover()
@@ -42,6 +42,7 @@ router.register(r'course', CourseViewSet)
 router.register(r'user', UserViewSet)
 router.register(r'document', DocumentViewSet)
 router.register(r'student', StudentViewSet)
+router.register(r'instructor', InstructorViewSet)
 
 urlpatterns = patterns(
     '',

@@ -31,24 +31,24 @@
         <form class="add-instructor-frm" method="" action="" style="display: none;">
             {% csrf_token %}
             <p> <b>Add New Instructor: </b></p>
-            <span class="instructor-first-name">
+            <span class="inst-first-name">
                 <label>First Name: </label>
-                <input type="text" placeholder="First Name: " class="instructor-frst-name" value="<%= first_name %>" /> 
+                <input type="text" placeholder="First Name: " class="instructor-frst-name" /> 
                 <space><space>
             </span>
-            <span class="instructor-last-name">
+            <span class="inst-last-name">
                 <label>Last Name: </label>
-                <input type="text" placeholder="Last Name: " class="instructor-last-name" value="<%= last_name %>" /> 
+                <input type="text" placeholder="Last Name: " class="instructor-last-name" /> 
                 <space><space>
             </span>
-            <span class="instructor-email">
+            <span class="inst-email">
                 <label>Email: </label>
-                <input type="text" placeholder="Email: " class="instructor-email" value="<%= email %>" />
+                <input type="text" placeholder="Email: " class="instructor-email" />
             </span>
             <button class='btn btn-xs save-instructor'> Save Instructor </button>
         </form>
 
-        <div id="instructor-list" >
+        <div class="instructor-list" >
             <!-- All instructors of courses will be inserted here -->
         </div>
     </div>

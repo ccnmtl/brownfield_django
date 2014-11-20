@@ -354,14 +354,13 @@ var TeamListView = Backbone.View.extend({
 
 
 var InstructorListView = Backbone.View.extend({
-	   
+	
     tagName : 'ul',
     
     initialize: function (options)
     {
     	_.bindAll(this, 'initialRender', 'addInstructor');
-    	
-    	//create new collection to hold user courses
+
     	this.instructor_collection = new InstructorCollection(options);
     	this.instructor_collection.fetch({processData: true, reset: true});
     	this.instructor_collection.on('reset', this.initialRender);

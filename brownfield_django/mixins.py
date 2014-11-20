@@ -46,20 +46,6 @@ class CSRFExemptMixin(object):
         return super(CSRFExemptMixin, self).dispatch(*args, **kwargs)
 
 
-class XMLResponseMixin(object):
-
-    def dispatch(self, *args, **kwargs):
-        return super(XMLResponseMixin, self).dispatch(*args, **kwargs)
-
-    def render_to_xml_response(self, context, **response_kwargs):
-        """
-        Returns a XML response, transforming 'context' to make the payload.
-        """
-        return HttpResponse(parseString(context),
-                            content_type="application/xhtml+xml",
-                            **response_kwargs)
-
-
 class LoggedInMixin(object):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):

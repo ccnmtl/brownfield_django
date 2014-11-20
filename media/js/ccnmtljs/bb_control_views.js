@@ -53,25 +53,17 @@ var ManageCoursesView = Backbone.View.extend({
 
 var ManageInstructorsView = Backbone.View.extend({
     events: {
-//    	'click .edit-crs' : 'edit',
     	'click .add-instructor-btn': 'showInstructorForm',
     	'click .save-instructor': 'addInstructor'
-//    		'click .student_submit' :	'validateStudentForm'//'addStudent'
     },
     
     initialize: function (options) {
         _.bindAll(this,
                   'addInstructor',
-//                  'fetchCourses',
                   'showInstructorForm');
-
         this.instructor_collection_view = new InstructorListView({
             el: jQuery('.instructor-list'),
         });
-        
-//        this.user = new User({id: options.user_id});
-//        this.user.on('change', this.fetchCourses);
-//        this.user.fetch();
     },
 
     showInstructorForm: function(e) {
@@ -80,6 +72,7 @@ var ManageInstructorsView = Backbone.View.extend({
     },
 
     addInstructor: function(evt) {
+    	evt.stopPropagation();
     	this.instructor_collection_view.instructor_collection.create(
     		{
     		    first_name : jQuery(".instructor-frst-name").val(),
@@ -89,25 +82,24 @@ var ManageInstructorsView = Backbone.View.extend({
     	    {
     	    	error: function(model, response)
                 {
-                	jQuery(".add-team-frm").append("<p>Something went wrong, please try again.</p>");
-                	//url: this.student_collection_view.course_students.url()
+                	jQuery(".add-instructor-frm").append("<p>Something went wrong, please try again.</p>");
                 },
     	    	wait: true
     	    });
 
 	    jQuery(".add-instructor-frm").hide();
-	    jQuery(".add-instructor").show();
+	    jQuery(".add-instructor-btn").show();
   	    return false;
     }
     
-});// End UserControlView  
+});  
 
 
 var StudentControlView = Backbone.View.extend({
 
     events: {
 	'click .add-std-btn' : 'showStudentForm',
-	'click .student_submit' :	'validateStudentForm'//'addStudent'
+	'click .student_submit' :	'validateStudentForm'
     },
     
     initialize: function (options)
@@ -191,7 +183,7 @@ var StudentControlView = Backbone.View.extend({
     	this.addStudent();
     }
     
-});// End UserControlView
+});
 
 
 var TeamControlView = Backbone.View.extend({
