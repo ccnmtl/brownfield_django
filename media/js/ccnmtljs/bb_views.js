@@ -1,18 +1,11 @@
 /* Experimenting with suggestions from Backbone best practices for reducing duplicate code */
 
-/* ight be good to pull out show edit form and remove */
+/* Might be good to pull out show edit form and remove */
 
 /* All List Element Views have the same render function - creating base class with the render method. */
 var BaseView = Backbone.View.extend({
 
-//    render: function () {
-//        var tpl = _.template(this.template),
-//        data = (this.model) ? this.model.toJSON() : {},
-//        	    html = tpl(data);
-//        this.$el.html(html);
-//        return this;
-//    }
-    render: function () 
+	render: function () 
     {
         var html = this.template(this.model.toJSON());
         this.$el.html(html);

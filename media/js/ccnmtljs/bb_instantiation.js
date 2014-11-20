@@ -7,19 +7,11 @@ jQuery(document).ready(function () {
         el: jQuery('.student_controls'),
         course: course
     });
-});
 
-jQuery(document).ready(function () {
-    var course = jQuery("input[name='crs-id']").val();
     var team_control_view = new TeamControlView({
         el: jQuery('.team_controls'),
         course: course
     });
-});
-
-
-jQuery(document).ready(function () {
-    var course = jQuery("input[name='crs-id']").val();
 
     var document_collection_view = new DocumentListView({
         el: jQuery('.documents_list'),
