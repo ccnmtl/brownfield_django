@@ -23,6 +23,41 @@
     <br /><br /><br /><br />
     
     {% if request.user.profile.is_admin %}
+    <h3>Instructors</h3>
+    <div class='instructor_controls'>
+        <button class="add-instructor-btn">
+            Add New Instructor
+        </button>
+        <form class="add-instructor-frm" method="" action="" style="display: none;">
+            {% csrf_token %}
+            <p> <b>Add New Instructor: </b></p>
+            <span class="instructor-first-name">
+                <label>First Name: </label>
+                <input type="text" placeholder="First Name: " class="instructor-frst-name" value="<%= first_name %>" /> 
+                <space><space>
+            </span>
+            <span class="instructor-last-name">
+                <label>Last Name: </label>
+                <input type="text" placeholder="Last Name: " class="instructor-last-name" value="<%= last_name %>" /> 
+                <space><space>
+            </span>
+            <span class="instructor-email">
+                <label>Email: </label>
+                <input type="text" placeholder="Email: " class="instructor-email" value="<%= email %>" />
+            </span>
+            <button class='btn btn-xs save-instructor'> Save Instructor </button>
+        </form>
+
+        <div id="instructor-list" >
+            <!-- All instructors of courses will be inserted here -->
+        </div>
+    </div>
+    
+    <br /><br /><br /><br />
+    {% endif %}
+    
+    
+    {% if request.user.profile.is_admin %}
         <h3>Other Courses</h3>
         <div class="all_brwn_courses">
         </div>

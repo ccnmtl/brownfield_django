@@ -51,6 +51,58 @@ var ManageCoursesView = Backbone.View.extend({
 });// End UserControlView  
 
 
+var ManageInstructorsView = Backbone.View.extend({
+    events: {
+//    	'click .edit-crs' : 'edit',
+    	'click .add-instructor-btn': 'showInstructorForm',
+    	'click .save-instructor': 'addInstructor'
+//    		'click .student_submit' :	'validateStudentForm'//'addStudent'
+    },
+    
+    initialize: function (options) {
+        _.bindAll(this,
+                  'addInstructor',
+//                  'fetchCourses',
+                  'showInstructorForm');
+
+        this.instructor_collection_view = new InstructorListView({
+            el: jQuery('.instructor-list'),
+        });
+        
+//        this.user = new User({id: options.user_id});
+//        this.user.on('change', this.fetchCourses);
+//        this.user.fetch();
+    },
+
+    showInstructorForm: function(e) {
+		jQuery(".add-instructor-btn").hide();
+		jQuery(".add-instructor-frm").show();
+    },
+
+    addInstructor: function(evt) {
+    	this.instructor_collection_view.instructor_collection.create(
+    		{
+    		    first_name : jQuery(".instructor-frst-name").val(),
+    		    last_name : jQuery(".instructor-last-name").val(),
+    		    email : jQuery(".instructor-email").val()
+    	    },
+    	    {
+    	    	error: function(model, response)
+                {
+                	jQuery(".add-team-frm").append("<p>Something went wrong, please try again.</p>");
+                	//url: this.student_collection_view.course_students.url()
+                },
+    	    	wait: true
+    	    });
+
+	    jQuery(".add-instructor-frm").hide();
+	    jQuery(".add-instructor").show();
+  	    return false;
+    }
+    
+});// End UserControlView  
+
+
 var StudentControlView = Backbone.View.extend({
 
     events: {

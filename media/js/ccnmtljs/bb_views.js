@@ -353,3 +353,35 @@ var TeamListView = Backbone.View.extend({
 });
 
 
+var InstructorListView = Backbone.View.extend({
+	   
+    tagName : 'ul',
+    
+    initialize: function (options)
+    {
+    	_.bindAll(this, 'initialRender', 'addInstructor');
+    	
+    	//create new collection to hold user courses
+    	this.instructor_collection = new InstructorCollection(options);
+    	this.instructor_collection.fetch({processData: true, reset: true});
+    	this.instructor_collection.on('reset', this.initialRender);
+    	this.instructor_collection.on('add', this.addInstructor);
+	},
+   
+	initialRender: function() {
+        // Iterate over the collection and add each name as a list item 
+        this.instructor_collection.each(function(model) {
+            this.$el.append(new InstructorView({
+                   model: model
+            }).render().el);
+        }, this);
+
+        return this;
+    },
+
+    addInstructor: function(model, collection, options) {
+        this.$el.append(new InstructorView({
+            model: model
+        }).render().el);
+    }
+});

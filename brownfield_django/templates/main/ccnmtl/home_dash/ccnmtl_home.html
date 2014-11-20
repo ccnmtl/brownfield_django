@@ -5,7 +5,7 @@
     <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/bb_collections.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/bb_views.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/bb_control_views.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/bb_instantiation.js"></script>
+    <!-- <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/bb_instantiation.js"></script> -->
 {% endblock %}
 
 {% block js %}
@@ -15,26 +15,6 @@
         <button class='destroy del-crs'> Archive Class</button>
     </script>
 
-    <script type="text/template" id="instructor-edit-template">
-    <form class="edit-student-frm" method="" action="" style="display: inline;">
-        {% csrf_token %}
-        <span class="sedt-first-name">
-            <label>First Name: </label>
-            <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> 
-            <space><space>
-        </span>
-        <span class="sedt-last-name">
-            <label>Last Name: </label>
-            <input type="text" placeholder="Last Name: " class="edt-last-name" value="<%= last_name %>" /> 
-            <space><space>
-        </span>
-        <span class="sedt-email">
-            <label>Email: </label>
-            <input type="text" placeholder="Email: " class="edt-email" value="<%= email %>" />
-        </span>
-        <button class='btn btn-xs save-edit-student'> Save Changes </button>  <br />
-    </form>
-    </script>
 
     <script type="text/template" id="instructor-list-template">
         [<%= first_name %>] <space><space>
@@ -45,6 +25,27 @@
         <button class='btn btn-xs rm-inst'> Remove Instructor </button>  <space><space><br />
     </script>
 
+
+    <script type="text/template" id="instructor-edit-template">
+    <form class="edit-instructor-frm" method="" action="" style="display: inline;">
+        {% csrf_token %}
+        <span class="inst-edt-first-name">
+            <label>First Name: </label>
+            <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> 
+            <space><space>
+        </span>
+        <span class="inst-edt-last-name">
+            <label>Last Name: </label>
+            <input type="text" placeholder="Last Name: " class="edt-last-name" value="<%= last_name %>" /> 
+            <space><space>
+        </span>
+        <span class="inst-edt-email">
+            <label>Email: </label>
+            <input type="text" placeholder="Email: " class="edt-email" value="<%= email %>" />
+        </span>
+        <button class='btn btn-xs save-edit-instructor'> Save Changes </button>  <br />
+    </form>
+    </script>
 
 
 
@@ -58,6 +59,10 @@
                 {% endif %}
                 user_id: "{{request.user.id}}"
             });
+            
+           var instructor_controls = new ManageInstructorsView({
+        	   el: jQuery('.instructor_controls')
+           });
         });
     </script>
 {% endblock %}
