@@ -119,31 +119,24 @@ class StudentViewSet(viewsets.ModelViewSet):
                                                      profile_type='ST')
             new_profile.save()
             serializer = StudentMUserSerializer(student)
-            return Response(serializer.data, status.HTTP_200_OK)
+            return Response(serializer.data, status.HTTP_201_CREATED)
         except:
+            # is it considered good practice to return serializer.data
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
         student = get_object_or_404(User, pk=pk)
         try:
+            # should I be sticking this in StudentMUserSerializer
             student.first_name = request.DATA['first_name']
             student.last_name = request.DATA['last_name']
             student.email = request.DATA['email']
             student.save()
             return Response(
-                status=status.HTTP_201_CREATED)
+                status=status.HTTP_200_OK)
         except:
             '''For some reason update failed'''
             return Response({"success": False})
-
-#         serializer = StudentUserSerializer(
-#             data=request.DATA)
-#         if serializer.is_valid():
-#             return Response(serializer.data, status.HTTP_200_OK)
-#         elif serializer.is_valid() is False:
-#             print 'serializer false'
-#             return Response(serializer.errors,
-#                             status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
         student = User.objects.get(pk=pk)
@@ -160,6 +153,68 @@ class StudentViewSet(viewsets.ModelViewSet):
             '''Is it safe to assume there are no students
             if something goes wrong.'''
             queryset = User.objects.none()
+        return queryset
+
+
+class InstructorViewSet(viewsets.ModelViewSet):
+    '''This could probably be combined with StudentViewSet
+    not sure though.'''
+    queryset = User.objects.filter(profile__profile_type='TE')
+    serializer_class = StudentUserSerializer
+
+    def get_password(self):
+        char_digits = letters + digits
+        passwd = ''
+        for x in range(0, 7):
+            add_char = random.choice(char_digits)
+            passwd = passwd + add_char
+        return passwd
+
+    def create(self, request):
+        '''Since there is no course associated we can
+        see about saving the serializer directly'''
+        try:
+            username = str(request.DATA['first_name']) + \
+                str(request.DATA['last_name'])
+            instructor = User.objects.create_user(
+                username=username,
+                first_name=request.DATA['first_name'],
+                last_name=request.DATA['last_name'],
+                email=request.DATA['email'])
+            tmpasswd = self.get_password()
+            instructor.set_password(tmpasswd)
+            new_profile = UserProfile.objects.create(user=instructor,
+                                                     profile_type='TE')
+            new_profile.tmp_passwd = tmpasswd
+            new_profile.save()
+            serializer = StudentMUserSerializer(instructor)
+            return Response(serializer.data, status.HTTP_201_CREATED)
+        except:
+            # is it considered good practice to return serializer.data
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, pk=None):
+        instructor = get_object_or_404(User, pk=pk)
+        try:
+            # should I be sticking this in StudentMUserSerializer
+            instructor.first_name = request.DATA['first_name']
+            instructor.last_name = request.DATA['last_name']
+            instructor.email = request.DATA['email']
+            instructor.save()
+            serializer = StudentMUserSerializer(instructor)
+            return Response(serializer.data, status.HTTP_200_OK)
+        except:
+            '''For some reason update failed'''
+            return Response({"success": False})
+
+    def destroy(self, request, pk=None):
+        instructor = User.objects.get(pk=pk)
+        instructor.delete()
+        return Response(status.HTTP_200_OK)
+
+    def get_queryset(self):
+        instructors = UserProfile.objects.filter(profile_type='TE')
+        queryset = User.objects.filter(profile__in=instructors)
         return queryset
 
 

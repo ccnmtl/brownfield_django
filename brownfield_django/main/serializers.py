@@ -29,7 +29,7 @@ class DocumentSerializer(serializers.HyperlinkedModelSerializer):
 class TeamNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('first_name', 'username')
+        fields = ('id', 'first_name', 'username')
 
 
 class StudentUserSerializer(serializers.HyperlinkedModelSerializer):

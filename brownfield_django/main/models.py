@@ -122,6 +122,7 @@ class UserProfile(models.Model):
     teachers do not necessarily belong to a course.'''
     course = models.ForeignKey(Course, null=True, default=None, blank=True)
     team = models.ForeignKey(Team, null=True, default=None, blank=True)
+    tmp_passwd = models.CharField(max_length=255, default="", blank=True)
 
     def __unicode__(self):
         return self.user.username

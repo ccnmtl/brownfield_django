@@ -1,11 +1,37 @@
+# import json
+#
 # from django.test import TestCase, RequestFactory
 # from django.test.client import Client
 #
 # from factories import TeamFactory
-# # # , \ UserFactory, UserProfileFactory,
-# # #    StudentProfileFactory, CourseFactory, TeamFactory
-# #
-# #
+#
+#
+# class TestTeamViews(TestCase):
+#
+#     def setUp(self):
+#         self.client = Client()
+#         self.factory = RequestFactory()
+#         self.team = TeamFactory().user
+#         self.client.login(username=self.team.username, password="Test_Team")
+#
+#     def test_home(self):
+#         # team_pk = Team.objects.get(user=self.team.pk)
+#         request = self.client.get("/team/home/" +
+#                                   str(self.team.id) + '/')
+#       self.assertTemplateUsed(request,
+#                               'main/ccnmtl/home_dash/ccnmtl_home.html')
+
+#     def test_get_course_details(self):
+#         '''
+#         Requesting the course details page should redirect
+#         the admin to a course dashboard where they can create
+#         teams and students, and put students in teams.
+#         '''
+#         self.admin_course = AdminUserCourseFactory()
+#         request = self.client.get("/course_details/" +
+#                                   str(self.admin_course.pk) + '/')
+#         self.assertTemplateUsed(request,
+#                                 'main/ccnmtl/course_dash/course_home.html')
 # class TestTeamViews(TestCase):
 #
 #     def setUp(self):
@@ -22,7 +48,6 @@
 #                                   str(self.team.user.pk) + '/')
 #         self.assertTemplateUsed(request,
 #                                 'main/team/home_dash/team_home.html')
-
 #
 #     def setUp(self):
 #         self.client = Client()

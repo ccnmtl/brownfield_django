@@ -28,7 +28,7 @@
 	        <td>
 	            <select>
 	                {% for team in object.get_teams %}
-                        <option value="{{team.pk}}"> {{team}} </option>
+                        <option value="{{team.pk}}"> {{team.user.username}} </option>
 		        	{% empty %}
     	        		<p>
             				Please add teams in order to create them.
