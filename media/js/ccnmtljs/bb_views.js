@@ -170,6 +170,60 @@ var StudentView = BaseItemView.extend({
 });
 
 
+var InstructorView = BaseItemView.extend({
+
+	initialize: function(options)
+	{
+		_.bindAll(this, 'editInstructor');
+		this.template = _.template(jQuery("#instructor-list-template").html());
+        // need to bind the edit form to the model - when change made to form change model
+		this.listenTo(this.model, 'change', this.render);
+		this.listenTo(this.model, 'destroy', this.remove);
+	},
+
+   	events: {
+   		'click .ed-inst' : 'showEditForm',
+   		'click .save-edit-instructor' : 'editInstructor',
+   		'click .rm-inst' : 'removeInstructor'
+   	},
+    
+   	showEditForm: function()
+   	{
+   	    var html = _.template(jQuery("#instructor-edit-template").html())(this.model.toJSON());
+        this.$el.html(html);
+    },
+    
+   	editInstructor: function(e)
+   	{
+   		e.preventDefault();
+   		var inst_fname = jQuery(this.el).find("input.edt-frst-name").val();
+   		var inst_lname = jQuery(this.el).find("input.edt-last-name").val();
+        var inst_email = jQuery(this.el).find("input.edt-email").val();
+   		/* For some reason setting the attributes below only sets correctly if you edit
+   		 * email, pulling the varibles here because here they are correct and then passing.
+   		 * */
+  		this.model.set('first_name', inst_fname);
+  		this.model.set('last_name', inst_lname);
+  		this.model.set('email', inst_email);
+   		this.model.save({
+	        success: function(model, response) 
+	        {},
+            error: function(model, response)
+            {
+            	alert("An error occured!");
+            	//this.$el.append("<p>Something went wrong, please try again.</p>");
+            },
+            wait: true
+        });//end save
+    },
+    
+   	removeInstructor: function()
+   	{
+   		this.model.destroy();
+    }
+});
+
+
 /* Now the Collection Views */
 
 

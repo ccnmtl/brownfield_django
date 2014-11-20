@@ -1,3 +1,5 @@
+/* These all have same url function... perhaps move to base class? */
+
 var Document = Backbone.Model.extend({
    urlRoot: '/api/document/',
    url: function() {
@@ -12,6 +14,18 @@ var Document = Backbone.Model.extend({
 
 var User = Backbone.Model.extend({
 	   urlRoot: '/api/user/',
+	   url: function() {
+	       var url = this.urlRoot;
+	       if (this.get('id') !== undefined) {
+	           url += this.get('id') + '/';
+	       }
+	       return url;
+	   }
+});
+
+
+var Instructor = Backbone.Model.extend({
+	   urlRoot: '/api/instructor/',
 	   url: function() {
 	       var url = this.urlRoot;
 	       if (this.get('id') !== undefined) {
