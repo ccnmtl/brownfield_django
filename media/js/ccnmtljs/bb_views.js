@@ -1,20 +1,40 @@
+/* Experimenting with suggestions from Backbone best practices for reducing duplicate code */
+
+/* ight be good to pull out show edit form and remove */
+
+/* All List Element Views have the same render function - creating base class with the render method. */
 var BaseView = Backbone.View.extend({
 
-    render: function () {
-        var tpl = _.template(this.template),
-        data = (this.model) ? this.model.toJSON() : {},
-        	    html = tpl(data);
+//    render: function () {
+//        var tpl = _.template(this.template),
+//        data = (this.model) ? this.model.toJSON() : {},
+//        	    html = tpl(data);
+//        this.$el.html(html);
+//        return this;
+//    }
+    render: function () 
+    {
+        var html = this.template(this.model.toJSON());
         this.$el.html(html);
         return this;
     }
+
+});
+
+/* Further extending the base view for list elements. */
+
+var BaseItemView = BaseView.extend({
+
+    tagName : 'li',
+
 });
 
 
 /* Start with Single Element Views */
-var DocumentView = Backbone.View.extend({
 
-   	tagName : 'li',
-   	//className: 'document-click',
+
+var DocumentView = BaseItemView.extend({
+
    	initialize: function(options) {
         this.template = _.template(jQuery("#document-list-template").html());
         this.listenTo(this.model, 'change', this.render);
@@ -24,12 +44,6 @@ var DocumentView = Backbone.View.extend({
    		'click .chng-dct' : 'changeDocument',
    		'click .document-click' : 'viewDocument'
    	},
-
-    render: function () {
-        var html = this.template(this.model.toJSON());
-        this.$el.html(html);
-        return this;
-    },
         
     changeDocument: function()
    	{
@@ -46,8 +60,7 @@ var DocumentView = Backbone.View.extend({
    	},
    	
    	viewDocument: function()
-   	{  
-   		//console.log(this.model.attributes);
+   	{
    		if(this.model.get('name') === "Link: Brownfield Action Reference Site")
    		{
    			document.location = "http://brownfieldref.ccnmtl.columbia.edu/";
@@ -57,18 +70,14 @@ var DocumentView = Backbone.View.extend({
     		window.open("../../media/" + this.model.get('link'));
 		}
    	}
-   	
 
 });
 
 
-var CourseView = Backbone.View.extend({
-
-   	tagName : 'li',
+var CourseView = BaseItemView.extend({
     	
    	initialize: function () {
    	    this.listenTo(this.model, 'change', this.render);
-   	    
    	    this.template = _.template(jQuery("#add-course-template").html());
    	},
     	
@@ -76,12 +85,12 @@ var CourseView = Backbone.View.extend({
    		'click .destroy' : 'clear'
    	},
     	
-    render: function () {
+    render: function ()
+    {
         if (this.model.get('archive') === true) {
             this.$el.remove();
         } else {
-            var html = this.template(this.model.toJSON());
-            this.$el.html(html);
+        	BaseView.prototype.render.apply(this, arguments);
         }
         return this;
     },
@@ -94,9 +103,7 @@ var CourseView = Backbone.View.extend({
 });// End CourseView
 
 
-var TeamView = Backbone.View.extend({
-
-   	tagName : 'li',
+var TeamView = BaseItemView.extend({
 
    	initialize: function (options) {
    		this.template = _.template(jQuery("#team-list-template").html());
@@ -108,12 +115,6 @@ var TeamView = Backbone.View.extend({
    		'click .rm-team' : 'removeTeam'
    	},
 
-    render: function () {
-        var html = this.template(this.model.toJSON());
-        this.$el.html(html);
-        return this;
-    },
-
    	removeTeam: function()
    	{
    		this.model.destroy();
@@ -122,9 +123,7 @@ var TeamView = Backbone.View.extend({
 });// End Team View
 
 
-var StudentView = Backbone.View.extend({
-
-	tagName : 'li',
+var StudentView = BaseItemView.extend({
 
 	initialize: function(options)
 	{
@@ -140,12 +139,6 @@ var StudentView = Backbone.View.extend({
    		'click .save-edit-student' : 'editStudent',
    		'click .rm-st' : 'removeStudent'
    	},
-
-    render: function () {
-        var html = this.template(this.model.toJSON());
-        this.$el.html(html);
-        return this;
-    },
     
    	showEditForm: function()
    	{
