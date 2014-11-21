@@ -1,8 +1,6 @@
-/* These all have same url function... perhaps move to base class? */
+var BaseModel = Backbone.Model.extend({
 
-var Document = Backbone.Model.extend({
-   urlRoot: '/api/document/',
-   url: function() {
+	url: function() {
        var url = this.urlRoot;
        if (this.get('id') !== undefined) {
            url += this.get('id') + '/';
@@ -11,65 +9,31 @@ var Document = Backbone.Model.extend({
    }
 });
 
-
-var User = Backbone.Model.extend({
-	   urlRoot: '/api/user/',
-	   url: function() {
-	       var url = this.urlRoot;
-	       if (this.get('id') !== undefined) {
-	           url += this.get('id') + '/';
-	       }
-	       return url;
-	   }
+var Document = BaseModel.extend({
+   urlRoot: '/api/document/'
 });
 
 
-var Instructor = Backbone.Model.extend({
-	   urlRoot: '/api/instructor/',
-	   url: function() {
-	       var url = this.urlRoot;
-	       if (this.get('id') !== undefined) {
-	           url += this.get('id') + '/';
-	       }
-	       return url;
-	   }
+var User = BaseModel.extend({
+	   urlRoot: '/api/user/'
 });
 
 
-var Course = Backbone.Model.extend({
-	    urlRoot: '/api/course/',
-	    url: function() {
-	        var url = this.urlRoot;
-	        if (this.get('id') !== undefined) {
-	            url += this.get('id') + '/';
-	        }
-	        return url;
-	    }
+var Instructor = BaseModel.extend({
+	   urlRoot: '/api/instructor/'
 });
 
 
-var Team = Backbone.Model.extend({
-	
-	   urlRoot: '/admin_team/',
-	   url: function() {
-	       var url = this.urlRoot;
-	       if (this.get('id') !== undefined) {
-	           url += this.get('id') + '/';
-	       }
-	       return url;
-	   }
-	
+var Course = BaseModel.extend({
+	    urlRoot: '/api/course/'
 });
 
 
-var Student= Backbone.Model.extend({
+var Team = BaseModel.extend({
+	   urlRoot: '/admin_team/'
+});
 
-	   urlRoot: '/api/student/',
-	   url: function() {
-	       var url = this.urlRoot;
-	       if (this.get('id') !== undefined) {
-	           url += this.get('id') + '/';
-	       }
-	       return url;
-	   }	    
+
+var Student= BaseModel.extend({
+	   urlRoot: '/api/student/'   
 });
