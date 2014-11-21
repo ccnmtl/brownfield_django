@@ -1,7 +1,10 @@
+# import csv
 import json
 import random
 
 from string import letters, digits
+# from StringIO import StringIO
+# from zipfile import ZipFile
 
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -174,15 +177,19 @@ class InstructorViewSet(viewsets.ModelViewSet):
         '''Since there is no course associated we can
         see about saving the serializer directly'''
         try:
-            username = str(request.DATA['first_name']) + \
+            user_name = str(request.DATA['first_name']) + \
                 str(request.DATA['last_name'])
+            print user_name
             instructor = User.objects.create_user(
-                username=username,
+                username=user_name,
                 first_name=request.DATA['first_name'],
                 last_name=request.DATA['last_name'],
                 email=request.DATA['email'])
+            print instructor
             tmpasswd = self.get_password()
+            print tmpasswd
             instructor.set_password(tmpasswd)
+            instructor.save()
             new_profile = UserProfile.objects.create(user=instructor,
                                                      profile_type='TE')
             new_profile.tmp_passwd = tmpasswd
