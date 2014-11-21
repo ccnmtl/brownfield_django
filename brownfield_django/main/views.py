@@ -172,6 +172,18 @@ class InstructorViewSet(viewsets.ModelViewSet):
             add_char = random.choice(char_digits)
             passwd = passwd + add_char
         return passwd
+    
+    def send_student_email(self, student):
+        '''Send instrutor their credentials'''
+        template = loader.get_template(
+            'main/ccnmtl/course_dash/student_activation_notice.txt')
+        subject = "Welcome to Brownfield!"
+        ctx = Context({'student': student, 'team': student.profile.team})
+        message = template.render(ctx)
+        '''who is the sender?'''
+        sender = 'cdunlop@columbia.edu'  # settings.BNFD_MAIL
+        send_mail(subject, message, sender, [student.email])
+    
 
     def create(self, request):
         '''Since there is no course associated we can
@@ -179,15 +191,12 @@ class InstructorViewSet(viewsets.ModelViewSet):
         try:
             user_name = str(request.DATA['first_name']) + \
                 str(request.DATA['last_name'])
-            print user_name
             instructor = User.objects.create_user(
                 username=user_name,
                 first_name=request.DATA['first_name'],
                 last_name=request.DATA['last_name'],
                 email=request.DATA['email'])
-            print instructor
             tmpasswd = self.get_password()
-            print tmpasswd
             instructor.set_password(tmpasswd)
             instructor.save()
             new_profile = UserProfile.objects.create(user=instructor,
@@ -413,6 +422,8 @@ class DetailJSONCourseView(CSRFExemptMixin, JSONResponseMixin, View):
 class ActivateCourseView(JSONResponseMixin, View):
 
     def send_student_email(self, student):
+        '''Should instructors be sent
+        emails saying their class is activated?'''
         template = loader.get_template(
             'main/ccnmtl/course_dash/student_activation_notice.txt')
         subject = "Welcome to Brownfield!"
