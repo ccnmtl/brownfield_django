@@ -1,4 +1,4 @@
-# import csv
+import csv
 import json
 import random
 
@@ -696,3 +696,32 @@ class TeamPerformTest(CSRFExemptMixin, View):
         except:
             pass
         return HttpResponse("<data><response>OK</response></data>")
+
+
+class TeamCSV(View):
+
+    def get(self, request, username):
+        user = get_object_or_404(User, username=username)
+        team = Team.objects.get(user=user)
+        history = History.objects.filter(team=team)
+
+        team_info = Information.objects.filter(history=history)
+        tests_perf = PerformedTest.objects.filter(history=history)
+
+        columns = ['Cost', 'Date', 'Description', 'X', 'Y', 'Z']
+
+        response = HttpResponse(mimetype='text/csv')
+        response['Content-Disposition'] = 'attachment; filename=backup.csv'
+        writer = csv.writer(response, dialect='excel')
+        writer.writerow(columns)
+
+        for info in team_info:
+            columns = [info.history.cost, info.history.date,
+                       info.history.description]
+            writer.writerow(columns)
+
+        for test in tests_perf:
+            columns = [test.history.cost, test.history.date,
+                       test.history.description, test.x, test.y, test.z]
+            writer.writerow(columns)
+        return response
