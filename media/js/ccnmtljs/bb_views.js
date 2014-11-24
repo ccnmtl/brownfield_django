@@ -105,14 +105,19 @@ var TeamView = BaseItemView.extend({
    	},
 
    	events: {
-   		'click .rm-team' : 'removeTeam'
+   		'click .rm-team' : 'removeTeam',
+   		'click .hist-team' : 'teamHistory'
    	},
 
    	removeTeam: function()
    	{
    		this.model.destroy();
-    }
-
+    },
+   	
+   	teamHistory: function()
+   	{
+   		window.open("../../team_csv/" + this.model.get('username') + '/');
+   	}
 });// End Team View
 
 

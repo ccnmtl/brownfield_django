@@ -11,7 +11,8 @@ from brownfield_django.main.views import DetailJSONCourseView, \
     HomeView, AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
     TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView, \
     BrownfieldInfoView, BrownfieldHistoryView, BrownfieldTestView, \
-    TeamHistoryView, TeamInfoView, TeamPerformTest, InstructorViewSet
+    TeamHistoryView, TeamInfoView, TeamPerformTest, InstructorViewSet, \
+    TeamCSV
 
 
 admin.autodiscover()
@@ -74,6 +75,7 @@ urlpatterns = patterns(
     (r'^team/(?P<pk>\d+)/test/$', TeamPerformTest.as_view()),
     (r'^site_history/$', TemplateView.as_view(
         template_name="interactive/site_history.html")),
+    (r'^team_csv/(?P<username>.*)/$', TeamCSV.as_view()),
     (r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),
