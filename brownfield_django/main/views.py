@@ -29,8 +29,7 @@ from brownfield_django.main.serializers import DocumentSerializer, \
     UserSerializer, TeamNameSerializer, CourseSerializer, \
     StudentUserSerializer, StudentMUserSerializer
 
-from brownfield_django.main.xml_strings import INITIAL_XML, \
-    TEAM_HISTORY
+from brownfield_django.main.xml_strings import INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     CSRFExemptMixin
 
@@ -172,7 +171,7 @@ class InstructorViewSet(viewsets.ModelViewSet):
             add_char = random.choice(char_digits)
             passwd = passwd + add_char
         return passwd
-    
+
     def send_student_email(self, student):
         '''Send instrutor their credentials'''
         template = loader.get_template(
@@ -183,7 +182,6 @@ class InstructorViewSet(viewsets.ModelViewSet):
         '''who is the sender?'''
         sender = 'cdunlop@columbia.edu'  # settings.BNFD_MAIL
         send_mail(subject, message, sender, [student.email])
-    
 
     def create(self, request):
         '''Since there is no course associated we can
@@ -577,6 +575,13 @@ class TeamHistoryView(CSRFExemptMixin, View):
     """Need to parse the XML and substitute the correct
     values for each student interaction."""
 
+    def initial_team_history(self, team):
+        template = loader.get_template(
+            'main/team/history.txt')
+        ctx = Context({'team': team})
+        xml_history = template.render(ctx)
+        return xml_history
+
     def send_team_history(self, team):
         template = loader.get_template(
             'main/team/bfaxml.txt')
@@ -595,9 +600,8 @@ class TeamHistoryView(CSRFExemptMixin, View):
         chk_history = History.objects.filter(team=team)
 
         if chk_history.count() == 0:
-            return HttpResponse(TEAM_HISTORY)
+            return HttpResponse(self.initial_team_history(team))
         elif chk_history.count() > 0:
-            # team_info = self.send_team_history(team)
             return HttpResponse(self.send_team_history(team))
 
 
