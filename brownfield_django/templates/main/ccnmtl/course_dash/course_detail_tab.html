@@ -12,7 +12,7 @@
         
     </div><!-- End Document List -->
 
-
+    {% if request.user.profile.is_admin %}
     <div class="course-info">
         <div id="course-from" class="panel panel-default">
             <div class="panel-heading">
@@ -78,15 +78,7 @@
             Click on the 'Teams and Students' tab to begin.
         </p>
     </div>
+    {% endif %}
     
-    <!-- This is currently invisible, don't see point in deactivating here when they can do it in course list, may add back -->
-    <div class="deactivate-course" style="display: none;">
-        <div class="crs-deactivate">
-            <p> If you are done with this course, you may remove it from your dashboard by deactivating it.</p>
-             <button id="deactivation-btn" type="button">
-                Deactivate Course
-            </button><br /><br />
-       </div>
-    </div>
     
 </div><!-- End Tab Content -->
