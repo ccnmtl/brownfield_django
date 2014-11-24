@@ -16,6 +16,7 @@
     </script>
 
 
+    {% if request.user.profile.is_admin %}
     <script type="text/template" id="instructor-list-template">
         [<%= first_name %>] <space><space>
         [<%= last_name %>] <space><space>
@@ -46,8 +47,7 @@
         <button class='btn btn-xs save-edit-instructor'> Save Changes </button>  <br />
     </form>
     </script>
-
-
+    {% endif %}
 
     <script type="text/javascript">
         jQuery(document).ready(function () {
@@ -59,10 +59,12 @@
                 {% endif %}
                 user_id: "{{request.user.id}}"
             });
-            
+           
+           {% if request.user.profile.is_admin %}
            var instructor_controls = new ManageInstructorsView({
         	   el: jQuery('.instructor_controls')
            });
+           {% endif %}
         });
     </script>
 {% endblock %}
