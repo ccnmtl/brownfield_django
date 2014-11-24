@@ -172,16 +172,17 @@ class InstructorViewSet(viewsets.ModelViewSet):
             passwd = passwd + add_char
         return passwd
 
-    def send_student_email(self, student):
-        '''Send instrutor their credentials'''
+    def send_instructor_email(self, instructor, profile):
+        '''Send instructor their credentials'''
+        # print "inside send instructor email"
         template = loader.get_template(
-            'main/ccnmtl/course_dash/student_activation_notice.txt')
+            'main/ccnmtl/course_dash/instructor_activation_notice.txt')
         subject = "Welcome to Brownfield!"
-        ctx = Context({'student': student, 'team': student.profile.team})
+        ctx = Context({'instructor': instructor, 'profile': profile})
         message = template.render(ctx)
         '''who is the sender?'''
-        sender = 'cdunlop@columbia.edu'  # settings.BNFD_MAIL
-        send_mail(subject, message, sender, [student.email])
+        sender = 'cdunlop@columbia.edu'
+        send_mail(subject, message, sender, [instructor.email])
 
     def create(self, request):
         '''Since there is no course associated we can
@@ -201,6 +202,7 @@ class InstructorViewSet(viewsets.ModelViewSet):
                                                      profile_type='TE')
             new_profile.tmp_passwd = tmpasswd
             new_profile.save()
+            self.send_instructor_email(instructor, new_profile)
             serializer = StudentMUserSerializer(instructor)
             return Response(serializer.data, status.HTTP_201_CREATED)
         except:
