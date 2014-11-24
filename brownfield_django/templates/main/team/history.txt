@@ -1,0 +1,13 @@
+<bfaxml>
+  <config>
+    <user signedcontract="{{team.signed_contract}}" startingbudget="{{team.course.startingBudget}}" realname="{{team.user.username}}">
+    </user>
+    <narrative enabled="{{team.course.enableNarrative}}"></narrative>
+    <information>
+    </information>
+  </config>
+  <testdata>
+  </testdata>
+  <budget>
+  </budget>
+</bfaxml>
