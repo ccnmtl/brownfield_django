@@ -38,7 +38,7 @@ jQuery(function() {
     		{
     	   		jQuery.ajax(
     	    	{
-    	        	url: "/activate_course/" + crs_id,
+    	        	url: "/activate_course/" + crs_id + "/",
     	    		type: "POST",
     	    		dataType: 'json',
     	    		data: {'student_list' : student_list_2},
