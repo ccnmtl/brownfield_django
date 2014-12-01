@@ -14,7 +14,7 @@ from django.template.context import Context
 from django.views.generic import View
 from django.views.generic.detail import DetailView
 
-from rest_framework import status, viewsets, generics
+from rest_framework import status, viewsets  # , generics
 from rest_framework.authentication import SessionAuthentication, \
     BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -25,7 +25,7 @@ from brownfield_django.main.models import Course, UserProfile, Document, \
     Team, History, Information, PerformedTest
 from brownfield_django.main.serializers import DocumentSerializer, \
     UserSerializer, TeamUserSerializer, CourseSerializer, \
-    StudentUserSerializer, StudentMUserSerializer, TeamMemberSerializer
+    StudentUserSerializer, StudentMUserSerializer  # , TeamMemberSerializer
 
 from brownfield_django.main.xml_strings import INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \

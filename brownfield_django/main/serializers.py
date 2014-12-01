@@ -72,15 +72,13 @@ class TeamMemberSerializer(serializers.ModelSerializer):
 
 # class TeamMemberSerializer(serializers.ModelSerializer):
 #     team = StudentMUserSerializer(many=True)
-# 
+#
 #     class Meta:
 #         model = Team
 #         fields = ('signed_contract', 'budget')
-#  
-#         
+#
+#
 # class TeamUserSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = User
 #         fields = ('id', 'first_name', 'username')
-        
-        
