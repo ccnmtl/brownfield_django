@@ -55,15 +55,19 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-
+    
     <div class="crs-activate">
-    	<button id="edit-team-members" class="btn btn-success">
+    	<button id="edit-team-members" class="btn btn-success{% if object.active %} display:none;{% endif %}">
             Edit Teams
     	</button>
     </div>
+   
+    
     <div class="crs-activate">
-        <button id="activation-btn" type="submit" class="btn btn-primary btn-lg">
+        <button id="activation-btn" type="submit" class="btn btn-primary btn-lg" >
             Activate Course
         </button><br /><br />
     </div>
+
+    
 </div> <!-- End tab content -->
