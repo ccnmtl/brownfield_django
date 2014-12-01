@@ -29,8 +29,11 @@ DEBUG_TOOLBAR_PATCH_SETTINGS = False
 STAGING_ENV = True
 
 STATSD_PREFIX = 'brownfield_django-staging'
-SENTRY_SITE = 'brownfield_django-staging'
-SENTRY_SERVERS = ['http://sentry.ccnmtl.columbia.edu/sentry/store/']
+# I don't see either of these in NEPI so going to comment out and see if that works?
+# is it possible brownfield_django is submitting errors to sentry
+# even though there is no declared team for it?
+# SENTRY_SITE = 'brownfield_django-staging'
+# SENTRY_SERVERS = ['http://sentry.ccnmtl.columbia.edu/sentry/store/']
 
 if 'migrate' not in sys.argv:
     INSTALLED_APPS.append('raven.contrib.django.raven_compat')

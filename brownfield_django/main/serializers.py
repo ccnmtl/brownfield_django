@@ -2,7 +2,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from brownfield_django.main.models import Course, Document, UserProfile
+from brownfield_django.main.models import Course, Document, UserProfile, Team
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -26,7 +26,7 @@ class DocumentSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'course', 'url', 'name', 'link', 'visible')
 
 
-class TeamNameSerializer(serializers.ModelSerializer):
+class TeamUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'first_name', 'username')
@@ -53,12 +53,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ('profile_type', 'course')
 
 
-class CreateTeamSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('username', 'password1', 'password2')
-
-
 class CompleteTeamSerializer(serializers.ModelSerializer):
     user = serializers.RelatedField()
 
@@ -67,30 +61,24 @@ class CompleteTeamSerializer(serializers.ModelSerializer):
         fields = ('id', 'user', 'signed_contract', 'budget', 'team_passwd')
 
 
-class TeamSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username')
-
-
-class NewTeamSerializer(serializers.Serializer):
-    pk = serializers.Field()
-    name = serializers.CharField(max_length=255)
-    signed_contract = serializers.BooleanField()
-    # budget = serializers.IntField(required=False)
-
-
-class CourseTeamSerializer(serializers.ModelSerializer):
-    teams = serializers.RelatedField(many=True)
+class TeamMemberSerializer(serializers.ModelSerializer):
+    course = serializers.RelatedField()
+    student = StudentMUserSerializer(many=True)
 
     class Meta:
-        model = Course
-        fields = ('name', 'course', 'signed_contract')
+        model = Team
+        fields = ('signed_contract', 'budget', 'students', 'course')
 
 
-class CourseUserSerializer(serializers.ModelSerializer):
-    students = serializers.RelatedField(many=True)
-
-    class Meta:
-        model = Course
-        # fields = ('first_name', 'last_name', 'email')
+# class TeamMemberSerializer(serializers.ModelSerializer):
+#     team = StudentMUserSerializer(many=True)
+#
+#     class Meta:
+#         model = Team
+#         fields = ('signed_contract', 'budget')
+#
+#
+# class TeamUserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ('id', 'first_name', 'username')
