@@ -1,5 +1,14 @@
 <div class="tab-pane" id="course-active-teams">
     <br /><br />
+    {% comment %}
+    If I put the appropriate button for course active/inactive in the tab, the javascript will break, so
+    I am going to handle the modal pop ups and correct buttons via js, don't like it but not sure what else to
+    do with it.
+    The hidden input will be in the tab/html content no matter what.
+    {% endcomment %}
+    
+    
+    <input type="hidden" name="course_active" value="{{object.active}}" />
     {% if not object.active %}
         {% include "main/ccnmtl/course_dash/team_form.html" %}
     {% endif %}
@@ -7,7 +16,7 @@
     {% if object.active %}
         {% include "main/ccnmtl/course_dash/team_table.html" %}
     {% endif %}
-
+    
     <br /><br />
 
     <!-- Activation Confirmation -->
@@ -64,7 +73,7 @@
    
     
     <div class="crs-activate">
-        <button id="activation-btn" type="submit" class="btn btn-primary btn-lg" >
+        <button id="activation-btn" type="submit" class="btn btn-success" >
             Activate Course
         </button><br /><br />
     </div>

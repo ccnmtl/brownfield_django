@@ -1,4 +1,25 @@
-jQuery('#edit-team-members').hide();
+// Going to handle buttons here
+var activation_status = jQuery("input[name='course_active']").val();
+
+//need to add an onclick to the tab
+//#course-active-teams
+
+if(activation_status == "True")
+{
+	console.log("True");
+	jQuery('#activation-btn').hide();
+	jQuery('#edit-team-members').show();
+	//jQuery('#activation-btn').innerHTML = 'Edit Students/Teams';
+}
+if(activation_status == "False")
+{
+	console.log("False");
+	//console.log(jQuery('#activation-btn').text());
+	// text of button
+	jQuery('#edit-team-members').hide();
+	jQuery('#activation-btn').show();
+}
+
 
 function get_students(){
     //getting students from table
@@ -70,17 +91,20 @@ jQuery(function() {
 		jQuery(".course-teams").load("/edit_teams/" + crs_id + "/");
 		jQuery('#edit-team-members').hide();
 		jQuery('#show-teams').show();
+		jQuery('#activation-btn').html("Save Changes");
+		jQuery('#activation-btn').show();
     });
 });
 
 jQuery(function() {
 	
 	var crs_id = jQuery("input[name='crs-id']").val();
-
+	
 	jQuery('#show-teams').on('click', function(e)
     {
 		jQuery(".course-activation").load("/show_teams/" + crs_id + "/");
 		jQuery('#show-teams').hide();
 		jQuery('#edit-team-members').show();
+		
     });
 });
