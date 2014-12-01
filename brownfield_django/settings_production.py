@@ -26,7 +26,8 @@ COMPRESS_ROOT = "/var/www/brownfield_django/brownfield_django/media/"
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
-SENTRY_SITE = 'brownfield_django'
+# I don't see this setting in NEPI's prod settings so taking it out
+# SENTRY_SITE = 'brownfield_django'
 SENTRY_SERVERS = ['http://sentry.ccnmtl.columbia.edu/sentry/store/']
 
 if 'migrate' not in sys.argv:

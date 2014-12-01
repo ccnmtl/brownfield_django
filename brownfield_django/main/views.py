@@ -3,8 +3,6 @@ import json
 import random
 
 from string import letters, digits
-# from StringIO import StringIO
-# from zipfile import ZipFile
 
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -16,7 +14,7 @@ from django.template.context import Context
 from django.views.generic import View
 from django.views.generic.detail import DetailView
 
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets, generics
 from rest_framework.authentication import SessionAuthentication, \
     BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -26,8 +24,8 @@ from rest_framework.views import APIView
 from brownfield_django.main.models import Course, UserProfile, Document, \
     Team, History, Information, PerformedTest
 from brownfield_django.main.serializers import DocumentSerializer, \
-    UserSerializer, TeamNameSerializer, CourseSerializer, \
-    StudentUserSerializer, StudentMUserSerializer
+    UserSerializer, TeamUserSerializer, CourseSerializer, \
+    StudentUserSerializer, StudentMUserSerializer, TeamMemberSerializer
 
 from brownfield_django.main.xml_strings import INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
@@ -263,7 +261,7 @@ class AdminTeamView(APIView):
         try:
             teamprofiles = course.get_teams()
             teams = User.objects.filter(team__in=teamprofiles)
-            serializer = TeamNameSerializer(teams, many=True)
+            serializer = TeamUserSerializer(teams, many=True)
             return Response(serializer.data)
         except:
             '''Assume collection is currently empty'''
@@ -291,7 +289,7 @@ class AdminTeamView(APIView):
             '''Is there a better way to check that the team was created?'''
             new_user = User.objects.get(
                 first_name=team_name, username=team_name + "_" + str(team.pk))
-            serializer = TeamNameSerializer(new_user)
+            serializer = TeamUserSerializer(new_user)
             return Response(serializer.data,
                             status=status.HTTP_201_CREATED)
         except:
