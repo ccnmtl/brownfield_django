@@ -141,7 +141,8 @@ jQuery(function() {
 	jQuery('#show-teams').on('click', function(e)
     {
 		jQuery(".course-activation").load("/show_teams/" + crs_id + "/");
-		jQuery('#show-teams').hide();
+		//jQuery('#show-teams').hide();activationSuccess
+		jQuery('#activationSuccess').modal('hide');
 		jQuery('#edit-team-members').show();
 		jQuery('#activation-btn').hide();
 		
