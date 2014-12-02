@@ -1,0 +1,6 @@
+You have been give and instructor account for Brownfield Action. You may now log in and create your classes.
+
+username: {{instructor.username}}
+password: {{profile.team_passwd}}
+
+To log in to Brownfield please visit https://brownfielddjango.stage.ccnmtl.columbia.edu and log in as a guest.
