@@ -6,18 +6,13 @@ var activation_status = jQuery("input[name='course_active']").val();
 
 if(activation_status == "True")
 {
-	console.log("True");
 	jQuery(".crs-act-info").hide();
 	jQuery('#activation-btn').hide();
 	jQuery('#edit-team-members').show();
-	//jQuery('#activation-btn').innerHTML = 'Edit Students/Teams';
 	jQuery(".crs-act-info").hide();
 }
 if(activation_status == "False")
 {
-	console.log("False");
-	//console.log(jQuery('#activation-btn').text());
-	// text of button
 	jQuery('#edit-team-members').hide();
 	jQuery('#activation-btn').show();
 }
@@ -45,14 +40,13 @@ function get_students(){
 }
 
 jQuery(function() {
-	
+
 	var crs_id = jQuery("input[name='crs-id']").val();
 
 	jQuery('#activation-btn').on('click', function(e)
     {   
 		if(jQuery('#activation-btn').html() === "Save Changes")
 		{
-			console.log("Not the first activation");
 			jQuery('#confirmAct').modal('show');
 			jQuery('#confirmAct .modal-header .modal-title').html("Course Re-Activation");
 			jQuery('#confirmAct .modal-body').html("<p>Are you sure you want to change the teams in your course? This will update the teams, and place the students in the teams. All students will be emailed their teams and team password. Remember if you changed a user's team, the user will still have the original team's login and password unless your request it is changed.</p>");			
@@ -90,7 +84,6 @@ jQuery(function() {
 		
 		if(jQuery('#activation-btn').html() === "Activate Course")
 		{
-			console.log("First activation");
 		    jQuery('#confirmAct').modal('show');
 		    jQuery('#conf-act').on('click', function(e)
 		    {

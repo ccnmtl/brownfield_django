@@ -45,7 +45,6 @@
     </script>
     
 
-
     {% comment %}Edit Templates{% endcomment %}
     <script type="text/template" id="student-edit-template">
     <form class="edit-student-frm" method="" action="" style="display: inline;">
@@ -78,36 +77,29 @@
         <button class='btn btn-xs save-edit-student'> Save Changes </button>  <br />
     </form>
     </script>
-    
-    
-    
-    {% comment %}Create Teamplates
-    <script type="text/template" id="student-create-template">
-    <form class="create-student-frm" method="" action="" style="display: inline;">{% csrf_token %}
-        <label>First Name: </label>
-        <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> <space><space>
-        <label>Last Name: </label>
-        <input type="text" placeholder="Last Name: " class="edt-last-name" value="<%= last_name %>" /> <space><space>
-        <label>Email: </label>
-        <input type="text" placeholder="Email: " class="edt-email" value="<%= email %>" />
-        <button class='btn btn-xs save-edit-student'> Save Changes </button>  <br />
-    </form>
+
+    <script type="text/template" id="create-edit-course-template">
+        <form id="create-edit-course-frm" method="" action="">
+            <label for="id_course_name">Name:</label>
+            <input id="id_course_name" maxlength="255" name="name" type="text" />
+		    <label for="id_course_startingBudget">StartingBudget:</label> 
+			<input id="id_course_startingBudget" min="0" name="startingBudget" type="number" value="60000" />
+			<label for="id_course_enableNarrative">EnableNarrative:</label> 
+			<input checked="checked" id="id_course_enableNarrative" name="enableNarrative" type="checkbox" />
+			<label for="id_course_message">Message:</label> 
+			<textarea cols="80" id="id_course_message" name="message" rows="10">
+			</textarea>
+			{% if request.user.profile.is_admin %}
+				<label for="id_professor">Professor:</label>
+				<select id="id_professor" name="professor">
+               	</select>
+            {% endif %}
+        </form>
+        <button id="update-crs-btn" type="button">
+            Save
+        </button><br />
     </script>
-    
-    <script type="text/template" id="team-create-template">
-    <form class="create-team-frm" method="" action="" style="display: inline;">
-        {% csrf_token %}
-        <label>Team Name: </label>
-        <input type="text" placeholder="Team Name: " class="edt-frst-name" value="<%= first_name %>" /> 
-        <space><space>
-        <label>Password: </label>
-        <input type="text" placeholder="Password: " class="edt-team-passwd" value="<%= team_passwd %>" />
-        <button class='btn btn-xs save-edit-student'> Save Changes </button>  <br />
-    </form>
-    </script>
-    {% endcomment %}
-    
-    
+
 {% endblock %}
 
 {% block content %}

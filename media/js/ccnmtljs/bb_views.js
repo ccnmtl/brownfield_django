@@ -97,7 +97,7 @@ var CourseView = BaseItemView.extend({
 
 
 var TeamView = BaseItemView.extend({
-
+	
    	initialize: function (options) {
    		this.template = _.template(jQuery("#team-list-template").html());
    	    this.listenTo(this.model, 'change', this.render);
