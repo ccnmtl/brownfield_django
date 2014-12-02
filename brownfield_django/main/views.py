@@ -709,7 +709,8 @@ class TeamCSV(View):
         columns = ['Cost', 'Date', 'Description', 'X', 'Y', 'Z']
 
         response = HttpResponse(mimetype='text/csv')
-        response['Content-Disposition'] = 'attachment; filename=backup.csv'
+        response['Content-Disposition'] = 'attachment; filename=' + \
+            str(user.username) + '_' + 'team.course' + '.csv'
         writer = csv.writer(response, dialect='excel')
         writer.writerow(columns)
 
