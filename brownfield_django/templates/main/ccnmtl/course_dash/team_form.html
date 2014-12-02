@@ -45,6 +45,7 @@
     </div>
 
     <div class="crs-act-info">
+    {% if not object.active %}
         <h3>Activate Course</h3>
             <p>Activating the course teams will Every student should be a member of a team before you begin.
                 <ul>
@@ -53,6 +54,7 @@
                     <li>For those new teams, send the student members email (cc'ing you) with the username and password for their team.</li>
                 </ul>
             </p>
+    {% endif %}
     </div><!-- End Course Activation Info -->
 
 

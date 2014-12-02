@@ -7,9 +7,11 @@ var activation_status = jQuery("input[name='course_active']").val();
 if(activation_status == "True")
 {
 	console.log("True");
+	jQuery(".crs-act-info").hide();
 	jQuery('#activation-btn').hide();
 	jQuery('#edit-team-members').show();
 	//jQuery('#activation-btn').innerHTML = 'Edit Students/Teams';
+	jQuery(".crs-act-info").hide();
 }
 if(activation_status == "False")
 {
@@ -48,33 +50,76 @@ jQuery(function() {
 
 	jQuery('#activation-btn').on('click', function(e)
     {   
-		jQuery('#confirmAct').modal('show');
-		jQuery('#conf-act').on('click', function(e)
+		if(jQuery('#activation-btn').html() === "Save Changes")
 		{
-			jQuery('#confirmAct').modal('hide');
-    		var student_list = get_students();
-        	var student_list_2 = JSON.stringify(student_list);
+			console.log("Not the first activation");
+			jQuery('#confirmAct').modal('show');
+			jQuery('#confirmAct .modal-header .modal-title').html("Course Re-Activation");
+			jQuery('#confirmAct .modal-body').html("<p>Are you sure you want to change the teams in your course? This will update the teams, and place the students in the teams. All students will be emailed their teams and team password. Remember if you changed a user's team, the user will still have the original team's login and password unless your request it is changed.</p>");			
+			jQuery('#confirmAct .modal-footer #conf-act').html("Continue with Re-Activation");
+			
+			jQuery('#confirmAct').modal('show');
+		    jQuery('#conf-act').on('click', function(e)
+		    {
+			    jQuery('#confirmAct').modal('hide');
+			    var student_list = get_students();
+			    var student_list_2 = JSON.stringify(student_list);
 
-        	jQuery(function()
-    		{
-    	   		jQuery.ajax(
-    	    	{
-    	        	url: "/activate_course/" + crs_id + "/",
-    	    		type: "POST",
-    	    		dataType: 'json',
-    	    		data: {'student_list' : student_list_2},
-    	    		success: function (data) 
-    	    		{
-    	    			jQuery('#activationSuccess').modal('show');
-        	    	},
-        	    	error: function(data) 
-	    	    	{
-        	    		alert('Something went wrong, please try again');
-	    	    	}
-        		});// end ajax
-    		  });// end outer function
+			    jQuery(function()
+			    {
+			        jQuery.ajax(
+			        {
+			            url: "/activate_course/" + crs_id + "/",
+			            type: "POST",
+			            dataType: 'json',
+			            data: {'student_list' : student_list_2},
+			            success: function (data) 
+    	    		    {
+			                jQuery('#activationSuccess').modal('show');
+			                jQuery("input[name='course_active']").val("True");
+			                jQuery(".crs-act-info").hide();
+			            },
+			            error: function(data) 
+	    	    	    {
+			               	alert('Something went wrong, please try again');
+			            }
+			        });// end ajax
+			    });// end outer function
     		});// end conf-act on click
+        }// end 1st if
 		
+		if(jQuery('#activation-btn').html() === "Activate Course")
+		{
+			console.log("First activation");
+		    jQuery('#confirmAct').modal('show');
+		    jQuery('#conf-act').on('click', function(e)
+		    {
+			    jQuery('#confirmAct').modal('hide');
+			    var student_list = get_students();
+			    var student_list_2 = JSON.stringify(student_list);
+
+			    jQuery(function()
+			    {
+			        jQuery.ajax(
+			        {
+			            url: "/activate_course/" + crs_id + "/",
+			            type: "POST",
+			            dataType: 'json',
+			            data: {'student_list' : student_list_2},
+			            success: function (data) 
+    	    		    {
+			                jQuery('#activationSuccess').modal('show');
+			                jQuery("input[name='course_active']").val("True");
+			                jQuery(".crs-act-info").hide();
+			            },
+			            error: function(data) 
+	    	    	    {
+			               	alert('Something went wrong, please try again');
+			            }
+			        });// end ajax
+			    });// end outer function
+    		});// end conf-act on click
+        }// end 2nd if
         e.preventDefault();
     });// end activation-btn on click
 });// end outer function
@@ -105,6 +150,7 @@ jQuery(function() {
 		jQuery(".course-activation").load("/show_teams/" + crs_id + "/");
 		jQuery('#show-teams').hide();
 		jQuery('#edit-team-members').show();
+		jQuery('#activation-btn').hide();
 		
     });
 });
