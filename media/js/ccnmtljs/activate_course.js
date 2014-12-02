@@ -52,7 +52,7 @@ jQuery(function() {
 			jQuery('#confirmAct .modal-body').html("<p>Are you sure you want to change the teams in your course? This will update the teams, and place the students in the teams. All students will be emailed their teams and team password. Remember if you changed a user's team, the user will still have the original team's login and password unless your request it is changed.</p>");			
 			jQuery('#confirmAct .modal-footer #conf-act').html("Continue with Re-Activation");
 			
-			jQuery('#confirmAct').modal('show');
+			//jQuery('#confirmAct').modal('show');
 		    jQuery('#conf-act').on('click', function(e)
 		    {
 			    jQuery('#confirmAct').modal('hide');
@@ -70,6 +70,8 @@ jQuery(function() {
 			            success: function (data) 
     	    		    {
 			                jQuery('#activationSuccess').modal('show');
+			                jQuery('#activationSuccess .modal-header .modal-title').html("Re-Activation Successful");
+			                jQuery('#activationSuccess .modal-body').html("<p>Congratulations! Your course has been successfully re-activated!</p>");
 			                jQuery("input[name='course_active']").val("True");
 			                jQuery(".crs-act-info").hide();
 			            },
