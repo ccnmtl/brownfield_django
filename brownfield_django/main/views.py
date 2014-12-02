@@ -417,7 +417,7 @@ class DetailJSONCourseView(CSRFExemptMixin, JSONResponseMixin, View):
         return self.render_to_json_response({"course": j_course})
 
 
-class ActivateCourseView(JSONResponseMixin, View):
+class ActivateCourseView(CSRFExemptMixin, JSONResponseMixin, View):
 
     def send_student_email(self, student):
         '''Should instructors be sent
