@@ -718,7 +718,11 @@ class TeamCSV(View):
             writer.writerow(columns)
 
         for test in tests_perf:
-            columns = [test.history.cost, test.history.date,
-                       test.history.description, test.x, test.y, test.z]
+            if test.testNumber == 5 or test.testNumber == 7:
+                columns = [test.history.cost, test.history.date,
+                           test.history.description, test.x, test.y, test.z]
+            else:
+                columns = [test.history.cost, test.history.date,
+                           test.history.description, test.x, test.y, 'None']
             writer.writerow(columns)
         return response
