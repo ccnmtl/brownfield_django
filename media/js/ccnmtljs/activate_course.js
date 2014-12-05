@@ -15,8 +15,17 @@ if(activation_status == "False")
 {
 	jQuery('#edit-team-members').hide();
 	jQuery('#activation-btn').show();
+	jQuery('#course-active-teams').on('click', function(e)
+	{
+	    jQuery('#edit-team-members').hide();
+        //this is complete crap and redundant... need to redo...
+        var crs_id = jQuery("input[name='crs-id']").val();
+        jQuery(".course-teams").load("/edit_teams/" + crs_id + "/");
+        //jQuery('#edit-team-members').hide();
+        jQuery('#show-teams').show();
+        jQuery('#activation-btn').show();
+    });
 }
-
 
 function get_students(){
     //getting students from table
@@ -150,3 +159,27 @@ jQuery(function() {
 		
     });
 });
+
+
+
+//jQuery(function() {
+//    
+//    if(activation_status == "False")
+//    {
+//        jQuery('#edit-team-members').hide();
+//        jQuery('#activation-btn').show();
+//        jQuery('#course-active-teams').on('click', function(e)
+//        {
+//            jQuery('#edit-team-members').hide();
+//            //this is complete crap and redundant... need to redo...
+//            var crs_id = jQuery("input[name='crs-id']").val();
+//            jQuery(".course-teams").load("/edit_teams/" + crs_id + "/");
+//            //jQuery('#edit-team-members').hide();
+//            jQuery('#show-teams').show();
+//            jQuery('#activation-btn').show();
+//        });
+//    }
+//    
+//    
+//});
+//}

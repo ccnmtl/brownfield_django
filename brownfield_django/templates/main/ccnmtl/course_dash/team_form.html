@@ -28,7 +28,12 @@
 	        <td>
 	            <select>
 	                {% for team in object.get_teams %}
-                        <option value="{{team.pk}}"> {{team.user.username}} </option>
+
+	                    {% if student.profile.team.pk == team.pk  %}
+                            <option selected="selected" value="{{team.pk}}"> {{team.user.username}} </option>
+                        {% else %}
+                            <option value="{{team.pk}}"> {{team.user.username}} </option>
+                        {% endif %}
 		        	{% empty %}
     	        		<p>
             				Please add teams in order to create them.
