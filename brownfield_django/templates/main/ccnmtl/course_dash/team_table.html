@@ -1,5 +1,4 @@
     <div class="course-teams">
-        <h3>Course Teams</h3>
         <h3>Your Current Teams and Team Members are:</h3>
         {% for team in object.get_teams %}
             <b>{{team}}</b>        
@@ -11,5 +10,4 @@
         {% empty %}
             <p>There are no teams in the course yet, please add teams and students and activate them.</p>
         {% endfor %}
-
     </div>
