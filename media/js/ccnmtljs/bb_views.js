@@ -106,7 +106,8 @@ var TeamView = BaseItemView.extend({
 
    	events: {
    		'click .rm-team' : 'removeTeam',
-   		'click .hist-team' : 'teamHistory'
+   		'click .hist-team' : 'teamHistory',
+   		'click .rm-std' : 'removeStudent'
    	},
 
    	removeTeam: function()
@@ -114,6 +115,13 @@ var TeamView = BaseItemView.extend({
    		this.model.destroy();
     },
    	
+    removeStudent: function()
+    {
+        //this.model.destroy();
+        console.log("removeStudent this.model.attributes");
+        console.log(this.model.attributes);
+    },
+    
    	teamHistory: function()
    	{
    		window.open("../../team_csv/" + this.model.get('username') + '/');
