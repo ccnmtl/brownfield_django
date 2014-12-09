@@ -7,14 +7,29 @@
             <button class="add-crs">
             Add New Course
             </button>
-            <form id="add-crs-frm" method="" action="" style="display: none;">
+            <!-- <div id='append-course-form'></div> -->
+            <form id="create-course-form" method="" action="" style="display: none;">
             {% csrf_token %}
-                <p id="frm-title"> <b>Add New Course: </b></p>
-                <input type="text" placeholder="Course Name" class="crs-name" /><br />
+                <p id="frm-title"> <b><u>Add New Course: </u></b></p>
+                <label for="id_course_name">Name:</label>
+                    <input id="id_course_name" maxlength="255" name="name" type="text" placeholder="Course Name" />
+                    <br />
+		        <label for="id_course_startingBudget">Starting Budget:</label> 
+			        <input id="id_course_startingBudget" min="0" name="startingBudget" type="number" placeholder="60000" />
+			        <br />
+			    <!-- <label for="id_course_enableNarrative">EnableNarrative:</label> -->
+			    <!-- <input checked="checked" id="id_course_enableNarrative" name="enableNarrative" type="checkbox" /> -->
+			    <label for="id_course_message">Message:</label> 
+			        <textarea cols="80" id="id_course_message" name="message" rows="10" placeholder="Course Message Here" ></textarea><br />
+			    {% if request.user.profile.is_admin %}
+				    <label for="id_professor">Professor:</label>
+				        <select id="id_professor" name="professor">
+
+               	        </select><br />
+                {% endif %}
                 <input type="submit" value="Save Course" class="submit"/>
             </form>
         </div>
-        
         <h3>Your Courses</h3>
         <div id="userlist" >
             <!-- All user courses will be inserted here -->

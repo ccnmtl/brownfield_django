@@ -9,13 +9,38 @@
 {% endblock %}
 
 {% block js %}
-    <script type="text/template" id="add-course-template">
+    <script type="text/template" id="course-list-template">
         [<%= name %>]
         <a href='/course_details/<%= id %>/'>View Course Details </a>
+        <button class='edit-crs'> Edit Course </button>
         <button class='destroy del-crs'> Archive Class</button>
     </script>
-
-
+    {% comment %}
+    <!-- 
+    <script type="text/template" id="course-create-edit-template">
+        <form id="create-edit-course-frm" method="" action="">
+            <label for="id_course_name">Name:</label>
+            <input id="id_course_name" maxlength="255" name="name" type="text" />
+		    <label for="id_course_startingBudget">StartingBudget:</label> 
+			<input id="id_course_startingBudget" min="0" name="startingBudget" type="number" value="60000" />
+			<label for="id_course_enableNarrative">EnableNarrative:</label> 
+			<input checked="checked" id="id_course_enableNarrative" name="enableNarrative" type="checkbox" />
+			<label for="id_course_message">Message:</label> 
+			<textarea cols="80" id="id_course_message" name="message" rows="10">
+			</textarea>
+			{% if request.user.profile.is_admin %}
+				<label for="id_professor">Professor:</label>
+				<select id="id_professor" name="professor">
+               	</select>
+            {% endif %}
+        </form>
+        <button id="update-crs-btn" class='save-edit-course' type="button">
+            Save
+        </button><br />
+    </script>
+     -->
+    {% endcomment %}
+    
     {% if request.user.profile.is_admin %}
     <script type="text/template" id="instructor-list-template">
         [<%= first_name %>] <space><space>

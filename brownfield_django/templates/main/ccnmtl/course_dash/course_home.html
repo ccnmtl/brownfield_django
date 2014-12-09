@@ -78,28 +78,6 @@
     </form>
     </script>
 
-    <script type="text/template" id="create-edit-course-template">
-        <form id="create-edit-course-frm" method="" action="">
-            <label for="id_course_name">Name:</label>
-            <input id="id_course_name" maxlength="255" name="name" type="text" />
-		    <label for="id_course_startingBudget">StartingBudget:</label> 
-			<input id="id_course_startingBudget" min="0" name="startingBudget" type="number" value="60000" />
-			<label for="id_course_enableNarrative">EnableNarrative:</label> 
-			<input checked="checked" id="id_course_enableNarrative" name="enableNarrative" type="checkbox" />
-			<label for="id_course_message">Message:</label> 
-			<textarea cols="80" id="id_course_message" name="message" rows="10">
-			</textarea>
-			{% if request.user.profile.is_admin %}
-				<label for="id_professor">Professor:</label>
-				<select id="id_professor" name="professor">
-               	</select>
-            {% endif %}
-        </form>
-        <button id="update-crs-btn" type="button">
-            Save
-        </button><br />
-    </script>
-
 {% endblock %}
 
 {% block content %}

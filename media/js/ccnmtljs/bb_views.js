@@ -29,8 +29,8 @@ var BaseItemView = BaseView.extend({
 var DocumentView = BaseItemView.extend({
 
    	initialize: function(options) {
+   	    this.listenTo(this.model, 'change', this.render);
         this.template = _.template(jQuery("#document-list-template").html());
-        this.listenTo(this.model, 'change', this.render);
    	},
 
    	events: {
@@ -71,10 +71,13 @@ var CourseView = BaseItemView.extend({
     	
    	initialize: function () {
    	    this.listenTo(this.model, 'change', this.render);
-   	    this.template = _.template(jQuery("#add-course-template").html());
+   	    this.template = _.template(jQuery("#course-list-template").html());
+   	    //this.edit_template = _.template(jQuery("#course-list-template").html());
    	},
     	
    	events: {
+   	    'click .edit-crs' : 'showEditForm',
+   	    'click .save-edit-course' : 'editCourse',
    		'click .destroy' : 'clear'
    	},
     	
@@ -91,9 +94,47 @@ var CourseView = BaseItemView.extend({
     clear: function() {
         this.model.set('archive', true);
         this.model.save();
+    },
+    
+    showEditForm: function()
+    {
+        var html = _.template(jQuery("#course-create-edit-template").html())(this.model.toJSON());
+        this.$el.html(html);
+    },
+
+    editCourse: function(evt)
+    {
+        evt.stopPropagation();
+        var std_fname = jQuery(this.el).find("input.edt-frst-name").val();
+        var std_lname = jQuery(this.el).find("input.edt-last-name").val();
+        var std_email = jQuery(this.el).find("input.edt-email").val();
+
+        this.model.set('first_name', std_fname);
+        this.model.set('last_name', std_lname);
+        this.model.set('email', std_email);
+        this.model.save({
+            success: function(model, response) 
+            {},
+            error: function(model, response)
+            {
+                alert("An error occured!");
+                //this.$el.append("<p>Something went wrong, please try again.</p>");
+            },
+            wait: true
+        });//end save
     }
+    
+//    edit: function(options) {
+//        this.model.set('name', options.name);
+//        this.model.set('startingBudget', options.startingBudget);
+//        this.model.set('message', options.message);
+//        this.model.set('professor', options.professor);
+//        this.model.save();
+//    }
 
 });// End CourseView
+
+
 
 
 var TeamView = BaseItemView.extend({
@@ -247,8 +288,6 @@ var CourseListView = Backbone.View.extend({
     initialize: function (options)
     {
     	_.bindAll(this, 'initialRender', 'addCourse');
-    	
-    	//create new collection to hold user courses
     	this.course_collection = new CourseCollection(options);
     	this.course_collection.fetch({processData: true, reset: true});
     	this.course_collection.on('reset', this.initialRender);
