@@ -36,7 +36,6 @@ var ManageCoursesView = Backbone.View.extend({
     showCourseForm: function(e) {
 		jQuery(".add-crs").hide();
 		//how to bind this/make it wait for results from server
-		//console.log(this.user_list.length);
 		this.user_list.each(function(model) {
 	        jQuery('#id_professor').append("<option value='" + String(model.attributes.url) + "'>" + 
 	                String(model.attributes.first_name) + 
@@ -51,7 +50,7 @@ var ManageCoursesView = Backbone.View.extend({
         professor = jQuery('#id_professor').find("option:selected").val();
 
         if(professor === null || professor === undefined)
-        {   //console.log("professor is null");
+        {   
             professor = this.user.get('url');
         }
 
@@ -69,7 +68,7 @@ var ManageCoursesView = Backbone.View.extend({
     
     showProfessors: function(e)
     {
-        console.log('Show professors');
+        //console.log('Show professors');
         jQuery('#id_professor').load('/show_instructors/');
     }
 });// End UserControlView  
