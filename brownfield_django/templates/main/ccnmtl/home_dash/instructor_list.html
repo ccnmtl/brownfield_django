@@ -1,0 +1,5 @@
+{% for professor in professors %}
+<option value="{{professor.pk}}">{{professor.first_name}} {{professor.last_name}}</option>
+{% empty %}
+<option>add some instructors</option>
+{% endfor %}

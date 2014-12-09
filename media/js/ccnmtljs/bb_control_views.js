@@ -1,7 +1,7 @@
 var ManageCoursesView = Backbone.View.extend({
     events: {
     	'click .add-crs': 'showCourseForm',
-    	'click #id_professor': 'showProfessors',
+    	//'click #id_professor': 'showProfessors',
     	'click .submit': 'addCourse'
     },
     
@@ -16,11 +16,8 @@ var ManageCoursesView = Backbone.View.extend({
         this.user = new User({id: options.user_id});
         this.user.on('change', this.fetchCourses);
         this.user.fetch();
-        //this.user_list = new InstructorCollection();
-        //this.user_list.fetch({wait: true});
-        //console.log("this.user_list");
-        //console.log(this.user_list);
-        
+        this.user_list = new InstructorCollection();
+        this.user_list.fetch({wait: true});
     },
     
     fetchCourses: function() {
@@ -38,25 +35,30 @@ var ManageCoursesView = Backbone.View.extend({
 
     showCourseForm: function(e) {
 		jQuery(".add-crs").hide();
+		//how to bind this/make it wait for results from server
+		//console.log(this.user_list.length);
+		this.user_list.each(function(model) {
+	        jQuery('#id_professor').append("<option value='" + String(model.attributes.url) + "'>" + 
+	                String(model.attributes.first_name) + 
+	                " " + String(model.attributes.last_name)  + 
+	                "</option>");
+	    });
 		jQuery("#create-course-form").show();
     },
 
     addCourse: function(evt) {
         evt.stopPropagation();
-        professor = jQuery("#id_professor").val(),
-        console.log("professor");
-        console.log(professor);
-        if(professor === null)
+        professor = jQuery('#id_professor').find("option:selected").val();
+
+        if(professor === null || professor === undefined)
         {   //console.log("professor is null");
             professor = this.user.get('url');
         }
-        
+
     	this.user_course_view.course_collection.create({
     		name: jQuery("#id_course_name").val(),
     		startingBudget: jQuery("#id_course_startingBudget").val(),
     		message: jQuery("#id_course_message").val(),
-    		//professor: jQuery("#id_professor").val(),
-    		//professor: this.user.get('url')
     		professor: professor
     	}, {wait: true});
 
