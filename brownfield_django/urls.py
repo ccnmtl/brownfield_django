@@ -7,8 +7,8 @@ from rest_framework import routers
 
 from brownfield_django.main.views import CourseViewSet, UserViewSet, \
     DocumentViewSet, StudentViewSet
-from brownfield_django.main.views import DetailJSONCourseView, \
-    HomeView, AdminTeamView, CCNMTLHomeView, CCNMTLCourseDetail, \
+from brownfield_django.main.views import HomeView, AdminTeamView, \
+    CCNMTLHomeView, CCNMTLCourseDetail, \
     TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView, \
     BrownfieldInfoView, BrownfieldHistoryView, BrownfieldTestView, \
     TeamHistoryView, TeamInfoView, TeamPerformTest, InstructorViewSet, \
@@ -63,7 +63,6 @@ urlpatterns = patterns(
     (r'^edit_teams/(?P<pk>\d+)/$', EditTeamsView.as_view()),
     (r'^show_teams/(?P<pk>\d+)/$', ShowTeamsView.as_view()),
     (r'^show_instructors/$', ShowProfessorsView.as_view()),
-    (r'^update_course/(?P<pk>\d+)$', DetailJSONCourseView.as_view()),
     (r'^demo/play$', TemplateView.as_view(
         template_name="main/flvplayer.html")),
     (r'^demo/info/', BrownfieldInfoView.as_view()),

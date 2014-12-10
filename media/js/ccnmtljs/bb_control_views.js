@@ -1,7 +1,6 @@
 var ManageCoursesView = Backbone.View.extend({
     events: {
     	'click .add-crs': 'showCourseForm',
-    	//'click #id_professor': 'showProfessors',
     	'click .submit': 'addCourse'
     },
     
@@ -9,8 +8,7 @@ var ManageCoursesView = Backbone.View.extend({
         _.bindAll(this,
                   'addCourse',
                   'fetchCourses',
-                  'showCourseForm',
-                  'showProfessors');
+                  'showCourseForm');
 
         this.options = options;
         this.user = new User({id: options.user_id});
@@ -65,12 +63,6 @@ var ManageCoursesView = Backbone.View.extend({
 	    jQuery("#create-course-form").hide();
 	    jQuery(".add-crs").show();
 	    return false;
-    },
-    
-    showProfessors: function(e)
-    {
-        //console.log('Show professors');
-        jQuery('#id_professor').load('/show_instructors/');
     }
 });// End UserControlView  
 
