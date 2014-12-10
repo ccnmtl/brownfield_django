@@ -29,8 +29,8 @@ var BaseItemView = BaseView.extend({
 var DocumentView = BaseItemView.extend({
 
    	initialize: function(options) {
+   	    this.listenTo(this.model, 'change', this.render);
         this.template = _.template(jQuery("#document-list-template").html());
-        this.listenTo(this.model, 'change', this.render);
    	},
 
    	events: {
@@ -71,10 +71,16 @@ var CourseView = BaseItemView.extend({
     	
    	initialize: function () {
    	    this.listenTo(this.model, 'change', this.render);
-   	    this.template = _.template(jQuery("#add-course-template").html());
+   	    this.template = _.template(jQuery("#course-list-template").html());
+   	    /* As of now cannot think of solution for having the list
+   	     * of professors available to the CourseView view and the main ControlView*/
+   	    //this.prof_list = new InstructorCollection();
+        //this.prof_list.fetch({wait: true});
    	},
     	
    	events: {
+   	    'click .edit-crs' : 'showEditForm',
+   	    'click .save-edit-course' : 'editCourse',
    		'click .destroy' : 'clear'
    	},
     	
@@ -91,9 +97,43 @@ var CourseView = BaseItemView.extend({
     clear: function() {
         this.model.set('archive', true);
         this.model.save();
+    },
+    
+    showEditForm: function()
+    {   //console.log('this.model.attributes');
+        //console.log(this.model.attributes);
+        //I assume there must be a we to make 2 instances of the same template - one for editing and one for creating?
+        //even if it is instantiated once - can't we just clear the vars and use 2x?
+        var edit_form = _.template(jQuery("#course-edit-template").html())(this.model.toJSON());
+        //this.$el.html(html);//create-edit-form
+        this.$el.append(edit_form);
+    },
+
+    editCourse: function(evt)
+    {
+        evt.stopPropagation();
+        var name = jQuery(this.el).find("input#edit_course_name").val();
+        var startingBudget = jQuery(this.el).find("input#edit_course_startingBudget").val();
+        var message = jQuery(this.el).find("textarea#edit_course_message").val();
+
+        this.model.set('name', name);
+        this.model.set('startingBudget', startingBudget);
+        this.model.set('message', message);
+        this.model.save({
+            success: function(model, response) 
+            {},
+            error: function(model, response)
+            {
+                alert("An error occured!");
+                //this.$el.append("<p>Something went wrong, please try again.</p>");
+            },
+            wait: true
+        });//end save
     }
 
 });// End CourseView
+
+
 
 
 var TeamView = BaseItemView.extend({
@@ -247,8 +287,6 @@ var CourseListView = Backbone.View.extend({
     initialize: function (options)
     {
     	_.bindAll(this, 'initialRender', 'addCourse');
-    	
-    	//create new collection to hold user courses
     	this.course_collection = new CourseCollection(options);
     	this.course_collection.fetch({processData: true, reset: true});
     	this.course_collection.on('reset', this.initialRender);

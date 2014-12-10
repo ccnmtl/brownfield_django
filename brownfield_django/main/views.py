@@ -467,6 +467,18 @@ class ShowTeamsView(View):
         return HttpResponse(edit_template)
 
 
+class ShowProfessorsView(View):
+
+    def get(self, request):
+        template = loader.get_template(
+            'main/ccnmtl/home_dash/instructor_list.html')
+        profiles = UserProfile.objects.filter(profile_type='TE')
+        professors = User.objects.filter(profile__in=profiles)
+        ctx = Context({'professors': professors})
+        edit_template = template.render(ctx)
+        return HttpResponse(edit_template)
+
+
 class CCNMTLHomeView(DetailView):
 
     model = UserProfile

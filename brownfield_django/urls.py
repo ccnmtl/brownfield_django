@@ -12,7 +12,7 @@ from brownfield_django.main.views import DetailJSONCourseView, \
     TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView, \
     BrownfieldInfoView, BrownfieldHistoryView, BrownfieldTestView, \
     TeamHistoryView, TeamInfoView, TeamPerformTest, InstructorViewSet, \
-    TeamCSV
+    TeamCSV, ShowProfessorsView
 
 
 admin.autodiscover()
@@ -62,6 +62,7 @@ urlpatterns = patterns(
     (r'^activate_course/(?P<pk>\d+)/$', ActivateCourseView.as_view()),
     (r'^edit_teams/(?P<pk>\d+)/$', EditTeamsView.as_view()),
     (r'^show_teams/(?P<pk>\d+)/$', ShowTeamsView.as_view()),
+    (r'^show_instructors/$', ShowProfessorsView.as_view()),
     (r'^update_course/(?P<pk>\d+)$', DetailJSONCourseView.as_view()),
     (r'^demo/play$', TemplateView.as_view(
         template_name="main/flvplayer.html")),

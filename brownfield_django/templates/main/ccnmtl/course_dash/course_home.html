@@ -29,17 +29,17 @@
     </script>
 
     <script type="text/template" id="student-list-template">
-        [<%= first_name %>] <space><space>
-        [<%= last_name %>] <space><space>
-        Email: [<%= email %>]
+        <%= first_name %> <space><space>
+        <%= last_name %> <space><space>
+        Email: <%= email %>
         <button class='btn btn-xs ed-st'> Edit Student </button>
         <space><space>
         <button class='btn btn-xs rm-st'> Remove Student From Course </button>  <space><space><br />
     </script>
 
     <script type="text/template" id="team-list-template">
-        <label>Team Name: </label>[<%= first_name %>] <space><space>
-        <label>Login: </label>[<%= username %>] <space><space>
+        <label>Team Name: </label> <%= first_name %> <space><space>
+        <label>Login: </label> <%= username %> <space><space>
         <button class='btn btn-xs hist-team'> View Team History </button>
         <button class='btn btn-xs rm-team'> Remove Team From Course </button>  <space><space><br />
     </script>
@@ -76,28 +76,6 @@
         <space><space>
         <button class='btn btn-xs save-edit-student'> Save Changes </button>  <br />
     </form>
-    </script>
-
-    <script type="text/template" id="create-edit-course-template">
-        <form id="create-edit-course-frm" method="" action="">
-            <label for="id_course_name">Name:</label>
-            <input id="id_course_name" maxlength="255" name="name" type="text" />
-		    <label for="id_course_startingBudget">StartingBudget:</label> 
-			<input id="id_course_startingBudget" min="0" name="startingBudget" type="number" value="60000" />
-			<label for="id_course_enableNarrative">EnableNarrative:</label> 
-			<input checked="checked" id="id_course_enableNarrative" name="enableNarrative" type="checkbox" />
-			<label for="id_course_message">Message:</label> 
-			<textarea cols="80" id="id_course_message" name="message" rows="10">
-			</textarea>
-			{% if request.user.profile.is_admin %}
-				<label for="id_professor">Professor:</label>
-				<select id="id_professor" name="professor">
-               	</select>
-            {% endif %}
-        </form>
-        <button id="update-crs-btn" type="button">
-            Save
-        </button><br />
     </script>
 
 {% endblock %}

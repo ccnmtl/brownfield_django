@@ -1,7 +1,7 @@
 var ManageCoursesView = Backbone.View.extend({
     events: {
-    	//'click .edit-crs' : 'edit',
     	'click .add-crs': 'showCourseForm',
+    	//'click #id_professor': 'showProfessors',
     	'click .submit': 'addCourse'
     },
     
@@ -9,17 +9,20 @@ var ManageCoursesView = Backbone.View.extend({
         _.bindAll(this,
                   'addCourse',
                   'fetchCourses',
-                  'showCourseForm');
+                  'showCourseForm',
+                  'showProfessors');
 
         this.options = options;
-        
         this.user = new User({id: options.user_id});
         this.user.on('change', this.fetchCourses);
         this.user.fetch();
+        this.user_list = new InstructorCollection();
+        this.user_list.fetch({wait: true});
     },
     
     fetchCourses: function() {
         this.user_course_view =  new CourseListView({
+            //user_list : this.user_list,
             el: this.options.elUserCourses
         });
         
@@ -33,20 +36,41 @@ var ManageCoursesView = Backbone.View.extend({
 
     showCourseForm: function(e) {
 		jQuery(".add-crs").hide();
-		jQuery("#add-crs-frm").show();
+		//how to bind this/make it wait for results from server
+		this.user_list.each(function(model) {
+	        jQuery('#id_professor').append("<option value='" + String(model.attributes.url) + "'>" + 
+	                String(model.attributes.first_name) + 
+	                " " + String(model.attributes.last_name)  + 
+	                "</option>");
+	    });
+		jQuery("#create-course-form").show();
     },
 
     addCourse: function(evt) {
         evt.stopPropagation();
+        professor = jQuery('#id_professor').find("option:selected").val();
+
+        if(professor === null || professor === undefined)
+        {   
+            professor = this.user.get('url');
+        }
+
     	this.user_course_view.course_collection.create({
-    		name: jQuery(".crs-name").val(),
-    		message: 'default message',
-    		professor: this.user.get('url')
+    		name: jQuery("#id_course_name").val(),
+    		startingBudget: jQuery("#id_course_startingBudget").val(),
+    		message: jQuery("#id_course_message").val(),
+    		professor: professor
     	}, {wait: true});
 
-	    jQuery("#add-crs-frm").hide();
+	    jQuery("#create-course-form").hide();
 	    jQuery(".add-crs").show();
 	    return false;
+    },
+    
+    showProfessors: function(e)
+    {
+        //console.log('Show professors');
+        jQuery('#id_professor').load('/show_instructors/');
     }
 });// End UserControlView  
 
