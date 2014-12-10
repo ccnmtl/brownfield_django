@@ -29,17 +29,17 @@
     </script>
 
     <script type="text/template" id="student-list-template">
-        [<%= first_name %>] <space><space>
-        [<%= last_name %>] <space><space>
-        Email: [<%= email %>]
+        <%= first_name %> <space><space>
+        <%= last_name %> <space><space>
+        Email: <%= email %>
         <button class='btn btn-xs ed-st'> Edit Student </button>
         <space><space>
         <button class='btn btn-xs rm-st'> Remove Student From Course </button>  <space><space><br />
     </script>
 
     <script type="text/template" id="team-list-template">
-        <label>Team Name: </label>[<%= first_name %>] <space><space>
-        <label>Login: </label>[<%= username %>] <space><space>
+        <label>Team Name: </label> <%= first_name %> <space><space>
+        <label>Login: </label> <%= username %> <space><space>
         <button class='btn btn-xs hist-team'> View Team History </button>
         <button class='btn btn-xs rm-team'> Remove Team From Course </button>  <space><space><br />
     </script>

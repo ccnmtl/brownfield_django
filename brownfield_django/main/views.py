@@ -226,9 +226,7 @@ class InstructorViewSet(viewsets.ModelViewSet):
         return Response(status.HTTP_200_OK)
 
     def get_queryset(self):
-        print "Inside get_queryset"
         instructors = UserProfile.objects.filter(profile_type='TE')
-        print instructors
         queryset = User.objects.filter(profile__in=instructors)
         return queryset
 

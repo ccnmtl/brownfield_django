@@ -10,7 +10,7 @@
 
 {% block js %}
     <script type="text/template" id="course-list-template">
-        [<%= name %>]
+        <%= name %>
         <a href='/course_details/<%= id %>/'>View Course Details </a>
         <button class='edit-crs'> Edit Course </button>
         <button class='destroy del-crs'> Archive Class</button>
@@ -18,17 +18,17 @@
 
     <script type="text/template" id="course-edit-template">
         <form id="create-edit-form" method="" action="">
-            <label for="id_course_name">Name:</label>
-                <input id="id_course_name" maxlength="255" name="name" type="text" value="[<%= name %>]"/><br />
-		    <label for="id_course_startingBudget">StartingBudget:</label> 
-			    <input id="id_course_startingBudget" min="0" name="startingBudget" type="number" value=<%= startingBudget %> /><br />
-			<label for="id_course_message">Message:</label> 
-			    <textarea form="create-edit-form" cols="80" id="id_course_message" name="message" rows="10"><%= message %></textarea><br />
+            <label for="edit_course_name">Name:</label>
+                <input id="edit_course_name" maxlength="255" name="name" type="text" value="<%= name %>"/><br />
+		    <label for="edit_course_startingBudget">StartingBudget:</label> 
+			    <input id="edit_course_startingBudget" min="0" name="startingBudget" type="number" value=<%= startingBudget %> /><br />
+			<label for="edit_course_message">Message:</label> 
+			    <textarea form="create-edit-form" cols="80" id="edit_course_message" name="edit_message" rows="10"><%= message %></textarea><br />
 			
             {% comment %}
 			{% if request.user.profile.is_admin %}
-				<label for="id_professor">Professor:</label>
-				<select id="id_professor" name="professor">
+				<label for="edit_professor">Professor:</label>
+				<select id="edit_professor" name="professor">
                	</select><br />
             {% endif %}
             {% endcomment %}
@@ -40,9 +40,9 @@
     
     {% if request.user.profile.is_admin %}
     <script type="text/template" id="instructor-list-template">
-        [<%= first_name %>] <space><space>
-        [<%= last_name %>] <space><space>
-        Email: [<%= email %>]
+        <%= first_name %> <space><space>
+        <%= last_name %> <space><space>
+        Email: <%= email %>
         <button class='btn btn-xs ed-inst'> Edit Instructor </button>
         <space><space>
         <button class='btn btn-xs rm-inst'> Remove Instructor </button>  <space><space><br />

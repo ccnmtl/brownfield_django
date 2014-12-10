@@ -22,6 +22,7 @@ var ManageCoursesView = Backbone.View.extend({
     
     fetchCourses: function() {
         this.user_course_view =  new CourseListView({
+            //user_list : this.user_list,
             el: this.options.elUserCourses
         });
         

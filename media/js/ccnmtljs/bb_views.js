@@ -104,22 +104,21 @@ var CourseView = BaseItemView.extend({
         //console.log(this.model.attributes);
         //I assume there must be a we to make 2 instances of the same template - one for editing and one for creating?
         //even if it is instantiated once - can't we just clear the vars and use 2x?
-        var html = _.template(jQuery("#course-edit-template").html())(this.model.toJSON());
-        this.$el.html(html);
+        var edit_form = _.template(jQuery("#course-edit-template").html())(this.model.toJSON());
+        //this.$el.html(html);//create-edit-form
+        this.$el.append(edit_form);
     },
 
     editCourse: function(evt)
     {
         evt.stopPropagation();
-        var name = jQuery(this.el).find("input#id_course_name").val();
-        var startingBudget = jQuery(this.el).find("input#id_course_startingBudget").val();
-        var message = jQuery(this.el).find("textarea#id_course_message").text();
-        //jQuery(this.el).find("input#id_course_message").val();
+        var name = jQuery(this.el).find("input#edit_course_name").val();
+        var startingBudget = jQuery(this.el).find("input#edit_course_startingBudget").val();
+        var message = jQuery(this.el).find("textarea#edit_course_message").val();
 
         this.model.set('name', name);
         this.model.set('startingBudget', startingBudget);
         this.model.set('message', message);
-        console.log(this.model.attributes);
         this.model.save({
             success: function(model, response) 
             {},
