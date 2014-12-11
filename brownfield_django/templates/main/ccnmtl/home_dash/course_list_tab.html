@@ -7,9 +7,9 @@
             <button class="add-crs">
             Add New Course
             </button>
-            <!-- <div id='append-course-form'></div> -->
+            <div class='accoridion'>
             <form id="create-course-form" method="" action="" style="display: none;">
-            {% csrf_token %}
+                {% csrf_token %}
                 <p id="frm-title"> <b><u>Add New Course: </u></b></p>
                 <label for="id_course_name">Name:</label>
                     <input id="id_course_name" maxlength="255" name="name" type="text" placeholder="Course Name" />
@@ -28,7 +28,11 @@
                	        </select><br />
                 {% endif %}
                 <input type="submit" value="Save Course" class="submit"/>
+                <button class='cncl-add-crs' type="button">
+                    Cancel
+                </button>
             </form>
+            </div>
         </div>
         <h3>Your Courses</h3>
         <div id="userlist" >

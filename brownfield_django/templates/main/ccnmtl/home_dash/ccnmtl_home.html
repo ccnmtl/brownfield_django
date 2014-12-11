@@ -32,10 +32,14 @@
                	</select><br />
             {% endif %}
             {% endcomment %}
-        </form>
-        <button id="update-crs-btn" class='save-edit-course' type="button">
+        <button class='save-edit-course' type="button">
             Save
-        </button><br />
+        </button>
+        <button class='cncl-edit-crs' type="button">
+            Cancel
+        </button>
+        </form>
+        <br />
     </script>
     
     {% if request.user.profile.is_admin %}

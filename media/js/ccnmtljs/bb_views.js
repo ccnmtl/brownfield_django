@@ -81,6 +81,7 @@ var CourseView = BaseItemView.extend({
    	events: {
    	    'click .edit-crs' : 'showEditForm',
    	    'click .save-edit-course' : 'editCourse',
+   	    'click .cncl-edit-crs' : 'hideEditForm',
    		'click .destroy' : 'clear'
    	},
     	
@@ -109,6 +110,11 @@ var CourseView = BaseItemView.extend({
         this.$el.append(edit_form);
     },
 
+    hideEditForm: function()
+    {   
+    	this.$('#create-edit-form').remove();
+    },
+    
     editCourse: function(evt)
     {
         evt.stopPropagation();
@@ -147,20 +153,26 @@ var TeamView = BaseItemView.extend({
    	events: {
    		'click .rm-team' : 'removeTeam',
    		'click .hist-team' : 'teamHistory',
-   		'click .rm-std' : 'removeStudent'
+   		//'click .cncl-edit-team' : 'hideEditForm',
+   		//'click .rm-std' : 'removeStudent'
    	},
+   	
+//    hideEditForm: function()
+//    {   
+//    	this.$('#create-edit-form').remove();
+//    },
 
    	removeTeam: function()
    	{
    		this.model.destroy();
     },
    	
-    removeStudent: function()
-    {
-        //this.model.destroy();
-        console.log("removeStudent this.model.attributes");
-        console.log(this.model.attributes);
-    },
+//    removeStudent: function()
+//    {
+//        //this.model.destroy();
+//        console.log("removeStudent this.model.attributes");
+//        console.log(this.model.attributes);
+//    },
     
    	teamHistory: function()
    	{
@@ -173,7 +185,7 @@ var StudentView = BaseItemView.extend({
 
 	initialize: function(options)
 	{
-		_.bindAll(this, 'editStudent');
+		_.bindAll(this, 'editStudent', 'hideEditForm');
 		this.template = _.template(jQuery("#student-list-template").html());
         // need to bind the edit form to the model - when change made to form change model
 		this.listenTo(this.model, 'change', this.render);
@@ -183,6 +195,7 @@ var StudentView = BaseItemView.extend({
    	events: {
    		'click .ed-st' : 'showEditForm',
    		'click .save-edit-student' : 'editStudent',
+   		'click .cncl-edit-std' : 'hideEditForm',
    		'click .rm-st' : 'removeStudent'
    	},
     
@@ -190,6 +203,12 @@ var StudentView = BaseItemView.extend({
    	{
    	    var html = _.template(jQuery("#student-edit-template").html())(this.model.toJSON());
         this.$el.html(html);
+    },
+    
+    hideEditForm: function(e)
+    {   
+    	e.preventDefault();
+    	this.render();
     },
     
    	editStudent: function(e)

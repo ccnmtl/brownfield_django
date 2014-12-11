@@ -1,6 +1,7 @@
 var ManageCoursesView = Backbone.View.extend({
     events: {
     	'click .add-crs': 'showCourseForm',
+    	'click .cncl-add-crs' : 'hideAddForm',
     	'click .submit': 'addCourse'
     },
     
@@ -8,7 +9,8 @@ var ManageCoursesView = Backbone.View.extend({
         _.bindAll(this,
                   'addCourse',
                   'fetchCourses',
-                  'showCourseForm');
+                  'showCourseForm',
+                  'hideAddForm');
 
         this.options = options;
         this.user = new User({id: options.user_id});
@@ -42,6 +44,12 @@ var ManageCoursesView = Backbone.View.extend({
 	                "</option>");
 	    });
 		jQuery("#create-course-form").show();
+    },
+    
+    hideAddForm: function()
+    {   
+    	this.$('#create-course-form').css('display', 'none');
+    	jQuery(".add-crs").show();
     },
 
     addCourse: function(evt) {
@@ -115,12 +123,13 @@ var StudentControlView = Backbone.View.extend({
 
     events: {
 	'click .add-std-btn' : 'showStudentForm',
+	'click .cncl-add-std' : 'hideAddForm',
 	'click .student_submit' :	'validateStudentForm'
     },
     
     initialize: function (options)
     {
-    	_.bindAll(this, 'addStudent', 'validateStudentForm');
+    	_.bindAll(this, 'addStudent', 'hideAddForm', 'validateStudentForm');
         this.student_collection_view = new StudentListView({
             el: jQuery('.student-list'),
             course: options.course
@@ -131,6 +140,12 @@ var StudentControlView = Backbone.View.extend({
 		jQuery(".add-std-btn").hide();
 		jQuery(".add-std-frm-title").show();
 		jQuery(".add-std-frm").show();
+    },
+    
+    hideAddForm: function(e) {
+    	this.$('.add-std-frm-title').css('display', 'none');
+    	this.$('.add-std-frm').css('display', 'none');
+    	jQuery(".add-std-btn").show();
     },
     
     addStudent: function(e) {
@@ -205,8 +220,8 @@ var StudentControlView = Backbone.View.extend({
 var TeamControlView = Backbone.View.extend({
 
     events: {
-	//'click .edit-crs' : 'edit',
 	'click .add-team-btn' : 'showTeamForm',
+	'click .cncl-add-team' : 'hideAddForm',
 	'click .team_submit' :	'addTeam'
     },
     
@@ -222,6 +237,12 @@ var TeamControlView = Backbone.View.extend({
 		jQuery(".add-team-btn").hide();
 		jQuery(".add-team-frm-title").show();
 		jQuery(".add-team-frm").show();
+    },
+    
+    hideAddForm: function(e) {
+    	this.$('.add-team-frm-title').css('display', 'none');
+    	this.$('.add-team-frm').css('display', 'none');
+    	jQuery(".add-team-btn").show();
     },
 
     addTeam: function(team) {
