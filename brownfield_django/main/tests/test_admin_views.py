@@ -1,5 +1,3 @@
-import json
-
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
 
@@ -36,20 +34,6 @@ class TestAdminViews(TestCase):
                                   str(self.admin_course.pk) + '/')
         self.assertTemplateUsed(request,
                                 'main/ccnmtl/course_dash/course_home.html')
-
-    def test_get_update_course(self):
-        '''
-        Calling get for a update course should return the details of
-        the course to the page edit form so that the edit form is already
-        filled out.
-        '''
-        self.admin_course = AdminUserCourseFactory()
-        response = self.client.get('/update_course/' +
-                                   str(self.admin_course.pk),
-                                   {}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        self.assertEquals(response.status_code, 200)
-        the_json = json.loads(response.content)
-        self.assertTrue('course' in the_json)
 
 
 class TestDocumentRestViews(APITestCase):
