@@ -1,6 +1,7 @@
 var ManageCoursesView = Backbone.View.extend({
     events: {
     	'click .add-crs': 'showCourseForm',
+    	'click .cncl-add-crs' : 'hideEditForm',
     	'click .submit': 'addCourse'
     },
     
@@ -42,6 +43,12 @@ var ManageCoursesView = Backbone.View.extend({
 	                "</option>");
 	    });
 		jQuery("#create-course-form").show();
+    },
+    
+    hideEditForm: function()
+    {   
+    	this.$('#create-course-form').css('display', 'none');
+    	jQuery(".add-crs").show();
     },
 
     addCourse: function(evt) {
