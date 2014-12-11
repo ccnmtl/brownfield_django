@@ -7,7 +7,7 @@
             <button class="add-crs">
             Add New Course
             </button>
-            <!-- <div id='append-course-form'></div> -->
+            <div class='accoridion'>
             <form id="create-course-form" method="" action="" style="display: none;">
             {% csrf_token %}
                 <p id="frm-title"> <b><u>Add New Course: </u></b></p>
@@ -29,6 +29,7 @@
                 {% endif %}
                 <input type="submit" value="Save Course" class="submit"/>
             </form>
+            </div>
         </div>
         <h3>Your Courses</h3>
         <div id="userlist" >

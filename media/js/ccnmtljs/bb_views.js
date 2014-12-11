@@ -81,6 +81,7 @@ var CourseView = BaseItemView.extend({
    	events: {
    	    'click .edit-crs' : 'showEditForm',
    	    'click .save-edit-course' : 'editCourse',
+   	    'click .cncl-edit-crs' : 'hideEditForm',
    		'click .destroy' : 'clear'
    	},
     	
@@ -109,6 +110,15 @@ var CourseView = BaseItemView.extend({
         this.$el.append(edit_form);
     },
 
+    hideEditForm: function()
+    {   
+        //var edit_form = _.template(jQuery("#course-edit-template").html())(this.model.toJSON());
+        //this.$el.html(html);//create-edit-form
+        //this.$el.append(edit_form);
+        //this.$el.remove();
+    	console.log(this.$el);
+    },
+    
     editCourse: function(evt)
     {
         evt.stopPropagation();
