@@ -115,8 +115,9 @@ var CourseView = BaseItemView.extend({
         //var edit_form = _.template(jQuery("#course-edit-template").html())(this.model.toJSON());
         //this.$el.html(html);//create-edit-form
         //this.$el.append(edit_form);
-        //this.$el.remove();
-    	console.log(this.$el);
+        //this.$el.<form#create-edit-form>.remove();
+    	console.log(this.$('#create-edit-form'));
+    	this.$('#create-edit-form').remove();
     },
     
     editCourse: function(evt)
