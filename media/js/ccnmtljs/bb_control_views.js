@@ -9,7 +9,8 @@ var ManageCoursesView = Backbone.View.extend({
         _.bindAll(this,
                   'addCourse',
                   'fetchCourses',
-                  'showCourseForm');
+                  'showCourseForm',
+                  'hideAddForm');
 
         this.options = options;
         this.user = new User({id: options.user_id});
@@ -128,7 +129,7 @@ var StudentControlView = Backbone.View.extend({
     
     initialize: function (options)
     {
-    	_.bindAll(this, 'addStudent', 'validateStudentForm');
+    	_.bindAll(this, 'addStudent', 'hideAddForm', 'validateStudentForm');
         this.student_collection_view = new StudentListView({
             el: jQuery('.student-list'),
             course: options.course
@@ -219,8 +220,8 @@ var StudentControlView = Backbone.View.extend({
 var TeamControlView = Backbone.View.extend({
 
     events: {
-	//'click .edit-crs' : 'edit',
 	'click .add-team-btn' : 'showTeamForm',
+	'click .cncl-add-team' : 'hideAddForm',
 	'click .team_submit' :	'addTeam'
     },
     
@@ -236,6 +237,12 @@ var TeamControlView = Backbone.View.extend({
 		jQuery(".add-team-btn").hide();
 		jQuery(".add-team-frm-title").show();
 		jQuery(".add-team-frm").show();
+    },
+    
+    hideAddForm: function(e) {
+    	this.$('.add-team-frm-title').css('display', 'none');
+    	this.$('.add-team-frm').css('display', 'none');
+    	jQuery(".add-team-btn").show();
     },
 
     addTeam: function(team) {
