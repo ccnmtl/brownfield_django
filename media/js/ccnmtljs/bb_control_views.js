@@ -1,7 +1,7 @@
 var ManageCoursesView = Backbone.View.extend({
     events: {
     	'click .add-crs': 'showCourseForm',
-    	'click .cncl-add-crs' : 'hideEditForm',
+    	'click .cncl-add-crs' : 'hideAddForm',
     	'click .submit': 'addCourse'
     },
     
@@ -45,7 +45,7 @@ var ManageCoursesView = Backbone.View.extend({
 		jQuery("#create-course-form").show();
     },
     
-    hideEditForm: function()
+    hideAddForm: function()
     {   
     	this.$('#create-course-form').css('display', 'none');
     	jQuery(".add-crs").show();
@@ -122,6 +122,7 @@ var StudentControlView = Backbone.View.extend({
 
     events: {
 	'click .add-std-btn' : 'showStudentForm',
+	'click .cncl-add-std' : 'hideAddForm',
 	'click .student_submit' :	'validateStudentForm'
     },
     
@@ -138,6 +139,12 @@ var StudentControlView = Backbone.View.extend({
 		jQuery(".add-std-btn").hide();
 		jQuery(".add-std-frm-title").show();
 		jQuery(".add-std-frm").show();
+    },
+    
+    hideAddForm: function(e) {
+    	this.$('.add-std-frm-title').css('display', 'none');
+    	this.$('.add-std-frm').css('display', 'none');
+    	jQuery(".add-std-btn").show();
     },
     
     addStudent: function(e) {
