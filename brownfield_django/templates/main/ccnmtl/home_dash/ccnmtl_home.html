@@ -18,19 +18,26 @@
 
     <script type="text/template" id="course-edit-template">
         <form id="create-edit-form" method="" action="">
-            <label for="edit_course_name">Name:</label>
+            <span class="course-name-block">
+                <label for="edit_course_name">Name:</label>
                 <input id="edit_course_name" maxlength="255" name="name" type="text" value="<%= name %>"/><br />
-		    <label for="edit_course_startingBudget">StartingBudget:</label> 
+            </span>
+            <span class="course-budget-block">
+		        <label for="edit_course_startingBudget">StartingBudget:</label> 
 			    <input id="edit_course_startingBudget" min="0" name="startingBudget" type="number" value=<%= startingBudget %> /><br />
-			<label for="edit_course_message">Message:</label> 
+            </span>
+            <span class="course-message-block">
+			    <label for="edit_course_message">Message:</label> 
 			    <textarea form="create-edit-form" cols="80" id="edit_course_message" name="edit_message" rows="10"><%= message %></textarea><br />
-			
+			</span>
             {% comment %}
+            <span class="course-professor-block">
 			{% if request.user.profile.is_admin %}
 				<label for="edit_professor">Professor:</label>
 				<select id="edit_professor" name="professor">
                	</select><br />
             {% endif %}
+            </span>
             {% endcomment %}
         <button class='save-edit-course' type="button">
             Save

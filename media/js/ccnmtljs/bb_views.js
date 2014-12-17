@@ -94,19 +94,15 @@ var CourseView = BaseItemView.extend({
         }
         return this;
     },
-
+    
     clear: function() {
         this.model.set('archive', true);
         this.model.save();
     },
     
     showEditForm: function()
-    {   //console.log('this.model.attributes');
-        console.log(this.model.attributes);
-        //I assume there must be a we to make 2 instances of the same template - one for editing and one for creating?
-        //even if it is instantiated once - can't we just clear the vars and use 2x?
+    {
         var edit_form = _.template(jQuery("#course-edit-template").html())(this.model.toJSON());
-        //this.$el.html(html);//create-edit-form
         this.$el.append(edit_form);
     },
 
@@ -115,38 +111,51 @@ var CourseView = BaseItemView.extend({
     	this.$('#create-edit-form').remove();
     },
     
-    editCourse: function(evt)
-    {
-        evt.stopPropagation();
+    validEditForm: function(attributes, options) {
+        /* Extremely simple basic check. */
+        var is_valid = true;
+
         var name = jQuery(this.el).find("input#edit_course_name").val();
         var startingBudget = jQuery(this.el).find("input#edit_course_startingBudget").val();
         var message = jQuery(this.el).find("textarea#edit_course_message").val();
-
-        this.model.set('name', name);
-        this.model.set('startingBudget', startingBudget);
-        this.model.set('message', message);
-        this.model.save({
-            success: function(model, response) 
-            {},
-            error: function(model, response)
-            {
-                alert("An error occured!");
-                //this.$el.append("<p>Something went wrong, please try again.</p>");
-            },
-            wait: true
-        });//end save
+        
+        if (name === null || name === "") {
+            is_valid = false;
+            jQuery('.course-name-block').append("<p style='color:#ff0000'>Please enter a valid course name.</p>");
+        }
+        if (startingBudget === null || startingBudget === "") {
+            is_valid = false;
+            jQuery('.course-budget-block').append("<p style='color:#ff0000'>Please enter a valid starting budget for your course.</p>");
+        }
+        if (message === null || message === "") {
+            is_valid = false;
+            jQuery('.course-message-block').append("<p style='color:#ff0000'>Please enter a valid course message.</p>");
+        }
+        return is_valid;
     },
     
-    validate: function(attrs, options) {
-        /* Extremely simple basic check. */
-        if (attrs.name === null || attrs.name === undefined) {
-          return "Please enter a valid course name.";
-        }
-        if (attrs.startingBudget === null || attrs.startingBudget === undefined) {
-            return "Please enter a valid starting budget.";
-        }
-        if (attrs.message === null || attrs.message === undefined) {
-            return "Please enter a valid course message.";
+    editCourse: function(evt)
+    {
+        evt.preventDefault();
+        
+        if(this.validEditForm())
+        {
+            var name = jQuery(this.el).find("input#edit_course_name").val();
+            var startingBudget = jQuery(this.el).find("input#edit_course_startingBudget").val();
+            var message = jQuery(this.el).find("textarea#edit_course_message").val();
+
+            this.model.set('name', name);
+            this.model.set('startingBudget', startingBudget);
+            this.model.set('message', message);
+            this.model.save({
+                success: function(model, response) 
+                {},
+                error: function(model, response)
+                {
+                        alert("An error occured!");
+                },
+                wait: true
+            });//end save
         }
     }
 });// End CourseView
