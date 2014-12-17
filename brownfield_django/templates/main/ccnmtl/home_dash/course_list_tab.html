@@ -11,22 +11,30 @@
             <form id="create-course-form" method="" action="" style="display: none;">
                 {% csrf_token %}
                 <p id="frm-title"> <b><u>Add New Course: </u></b></p>
+                <span class="course-name-block">
                 <label for="id_course_name">Name:</label>
                     <input id="id_course_name" maxlength="255" name="name" type="text" placeholder="Course Name" />
                     <br />
+                </span>
+                <span class="course-budget-block">
 		        <label for="id_course_startingBudget">Starting Budget:</label> 
 			        <input id="id_course_startingBudget" min="0" name="startingBudget" type="number" placeholder="60000" />
 			        <br />
+			    </span>
 			    <!-- <label for="id_course_enableNarrative">EnableNarrative:</label> -->
 			    <!-- <input checked="checked" id="id_course_enableNarrative" name="enableNarrative" type="checkbox" /> -->
+			    <span class="course-message-block">
 			    <label for="id_course_message">Message:</label> 
 			        <textarea cols="80" id="id_course_message" name="message" rows="10" placeholder="Course Message Here" ></textarea><br />
+			    </span>
+			    <span class="course-professor-block">
 			    {% if request.user.profile.is_admin %}
 				    <label for="id_professor">Professor:</label>
 				        <select id="id_professor" name="professor">
 
                	        </select><br />
                 {% endif %}
+                </span>
                 <input type="submit" value="Save Course" class="submit"/>
                 <button class='cncl-add-crs' type="button">
                     Cancel
