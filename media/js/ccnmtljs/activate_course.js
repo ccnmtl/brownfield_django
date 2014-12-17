@@ -83,6 +83,8 @@ jQuery(function() {
 			                jQuery('#activationSuccess .modal-body').html("<p>Congratulations! Your course has been successfully re-activated!</p>");
 			                jQuery("input[name='course_active']").val("True");
 			                jQuery(".crs-act-info").hide();
+			                jQuery('#activation-btn').hide();
+			                jQuery('#edit-team-members').show();
 			            },
 			            error: function(data) 
 	    	    	    {
@@ -162,24 +164,24 @@ jQuery(function() {
 
 
 
-//jQuery(function() {
-//    
-//    if(activation_status == "False")
-//    {
-//        jQuery('#edit-team-members').hide();
-//        jQuery('#activation-btn').show();
-//        jQuery('#course-active-teams').on('click', function(e)
-//        {
-//            jQuery('#edit-team-members').hide();
-//            //this is complete crap and redundant... need to redo...
-//            var crs_id = jQuery("input[name='crs-id']").val();
-//            jQuery(".course-teams").load("/edit_teams/" + crs_id + "/");
-//            //jQuery('#edit-team-members').hide();
-//            jQuery('#show-teams').show();
-//            jQuery('#activation-btn').show();
-//        });
-//    }
-//    
-//    
-//});
+jQuery(function() {
+    
+    if(activation_status == "False")
+    {
+        jQuery('#edit-team-members').hide();
+        jQuery('#activation-btn').show();
+        jQuery('#get_teams').on('click', function(e)
+        {
+            console.log("get teams clicked");
+            jQuery('#edit-team-members').hide();
+            //this is complete crap and redundant... need to redo...
+            var crs_id = jQuery("input[name='crs-id']").val();
+            jQuery(".course-activation").load("/edit_teams/" + crs_id + "/");
+            //jQuery('#edit-team-members').hide();
+            jQuery('#show-teams').show();
+            jQuery('#activation-btn').show();
+        });
+    }
+    
+});
 //}
