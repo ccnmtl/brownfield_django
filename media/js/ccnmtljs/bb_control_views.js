@@ -23,16 +23,8 @@ var ManageCoursesView = Backbone.View.extend({
     
     fetchCourses: function() {
         this.user_course_view =  new CourseListView({
-            //user_list : this.user_list,
             el: this.options.elUserCourses
         });
-        
-        if ('elOtherCourses' in this.options) {
-            this.other_course_view =  new CourseListView({
-                el: this.options.elOtherCourses,
-                exclude_username: this.user.get('username')
-            });
-        }
     },
 
     showCourseForm: function(e) {

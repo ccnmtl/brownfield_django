@@ -51,11 +51,7 @@ class CourseViewSet(viewsets.ModelViewSet):
             return queryset.filter(professor=self.request.user)
 
         if self.request.user.profile.is_admin():
-            exclude = self.request.QUERY_PARAMS.get('exclude_username', None)
-            if exclude is not None:
-                queryset = queryset.exclude(professor__username=exclude)
-            else:
-                queryset = queryset.filter(professor=self.request.user)
+            return queryset
 
         return queryset
 

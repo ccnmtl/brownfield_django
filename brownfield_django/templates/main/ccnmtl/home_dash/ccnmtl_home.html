@@ -86,9 +86,11 @@
         jQuery(document).ready(function () {
             var control_view = new ManageCoursesView({
                 el: jQuery('.course_controls'),
-                elUserCourses: jQuery('.user_courses #userlist'),
+                {% if request.user.profile.is_teacher %}
+                    elUserCourses: jQuery('.user_courses #userlist'),
+                {% endif %}
                 {% if request.user.profile.is_admin %}
-                    elOtherCourses: jQuery('.all_brwn_courses'),
+                elUserCourses: jQuery('.all_brwn_courses'),
                 {% endif %}
                 user_id: "{{request.user.id}}"
             });
