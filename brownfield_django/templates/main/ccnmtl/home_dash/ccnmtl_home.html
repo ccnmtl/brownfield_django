@@ -12,8 +12,8 @@
     <script type="text/template" id="course-list-template">
         <%= name %>
         <a href='/course_details/<%= id %>/'>View Course Details </a>
-        <button class='edit-crs'> Edit Course </button>
-        <button class='destroy del-crs'> Archive Class</button>
+        <button class='btn btn-xs edit-crs'> Edit Course </button>
+        <button class='btn btn-xs destroy del-crs'> Archive Class</button>
     </script>
 
     <script type="text/template" id="course-edit-template">
@@ -39,10 +39,10 @@
             {% endif %}
             </span>
             {% endcomment %}
-        <button class='save-edit-course' type="button">
+        <button class='btn btn-xs save-edit-course' type="button">
             Save
         </button>
-        <button class='cncl-edit-crs' type="button">
+        <button class='btn btn-xs cncl-edit-crs' type="button">
             Cancel
         </button>
         </form>
@@ -90,15 +90,16 @@
                     elUserCourses: jQuery('.user_courses #userlist'),
                 {% endif %}
                 {% if request.user.profile.is_admin %}
-                elUserCourses: jQuery('.all_brwn_courses'),
+                    elUserCourses: jQuery('.all_brwn_courses'),
                 {% endif %}
+                
                 user_id: "{{request.user.id}}"
             });
            
            {% if request.user.profile.is_admin %}
-           var instructor_controls = new ManageInstructorsView({
-        	   el: jQuery('.instructor_controls')
-           });
+               var instructor_controls = new ManageInstructorsView({
+        	       el: jQuery('.instructor_controls')
+               });
            {% endif %}
         });
     </script>
