@@ -42,13 +42,20 @@
             </form>
             </div>
         </div>
-        <h3>Your Courses</h3>
-        <div id="userlist" >
+        {% if request.user.profile.is_admin %}
+            <h3>All Brownfield Courses</h3>
+            <div class="all_brwn_courses">
+            </div>
+        {% endif %}
+        {% if request.user.profile.is_teacher %}
+            <h3>Your Courses</h3>
+            <div id="userlist" >
             <!-- All user courses will be inserted here -->
-        </div>
+            </div>
+        {% endif %}
     </div>
-    <br /><br /><br /><br />
-    
+    <br /><br /><br />
+
     {% if request.user.profile.is_admin %}
     <h3>Instructors</h3>
     <div class='instructor_controls'>
@@ -84,11 +91,6 @@
     {% endif %}
     
     
-    {% if request.user.profile.is_admin %}
-        <h3>Other Courses</h3>
-        <div class="all_brwn_courses">
-        </div>
-    {% endif %}
-     <br /><br /><br />
+
 </div>
 </div>
