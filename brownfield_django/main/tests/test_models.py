@@ -3,7 +3,7 @@
 from django.test import TestCase
 
 from factories import UserFactory, UserProfileFactory, TeacherProfileFactory, \
-    CourseFactory, HistoryFactory, \
+    CourseFactory, HistoryFactory, TeamFactory, \
     PerformedTestFactory, DocumentFactory, AdminProfileFactory, \
     StudentProfileFactoryOne, StudentProfileFactoryTwo, InformationTestFactory
 
@@ -30,11 +30,11 @@ class TestCourseFactory(TestCase):
         self.assertEqual(r.count(), 0)
 
 
-# class TestTeamFactory(TestCase):
-#
-#     def test_unicode(self):
-#         team = TeamFactory()
-#         self.assertEqual(str(team), team.user.username)
+class TestTeamFactory(TestCase):
+
+    def test_unicode(self):
+        team = TeamFactory()
+        self.assertEqual(str(team), team.user.username)
 
 
 class TestHistoryFactory(TestCase):
@@ -128,3 +128,20 @@ class TestCourseMethods(TestCase):
         self.assertTrue(document1 in course.get_documents())
         self.assertTrue(document2 in course.get_documents())
         self.assertTrue(document3 in course.get_documents())
+
+
+class TestTeamMethods(TestCase):
+
+    def setUp(self):
+        '''Adding student profiles, and history records for testing here'''
+        self.student_1 = StudentProfileFactoryOne()
+        self.student_2 = StudentProfileFactoryTwo()
+        self.team = TeamFactory()
+#        self.history =
+
+    def test_get_team_members(self):
+        self.team.userprofile_set.add(self.student_1)
+        self.team.userprofile_set.add(self.student_2)
+        self.assertTrue(self.student_1 in self.team.get_team_members())
+        self.assertTrue(self.student_2 in self.team.get_team_members())
+#    def test_get_team_history(self):
