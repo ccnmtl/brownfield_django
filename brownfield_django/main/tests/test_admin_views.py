@@ -61,16 +61,16 @@ class TestCourseRestViews(APITestCase):
                            'active': True,
                            'archive': False,
                            'professor': 'http://testserver/api/instructor/1/'},
-                          {'id': 2,
+                          {'id': crs.id,
                            'url': 'http://testserver/api/course/2/',
-                           'name': u'Test Course',
-                           'startingBudget': 100000,
+                           'name': crs.name,
+                           'startingBudget': crs.startingBudget,
                            'enableNarrative': True,
                            'message': u'Hello you non existent students.',
                            'active': True,
                            'archive': False,
                            'professor': 'http://testserver/api/instructor/3/'}
-                         ])
+                          ])
 
 
 class TestDocumentRestViews(APITestCase):
