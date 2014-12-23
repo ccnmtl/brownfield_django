@@ -57,13 +57,23 @@ class CourseViewSet(viewsets.ModelViewSet):
 
 
 class UserViewSet(viewsets.ModelViewSet):
+    '''This is for the main page with the list of the users courses
+    it is not for viewing team users or student users, only users who should
+    see a complete list of instructors are admins'''
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
     def get_queryset(self):
-        if (self.request.user.profile.profile_type == 'AD' or 
-            self.request.user.profile.profile_type == 'TE'):
-                return User.objects.all()
+        if self.request.user.profile.is_student():
+            return User.objects.get(id=self.request.user.id)
+
+        queryset = User.objects.all()
+        if self.request.user.profile.is_teacher():
+            return User.objects.get(id=self.request.user.id)
+
+        if self.request.user.profile.is_admin():
+            return User.objects.all()
+                
         else:
             return User.objects.get(id=self.request.user.id)
 
