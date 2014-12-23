@@ -71,15 +71,14 @@ class TestCourseRestViews(APITestCase):
                            'archive': False,
                            'professor': 'http://testserver/api/instructor/3/'}
                           ])
-        
+
         def test_create_course(self):
-            response = self.client.post('/api/course/',
-                           {'name': 'create_course',
-                           'startingBudget': 20000,
-                           'enableNarrative': True,
-                           'message': u'New course here.',
-                           'active': True,
-                           'archive': False}, format='json')
+            response = self.client.post(
+                '/api/course/',
+                {'name': 'create_course',
+                 'startingBudget': 20000, 'enableNarrative': True,
+                 'message': u'New course here.', 'active': True,
+                 'archive': False}, format='json')
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
