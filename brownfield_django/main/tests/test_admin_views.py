@@ -1,7 +1,8 @@
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
 
-from factories import ViewsAdminProfileFactory, AdminUserCourseFactory
+from factories import ViewsAdminProfileFactory, AdminUserCourseFactory, \
+    StudentUserFactoryOne, StudentUserFactoryTwo, TeacherUserFactory
 
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -72,16 +73,36 @@ class TestCourseRestViews(APITestCase):
                            'professor': 'http://testserver/api/instructor/3/'}
                           ])
 
-        def test_create_course(self):
-            '''This is bizarre it seems to pass no matter what...'''
-            response = self.client.post(
-                '/api/course/',
-                {'name': 'create_course',
-                 'startingBudget': 20000, 'enableNarrative': True,
-                 'message': u'New course here.', 'active': True,
-                 'archive': False}, format='json')
-            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-            self.assertEqual(response.data, status.HTTP_200_OK)
+
+class TestUserViewset(APITestCase):
+    '''Test user viewset class'''
+
+    def setUp(self):
+        self.client = APIClient()
+        self.factory = APIRequestFactory()
+        self.admin = ViewsAdminProfileFactory().user
+        self.client.login(username=self.admin.username, password="Admin")
+        self.user_one = StudentUserFactoryOne()
+        self.user_two = StudentUserFactoryTwo()
+        self.user_three = TeacherUserFactory()
+
+    def test_basic_get_courses(self):
+        ''' User is admin, should return list of all users '''
+        response = self.client.get('/api/user/',
+                                   format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.data,
+            [{'url': 'http://testserver/api/instructor/1/',
+              'username': u'user59', 'email': u''},
+             {'url': 'http://testserver/api/instructor/2/',
+              'username': u'Admin', 'email': u''},
+             {'url': 'http://testserver/api/instructor/3/',
+              'username': u'Student1', 'email': u''},
+             {'url': 'http://testserver/api/instructor/4/',
+              'username': u'Student2', 'email': u''},
+             {'url': 'http://testserver/api/instructor/5/',
+              'username': u'Teacher', 'email': u''}])
 
 
 class TestDocumentRestViews(APITestCase):
