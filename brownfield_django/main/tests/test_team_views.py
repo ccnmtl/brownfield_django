@@ -37,7 +37,8 @@
 #         # self.assertEqual(team.user.username, "Test_Team")
 #         self.client.login(username=team.user.username, password="Test_Team")
 #         # response = self.client.get("/team/home/" + str(team.user.pk) + "/")
-#         response = self.client.get("/team/" + str(team.user.pk) + "/history/")
+#         response = self.client.get("/team/" \ 
+# + str(team.user.pk) + "/history/")
 #         self.assertEqual(response.status_code, 200)
         # self.assertTemplateUsed(request, 'main/team/history.txt')
 
