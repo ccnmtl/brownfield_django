@@ -79,7 +79,6 @@ class TestUserViewset(APITestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.factory = APIRequestFactory()
         self.admin = ViewsAdminProfileFactory().user
         self.client.login(username=self.admin.username, password="Admin")
         self.user_one = StudentUserFactoryOne()
@@ -94,15 +93,19 @@ class TestUserViewset(APITestCase):
         self.assertEqual(
             response.data,
             [{'url': 'http://testserver/api/instructor/1/',
+              # I can't figure out where this user is coming from???
               'username': u'user59', 'email': u''},
              {'url': 'http://testserver/api/instructor/2/',
-              'username': u'Admin', 'email': u''},
+              'username': self.admin.username, 'email': self.admin.email},
              {'url': 'http://testserver/api/instructor/3/',
-              'username': u'Student1', 'email': u''},
+              'username': self.user_one.username,
+              'email': self.user_one.email},
              {'url': 'http://testserver/api/instructor/4/',
-              'username': u'Student2', 'email': u''},
+              'username': self.user_two.username,
+              'email': self.user_two.email},
              {'url': 'http://testserver/api/instructor/5/',
-              'username': u'Teacher', 'email': u''}])
+              'username': self.user_three.username,
+              'email': self.user_three.email}])
 
 
 class TestDocumentRestViews(APITestCase):
