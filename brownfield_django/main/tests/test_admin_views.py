@@ -36,6 +36,43 @@ class TestAdminViews(TestCase):
                                 'main/ccnmtl/course_dash/course_home.html')
 
 
+class TestCourseRestViews(APITestCase):
+    '''Test course related urls'''
+
+    def setUp(self):
+        self.client = APIClient()
+        self.factory = APIRequestFactory()
+        self.admin = ViewsAdminProfileFactory().user
+        self.client.login(username=self.admin.username, password="Admin")
+
+    def test_basic_get_courses(self):
+        ''' Get all Course Documents. '''
+        crs = AdminUserCourseFactory()
+        response = self.client.get('/api/course/',
+                                   format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data,
+                         [{'id': 1,
+                           'url': 'http://testserver/api/course/1/',
+                           'name': u'Test Course',
+                           'startingBudget': 65000,
+                           'enableNarrative': True,
+                           'message': u'Hello you non existent students.',
+                           'active': True,
+                           'archive': False,
+                           'professor': 'http://testserver/api/instructor/1/'},
+                          {'id': 2,
+                           'url': 'http://testserver/api/course/2/',
+                           'name': u'Test Course',
+                           'startingBudget': 100000,
+                           'enableNarrative': True,
+                           'message': u'Hello you non existent students.',
+                           'active': True,
+                           'archive': False,
+                           'professor': 'http://testserver/api/instructor/3/'}
+                         ])
+
+
 class TestDocumentRestViews(APITestCase):
     '''Test document related urls'''
 
