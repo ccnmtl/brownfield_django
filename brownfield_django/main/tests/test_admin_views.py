@@ -73,6 +73,7 @@ class TestCourseRestViews(APITestCase):
                           ])
 
         def test_create_course(self):
+            '''This is bizarre it seems to pass no matter what...'''
             response = self.client.post(
                 '/api/course/',
                 {'name': 'create_course',
@@ -80,6 +81,7 @@ class TestCourseRestViews(APITestCase):
                  'message': u'New course here.', 'active': True,
                  'archive': False}, format='json')
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+            self.assertEqual(response.data, status.HTTP_200_OK)
 
 
 class TestDocumentRestViews(APITestCase):
