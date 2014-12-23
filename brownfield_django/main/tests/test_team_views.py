@@ -1,14 +1,12 @@
-# import json
-#
-# from django.test import TestCase, RequestFactory
-# from django.test.client import Client
-#
-# from factories import TeamFactory
-#
-#
-# class TestTeamViews(TestCase):
-#
-#     def setUp(self):
+from django.test import TestCase, RequestFactory
+from django.test.client import Client
+
+from factories import ViewsAdminProfileFactory, AdminUserCourseFactory, \
+    StudentUserFactoryOne, StudentUserFactoryTwo, TeacherUserFactory, StudentProfileFactoryOne
+
+class TestTeamViews(TestCase):
+
+    def setUp(self):
 #         self.client = Client()
 #         self.factory = RequestFactory()
 #         self.team = TeamFactory().user
