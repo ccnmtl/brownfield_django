@@ -61,13 +61,11 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     def get_queryset(self):
-#         if self.request.user.profile.is_student():
-#             return User.objects.get(id=self.request.user.id)
-        if (self.request.user.profile.profile_type != 'AD' and 
-            self.request.user.profile.profile_type != 'TE'):
-                return User.objects.get(id=self.request.user.id)
+        if (self.request.user.profile.profile_type == 'AD' or 
+            self.request.user.profile.profile_type == 'TE'):
+                return User.objects.all()
         else:
-            return User.objects.all()
+            return User.objects.get(id=self.request.user.id)
 
 
 class DocumentViewSet(viewsets.ModelViewSet):
