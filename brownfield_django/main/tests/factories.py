@@ -19,16 +19,8 @@ class CourseFactory(factory.DjangoModelFactory):
     active = True
 
 
-class UserTeamFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = User
-    username = "Test_Team"
-    password = "Test_Team"
-
-
 class TeamFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Team
-    course = factory.SubFactory(CourseFactory)
-    user = factory.SubFactory(UserTeamFactory)
     team_passwd = "Test_Team"
 
 
