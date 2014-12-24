@@ -274,56 +274,16 @@ class TestStudentRestViews(APITestCase):
                                     'email': 'editmail@email.com'},
                                     format='json')
         self.assertEqual(new_response.status_code, status.HTTP_200_OK)
-        ''' Should I always return a complete model? Or is is better
-        to just say okay and only let backbone update once it receives
-        the ok?'''
-#         ''' Returned data should match what we submitted. '''
-#         self.assertEqual(new_response.data['first_name'], 'Edit First Name')
-#         self.assertEqual(new_response.data['last_name'], 'Edit Last Name')
-#         self.assertEqual(new_response.data['email'], 'editmail@email.com')
-        # self.assertEqual(new_response.data['first_name'], self.student_four.user.first_name)
-#         '''After student is created, it should return the student data
-#         in response.data'''
-#         self.assertEqual(response.data, {'id': 4,
-#                                          'first_name': u'Student First Name',
-#                                          'last_name': u'Student Last Name',
-#                                          'email': u'studentemail@email.com'})
-#         # need to update view possibly to return student data, although it
-#         # seems backbone doesn't need it, it is probably good for testing
-#         # and diagnostics, also change wrong status codes
-#         response = self.client.put('/api/student/4/',
-#                                    {'first_name': 'Edit First Name',
-#                                     'last_name': 'Edit Last Name',
-#                                     'email': 'editmail@email.com'},
-#                                    format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-# 
-#     def test_create_update_delete_student(self):
-#         ''' Any students in the course will be returned via GET '''
-#         response = self.client.post('/api/student/?course=' + str(self.crs.pk),
-#                                     {'first_name': 'Student First Name',
-#                                      'last_name': 'Student Last Name',
-#                                      'email': 'studentemail@email.com'},
-#                                     format='json')
-#         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-#         '''After student is created, it should return the student data
-#         in response.data'''
-#         self.assertEqual(response.data, {'id': 4,
-#                                          'first_name': u'Student First Name',
-#                                          'last_name': u'Student Last Name',
-#                                          'email': u'studentemail@email.com'})
-#         response = self.client.put('/api/student/4/',
-#                                    {'first_name': 'Edit First Name',
-#                                     'last_name': 'Edit Last Name',
-#                                     'email': 'editmail@email.com'},
-#                                    format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         response = self.client.delete('/api/student/4/', format='json')
-#         # is there as success code for delete?
-#         # should I test the models to see if they were deleted as well?
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-# 
-# 
+
+    def test_delete_student_as_admin(self):
+        ''' Delete student as admin '''
+        self.client.login(username=self.admin.user.username, password="test")
+        response = self.client.get('/api/student/?course=' +
+                                   str(self.populated_course.pk), format='json')
+        new_response = self.client.delete('/api/student/'+ str(response.data[0]['id']) + '/', format='json')
+        self.assertEqual(new_response.status_code, status.HTTP_200_OK)
+
+
 # class TestTeamRestViews(APITestCase):
 #     '''Test team related urls and methods, has GET, PUT/update,
 #     POST/create, DELETE/destroy'''
