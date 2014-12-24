@@ -45,10 +45,10 @@ class CourseViewSet(viewsets.ModelViewSet):
         if self.request.user.profile.is_student():
             return Course.objects.none()
 
-        queryset = Course.objects.filter(archive=False)
+        queryset = Course.objects.filter(archive=False).order_by('name')
 
         if self.request.user.profile.is_teacher():
-            return queryset.filter(professor=self.request.user)
+            return queryset.filter(professor=self.request.user).order_by('name')
 
         if self.request.user.profile.is_admin():
             return queryset
@@ -64,19 +64,9 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     def get_queryset(self):
-        queryset = User.objects.all()
-        if self.request.user.profile.is_student():
-            '''The javascript to call this view is only on the teacher
-            and admin dashboard but just incase student manually calls
-            url or something... Need to add permissions to models'''
-            return queryset.filter(id=self.request.user.id)
-
-        if self.request.user.profile.is_teacher():
-            return queryset.filter(id=self.request.user.id)
-
+        queryset = User.objects.all().order_by('username')
         if self.request.user.profile.is_admin():
             return queryset
-
         else:
             return queryset.filter(id=self.request.user.id)
 
