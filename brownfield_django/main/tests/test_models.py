@@ -137,11 +137,9 @@ class TestTeamMethods(TestCase):
         self.student_1 = StudentProfileFactoryOne()
         self.student_2 = StudentProfileFactoryTwo()
         self.team = TeamFactory()
-#        self.history =
 
     def test_get_team_members(self):
         self.team.userprofile_set.add(self.student_1)
         self.team.userprofile_set.add(self.student_2)
         self.assertTrue(self.student_1 in self.team.get_team_members())
         self.assertTrue(self.student_2 in self.team.get_team_members())
-#    def test_get_team_history(self):

@@ -1,12 +1,10 @@
-# import json
-#
 # from django.test import TestCase, RequestFactory
 # from django.test.client import Client
 #
-# from factories import TeamFactory
+# from factories import TeamFactory, UserTeamFactory
 #
 #
-# class TestTeamViews(TestCase):
+# class TestTeamHomeView(TestCase):
 #
 #     def setUp(self):
 #         self.client = Client()
@@ -14,12 +12,35 @@
 #         self.team = TeamFactory().user
 #         self.client.login(username=self.team.username, password="Test_Team")
 #
-#     def test_home(self):
-#         # team_pk = Team.objects.get(user=self.team.pk)
-#         request = self.client.get("/team/home/" +
-#                                   str(self.team.id) + '/')
-#       self.assertTemplateUsed(request,
-#                               'main/ccnmtl/home_dash/ccnmtl_home.html')
+#     def test_team_home(self):
+#         self.client.login(username=self.team.username, password="Test_Team")
+#         self.assertEqual(team.user.username, "Test_Team")
+#         request = self.client.get('/team/home/' +
+#                                   str(self.team.team.pk) + '/')
+# #        self.assertTemplateUsed(request,
+# #                              'main/team/team_home.html')
+#
+#
+# class TestTeamInteractiveViews(TestCase):
+#
+#     def setUp(self):
+#         self.client = Client()
+#         self.factory = RequestFactory()
+#         self.team = TeamFactory().user
+#         self.client.login(username=self.team.username, password="Test_Team")
+#         # self.user_one = StudentUserFactoryOne()
+#         # self.user_two = StudentUserFactoryTwo()
+#         # self.user_three = TeacherUserFactory()
+#
+#     def test_initial_team_history(self):
+#         self.assertEqual(team.user.username, "Test_Team")
+#         # self.assertEqual(team.user.username, "Test_Team")
+#         self.client.login(username=team.user.username, password="Test_Team")
+#         # response = self.client.get("/team/home/" + str(team.user.pk) + "/")
+#         response = self.client.get("/team/" \ 
+# + str(team.user.pk) + "/history/")
+#         self.assertEqual(response.status_code, 200)
+        # self.assertTemplateUsed(request, 'main/team/history.txt')
 
 #     def test_get_course_details(self):
 #         '''

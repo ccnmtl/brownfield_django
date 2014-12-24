@@ -57,14 +57,28 @@ class CourseViewSet(viewsets.ModelViewSet):
 
 
 class UserViewSet(viewsets.ModelViewSet):
+    '''This is for the main page with the list of the users courses
+    it is not for viewing team users or student users, only users who should
+    see a complete list of instructors are admins'''
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
     def get_queryset(self):
+        queryset = User.objects.all()
         if self.request.user.profile.is_student():
-            return User.objects.get(id=self.request.user.id)
+            '''The javascript to call this view is only on the teacher
+            and admin dashboard but just incase student manually calls
+            url or something... Need to add permissions to models'''
+            return queryset.filter(id=self.request.user.id)
+
+        if self.request.user.profile.is_teacher():
+            return queryset.filter(id=self.request.user.id)
+
+        if self.request.user.profile.is_admin():
+            return queryset
+
         else:
-            return User.objects.all()
+            return queryset.filter(id=self.request.user.id)
 
 
 class DocumentViewSet(viewsets.ModelViewSet):
