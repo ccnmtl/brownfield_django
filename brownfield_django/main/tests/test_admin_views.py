@@ -14,7 +14,8 @@ class TestAdminViews(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.profile = UserProfileFactory(user=UserFactory(username='admin'), profile_type='AD')
+        self.profile = UserProfileFactory(
+            user=UserFactory(username='admin'), profile_type='AD')
         self.client.login(username=self.profile.user.username, password='test')
 
     def test_home(self):
@@ -42,12 +43,18 @@ class TestCourseRestViews(APITestCase):
     def setUp(self):
         '''Courses ordered by name... setting now'''
         self.client = APIClient()
-        self.admin = UserProfileFactory(user=UserFactory(username='admin'), profile_type='AD')
-        self.teacher = UserProfileFactory(user=UserFactory(username='teacher'), profile_type='TE')
-        self.admin_crs = CourseFactory(professor=self.admin.user, name='ACourse')
-        self.teacher_crs = CourseFactory(professor=self.teacher.user, name='BCourse')
-        self.random_crs1 = CourseFactory(professor=UserFactory(username='someuser'), name='CCourse')
-        self.random_crs2 = CourseFactory(professor=UserFactory(username='someotheruser'), name='DCourse')
+        self.admin = UserProfileFactory(user=UserFactory(username='admin'),
+                                        profile_type='AD')
+        self.teacher = UserProfileFactory(user=UserFactory(username='teacher'),
+                                          profile_type='TE')
+        self.admin_crs = CourseFactory(professor=self.admin.user,
+                                       name='ACourse')
+        self.teacher_crs = CourseFactory(professor=self.teacher.user,
+                                         name='BCourse')
+        self.random_crs1 = CourseFactory(
+            professor=UserFactory(username='someuser'), name='CCourse')
+        self.random_crs2 = CourseFactory(
+            professor=UserFactory(username='someotheruser'), name='DCourse')
  
     def test_get_courses_as_admin(self):
         ''' Get all Courses. '''
@@ -56,7 +63,6 @@ class TestCourseRestViews(APITestCase):
         response = self.client.get('/api/course/',
                                    format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        print response.data
         self.assertEqual(len(response.data), 4)
         self.assertEqual(response.data[0]['name'], self.admin_crs.name)
         self.assertEqual(response.data[1]['name'], self.teacher_crs.name)
@@ -70,74 +76,80 @@ class TestCourseRestViews(APITestCase):
                                    format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data[0]['name'], self.teacher_crs.name)
+
+
+class TestUserViewset(APITestCase):
+    '''Test user viewset class, currently only admins should be returned
+    as list of all users, everyone else should be returned their own user,
+    if they are returned anything at all'''
  
-# class TestUserViewset(APITestCase):
-#     '''Test user viewset class'''
-# 
-#     def setUp(self):
-#         self.client = APIClient()
-#         self.admin = ViewsAdminProfileFactory().user
-#         self.client.login(username=self.admin.username, password="Admin")
-#         self.user_one = StudentUserFactoryOne()
-#         self.user_two = StudentUserFactoryTwo()
-#         self.user_three = TeacherUser2Factory()
-# 
-#     def test_get_users_as_admin(self):
-#         ''' User is admin, should return list of all users '''
-#         response = self.client.get('/api/user/',
-#                                    format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertEqual(
-#             response.data,
-#             [{'url': 'http://testserver/api/instructor/1/',
-#               # I can't figure out where this user is coming from???
-#               'username': u'user62', 'email': u''},
-#              {'url': 'http://testserver/api/instructor/2/',
-#               'username': self.admin.username, 'email': self.admin.email},
-#              {'url': 'http://testserver/api/instructor/3/',
-#               'username': self.user_one.username,
-#               'email': self.user_one.email},
-#              {'url': 'http://testserver/api/instructor/4/',
-#               'username': self.user_two.username,
-#               'email': self.user_two.email},
-#              {'url': 'http://testserver/api/instructor/5/',
-#               'username': self.user_three.username,
-#               'email': self.user_three.email}])
-# 
-# 
-# class TestDocumentRestViews(APITestCase):
-#     '''Test document related urls'''
-# 
-#     def setUp(self):
-#         self.client = APIClient()
-#         self.factory = APIRequestFactory()
-#         self.admin = ViewsAdminProfileFactory().user
-#         self.client.login(username=self.admin.username, password="Admin")
-# 
-#     def test_get_documents(self):
-#         ''' Get all Course Documents. '''
-#         crs = AdminUserCourseFactory()
-#         response = self.client.get('/api/document/?course=' + str(crs.pk),
-#                                    format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-# 
-#     def test_release_revoke_document(self):
-#         ''' Release a document. '''
-#         crs = AdminUserCourseFactory()
-#         doc = crs.document_set.all()[0]
-#         response = self.client.put(
-#             '/api/document/' + str(doc.pk) + '/',
-#             {'id': doc.pk, 'name': u'Test Document for Admin',
-#              'link': u"<a href='/path/to/the/course/document/here'></a>",
-#              'visible': True}, format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
+    def setUp(self):
+        '''users ordered by username'''
+        self.client = APIClient()
+        self.admin = UserProfileFactory(user=UserFactory(username='admin'),
+                                        profile_type='AD')
+        self.teacher = UserProfileFactory(user=UserFactory(username='teacher'),
+                                          profile_type='TE')
+        self.user_one = UserFactory(username='auser')
+        self.user_two = UserFactory(username='buser')
+        self.user_three = UserFactory(username='cuser')
+
+    def test_get_users_as_admin(self):
+        ''' User is admin, should return list of all users '''
+        self.client.login(username=self.admin.user.username, password="test")
+        response = self.client.get('/api/user/',
+                                   format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 5)
+        self.assertEqual(response.data[0]['username'],
+                         self.admin.user.username)
+        self.assertEqual(response.data[1]['username'], self.user_one.username)
+        self.assertEqual(response.data[2]['username'], self.user_two.username)
+        self.assertEqual(response.data[3]['username'],
+                         self.user_three.username)
+        self.assertEqual(response.data[4]['username'],
+                         self.teacher.user.username)
+ 
+ 
+class TestDocumentRestViews(APITestCase):
+    '''Test document related urls'''
+ 
+    def setUp(self):
+        self.client = APIClient()
+        self.admin = UserProfileFactory(user=UserFactory(username='admin'),
+                                        profile_type='AD')
+        self.teacher = UserProfileFactory(user=UserFactory(username='teacher'),
+                                          profile_type='TE')
+        self.course = CourseFactory(professor=self.teacher.user,
+                                    name='TestCourse')
+
+    def test_get_documents(self):
+        ''' Get all Course Documents. '''
+        self.client.login(username=self.teacher.user.username, password="test")
+        response = self.client.get('/api/document/?course=' + str(self.course.pk),
+                                   format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        '''By default courses have 8 documents'''
+        self.assertEqual(len(response.data), 8)
+ 
+    def test_release_revoke_document(self):
+        ''' Release a document. '''
+        self.client.login(username=self.teacher.user.username, password="test")
+        response = self.client.get('/api/document/?course=' + str(self.course.pk),
+                                   format='json')
+        response = self.client.put(
+            '/api/document/' + str(response.data[0]['id']) + '/',
+            {'id': response.data[0]['id'], 'name': response.data[0]['name'],
+             'link': response.data[0]['link'],
+             'visible': True}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 #         self.assertEqual(response.data, True)
 #         response = self.client.put(
 #             '/api/document/' + str(doc.pk) + '/', format='json')
 #         self.assertEqual(response.data, False)
 #         self.assertEqual(response.status_code, status.HTTP_200_OK)
-# 
-# 
+ 
+ 
 # class TestStudentRestViews(APITestCase):
 #     '''Test student related urls and methods, has GET, PUT/update,
 #     POST/create, DELETE/destroy'''

@@ -35,7 +35,6 @@ class TeamFactory(factory.DjangoModelFactory):
 class DocumentFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Document
     name = "Test Document for Course"
-    course = factory.SubFactory(CourseFactory)
     link = "<a href='/path/to/the/course/document/here'></a>"
     visible = False
 
