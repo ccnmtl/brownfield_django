@@ -1,7 +1,8 @@
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
 
-from factories import ViewsAdminProfileFactory, AdminUserCourseFactory
+from factories import ViewsAdminProfileFactory, AdminUserCourseFactory, \
+    StudentUserFactoryOne, StudentUserFactoryTwo, TeacherUserFactory
 
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -34,6 +35,77 @@ class TestAdminViews(TestCase):
                                   str(self.admin_course.pk) + '/')
         self.assertTemplateUsed(request,
                                 'main/ccnmtl/course_dash/course_home.html')
+
+
+class TestCourseRestViews(APITestCase):
+    '''Test course related urls'''
+
+    def setUp(self):
+        self.client = APIClient()
+        self.factory = APIRequestFactory()
+        self.admin = ViewsAdminProfileFactory().user
+        self.client.login(username=self.admin.username, password="Admin")
+
+    def test_basic_get_courses(self):
+        ''' Get all Course Documents. '''
+        crs = AdminUserCourseFactory()
+        response = self.client.get('/api/course/',
+                                   format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data,
+                         [{'id': 1,
+                           'url': 'http://testserver/api/course/1/',
+                           'name': u'Test Course',
+                           'startingBudget': 65000,
+                           'enableNarrative': True,
+                           'message': u'Hello you non existent students.',
+                           'active': True,
+                           'archive': False,
+                           'professor': 'http://testserver/api/instructor/1/'},
+                          {'id': crs.id,
+                           'url': 'http://testserver/api/course/2/',
+                           'name': crs.name,
+                           'startingBudget': crs.startingBudget,
+                           'enableNarrative': True,
+                           'message': u'Hello you non existent students.',
+                           'active': True,
+                           'archive': False,
+                           'professor': 'http://testserver/api/instructor/3/'}
+                          ])
+
+
+class TestUserViewset(APITestCase):
+    '''Test user viewset class'''
+
+    def setUp(self):
+        self.client = APIClient()
+        self.admin = ViewsAdminProfileFactory().user
+        self.client.login(username=self.admin.username, password="Admin")
+        self.user_one = StudentUserFactoryOne()
+        self.user_two = StudentUserFactoryTwo()
+        self.user_three = TeacherUserFactory()
+
+    def test_get_users_as_admin(self):
+        ''' User is admin, should return list of all users '''
+        response = self.client.get('/api/user/',
+                                   format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.data,
+            [{'url': 'http://testserver/api/instructor/1/',
+              # I can't figure out where this user is coming from???
+              'username': u'user59', 'email': u''},
+             {'url': 'http://testserver/api/instructor/2/',
+              'username': self.admin.username, 'email': self.admin.email},
+             {'url': 'http://testserver/api/instructor/3/',
+              'username': self.user_one.username,
+              'email': self.user_one.email},
+             {'url': 'http://testserver/api/instructor/4/',
+              'username': self.user_two.username,
+              'email': self.user_two.email},
+             {'url': 'http://testserver/api/instructor/5/',
+              'username': self.user_three.username,
+              'email': self.user_three.email}])
 
 
 class TestDocumentRestViews(APITestCase):

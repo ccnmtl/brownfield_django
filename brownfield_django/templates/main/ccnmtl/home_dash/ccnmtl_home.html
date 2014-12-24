@@ -12,30 +12,37 @@
     <script type="text/template" id="course-list-template">
         <%= name %>
         <a href='/course_details/<%= id %>/'>View Course Details </a>
-        <button class='edit-crs'> Edit Course </button>
-        <button class='destroy del-crs'> Archive Class</button>
+        <button class='btn btn-xs edit-crs'> Edit Course </button>
+        <button class='btn btn-xs destroy del-crs'> Archive Class</button>
     </script>
 
     <script type="text/template" id="course-edit-template">
         <form id="create-edit-form" method="" action="">
-            <label for="edit_course_name">Name:</label>
+            <span class="course-name-block">
+                <label for="edit_course_name">Name:</label>
                 <input id="edit_course_name" maxlength="255" name="name" type="text" value="<%= name %>"/><br />
-		    <label for="edit_course_startingBudget">StartingBudget:</label> 
+            </span>
+            <span class="course-budget-block">
+		        <label for="edit_course_startingBudget">StartingBudget:</label> 
 			    <input id="edit_course_startingBudget" min="0" name="startingBudget" type="number" value=<%= startingBudget %> /><br />
-			<label for="edit_course_message">Message:</label> 
+            </span>
+            <span class="course-message-block">
+			    <label for="edit_course_message">Message:</label> 
 			    <textarea form="create-edit-form" cols="80" id="edit_course_message" name="edit_message" rows="10"><%= message %></textarea><br />
-			
+			</span>
             {% comment %}
+            <span class="course-professor-block">
 			{% if request.user.profile.is_admin %}
 				<label for="edit_professor">Professor:</label>
 				<select id="edit_professor" name="professor">
                	</select><br />
             {% endif %}
+            </span>
             {% endcomment %}
-        <button class='save-edit-course' type="button">
+        <button class='btn btn-xs save-edit-course' type="button">
             Save
         </button>
-        <button class='cncl-edit-crs' type="button">
+        <button class='btn btn-xs cncl-edit-crs' type="button">
             Cancel
         </button>
         </form>
@@ -79,17 +86,20 @@
         jQuery(document).ready(function () {
             var control_view = new ManageCoursesView({
                 el: jQuery('.course_controls'),
-                elUserCourses: jQuery('.user_courses #userlist'),
-                {% if request.user.profile.is_admin %}
-                    elOtherCourses: jQuery('.all_brwn_courses'),
+                {% if request.user.profile.is_teacher %}
+                    elUserCourses: jQuery('.user_courses #userlist'),
                 {% endif %}
+                {% if request.user.profile.is_admin %}
+                    elUserCourses: jQuery('.all_brwn_courses'),
+                {% endif %}
+                
                 user_id: "{{request.user.id}}"
             });
            
            {% if request.user.profile.is_admin %}
-           var instructor_controls = new ManageInstructorsView({
-        	   el: jQuery('.instructor_controls')
-           });
+               var instructor_controls = new ManageInstructorsView({
+        	       el: jQuery('.instructor_controls')
+               });
            {% endif %}
         });
     </script>

@@ -177,7 +177,6 @@ STATICFILES_FINDERS = (
 # COMPRESS_URL = "/media/"
 COMPRESS_ROOT = "media/"
 
-# WIND settings
 
 AUTHENTICATION_BACKENDS = ('djangowind.auth.SAMLAuthBackend',
                            'django.contrib.auth.backends.ModelBackend', )

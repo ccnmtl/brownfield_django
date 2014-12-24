@@ -26,9 +26,7 @@ COMPRESS_ROOT = "/var/www/brownfield_django/brownfield_django/media/"
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
-# I don't see this setting in NEPI's prod settings so taking it out
-# SENTRY_SITE = 'brownfield_django'
-SENTRY_SERVERS = ['http://sentry.ccnmtl.columbia.edu/sentry/store/']
+
 
 if 'migrate' not in sys.argv:
     INSTALLED_APPS.append('raven.contrib.django.raven_compat')

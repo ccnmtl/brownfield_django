@@ -10,7 +10,8 @@ var ManageCoursesView = Backbone.View.extend({
                   'addCourse',
                   'fetchCourses',
                   'showCourseForm',
-                  'hideAddForm');
+                  'hideAddForm',
+                  'validateForm');
 
         this.options = options;
         this.user = new User({id: options.user_id});
@@ -22,16 +23,8 @@ var ManageCoursesView = Backbone.View.extend({
     
     fetchCourses: function() {
         this.user_course_view =  new CourseListView({
-            //user_list : this.user_list,
             el: this.options.elUserCourses
         });
-        
-        if ('elOtherCourses' in this.options) {
-            this.other_course_view =  new CourseListView({
-                el: this.options.elOtherCourses,
-                exclude_username: this.user.get('username')
-            });
-        }
     },
 
     showCourseForm: function(e) {
@@ -51,25 +44,55 @@ var ManageCoursesView = Backbone.View.extend({
     	this.$('#create-course-form').css('display', 'none');
     	jQuery(".add-crs").show();
     },
+    
+    validateForm: function()
+    {
+        var is_valid = true;
+        
+        var course_name = jQuery('#id_course_name').val();
+        var startingBudget = jQuery('#id_course_startingBudget').val();
+        var course_message = jQuery('#id_course_message').val();
+        
+        if(course_name === null || course_name === "")
+        {   
+            jQuery('.course-name-block').append("<p style='color:#ff0000'>Please enter a valid course name.</p>");
+            is_valid = false;
+        }
+        if(startingBudget === null || startingBudget === "")
+        {   
+            jQuery('.course-budget-block').append("<p style='color:#ff0000'>Please enter a valid starting budget for your course.</p>");
+            is_valid = false;
+        }
+        if(course_message === null || course_message === "")
+        {   
+            jQuery('.course-message-block').append("<p style='color:#ff0000'>Please enter a valid course message.</p>");
+            is_valid = false;
+        }
+        return is_valid;
+    },
 
     addCourse: function(evt) {
-        evt.stopPropagation();
-        professor = jQuery('#id_professor').find("option:selected").val();
+        evt.preventDefault();
+        
+        var professor = jQuery('#id_professor').find("option:selected").val();
 
         if(professor === null || professor === undefined)
         {   
             professor = this.user.get('url');
         }
 
-    	this.user_course_view.course_collection.create({
-    		name: jQuery("#id_course_name").val(),
-    		startingBudget: jQuery("#id_course_startingBudget").val(),
-    		message: jQuery("#id_course_message").val(),
-    		professor: professor
-    	}, {wait: true});
+        if (this.validateForm())
+        {
+    	    this.user_course_view.course_collection.create({
+    	        name: jQuery("#id_course_name").val(),
+    	    	startingBudget: jQuery("#id_course_startingBudget").val(),
+    	    	message: jQuery("#id_course_message").val(),
+    		    professor: professor
+    	    }, {wait: true});
 
-	    jQuery("#create-course-form").hide();
-	    jQuery(".add-crs").show();
+    	    jQuery("#create-course-form").hide();
+    	    jQuery(".add-crs").show();
+        }
 	    return false;
     }
 });// End UserControlView  
