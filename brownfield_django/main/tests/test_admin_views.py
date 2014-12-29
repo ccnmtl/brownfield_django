@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.test.client import Client
 
 from factories import UserProfileFactory, UserFactory, \
-    CourseFactory, TeamFactory
+    CourseFactory
 
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -311,14 +311,20 @@ class TestStudentRestViews(APITestCase):
         ''' Delete student as admin '''
         self.client.login(username=self.admin.user.username, password="test")
         response = self.client.get('/api/student/?course=' +
-                                   str(self.populated_course.pk), format='json')
-        new_response = self.client.delete('/api/student/'+ str(response.data[0]['id']) + '/', format='json')
+                                   str(self.populated_course.pk),
+                                   format='json')
+        new_response = self.client.delete('/api/student/' +
+                                          str(response.data[0]['id']) +
+                                          '/', format='json')
         self.assertEqual(new_response.status_code, status.HTTP_200_OK)
 
     def test_delete_student_as_teacher(self):
         ''' Delete student as teacher '''
         self.client.login(username=self.teacher.user.username, password="test")
         response = self.client.get('/api/student/?course=' +
-                                   str(self.populated_course.pk), format='json')
-        new_response = self.client.delete('/api/student/'+ str(response.data[0]['id']) + '/', format='json')
+                                   str(self.populated_course.pk),
+                                   format='json')
+        new_response = self.client.delete('/api/student/' +
+                                          str(response.data[0]['id']) +
+                                          '/', format='json')
         self.assertEqual(new_response.status_code, status.HTTP_200_OK)

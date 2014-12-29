@@ -48,7 +48,8 @@ class CourseViewSet(viewsets.ModelViewSet):
         queryset = Course.objects.filter(archive=False).order_by('name')
 
         if self.request.user.profile.is_teacher():
-            return queryset.filter(professor=self.request.user).order_by('name')
+            return queryset.filter(
+                professor=self.request.user).order_by('name')
 
         if self.request.user.profile.is_admin():
             return queryset
@@ -148,7 +149,8 @@ class StudentViewSet(viewsets.ModelViewSet):
         if course_pk is not None:
             students = UserProfile.objects.filter(course__pk=course_pk,
                                                   profile_type='ST')
-            queryset = User.objects.filter(profile__in=students).order_by('first_name')
+            queryset = User.objects.filter(
+                profile__in=students).order_by('first_name')
         else:
             '''Is it safe to assume there are no students
             if something goes wrong.'''
