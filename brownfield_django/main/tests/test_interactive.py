@@ -1,28 +1,28 @@
-# from django.test import TestCase, RequestFactory
-# from django.test.client import Client
-# from factories import ViewsAdminProfileFactory, ViewsTeacherProfileFactory
-# from brownfield_django.main.xml_strings import INITIAL_XML
-# 
-# 
-# class TestAdminInfoInteractiveViews(TestCase):
-# 
-#     def setUp(self):
-#         self.client = Client()
-#         self.factory = RequestFactory()
-#         self.admin = ViewsAdminProfileFactory().user
-#         self.client.login(username=self.admin.username, password="Admin")
-# 
-#     def test_admin_info_get_interaction(self):
-#         response = self.client.get("/demo/info/")
-#         self.assertEqual(response.content,
-#                          "<data><response>OK</response></data>")
-# 
-#     def test_admin_info_post_interaction(self):
-#         response = self.client.post("/demo/info/")
-#         self.assertEqual(response.content,
-#                          "<data><response>OK</response></data>")
-# 
-# 
+from django.test import TestCase
+from django.test.client import Client
+from factories import UserFactory, UserProfileFactory
+from brownfield_django.main.xml_strings import INITIAL_XML
+ 
+ 
+class TestAdminInfoInteractiveViews(TestCase):
+ 
+    def setUp(self):
+        self.client = Client()
+        self.admin = UserProfileFactory(user=UserFactory(username='admin'),
+                                        profile_type='AD')
+        self.client.login(username=self.admin.user.username, password="test")
+ 
+    def test_admin_info_get_interaction(self):
+        response = self.client.get("/demo/info/")
+        self.assertEqual(response.content,
+                         "<data><response>OK</response></data>")
+ 
+    def test_admin_info_post_interaction(self):
+        response = self.client.post("/demo/info/")
+        self.assertEqual(response.content,
+                         "<data><response>OK</response></data>")
+ 
+ 
 # class TestInstructorInfoInteractiveViews(TestCase):
 # 
 #     def setUp(self):
