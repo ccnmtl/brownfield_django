@@ -1,7 +1,7 @@
 /* Almost all of these have same url and initialize funciton - mixin or base class */
 
 var DocumentCollection = Backbone.Collection.extend({
-	 model: Document,
+	 model: AppDocument,
 	 urlRoot: '/api/document/',
 	 url: function() {
 	     var url = this.urlRoot;
@@ -82,9 +82,9 @@ var CourseCollection = Backbone.Collection.extend({
 	 urlRoot: '/api/course/',
 	 url: function() {
 	     var url = this.urlRoot;
-	     if (this.exclude_username) {
-	         url += '?exclude_username=' + this.exclude_username;
-	     }
+//	     if (this.exclude_username) {
+//	         url += '?exclude_username=' + this.exclude_username;
+//	     }
 	     return url;
 	 },
 	 initialize : function(options) {

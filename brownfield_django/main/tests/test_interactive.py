@@ -1,6 +1,6 @@
-from django.test import TestCase, RequestFactory
+from django.test import TestCase
 from django.test.client import Client
-from factories import ViewsAdminProfileFactory, ViewsTeacherProfileFactory
+from factories import UserFactory, UserProfileFactory
 from brownfield_django.main.xml_strings import INITIAL_XML
 
 
@@ -8,9 +8,9 @@ class TestAdminInfoInteractiveViews(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.factory = RequestFactory()
-        self.admin = ViewsAdminProfileFactory().user
-        self.client.login(username=self.admin.username, password="Admin")
+        self.admin = UserProfileFactory(user=UserFactory(username='admin'),
+                                        profile_type='AD')
+        self.client.login(username=self.admin.user.username, password="test")
 
     def test_admin_info_get_interaction(self):
         response = self.client.get("/demo/info/")
@@ -27,9 +27,9 @@ class TestInstructorInfoInteractiveViews(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.factory = RequestFactory()
-        self.inst = ViewsTeacherProfileFactory().user
-        self.client.login(username=self.inst.username, password="Teacher")
+        self.inst = UserProfileFactory(user=UserFactory(username='Teacher'),
+                                       profile_type='TE')
+        self.client.login(username=self.inst.user.username, password="test")
 
     def test_instructor_info_get_interaction(self):
         response = self.client.get("/demo/info/")
@@ -45,9 +45,9 @@ class TestAdminHistoryInteractiveViews(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.factory = RequestFactory()
-        self.admin = ViewsAdminProfileFactory().user
-        self.client.login(username=self.admin.username, password="Admin")
+        self.admin = UserProfileFactory(user=UserFactory(username='admin'),
+                                        profile_type='AD')
+        self.client.login(username=self.admin.user.username, password="test")
 
     def test_admin_history_get_interaction(self):
         response = self.client.get("/demo/history/")
@@ -62,9 +62,9 @@ class TestInstructorHistoryInteractiveViews(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.factory = RequestFactory()
-        self.inst = ViewsTeacherProfileFactory().user
-        self.client.login(username=self.inst.username, password="Teacher")
+        self.inst = UserProfileFactory(user=UserFactory(username='Teacher'),
+                                       profile_type='TE')
+        self.client.login(username=self.inst.user.username, password="test")
 
     def test_instructor_history_get_interaction(self):
         response = self.client.get("/demo/history/")
@@ -79,9 +79,9 @@ class TestAdminTestInteractiveViews(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.factory = RequestFactory()
-        self.admin = ViewsAdminProfileFactory().user
-        self.client.login(username=self.admin.username, password="Admin")
+        self.admin = UserProfileFactory(user=UserFactory(username='admin'),
+                                        profile_type='AD')
+        self.client.login(username=self.admin.user.username, password="test")
 
     def test_admin_test_get_interaction(self):
         response = self.client.get("/demo/test/")
@@ -96,9 +96,9 @@ class TestInstructorTestInteractiveViews(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.factory = RequestFactory()
-        self.inst = ViewsTeacherProfileFactory().user
-        self.client.login(username=self.inst.username, password="Teacher")
+        self.inst = UserProfileFactory(user=UserFactory(username='Teacher'),
+                                       profile_type='TE')
+        self.client.login(username=self.inst.user.username, password="test")
 
     def test_test_history_get_interaction(self):
         response = self.client.get("/demo/test/")

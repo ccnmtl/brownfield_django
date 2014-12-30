@@ -15,14 +15,14 @@
     <script type="text/template" id="document-list-template">
         <span class="document-click"><b><%= name %></b></span>
         <space><space>
-        Visibility of Document: <%= visible %>
+        <%= visible %>
         <%
             if(visible)
             {
-                %><button class='btn btn-xs btn-success chng-dct'>Release/Revoke Document</button><%
+                %><button class='btn btn-xs btn-danger chng-dct'>Hide</button><%
             }else
             {
-                %><button class='btn btn-xs btn-danger chng-dct'>Release/Revoke Document</button><%
+                %><button class='btn btn-xs btn-success chng-dct'>Show</button><%
             }
         %>
     </script>
