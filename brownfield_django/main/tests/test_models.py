@@ -1,11 +1,8 @@
-# from datetime import date
-
 from django.test import TestCase
 
-from factories import UserFactory, UserProfileFactory, TeacherProfileFactory, \
+from factories import UserFactory, UserProfileFactory, \
     CourseFactory, HistoryFactory, TeamFactory, \
-    PerformedTestFactory, DocumentFactory, AdminProfileFactory, \
-    StudentProfileFactoryOne, StudentProfileFactoryTwo, InformationTestFactory
+    PerformedTestFactory, InformationTestFactory
 
 
 '''Very basic model tests...'''
@@ -33,7 +30,7 @@ class TestCourseFactory(TestCase):
 class TestTeamFactory(TestCase):
 
     def test_unicode(self):
-        team = TeamFactory()
+        team = TeamFactory(user=UserFactory())
         self.assertEqual(str(team), team.user.username)
 
 
@@ -66,30 +63,33 @@ class TestUserProfileFactory(TestCase):
         self.assertEqual(str(up), up.user.username)
 
 
-class TestAdminProfileFactory(TestCase):
+class TestAdminProfile(TestCase):
 
     def test_unicode(self):
-        admin = AdminProfileFactory()
+        admin = UserProfileFactory(user=UserFactory(username='admin'),
+                                   profile_type='AD')
         self.assertEqual(str(admin), admin.user.username)
         self.assertEqual(admin.role(), "administrator")
         self.assertEqual(admin.is_admin(), True)
         self.assertEqual(admin.is_student(), False)
 
 
-class TestTeacherProfileFactory(TestCase):
+class TestTeacherProfile(TestCase):
 
     def test_unicode(self):
-        teach = TeacherProfileFactory()
+        teach = UserProfileFactory(user=UserFactory(username='teacher'),
+                                   profile_type='TE')
         self.assertEqual(str(teach), teach.user.username)
         self.assertEqual(teach.role(), "faculty")
         self.assertEqual(teach.is_teacher(), True)
         self.assertEqual(teach.is_student(), False)
 
 
-class TestStudentProfileFactory(TestCase):
+class TestStudentProfile(TestCase):
     '''The UserProfile Factory is a student so we will test that.'''
     def test_unicode(self):
-        student = UserProfileFactory()
+        student = UserProfileFactory(user=UserFactory(username='student'),
+                                     profile_type='ST')
         self.assertEqual(str(student), student.user.username)
         self.assertEqual(student.role(), "student")
         self.assertEqual(student.is_student(), True)
@@ -102,44 +102,49 @@ class TestCourseMethods(TestCase):
     in retrieving data for the dashboard.
     '''
 
+    def setUp(self):
+        self.course = CourseFactory(name="Course Methods")
+        self.student1 = UserProfileFactory(
+            user=UserFactory(username='student1'),
+            profile_type='ST', course=self.course)
+        self.student2 = UserProfileFactory(
+            user=UserFactory(username='student2'),
+            profile_type='ST', course=self.course)
+        self.student3 = UserProfileFactory(
+            user=UserFactory(username='student3'),
+            profile_type='ST', course=self.course)
+        self.student4 = UserProfileFactory(
+            user=UserFactory(username='student4'),
+            profile_type='ST', course=self.course)
+
     def test_course_get_students(self):
         '''
-        Create some students, add to course. Make sure
-        students are returned when get_students
+        Make sure students are returned when get_students
         is called on course.
         '''
-        student_one = StudentProfileFactoryOne()
-        student_two = StudentProfileFactoryTwo()
-        course = CourseFactory()
-        course.userprofile_set.add(student_one, student_two)
-        self.assertTrue(student_one in course.get_students())
-        self.assertTrue(student_two in course.get_students())
+        self.assertTrue(self.student1 in self.course.get_students())
+        self.assertTrue(self.student2 in self.course.get_students())
+        self.assertTrue(self.student3 in self.course.get_students())
+        self.assertTrue(self.student4 in self.course.get_students())
 
     def test_course_get_documents(self):
-        '''Right now the documents are added in the view,
-        so we must add them here manually.'''
-        document1 = DocumentFactory()
-        document2 = DocumentFactory()
-        document3 = DocumentFactory()
-        course = CourseFactory()
-        course.document_set.add(document1)
-        course.document_set.add(document2)
-        course.document_set.add(document3)
-        self.assertTrue(document1 in course.get_documents())
-        self.assertTrue(document2 in course.get_documents())
-        self.assertTrue(document3 in course.get_documents())
+        '''Updated the Course model to add the documents when created
+        instead of adding them in the view. Should have 8 documents.'''
+        self.assertEqual(len(self.course.get_documents()), 8)
 
 
 class TestTeamMethods(TestCase):
 
     def setUp(self):
         '''Adding student profiles, and history records for testing here'''
-        self.student_1 = StudentProfileFactoryOne()
-        self.student_2 = StudentProfileFactoryTwo()
-        self.team = TeamFactory()
+        self.team = TeamFactory(user=UserFactory())
+        self.student1 = UserProfileFactory(
+            user=UserFactory(username='student1'),
+            profile_type='ST', team=self.team)
+        self.student2 = UserProfileFactory(
+            user=UserFactory(username='student2'),
+            profile_type='ST', team=self.team)
 
     def test_get_team_members(self):
-        self.team.userprofile_set.add(self.student_1)
-        self.team.userprofile_set.add(self.student_2)
-        self.assertTrue(self.student_1 in self.team.get_team_members())
-        self.assertTrue(self.student_2 in self.team.get_team_members())
+        self.assertTrue(self.student1 in self.team.get_team_members())
+        self.assertTrue(self.student2 in self.team.get_team_members())
