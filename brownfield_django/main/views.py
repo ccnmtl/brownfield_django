@@ -45,30 +45,31 @@ class CourseViewSet(viewsets.ModelViewSet):
         if self.request.user.profile.is_student():
             return Course.objects.none()
 
-        queryset = Course.objects.filter(archive=False)
+        queryset = Course.objects.filter(archive=False).order_by('name')
 
         if self.request.user.profile.is_teacher():
-            return queryset.filter(professor=self.request.user)
+            return queryset.filter(
+                professor=self.request.user).order_by('name')
 
         if self.request.user.profile.is_admin():
-            exclude = self.request.QUERY_PARAMS.get('exclude_username', None)
-            if exclude is not None:
-                queryset = queryset.exclude(professor__username=exclude)
-            else:
-                queryset = queryset.filter(professor=self.request.user)
+            return queryset
 
         return queryset
 
 
 class UserViewSet(viewsets.ModelViewSet):
+    '''This is for the main page with the list of the users courses
+    it is not for viewing team users or student users, only users who should
+    see a complete list of instructors are admins'''
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
     def get_queryset(self):
-        if self.request.user.profile.is_student():
-            return User.objects.get(id=self.request.user.id)
+        queryset = User.objects.all().order_by('username')
+        if self.request.user.profile.is_admin():
+            return queryset
         else:
-            return User.objects.all()
+            return queryset.filter(id=self.request.user.id)
 
 
 class DocumentViewSet(viewsets.ModelViewSet):
@@ -148,7 +149,8 @@ class StudentViewSet(viewsets.ModelViewSet):
         if course_pk is not None:
             students = UserProfile.objects.filter(course__pk=course_pk,
                                                   profile_type='ST')
-            queryset = User.objects.filter(profile__in=students)
+            queryset = User.objects.filter(
+                profile__in=students).order_by('first_name')
         else:
             '''Is it safe to assume there are no students
             if something goes wrong.'''
