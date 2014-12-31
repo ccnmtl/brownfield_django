@@ -243,16 +243,16 @@ class TestStudentRestViews(APITestCase):
         self.client.login(username=self.admin.user.username, password="test")
         response = self.client.post(
             '/api/student/?course=' + str(self.course.pk),
-            {'first_name': 'Student First Name',
-             'last_name': 'Student Last Name',
+            {'first_name': 'Sam',
+             'last_name': 'Smith',
              'email': 'studentemail@email.com'},
             format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         '''After student is created, it should return the student data
         in response.data'''
         self.assertEqual(response.data, {'id': response.data['id'],
-                                         'first_name': u'Student First Name',
-                                         'last_name': u'Student Last Name',
+                                         'first_name': u'Sam',
+                                         'last_name': u'Smith',
                                          'email': u'studentemail@email.com'})
 
     def test_create_student_as_teacher(self):
@@ -260,16 +260,16 @@ class TestStudentRestViews(APITestCase):
         self.client.login(username=self.teacher.user.username, password="test")
         response = self.client.post(
             '/api/student/?course=' + str(self.course.pk),
-            {'first_name': 'Student First Name',
-             'last_name': 'Student Last Name',
+            {'first_name': 'Sam',
+             'last_name': 'Smith',
              'email': 'studentemail@email.com'},
             format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         '''After student is created, it should return the student data
         in response.data'''
         self.assertEqual(response.data, {'id': response.data['id'],
-                                         'first_name': u'Student First Name',
-                                         'last_name': u'Student Last Name',
+                                         'first_name': u'Sam',
+                                         'last_name': u'Smith',
                                          'email': u'studentemail@email.com'})
 
     def test_get_students_as_teacher_class(self):
