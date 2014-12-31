@@ -57,6 +57,23 @@ class CourseViewSet(viewsets.ModelViewSet):
         return queryset
 
 
+class DocumentViewSet(viewsets.ModelViewSet):
+    queryset = Document.objects.all()
+    serializer_class = DocumentSerializer
+
+    def get_queryset(self):
+        '''
+        Form Docs: queryset that should be used for list views,
+        and that should be used as the base for lookups in detail views.
+        '''
+        course_pk = self.request.QUERY_PARAMS.get('course', None)
+        if course_pk is not None:
+            queryset = Document.objects.filter(course__pk=course_pk)
+        else:
+            queryset = Document.objects.none()
+        return queryset
+
+
 class UserViewSet(viewsets.ModelViewSet):
     '''This is for the main page with the list of the users courses
     it is not for viewing team users or student users, only users who should
@@ -70,32 +87,6 @@ class UserViewSet(viewsets.ModelViewSet):
             return queryset
         else:
             return queryset.filter(id=self.request.user.id)
-
-
-class DocumentViewSet(viewsets.ModelViewSet):
-    queryset = Document.objects.all()
-    serializer_class = DocumentSerializer
-
-    def update(self, request, pk=None):
-        document = Document.objects.get(id=pk)
-        if document.visible is True:
-            document.visible = False
-        elif document.visible is False:
-            document.visible = True
-        document.save()
-        return Response(document.visible, status.HTTP_200_OK)
-
-    def get_queryset(self):
-        '''
-        Form Docs: queryset that should be used for list views,
-        and that should be used as the base for lookups in detail views.
-        '''
-        course_pk = self.request.QUERY_PARAMS.get('course', None)
-        if course_pk is not None:
-            queryset = Document.objects.filter(course__pk=course_pk)
-        else:
-            queryset = Document.objects.none()
-        return queryset
 
 
 class StudentViewSet(viewsets.ModelViewSet):
