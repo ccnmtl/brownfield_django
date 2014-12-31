@@ -15,7 +15,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'brownfield_django',
         'HOST': '',
-        'PORT': 5432,
+        'PORT': 5433,
         'USER': '',
         'PASSWORD': '',
     }

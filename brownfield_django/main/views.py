@@ -70,7 +70,7 @@ class DocumentViewSet(viewsets.ModelViewSet):
         if course_pk is not None:
             queryset = Document.objects.filter(course__pk=course_pk)
         else:
-            queryset = Document.objects.none()
+            queryset = Document.objects.all()
         return queryset
 
 
