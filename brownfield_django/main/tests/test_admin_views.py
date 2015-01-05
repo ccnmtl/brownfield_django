@@ -130,27 +130,56 @@ class TestDocumentRestViews(APITestCase):
         '''By default courses have 8 documents'''
         self.assertEqual(len(response.data), 8)
 
-#     def test_release_document_as_teacher(self):
-#         ''' Release a document. '''
-#         self.client.login(username=self.teacher.user.username,
-# password="test")
-#         response = self.client.get('/api/document/?course=' +
-# str(self.course.pk),
-#                                    format='json')
-#         response = self.client.put(
-#             '/api/document/' + str(response.data[0]['id']) + '/',
-#             {'id': response.data[0]['id'], 'name': response.data[0]['name'],
-#              'link': response.data[0]['link'],
-#              'visible': response.data[0]['visible']}, format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertEqual(response.data, True)
-#         response = self.client.put(
-#             '/api/document/' + str(response.data[0]['id']) + '/',
-#             {'id': response.data[0]['id'], 'name': response.data[0]['name'],
-#              'link': response.data[0]['link'],
-#              'visible': response.data[0]['visible']}, format='json')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertEqual(response.data, False)
+    def test_release_document_as_teacher(self):
+        ''' Release a document. '''
+        self.client.login(username=self.teacher.user.username, password="test")
+        response = self.client.get('/api/document/?course=' +
+                                   str(self.course.pk),
+                                   format='json')
+        new_response = self.client.put(
+            '/api/document/' + str(response.data[0]['id']) + '/',
+            {'id': response.data[0]['id'], 'name': response.data[0]['name'],
+             'link': response.data[0]['link'],
+             'visible': True}, format='json')
+        self.assertEqual(new_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(new_response.data['visible'], True)
+        third_response = self.client.put(
+            '/api/document/' + str(response.data[0]['id']) + '/',
+            {'id': response.data[0]['id'], 'name': response.data[0]['name'],
+             'link': response.data[0]['link'],
+             'visible': False}, format='json')
+        self.assertEqual(third_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(third_response.data['visible'], False)
+
+    def test_get_documents_as_admin(self):
+        ''' Get all Course Documents. '''
+        self.client.login(username=self.admin.user.username, password="test")
+        response = self.client.get(
+            '/api/document/?course=' + str(self.course.pk), format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        '''By default courses have 8 documents'''
+        self.assertEqual(len(response.data), 8)
+
+    def test_release_document_as_admin(self):
+        ''' Release a document. '''
+        self.client.login(username=self.admin.user.username, password="test")
+        response = self.client.get('/api/document/?course=' +
+                                   str(self.course.pk),
+                                   format='json')
+        new_response = self.client.put(
+            '/api/document/' + str(response.data[0]['id']) + '/',
+            {'id': response.data[0]['id'], 'name': response.data[0]['name'],
+             'link': response.data[0]['link'],
+             'visible': True}, format='json')
+        self.assertEqual(new_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(new_response.data['visible'], True)
+        third_response = self.client.put(
+            '/api/document/' + str(response.data[0]['id']) + '/',
+            {'id': response.data[0]['id'], 'name': response.data[0]['name'],
+             'link': response.data[0]['link'],
+             'visible': False}, format='json')
+        self.assertEqual(third_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(third_response.data['visible'], False)
 
 
 class TestStudentRestViews(APITestCase):

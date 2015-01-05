@@ -57,21 +57,6 @@ class CourseViewSet(viewsets.ModelViewSet):
         return queryset
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    '''This is for the main page with the list of the users courses
-    it is not for viewing team users or student users, only users who should
-    see a complete list of instructors are admins'''
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-    def get_queryset(self):
-        queryset = User.objects.all().order_by('username')
-        if self.request.user.profile.is_admin():
-            return queryset
-        else:
-            return queryset.filter(id=self.request.user.id)
-
-
 class DocumentViewSet(viewsets.ModelViewSet):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
@@ -93,6 +78,21 @@ class DocumentViewSet(viewsets.ModelViewSet):
         else:
             queryset = Document.objects.none()
             return queryset
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    '''This is for the main page with the list of the users courses
+    it is not for viewing team users or student users, only users who should
+    see a complete list of instructors are admins'''
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        queryset = User.objects.all().order_by('username')
+        if self.request.user.profile.is_admin():
+            return queryset
+        else:
+            return queryset.filter(id=self.request.user.id)
 
 
 class StudentViewSet(viewsets.ModelViewSet):

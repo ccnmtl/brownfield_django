@@ -67,9 +67,7 @@ var DocumentView = BaseItemView.extend({
     		this.model.set('visible', true);
     		this.model.save({
     		        success: function(model, response) 
-                    {
-    		            console.log(response);
-    		        },
+                    {},
                     error: function(model, response)
                     {
                             alert("An error occured!");
