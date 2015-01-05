@@ -25,36 +25,20 @@ var DocumentCollection = BaseCollection.extend({
 
 
 var StudentCollection = BaseCollection.extend({
-	
 	 model: Student,
 	 urlRoot: '/api/student/'
 });
 
 
 var InstructorCollection = BaseCollection.extend({
-	
 	 model: Instructor,
 	 urlRoot: '/api/instructor/'
 });
 
 
 var TeamCollection = BaseCollection.extend({
-	
 	 model: Team,
-	 urlRoot: '/admin_team/',
-	 headers: {"content-type": "application/json"},
-	 url: function() {
-	     var url = this.urlRoot;
-	     if (this.course) {
-	         url += this.course + '/';
-	     }
-	     return url;
-	 },
-	 initialize : function(options){
-	     if (options && 'course' in options) {
-	         this.course = options.course;
-	     }
-	 }
+	 urlRoot: '/api/eteam/'
 });
 
 

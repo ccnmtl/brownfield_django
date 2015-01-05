@@ -1,4 +1,6 @@
 import json
+import random
+from string import letters, digits
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http.response import HttpResponseNotAllowed, HttpResponse
 from django.utils.decorators import method_decorator
@@ -60,3 +62,17 @@ class LoggedInMixinSuperuser(object):
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, *args, **kwargs):
         return super(LoggedInMixinSuperuser, self).dispatch(*args, **kwargs)
+
+
+class PasswordMixin(object):
+
+    def get_password(self):
+        print "Inside get password"
+        char_digits = letters + digits
+        self.passwd = ''
+        for x in range(0, 7):
+            add_char = random.choice(char_digits)
+            self.passwd = self.passwd + add_char
+        print "self.passwd"
+        print self.passwd
+        return self.passwd

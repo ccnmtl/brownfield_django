@@ -29,7 +29,7 @@ from brownfield_django.main.serializers import DocumentSerializer, \
 
 from brownfield_django.main.xml_strings import INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
-    CSRFExemptMixin
+    CSRFExemptMixin, PasswordMixin
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -155,19 +155,11 @@ class StudentViewSet(viewsets.ModelViewSet):
         return queryset
 
 
-class InstructorViewSet(viewsets.ModelViewSet):
+class InstructorViewSet(PasswordMixin, viewsets.ModelViewSet):
     '''This could probably be combined with StudentViewSet
     not sure though.'''
     queryset = User.objects.filter(profile__profile_type='TE')
     serializer_class = StudentUserSerializer
-
-    def get_password(self):
-        char_digits = letters + digits
-        passwd = ''
-        for x in range(0, 7):
-            add_char = random.choice(char_digits)
-            passwd = passwd + add_char
-        return passwd
 
     def send_instructor_email(self, instructor, profile):
         '''Send instructor their credentials'''
@@ -227,6 +219,55 @@ class InstructorViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         instructors = UserProfile.objects.filter(profile_type='TE')
         queryset = User.objects.filter(profile__in=instructors)
+        return queryset
+
+
+class TeamViewSet(PasswordMixin, viewsets.ModelViewSet):
+    '''Finally moving team to viewset instead of API View'''
+    team_set = Team.objects.all()
+    queryset = User.objects.filter(team__in=team_set)
+    serializer_class = TeamUserSerializer
+
+    def create(self, request):
+        try:
+            key = self.request.QUERY_PARAMS.get('course', None)
+            
+            course = Course.objects.get(pk=key)
+            team_name = request.DATA['team_name']
+            '''creating team with no attributes first so we can
+            create a unique username for user based on team pk'''
+            team = Team.objects.create(course=course, budget=course.startingBudget)
+            user = User.objects.create(username=team_name + "_" + str(team.pk))
+            user.first_name = team_name
+            tmpasswd = self.get_password()
+            user.set_password(tmpasswd)
+            team.user = user
+            team.team_passwd = tmpasswd
+            team.save()
+            user.save()
+            serializer = TeamUserSerializer(user)
+            return Response(serializer.data, status.HTTP_201_CREATED)
+        except:
+            # is it considered good practice to return serializer.data
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def get_queryset(self):
+        '''Send back all teams currently in course.'''
+        course_pk = self.request.QUERY_PARAMS.get('course', None)
+        team_pk = self.kwargs.get('pk', None)
+
+        if course_pk is not None:
+            course = Course.objects.get(pk=course_pk)
+            teamprofiles = course.get_teams()
+            queryset = User.objects.filter(team__in=teamprofiles)
+            return queryset
+        if team_pk is not None:
+            queryset = Document.objects.filter(pk=team_pk)
+            return queryset
+        else:
+            team_set = Team.objects.all()
+            queryset = User.objects.filter(team__in=team_set)
+            #queryset = User.objects.none()
         return queryset
 
 

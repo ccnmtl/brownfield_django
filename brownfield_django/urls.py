@@ -12,7 +12,7 @@ from brownfield_django.main.views import HomeView, AdminTeamView, \
     TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView, \
     BrownfieldInfoView, BrownfieldHistoryView, BrownfieldTestView, \
     TeamHistoryView, TeamInfoView, TeamPerformTest, InstructorViewSet, \
-    TeamCSV, ShowProfessorsView
+    TeamCSV, ShowProfessorsView, TeamViewSet
 
 
 admin.autodiscover()
@@ -44,6 +44,8 @@ router.register(r'user', UserViewSet)
 router.register(r'document', DocumentViewSet)
 router.register(r'student', StudentViewSet)
 router.register(r'instructor', InstructorViewSet)
+# flash uses team in url, this is router for team on dashboard
+router.register(r'eteam', TeamViewSet)
 
 urlpatterns = patterns(
     '',

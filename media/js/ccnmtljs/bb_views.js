@@ -343,42 +343,6 @@ var InstructorView = BaseItemView.extend({
 
 /* Now the Collection Views */
 
-/* Attempting to remove shared functionality into base class */
-
-var BaseListView = Backbone.View.extend({
-    
-    /* Will over ride this in the List Views */
-    this.ItemSubView = BaseItemView;
-    
-    tagName : 'ul',
-    
-//    initialize: function (options)
-//    {
-//        _.bindAll(this, 'initialRender', 'addItem');
-//        this.course_collection = new CourseCollection(options);
-//        this.course_collection.fetch({processData: true, reset: true});
-//        this.course_collection.on('reset', this.initialRender);
-//        this.course_collection.on('add', this.addCourse);
-//    },
-//    
-//    initialRender: function() {
-//        // Iterate over the collection and add each model as a list item 
-//        this.course_collection.each(function(model) {
-//            this.$el.append(new CourseView({
-//                   model: model
-//            }).render().el);
-//        }, this);
-//
-//        return this;
-//    },
-
-    addItem: function(model, collection, options) {
-        this.$el.append(new this.ItemSubView({
-            model: model
-        }).render().el);
-    }
-});
-
 
 var CourseListView = Backbone.View.extend({
     

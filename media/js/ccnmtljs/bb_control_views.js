@@ -119,6 +119,7 @@ var ManageInstructorsView = Backbone.View.extend({
     },
 
     addInstructor: function(evt) {
+        console.log("Inside addInstructor");
     	evt.stopPropagation();
     	this.instructor_collection_view.instructor_collection.create(
     		{

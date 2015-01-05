@@ -25,6 +25,7 @@ class DocumentSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class TeamUserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = ('id', 'first_name', 'username')
