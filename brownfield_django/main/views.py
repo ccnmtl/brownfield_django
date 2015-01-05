@@ -76,14 +76,14 @@ class DocumentViewSet(viewsets.ModelViewSet):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
 
-    def update(self, request, pk=None):
-        document = Document.objects.get(id=pk)
-        if document.visible is True:
-            document.visible = False
-        elif document.visible is False:
-            document.visible = True
-        document.save()
-        return Response(document.visible, status.HTTP_200_OK)
+#     def update(self, request, pk=None):
+#         document = Document.objects.get(id=pk)
+#         if document.visible is True:
+#             document.visible = False
+#         elif document.visible is False:
+#             document.visible = True
+#         document.save()
+#         return Response(document.visible, status.HTTP_200_OK)
 
     def get_queryset(self):
         '''
@@ -91,11 +91,17 @@ class DocumentViewSet(viewsets.ModelViewSet):
         and that should be used as the base for lookups in detail views.
         '''
         course_pk = self.request.QUERY_PARAMS.get('course', None)
+        doc_pk = self.kwargs.get('pk', None)
+
         if course_pk is not None:
             queryset = Document.objects.filter(course__pk=course_pk)
+            return queryset
+        if doc_pk is not None:
+            queryset = Document.objects.filter(pk=doc_pk)
+            return queryset
         else:
             queryset = Document.objects.none()
-        return queryset
+            return queryset
 
 
 class StudentViewSet(viewsets.ModelViewSet):

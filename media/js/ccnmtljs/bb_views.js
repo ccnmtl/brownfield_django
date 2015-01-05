@@ -29,6 +29,7 @@ var BaseItemView = BaseView.extend({
 var DocumentView = BaseItemView.extend({
 
    	initialize: function(options) {
+   	    _.bindAll(this, 'changeDocument', 'viewDocument');
    	    this.listenTo(this.model, 'change', this.render);
         this.template = _.template(jQuery("#document-list-template").html());
    	},
@@ -42,13 +43,40 @@ var DocumentView = BaseItemView.extend({
    	{
     	if(this.model.attributes.visible === true)
     	{
+    	    //console.log(this.model.attributes)
     		this.model.set('visible', false);
-    		this.model.save({wait: true});
+    		this.model.save({
+                success: function(model, response) 
+                {
+                    //'''This does not appear to be called...'''
+                    console.log("Inside success function...");
+                    console.log(model);
+                    console.log(response);
+                },
+                error: function(model, response)
+                {
+                        alert("An error occured!");
+                },
+                wait: true
+            });
+    		        //{wait: true});
     	}
     	else if (this.model.attributes.visible === false)
     	{
+    	    //console.log(this.model.attributes)
     		this.model.set('visible', true);
-    		this.model.save({wait: true});
+    		this.model.save({
+    		        success: function(model, response) 
+                    {
+    		            console.log(response);
+    		        },
+                    error: function(model, response)
+                    {
+                            alert("An error occured!");
+                    },
+                    wait: true
+                });
+    		        //{wait: true});
     	}
    	},
    	
