@@ -76,15 +76,6 @@ class DocumentViewSet(viewsets.ModelViewSet):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
 
-#     def update(self, request, pk=None):
-#         document = Document.objects.get(id=pk)
-#         if document.visible is True:
-#             document.visible = False
-#         elif document.visible is False:
-#             document.visible = True
-#         document.save()
-#         return Response(document.visible, status.HTTP_200_OK)
-
     def get_queryset(self):
         '''
         Form Docs: queryset that should be used for list views,
