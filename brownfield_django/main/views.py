@@ -275,9 +275,6 @@ class HomeView(LoggedInMixin, View):
             if user_profile.is_admin():
                 url = '/ccnmtl/home/%s/' % (user_profile.id)
         except UserProfile.DoesNotExist:
-            # pass  # we need to see if user is a team
-            # '''We are not allowing users to register.'''
-            # return HttpResponseForbidden("forbidden")
             try:
                 team = Team.objects.get(user=request.user.pk)
                 url = '/team/home/%s/' % (team.id)
