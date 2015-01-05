@@ -187,8 +187,6 @@ var CourseView = BaseItemView.extend({
 });// End CourseView
 
 
-
-
 var TeamView = BaseItemView.extend({
 	
    	initialize: function (options) {
@@ -345,10 +343,43 @@ var InstructorView = BaseItemView.extend({
 
 /* Now the Collection Views */
 
+/* Attempting to remove shared functionality into base class */
+
+var BaseListView = Backbone.View.extend({
+    
+    
+    
+    tagName : 'ul',
+    
+//    initialize: function (options)
+//    {
+//        _.bindAll(this, 'initialRender', 'addItem');
+//        this.course_collection = new CourseCollection(options);
+//        this.course_collection.fetch({processData: true, reset: true});
+//        this.course_collection.on('reset', this.initialRender);
+//        this.course_collection.on('add', this.addCourse);
+//    },
+    
+    initialRender: function() {
+        // Iterate over the collection and add each model as a list item 
+        this.course_collection.each(function(model) {
+            this.$el.append(new CourseView({
+                   model: model
+            }).render().el);
+        }, this);
+
+        return this;
+    },
+
+    addCourse: function(model, collection, options) {
+        this.$el.append(new CourseView({
+            model: model
+        }).render().el);
+    }
+});
+
 
 var CourseListView = Backbone.View.extend({
-	   
-    tagName : 'ul',
     
     initialize: function (options)
     {
@@ -380,8 +411,6 @@ var CourseListView = Backbone.View.extend({
 
 var DocumentListView = Backbone.View.extend({
 
-    tagName : 'ul',
-
     initialize: function (options)
     {
         _.bindAll(this, 'initialRender');
@@ -407,8 +436,6 @@ var DocumentListView = Backbone.View.extend({
 
 
 var StudentListView = Backbone.View.extend({
-
-    tagName : 'ul',
 
     initialize: function (options)
     {
@@ -440,8 +467,6 @@ var StudentListView = Backbone.View.extend({
 
 var TeamListView = Backbone.View.extend({
 
-    tagName : 'ul',
-
     initialize: function (options)
     {
     	_.bindAll(this, 'initialRender', 'addTeam');
@@ -471,8 +496,6 @@ var TeamListView = Backbone.View.extend({
 
 
 var InstructorListView = Backbone.View.extend({
-	
-    tagName : 'ul',
     
     initialize: function (options)
     {
