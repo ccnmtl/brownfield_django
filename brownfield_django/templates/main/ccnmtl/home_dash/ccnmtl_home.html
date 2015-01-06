@@ -10,10 +10,8 @@
 
 {% block js %}
     <script type="text/template" id="course-list-template">
-        <%= name %>
-        <a href='/course_details/<%= id %>/'>View Course Details </a>
-        <button class='btn btn-xs edit-crs'> Edit Course </button>
-        <button class='btn btn-xs destroy del-crs'> Archive Class</button>
+        <span class="course_name"><%= name %></span>
+        <button class='btn btn-xs edit-crs pull-right'> Edit Course </button>
     </script>
 
     <script type="text/template" id="course-edit-template">

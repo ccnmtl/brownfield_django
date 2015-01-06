@@ -105,10 +105,11 @@ var CourseView = BaseItemView.extend({
    	},
     	
    	events: {
+   	    'click .course_name' : 'courseDetails',
    	    'click .edit-crs' : 'showEditForm',
    	    'click .save-edit-course' : 'editCourse',
-   	    'click .cncl-edit-crs' : 'hideEditForm',
-   		'click .destroy' : 'clear'
+   	    'click .cncl-edit-crs' : 'hideEditForm'//,
+   		//'click .destroy' : 'clear'
    	},
     	
     render: function ()
@@ -182,7 +183,12 @@ var CourseView = BaseItemView.extend({
                 },
                 wait: true
             });//end save
-        }
+        }//end if
+    },// end editCourse
+    
+    courseDetails: function ()
+    {
+        window.location.href = '/course_details/' + this.model.get('id')  + '/';  
     }
 });// End CourseView
 
@@ -197,27 +203,13 @@ var TeamView = BaseItemView.extend({
 
    	events: {
    		'click .rm-team' : 'removeTeam',
-   		'click .hist-team' : 'teamHistory',
-   		//'click .cncl-edit-team' : 'hideEditForm',
-   		//'click .rm-std' : 'removeStudent'
+   		'click .hist-team' : 'teamHistory'
    	},
-   	
-//    hideEditForm: function()
-//    {   
-//    	this.$('#create-edit-form').remove();
-//    },
 
    	removeTeam: function()
    	{
    		this.model.destroy();
     },
-   	
-//    removeStudent: function()
-//    {
-//        //this.model.destroy();
-//        console.log("removeStudent this.model.attributes");
-//        console.log(this.model.attributes);
-//    },
     
    	teamHistory: function()
    	{

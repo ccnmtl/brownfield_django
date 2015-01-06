@@ -8,7 +8,7 @@
             Add New Course
             </button>
             <div class='accoridion'>
-            <form id="create-course-form" method="" action="" style="display: none;">
+              <form id="create-course-form" method="" action="" style="display: none;">
                 {% csrf_token %}
                 <p id="frm-title"> <b><u>Add New Course: </u></b></p>
                 <span class="course-name-block">
@@ -39,9 +39,9 @@
                 <button class='cncl-add-crs' type="button">
                     Cancel
                 </button>
-            </form>
-            </div>
-        </div>
+              </form> 
+            </div> <!-- End .accordion -->
+        </div> <!-- End .course_controls -->
         {% if request.user.profile.is_admin %}
             <h3>All Brownfield Courses</h3>
             <div class="all_brwn_courses">
