@@ -4,57 +4,54 @@
     On this page you should create your students and teams, you will put your students in teams on the next page.
   	Create your teams and students below.
     </div>
-    <h3>Teams</h3>
-    <div id="course-teams">
-        <div class="team_controls">
-            <button class="add-team-btn">
-            Add New Team   
-            </button>
-            <p class="add-team-frm-title" style="display: none;">
-            <form class="add-team-frm" method="" action="" style="display: none;">
-                {% csrf_token %}
-                <label>Team Name</label>
+    <div class="team-creation-area">
+        <div class='team-header'>
+            <span style='font-size:xx-large;'>Teams</span>
+            <button class="btn btn-default add-team-btn pull-right">Add New Team</button>
+        </div>
+        <div id="course-teams">
+            <div class="team_controls">
+                <p class="add-team-frm-title" style="display: none;">
+                <form class="add-team-frm" method="" action="" style="display: none;">
+                    {% csrf_token %}
+                    <label>Team Name</label>
                     <input type="text" placeholder="Team Name" class="team-name" />
                     <br />
                     <input type="submit" value="Save Team" class="team_submit"/>
                     <button class='cncl-add-team' type="button">
                     Cancel
-                </button>
-            </form>
+                    </button>
+                </form>
+            </div>
+            <div class="team-list"></div>
         </div>
-        <div class="team-list"></div>
-    </div>
-
-    
-    <h3>Students</h3>
-    <div id="course-students">
-        <div class="student_controls">
-            <button class="add-std-btn">
-            Add New Student   
-            </button>
-            <p class="add-std-frm-title" style="display: none;"> <b>Add New Student: </b></p>
-            <form class="add-std-frm" method="" action="" style="display: none;">
+        <br /><br />
+        <div id="course-students">
+          <div class='student-header'><span style='font-size:xx-large;'>Students</span><button class="btn btn-default add-std-btn pull-right">Add New Student</button></div>
+            <div class="student_controls">
+                <p class="add-std-frm-title" style="display: none;"> <b>Add New Student: </b></p>
+                <form class="add-std-frm" method="" action="" style="display: none;">
                 {% csrf_token %}
-                <div class="first-name-box">
-                    <label>First Name: </label>
-                    <input type="text" placeholder="First Name" class="frst-name" />
-                </div>
-                <div class="last-name-box">
-                    <label>Last Name: </label>
-                    <input type="text" placeholder="Last Name" class="last-name" />
-                </div>
-                <div class="email-box">
-                    <label>Email: </label>
-                    <input type="text" placeholder="Email" class="email" />
-                </div>
-                <input type="submit" value="Save Student" class="student_submit"/>
-                <button class='cncl-add-std' type="button">
-                    Cancel
-                </button>
-            </form>
+                    <div class="first-name-box">
+                        <label>First Name: </label>
+                        <input type="text" placeholder="First Name" class="frst-name" />
+                    </div>
+                    <div class="last-name-box">
+                        <label>Last Name: </label>
+                        <input type="text" placeholder="Last Name" class="last-name" />
+                    </div>
+                    <div class="email-box">
+                        <label>Email: </label>
+                        <input type="text" placeholder="Email" class="email" />
+                    </div>
+                    <input type="submit" value="Save Student" class="student_submit"/>
+                    <button class='cncl-add-std' type="button">
+                        Cancel
+                    </button>
+                </form>
+            </div>
+            <div class="student-list"></div>
         </div>
-        <div class="student-list"></div>
-    </div>
-
+    </div><!-- End team-creation-area -->
     <br /><br /><br />
 </div>
