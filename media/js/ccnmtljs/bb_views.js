@@ -43,7 +43,6 @@ var DocumentView = BaseItemView.extend({
    	{
     	if(this.model.attributes.visible === true)
     	{
-    	    //console.log(this.model.attributes)
     		this.model.set('visible', false);
     		this.model.save({
                 success: function(model, response) 
@@ -59,11 +58,9 @@ var DocumentView = BaseItemView.extend({
                 },
                 wait: true
             });
-    		        //{wait: true});
     	}
     	else if (this.model.attributes.visible === false)
     	{
-    	    //console.log(this.model.attributes)
     		this.model.set('visible', true);
     		this.model.save({
     		        success: function(model, response) 
@@ -74,7 +71,6 @@ var DocumentView = BaseItemView.extend({
                     },
                     wait: true
                 });
-    		        //{wait: true});
     	}
    	},
    	
@@ -100,16 +96,13 @@ var CourseView = BaseItemView.extend({
    	    this.template = _.template(jQuery("#course-list-template").html());
    	    /* As of now cannot think of solution for having the list
    	     * of professors available to the CourseView view and the main ControlView*/
-   	    //this.prof_list = new InstructorCollection();
-        //this.prof_list.fetch({wait: true});
    	},
     	
    	events: {
    	    'click .course_name' : 'courseDetails',
    	    'click .edit-crs' : 'showEditForm',
    	    'click .save-edit-course' : 'editCourse',
-   	    'click .cncl-edit-crs' : 'hideEditForm'//,
-   		//'click .destroy' : 'clear'
+   	    'click .cncl-edit-crs' : 'hideEditForm'
    	},
     	
     render: function ()
@@ -266,7 +259,6 @@ var StudentView = BaseItemView.extend({
             error: function(model, response)
             {
             	alert("An error occured!");
-            	//this.$el.append("<p>Something went wrong, please try again.</p>");
             },
             wait: true
         });//end save
@@ -320,7 +312,6 @@ var InstructorView = BaseItemView.extend({
             error: function(model, response)
             {
             	alert("An error occured!");
-            	//this.$el.append("<p>Something went wrong, please try again.</p>");
             },
             wait: true
         });//end save
