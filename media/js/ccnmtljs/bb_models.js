@@ -30,7 +30,7 @@ var Course = BaseModel.extend({
 
 
 var Team = BaseModel.extend({
-	   urlRoot: '/admin_team/'
+	   urlRoot: '/api/eteam/'
 });
 
 

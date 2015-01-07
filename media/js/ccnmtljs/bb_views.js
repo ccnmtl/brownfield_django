@@ -29,6 +29,7 @@ var BaseItemView = BaseView.extend({
 var DocumentView = BaseItemView.extend({
 
    	initialize: function(options) {
+   	    _.bindAll(this, 'changeDocument', 'viewDocument');
    	    this.listenTo(this.model, 'change', this.render);
         this.template = _.template(jQuery("#document-list-template").html());
    	},
@@ -43,12 +44,29 @@ var DocumentView = BaseItemView.extend({
     	if(this.model.attributes.visible === true)
     	{
     		this.model.set('visible', false);
-    		this.model.save({wait: true});
+    		this.model.save({
+                success: function(model, response) 
+                {
+                },
+                error: function(model, response)
+                {
+                        alert("An error occured!");
+                },
+                wait: true
+            });
     	}
     	else if (this.model.attributes.visible === false)
     	{
     		this.model.set('visible', true);
-    		this.model.save({wait: true});
+    		this.model.save({
+    		        success: function(model, response) 
+                    {},
+                    error: function(model, response)
+                    {
+                            alert("An error occured!");
+                    },
+                    wait: true
+                });
     	}
    	},
    	
@@ -74,15 +92,13 @@ var CourseView = BaseItemView.extend({
    	    this.template = _.template(jQuery("#course-list-template").html());
    	    /* As of now cannot think of solution for having the list
    	     * of professors available to the CourseView view and the main ControlView*/
-   	    //this.prof_list = new InstructorCollection();
-        //this.prof_list.fetch({wait: true});
    	},
     	
    	events: {
+   	    'click .course_name' : 'courseDetails',
    	    'click .edit-crs' : 'showEditForm',
    	    'click .save-edit-course' : 'editCourse',
-   	    'click .cncl-edit-crs' : 'hideEditForm',
-   		'click .destroy' : 'clear'
+   	    'click .cncl-edit-crs' : 'hideEditForm'
    	},
     	
     render: function ()
@@ -156,11 +172,14 @@ var CourseView = BaseItemView.extend({
                 },
                 wait: true
             });//end save
-        }
+        }//end if
+    },// end editCourse
+    
+    courseDetails: function ()
+    {
+        window.location.href = '/course_details/' + this.model.get('id')  + '/';  
     }
 });// End CourseView
-
-
 
 
 var TeamView = BaseItemView.extend({
@@ -173,27 +192,13 @@ var TeamView = BaseItemView.extend({
 
    	events: {
    		'click .rm-team' : 'removeTeam',
-   		'click .hist-team' : 'teamHistory',
-   		//'click .cncl-edit-team' : 'hideEditForm',
-   		//'click .rm-std' : 'removeStudent'
+   		'click .hist-team' : 'teamHistory'
    	},
-   	
-//    hideEditForm: function()
-//    {   
-//    	this.$('#create-edit-form').remove();
-//    },
 
    	removeTeam: function()
    	{
    		this.model.destroy();
     },
-   	
-//    removeStudent: function()
-//    {
-//        //this.model.destroy();
-//        console.log("removeStudent this.model.attributes");
-//        console.log(this.model.attributes);
-//    },
     
    	teamHistory: function()
    	{
@@ -250,7 +255,6 @@ var StudentView = BaseItemView.extend({
             error: function(model, response)
             {
             	alert("An error occured!");
-            	//this.$el.append("<p>Something went wrong, please try again.</p>");
             },
             wait: true
         });//end save
@@ -304,7 +308,6 @@ var InstructorView = BaseItemView.extend({
             error: function(model, response)
             {
             	alert("An error occured!");
-            	//this.$el.append("<p>Something went wrong, please try again.</p>");
             },
             wait: true
         });//end save
@@ -321,8 +324,6 @@ var InstructorView = BaseItemView.extend({
 
 
 var CourseListView = Backbone.View.extend({
-	   
-    tagName : 'ul',
     
     initialize: function (options)
     {
@@ -354,8 +355,6 @@ var CourseListView = Backbone.View.extend({
 
 var DocumentListView = Backbone.View.extend({
 
-    tagName : 'ul',
-
     initialize: function (options)
     {
         _.bindAll(this, 'initialRender');
@@ -381,8 +380,6 @@ var DocumentListView = Backbone.View.extend({
 
 
 var StudentListView = Backbone.View.extend({
-
-    tagName : 'ul',
 
     initialize: function (options)
     {
@@ -414,8 +411,6 @@ var StudentListView = Backbone.View.extend({
 
 var TeamListView = Backbone.View.extend({
 
-    tagName : 'ul',
-
     initialize: function (options)
     {
     	_.bindAll(this, 'initialRender', 'addTeam');
@@ -445,8 +440,6 @@ var TeamListView = Backbone.View.extend({
 
 
 var InstructorListView = Backbone.View.extend({
-	
-    tagName : 'ul',
     
     initialize: function (options)
     {

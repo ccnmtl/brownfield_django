@@ -19,14 +19,13 @@ class CourseSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DocumentSerializer(serializers.HyperlinkedModelSerializer):
-    course = serializers.RelatedField()
-
     class Meta:
         model = Document
-        fields = ('id', 'course', 'url', 'name', 'link', 'visible')
+        fields = ('id', 'url', 'name', 'link', 'visible', 'course')
 
 
 class TeamUserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = ('id', 'first_name', 'username')

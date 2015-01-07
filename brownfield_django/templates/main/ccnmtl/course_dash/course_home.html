@@ -15,7 +15,6 @@
     <script type="text/template" id="document-list-template">
         <span class="document-click"><b><%= name %></b></span>
         <space><space>
-        <%= visible %>
         <%
             if(visible)
             {
@@ -28,19 +27,26 @@
     </script>
 
     <script type="text/template" id="student-list-template">
-        <%= first_name %> <space><space>
-        <%= last_name %> <space><space>
-        Email: <%= email %>
-        <button class='btn btn-xs ed-st'> Edit Student </button>
-        <space><space>
-        <button class='btn btn-xs rm-st'> Remove Student From Course </button>  <space><space><br />
+        <span class="student-name">
+            <label>Name: </label>
+            <%= first_name %>
+            <%= last_name %>
+        </span>
+        <span class="student-email">
+            <label>Email: </label>
+            <%= email %>
+        </span>
+        <span class="student-buttons" style="display: inline;">
+            <button class='btn btn-xs btn-default pull-right ed-st'> Edit Student </button>
+            <button class='btn btn-xs btn-default pull-right rm-st'> Remove Student From Course </button>
+        </span>
     </script>
 
     <script type="text/template" id="team-list-template">
-        <label>Team Name: </label> <%= first_name %> <space><space>
-        <label>Login: </label> <%= username %> <space><space>
-        <button class='btn btn-xs hist-team'> View Team History </button>
-        <button class='btn btn-xs rm-team'> Remove Team From Course </button>  <space><space><br />
+        <label>Team Name: </label> <%= first_name %>
+        <label>Login: </label> <%= username %>
+        <button class='btn btn-xs btn-default pull-right hist-team'> View Team History </button>
+        <button class='btn btn-xs btn-default pull-right rm-team'> Remove Team From Course </button>
     </script>
     
 
@@ -62,8 +68,8 @@
             <label>Email: </label>
             <input type="text" placeholder="Email: " class="edt-email" value="<%= email %>" />
         </span>
-        <button class='btn btn-xs save-edit-student'> Save Changes </button>  
-        <button class='btn btn-xs  cncl-edit-std'>Cancel</button>       
+        <button class='btn btn-xs btn-default save-edit-student'> Save Changes </button>  
+        <button class='btn btn-xs  btn-default cncl-edit-std'>Cancel</button>       
         <br />
     </form>
     </script>
@@ -75,7 +81,7 @@
         <label>Team Name: </label>
         <input type="text" placeholder="Team Name" class="edt-team-name" value="<%= first_name %>" />
         <space><space>
-        <button class='btn btn-xs save-edit-student'> Save Changes </button>  <br />
+        <button class='btn btn-xs btn-default save-edit-student'> Save Changes </button>  <br />
     </form>
     </script>
 
