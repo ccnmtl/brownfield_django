@@ -39,10 +39,10 @@ class CourseViewSet(viewsets.ModelViewSet):
 
         if self.request.user.profile.is_student():
             queryset = Course.objects.none()
-        if self.request.user.profile.is_teacher():
+        elif self.request.user.profile.is_teacher():
             queryset = Course.objects.filter(
                 professor=self.request.user).order_by('name')
-        if self.request.user.profile.is_admin():
+        elif self.request.user.profile.is_admin():
             queryset = Course.objects.filter(archive=False).order_by('name')
         return queryset
 
@@ -66,10 +66,8 @@ class DocumentViewSet(viewsets.ModelViewSet):
         elif up.is_admin() or up.is_teacher():
             if course_pk is not None:
                 queryset = Document.objects.filter(course__pk=course_pk)
-            if doc_pk is not None:
+            elif doc_pk is not None:
                 queryset = Document.objects.filter(pk=doc_pk)
-        else:
-            queryset = Document.objects.none()
         return queryset
 
 

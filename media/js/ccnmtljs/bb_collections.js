@@ -46,8 +46,7 @@ var CourseCollection = Backbone.Collection.extend({
 	 model: Course,
 	 urlRoot: '/api/course/',
 	 url: function() {
-	     var url = this.urlRoot;
-	     return url;
+	     return this.urlRoot;
 	 },
 	 initialize : function(options) {
 	     if (options && 'exclude_username' in options) {

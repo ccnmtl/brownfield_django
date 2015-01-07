@@ -47,10 +47,6 @@ var DocumentView = BaseItemView.extend({
     		this.model.save({
                 success: function(model, response) 
                 {
-                    //'''This does not appear to be called...'''
-                    console.log("Inside success function...");
-                    console.log(model);
-                    console.log(response);
                 },
                 error: function(model, response)
                 {

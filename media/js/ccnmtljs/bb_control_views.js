@@ -119,7 +119,6 @@ var ManageInstructorsView = Backbone.View.extend({
     },
 
     addInstructor: function(evt) {
-        console.log("Inside addInstructor");
     	evt.stopPropagation();
     	this.instructor_collection_view.instructor_collection.create(
     		{
@@ -291,11 +290,9 @@ var TeamControlView = Backbone.View.extend({
     },
     
     showError: function() {
-		console.log("showError called");
     },
     
     showSuccess: function() {
-		console.log("showSuccess called");
     }
     
 });// End TeamControlView  
