@@ -3,12 +3,13 @@
 
 <div class="courses">
     <div class='user_courses'>
-        <div class="course_controls">
-            <button class="add-crs">
-            Add New Course
-            </button>
+        <div class="course-creation-area">
+            <div class='course-header'>
+                <span style='font-size:xx-large;'>Courses</span>
+                <button class="btn btn-default add-crs pull-right">Add New Course</button>
+            </div>
             <div class='accoridion'>
-            <form id="create-course-form" method="" action="" style="display: none;">
+              <form id="create-course-form" method="" action="" style="display: none;">
                 {% csrf_token %}
                 <p id="frm-title"> <b><u>Add New Course: </u></b></p>
                 <span class="course-name-block">
@@ -35,20 +36,19 @@
                	        </select><br />
                 {% endif %}
                 </span>
-                <input type="submit" value="Save Course" class="submit"/>
-                <button class='cncl-add-crs' type="button">
+                <input type="submit" value="Save Course" class="submit btn btn-default"/>
+                <button class='btn btn-default cncl-add-crs' type="button">
                     Cancel
                 </button>
-            </form>
-            </div>
-        </div>
+              </form> 
+            </div> <!-- End .accordion -->
+        </div> <!-- End .course_controls -->
         {% if request.user.profile.is_admin %}
             <h3>All Brownfield Courses</h3>
             <div class="all_brwn_courses">
             </div>
         {% endif %}
         {% if request.user.profile.is_teacher %}
-            <h3>Your Courses</h3>
             <div id="userlist" >
             <!-- All user courses will be inserted here -->
             </div>
@@ -79,7 +79,7 @@
                 <label>Email: </label>
                 <input type="text" placeholder="Email: " class="instructor-email" />
             </span>
-            <button class='btn btn-xs save-instructor'> Save Instructor </button>
+            <button class='btn btn-default btn-xs save-instructor'> Save Instructor </button>
         </form>
 
         <div class="instructor-list" >

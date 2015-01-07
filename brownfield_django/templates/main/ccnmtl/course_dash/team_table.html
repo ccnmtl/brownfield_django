@@ -1,13 +1,23 @@
     <div class="course-teams">
-        <h3>Your Current Teams and Team Members are:</h3>
-        {% for team in object.get_teams %}
-            <b>{{team}}</b>        
-                {% for student in team.get_team_members %}
-                    <p>{{student.display_name}}</p>
-                {% empty %}
+        <h3>Your Current Teams and Team Members</h3>
+        <br /> <br />
+        
+          <table id="team_table" class="table" style="width:100%">
+            {% for team in object.get_teams %} 
+              <tr class='team'>
+                <td class='team_name'>
+                  <b>{{team}}</b>
+                </td>
+                <td class='team_members'>
+                  {% for student in team.get_team_members %}
+                    {{student.display_name}}
+                  {% empty %}
                     <p>There are no students in this team.</p>
-                {% endfor %}
-        {% empty %}
-            <p>There are no teams in the course yet, please add teams and students and activate them.</p>
-        {% endfor %}
+                  {% endfor %}
+                </td></tr>
+            {% empty %}
+              <p>There are no teams in the course yet, please add teams and students and activate them.</p></tr>
+          {% endfor %}
+        </table>
     </div>
+    

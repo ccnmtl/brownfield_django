@@ -67,12 +67,9 @@ class LoggedInMixinSuperuser(object):
 class PasswordMixin(object):
 
     def get_password(self):
-        print "Inside get password"
         char_digits = letters + digits
         self.passwd = ''
         for x in range(0, 7):
             add_char = random.choice(char_digits)
             self.passwd = self.passwd + add_char
-        print "self.passwd"
-        print self.passwd
         return self.passwd

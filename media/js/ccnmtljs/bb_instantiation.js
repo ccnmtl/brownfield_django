@@ -1,18 +1,14 @@
 jQuery(document).ready(function () {
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> bb_views
 	var course = jQuery("input[name='crs-id']").val();
 
     var student_control_view = new StudentControlView({
-        el: jQuery('.student_controls'),
+        el: jQuery('.team-creation-area'),
         course: course
     });
 
     var team_control_view = new TeamControlView({
-        el: jQuery('.team_controls'),
+        el: jQuery('.team-creation-area'),
         course: course
     });
 

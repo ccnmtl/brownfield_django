@@ -99,10 +99,10 @@ var CourseView = BaseItemView.extend({
    	},
     	
    	events: {
+   	    'click .course_name' : 'courseDetails',
    	    'click .edit-crs' : 'showEditForm',
    	    'click .save-edit-course' : 'editCourse',
-   	    'click .cncl-edit-crs' : 'hideEditForm',
-   		'click .destroy' : 'clear'
+   	    'click .cncl-edit-crs' : 'hideEditForm'
    	},
     	
     render: function ()
@@ -176,7 +176,12 @@ var CourseView = BaseItemView.extend({
                 },
                 wait: true
             });//end save
-        }
+        }//end if
+    },// end editCourse
+    
+    courseDetails: function ()
+    {
+        window.location.href = '/course_details/' + this.model.get('id')  + '/';  
     }
 });// End CourseView
 
