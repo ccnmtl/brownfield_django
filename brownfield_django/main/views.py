@@ -127,18 +127,17 @@ class StudentViewSet(viewsets.ModelViewSet):
             '''For some reason update failed'''
             return Response({"success": False})
 
-    def destroy(self, request, pk=None):
-        student = User.objects.get(pk=pk)
-        student.delete()
-        return Response(status.HTTP_200_OK)
-
     def get_queryset(self):
         course_pk = self.request.QUERY_PARAMS.get('course', None)
+        usr_pk = self.kwargs.get('pk', None)
         if course_pk is not None:
             students = UserProfile.objects.filter(course__pk=course_pk,
                                                   profile_type='ST')
             queryset = User.objects.filter(
                 profile__in=students).order_by('first_name')
+        elif usr_pk is not None:
+            #doesn't seem to like .get but .filter is 
+            queryset = User.objects.filter(pk=usr_pk)
         else:
             '''Is it safe to assume there are no students
             if something goes wrong.'''
@@ -203,11 +202,6 @@ class InstructorViewSet(PasswordMixin, viewsets.ModelViewSet):
             '''For some reason update failed'''
             return Response({"success": False})
 
-    def destroy(self, request, pk=None):
-        instructor = User.objects.get(pk=pk)
-        instructor.delete()
-        return Response(status.HTTP_200_OK)
-
     def get_queryset(self):
         instructors = UserProfile.objects.filter(profile_type='TE')
         queryset = User.objects.filter(profile__in=instructors)
@@ -259,7 +253,6 @@ class TeamViewSet(PasswordMixin, viewsets.ModelViewSet):
         else:
             team_set = Team.objects.all()
             queryset = User.objects.filter(team__in=team_set)
-            #queryset = User.objects.none()
         return queryset
 
 
