@@ -35,18 +35,15 @@ class CourseViewSet(viewsets.ModelViewSet):
         filtering against the request.user
         excluding against an `exclude_username` query parameter in the URL.
         """
+        queryset = Course.objects.none()
+
         if self.request.user.profile.is_student():
-            return Course.objects.none()
-
-        queryset = Course.objects.filter(archive=False).order_by('name')
-
+            queryset = Course.objects.none()
         if self.request.user.profile.is_teacher():
-            return queryset.filter(
+            queryset = Course.objects.filter(
                 professor=self.request.user).order_by('name')
-
         if self.request.user.profile.is_admin():
-            return queryset
-
+            queryset = Course.objects.filter(archive=False).order_by('name')
         return queryset
 
 
@@ -61,16 +58,19 @@ class DocumentViewSet(viewsets.ModelViewSet):
         '''
         course_pk = self.request.QUERY_PARAMS.get('course', None)
         doc_pk = self.kwargs.get('pk', None)
+        up = self.request.user.profile
+        queryset = Document.objects.none()
 
-        if course_pk is not None:
-            queryset = Document.objects.filter(course__pk=course_pk)
-            return queryset
-        if doc_pk is not None:
-            queryset = Document.objects.filter(pk=doc_pk)
-            return queryset
+        if up.is_student():
+            queryset = Document.objects.none()
+        elif up.is_admin() or up.is_teacher():
+            if course_pk is not None:
+                queryset = Document.objects.filter(course__pk=course_pk)
+            if doc_pk is not None:
+                queryset = Document.objects.filter(pk=doc_pk)
         else:
             queryset = Document.objects.none()
-            return queryset
+        return queryset
 
 
 class UserViewSet(viewsets.ModelViewSet):

@@ -200,7 +200,6 @@ var StudentControlView = Backbone.View.extend({
     	e.preventDefault();
     	
     	//there is probably a better way to do this... should also be it's own method like checkBlank
-    	//if((jQuery(".add-std-frm input[class=frst-name").val().length) === 0)
     	if((jQuery(".add-std-frm input.frst-name").val().length) === 0)
     	{
     		if((jQuery(".first-name-box").has('b').length) === 0)
@@ -278,13 +277,8 @@ var TeamControlView = Backbone.View.extend({
 	    {
     	    success: function(model, response) 
     	    {
-                //console.log(model);
-                //console.log(response);
-                //console.log('success');
             },
             error: function(model, response) {
-                //console.log(model);
-                //console.log('error');
             	jQuery(".add-team-frm").append("<p>Something went wrong, please try again.</p>");
             },
 	        wait: true,
