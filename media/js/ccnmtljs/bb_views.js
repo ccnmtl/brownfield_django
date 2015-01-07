@@ -43,7 +43,6 @@ var DocumentView = BaseItemView.extend({
    	{
     	if(this.model.attributes.visible === true)
     	{
-    	    //console.log(this.model.attributes)
     		this.model.set('visible', false);
     		this.model.save({
                 success: function(model, response) 
@@ -59,11 +58,9 @@ var DocumentView = BaseItemView.extend({
                 },
                 wait: true
             });
-    		        //{wait: true});
     	}
     	else if (this.model.attributes.visible === false)
     	{
-    	    //console.log(this.model.attributes)
     		this.model.set('visible', true);
     		this.model.save({
     		        success: function(model, response) 
@@ -74,7 +71,6 @@ var DocumentView = BaseItemView.extend({
                     },
                     wait: true
                 });
-    		        //{wait: true});
     	}
    	},
    	
@@ -100,8 +96,6 @@ var CourseView = BaseItemView.extend({
    	    this.template = _.template(jQuery("#course-list-template").html());
    	    /* As of now cannot think of solution for having the list
    	     * of professors available to the CourseView view and the main ControlView*/
-   	    //this.prof_list = new InstructorCollection();
-        //this.prof_list.fetch({wait: true});
    	},
     	
    	events: {
@@ -199,27 +193,13 @@ var TeamView = BaseItemView.extend({
 
    	events: {
    		'click .rm-team' : 'removeTeam',
-   		'click .hist-team' : 'teamHistory',
-   		//'click .cncl-edit-team' : 'hideEditForm',
-   		//'click .rm-std' : 'removeStudent'
+   		'click .hist-team' : 'teamHistory'
    	},
-   	
-//    hideEditForm: function()
-//    {   
-//    	this.$('#create-edit-form').remove();
-//    },
 
    	removeTeam: function()
    	{
    		this.model.destroy();
     },
-   	
-//    removeStudent: function()
-//    {
-//        //this.model.destroy();
-//        console.log("removeStudent this.model.attributes");
-//        console.log(this.model.attributes);
-//    },
     
    	teamHistory: function()
    	{
@@ -276,7 +256,6 @@ var StudentView = BaseItemView.extend({
             error: function(model, response)
             {
             	alert("An error occured!");
-            	//this.$el.append("<p>Something went wrong, please try again.</p>");
             },
             wait: true
         });//end save
@@ -330,7 +309,6 @@ var InstructorView = BaseItemView.extend({
             error: function(model, response)
             {
             	alert("An error occured!");
-            	//this.$el.append("<p>Something went wrong, please try again.</p>");
             },
             wait: true
         });//end save

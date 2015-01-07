@@ -63,9 +63,6 @@ var CourseCollection = Backbone.Collection.extend({
 	 urlRoot: '/api/course/',
 	 url: function() {
 	     var url = this.urlRoot;
-//	     if (this.exclude_username) {
-//	         url += '?exclude_username=' + this.exclude_username;
-//	     }
 	     return url;
 	 },
 	 initialize : function(options) {
