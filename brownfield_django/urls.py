@@ -6,12 +6,12 @@ from django.views.generic import TemplateView
 from rest_framework import routers
 
 from brownfield_django.main.views import CourseViewSet, UserViewSet, \
-    DocumentViewSet, StudentViewSet
-from brownfield_django.main.views import HomeView, AdminTeamView, \
+    DocumentViewSet, StudentViewSet, TeamViewSet, InstructorViewSet
+from brownfield_django.main.views import HomeView, \
     CCNMTLHomeView, CCNMTLCourseDetail, \
     TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView, \
     BrownfieldInfoView, BrownfieldHistoryView, BrownfieldTestView, \
-    TeamHistoryView, TeamInfoView, TeamPerformTest, InstructorViewSet, \
+    TeamHistoryView, TeamInfoView, TeamPerformTest, \
     TeamCSV, ShowProfessorsView
 
 
@@ -44,6 +44,8 @@ router.register(r'user', UserViewSet)
 router.register(r'document', DocumentViewSet)
 router.register(r'student', StudentViewSet)
 router.register(r'instructor', InstructorViewSet)
+# flash uses team in url, this is router for team on dashboard
+router.register(r'eteam', TeamViewSet)
 
 urlpatterns = patterns(
     '',
@@ -56,8 +58,6 @@ urlpatterns = patterns(
                                namespace='rest_framework')),
     (r'^$', HomeView.as_view()),
     (r'^ccnmtl/home/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
-    (r'^admin_team/$', AdminTeamView.as_view()),
-    (r'^admin_team/(?P<pk>\d+)/$', AdminTeamView.as_view()),
     (r'^course_details/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
     (r'^activate_course/(?P<pk>\d+)/$', ActivateCourseView.as_view()),
     (r'^edit_teams/(?P<pk>\d+)/$', EditTeamsView.as_view()),

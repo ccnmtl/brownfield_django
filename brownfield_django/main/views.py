@@ -1,12 +1,9 @@
 import csv
 import json
-import random
-
-from string import letters, digits
 
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect
 from django.http.response import HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.template import loader
@@ -14,22 +11,18 @@ from django.template.context import Context
 from django.views.generic import View
 from django.views.generic.detail import DetailView
 
-from rest_framework import status, viewsets  # , generics
-from rest_framework.authentication import SessionAuthentication, \
-    BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import status, viewsets
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from brownfield_django.main.models import Course, UserProfile, Document, \
     Team, History, Information, PerformedTest
 from brownfield_django.main.serializers import DocumentSerializer, \
     UserSerializer, TeamUserSerializer, CourseSerializer, \
-    StudentUserSerializer, StudentMUserSerializer  # , TeamMemberSerializer
+    StudentUserSerializer, StudentMUserSerializer
 
 from brownfield_django.main.xml_strings import INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
-    CSRFExemptMixin
+    CSRFExemptMixin, PasswordMixin
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -46,11 +39,9 @@ class CourseViewSet(viewsets.ModelViewSet):
 
         if self.request.user.profile.is_student():
             queryset = Course.objects.none()
-
         if self.request.user.profile.is_teacher():
             queryset = Course.objects.filter(
                 professor=self.request.user).order_by('name')
-
         if self.request.user.profile.is_admin():
             queryset = Course.objects.filter(archive=False).order_by('name')
         return queryset
@@ -157,19 +148,11 @@ class StudentViewSet(viewsets.ModelViewSet):
         return queryset
 
 
-class InstructorViewSet(viewsets.ModelViewSet):
+class InstructorViewSet(PasswordMixin, viewsets.ModelViewSet):
     '''This could probably be combined with StudentViewSet
     not sure though.'''
     queryset = User.objects.filter(profile__profile_type='TE')
     serializer_class = StudentUserSerializer
-
-    def get_password(self):
-        char_digits = letters + digits
-        passwd = ''
-        for x in range(0, 7):
-            add_char = random.choice(char_digits)
-            passwd = passwd + add_char
-        return passwd
 
     def send_instructor_email(self, instructor, profile):
         '''Send instructor their credentials'''
@@ -232,78 +215,53 @@ class InstructorViewSet(viewsets.ModelViewSet):
         return queryset
 
 
-class AdminTeamView(APIView):
-    """
-    This view interacts with backbone to allow instructors to
-    view and add teams to their course. Will also probably be where
-    logic for keeping track of which students are where will be.
-    """
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
+class TeamViewSet(PasswordMixin, viewsets.ModelViewSet):
+    '''Finally moving team to viewset instead of API View'''
+    team_set = Team.objects.all()
+    queryset = User.objects.filter(team__in=team_set)
+    serializer_class = TeamUserSerializer
 
-    def get_object(self, pk):
+    def create(self, request):
         try:
-            return Course.objects.get(pk=pk)
-        except Course.DoesNotExist:
-            raise Http404
+            key = self.request.QUERY_PARAMS.get('course', None)
+            course = Course.objects.get(pk=key)
+            team_name = request.DATA['team_name']
+            '''creating team with no attributes first so we can
+            create a unique username for user based on team pk'''
+            team = Team.objects.create(course=course,
+                                       budget=course.startingBudget)
+            user = User.objects.create(username=team_name + "_" + str(team.pk))
+            user.first_name = team_name
+            tmpasswd = self.get_password()
+            user.set_password(tmpasswd)
+            team.user = user
+            team.team_passwd = tmpasswd
+            team.save()
+            user.save()
+            serializer = TeamUserSerializer(user)
+            return Response(serializer.data, status.HTTP_201_CREATED)
+        except:
+            # is it considered good practice to return serializer.data
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    def get_password(self):
-        char_digits = letters + digits
-        passwd = ''
-        for x in range(0, 7):
-            add_char = random.choice(char_digits)
-            passwd = passwd + add_char
-        return passwd
-
-    def get(self, request, pk):
+    def get_queryset(self):
         '''Send back all teams currently in course.'''
-        course = self.get_object(pk)
-        try:
+        course_pk = self.request.QUERY_PARAMS.get('course', None)
+        team_pk = self.kwargs.get('pk', None)
+
+        if course_pk is not None:
+            course = Course.objects.get(pk=course_pk)
             teamprofiles = course.get_teams()
-            teams = User.objects.filter(team__in=teamprofiles)
-            serializer = TeamUserSerializer(teams, many=True)
-            return Response(serializer.data)
-        except:
-            '''Assume collection is currently empty'''
-            return Response(status.HTTP_200_OK)
-
-    def post(self, request, pk):
-        '''
-        Create a team and auto generate unique username and password.
-        Set starting team budget to the initial budget set for the course.
-        '''
-        course = self.get_object(pk)
-        team_name = request.DATA['team_name']
-        '''creating team with no attributes first so we can
-        create a unique username for user based on team pk'''
-        team = Team.objects.create(course=course, budget=course.startingBudget)
-        user = User.objects.create(username=team_name + "_" + str(team.pk))
-        user.first_name = team_name
-        tmpasswd = self.get_password()
-        user.set_password(tmpasswd)
-        team.user = user
-        team.team_passwd = tmpasswd
-        team.save()
-        user.save()
-        try:
-            '''Is there a better way to check that the team was created?'''
-            new_user = User.objects.get(
-                first_name=team_name, username=team_name + "_" + str(team.pk))
-            serializer = TeamUserSerializer(new_user)
-            return Response(serializer.data,
-                            status=status.HTTP_201_CREATED)
-        except:
-            '''For some reason user was not created'''
-            return Response(serializer.data,
-                            status=status.HTTP_400_BAD_REQUEST)
+            queryset = User.objects.filter(team__in=teamprofiles)
+            return queryset
+        if team_pk is not None:
+            queryset = Document.objects.filter(pk=team_pk)
+            return queryset
         else:
-            return Response(serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk=None):
-        team = User.objects.get(pk=pk)
-        team.delete()
-        return Response(status.HTTP_200_OK)
+            team_set = Team.objects.all()
+            queryset = User.objects.filter(team__in=team_set)
+            #queryset = User.objects.none()
+        return queryset
 
 
 class HomeView(LoggedInMixin, View):
@@ -317,9 +275,6 @@ class HomeView(LoggedInMixin, View):
             if user_profile.is_admin():
                 url = '/ccnmtl/home/%s/' % (user_profile.id)
         except UserProfile.DoesNotExist:
-            # pass  # we need to see if user is a team
-            # '''We are not allowing users to register.'''
-            # return HttpResponseForbidden("forbidden")
             try:
                 team = Team.objects.get(user=request.user.pk)
                 url = '/team/home/%s/' % (team.id)

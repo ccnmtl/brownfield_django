@@ -181,8 +181,6 @@ var CourseView = BaseItemView.extend({
 });// End CourseView
 
 
-
-
 var TeamView = BaseItemView.extend({
 	
    	initialize: function (options) {
@@ -325,8 +323,6 @@ var InstructorView = BaseItemView.extend({
 
 
 var CourseListView = Backbone.View.extend({
-	   
-    tagName : 'ul',
     
     initialize: function (options)
     {
@@ -358,8 +354,6 @@ var CourseListView = Backbone.View.extend({
 
 var DocumentListView = Backbone.View.extend({
 
-    tagName : 'ul',
-
     initialize: function (options)
     {
         _.bindAll(this, 'initialRender');
@@ -385,8 +379,6 @@ var DocumentListView = Backbone.View.extend({
 
 
 var StudentListView = Backbone.View.extend({
-
-    tagName : 'ul',
 
     initialize: function (options)
     {
@@ -418,8 +410,6 @@ var StudentListView = Backbone.View.extend({
 
 var TeamListView = Backbone.View.extend({
 
-    tagName : 'ul',
-
     initialize: function (options)
     {
     	_.bindAll(this, 'initialRender', 'addTeam');
@@ -449,8 +439,6 @@ var TeamListView = Backbone.View.extend({
 
 
 var InstructorListView = Backbone.View.extend({
-	
-    tagName : 'ul',
     
     initialize: function (options)
     {

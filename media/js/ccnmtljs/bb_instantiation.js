@@ -1,5 +1,9 @@
 jQuery(document).ready(function () {
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> bb_views
 	var course = jQuery("input[name='crs-id']").val();
 
     var student_control_view = new StudentControlView({
