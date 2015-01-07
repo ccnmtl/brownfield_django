@@ -1,3 +1,4 @@
+from django.core import mail
 from django.test import TestCase
 from django.test.client import Client
 
@@ -357,3 +358,6 @@ class TestStudentRestViews(APITestCase):
                                           str(response.data[0]['id']) +
                                           '/', format='json')
         self.assertEqual(new_response.status_code, status.HTTP_200_OK)
+
+
+class TestCreateInstructor(APITestCase):

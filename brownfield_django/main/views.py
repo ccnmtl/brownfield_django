@@ -175,6 +175,7 @@ class InstructorViewSet(PasswordMixin, viewsets.ModelViewSet):
                 last_name=request.DATA['last_name'],
                 email=request.DATA['email'])
             tmpasswd = self.get_password()
+            #print tmpasswd
             instructor.set_password(tmpasswd)
             instructor.save()
             new_profile = UserProfile.objects.create(user=instructor,
