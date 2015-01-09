@@ -1,9 +1,9 @@
-# from django.core import mail
+from django.core import mail
 from django.test import TestCase
 from django.test.client import Client
 
 from factories import UserProfileFactory, UserFactory, \
-    CourseFactory
+    CourseFactory, TeamFactory
 
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -424,3 +424,83 @@ class TestTeamRestViews(APITestCase):
                                               '/', format='json')
         self.assertEqual(another_response.status_code,
                          status.HTTP_204_NO_CONTENT)
+
+
+class TestNotifyStudentsView(TestCase):
+
+    def setUp(self):
+        ''' Teacher has created a course with students and teams,
+        and now wishes to activate the course/notify students. This view
+        should email all of the students in the course notifying them of which
+        team they are in and how to log in to the site.'''
+        self.client = Client()
+        self.teacher = UserProfileFactory(user=UserFactory(username='teacher'),
+                                          profile_type='TE')
+        self.admin = UserProfileFactory(user=UserFactory(username='admin'),
+                                        profile_type='AD')
+        self.course = CourseFactory(professor=self.admin.user,
+                                    name='TestCourse')
+        self.team_one = TeamFactory(
+            user=UserFactory(
+                username='uniq_team_one', first_name='TeamOne'),
+            team_passwd="Test_Team", course=self.course)
+        self.team_two = TeamFactory(
+            user=UserFactory(
+                username='uniq_team_two', first_name='TeamTwo'),
+            team_passwd="Test_Team", course=self.course)
+        self.student_one = UserProfileFactory(
+            user=UserFactory(
+                username='student_one', first_name='astudent',
+                last_name='student_one', email='student_one@email.com'),
+            profile_type='ST', course=self.course)
+        self.student_two = UserProfileFactory(
+            user=UserFactory(
+                username='student_two', first_name='bstudent',
+                last_name='student_two', email='student_two@email.com'),
+            profile_type='ST', course=self.course)
+        self.student_three = UserProfileFactory(
+            user=UserFactory(
+                username='student_three', first_name='cstudent',
+                last_name='student_three', email='student_three@email.com'),
+            profile_type='ST', course=self.course)
+        self.student_four = UserProfileFactory(
+            user=UserFactory(
+                username='student_four', first_name='dstudent',
+                last_name='student_four', email='student_four@email.com'),
+            profile_type='ST', course=self.course)
+
+    def test_emails_sent_to_students(self):
+        ''' Post the table of students and teams, make sure the view
+        sends an email for each student '''
+        self.client.login(username=self.admin.user.username, password="test")
+        response = self.client.post(
+            '/activate_course/' + str(self.course.pk) + '/',
+            {u'student_list': [u'[{ "student": {"pk":"' +
+             str(self.student_one.user.pk) + '"' +
+             ',"first_name":"' + str(self.student_one.user.first_name) + '"' +
+             ',"last_name":"' + str(self.student_one.user.last_name) + '"' +
+             ',"email":"' + str(self.student_one.user.email) + '"' +
+             ',"team_id":"' + str(self.team_one.pk) + '"' +
+             ',"team_name":"' + str(self.team_one.user.username) + '"}},{' +
+             '"student": {"pk":"' + str(self.student_two.user.pk) + '"' +
+             ',"first_name":"' + str(self.student_two.user.first_name) + '"' +
+             ',"last_name":"' + str(self.student_two.user.last_name) + '"' +
+             ',"email":"' + str(self.student_two.user.email) + '"' +
+             ',"team_id":"' + str(self.team_one.pk) + '"' +
+             ',"team_name":"' + str(self.team_one.user.username) + '"}},{' +
+             '"student": {"pk":"' + str(self.student_three.user.pk) + '"' +
+             ',"first_name":"' + str(self.student_three.user.first_name) +
+             '"' + ',"last_name":"' + str(self.student_three.user.last_name) +
+             '"' + ',"email":"' + str(self.student_three.user.email) + '"' +
+             ',"team_id":"' + str(self.team_two.pk) + '"' +
+             ',"team_name":"' + str(self.team_two.user.username) + '"}},{' +
+             '"student": {"pk":"' + str(self.student_four.user.pk) + '"' +
+             ',"first_name":"' + str(self.student_four.user.first_name) +
+             '"' + ',"last_name":"' + str(self.student_four.user.last_name) +
+             '"' + ',"email":"' + str(self.student_four.user.email) + '"' +
+             ',"team_id":"' + str(self.team_two.pk) + '"' +
+             ',"team_name":"' + str(self.team_two.user.username) + '"}}]']},
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(mail.outbox), 4)
+        self.assertEqual(mail.outbox[0].subject, "Welcome to Brownfield!")
