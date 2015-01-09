@@ -136,7 +136,7 @@ class StudentViewSet(viewsets.ModelViewSet):
             queryset = User.objects.filter(
                 profile__in=students).order_by('first_name')
         elif usr_pk is not None:
-            #doesn't seem to like .get but .filter is 
+            #doesn't seem to like .get but .filter is
             queryset = User.objects.filter(pk=usr_pk)
         else:
             '''Is it safe to assume there are no students

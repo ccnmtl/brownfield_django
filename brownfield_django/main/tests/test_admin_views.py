@@ -1,4 +1,4 @@
-from django.core import mail
+# from django.core import mail
 from django.test import TestCase
 from django.test.client import Client
 
@@ -346,7 +346,7 @@ class TestStudentRestViews(APITestCase):
         new_response = self.client.delete('/api/student/' +
                                           str(response.data[0]['id']) +
                                           '/', format='json')
-        self.assertEqual(new_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(new_response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_delete_student_as_teacher(self):
         ''' Delete student as teacher '''
@@ -357,7 +357,70 @@ class TestStudentRestViews(APITestCase):
         new_response = self.client.delete('/api/student/' +
                                           str(response.data[0]['id']) +
                                           '/', format='json')
-        self.assertEqual(new_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(new_response.status_code, status.HTTP_204_NO_CONTENT)
 
 
-class TestCreateInstructor(APITestCase):
+class TestTeamRestViews(APITestCase):
+    '''Test team related urls and methods, has GET, PUT/update,
+    POST/create, DELETE/destroy'''
+
+    def setUp(self):
+        ''' Test that teachers and admins can view and add teams. Team
+        nare '''
+        self.client = APIClient()
+        self.admin = UserProfileFactory(user=UserFactory(username='admin'),
+                                        profile_type='AD')
+        self.teacher = UserProfileFactory(user=UserFactory(username='teacher'),
+                                          profile_type='TE')
+        self.course = CourseFactory(professor=self.teacher.user,
+                                    name='TestCourse')
+
+    def test_teacher_get_create_delete_teams(self):
+        ''' Any teams in the course will be returned via GET '''
+        self.client.login(username=self.teacher.user.username, password="test")
+        response = self.client.get('/api/eteam/?course=' +
+                                   str(self.course.pk), format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        ''' No teams have been added so test response.data should be empty '''
+        self.assertEqual(response.data, [])
+        ''' Test that teacher can create students for teacher's course. '''
+        self.client.login(username=self.teacher.user.username, password="test")
+        new_response = self.client.post(
+            '/api/eteam/?course=' + str(self.course.pk),
+            {'team_name': 'SomeTeam'}, format='json')
+        self.assertEqual(new_response.status_code, status.HTTP_201_CREATED)
+        ''' After team is created, it should return the team's data,
+        which consists of 3 attributes - the teams given name, teams auto-
+        generated name, and the team id '''
+        self.assertEqual(len(new_response.data), 3)
+        self.assertEqual(new_response.data['first_name'], u'SomeTeam')
+        ''' Delete team as teacher '''
+        another_response = self.client.delete('/api/eteam/' +
+                                              str(new_response.data['id']) +
+                                              '/', format='json')
+        self.assertEqual(another_response.status_code,
+                         status.HTTP_204_NO_CONTENT)
+
+    def test_admin_get_create_delete_teams(self):
+        ''' Any teams in the course will be returned via GET '''
+        self.client.login(username=self.admin.user.username, password="test")
+        response = self.client.get('/api/eteam/?course=' +
+                                   str(self.course.pk), format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        ''' No teams have been added so test response.data should be empty'''
+        self.assertEqual(response.data, [])
+        ''' Testing that admin can create teams for a course. '''
+        new_response = self.client.post(
+            '/api/eteam/?course=' + str(self.course.pk),
+            {'team_name': 'SomeTeam'}, format='json')
+        self.assertEqual(new_response.status_code, status.HTTP_201_CREATED)
+        ''' After team is created, it should return the team's data,
+        which is 3 attrinutes '''
+        self.assertEqual(len(new_response.data), 3)
+        self.assertEqual(new_response.data['first_name'], u'SomeTeam')
+        ''' Delete team as admin '''
+        another_response = self.client.delete('/api/eteam/' +
+                                              str(new_response.data['id']) +
+                                              '/', format='json')
+        self.assertEqual(another_response.status_code,
+                         status.HTTP_204_NO_CONTENT)
