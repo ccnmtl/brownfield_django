@@ -174,7 +174,6 @@ class InstructorViewSet(PasswordMixin, viewsets.ModelViewSet):
                 last_name=request.DATA['last_name'],
                 email=request.DATA['email'])
             tmpasswd = self.get_password()
-            #print tmpasswd
             instructor.set_password(tmpasswd)
             instructor.save()
             new_profile = UserProfile.objects.create(user=instructor,
@@ -291,7 +290,6 @@ class ActivateCourseView(CSRFExemptMixin, JSONResponseMixin, View):
 
     def post(self, request, pk):
         '''This is really really ugly as is get method need to clean up.'''
-        print request.POST
         student_list = json.loads(request.POST['student_list'])
         for student in student_list:
             team = Team.objects.get(pk=student['student']['team_id'])
