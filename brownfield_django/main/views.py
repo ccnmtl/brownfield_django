@@ -94,7 +94,7 @@ class StudentViewSet(UniqUsernameMixin, viewsets.ModelViewSet):
 
     def create(self, request):
         up = self.request.user.profile
-        if up.is_teacher() or up.is_admin(): 
+        if up.is_teacher() or up.is_admin():
             try:
                 key = self.request.QUERY_PARAMS.get('course', None)
                 course = Course.objects.get(pk=key)
@@ -210,6 +210,7 @@ class InstructorViewSet(UniqUsernameMixin,
             return Response(status=status.HTTP_403_FORBIDDEN)
 
     def update(self, request, pk=None):
+        up = self.request.user.profile
         if up.is_student() or up.is_teacher():
             return Response(status=status.HTTP_403_FORBIDDEN)
         elif up.is_admin():

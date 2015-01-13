@@ -82,10 +82,11 @@ class UniqUsernameMixin(object):
         create_name = first_name + last_name
         name = create_name
         '''Usernames cannot be longer than 30 characters'''
-        if len(name) > 29 :
+        if len(name) > 29:
             '''get last characters of long name'''
             name = create_name[:-29]
-        if User.objects.filter(username=name).exists():
+        ex_user = User.objects.get(username=name)
+        if ex_user.exists():
             '''In the unlikely case that the username already exists,
             take last 6 characters of the name and add an underscore
             followed by 5 random characters or digits'''
