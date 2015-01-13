@@ -1,8 +1,9 @@
+from django.core import mail
 from django.test import TestCase
 from django.test.client import Client
 
 from factories import UserProfileFactory, UserFactory, \
-    CourseFactory
+    CourseFactory, TeamFactory
 
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -345,7 +346,7 @@ class TestStudentRestViews(APITestCase):
         new_response = self.client.delete('/api/student/' +
                                           str(response.data[0]['id']) +
                                           '/', format='json')
-        self.assertEqual(new_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(new_response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_delete_student_as_teacher(self):
         ''' Delete student as teacher '''
@@ -356,4 +357,150 @@ class TestStudentRestViews(APITestCase):
         new_response = self.client.delete('/api/student/' +
                                           str(response.data[0]['id']) +
                                           '/', format='json')
-        self.assertEqual(new_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(new_response.status_code, status.HTTP_204_NO_CONTENT)
+
+
+class TestTeamRestViews(APITestCase):
+    '''Test team related urls and methods, has GET, PUT/update,
+    POST/create, DELETE/destroy'''
+
+    def setUp(self):
+        ''' Test that teachers and admins can view and add teams. Team
+        nare '''
+        self.client = APIClient()
+        self.admin = UserProfileFactory(user=UserFactory(username='admin'),
+                                        profile_type='AD')
+        self.teacher = UserProfileFactory(user=UserFactory(username='teacher'),
+                                          profile_type='TE')
+        self.course = CourseFactory(professor=self.teacher.user,
+                                    name='TestCourse')
+
+    def test_teacher_get_create_delete_teams(self):
+        ''' Any teams in the course will be returned via GET '''
+        self.client.login(username=self.teacher.user.username, password="test")
+        response = self.client.get('/api/eteam/?course=' +
+                                   str(self.course.pk), format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        ''' No teams have been added so test response.data should be empty '''
+        self.assertEqual(response.data, [])
+        ''' Test that teacher can create students for teacher's course. '''
+        self.client.login(username=self.teacher.user.username, password="test")
+        new_response = self.client.post(
+            '/api/eteam/?course=' + str(self.course.pk),
+            {'team_name': 'SomeTeam'}, format='json')
+        self.assertEqual(new_response.status_code, status.HTTP_201_CREATED)
+        ''' After team is created, it should return the team's data,
+        which consists of 3 attributes - the teams given name, teams auto-
+        generated name, and the team id '''
+        self.assertEqual(len(new_response.data), 3)
+        self.assertEqual(new_response.data['first_name'], u'SomeTeam')
+        ''' Delete team as teacher '''
+        another_response = self.client.delete('/api/eteam/' +
+                                              str(new_response.data['id']) +
+                                              '/', format='json')
+        self.assertEqual(another_response.status_code,
+                         status.HTTP_204_NO_CONTENT)
+
+    def test_admin_get_create_delete_teams(self):
+        ''' Any teams in the course will be returned via GET '''
+        self.client.login(username=self.admin.user.username, password="test")
+        response = self.client.get('/api/eteam/?course=' +
+                                   str(self.course.pk), format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        ''' No teams have been added so test response.data should be empty'''
+        self.assertEqual(response.data, [])
+        ''' Testing that admin can create teams for a course. '''
+        new_response = self.client.post(
+            '/api/eteam/?course=' + str(self.course.pk),
+            {'team_name': 'SomeTeam'}, format='json')
+        self.assertEqual(new_response.status_code, status.HTTP_201_CREATED)
+        ''' After team is created, it should return the team's data,
+        which is 3 attrinutes '''
+        self.assertEqual(len(new_response.data), 3)
+        self.assertEqual(new_response.data['first_name'], u'SomeTeam')
+        ''' Delete team as admin '''
+        another_response = self.client.delete('/api/eteam/' +
+                                              str(new_response.data['id']) +
+                                              '/', format='json')
+        self.assertEqual(another_response.status_code,
+                         status.HTTP_204_NO_CONTENT)
+
+
+class TestNotifyStudentsView(TestCase):
+
+    def setUp(self):
+        ''' Teacher has created a course with students and teams,
+        and now wishes to activate the course/notify students. This view
+        should email all of the students in the course notifying them of which
+        team they are in and how to log in to the site.'''
+        self.client = Client()
+        self.teacher = UserProfileFactory(user=UserFactory(username='teacher'),
+                                          profile_type='TE')
+        self.admin = UserProfileFactory(user=UserFactory(username='admin'),
+                                        profile_type='AD')
+        self.course = CourseFactory(professor=self.admin.user,
+                                    name='TestCourse')
+        self.team_one = TeamFactory(
+            user=UserFactory(
+                username='uniq_team_one', first_name='TeamOne'),
+            team_passwd="Test_Team", course=self.course)
+        self.team_two = TeamFactory(
+            user=UserFactory(
+                username='uniq_team_two', first_name='TeamTwo'),
+            team_passwd="Test_Team", course=self.course)
+        self.student_one = UserProfileFactory(
+            user=UserFactory(
+                username='student_one', first_name='astudent',
+                last_name='student_one', email='student_one@email.com'),
+            profile_type='ST', course=self.course)
+        self.student_two = UserProfileFactory(
+            user=UserFactory(
+                username='student_two', first_name='bstudent',
+                last_name='student_two', email='student_two@email.com'),
+            profile_type='ST', course=self.course)
+        self.student_three = UserProfileFactory(
+            user=UserFactory(
+                username='student_three', first_name='cstudent',
+                last_name='student_three', email='student_three@email.com'),
+            profile_type='ST', course=self.course)
+        self.student_four = UserProfileFactory(
+            user=UserFactory(
+                username='student_four', first_name='dstudent',
+                last_name='student_four', email='student_four@email.com'),
+            profile_type='ST', course=self.course)
+
+    def test_emails_sent_to_students(self):
+        ''' Post the table of students and teams, make sure the view
+        sends an email for each student '''
+        self.client.login(username=self.admin.user.username, password="test")
+        response = self.client.post(
+            '/activate_course/' + str(self.course.pk) + '/',
+            {u'student_list': [u'[{ "student": {"pk":"' +
+             str(self.student_one.user.pk) + '"' +
+             ',"first_name":"' + str(self.student_one.user.first_name) + '"' +
+             ',"last_name":"' + str(self.student_one.user.last_name) + '"' +
+             ',"email":"' + str(self.student_one.user.email) + '"' +
+             ',"team_id":"' + str(self.team_one.pk) + '"' +
+             ',"team_name":"' + str(self.team_one.user.username) + '"}},{' +
+             '"student": {"pk":"' + str(self.student_two.user.pk) + '"' +
+             ',"first_name":"' + str(self.student_two.user.first_name) + '"' +
+             ',"last_name":"' + str(self.student_two.user.last_name) + '"' +
+             ',"email":"' + str(self.student_two.user.email) + '"' +
+             ',"team_id":"' + str(self.team_one.pk) + '"' +
+             ',"team_name":"' + str(self.team_one.user.username) + '"}},{' +
+             '"student": {"pk":"' + str(self.student_three.user.pk) + '"' +
+             ',"first_name":"' + str(self.student_three.user.first_name) +
+             '"' + ',"last_name":"' + str(self.student_three.user.last_name) +
+             '"' + ',"email":"' + str(self.student_three.user.email) + '"' +
+             ',"team_id":"' + str(self.team_two.pk) + '"' +
+             ',"team_name":"' + str(self.team_two.user.username) + '"}},{' +
+             '"student": {"pk":"' + str(self.student_four.user.pk) + '"' +
+             ',"first_name":"' + str(self.student_four.user.first_name) +
+             '"' + ',"last_name":"' + str(self.student_four.user.last_name) +
+             '"' + ',"email":"' + str(self.student_four.user.email) + '"' +
+             ',"team_id":"' + str(self.team_two.pk) + '"' +
+             ',"team_name":"' + str(self.team_two.user.username) + '"}}]']},
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(mail.outbox), 4)
+        self.assertEqual(mail.outbox[0].subject, "Welcome to Brownfield!")

@@ -213,7 +213,6 @@ var StudentView = BaseItemView.extend({
 	{
 		_.bindAll(this, 'editStudent', 'hideEditForm');
 		this.template = _.template(jQuery("#student-list-template").html());
-        // need to bind the edit form to the model - when change made to form change model
 		this.listenTo(this.model, 'change', this.render);
 		this.listenTo(this.model, 'destroy', this.remove);
 	},
