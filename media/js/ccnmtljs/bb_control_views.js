@@ -94,6 +94,7 @@ var ManageCoursesView = Backbone.View.extend({
 var ManageInstructorsView = Backbone.View.extend({
     events: {
     	'click .add-instructor-btn': 'showInstructorForm',
+    	'click .cncl-add-inst' : 'hideAddForm',
     	'click .save-instructor': 'addInstructor'
     },
     
@@ -110,6 +111,12 @@ var ManageInstructorsView = Backbone.View.extend({
     showInstructorForm: function(e) {
 		jQuery(".add-instructor-btn").hide();
 		jQuery(".add-instructor-frm").show();
+    },
+    
+    hideAddForm: function()
+    {   
+    	this.$('.add-instructor-frm').css('display', 'none');
+    	jQuery(".add-instructor-btn").show();
     },
     
     onlyLetters: function (check_string){

@@ -280,6 +280,7 @@ var InstructorView = BaseItemView.extend({
    	events: {
    		'click .ed-inst' : 'showEditForm',
    		'click .save-edit-instructor' : 'editInstructor',
+   		'click .cncl-edit-inst' : 'hideEditForm',
    		'click .rm-inst' : 'removeInstructor'
    	},
     
@@ -287,6 +288,12 @@ var InstructorView = BaseItemView.extend({
    	{
    	    var html = _.template(jQuery("#instructor-edit-template").html())(this.model.toJSON());
         this.$el.html(html);
+    },
+    
+    hideEditForm: function(e)
+    {   
+    	e.preventDefault();
+    	this.render();
     },
     
    	editInstructor: function(e)
