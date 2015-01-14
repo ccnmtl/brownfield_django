@@ -49,9 +49,8 @@
     
     {% if request.user.profile.is_admin %}
     <script type="text/template" id="instructor-list-template">
-        <span><%= first_name %> <space><space></span>
-        <span><%= last_name %> <space><space></span>
-        <label for="email">Email:</label><%= email %>
+        <label for="instructor">Instructor: </label><%= first_name %> <%= last_name %>
+        <label for="email">Email: </label><%= email %>
         <button class='btn btn-default btn-xs pull-right ed-inst'> Edit Instructor </button>
         <button class='btn btn-default btn-xs pull-right rm-inst'> Remove Instructor </button>
     </script>
