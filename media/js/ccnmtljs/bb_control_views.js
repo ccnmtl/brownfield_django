@@ -13,8 +13,8 @@ var ManageCoursesView = Backbone.View.extend({
                   'validateForm');
 
         this.options = options;
-        this.course_list_view = new CourseListView();
-        this.course_list_view.fetch({wait: true});
+        this.course_list_view = new CourseListView({el: this.options.listEl});
+        this.course_list_view.course_collection.fetch({wait: true});
         this.user_list = new InstructorCollection();
         this.user_list.fetch({wait: true});
     },
@@ -22,6 +22,7 @@ var ManageCoursesView = Backbone.View.extend({
     showCourseForm: function(e) {
 		jQuery(".add-crs").hide();
 		//how to bind this/make it wait for results from server
+		this.user_list.fetch({wait: true});
 		this.user_list.each(function(model) {
 	        jQuery('#id_professor').append("<option value='" + String(model.attributes.url) + "'>" + 
 	                String(model.attributes.first_name) + 

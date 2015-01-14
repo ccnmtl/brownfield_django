@@ -326,8 +326,10 @@ var CourseListView = Backbone.View.extend({
     
     initialize: function (options)
     {
+    	console.log("Inside course initialize");
     	_.bindAll(this, 'initialRender', 'addCourse');
     	this.course_collection = new CourseCollection(options);
+    	console.log(this.course_collection);
     	this.course_collection.fetch({processData: true, reset: true});
     	this.course_collection.on('reset', this.initialRender);
     	this.course_collection.on('add', this.addCourse);
