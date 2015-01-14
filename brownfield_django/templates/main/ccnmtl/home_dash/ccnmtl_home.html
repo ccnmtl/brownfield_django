@@ -83,15 +83,7 @@
     <script type="text/javascript">
         jQuery(document).ready(function () {
             var control_view = new ManageCoursesView({
-                el: jQuery('.course-creation-area'),
-                {% if request.user.profile.is_teacher %}
-                    elUserCourses: jQuery('.user_courses #userlist'),
-                {% endif %}
-                {% if request.user.profile.is_admin %}
-                    elUserCourses: jQuery('.all_brwn_courses'),
-                {% endif %}
-                
-                user_id: "{{request.user.id}}"
+                el: jQuery('.courses'),
             });
            
            {% if request.user.profile.is_admin %}
