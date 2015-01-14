@@ -49,12 +49,11 @@
     
     {% if request.user.profile.is_admin %}
     <script type="text/template" id="instructor-list-template">
-        <%= first_name %> <space><space>
-        <%= last_name %> <space><space>
-        Email: <%= email %>
-        <button class='btn btn-default btn-xs ed-inst'> Edit Instructor </button>
-        <space><space>
-        <button class='btn btn-default btn-xs rm-inst'> Remove Instructor </button>  <space><space><br />
+        <span><%= first_name %> <space><space></span>
+        <span><%= last_name %> <space><space></span>
+        <label for="email">Email:</label><%= email %>
+        <button class='btn btn-default btn-xs pull-right ed-inst'> Edit Instructor </button>
+        <button class='btn btn-default btn-xs pull-right rm-inst'> Remove Instructor </button>
     </script>
 
 
@@ -75,7 +74,7 @@
             <label>Email: </label>
             <input type="text" placeholder="Email: " class="edt-email" value="<%= email %>" />
         </span>
-        <button class='btn btn-default btn-xs save-edit-instructor'> Save Changes </button>  <br />
+        <button class='btn btn-default btn-xs pull-right save-edit-instructor'> Save Changes </button>
     </form>
     </script>
     {% endif %}
