@@ -43,10 +43,15 @@
     </script>
 
     <script type="text/template" id="team-list-template">
-        <label>Team Name: </label> <%= first_name %>
-        <label>Login: </label> <%= username %>
-        <button class='btn btn-xs btn-default pull-right hist-team'> View Team History </button>
-        <button class='btn btn-xs btn-default pull-right rm-team'> Remove Team From Course </button>
+        <span class="team-name">
+            <label>Team Name: </label> <%= first_name %>
+            <label>Login: </label> <%= username %>
+        </span>
+        <span class="team-buttons" style="display: inline;">
+            <button class='btn btn-xs btn-default pull-right edit-team'> Edit Team </button>
+            <button class='btn btn-xs btn-default pull-right hist-team'> View Team History </button>
+            <button class='btn btn-xs btn-default pull-right rm-team'> Remove Team From Course </button>
+        </span>
     </script>
     
 
@@ -57,12 +62,10 @@
         <span class="sedt-first-name">
             <label>First Name: </label>
             <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> 
-            <space><space>
         </span>
         <span class="sedt-last-name">
             <label>Last Name: </label>
             <input type="text" placeholder="Last Name: " class="edt-last-name" value="<%= last_name %>" /> 
-            <space><space>
         </span>
         <span class="sedt-email">
             <label>Email: </label>
@@ -75,13 +78,16 @@
     </script>
     
     <script type="text/template" id="team-edit-template">
+    <br />
     <form class="edit-team-frm" method="" action="" style="display: inline;">
         {% csrf_token %}
-        <b> Create Team </b>
-        <label>Team Name: </label>
-        <input type="text" placeholder="Team Name" class="edt-team-name" value="<%= first_name %>" />
-        <space><space>
-        <button class='btn btn-xs btn-default save-edit-student'> Save Changes </button>  <br />
+        <span class="edt-team-name">
+            <label>Team Name: </label>
+            <input type="text" placeholder="Team Name" class="edt-team-name" value="<%= first_name %>" />
+        </span>
+        <button class='btn btn-xs btn-default save-edit-team'> Save Changes </button>
+        <button class='btn btn-xs  btn-default cncl-edit-team'>Cancel</button>
+        <br />
     </form>
     </script>
 
