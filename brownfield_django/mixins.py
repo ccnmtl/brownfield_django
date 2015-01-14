@@ -79,23 +79,22 @@ class PasswordMixin(object):
 class UniqUsernameMixin(object):
 
     def get_unique_username(self, first_name, last_name):
-        create_name = first_name + last_name
-        name = create_name
+        self.user_name = first_name + last_name
         '''Usernames cannot be longer than 30 characters'''
-        if len(name) > 29:
+        if len(self.user_name) > 29:
             '''get last characters of long name'''
-            name = create_name[:-29]
-        ex_user = User.objects.get(username=name)
+            self.user_name = self.user_name[:29]
+        ex_user = User.objects.filter(username=self.user_name)
         if ex_user.exists():
             '''In the unlikely case that the username already exists,
             take last 6 characters of the name and add an underscore
             followed by 5 random characters or digits'''
-            name = create_name[:-6] + "_"
+            name = self.user_name[:-6] + "_"
             char_digits = letters + digits
             for x in range(0, 4):
                 add_char = random.choice(char_digits)
                 name = name + add_char
             self.user_name = name
+            return self.user_name
         else:
-            self.user_name = name
-        return self.user_name
+            return self.user_name
