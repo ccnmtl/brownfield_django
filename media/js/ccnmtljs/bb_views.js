@@ -139,11 +139,6 @@ var CourseView = BaseItemView.extend({
         var edit_form = _.template(jQuery("#course-edit-template").html())(this.model.toJSON());
         this.$el.append(edit_form);
     },
-
-//    hideEditForm: function()
-//    {   
-//    	this.$('#create-edit-form').remove();
-//    },
     
     validEditForm: function(attributes, options) {
         /* Extremely simple basic check. */
@@ -348,6 +343,42 @@ var InstructorView = DeletableItemView.extend({
 
 /* Now the Collection Views */
 
+var BaseListView = Backbone.View.extend({
+    initialize : function(options){
+        
+            this.course = options.course;
+        }
+    }
+
+    //see if we can get it to associate with a collection and item view via options
+    initialize: function (options)
+    {
+        _.bindAll(this, 'renderCollection', 'addItem');
+
+        this.collectionI = new options.collection;
+        this.collection = new options.collection();//new CourseCollection(options);
+        this.collection.fetch({processData: true, reset: true});
+        this.collection.on('reset', this.renderCollection);
+        this.collection.on('add', this.addItem);
+    },
+   
+    renderCollection: function() {
+        // Iterate over the collection and render each item 
+        this.collection.each(function(model) {
+            this.$el.append(new CourseView({
+                   model: model
+            }).render().el);
+        }, this);
+
+        return this;
+    },
+
+    addCourse: function(model, collection, options) {
+        this.$el.append(new CourseView({
+            model: model
+        }).render().el);
+    }
+});
 
 var CourseListView = Backbone.View.extend({
     
