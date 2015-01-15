@@ -281,7 +281,7 @@ class TeamViewSet(PasswordMixin, viewsets.ModelViewSet):
             queryset = User.objects.filter(team__in=teamprofiles)
             return queryset
         if team_pk is not None:
-            queryset = Document.objects.filter(pk=team_pk)
+            queryset = User.objects.filter(pk=team_pk)
             return queryset
         else:
             team_set = Team.objects.all()
