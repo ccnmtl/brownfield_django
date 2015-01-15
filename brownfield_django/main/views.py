@@ -22,7 +22,7 @@ from brownfield_django.main.serializers import DocumentSerializer, \
 
 from brownfield_django.main.xml_strings import INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
-    CSRFExemptMixin, PasswordMixin
+    CSRFExemptMixin, PasswordMixin, UniqUsernameMixin
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -86,66 +86,79 @@ class UserViewSet(viewsets.ModelViewSet):
             return queryset.filter(id=self.request.user.id)
 
 
-class StudentViewSet(viewsets.ModelViewSet):
+class StudentViewSet(UniqUsernameMixin, viewsets.ModelViewSet):
     '''Attempting to redo Student Ajax handling
     the correct way with a model viewset - still very wrong.'''
     queryset = User.objects.filter(profile__profile_type='ST')
     serializer_class = StudentUserSerializer
 
     def create(self, request):
-        try:
-            key = self.request.QUERY_PARAMS.get('course', None)
-            course = Course.objects.get(pk=key)
-            username = str(request.DATA['first_name']) + \
-                str(request.DATA['last_name'])
-            student = User.objects.create_user(
-                username=username,
-                first_name=request.DATA['first_name'],
-                last_name=request.DATA['last_name'],
-                email=request.DATA['email'])
-            new_profile = UserProfile.objects.create(course=course,
-                                                     user=student,
-                                                     profile_type='ST')
-            new_profile.save()
-            serializer = StudentMUserSerializer(student)
-            return Response(serializer.data, status.HTTP_201_CREATED)
-        except:
-            # is it considered good practice to return serializer.data
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        up = self.request.user.profile
+        if up.is_teacher() or up.is_admin():
+            try:
+                key = self.request.QUERY_PARAMS.get('course', None)
+                course = Course.objects.get(pk=key)
+                '''want to check for extremely rare occurrence that user
+                may already exist or the name is too long.'''
+                uniq_name = self.get_unique_username(
+                    str(request.DATA['first_name']),
+                    str(request.DATA['last_name']))
+                student = User.objects.create_user(
+                    username=uniq_name,
+                    first_name=request.DATA['first_name'],
+                    last_name=request.DATA['last_name'],
+                    email=request.DATA['email'])
+                new_profile = UserProfile.objects.create(course=course,
+                                                         user=student,
+                                                         profile_type='ST')
+                new_profile.save()
+                serializer = StudentMUserSerializer(student)
+                return Response(serializer.data, status.HTTP_201_CREATED)
+            except:
+                # is it considered good practice to return serializer.data
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
     def update(self, request, pk=None):
+        up = self.request.user.profile
         student = get_object_or_404(User, pk=pk)
-        try:
-            # should I be sticking this in StudentMUserSerializer
-            student.first_name = request.DATA['first_name']
-            student.last_name = request.DATA['last_name']
-            student.email = request.DATA['email']
-            student.save()
-            return Response(
-                status=status.HTTP_200_OK)
-        except:
-            '''For some reason update failed'''
-            return Response({"success": False})
+        if up.is_teacher() or up.is_admin():
+            try:
+                # should I be sticking this in StudentMUserSerializer
+                student.first_name = request.DATA['first_name']
+                student.last_name = request.DATA['last_name']
+                student.email = request.DATA['email']
+                student.save()
+                return Response(
+                    status=status.HTTP_200_OK)
+            except:
+                '''For some reason update failed'''
+                return Response({"success": False})
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
     def get_queryset(self):
         course_pk = self.request.QUERY_PARAMS.get('course', None)
         usr_pk = self.kwargs.get('pk', None)
-        if course_pk is not None:
+        up = self.request.user.profile
+
+        if course_pk is not None and (up.is_teacher() or up.is_admin()):
             students = UserProfile.objects.filter(course__pk=course_pk,
                                                   profile_type='ST')
             queryset = User.objects.filter(
                 profile__in=students).order_by('first_name')
-        elif usr_pk is not None:
+        elif usr_pk is not None and (up.is_teacher() or up.is_admin()):
             #doesn't seem to like .get but .filter is
             queryset = User.objects.filter(pk=usr_pk)
         else:
-            '''Is it safe to assume there are no students
-            if something goes wrong.'''
+            '''Assume there are no students or user is unauthorized.'''
             queryset = User.objects.none()
         return queryset
 
 
-class InstructorViewSet(PasswordMixin, viewsets.ModelViewSet):
+class InstructorViewSet(UniqUsernameMixin,
+                        PasswordMixin, viewsets.ModelViewSet):
     '''This could probably be combined with StudentViewSet
     not sure though.'''
     queryset = User.objects.filter(profile__profile_type='TE')
@@ -165,45 +178,63 @@ class InstructorViewSet(PasswordMixin, viewsets.ModelViewSet):
     def create(self, request):
         '''Since there is no course associated we can
         see about saving the serializer directly'''
-        try:
-            user_name = str(request.DATA['first_name']) + \
-                str(request.DATA['last_name'])
-            instructor = User.objects.create_user(
-                username=user_name,
-                first_name=request.DATA['first_name'],
-                last_name=request.DATA['last_name'],
-                email=request.DATA['email'])
-            tmpasswd = self.get_password()
-            instructor.set_password(tmpasswd)
-            instructor.save()
-            new_profile = UserProfile.objects.create(user=instructor,
-                                                     profile_type='TE')
-            new_profile.tmp_passwd = tmpasswd
-            new_profile.save()
-            self.send_instructor_email(instructor, new_profile)
-            serializer = StudentMUserSerializer(instructor)
-            return Response(serializer.data, status.HTTP_201_CREATED)
-        except:
-            # is it considered good practice to return serializer.data
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        up = self.request.user.profile
+        if up.is_student() or up.is_teacher():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        elif up.is_admin():
+            try:
+                '''want to check for extremely rare occurrence that user
+                may already exist or the name is too long.'''
+                uniq_name = self.get_unique_username(
+                    str(request.DATA['first_name']),
+                    str(request.DATA['last_name']))
+                instructor = User.objects.create_user(
+                    username=uniq_name,
+                    first_name=request.DATA['first_name'],
+                    last_name=request.DATA['last_name'],
+                    email=request.DATA['email'])
+                tmpasswd = self.get_password()
+                instructor.set_password(tmpasswd)
+                instructor.save()
+                new_profile = UserProfile.objects.create(user=instructor,
+                                                         profile_type='TE')
+                new_profile.tmp_passwd = tmpasswd
+                new_profile.save()
+                self.send_instructor_email(instructor, new_profile)
+                serializer = StudentMUserSerializer(instructor)
+                return Response(serializer.data, status.HTTP_201_CREATED)
+            except:
+                # is it considered good practice to return serializer.data
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
     def update(self, request, pk=None):
-        instructor = get_object_or_404(User, pk=pk)
-        try:
-            # should I be sticking this in StudentMUserSerializer
-            instructor.first_name = request.DATA['first_name']
-            instructor.last_name = request.DATA['last_name']
-            instructor.email = request.DATA['email']
-            instructor.save()
-            serializer = StudentMUserSerializer(instructor)
-            return Response(serializer.data, status.HTTP_200_OK)
-        except:
-            '''For some reason update failed'''
-            return Response({"success": False})
+        up = self.request.user.profile
+        if up.is_student() or up.is_teacher():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        elif up.is_admin():
+            instructor = get_object_or_404(User, pk=pk)
+            try:
+                # should I be sticking this in StudentMUserSerializer
+                instructor.first_name = request.DATA['first_name']
+                instructor.last_name = request.DATA['last_name']
+                instructor.email = request.DATA['email']
+                instructor.save()
+                serializer = StudentMUserSerializer(instructor)
+                return Response(serializer.data, status.HTTP_200_OK)
+            except:
+                '''For some reason update failed'''
+                return Response({"success": False})
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
     def get_queryset(self):
-        instructors = UserProfile.objects.filter(profile_type='TE')
-        queryset = User.objects.filter(profile__in=instructors)
+        up = self.request.user.profile
+        queryset = User.objects.none()
+        if up.is_admin():
+            instructors = UserProfile.objects.filter(profile_type='TE')
+            queryset = User.objects.filter(profile__in=instructors)
         return queryset
 
 
@@ -218,6 +249,9 @@ class TeamViewSet(PasswordMixin, viewsets.ModelViewSet):
             key = self.request.QUERY_PARAMS.get('course', None)
             course = Course.objects.get(pk=key)
             team_name = request.DATA['team_name']
+            '''If team name is blank, make something up'''
+            if team_name == '':
+                team_name = "team"
             '''creating team with no attributes first so we can
             create a unique username for user based on team pk'''
             team = Team.objects.create(course=course,
@@ -247,7 +281,7 @@ class TeamViewSet(PasswordMixin, viewsets.ModelViewSet):
             queryset = User.objects.filter(team__in=teamprofiles)
             return queryset
         if team_pk is not None:
-            queryset = Document.objects.filter(pk=team_pk)
+            queryset = User.objects.filter(pk=team_pk)
             return queryset
         else:
             team_set = Team.objects.all()

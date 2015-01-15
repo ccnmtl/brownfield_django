@@ -192,12 +192,45 @@ var TeamView = BaseItemView.extend({
 
    	events: {
    		'click .rm-team' : 'removeTeam',
+   		'click .edit-team' : 'showEditForm',
+   		'click .save-edit-team' : 'editTeam',
+   		'click .cncl-edit-team' : 'hideEditForm',
    		'click .hist-team' : 'teamHistory'
    	},
 
+    hideEditForm: function(e)
+    {   
+    	e.preventDefault();
+    	this.render();
+    },
+    
+    showEditForm: function()
+    {
+        var edit_form = _.template(jQuery("#team-edit-template").html())(this.model.toJSON());
+        this.$el.append(edit_form);
+    },
+   	
    	removeTeam: function()
    	{
    		this.model.destroy();
+    },
+    
+   	editTeam: function(e)
+   	{
+   		e.preventDefault();
+   		
+   		var first_name = jQuery(this.el).find("input.edt-team-name").val();
+   		
+  		this.model.set('first_name', first_name);
+   		this.model.save({
+	        success: function(model, response) 
+	        {},
+            error: function(model, response)
+            {
+            	alert("An error occured!");
+            },
+            wait: true
+        });//end save
     },
     
    	teamHistory: function()
@@ -211,7 +244,7 @@ var StudentView = BaseItemView.extend({
 
 	initialize: function(options)
 	{
-		_.bindAll(this, 'editStudent', 'hideEditForm');
+		_.bindAll(this, 'editStudent', 'hideEditForm', 'showEditForm', 'removeStudent');
 		this.template = _.template(jQuery("#student-list-template").html());
 		this.listenTo(this.model, 'change', this.render);
 		this.listenTo(this.model, 'destroy', this.remove);
@@ -280,6 +313,7 @@ var InstructorView = BaseItemView.extend({
    	events: {
    		'click .ed-inst' : 'showEditForm',
    		'click .save-edit-instructor' : 'editInstructor',
+   		'click .cncl-edit-inst' : 'hideEditForm',
    		'click .rm-inst' : 'removeInstructor'
    	},
     
@@ -287,6 +321,12 @@ var InstructorView = BaseItemView.extend({
    	{
    	    var html = _.template(jQuery("#instructor-edit-template").html())(this.model.toJSON());
         this.$el.html(html);
+    },
+    
+    hideEditForm: function(e)
+    {   
+    	e.preventDefault();
+    	this.render();
     },
     
    	editInstructor: function(e)

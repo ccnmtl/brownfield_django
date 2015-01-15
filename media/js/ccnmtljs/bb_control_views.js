@@ -8,28 +8,21 @@ var ManageCoursesView = Backbone.View.extend({
     initialize: function (options) {
         _.bindAll(this,
                   'addCourse',
-                  'fetchCourses',
                   'showCourseForm',
                   'hideAddForm',
                   'validateForm');
 
         this.options = options;
-        this.user = new User({id: options.user_id});
-        this.user.on('change', this.fetchCourses);
-        this.user.fetch();
+        this.course_list_view = new CourseListView({el: this.options.listEl});
+        this.course_list_view.course_collection.fetch({wait: true});
         this.user_list = new InstructorCollection();
         this.user_list.fetch({wait: true});
-    },
-    
-    fetchCourses: function() {
-        this.user_course_view =  new CourseListView({
-            el: this.options.elUserCourses
-        });
     },
 
     showCourseForm: function(e) {
 		jQuery(".add-crs").hide();
 		//how to bind this/make it wait for results from server
+		this.user_list.fetch({wait: true});
 		this.user_list.each(function(model) {
 	        jQuery('#id_professor').append("<option value='" + String(model.attributes.url) + "'>" + 
 	                String(model.attributes.first_name) + 
@@ -83,7 +76,7 @@ var ManageCoursesView = Backbone.View.extend({
 
         if (this.validateForm())
         {
-    	    this.user_course_view.course_collection.create({
+    	    this.course_list_view.course_collection.create({
     	        name: jQuery("#id_course_name").val(),
     	    	startingBudget: jQuery("#id_course_startingBudget").val(),
     	    	message: jQuery("#id_course_message").val(),
@@ -101,13 +94,15 @@ var ManageCoursesView = Backbone.View.extend({
 var ManageInstructorsView = Backbone.View.extend({
     events: {
     	'click .add-instructor-btn': 'showInstructorForm',
+    	'click .cncl-add-inst' : 'hideAddForm',
     	'click .save-instructor': 'addInstructor'
     },
     
     initialize: function (options) {
         _.bindAll(this,
                   'addInstructor',
-                  'showInstructorForm');
+                  'showInstructorForm',
+                  'onlyLetters');
         this.instructor_collection_view = new InstructorListView({
             el: jQuery('.instructor-list'),
         });
@@ -117,9 +112,25 @@ var ManageInstructorsView = Backbone.View.extend({
 		jQuery(".add-instructor-btn").hide();
 		jQuery(".add-instructor-frm").show();
     },
+    
+    hideAddForm: function()
+    {   
+    	this.$('.add-instructor-frm').css('display', 'none');
+    	jQuery(".add-instructor-btn").show();
+    },
+    
+    onlyLetters: function (check_string){
+    	alert(check_string);
+        //var TCode = document.getElementById('TCode').value;
+        if( /[^a-zA-Z0-9]/.test( check_string ) ) {
+           alert('Please only enter letters for first and last names');
+           return false;
+        }
+        return true;     
+     },
 
     addInstructor: function(evt) {
-    	evt.stopPropagation();
+    	//evt.stopPropagation();
     	this.instructor_collection_view.instructor_collection.create(
     		{
     		    first_name : jQuery(".instructor-frst-name").val(),
@@ -137,6 +148,46 @@ var ManageInstructorsView = Backbone.View.extend({
 	    jQuery(".add-instructor-frm").hide();
 	    jQuery(".add-instructor-btn").show();
   	    return false;
+    },
+    
+    validateInstructorForm: function(e) {
+    	e.stopPropagation();
+    	
+    	if((jQuery(".add-instructor-frm input.instructor-frst-name").val().length) === 0)
+    	{
+    		if((jQuery(".inst-first-name").has('b').length) === 0)
+    		{
+    			jQuery(".inst-first-name").append("<b>Please enter a first name.</b>").css('color', 'red');
+    		}
+    	}
+    	if((jQuery(".add-instructor-frm input.instructor-last-name").val().length) === 0)
+    	{
+    		if((jQuery(".inst-last-name").has('b').length) === 0)
+    		{
+    			jQuery(".inst-last-name").append("<b>Please enter a last name.</b>").css('color', 'red');
+    		}
+    	}
+    	if((jQuery(".add-instructor-frm input.instructor-email").val().length) === 0)
+    	{
+    		if((jQuery(".inst-email").has('b').length) === 0)
+    		{
+    			jQuery(".inst-email").append("<b>Please enter a email.</b>").css('color', 'red');
+    		}
+    	}
+    	//check whatever they put for email looks something like an actual address
+    	else if((jQuery(".add-instructor-frm input.instructor-email").val().length) !== 0)
+    	{
+    	    if((jQuery(".add-instructor-frm input.instructor-email").val().indexOf("@")  === -1) && 
+    	       (jQuery(".add-instructor-frm input.instructor-email").val().indexOf(".") === -1))
+    	    {
+    		    if((jQuery(".inst-email").has('b').length) === 0)
+    		    {
+    			    jQuery(".inst-email").append("<b>Please enter a valid email.</b>").css('color', 'red');
+    		    }
+    	    }
+    	}
+    	//if above tests pass reasonable to submit
+    	this.addInstructor();
     }
     
 });  

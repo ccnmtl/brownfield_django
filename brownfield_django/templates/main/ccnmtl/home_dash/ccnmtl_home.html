@@ -10,7 +10,7 @@
 
 {% block js %}
     <script type="text/template" id="course-list-template">
-        <span class="course_name"><p><%= name %></p></span>
+        <label for="course_name">Course: </label><span class="course_name"><%= name %></span>
         <button class='btn btn-xs btn-default edit-crs pull-right'> Edit Course </button>
     </script>
 
@@ -49,12 +49,10 @@
     
     {% if request.user.profile.is_admin %}
     <script type="text/template" id="instructor-list-template">
-        <%= first_name %> <space><space>
-        <%= last_name %> <space><space>
-        Email: <%= email %>
-        <button class='btn btn-default btn-xs ed-inst'> Edit Instructor </button>
-        <space><space>
-        <button class='btn btn-default btn-xs rm-inst'> Remove Instructor </button>  <space><space><br />
+        <label for="instructor">Instructor: </label><%= first_name %> <%= last_name %>
+        <label for="email">Email: </label><%= email %>
+        <button class='btn btn-default btn-xs pull-right ed-inst'> Edit Instructor </button>
+        <button class='btn btn-default btn-xs pull-right rm-inst'> Remove Instructor </button>
     </script>
 
 
@@ -75,7 +73,8 @@
             <label>Email: </label>
             <input type="text" placeholder="Email: " class="edt-email" value="<%= email %>" />
         </span>
-        <button class='btn btn-default btn-xs save-edit-instructor'> Save Changes </button>  <br />
+        <button class='btn btn-xs btn-default pull-right cncl-edit-inst'> Cancel </button>
+        <button class='btn btn-default btn-xs pull-right save-edit-instructor'> Save Changes </button>
     </form>
     </script>
     {% endif %}
@@ -84,14 +83,7 @@
         jQuery(document).ready(function () {
             var control_view = new ManageCoursesView({
                 el: jQuery('.course-creation-area'),
-                {% if request.user.profile.is_teacher %}
-                    elUserCourses: jQuery('.user_courses #userlist'),
-                {% endif %}
-                {% if request.user.profile.is_admin %}
-                    elUserCourses: jQuery('.all_brwn_courses'),
-                {% endif %}
-                
-                user_id: "{{request.user.id}}"
+                listEl: jQuery('.course_list')
             });
            
            {% if request.user.profile.is_admin %}

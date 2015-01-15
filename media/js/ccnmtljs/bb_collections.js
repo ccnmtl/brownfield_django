@@ -42,17 +42,9 @@ var TeamCollection = BaseCollection.extend({
 });
 
 
-var CourseCollection = Backbone.Collection.extend({
+var CourseCollection = BaseCollection.extend({
 	 model: Course,
-	 urlRoot: '/api/course/',
-	 url: function() {
-	     return this.urlRoot;
-	 },
-	 initialize : function(options) {
-	     if (options && 'exclude_username' in options) {
-	         this.exclude_username = options.exclude_username;
-	     }
-	 }
+	 urlRoot: '/api/course/'
 });
 
 

@@ -1,40 +1,41 @@
 <div class="tab-pane active" id="course-list">
-<br /><br />
+  <br /><br />
 
-<div class="courses">
-    <div class='user_courses'>
-        <div class="course-creation-area">
-            <div class='course-header'>
-                <span style='font-size:xx-large;'>Courses</span>
-                <button class="btn btn-default add-crs pull-right">Add New Course</button>
-            </div>
-            <div class='accoridion'>
-              <form id="create-course-form" method="" action="" style="display: none;">
+    <div class="course-creation-area">
+      <div class='course-header'>
+        <span style='font-size:xx-large;'>
+          Courses
+        </span>
+        <button class="btn btn-default add-crs pull-right">
+          Add New Course
+        </button>
+      </div><!-- End div course-header -->
+      <div class='course-form-area'>  
+        <div class='accoridion'>
+          <form id="create-course-form" method="" action="" style="display: none;">
                 {% csrf_token %}
                 <p id="frm-title"> <b><u>Add New Course: </u></b></p>
                 <span class="course-name-block">
-                <label for="id_course_name">Name:</label>
+                    <label for="id_course_name">Name:</label>
                     <input id="id_course_name" maxlength="255" name="name" type="text" placeholder="Course Name" />
                     <br />
                 </span>
                 <span class="course-budget-block">
-		        <label for="id_course_startingBudget">Starting Budget:</label> 
+		            <label for="id_course_startingBudget">Starting Budget:</label> 
 			        <input id="id_course_startingBudget" min="0" name="startingBudget" type="number" placeholder="60000" />
 			        <br />
 			    </span>
-			    <!-- <label for="id_course_enableNarrative">EnableNarrative:</label> -->
-			    <!-- <input checked="checked" id="id_course_enableNarrative" name="enableNarrative" type="checkbox" /> -->
 			    <span class="course-message-block">
-			    <label for="id_course_message">Message:</label> 
+			        <label for="id_course_message">Message:</label> 
 			        <textarea cols="80" id="id_course_message" name="message" rows="10" placeholder="Course Message Here" ></textarea><br />
 			    </span>
 			    <span class="course-professor-block">
-			    {% if request.user.profile.is_admin %}
-				    <label for="id_professor">Professor:</label>
+			        {% if request.user.profile.is_admin %}
+				        <label for="id_professor">Professor:</label>
 				        <select id="id_professor" name="professor">
 
                	        </select><br />
-                {% endif %}
+                    {% endif %}
                 </span>
                 <input type="submit" value="Save Course" class="submit btn btn-default"/>
                 <button class='btn btn-default cncl-add-crs' type="button">
@@ -42,55 +43,47 @@
                 </button>
               </form> 
             </div> <!-- End .accordion -->
-        </div> <!-- End .course_controls -->
-        {% if request.user.profile.is_admin %}
-            <h3>All Brownfield Courses</h3>
-            <div class="all_brwn_courses">
-            </div>
-        {% endif %}
-        {% if request.user.profile.is_teacher %}
-            <div id="userlist" >
-            <!-- All user courses will be inserted here -->
-            </div>
-        {% endif %}
-    </div>
-    <br /><br /><br />
+        </div> <!-- End course from area -->
+        <div class=course_list>
+        </div>
+    </div> <!-- End .course-creation-area -->
 
+
+    <br /><br />
     {% if request.user.profile.is_admin %}
-    <h3>Instructors</h3>
     <div class='instructor_controls'>
-        <button class="add-instructor-btn">
-            Add New Instructor
-        </button>
+        <div class='instructor-header'>
+            <span style='font-size:xx-large;'>Instructors</span>
+            <button class="btn btn-default add-instructor-btn pull-right">Add New Instructor</button>
+        </div>
+        <div class='instructor-form-area'>
         <form class="add-instructor-frm" method="" action="" style="display: none;">
             {% csrf_token %}
             <p> <b>Add New Instructor: </b></p>
             <span class="inst-first-name">
                 <label>First Name: </label>
                 <input type="text" placeholder="First Name: " class="instructor-frst-name" /> 
-                <space><space>
             </span>
             <span class="inst-last-name">
                 <label>Last Name: </label>
                 <input type="text" placeholder="Last Name: " class="instructor-last-name" /> 
-                <space><space>
             </span>
             <span class="inst-email">
                 <label>Email: </label>
                 <input type="text" placeholder="Email: " class="instructor-email" />
             </span>
-            <button class='btn btn-default btn-xs save-instructor'> Save Instructor </button>
+            <button class='btn btn-default btn-xs pull-right save-instructor' type="button">
+                Save Instructor
+            </button>
+            <button class='btn btn-default btn-xs pull-right cncl-add-inst' type="button">
+                    Cancel
+            </button>
         </form>
-
+        </div> <!-- End Instructor Form Area -->
         <div class="instructor-list" >
             <!-- All instructors of courses will be inserted here -->
         </div>
-    </div>
-    
-    <br /><br /><br /><br />
+    </div><!-- End instructor area -->
     {% endif %}
-    
-    
-
-</div>
+    <br /><br /><br /><br />
 </div>
