@@ -154,10 +154,7 @@
 
 
 <div class="row">
-<div class="col-md-2">
-{% block sidenav %}{% endblock %}
-</div>
-<div class="col-md-10">
+<div class="col-md-12">
 {% block pagetitle %}{% endblock %}
 {% block content %}{% endblock %}
 </div>
@@ -166,7 +163,7 @@
 
 {% block footer %}
   <footer class="footer navbar-fixed-bottom hidden-phone">
-    <img src="{{STATIC_URL}}img/logo_ccnmtl_sidebar.gif" class="printonly pull-right" />
+  
   </footer>
 {% endblock %}
 

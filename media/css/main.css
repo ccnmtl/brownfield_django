@@ -1,20 +1,37 @@
-html {
-	height: 100%;
-}
+/* Brownfield Action 2.0 Styles 
+ by Rachelle White
+ rwhite@columbia.edu
+ ccnmtl.columbia.edu
+ */
+
 
 body {
-  background-color: #eee;
-  height: 100%;
+	background-image: url("/media/img/bg_bfa.jpg");
 }
 
-body > .container {
-  background-color: #fff;
-  min-height: 100%;
-  padding-top: 75px;
+.tab-content {
+	display: block;
+	margin: 1em 0 0 0;
 }
 
-#content {
-  min-height: 100%;
+/* Navigation */
+
+.navbar-default {
+	background: -webkit-linear-gradient(#bec960, #d1d642); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(#bec960, #d1d642); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#bec960, #d1d642); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#bec960, #d1d642); /* Standard syntax */
+}
+
+ul.nav.nav-tabs {
+	margin: 5em 0 0 0;
+}
+
+/* Footer */
+.footer {
+	background-color: #3b4f38;
+	min-height: 50px;
+	margin: 1em 0 0 0;
 }
 
 /* LOGIN PAGE */

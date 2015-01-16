@@ -11,3 +11,5 @@ local_settings.py
 uploads
 .coverage
 node_modules/
+.DS_Store
+media/.DS_Store
