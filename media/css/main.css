@@ -5,9 +5,29 @@
  */
 
 
-body {
+body, html {
 	background-image: url("/media/img/bg_bfa.jpg");
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 87.5%;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
 
 .tab-content {
 	display: block;
@@ -24,7 +44,7 @@ body {
 }
 
 ul.nav.nav-tabs {
-	margin: 5em 0 0 0;
+	margin: 6em 0 0 0;
 }
 
 /* Footer */
