@@ -7,7 +7,7 @@
 
 body, html {
 	background-image: url("/media/img/bg_bfa.jpg");
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-family:  Arial, Helvetica, sans-serif;
 	font-size: 87.5%;
 }
 
@@ -44,7 +44,15 @@ h6,
 }
 
 ul.nav.nav-tabs {
-	margin: 6em 0 0 0;
+	margin: 7em 0 0 0;
+}
+
+p.navbar-text {
+	margin: 28px 0 0 0;
+}
+
+p.navbar-text .btn {
+	margin: -3px 0 0 4px;
 }
 
 /* Footer */
@@ -52,6 +60,40 @@ ul.nav.nav-tabs {
 	background-color: #3b4f38;
 	min-height: 50px;
 	margin: 1em 0 0 0;
+}
+
+
+
+
+/* Overrides */
+ 
+.btn {
+  display: inline-block;
+  padding: 6px 11px;
+  margin-bottom: 0;
+  font-size: 100%;
+  font-weight: normal;
+  line-height: 1.428571429;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #333;
+  border-radius: 3px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+       -o-user-select: none;
+          user-select: none;
+}
+
+.btn-default {
+	
+}
+
+.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+	background-color: #f4f4f4;
+	color: #39c;
 }
 
 /* LOGIN PAGE */
