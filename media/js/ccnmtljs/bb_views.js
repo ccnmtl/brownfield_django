@@ -35,7 +35,6 @@ var DeletableItemView = BaseItemView.extend({
     //this should be a mixin...
     removeItem: function ()
     {   
-        console.log("removeItemCalled");
         this.model.destroy();
     }
 
