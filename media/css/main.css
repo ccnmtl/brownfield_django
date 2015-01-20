@@ -249,8 +249,11 @@ p.navbar-text .btn {
 	min-width: 100%;
 }
 
+.course_list .course-name-inside {
+	float: left;
+}
+
 .course_list span.course_name {
-	margin-top: 5px;
 	cursor: pointer;
 	color: #39c;
 }
