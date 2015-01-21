@@ -11,6 +11,11 @@ body, html {
 	font-size: 87.5%;
 }
 
+h3 {
+	color: #999;
+	text-transform: uppercase;
+}
+
 .tab-content {
 	display: block;
 	margin: 1em 0 0 0;
@@ -231,8 +236,17 @@ p.navbar-text .btn {
 
 /* Course List */
 
-.course_list {
-	background-color: #fff;
+.course-header {
+	display: block;
+	float: left;
+	width: 100%;
+}
+
+.course-header h3 {
+	float: left;
+}
+
+.course-list {
 	color: #333;
 	float: left;
 	display: block;
@@ -240,25 +254,25 @@ p.navbar-text .btn {
 	margin: 0 0 2em 0;
 }
 
-.course_list li {
+.course-list li {
 	float: left;
 	clear: both;
 	display: block;
 	border-bottom: dotted 1px #ddd;
-	padding: 1em 2em;
+	padding: 1em 0;
 	min-width: 100%;
 }
 
-.course_list .course-name-inside {
+.course-list .course-name-inside {
 	float: left;
 }
 
-.course_list span.course_name {
+.course-list span.course_name {
 	cursor: pointer;
 	color: #39c;
 }
 
-.course_list span.course_name:hover {
+.course-list span.course_name:hover {
 	color: #ccc;
 }
 

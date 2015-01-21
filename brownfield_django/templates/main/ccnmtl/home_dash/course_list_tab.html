@@ -1,10 +1,11 @@
 <div class="tab-pane active" id="course-list">
     <div class="course-creation-area">
       <div class='course-header'>
-        <span style='font-size:xx-large;'>
+        <h3>
           Courses
-        </span>
+        </h3>
         <button class="btn btn-default add-crs pull-right">
+            <span class="glyphicon glyphicon-plus"></span>
           Add New Course
         </button>
       </div><!-- End div course-header -->
@@ -52,8 +53,11 @@
     {% if request.user.profile.is_admin %}
     <div class='instructor_controls'>
         <div class='instructor-header'>
-            <span style='font-size:xx-large;'>Instructors</span>
-            <button class="btn btn-default add-instructor-btn pull-right">Add New Instructor</button>
+            <h3>
+                Instructors
+            </h3>
+                
+            <button class="btn btn-default add-instructor-btn pull-right"><span class="glyphicon glyphicon-plus"></span> Add New Instructor</button>
         </div>
         <div class='instructor-form-area'>
         <form class="add-instructor-frm" method="" action="" style="display: none;">

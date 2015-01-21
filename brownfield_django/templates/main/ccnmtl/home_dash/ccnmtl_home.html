@@ -11,9 +11,9 @@
 {% block js %}
     <script type="text/template" id="course-list-template">
         <div class="course-name-inside">
-        <span class="course_name"><strong>Course:</strong>&nbsp;<%= name %>&nbsp;(View)</span>
+        <button class="btn btn-default course_name"><span class="glyphicon glyphicon-th-list"></span> <%= name %> Details</button>
         </div>
-        <button class='btn btn-xs btn-default edit-crs pull-right'> Edit Course </button>
+        <button class='btn btn-xs btn-default edit-crs pull-right'><span class="glyphicon glyphicon-pencil"></span> Edit Course </button>
     </script>
 
     <script type="text/template" id="course-edit-template">
