@@ -10,6 +10,18 @@ var BaseView = Backbone.View.extend({
         var html = this.template(this.model.toJSON());
         this.$el.html(html);
         return this;
+    },
+    
+    hideEditForm: function(e)
+    {   
+        e.preventDefault();
+        this.render();
+    },
+    
+    showEditForm: function(e)
+    {
+        var edit_form =  this.edit_form(this.model.toJSON());
+        this.$el.html(edit_form);
     }
 
 });
@@ -22,6 +34,17 @@ var BaseItemView = BaseView.extend({
 
 });
 
+
+var DeletableItemView = BaseItemView.extend({
+
+    //do I need to pass it a model? or because it is inherited "this" is understood
+    //this should be a mixin...
+    removeItem: function ()
+    {   
+        this.model.destroy();
+    }
+
+});
 
 /* Start with Single Element Views */
 
@@ -90,6 +113,7 @@ var CourseView = BaseItemView.extend({
    	initialize: function () {
    	    this.listenTo(this.model, 'change', this.render);
    	    this.template = _.template(jQuery("#course-list-template").html());
+   	    this.edit_form = _.template(jQuery("#course-edit-template").html());
    	    /* As of now cannot think of solution for having the list
    	     * of professors available to the CourseView view and the main ControlView*/
    	},
@@ -115,18 +139,7 @@ var CourseView = BaseItemView.extend({
         this.model.set('archive', true);
         this.model.save();
     },
-    
-    showEditForm: function()
-    {
-        var edit_form = _.template(jQuery("#course-edit-template").html())(this.model.toJSON());
-        this.$el.append(edit_form);
-    },
 
-    hideEditForm: function()
-    {   
-    	this.$('#create-edit-form').remove();
-    },
-    
     validEditForm: function(attributes, options) {
         /* Extremely simple basic check. */
         var is_valid = true;
@@ -182,38 +195,22 @@ var CourseView = BaseItemView.extend({
 });// End CourseView
 
 
-var TeamView = BaseItemView.extend({
+var TeamView = DeletableItemView.extend({
 	
    	initialize: function (options) {
    		this.template = _.template(jQuery("#team-list-template").html());
+   		this.edit_form = _.template(jQuery("#team-edit-template").html());
    	    this.listenTo(this.model, 'change', this.render);
    	    this.listenTo(this.model, 'destroy', this.remove);
    	},
 
    	events: {
-   		'click .rm-team' : 'removeTeam',
+   		'click .rm-team' : 'removeItem',
    		'click .edit-team' : 'showEditForm',
    		'click .save-edit-team' : 'editTeam',
    		'click .cncl-edit-team' : 'hideEditForm',
    		'click .hist-team' : 'teamHistory'
    	},
-
-    hideEditForm: function(e)
-    {   
-    	e.preventDefault();
-    	this.render();
-    },
-    
-    showEditForm: function()
-    {
-        var edit_form = _.template(jQuery("#team-edit-template").html())(this.model.toJSON());
-        this.$el.append(edit_form);
-    },
-   	
-   	removeTeam: function()
-   	{
-   		this.model.destroy();
-    },
     
    	editTeam: function(e)
    	{
@@ -240,12 +237,13 @@ var TeamView = BaseItemView.extend({
 });// End Team View
 
 
-var StudentView = BaseItemView.extend({
+var StudentView = DeletableItemView.extend({
 
 	initialize: function(options)
 	{
-		_.bindAll(this, 'editStudent', 'hideEditForm', 'showEditForm', 'removeStudent');
+		_.bindAll(this, 'editStudent', 'hideEditForm', 'showEditForm');
 		this.template = _.template(jQuery("#student-list-template").html());
+		this.edit_form = _.template(jQuery("#student-edit-template").html());
 		this.listenTo(this.model, 'change', this.render);
 		this.listenTo(this.model, 'destroy', this.remove);
 	},
@@ -254,21 +252,9 @@ var StudentView = BaseItemView.extend({
    		'click .ed-st' : 'showEditForm',
    		'click .save-edit-student' : 'editStudent',
    		'click .cncl-edit-std' : 'hideEditForm',
-   		'click .rm-st' : 'removeStudent'
+   		'click .rm-st' : 'removeItem'
    	},
-    
-   	showEditForm: function()
-   	{
-   	    var html = _.template(jQuery("#student-edit-template").html())(this.model.toJSON());
-        this.$el.html(html);
-    },
-    
-    hideEditForm: function(e)
-    {   
-    	e.preventDefault();
-    	this.render();
-    },
-    
+
    	editStudent: function(e)
    	{
    		e.preventDefault();
@@ -290,21 +276,18 @@ var StudentView = BaseItemView.extend({
             },
             wait: true
         });//end save
-    },
-    
-   	removeStudent: function()
-   	{
-   		this.model.destroy();
     }
+
 });
 
 
-var InstructorView = BaseItemView.extend({
+var InstructorView = DeletableItemView.extend({
 
 	initialize: function(options)
 	{
 		_.bindAll(this, 'editInstructor');
 		this.template = _.template(jQuery("#instructor-list-template").html());
+		this.edit_form =  _.template(jQuery("#instructor-edit-template").html());
         // need to bind the edit form to the model - when change made to form change model
 		this.listenTo(this.model, 'change', this.render);
 		this.listenTo(this.model, 'destroy', this.remove);
@@ -314,20 +297,8 @@ var InstructorView = BaseItemView.extend({
    		'click .ed-inst' : 'showEditForm',
    		'click .save-edit-instructor' : 'editInstructor',
    		'click .cncl-edit-inst' : 'hideEditForm',
-   		'click .rm-inst' : 'removeInstructor'
+   		'click .rm-inst' : 'removeItem'
    	},
-    
-   	showEditForm: function()
-   	{
-   	    var html = _.template(jQuery("#instructor-edit-template").html())(this.model.toJSON());
-        this.$el.html(html);
-    },
-    
-    hideEditForm: function(e)
-    {   
-    	e.preventDefault();
-    	this.render();
-    },
     
    	editInstructor: function(e)
    	{
@@ -350,160 +321,104 @@ var InstructorView = BaseItemView.extend({
             },
             wait: true
         });//end save
-    },
-    
-   	removeInstructor: function()
-   	{
-   		this.model.destroy();
     }
+    
 });
 
 
 /* Now the Collection Views */
+var BaseListView = Backbone.View.extend({
 
-
-var CourseListView = Backbone.View.extend({
-    
-    initialize: function (options)
-    {
-    	_.bindAll(this, 'initialRender', 'addCourse');
-    	this.course_collection = new CourseCollection(options);
-    	this.course_collection.fetch({processData: true, reset: true});
-    	this.course_collection.on('reset', this.initialRender);
-    	this.course_collection.on('add', this.addCourse);
-	},
-   
-	initialRender: function() {
-        // Iterate over the collection and add each name as a list item 
-        this.course_collection.each(function(model) {
-            this.$el.append(new CourseView({
-                   model: model
-            }).render().el);
-        }, this);
-
-        return this;
-    },
-
-    addCourse: function(model, collection, options) {
-        this.$el.append(new CourseView({
-            model: model
-        }).render().el);
-    }
-});
-
-
-var DocumentListView = Backbone.View.extend({
-
-    initialize: function (options)
-    {
-        _.bindAll(this, 'initialRender');
-  	
-  	    this.course_document_collection = new DocumentCollection(options);
-  	    this.course_document_collection.fetch({processData: true, reset: true});
-  	    this.course_document_collection.on('reset', this.initialRender);
-	},
-
-    initialRender: function()
-    {
-        this.course_document_collection.each(function(model)
+    renderCollection: function() {
+        this.collection.each(function(model)
         {
-            this.$el.append(new DocumentView(
-            {
+            this.$el.append(new this.item_view({
                 model: model
             }).render().el);
         }, this);
-
         return this;
+    },
+    
+    addItem: function(model, collection, options)
+    {
+        this.$el.append(new this.item_view({
+            model: model
+        }).render().el);
+    }
+
+});
+
+var InstructorListView = BaseListView.extend({
+    
+    initialize: function (options)
+    {
+        _.bindAll(this, 'renderCollection', 'addItem');
+        this.collection = new InstructorCollection(options);
+        this.collection.fetch({processData: true, reset: true});
+        this.collection.on('reset', this.renderCollection);
+        this.collection.on('add', this.addItem);
+        this.item_view = InstructorView;
     }
 });
 
 
-var StudentListView = Backbone.View.extend({
+var CourseListView = BaseListView.extend({
+    
+    initialize: function (options)
+    {
+    	_.bindAll(this, 'renderCollection', 'addItem');
+    	this.collection = new CourseCollection(options);
+    	this.collection.fetch({processData: true, reset: true});
+    	this.collection.on('reset', this.renderCollection);
+    	this.collection.on('add', this.addItem);
+    	this.item_view = CourseView;
+	}
+
+});
+
+
+var DocumentListView = BaseListView.extend({
 
     initialize: function (options)
     {
-    	_.bindAll(this, 'initialRender', 'addStudent');
-    	this.course_students = new StudentCollection(options);
-    	this.course_students.fetch({processData: true, reset: true});
-    	this.course_students.on('reset', this.initialRender);
-    	this.course_students.on('add', this.addStudent);
-	},	
-
-    initialRender: function() {
-        this.course_students.each(function(model) {
-        this.$el.append(new StudentView({
-               model: model
-        }).render().el);
-        }, this);
-
-        return this;
-    },
-    
-    addStudent: function(model, collection, options) {
-        this.$el.append(new StudentView({
-            model: model
-        }).render().el);
-    }
-    
-});// End StudentListView
+        _.bindAll(this, 'renderCollection');
+  	
+  	    this.collection = new DocumentCollection(options);
+  	    this.collection.fetch({processData: true, reset: true});
+  	    this.collection.on('reset', this.renderCollection);
+  	    this.item_view = DocumentView;
+	}
+});
 
 
-var TeamListView = Backbone.View.extend({
+var StudentListView = BaseListView.extend({
 
     initialize: function (options)
     {
-    	_.bindAll(this, 'initialRender', 'addTeam');
-    	this.course_teams = new TeamCollection(options);
-    	this.course_teams.fetch({processData: true, reset: true});
-    	this.course_teams.on('reset', this.initialRender);
-    	this.course_teams.on('add', this.addTeam);
-	},
-
-	initialRender: function() {
-        this.course_teams.each(function(model) {
-        this.$el.append(new TeamView({
-               model: model
-        }).render().el);
-        }, this);
-
-        return this;
-    },
-
-    addTeam: function(model, collection, options) {
-        this.$el.append(new TeamView({
-            model: model
-        }).render().el);
-    }
+        _.bindAll(this, 'renderCollection', 'addItem');
+        this.collection = new StudentCollection(options);
+        this.collection.fetch({processData: true, reset: true});
+        this.collection.on('reset', this.renderCollection);
+        this.collection.on('add', this.addItem);
+        this.item_view = StudentView;
+	}
     
 });
 
 
-var InstructorListView = Backbone.View.extend({
-    
+var TeamListView = BaseListView.extend({
+
     initialize: function (options)
     {
-    	_.bindAll(this, 'initialRender', 'addInstructor');
-
-    	this.instructor_collection = new InstructorCollection(options);
-    	this.instructor_collection.fetch({processData: true, reset: true});
-    	this.instructor_collection.on('reset', this.initialRender);
-    	this.instructor_collection.on('add', this.addInstructor);
-	},
-   
-	initialRender: function() {
-        // Iterate over the collection and add each name as a list item 
-        this.instructor_collection.each(function(model) {
-            this.$el.append(new InstructorView({
-                   model: model
-            }).render().el);
-        }, this);
-
-        return this;
-    },
-
-    addInstructor: function(model, collection, options) {
-        this.$el.append(new InstructorView({
-            model: model
-        }).render().el);
-    }
+        _.bindAll(this, 'renderCollection', 'addItem');
+        this.collection = new TeamCollection(options);
+        this.collection.fetch({processData: true, reset: true});
+    	this.collection.on('reset', this.renderCollection);
+        this.collection.on('add', this.addItem);
+        this.item_view = TeamView;
+	}
+    
 });
+
+
+

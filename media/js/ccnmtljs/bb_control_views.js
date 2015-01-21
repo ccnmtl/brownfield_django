@@ -1,3 +1,17 @@
+var BaseManagementView = Backbone.View.extend({
+
+    showAddItemForm: function(e)
+    {
+        
+    },
+    
+    hideAddItemForm: function(e)
+    {
+        
+    }
+    
+});
+
 var ManageCoursesView = Backbone.View.extend({
     events: {
     	'click .add-crs': 'showCourseForm',
@@ -14,7 +28,7 @@ var ManageCoursesView = Backbone.View.extend({
 
         this.options = options;
         this.course_list_view = new CourseListView({el: this.options.listEl});
-        this.course_list_view.course_collection.fetch({wait: true});
+        this.course_list_view.collection.fetch({wait: true});
         this.user_list = new InstructorCollection();
         this.user_list.fetch({wait: true});
     },
@@ -76,7 +90,7 @@ var ManageCoursesView = Backbone.View.extend({
 
         if (this.validateForm())
         {
-    	    this.course_list_view.course_collection.create({
+    	    this.course_list_view.collection.create({
     	        name: jQuery("#id_course_name").val(),
     	    	startingBudget: jQuery("#id_course_startingBudget").val(),
     	    	message: jQuery("#id_course_message").val(),
@@ -131,7 +145,7 @@ var ManageInstructorsView = Backbone.View.extend({
 
     addInstructor: function(evt) {
     	//evt.stopPropagation();
-    	this.instructor_collection_view.instructor_collection.create(
+    	this.instructor_collection_view.collection.create(
     		{
     		    first_name : jQuery(".instructor-frst-name").val(),
     		    last_name : jQuery(".instructor-last-name").val(),
@@ -224,7 +238,7 @@ var StudentControlView = Backbone.View.extend({
     
     addStudent: function(e) {
     	
-    	this.student_collection_view.course_students.create(
+    	this.student_collection_view.collection.create(
     	    {   
     	        	first_name : jQuery(".frst-name").val(),
     	            last_name : jQuery(".last-name").val(),
@@ -236,7 +250,7 @@ var StudentControlView = Backbone.View.extend({
                 	jQuery(".add-team-frm").append("<p>Something went wrong, please try again.</p>");
                 },
     	        wait: true,
-    	    	url: this.student_collection_view.course_students.url()
+    	    	url: this.student_collection_view.collection.url()
     	    }
     	);
 	    jQuery(".add-std-frm-title").hide();
@@ -319,7 +333,7 @@ var TeamControlView = Backbone.View.extend({
 
     addTeam: function(team) {
     	team.preventDefault();
-    	this.team_collection_view.course_teams.create(
+    	this.team_collection_view.collection.create(
     	{
     		team_name : jQuery(".team-name").val()
     	},
@@ -331,7 +345,7 @@ var TeamControlView = Backbone.View.extend({
             	jQuery(".add-team-frm").append("<p>Something went wrong, please try again.</p>");
             },
 	        wait: true,
-	    	url: this.team_collection_view.course_teams.url()
+	    	url: this.team_collection_view.collection.url()
 	    }
     	);
 	    jQuery(".add-team-frm-title").hide();
