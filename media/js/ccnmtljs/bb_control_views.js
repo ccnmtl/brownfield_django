@@ -27,6 +27,8 @@ var ManageCoursesView = Backbone.View.extend({
                   'validateForm');
 
         this.options = options;
+        this.current_user = new User({id: options.user_id});
+        this.current_user.fetch();
         this.course_list_view = new CourseListView({el: this.options.listEl});
         this.course_list_view.collection.fetch({wait: true});
         this.user_list = new InstructorCollection();
@@ -80,13 +82,18 @@ var ManageCoursesView = Backbone.View.extend({
 
     addCourse: function(evt) {
         evt.preventDefault();
-        
+        console.log("Inside addCourse");
         var professor = jQuery('#id_professor').find("option:selected").val();
 
         if(professor === null || professor === undefined)
         {   
-            professor = this.user.get('url');
+        	/* Seems this needs to be user url - maybe if
+        	 * I changed to model instead of hyperlink
+        	 * serializer ID will be acceptable? */
+            professor = this.current_user.get('url');
         }
+        
+        console.log(professor);
 
         if (this.validateForm())
         {
