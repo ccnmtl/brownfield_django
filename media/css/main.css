@@ -247,6 +247,7 @@ p.navbar-text .btn {
 }
 
 .course-list {
+	background-color: #fbfaf7;
 	color: #333;
 	float: left;
 	display: block;
@@ -259,7 +260,7 @@ p.navbar-text .btn {
 	clear: both;
 	display: block;
 	border-bottom: dotted 1px #ddd;
-	padding: 1em 0;
+	padding: 1em;
 	min-width: 100%;
 }
 
@@ -275,6 +276,41 @@ p.navbar-text .btn {
 .course-list span.course_name:hover {
 	color: #ccc;
 }
+
+
+/* Create Course */
+
+.course-form-area {
+	display: block;
+	float: left;
+	clear: both;
+	width: 100%;
+	background-color: #FBFAF6;
+}
+
+#create-course-form {
+	padding: .5em  1.5em 1.5em 1.5em;
+	margin: 0 0 1em 0;
+	border-bottom: solid 1px #ccc;
+}
+
+#create-course-form span {
+	display: block;
+	margin: .5em 0;
+}
+
+/* Edit Course */
+#create-edit-form {
+	padding: .5em  1.5em 1.5em 1.5em;
+	margin: 0 0 1em 0;
+	border-bottom: solid 1px #ccc;
+}
+
+#create-edit-form span {
+	display: block;
+	margin: .5em 0;
+}
+
 
 /* Instructor List */
 
