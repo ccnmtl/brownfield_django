@@ -1,18 +1,11 @@
-// Going to handle buttons here
-var activation_status = jQuery("input[name='course_active']").val();
-
-//need to add an onclick to the tab
-//#course-active-teams
-
-if(activation_status == "True")
-{
+function course_is_active(){
 	jQuery(".crs-act-info").hide();
 	jQuery('#activation-btn').hide();
 	jQuery('#edit-team-members').show();
 	jQuery(".crs-act-info").hide();
 }
-if(activation_status == "False")
-{
+
+function course_is_not_active(){
 	jQuery('#edit-team-members').hide();
 	jQuery('#activation-btn').show();
 	jQuery('#course-active-teams').on('click', function(e)
@@ -49,8 +42,9 @@ function get_students(){
 }
 
 jQuery(function() {
-
+	
 	var crs_id = jQuery("input[name='crs-id']").val();
+	var activation_status = jQuery("input[name='course_active']").val();
 
 	jQuery('#activation-btn').on('click', function(e)
     {   
@@ -128,14 +122,6 @@ jQuery(function() {
         }// end 2nd if
         e.preventDefault();
     });// end activation-btn on click
-});// end outer function
-
-
-/*Set up calls for the get teams/edit teams*/
-
-jQuery(function() {
-
-	var crs_id = jQuery("input[name='crs-id']").val();
 
 	jQuery('#edit-team-members').on('click', function(e)
     {   
@@ -144,13 +130,8 @@ jQuery(function() {
 		jQuery('#show-teams').show();
 		jQuery('#activation-btn').html("Save Changes");
 		jQuery('#activation-btn').show();
-    });
-});
+	});
 
-jQuery(function() {
-	
-	var crs_id = jQuery("input[name='crs-id']").val();
-	
 	jQuery('#show-teams').on('click', function(e)
     {
 		jQuery(".course-activation").load("/show_teams/" + crs_id + "/");
@@ -158,14 +139,9 @@ jQuery(function() {
 		jQuery('#activationSuccess').modal('hide');
 		jQuery('#edit-team-members').show();
 		jQuery('#activation-btn').hide();
-		
-    });
-});
+	});
 
 
-
-jQuery(function() {
-    
     if(activation_status == "False")
     {
         jQuery('#edit-team-members').hide();
@@ -182,6 +158,7 @@ jQuery(function() {
             jQuery('#activation-btn').show();
         });
     }
-    
-});
-//}
+	
+});// end outer function
+
+
