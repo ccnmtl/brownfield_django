@@ -10,7 +10,9 @@
 
 {% block js %}
     <script type="text/template" id="course-list-template">
-        <label for="course-name">Course: </label><span class="course_name"><%= name %></span>
+        <div class="course-name-inside">
+        <span class="course_name"><strong>Course:</strong>&nbsp;<%= name %>&nbsp;(View)</span>
+        </div>
         <button class='btn btn-xs btn-default edit-crs pull-right'> Edit Course </button>
     </script>
 
@@ -49,8 +51,10 @@
     
     {% if request.user.profile.is_admin %}
     <script type="text/template" id="instructor-list-template">
-        <label for="instructor">Instructor: </label><%= first_name %> <%= last_name %>
-        <label for="email">Email: </label><%= email %>
+        <div class="instructor-list-inside">
+        <span class="instructor"><label for="instructor">Instructor:</label>&nbsp;<%= first_name %> <%= last_name %></span>
+        <span class="email"><label for="email">Email:</label>&nbsp;<%= email %></span>
+        </div>
         <button class='btn btn-default btn-xs pull-right ed-inst'> Edit Instructor </button>
         <button class='btn btn-default btn-xs pull-right rm-inst'> Remove Instructor </button>
     </script>
