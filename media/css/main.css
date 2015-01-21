@@ -292,8 +292,6 @@ p.navbar-text .btn {
 
 #create-course-form {
 	padding: .5em  1.5em 1.5em 1.5em;
-	margin: 0 0 1em 0;
-	border-bottom: solid 1px #ccc;
 }
 
 #create-course-form span {
@@ -304,8 +302,6 @@ p.navbar-text .btn {
 /* Edit Course */
 #create-edit-form {
 	padding: .5em  1.5em 1.5em 1.5em;
-	margin: 0 0 1em 0;
-	border-bottom: solid 1px #ccc;
 }
 
 #create-edit-form span {
@@ -329,7 +325,7 @@ p.navbar-text .btn {
 }
 
 .instructor-list {
-	background-color: #fff;
+	background-color: #fbfaf7;
 	color: #333;
 	float: left;
 	display: block;
@@ -342,7 +338,7 @@ p.navbar-text .btn {
 	clear: both;
 	display: block;
 	border-bottom: dotted 1px #ddd;
-	padding: 1em 2em;
+	padding: 1em;
 	min-width: 100%;
 }
 
