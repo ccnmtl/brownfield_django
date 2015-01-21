@@ -238,11 +238,13 @@ p.navbar-text .btn {
 
 .course-header {
 	display: block;
+	margin: 0 0 1em 0;
 	float: left;
 	width: 100%;
 }
 
 .course-header h3 {
+	margin-top: 0;
 	float: left;
 }
 
@@ -313,6 +315,18 @@ p.navbar-text .btn {
 
 
 /* Instructor List */
+
+.instructor-header {
+	display: block;
+	margin: 0 0 1em 0;
+	float: left;
+	width: 100%;
+}
+
+.instructor-header h3 {
+	margin-top: 0;
+	float: left;
+}
 
 .instructor-list {
 	background-color: #fff;
