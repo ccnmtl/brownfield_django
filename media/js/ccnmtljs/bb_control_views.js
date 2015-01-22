@@ -1,17 +1,3 @@
-var BaseManagementView = Backbone.View.extend({
-
-    showAddItemForm: function(e)
-    {
-        
-    },
-    
-    hideAddItemForm: function(e)
-    {
-        
-    }
-    
-});
-
 var ManageCoursesView = Backbone.View.extend({
     events: {
     	'click .add-crs': 'showCourseForm',
@@ -25,8 +11,9 @@ var ManageCoursesView = Backbone.View.extend({
                   'showCourseForm',
                   'hideAddForm',
                   'validateForm');
-
         this.options = options;
+        this.current_user = new User({id: options.user_id});
+        this.current_user.fetch();
         this.course_list_view = new CourseListView({el: this.options.listEl});
         this.course_list_view.collection.fetch({wait: true});
         this.user_list = new InstructorCollection();
@@ -80,12 +67,14 @@ var ManageCoursesView = Backbone.View.extend({
 
     addCourse: function(evt) {
         evt.preventDefault();
-        
         var professor = jQuery('#id_professor').find("option:selected").val();
 
         if(professor === null || professor === undefined)
         {   
-            professor = this.user.get('url');
+        	/* Seems this needs to be user url - maybe if
+        	 * I changed to model instead of hyperlink
+        	 * serializer ID will be acceptable? */
+            professor = this.current_user.get('url');
         }
 
         if (this.validateForm())
