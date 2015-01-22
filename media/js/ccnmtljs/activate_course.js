@@ -51,11 +51,11 @@ function get_students(){
         function(){
             var student = {'pk': jQuery(this).find("td input[name='std-id']").val(),
 			   'first_name': jQuery(this).find("td input[name='first_name']").val(), 
-		           'last_name': jQuery(this).find("td input[name='last_name']").val(), 
+		       'last_name': jQuery(this).find("td input[name='last_name']").val(), 
 			   'email': jQuery(this).find("td input[name='email']").val(),
 			   'team_id': jQuery(this).find("td option:selected").val(),
 			   'team_name': jQuery(this).find("td option:selected").text()
-                           };
+               };
             
         data.push({ 'student' : student });
             
@@ -89,33 +89,31 @@ jQuery(function() {
     	var student_list = get_students();
     	var student_list_2 = JSON.stringify(student_list);
 
-    	jQuery(function()
+        jQuery.ajax(
     	{
-    	    jQuery.ajax(
-    	    {
-    	        url: "/activate_course/" + crs_id + "/",
-    			type: "POST",
-    			dataType: 'json',
-    			data: {'student_list' : student_list_2},
-    			success: function (data)
-           		{
-    		        if(jQuery('#activation-btn').html() === "Save Changes")
-    			    {
-    			        reactivation_success();
-    		        }
+    	    url: "/activate_course/" + crs_id + "/",
+    	    type: "POST",
+    	    dataType: 'json',
+    	    data: {'student_list' : student_list_2},
+    	    success: function (data)
+            {
+    	        if(jQuery('#activation-btn').html() === "Save Changes")
+                {
+    		    reactivation_success();
+    		}
 
-    				if(jQuery('#activation-btn').html() === "Activate Course")
-    			    {
-    				    activation_success();
-    			    }
-                    jQuery("input[name='course_active']").val("True");
-    			},
-    			error: function(data) 
-    	    	{
-    			    alert('Something went wrong, please try again');
-    			}
-    		    });// end ajax
-    	    });// end outer function
+		if(jQuery('#activation-btn').html() === "Activate Course")
+                {
+    		    activation_success();
+    		}
+
+                jQuery("input[name='course_active']").val("True");
+    	    },
+    	    error: function(data) 
+    	    {
+    	        alert('Something went wrong, please try again');
+            }
+        });// end ajax
     });// end conf-act on click
 
     

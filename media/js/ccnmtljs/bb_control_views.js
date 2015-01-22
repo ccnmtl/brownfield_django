@@ -28,7 +28,6 @@ var ManageCoursesView = Backbone.View.extend({
                   'showCourseForm',
                   'hideAddForm',
                   'validateForm');
-
         this.options = options;
         this.current_user = new User({id: options.user_id});
         this.current_user.fetch();
