@@ -82,6 +82,7 @@ jQuery(function() {
         console.log("activation is false");
         show_not_active();
         jQuery('#activation-btn').html("Activate Course");
+
     }
 
     jQuery('#get_teams').on('click', function(e)
