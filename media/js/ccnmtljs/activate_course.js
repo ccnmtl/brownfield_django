@@ -136,6 +136,7 @@ jQuery(function() {
 
                 jQuery("input[name='course_active']").val("True");
                 activation_status = jQuery("input[name='course_active']").val();
+                jQuery('#activation-btn').html("Re-Activate Course");
     	    },
     	    error: function(data) 
     	    {
