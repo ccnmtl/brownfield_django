@@ -6,17 +6,6 @@
  *   - on modal button click
  *   */
 
-function show_active(){
-    jQuery('#edit-team-members').show();
-    jQuery('#activation-btn').hide();
-    jQuery(".crs-act-info").hide();
-}
-
-function confirm_first_activation(){
-
-
-}
-
 function confirm_reactivation(){
 
     jQuery('#confirmAct').modal('show');
@@ -41,22 +30,27 @@ function activation_success(){
     jQuery(".crs-act-info").hide();
 }
 
-function get_active_content(){
-    jQuery(".course-activation").load("/show_teams/" + crs_id + "/");
-    jQuery('#activationSuccess').modal('hide');
+function show_active(){
     jQuery('#edit-team-members').show();
     jQuery('#activation-btn').hide();
+    jQuery(".crs-act-info").hide();
 }
 
 function show_not_active(){
     jQuery('#edit-team-members').hide();
-    jQuery('#activation-btn').show();
     jQuery('#show-teams').show();
     jQuery('#activation-btn').show();
 }
 
 function get_edit_content(){
     jQuery(".course-teams").load("/edit_teams/" + crs_id + "/");
+}
+
+function get_active_content(){
+    jQuery(".course-activation").load("/show_teams/" + crs_id + "/");
+    jQuery('#activationSuccess').modal('hide');
+    jQuery('#edit-team-members').show();
+    jQuery('#activation-btn').hide();
 }
 
 function get_students(){
@@ -154,11 +148,10 @@ jQuery(function() {
 
     jQuery('#edit-team-members').on('click', function(e)
     {   
-	jQuery(".course-teams").load("/edit_teams/" + crs_id + "/");
-	jQuery('#edit-team-members').hide();
-	jQuery('#show-teams').show();
+        get_edit_content();
+        show_not_active();
 	jQuery('#activation-btn').html("Save Changes");
-	jQuery('#activation-btn').show();
+
     });
 
     jQuery('#show-teams').on('click', function(e)
@@ -169,13 +162,12 @@ jQuery(function() {
     jQuery('#course-active-teams').on('click', function(e)
     {
 
-        if(activation_status == "False")
+        if(activation_status === "False")
         {
             jQuery('#edit-team-members').hide();
             jQuery('#activation-btn').show();
             jQuery('#get_teams').on('click', function(e)
             {
-                console.log("get teams clicked");
                 jQuery('#edit-team-members').hide();
                 jQuery(".course-activation").load("/edit_teams/" + crs_id + "/");
                 //jQuery('#edit-team-members').hide();
