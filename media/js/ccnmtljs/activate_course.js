@@ -146,7 +146,7 @@ jQuery(function() {
                 jQuery('#activation-btn').show();
             });
         }
-	
+    });
 });// end outer function
 
 

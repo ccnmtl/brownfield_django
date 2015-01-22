@@ -16,5 +16,6 @@ jQuery(document).ready(function () {
         el: jQuery('.documents_list'),
         course: course
     });
+
 });
 

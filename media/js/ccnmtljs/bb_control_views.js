@@ -1,20 +1,3 @@
-var BaseManagementView = Backbone.View.extend({
-
-    showAddItemForm: function(e)
-    {
-    	 e.preventDefault();
-         this.add-form.css('display', 'none');
-         this.add-btn.show();
-    },
-    
-    hideAddItemForm: function(e)
-    {
-    	this.add-form.show();
-        this.add-btn.hide();
-    }
-    
-});
-
 var ManageCoursesView = Backbone.View.extend({
     events: {
     	'click .add-crs': 'showCourseForm',
@@ -84,7 +67,6 @@ var ManageCoursesView = Backbone.View.extend({
 
     addCourse: function(evt) {
         evt.preventDefault();
-        console.log("Inside addCourse");
         var professor = jQuery('#id_professor').find("option:selected").val();
 
         if(professor === null || professor === undefined)
@@ -94,8 +76,6 @@ var ManageCoursesView = Backbone.View.extend({
         	 * serializer ID will be acceptable? */
             professor = this.current_user.get('url');
         }
-        
-        console.log(professor);
 
         if (this.validateForm())
         {
