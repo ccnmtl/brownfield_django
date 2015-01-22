@@ -3,7 +3,9 @@
 /* Might be good to pull out show edit form and remove */
 
 /* All List Element Views have the same render function - creating base class with the render method. */
-var BaseView = Backbone.View.extend({
+var BaseItemView = Backbone.View.extend({
+
+    tagName : 'li',
 
 	render: function () 
     {
@@ -23,14 +25,6 @@ var BaseView = Backbone.View.extend({
         var edit_form =  this.edit_form(this.model.toJSON());
         this.$el.html(edit_form);
     }
-
-});
-
-/* Further extending the base view for list elements. */
-
-var BaseItemView = BaseView.extend({
-
-    tagName : 'li',
 
 });
 
@@ -130,7 +124,7 @@ var CourseView = BaseItemView.extend({
         if (this.model.get('archive') === true) {
             this.$el.remove();
         } else {
-        	BaseView.prototype.render.apply(this, arguments);
+        	BaseItemView.prototype.render.apply(this, arguments);
         }
         return this;
     },
