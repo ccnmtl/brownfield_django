@@ -9,12 +9,20 @@ body, html {
 	background-image: url("/media/img/bg_bfa.jpg");
 	font-family:  Arial, Helvetica, sans-serif;
 	font-size: 87.5%;
+	height: 100%;
+}
+
+.wrap {
+	position: relative;
+	min-height: 100%;
+	margin-bottom: -100px;
 }
 
 h3 {
 	color: #999;
 	text-transform: uppercase;
 }
+
 
 .tab-content {
 	display: block;
@@ -50,13 +58,26 @@ p.navbar-text .btn {
 
 
 /* Footer */
-.footer {
-	background-color: #3b4f38;
-	min-height: 50px;
-	margin: 1em 0 0 0;
+
+.clearfooter {
+	height: 50px;
+	clear: both;
 }
 
+.footer {
+	background-color: #3b4f38;
+	height: 100px;
+	position: relative;
+	margin: 1em 0 0 0;
+	bottom: 0;
+}
 
+.footer-interior {
+	padding: 10px 0 0 0;
+	width: 1170px;
+	margin: 0 auto;
+	display: block;
+}
 
 
 /* Overrides */
@@ -108,7 +129,7 @@ p.navbar-text .btn {
 .loginbox-container {
     float: right;
     height: 265px;
-    margin-top: 10px;
+    margin-top: 150px;
 }
 
 .loginbox-container.columbia {
@@ -279,6 +300,67 @@ p.navbar-text .btn {
 	color: #ccc;
 }
 
+/* Documents List */
+
+.documents_list {
+	background-color: #fbfaf7;
+	color: #333;
+	float: left;
+	display: block;
+	width: 100%;
+	margin: 0 0 2em 0;
+}
+
+.documents_list li {
+	float: left;
+	clear: both;
+	display: block;
+	border-bottom: dotted 1px #ddd;
+	padding: 1em;
+	min-width: 100%;
+}
+
+
+/* Team List */
+
+.team-list {
+	background-color: #fbfaf7;
+	color: #333;
+	float: left;
+	display: block;
+	width: 100%;
+	margin: 0 0 2em 0;
+}
+
+.team-list li {
+	float: left;
+	clear: both;
+	display: block;
+	border-bottom: dotted 1px #ddd;
+	padding: 1em;
+	min-width: 100%;
+}
+
+
+/* Student List */
+
+.student-list {
+	background-color: #fbfaf7;
+	color: #333;
+	float: left;
+	display: block;
+	width: 100%;
+	margin: 0 0 2em 0;
+}
+
+.student-list li {
+	float: left;
+	clear: both;
+	display: block;
+	border-bottom: dotted 1px #ddd;
+	padding: 1em;
+	min-width: 100%;
+}
 
 /* Create Course */
 
