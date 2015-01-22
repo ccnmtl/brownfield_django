@@ -323,18 +323,6 @@ p.navbar-text .btn {
 
 /* Team List */
 
-.course-header {
-	display: block;
-	margin: 0 0 1em 0;
-	float: left;
-	width: 100%;
-}
-
-.course-header h3 {
-	margin-top: 0;
-	float: left;
-}
-
 .team-list {
 	background-color: #fbfaf7;
 	color: #333;
@@ -353,17 +341,25 @@ p.navbar-text .btn {
 	min-width: 100%;
 }
 
-.course-list .course-name-inside {
+
+/* Student List */
+
+.student-list {
+	background-color: #fbfaf7;
+	color: #333;
 	float: left;
+	display: block;
+	width: 100%;
+	margin: 0 0 2em 0;
 }
 
-.course-list span.course_name {
-	cursor: pointer;
-	color: #39c;
-}
-
-.course-list span.course_name:hover {
-	color: #ccc;
+.student-list li {
+	float: left;
+	clear: both;
+	display: block;
+	border-bottom: dotted 1px #ddd;
+	padding: 1em;
+	min-width: 100%;
 }
 
 /* Create Course */
