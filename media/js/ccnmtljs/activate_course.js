@@ -32,11 +32,11 @@ function show_not_active(){
     jQuery('#activation-btn').show();
 }
 
-function get_edit_content(){
+function get_edit_content(crs_id){
     jQuery(".course-teams").load("/edit_teams/" + crs_id + "/");
 }
 
-function get_active_content(){
+function get_active_content(crs_id){
     jQuery(".course-activation").load("/show_teams/" + crs_id + "/");
     jQuery('#activationSuccess').modal('hide');
     jQuery('#edit-team-members').show();
@@ -68,20 +68,49 @@ jQuery(function() {
 	
     var crs_id = jQuery("input[name='crs-id']").val();
     var activation_status = jQuery("input[name='course_active']").val();
+    console.log("activation_status");
+    console.log(activation_status);
+    if(activation_status === "True")
+    {
+        console.log("activation is true");
+        show_active();
+        jQuery('#activation-btn').html("Save Changes");
 
+    }
+    if(activation_status === "False")
+    {
+        console.log("activation is false");
+        show_not_active();
+        jQuery('#activation-btn').html("Activate Course");
+    }
+
+    jQuery('#get_teams').on('click', function(e)
+    {    
+         if(activation_status === "True"){
+             jQuery(".course-activation").load("/show_teams/" + crs_id + "/");
+         }
+         if(activation_status === "False"){
+             jQuery(".course-activation").load("/edit_teams/" + crs_id + "/");
+         }
+    });
+
+    /* button for activating/reactivating course */
     jQuery('#activation-btn').on('click', function(e)
     {   
-        if(jQuery('#activation-btn').html() === "Save Changes")
-	    {
-	        confirm_reactivation();
-        }// end 1st if
+        if(activation_status === "True")
+	{
+            jQuery('#activation-btn').html("Save Changes");
+	    confirm_reactivation();
+        }
 		
-	    if(jQuery('#activation-btn').html() === "Activate Course")
-	    {
+	if(activation_status === "False")
+	{
+            jQuery('#activation-btn').html("Activate Course");
             jQuery('#confirmAct').modal('show');
-        }// end 2nd if
+            confirm_activation();
+        }
         e.preventDefault();
-    });// end activation-btn on click
+    });
 
     jQuery('#conf-act').on('click', function(e)
     {
@@ -97,17 +126,18 @@ jQuery(function() {
     	    data: {'student_list' : student_list_2},
     	    success: function (data)
             {
-    	        if(jQuery('#activation-btn').html() === "Save Changes")
+    	        if(activation_status === "True")
                 {
     		    reactivation_success();
     		}
 
-		if(jQuery('#activation-btn').html() === "Activate Course")
+		if(activation_status === "False")
                 {
     		    activation_success();
     		}
 
                 jQuery("input[name='course_active']").val("True");
+                activation_status = jQuery("input[name='course_active']").val();
     	    },
     	    error: function(data) 
     	    {
@@ -119,34 +149,18 @@ jQuery(function() {
     
     jQuery('#edit-team-members').on('click', function(e)
     {   
-        get_edit_content();
+        get_edit_content(crs_id);
         show_not_active();
-	jQuery('#activation-btn').html("Save Changes");
+        jQuery('#edit-team-members').hide();
+	//jQuery('#edit-team-members').html("Save Changes");
 
     });
 
     jQuery('#show-teams').on('click', function(e)
     {
-        get_active_content();
+        get_active_content(crs_id);
     });
 
-    jQuery('#course-active-teams').on('click', function(e)
-    {
-
-        if(activation_status === "False")
-        {
-            jQuery('#edit-team-members').hide();
-            jQuery('#activation-btn').show();
-            jQuery('#get_teams').on('click', function(e)
-            {
-                jQuery('#edit-team-members').hide();
-                jQuery(".course-activation").load("/edit_teams/" + crs_id + "/");
-                //jQuery('#edit-team-members').hide();
-                jQuery('#show-teams').show();
-                jQuery('#activation-btn').show();
-            });
-        }
-    });
 });// end outer function
 
 
