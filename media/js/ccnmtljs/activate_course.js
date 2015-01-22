@@ -27,13 +27,12 @@ function confirm_reactivation(){
 }
 
 function reactivation_success(){
-
-jQuery('#activationSuccess').modal('show');
-jQuery('#activationSuccess .modal-header .modal-title').html("Re-Activation Successful");
-jQuery('#activationSuccess .modal-body').html("<p>Congratulations! Your course has been successfully re-activated!</p>");
-jQuery(".crs-act-info").hide();
-jQuery('#activation-btn').hide();
-jQuery('#edit-team-members').show();
+    jQuery('#activationSuccess').modal('show');
+    jQuery('#activationSuccess .modal-header .modal-title').html("Re-Activation Successful");
+    jQuery('#activationSuccess .modal-body').html("<p>Congratulations! Your course has been successfully re-activated!</p>");
+    jQuery(".crs-act-info").hide();
+    jQuery('#activation-btn').hide();
+    jQuery('#edit-team-members').show();
 
 }
 
@@ -43,12 +42,10 @@ function activation_success(){
 }
 
 function get_active_content(){
-
-		jQuery(".course-activation").load("/show_teams/" + crs_id + "/");
-		jQuery('#activationSuccess').modal('hide');
-		jQuery('#edit-team-members').show();
-		jQuery('#activation-btn').hide();
-
+    jQuery(".course-activation").load("/show_teams/" + crs_id + "/");
+    jQuery('#activationSuccess').modal('hide');
+    jQuery('#edit-team-members').show();
+    jQuery('#activation-btn').hide();
 }
 
 function show_not_active(){
@@ -127,67 +124,65 @@ jQuery(function() {
             jQuery('#confirmAct').modal('show');
             jQuery('#conf-act').on('click', function(e)
             {
-            jQuery('#confirmAct').modal('hide');
-            var student_list = get_students();
-            var student_list_2 = JSON.stringify(student_list);
+                jQuery('#confirmAct').modal('hide');
+                var student_list = get_students();
+                var student_list_2 = JSON.stringify(student_list);
 
-            jQuery(function()
-            {
-            jQuery.ajax(
-            {
-            url: "/activate_course/" + crs_id + "/",
-            type: "POST",
-            dataType: 'json',
-            data: {'student_list' : student_list_2},
-            success: function (data) 
-            {
-                activation_success();
-                jQuery("input[name='course_active']").val("True");
-            },
-            error: function(data) 
-            {
-                alert('Something went wrong, please try again');
-            }
-            });// end ajax
+                jQuery(function()
+                {
+                    jQuery.ajax(
+                    {
+                        url: "/activate_course/" + crs_id + "/",
+                        type: "POST",
+                        dataType: 'json',
+                        data: {'student_list' : student_list_2},
+                        success: function (data) 
+                        {
+                            activation_success();
+                            jQuery("input[name='course_active']").val("True");
+                        },
+                        error: function(data) 
+                        {
+                            alert('Something went wrong, please try again');
+                        }
+                  });// end ajax
             });// end outer function
             });// end conf-act on click
         }// end 2nd if
         e.preventDefault();
     });// end activation-btn on click
 
-	jQuery('#edit-team-members').on('click', function(e)
-        {   
-		jQuery(".course-teams").load("/edit_teams/" + crs_id + "/");
-		jQuery('#edit-team-members').hide();
-		jQuery('#show-teams').show();
-		jQuery('#activation-btn').html("Save Changes");
-		jQuery('#activation-btn').show();
-	});
+    jQuery('#edit-team-members').on('click', function(e)
+    {   
+	jQuery(".course-teams").load("/edit_teams/" + crs_id + "/");
+	jQuery('#edit-team-members').hide();
+	jQuery('#show-teams').show();
+	jQuery('#activation-btn').html("Save Changes");
+	jQuery('#activation-btn').show();
+    });
 
-	jQuery('#show-teams').on('click', function(e)
-        {
-            get_active_content();
-	});
-
-jQuery('#course-active-teams').on('click', function(e)
-	{
-
-    if(activation_status == "False")
+    jQuery('#show-teams').on('click', function(e)
     {
-        jQuery('#edit-team-members').hide();
-        jQuery('#activation-btn').show();
-        jQuery('#get_teams').on('click', function(e)
+        get_active_content();
+    });
+
+    jQuery('#course-active-teams').on('click', function(e)
+    {
+
+        if(activation_status == "False")
         {
-            console.log("get teams clicked");
             jQuery('#edit-team-members').hide();
-            //this is complete crap and redundant... need to redo...
-            var crs_id = jQuery("input[name='crs-id']").val();
-            jQuery(".course-activation").load("/edit_teams/" + crs_id + "/");
-            //jQuery('#edit-team-members').hide();
-            jQuery('#show-teams').show();
             jQuery('#activation-btn').show();
-        });
-    }
+            jQuery('#get_teams').on('click', function(e)
+            {
+                console.log("get teams clicked");
+                jQuery('#edit-team-members').hide();
+                jQuery(".course-activation").load("/edit_teams/" + crs_id + "/");
+                //jQuery('#edit-team-members').hide();
+                jQuery('#show-teams').show();
+                jQuery('#activation-btn').show();
+            });
+        }
 	
 });// end outer function
 
