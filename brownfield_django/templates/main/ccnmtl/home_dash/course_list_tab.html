@@ -1,6 +1,4 @@
 <div class="tab-pane active" id="course-list">
-  <br /><br />
-
     <div class="course-creation-area">
       <div class='course-header'>
         <span style='font-size:xx-large;'>
@@ -14,7 +12,7 @@
         <div class='accoridion'>
           <form id="create-course-form" method="" action="" style="display: none;">
                 {% csrf_token %}
-                <p id="frm-title"> <b><u>Add New Course: </u></b></p>
+                <p id="frm-title">Add New Course:</p>
                 <span class="course-name-block">
                     <label for="id_course_name">Name:</label>
                     <input id="id_course_name" maxlength="255" name="name" type="text" placeholder="Course Name" />
@@ -44,7 +42,8 @@
               </form> 
             </div> <!-- End .accordion -->
         </div> <!-- End course from area -->
-        <div class=course-list>
+
+        <div class="course-list">
         </div>
     </div> <!-- End .course-creation-area -->
 
