@@ -15,12 +15,7 @@ body, html {
 .wrap {
 	position: relative;
 	min-height: 100%;
-	margin-bottom: -50px;
-}
-
-.clearfooter {
-	height: 50px;
-	clear: both;
+	margin-bottom: -100px;
 }
 
 h3 {
@@ -63,15 +58,26 @@ p.navbar-text .btn {
 
 
 /* Footer */
+
+.clearfooter {
+	height: 50px;
+	clear: both;
+}
+
 .footer {
 	background-color: #3b4f38;
-	height: 50px;
+	height: 100px;
 	position: relative;
 	margin: 1em 0 0 0;
 	bottom: 0;
 }
 
-
+.footer-interior {
+	padding: 10px 0 0 0;
+	width: 1170px;
+	margin: 0 auto;
+	display: block;
+}
 
 
 /* Overrides */
@@ -294,6 +300,71 @@ p.navbar-text .btn {
 	color: #ccc;
 }
 
+/* Documents List */
+
+.documents_list {
+	background-color: #fbfaf7;
+	color: #333;
+	float: left;
+	display: block;
+	width: 100%;
+	margin: 0 0 2em 0;
+}
+
+.documents_list li {
+	float: left;
+	clear: both;
+	display: block;
+	border-bottom: dotted 1px #ddd;
+	padding: 1em;
+	min-width: 100%;
+}
+
+
+/* Team List */
+
+.course-header {
+	display: block;
+	margin: 0 0 1em 0;
+	float: left;
+	width: 100%;
+}
+
+.course-header h3 {
+	margin-top: 0;
+	float: left;
+}
+
+.team-list {
+	background-color: #fbfaf7;
+	color: #333;
+	float: left;
+	display: block;
+	width: 100%;
+	margin: 0 0 2em 0;
+}
+
+.team-list li {
+	float: left;
+	clear: both;
+	display: block;
+	border-bottom: dotted 1px #ddd;
+	padding: 1em;
+	min-width: 100%;
+}
+
+.course-list .course-name-inside {
+	float: left;
+}
+
+.course-list span.course_name {
+	cursor: pointer;
+	color: #39c;
+}
+
+.course-list span.course_name:hover {
+	color: #ccc;
+}
 
 /* Create Course */
 
