@@ -18,6 +18,7 @@ var BaseCollection = Backbone.Collection.extend({
 
 });
 
+
 var DocumentCollection = BaseCollection.extend({
 	 model: AppDocument,
 	 urlRoot: '/api/document/'

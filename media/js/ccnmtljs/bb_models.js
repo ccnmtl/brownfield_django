@@ -9,6 +9,7 @@ var BaseModel = Backbone.Model.extend({
    }
 });
 
+
 var AppDocument = BaseModel.extend({
     urlRoot: '/api/document/'
 });
