@@ -68,18 +68,15 @@ jQuery(function() {
 	
     var crs_id = jQuery("input[name='crs-id']").val();
     var activation_status = jQuery("input[name='course_active']").val();
-    console.log("activation_status");
-    console.log(activation_status);
+
     if(activation_status === "True")
     {
-        console.log("activation is true");
         show_active();
         jQuery('#activation-btn').html("Save Changes");
 
     }
     if(activation_status === "False")
     {
-        console.log("activation is false");
         show_not_active();
         jQuery('#activation-btn').html("Activate Course");
 
