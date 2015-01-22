@@ -1,18 +1,9 @@
-/* Functionality:
- *   - show editable info
- *   - show 'activated' info
- * Events:
- *   - on main button click
- *   - on modal button click
- *   */
-
 function confirm_reactivation(){
 
     jQuery('#confirmAct').modal('show');
     jQuery('#confirmAct .modal-header .modal-title').html("Course Re-Activation");
     jQuery('#confirmAct .modal-body').html("<p>Are you sure you want to change the teams in your course? This will update the teams, and place the students in the teams. All students will be emailed their teams and team password. Remember if you changed a user's team, the user will still have the original team's login and password unless your request it is changed.</p>");			
     jQuery('#confirmAct .modal-footer #conf-act').html("Continue with Re-Activation");
-
 }
 
 function reactivation_success(){
@@ -22,7 +13,6 @@ function reactivation_success(){
     jQuery(".crs-act-info").hide();
     jQuery('#activation-btn').hide();
     jQuery('#edit-team-members').show();
-
 }
 
 function activation_success(){
@@ -82,70 +72,53 @@ jQuery(function() {
     jQuery('#activation-btn').on('click', function(e)
     {   
         if(jQuery('#activation-btn').html() === "Save Changes")
-	{
-	     confirm_reactivation();
-
-	    jQuery('#conf-act').on('click', function(e)
 	    {
-                jQuery('#confirmAct').modal('hide');
-		var student_list = get_students();
-		var student_list_2 = JSON.stringify(student_list);
-
-		jQuery(function()
-		{
-		    jQuery.ajax(
-		    {
-		        url: "/activate_course/" + crs_id + "/",
-			type: "POST",
-			dataType: 'json',
-			data: {'student_list' : student_list_2},
-			success: function (data) 
-    	    		{
-                            reactivation_success();
-			    jQuery("input[name='course_active']").val("True");
-			},
-			error: function(data) 
-	    	    	{
-			    alert('Something went wrong, please try again');
-			}
-		    });// end ajax
-	        });// end outer function
-    	 });// end conf-act on click
+	        confirm_reactivation();
         }// end 1st if
 		
-	if(jQuery('#activation-btn').html() === "Activate Course")
-	{
+	    if(jQuery('#activation-btn').html() === "Activate Course")
+	    {
             jQuery('#confirmAct').modal('show');
-            jQuery('#conf-act').on('click', function(e)
-            {
-                jQuery('#confirmAct').modal('hide');
-                var student_list = get_students();
-                var student_list_2 = JSON.stringify(student_list);
-
-                jQuery(function()
-                {
-                    jQuery.ajax(
-                    {
-                        url: "/activate_course/" + crs_id + "/",
-                        type: "POST",
-                        dataType: 'json',
-                        data: {'student_list' : student_list_2},
-                        success: function (data) 
-                        {
-                            activation_success();
-                            jQuery("input[name='course_active']").val("True");
-                        },
-                        error: function(data) 
-                        {
-                            alert('Something went wrong, please try again');
-                        }
-                  });// end ajax
-            });// end outer function
-            });// end conf-act on click
         }// end 2nd if
         e.preventDefault();
     });// end activation-btn on click
 
+    jQuery('#conf-act').on('click', function(e)
+    {
+        jQuery('#confirmAct').modal('hide');
+    	var student_list = get_students();
+    	var student_list_2 = JSON.stringify(student_list);
+
+    	jQuery(function()
+    	{
+    	    jQuery.ajax(
+    	    {
+    	        url: "/activate_course/" + crs_id + "/",
+    			type: "POST",
+    			dataType: 'json',
+    			data: {'student_list' : student_list_2},
+    			success: function (data)
+           		{
+    		        if(jQuery('#activation-btn').html() === "Save Changes")
+    			    {
+    			        reactivation_success();
+    		        }
+
+    				if(jQuery('#activation-btn').html() === "Activate Course")
+    			    {
+    				    activation_success();
+    			    }
+                    jQuery("input[name='course_active']").val("True");
+    			},
+    			error: function(data) 
+    	    	{
+    			    alert('Something went wrong, please try again');
+    			}
+    		    });// end ajax
+    	    });// end outer function
+    });// end conf-act on click
+
+    
     jQuery('#edit-team-members').on('click', function(e)
     {   
         get_edit_content();

@@ -2,12 +2,15 @@ var BaseManagementView = Backbone.View.extend({
 
     showAddItemForm: function(e)
     {
-        
+    	 e.preventDefault();
+         this.add-form.css('display', 'none');
+         this.add-btn.show();
     },
     
     hideAddItemForm: function(e)
     {
-        
+    	this.add-form.show();
+        this.add-btn.hide();
     }
     
 });
