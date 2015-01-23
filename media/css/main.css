@@ -436,3 +436,23 @@ p.navbar-text .btn {
 	display: block;
 	clear: both;
 }
+
+/* Team View Documents */
+
+.course-div {
+	background-color: #fbfaf7;
+	color: #333;
+	float: left;
+	display: block;
+	width: 100%;
+	margin: 0 0 2em 0;
+}
+
+.course-div li {
+	float: left;
+	clear: both;
+	display: block;
+	border-bottom: dotted 1px #ddd;
+	padding: 1em;
+	min-width: 100%;
+}

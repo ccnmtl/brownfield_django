@@ -11,22 +11,20 @@
     {% endblock %}
 
     <a href="../../../team_csv/{{ request.user.username }}/">View Team Budget History</a>
+        <h3>Course Documents</h3>
 
     {% block course_documents %}
     <div class="course-div">
-        <h3>Course Documents</h3>
-        <ul>
-            {% for document in document_list %}
+                    {% for document in document_list %}
             <li>{{ document.name }}
                 {% if document.name == "Link: Brownfield Action Reference Site" %}
-                    <a href=http://brownfieldref.ccnmtl.columbia.edu/">link</a></li>
+                    <a class="btn btn-default pull-right" href=http://brownfieldref.ccnmtl.columbia.edu/" target="_blank">View</a></li>
                 {% else %}
-                     <a href="../../..{{STATIC_URL}}{{ document.link }}">link</a></li>
+                     <a class="btn btn-default pull-right" href="../../..{{STATIC_URL}}{{ document.link }}" target="_blank">View</a></li>
                 {% endif %}
             {% empty %}
             <li>Sorry, no documents have been made available yet.</li>
             {% endfor %}
-        </ul>
     </div>
 
     {% endblock %}
