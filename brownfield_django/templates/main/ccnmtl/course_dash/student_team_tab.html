@@ -16,16 +16,14 @@
             <div class="team_controls">
                   <form class="add-team-frm" method="" action="" style="display: none;">
                     {% csrf_token %}
-                    <div class="create-team-name">
-                    <label>Team Name</label>
-                    <input type="text" placeholder="Team Name" class="team-name" />
-                    </div>
-                    <div class="create-team-buttons">
+                    <span class="team-name-box">
+                        <label>Team Name</label>
+                        <input type="text" placeholder="Team Name" class="team-name" />
+                    </span>
                     <input type="submit" value="Save Team" class="btn btn-xs btn-default team_submit"/>
                     <button class='btn btn-xs btn-default cncl-add-team' type="button">
                     Cancel
                     </button>
-                    </div>
                 </form>
             </div>
             <div class="team-list"></div>
