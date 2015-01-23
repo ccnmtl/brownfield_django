@@ -31,13 +31,30 @@ var BaseManagementView = Backbone.View.extend({
     },
 
     onlyLetters: function (check_string){
-    	alert(check_string);
+        alert(check_string);
         //var TCode = document.getElementById('TCode').value;
         if( /[^a-zA-Z]/.test( check_string ) ) {
            alert('Please only enter letters for first and last names');
            return false;
         }
         return true;     
+     },
+
+    is_empty: function (selector_string, error_element, error_msg){
+        //alert(selector_string);
+        //alert(error_msg);
+        var check = jQuery(selector_string).val();
+        if(check === null || check === "") 
+        {
+            if((jQuery(error_element).has('.is-empty').length) === 0)
+            {
+                //jQuery(error_element).append("<b class='error-msg is-empty' style='color:red'>Please enter something here.</b>");
+                jQuery(error_element).append("<b class='error-msg is-empty' style='color:red'>" + String(error_msg) + "</b>");
+            }
+           //alert('Please only enter letters for first and last names');
+           return true;
+        }
+        return false;     
      }
     
 });
@@ -149,7 +166,8 @@ var ManageInstructorsView = BaseManagementView.extend({
         _.bindAll(this,
                   'addInstructor',
                   'showAddItemForm',
-                  'hideAddItemForm');
+                  'hideAddItemForm',
+                  'is_empty');
         this.instructor_collection_view = new InstructorListView({
             el: jQuery('.instructor-list'),
         });
@@ -160,30 +178,18 @@ var ManageInstructorsView = BaseManagementView.extend({
     validAddForm: function() {
     	var is_valid = true;
     	
-    	if((jQuery(".add-instructor-frm input.instructor-frst-name").val().length) === 0)
+    	if(this.is_empty(".add-instructor-frm input.instructor-frst-name", ".inst-first-name", "Please enter a first name."))
     	{
     		is_valid = false;
-    		if((jQuery(".inst-first-name").has('b').length) === 0)
-    		{
-    			jQuery(".inst-first-name").append("<b class='error-msg' style='color:red'>Please enter a first name.</b>");
-    		}
     	}
-    	if((jQuery(".add-instructor-frm input.instructor-last-name").val().length) === 0)
-    	{
-    		is_valid = false;
-    		if((jQuery(".inst-last-name").has('b').length) === 0)
-    		{
-    			jQuery(".inst-last-name").append("<b class='error-msg' style='color:red'>Please enter a last name.</b>");
-    		}
-    	}
-    	if((jQuery(".add-instructor-frm input.instructor-email").val().length) === 0)
-    	{
-    		is_valid = false;
-    		if((jQuery(".inst-email").has('b').length) === 0)
-    		{
-    			jQuery(".inst-email").append("<b class='error-msg' style='color:red'>Please enter a email.</b>");
-    		}
-    	}
+        if(this.is_empty(".add-instructor-frm input.instructor-last-name", ".inst-last-name", "Please enter a last name."))
+        {
+            is_valid = false;
+        }
+        if(this.is_empty(".add-instructor-frm input.instructor-email", ".inst-email", "Please enter a email address."))
+        {
+            is_valid = false;
+        }
     	//check whatever they put for email looks something like an actual address
     	else if((jQuery(".add-instructor-frm input.instructor-email").val().length) !== 0)
     	{
@@ -302,8 +308,7 @@ var StudentControlView = BaseManagementView.extend({
                 },
     	        wait: true,
     	    	url: this.student_collection_view.collection.url()
-    	    }
-    	);
+    	    });
         }
 	    return false;
     },
