@@ -165,7 +165,7 @@ var ManageInstructorsView = BaseManagementView.extend({
     		is_valid = false;
     		if((jQuery(".inst-first-name").has('b').length) === 0)
     		{
-    			jQuery(".inst-first-name").append("<b>Please enter a first name.</b>").css('color', 'red');
+    			jQuery(".inst-first-name").append("<b class='error-msg' style='color:red'>Please enter a first name.</b>");
     		}
     	}
     	if((jQuery(".add-instructor-frm input.instructor-last-name").val().length) === 0)
@@ -173,7 +173,7 @@ var ManageInstructorsView = BaseManagementView.extend({
     		is_valid = false;
     		if((jQuery(".inst-last-name").has('b').length) === 0)
     		{
-    			jQuery(".inst-last-name").append("<b>Please enter a last name.</b>").css('color', 'red');
+    			jQuery(".inst-last-name").append("<b class='error-msg' style='color:red'>Please enter a last name.</b>");
     		}
     	}
     	if((jQuery(".add-instructor-frm input.instructor-email").val().length) === 0)
@@ -181,7 +181,7 @@ var ManageInstructorsView = BaseManagementView.extend({
     		is_valid = false;
     		if((jQuery(".inst-email").has('b').length) === 0)
     		{
-    			jQuery(".inst-email").append("<b class='error-msg'>Please enter a email.</b>").css('color', 'red');
+    			jQuery(".inst-email").append("<b class='error-msg' style='color:red'>Please enter a email.</b>");
     		}
     	}
     	//check whatever they put for email looks something like an actual address
@@ -193,7 +193,7 @@ var ManageInstructorsView = BaseManagementView.extend({
                 is_valid = false;
     		    if((jQuery(".inst-email").has('b').length) === 0)
     		    {
-    			    jQuery(".inst-email").append("<b class='error-msg'>Please enter a valid email.</b>").css('color', 'red');
+    			    jQuery(".inst-email").append("<b class='error-msg' style='color:red'>Please enter a valid email.</b>");
     		    }
     	    }
     	}
@@ -222,6 +222,10 @@ var ManageInstructorsView = BaseManagementView.extend({
                     if(jQuery(".add-instructor-frm").has('.error-msg').length !==0 )
                     {
                         jQuery('.add-instructor-frm .error-msg').remove();
+                    }
+                    if(jQuery(".add-instructor-frm").has('.form-error').length !==0 )
+                    {
+                        jQuery('.add-instructor-frm .form-error').remove();
                     }
 
                 },
@@ -280,6 +284,14 @@ var StudentControlView = BaseManagementView.extend({
                     jQuery(".frst-name").val("");
                     jQuery(".last-name").val("");
                     jQuery(".email").val("");
+                    if(jQuery(".add-std-frm").has('.error-msg').length !==0 )
+                    {
+                        jQuery('.add-std-frm .error-msg').remove();
+                    }
+                    if(jQuery(".add-std-frm").has('.form-error').length !==0 )
+                    {
+                        jQuery('.add-std-frm .form-error').remove();
+                    }
     	    	},
                 error: function(model, response)
                 {
@@ -308,7 +320,7 @@ var StudentControlView = BaseManagementView.extend({
             is_valid = false;
     		if((jQuery(".first-name-box").has('b').length) === 0)
     		{
-    			jQuery(".first-name-box").append("<b>Please enter a first name.</b>").css('color', 'red');
+    			jQuery(".first-name-box").append("<b class='error-msg' style='color:red'>Please enter a first name.</b>");
     		}
     	}
     	if((jQuery(".add-std-frm input.last-name").val().length) === 0)
@@ -316,7 +328,7 @@ var StudentControlView = BaseManagementView.extend({
             is_valid = false;
     		if((jQuery(".last-name-box").has('b').length) === 0)
     		{
-    			jQuery(".last-name-box").append("<b>Please enter a last name.</b>").css('color', 'red');
+    			jQuery(".last-name-box").append("<b class='error-msg' style='color:red'>Please enter a last name.</b>");
     		}
     	}
     	if((jQuery(".add-std-frm input.email").val().length) === 0)
@@ -324,7 +336,7 @@ var StudentControlView = BaseManagementView.extend({
             is_valid = false;
     		if((jQuery(".email-box").has('b').length) === 0)
     		{
-    			jQuery(".email-box").append("<b>Please enter a email.</b>").css('color', 'red');
+    			jQuery(".email-box").append("<b class='error-msg' style='color:red'>Please enter a email.</b>");
     		}
     	}
     	//check whatever they put for email looks something like an actual address
@@ -336,7 +348,7 @@ var StudentControlView = BaseManagementView.extend({
                 is_valid = false;
     		    if((jQuery(".email-box").has('b').length) === 0)
     		    {
-    			    jQuery(".email-box").append("<b>Please enter a valid email.</b>").css('color', 'red');
+    			    jQuery(".email-box").append("<b class='error-msg' style='color:red'>Please enter a valid email.</b>");
     		    }
     	    }
     	}
