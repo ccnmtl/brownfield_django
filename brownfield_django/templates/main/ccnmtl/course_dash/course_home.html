@@ -14,7 +14,6 @@
     {% comment %}List Templates{% endcomment %}
     <script type="text/template" id="document-list-template">
         <div class="document-click"><b><%= name %></b></div>
-        <space><space>
         <%
             if(visible)
             {
@@ -27,6 +26,7 @@
     </script>
 
     <script type="text/template" id="student-list-template">
+     <div class="student-info">
         <div class="student-name">
             <label>Name: </label>
             <%= first_name %>
@@ -36,6 +36,7 @@
             <label>Email: </label>
             <%= email %>
         </div>
+        </div>
         <div class="student-buttons">
             
             <button class="btn btn-xs btn-default pull-right rm-st"><span class="glyphicon glyphicon-remove"></span> Remove Student From Course </button>
@@ -44,7 +45,7 @@
     </script>
 
     <script type="text/template" id="team-list-template">
-       <div class="team-name">
+       <div class="team-name-list">
             <div class="t-username">
             <label>Team Username (for login purposes): </label> <%= username %>
             </div>
@@ -67,6 +68,7 @@
     <script type="text/template" id="student-edit-template">
     <form class="edit-student-frm" method="" action="" style="display: inline;">
         {% csrf_token %}
+     <div class="create-student-account">
         <div class="sedt-first-name">
             <label>First Name: </label>
             <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> 
@@ -79,9 +81,11 @@
             <label>Email: </label>
             <input type="text" placeholder="Email: " class="edt-email" value="<%= email %>" />
         </div>
+        </div>
+        <div class="create-student-buttons">
         <button class="btn btn-xs btn-default save-edit-student"> Save Changes </button>  
         <button class="btn btn-xs  btn-default cncl-edit-std">Cancel</button>       
-        <br />
+        </div>
     </form>
     </script>
     
@@ -108,7 +112,7 @@
   <ul class="nav nav-tabs instructor-nav">
     <li class="active"><a href="#course-documents" data-toggle="tab">Course Info</a></li>
     <li><a href="#course-team-students" data-toggle="tab">Teams and Students</a></li>
-    <li id="get_teams"><a href="#course-active-teams" data-toggle="tab">View Teams</a></li>
+    <li id="get_teams"><a href="#course-active-teams" data-toggle="tab">Organize Teams</a></li>
   </ul>
  
   <div class="instructor tab-content">

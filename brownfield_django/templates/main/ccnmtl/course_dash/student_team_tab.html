@@ -1,8 +1,11 @@
 <div class="tab-pane" id="course-team-students">
     <div class="create-teams">
-     <h3>Instructions</h3>
-    On this page you should create your students and teams, you will put your students in teams on the next page.
-  	Create your teams and students below.
+      <h2>{{object.name}} <small>Teams and Students</small></h2>
+  	<ol>
+  	    <li>Click <strong>Add New Team</strong> to create a new team for your Brownfield Action course.</li>
+  	    <li>Click <strong>Add New Student</strong> to create student accounts. Be sure to associate an email with each student created.</li>
+  	    <li>Click the <strong>Organize Teams</strong> tab above to place students on teams. Upon course activation, a team username and password will be created and emailed to the student emails you provide.</li>
+  	</ol>
     </div>
     <div class="team-creation-area">
         <div class='team-header'>
@@ -11,16 +14,18 @@
         </div>
         <div id="course-teams">
             <div class="team_controls">
-                <p class="add-team-frm-title" style="display: none;">
-                <form class="add-team-frm" method="" action="" style="display: none;">
+                  <form class="add-team-frm" method="" action="" style="display: none;">
                     {% csrf_token %}
+                    <div class="create-team-name">
                     <label>Team Name</label>
                     <input type="text" placeholder="Team Name" class="team-name" />
-                    <br />
+                    </div>
+                    <div class="create-team-buttons">
                     <input type="submit" value="Save Team" class="btn btn-xs btn-default team_submit"/>
                     <button class='btn btn-xs btn-default cncl-add-team' type="button">
                     Cancel
                     </button>
+                    </div>
                 </form>
             </div>
             <div class="team-list"></div>
@@ -29,12 +34,12 @@
         <br /><br />
         <div class="course-students">
           <div class='student-header'>
-<h3>Students</h3>
-    <button class="btn btn-default add-std-btn pull-right"><span class="glyphicon glyphicon-plus"></span> Add New Student</button></div>
+            <h3>Students</h3>
+             <button class="btn btn-default add-std-btn pull-right"><span class="glyphicon glyphicon-plus"></span> Add New Student</button></div>
             <div class="student_controls">
-                <p class="add-std-frm-title" style="display: none;"> <b>Add New Student: </b></p>
                 <form class="add-std-frm" method="" action="" style="display: none;">
                 {% csrf_token %}
+                <div class="create-student-account">
                     <div class="first-name-box">
                         <label>First Name: </label>
                         <input type="text" placeholder="First Name" class="frst-name" />
@@ -47,10 +52,13 @@
                         <label>Email: </label>
                         <input type="text" placeholder="Email" class="email" />
                     </div>
+                    </div>
+                    <div class="create-student-buttons">
                     <input type="submit" value="Save Student" class="btn btn-xs btn-default student_submit"/>
                     <button class='btn btn-xs btn-default cncl-add-std' type="button">
                         Cancel
                     </button>
+                    </div>
                 </form>
             </div>
             <div class="student-list"></div>
