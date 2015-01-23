@@ -412,6 +412,12 @@ p.navbar-text .btn {
 	clear: both;
 }
 
+.edit-instructor-frm span {
+	display: block;
+	float: left;	
+	clear: both;
+}
+
 
 /* Team List */
 .team-header {
