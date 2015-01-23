@@ -331,7 +331,7 @@ p.navbar-text .btn {
 	margin: 1em 0 3em 0;
 }
 
-.create-teams ol li, #course-documents ol li, .course-teams ol li {
+.create-teams ol li, #course-documents ol li, .course-teams ol li, .course-activation ol li {
 	list-style-type:decimal;
 }
 
@@ -622,7 +622,7 @@ tr.team {
 	float: left;
 }
 
-.course-message, .course-div, .team-div, .play-brownfield {
+.course-message, .course-div, .team-div, .play-brownfield, .crs-act-info {
 	display: block;
 	float: left;
 	clear: both;
