@@ -289,7 +289,7 @@ var StudentView = DeletableItemView.extend({
         {
             is_valid = false;
         }
-        if(this.is_empty("textarea.edt-email", ".sedt-email", "Please enter a email address."))
+        if(this.is_empty("input.edt-email", ".sedt-email", "Please enter a email address."))
         {
             is_valid = false;
         }
@@ -299,6 +299,9 @@ var StudentView = DeletableItemView.extend({
    	editStudent: function(e)
    	{
    		e.preventDefault();
+
+      if(this.validEditForm())
+      {
    		var std_fname = jQuery(this.el).find("input.edt-frst-name").val();
    		var std_lname = jQuery(this.el).find("input.edt-last-name").val();
         var std_email = jQuery(this.el).find("input.edt-email").val();
@@ -317,6 +320,7 @@ var StudentView = DeletableItemView.extend({
             },
             wait: true
         });//end save
+    }
     }
 
 });
