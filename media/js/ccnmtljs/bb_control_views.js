@@ -237,7 +237,7 @@ var ManageInstructorsView = BaseManagementView.extend({
                     }
                 },
                 wait: true
-            });
+            }); //end create
         }       
         return false;
     }
@@ -376,26 +376,56 @@ var TeamControlView = BaseManagementView.extend({
    	    this.add_btn = jQuery(".add-team-btn");
     },
 
+    validAddForm: function() {
+        var is_valid = true;
+
+        if((jQuery(".add-team-frm input.team-name").val().length) === 0)
+        {
+            is_valid = false;
+            if((jQuery(".add-team-frm .team-name-box").has('b').length) === 0)
+            {
+                jQuery(".team-name-box").append("<b class='error-msg' style='color:red'>Please enter a team name.</b>");
+            }
+        }
+        return is_valid;
+    },
+
     addTeam: function(evt) {
     	evt.preventDefault();
-    	this.team_collection_view.collection.create(
-    	{
-    		team_name : jQuery(".team-name").val()
-    	},
-	    {
-    	    success: function(model, response) 
+
+        if(this.validAddForm())
+        {
+
+        	this.team_collection_view.collection.create(
     	    {
-                jQuery(".team-name").val("");
-                jQuery(".add-team-frm").hide();
-                jQuery(".add-team-btn").show();
-            },
-            error: function(model, response) {
-            	this.showFormError();
-            },
-	        wait: true,
-	    	url: this.team_collection_view.collection.url()
-	    }
-    	);
+        		team_name : jQuery(".team-name").val()
+        	},
+	        {
+    	        success: function(model, response) 
+        	    {
+                    if(jQuery(".add-team-frm").has('.error-msg').length !==0 )
+                {
+                    jQuery('.add-team-frm .error-msg').remove();
+                }
+                    if(jQuery(".add-team-frm").has('.form-error').length !==0 )
+                {
+                    jQuery('.add-team-frm .form-error').remove();
+                }
+                    jQuery(".team-name").val("");
+                    jQuery(".add-team-frm").hide();
+                    jQuery(".add-team-btn").show();
+                },
+                error: function(model, response) {
+                	if((jQuery(".add-team-frm").has('.form-error').length) === 0)
+                    {
+                        jQuery(".add-team-frm").append("<p class='form-error'>Something went wrong, please try again.</p>");
+                    }
+                },
+	            wait: true,
+	    	    url: this.team_collection_view.collection.url()
+	        });
+        }
+    	
 	    return false;
     },
     
