@@ -6,16 +6,20 @@
         <li>Click <strong>Save Changes</strong> to save students in teams and activate this Brownfield course.</li> 
         <li>Upon course activation, a team username and password will be created and emailed to the student emails you provided.</li>
     </ol>
-       <table id="team_table" class="table" style="width:100%">
+       <table id="team_table" class="team-table">
             {% for team in object.get_teams %} 
-              <tr class='team'>
-                <td class='team_name'>
+              <tr class="team">
+                <td class="team_name">
                   <b>{{team}}</b>
                 </td>
-                <td class='team_members'>
+                <td class="team_members">
+                      <ul>
                   {% for student in team.get_team_members %}
-                    {{student.display_name}}
+                  
+                    <li>{{student.display_name}}</li>
+                    
                   {% empty %}
+                  </ul>
                     <p>There are no students in this team.</p>
                   {% endfor %}
                 </td></tr>
