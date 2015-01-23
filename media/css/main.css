@@ -19,9 +19,14 @@ body, html {
 	margin-top: 100px;
 }
 
+#outer-container {
+	margin-bottom: 4em;
+}
+
 h3 {
 	color: #999;
 	text-transform: uppercase;
+	font-size: 1.5em;
 }
 
 
@@ -316,102 +321,21 @@ p.navbar-text .btn {
 	min-width: 100%;
 }
 
-
-/* Team List */
-.team-header {
-	display: block;
-	margin: 0 0 1em 0;
-	float: left;
-	width: 100%;
-}
-
-.team-header h3 {
-	margin-top: 0;
-	float: left;
-}
-.team-list {
-	background-color: #fbfaf7;
-	color: #333;
-	float: left;
-	display: block;
-	width: 100%;
-	margin: 0 0 2em 0;
-}
-
-.team-list li {
-	float: left;
-	clear: both;
-	display: block;
-	border-bottom: dotted 1px #ddd;
-	padding: 1em;
-	min-width: 100%;
-}
-
-.team-name {
-	float: left;
-	display: block;
-} 
-
-.team-buttons {
-	float: right;
-	display: block;
-} 
-
-.t-username {
-	float: left;
-	clear: both;
-}
-
-.t-name {
-	float: left; 
-	clear: both;
-}
-
-.t-history {
-	float: left;
-	clear: both;
-}
-
-
-.team-buttons button {
-	margin: 0 0 0 10px;
-}
-
-/* Student List */
-
-.student-header {
-	display: block;
-	margin: 0 0 1em 0;
-	float: left;
-	width: 100%;
-}
-
-.student-header h3 {
-	margin-top: 0;
+.document-click {
 	float: left;
 }
 
-.student-list {
-	background-color: #fbfaf7;
-	color: #333;
-	float: left;
-	display: block;
-	width: 100%;
-	margin: 0 0 2em 0;
+/* Create Instructions */
+
+.create-teams {
+	margin: 1em 0 3em 0;
 }
 
-.student-list li {
-	float: left;
-	clear: both;
-	display: block;
-	border-bottom: dotted 1px #ddd;
-	padding: 1em;
-	min-width: 100%;
+.create-teams ol li {
+	list-style-type:decimal;
 }
 
-.student-buttons button {
-	margin: 0 0 0 10px;
-}
+
 
 /* Create Course */
 
@@ -506,4 +430,173 @@ p.navbar-text .btn {
 	border-bottom: dotted 1px #ddd;
 	padding: 1em;
 	min-width: 100%;
+}
+
+/* Team List */
+.team-header {
+	display: block;
+	margin: 0 0 1em 0;
+	float: left;
+	width: 100%;
+}
+
+.team-header h3 {
+	margin-top: 0;
+	float: left;
+}
+.team-list {
+	background-color: #fbfaf7;
+	color: #333;
+	float: left;
+	display: block;
+	width: 100%;
+	margin: 0 0 2em 0;
+}
+
+.team-list li {
+	float: left;
+	clear: both;
+	display: block;
+	border-bottom: dotted 1px #ddd;
+	padding: 1em;
+	min-width: 100%;
+}
+
+.team-name-list {
+	float: left;
+	display: block;
+} 
+
+.team-buttons {
+	float: right;
+	display: block;
+} 
+
+.t-username {
+	float: left;
+	clear: both;
+}
+
+.t-name {
+	float: left; 
+	clear: both;
+}
+
+.t-history {
+	float: left;
+	clear: both;
+}
+
+.team-buttons button {
+	margin: 0 0 0 10px;
+}
+
+/* Create and Edit Teams Form */
+
+.team-creation-area {
+	display: block;
+	float: left;
+	width: 100%;
+}
+
+form.add-team-frm {
+	float: left;
+	display: block;
+	width: 100%;
+	margin-bottom: 2em;
+	background-color: #FBFAF8;
+	padding: 1em;
+}
+
+.create-team-name {
+	float: left;
+	display: inline;
+}
+
+.create-team-buttons {
+	float: right;
+}
+
+form.edit-team-frm {
+	float: left;
+	display: block;
+	width: 100%;
+	margin-bottom: 2em;
+	background-color: #FBFAF8;
+	padding: 1em;
+}
+
+/* Student List */
+
+.student-header {
+	display: block;
+	margin: 0 0 1em 0;
+	float: left;
+	width: 100%;
+}
+
+.student-header h3 {
+	margin-top: 0;
+	float: left;
+}
+
+.student-list {
+	background-color: #fbfaf7;
+	color: #333;
+	float: left;
+	display: block;
+	width: 100%;
+	margin: 0 0 2em 0;
+}
+
+.student-list li {
+	float: left;
+	clear: both;
+	display: block;
+	border-bottom: dotted 1px #ddd;
+	padding: 1em;
+	min-width: 100%;
+}
+.student-info {
+	float: left;
+	
+}
+
+.student-buttons button {
+	margin: 0 0 0 10px;
+}
+
+/* Create and Edit Students Form */
+
+.student_controls {
+	display: block;
+	float: left;
+	width: 100%;
+}
+
+form.add-std-frm {
+	float: left;
+	display: block;
+	width: 100%;
+	margin-bottom: 2em;
+	background-color: #FBFAF8;
+	padding: 1em;
+}
+
+.create-student-account {
+	float: left;
+	display: inline;
+}
+
+.create-student-buttons {
+	float: right;
+}
+
+form.edit-team-frm {
+	float: left;
+	display: block;
+	width: 100%;
+	margin-bottom: 2em;
+	background-color: #FBFAF8;
+	padding: 1em;
 }
