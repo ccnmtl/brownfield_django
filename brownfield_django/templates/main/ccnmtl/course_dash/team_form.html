@@ -1,4 +1,10 @@
 <div class="course-activation">
+     <h2>{{object.name}} <small>Organize Teams</small></h2>
+    <ol>
+        <li>Select the desired team for each student from the <strong>Team</strong> dropdown.</li>
+        <li>Click <strong>Activate Course</strong> to save students in teams and activate this Brownfield course.</li> 
+        <li>Upon course activation, a team username and password will be created and emailed to the student emails you provided.</li>
+    </ol>
     <table id="student_team_tables"  class="table" style="width:100%">
     <form id="act-crs-frm" method="post" action="../../activate_course/{{object.pk}}/">
         {% csrf_token %}
@@ -52,13 +58,8 @@
     <div class="crs-act-info">
     {% if not object.active %}
         <h3>Activate Course</h3>
-            <p>Activating the course teams will Every student should be a member of a team before you begin.
-                <ul>
-                    This will:
-                    <li>Activate accounts for all non-activated teams with at least one student member.</li>
-                    <li>For those new teams, send the student members email (cc'ing you) with the username and password for their team.</li>
-                </ul>
-            </p>
+           Activating the course teams will ensure every student is connected to a team before they begin the interactive. The activation will also send student members of the team an email (cc'ing you) with the username and password credentials for logging into the system.
+           
     {% endif %}
     </div><!-- End Course Activation Info -->
 </div>

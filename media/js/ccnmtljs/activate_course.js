@@ -2,7 +2,7 @@ function confirm_reactivation(){
 
     jQuery('#confirmAct').modal('show');
     jQuery('#confirmAct .modal-header .modal-title').html("Course Re-Activation");
-    jQuery('#confirmAct .modal-body').html("<p>Are you sure you want to change the teams in your course? This will update the teams, and place the students in the teams. All students will be emailed their teams and team password. Remember if you changed a user's team, the user will still have the original team's login and password unless your request it is changed.</p>");			
+    jQuery('#confirmAct .modal-body').html("<p>Are you sure you want to make changes to the teams in your course? Doing so will update the teams and student users accordingly and will send the student users new login credentials for the system. Note: the updated student users will still have access to their original teams login credentials unless you request it to be changed.</p>");			
     jQuery('#confirmAct .modal-footer #conf-act').html("Continue with Re-Activation");
 }
 
