@@ -7,7 +7,7 @@ var BaseItemView = Backbone.View.extend({
 
     tagName : 'li',
 
-	render: function () 
+	  render: function () 
     {
         var html = this.template(this.model.toJSON());
         this.$el.html(html);
@@ -24,7 +24,21 @@ var BaseItemView = Backbone.View.extend({
     {
         var edit_form =  this.edit_form(this.model.toJSON());
         this.$el.html(edit_form);
-    }
+    },
+
+    is_empty: function (selector_string, error_element, error_msg)
+    {
+        var check = jQuery(this.el).find(selector_string).val();
+        if(check === null || check === "") 
+        {
+            if((jQuery(error_element).has('.is-empty').length) === 0)
+            {
+                jQuery(error_element).append("<b class='error-msg is-empty' style='color:red'>" + String(error_msg) + "</b>");
+            }
+           return true;
+        }
+        return false;     
+     }
 
 });
 
@@ -138,22 +152,24 @@ var CourseView = BaseItemView.extend({
         /* Extremely simple basic check. */
         var is_valid = true;
 
-        var name = jQuery(this.el).find("input#edit_course_name").val();
-        var startingBudget = jQuery(this.el).find("input#edit_course_startingBudget").val();
-        var message = jQuery(this.el).find("textarea#edit_course_message").val();
-        
-        if (name === null || name === "") {
+        //var name = jQuery(this.el).find("input#edit_course_name").val();
+        //var startingBudget = jQuery(this.el).find("input#edit_course_startingBudget").val();
+        //var message = jQuery(this.el).find("textarea#edit_course_message").val();
+
+        if(this.is_empty("input#edit_course_name", ".course-name-block", "Please enter a valid course name."))
+        {
             is_valid = false;
-            jQuery('.course-name-block').append("<p style='color:#ff0000'>Please enter a valid course name.</p>");
         }
-        if (startingBudget === null || startingBudget === "") {
+
+        if(this.is_empty("input#edit_course_startingBudget", ".course-budget-block", "Please enter a valid starting budget for your course."))
+        {
             is_valid = false;
-            jQuery('.course-budget-block').append("<p style='color:#ff0000'>Please enter a valid starting budget for your course.</p>");
         }
-        if (message === null || message === "") {
+        if(this.is_empty("textarea#edit_course_message", ".course-message-block", "Please enter a valid course message."))
+        {
             is_valid = false;
-            jQuery('.course-message-block').append("<p style='color:#ff0000'>Please enter a valid course message.</p>");
         }
+
         return is_valid;
     },
     

@@ -32,11 +32,16 @@ var BaseManagementView = Backbone.View.extend({
         }
     },
 
-    onlyLetters: function (check_string){
-        alert(check_string);
-        //var TCode = document.getElementById('TCode').value;
-        if( /[^a-zA-Z]/.test( check_string ) ) {
-           alert('Please only enter letters for first and last names');
+    onlyLetters: function (selector_string, error_element){
+        alert(selector_string);
+        var check = jQuery(selector_string).val();
+        
+        if( /[^a-zA-Z]/.test(check))
+        {
+           if((jQuery(error_element).has('.chars-only').length) === 0)
+           {
+                jQuery(error_element).append("<b class='error-msg chars-only' style='color:red'> Please only use letters of the alphabet</b>");
+           }
            return false;
         }
         return true;     
@@ -307,7 +312,7 @@ var StudentControlView = BaseManagementView.extend({
                 {
                     if((jQuery(".add-std-frm").has('.form-error').length) === 0)
                     {
-                	    jQuery(".add-std-frm").append("<p class='form-error'>Something went wrong, please try again.</p>");
+                	    jQuery(".add-std-frm").append("<p class='error-msg form-error'>Something went wrong, please try again.</p>");
                     }
                 },
     	        wait: true,
@@ -412,7 +417,7 @@ var TeamControlView = BaseManagementView.extend({
                 error: function(model, response) {
                 	if((jQuery(".add-team-frm").has('.form-error').length) === 0)
                     {
-                        jQuery(".add-team-frm").append("<p class='form-error'>Something went wrong, please try again.</p>");
+                        jQuery(".add-team-frm").append("<p class='error-msg form-error'>Something went wrong, please try again.</p>");
                     }
                 },
 	            wait: true,
@@ -421,12 +426,6 @@ var TeamControlView = BaseManagementView.extend({
         }
     	
 	    return false;
-    },
-    
-    showError: function() {
-    },
-    
-    showSuccess: function() {
     }
     
 });// End TeamControlView  
