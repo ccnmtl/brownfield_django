@@ -1,3 +1,51 @@
+var BaseManagementView = Backbone.View.extend({
+
+    showAddItemForm: function(e)
+    {
+    	e.preventDefault();
+        this.add_form.show();
+        this.add_btn.hide();
+    },
+    
+    hideAddItemForm: function(e)
+    {
+         this.add_form.hide();
+         this.add_btn.show();
+    },
+    
+    showFormError: function()
+    {
+    	if((jQuery(".inst-first-name").has('b').length) === 0)
+		{
+        	this.add_form.append("<p class='.form-error'><b>Something went wrong, please try again.</b></p>");
+		}
+    },
+    
+    removeFormError: function()
+    {
+    	/* upon successful submission we want to remove any form errors if there are any */
+    },
+    notEmpty: funtion(string_selector)
+    {
+    	var is_empty = false;
+        var input_value = jQuery(string_selector).val();
+        if (message === null || message === "")
+        {
+        	
+        }
+    },
+    onlyLetters: function (check_string){
+    	alert(check_string);
+        //var TCode = document.getElementById('TCode').value;
+        if( /[^a-zA-Z/.test( check_string ) ) {
+           alert('Please only enter letters for first and last names');
+           return false;
+        }
+        return true;     
+     }
+    
+});
+
 var ManageCoursesView = Backbone.View.extend({
     events: {
     	'click .add-crs': 'showCourseForm',
@@ -94,70 +142,57 @@ var ManageCoursesView = Backbone.View.extend({
 });// End UserControlView  
 
 
-var ManageInstructorsView = Backbone.View.extend({
+var ManageInstructorsView = BaseManagementView.extend({
     events: {
-    	'click .add-instructor-btn': 'showInstructorForm',
-    	'click .cncl-add-inst' : 'hideAddForm',
+    	'click .add-instructor-btn': 'showAddItemForm',
+    	'click .cncl-add-inst' : 'hideAddItemForm',
     	'click .save-instructor': 'addInstructor'
     },
     
     initialize: function (options) {
         _.bindAll(this,
                   'addInstructor',
-                  'showInstructorForm',
-                  'onlyLetters');
+                  'showAddItemForm',
+                  'hideAddItemForm');
         this.instructor_collection_view = new InstructorListView({
             el: jQuery('.instructor-list'),
         });
+        this.add_form = jQuery(".add-instructor-frm");
+   	    this.add_btn = jQuery(".add-instructor-btn");
     },
-
-    showInstructorForm: function(e) {
-		jQuery(".add-instructor-btn").hide();
-		jQuery(".add-instructor-frm").show();
-    },
-    
-    hideAddForm: function()
-    {   
-    	this.$('.add-instructor-frm').css('display', 'none');
-    	jQuery(".add-instructor-btn").show();
-    },
-    
-    onlyLetters: function (check_string){
-    	alert(check_string);
-        //var TCode = document.getElementById('TCode').value;
-        if( /[^a-zA-Z0-9]/.test( check_string ) ) {
-           alert('Please only enter letters for first and last names');
-           return false;
-        }
-        return true;     
-     },
 
     addInstructor: function(evt) {
-    	//evt.stopPropagation();
-    	this.instructor_collection_view.collection.create(
+        evt.stopPropagation();
+         
+        if(this.validAddForm())
+        {
+            this.instructor_collection_view.collection.create(
     		{
     		    first_name : jQuery(".instructor-frst-name").val(),
     		    last_name : jQuery(".instructor-last-name").val(),
     		    email : jQuery(".instructor-email").val()
     	    },
     	    {
+    	    	success: function(model, response) 
+        	    {
+    	    		this.hideAddItemForm();
+                },
     	    	error: function(model, response)
                 {
-                	jQuery(".add-instructor-frm").append("<p>Something went wrong, please try again.</p>");
+                	this.showFormError();
                 },
     	    	wait: true
     	    });
-
-	    jQuery(".add-instructor-frm").hide();
-	    jQuery(".add-instructor-btn").show();
+        }    	
   	    return false;
     },
     
-    validateInstructorForm: function(e) {
-    	e.stopPropagation();
+    validAddForm: function(e) {
+    	var is_valid = true;
     	
     	if((jQuery(".add-instructor-frm input.instructor-frst-name").val().length) === 0)
     	{
+    		var is_valid = false;
     		if((jQuery(".inst-first-name").has('b').length) === 0)
     		{
     			jQuery(".inst-first-name").append("<b>Please enter a first name.</b>").css('color', 'red');
@@ -165,6 +200,7 @@ var ManageInstructorsView = Backbone.View.extend({
     	}
     	if((jQuery(".add-instructor-frm input.instructor-last-name").val().length) === 0)
     	{
+    		var is_valid = false;
     		if((jQuery(".inst-last-name").has('b').length) === 0)
     		{
     			jQuery(".inst-last-name").append("<b>Please enter a last name.</b>").css('color', 'red');
@@ -172,6 +208,7 @@ var ManageInstructorsView = Backbone.View.extend({
     	}
     	if((jQuery(".add-instructor-frm input.instructor-email").val().length) === 0)
     	{
+    		var is_valid = false;
     		if((jQuery(".inst-email").has('b').length) === 0)
     		{
     			jQuery(".inst-email").append("<b>Please enter a email.</b>").css('color', 'red');
@@ -196,33 +233,24 @@ var ManageInstructorsView = Backbone.View.extend({
 });  
 
 
-var StudentControlView = Backbone.View.extend({
+var StudentControlView = BaseManagementView.extend({
 
     events: {
-	'click .add-std-btn' : 'showStudentForm',
-	'click .cncl-add-std' : 'hideAddForm',
-	'click .student_submit' :	'validateStudentForm'
+        'click .add-std-btn' : 'showAddItemForm',
+        'click .cncl-add-std' : 'hideAddItemForm',
+        'click .student_submit' : 'validateStudentForm'
     },
     
     initialize: function (options)
     {
-    	_.bindAll(this, 'addStudent', 'hideAddForm', 'validateStudentForm');
+    	_.bindAll(this, 'addStudent', 'hideAddItemForm', 'showAddItemForm', 'validateStudentForm');
+
         this.student_collection_view = new StudentListView({
             el: jQuery('.student-list'),
             course: options.course
         });
-    },
-
-    showStudentForm: function() {
-		jQuery(".add-std-btn").hide();
-		jQuery(".add-std-frm-title").show();
-		jQuery(".add-std-frm").show();
-    },
-    
-    hideAddForm: function(e) {
-    	this.$('.add-std-frm-title').css('display', 'none');
-    	this.$('.add-std-frm').css('display', 'none');
-    	jQuery(".add-std-btn").show();
+        this.add_form = jQuery(".add-std-frm");
+   	    this.add_btn = jQuery(".add-std-btn");
     },
     
     addStudent: function(e) {
@@ -234,17 +262,17 @@ var StudentControlView = Backbone.View.extend({
     	            email : jQuery(".email").val()
     	    },
     	    {
+    	    	success: function(model, response){
+    	    		this.hideAddItemForm();
+    	    	},
                 error: function(model, response)
                 {
-                	jQuery(".add-team-frm").append("<p>Something went wrong, please try again.</p>");
+                	this.showFormError();
                 },
     	        wait: true,
     	    	url: this.student_collection_view.collection.url()
     	    }
     	);
-	    jQuery(".add-std-frm-title").hide();
-	    jQuery(".add-std-frm").hide();
-	    jQuery(".add-std-btn").show();
 	    return false;
     },
     
@@ -293,12 +321,12 @@ var StudentControlView = Backbone.View.extend({
 });
 
 
-var TeamControlView = Backbone.View.extend({
+var TeamControlView = BaseManagementView.extend({
 
     events: {
-	'click .add-team-btn' : 'showTeamForm',
-	'click .cncl-add-team' : 'hideAddForm',
-	'click .team_submit' :	'addTeam'
+        'click .add-team-btn' : 'showAddItemForm',
+        'click .cncl-add-team' : 'hideAddItemForm',
+	    'click .team_submit' : 'addTeam'
     },
     
     initialize: function (options) {
@@ -306,18 +334,8 @@ var TeamControlView = Backbone.View.extend({
             el: jQuery('.team-list'),
             course: options.course
         });
-    },
-
-    showTeamForm: function() {
-		jQuery(".add-team-btn").hide();
-		jQuery(".add-team-frm-title").show();
-		jQuery(".add-team-frm").show();
-    },
-    
-    hideAddForm: function(e) {
-    	this.$('.add-team-frm-title').css('display', 'none');
-    	this.$('.add-team-frm').css('display', 'none');
-    	jQuery(".add-team-btn").show();
+        this.add_form = jQuery(".add-team-frm");
+   	    this.add_btn = jQuery(".add-team-btn");
     },
 
     addTeam: function(team) {
@@ -331,15 +349,12 @@ var TeamControlView = Backbone.View.extend({
     	    {
             },
             error: function(model, response) {
-            	jQuery(".add-team-frm").append("<p>Something went wrong, please try again.</p>");
+            	this.showFormError();
             },
 	        wait: true,
 	    	url: this.team_collection_view.collection.url()
 	    }
     	);
-	    jQuery(".add-team-frm-title").hide();
-	    jQuery(".add-team-frm").hide();
-	    jQuery(".add-team-btn").show();
 	    return false;
     },
     
