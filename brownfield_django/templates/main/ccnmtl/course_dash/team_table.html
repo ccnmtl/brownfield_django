@@ -1,18 +1,28 @@
     <div class="course-teams">
-        <h3>Your Current Teams and Team Members</h3>
-        <br /> <br />
-        
-          <table id="team_table" class="table" style="width:100%">
+       <h2>{{object.name}} <small>Organize Teams</small></h2>
+    <ol>
+        <li>Click <strong>Edit Teams</strong> to place students on teams.</li>
+        <li>Select the desired team for each student from the <strong>Team</strong> dropdown.</li>
+        <li>Click <strong>Save Changes</strong> to save students in teams and activate this Brownfield course.</li> 
+        <li>Upon course activation, a team username and password will be created and emailed to the student emails you provided.</li>
+    </ol>
+    <h3>Teams for {{object.name}}</h3>
+       <table id="team_table" class="table table-teams">
+          
             {% for team in object.get_teams %} 
               <tr class='team'>
                 <td class='team_name'>
                   <b>{{team}}</b>
                 </td>
                 <td class='team_members'>
+                      <ul>
                   {% for student in team.get_team_members %}
-                    {{student.display_name}}
+                  
+                    <li>{{student.display_name}}</li>
+                    
                   {% empty %}
-                    <p>There are no students in this team.</p>
+                  </ul>
+                    There are no students in this team.
                   {% endfor %}
                 </td></tr>
             {% empty %}

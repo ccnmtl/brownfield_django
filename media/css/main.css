@@ -16,11 +16,17 @@ body, html {
 	position: relative;
 	min-height: 100%;
 	margin-bottom: -100px;
+	margin-top: 100px;
+}
+
+#outer-container {
+	margin-bottom: 4em;
 }
 
 h3 {
 	color: #999;
 	text-transform: uppercase;
+	font-size: 1.5em;
 }
 
 
@@ -36,10 +42,6 @@ h3 {
 	background: -o-linear-gradient(#bec960, #d1d642); /* For Opera 11.1 to 12.0 */
 	background: -moz-linear-gradient(#bec960, #d1d642); /* For Firefox 3.6 to 15 */
 	background: linear-gradient(#bec960, #d1d642); /* Standard syntax */
-}
-
-ul.nav.nav-tabs {
-	margin: 7em 0 0 0;
 }
 
 p.navbar-text {
@@ -129,7 +131,6 @@ p.navbar-text .btn {
 .loginbox-container {
     float: right;
     height: 265px;
-    margin-top: 150px;
 }
 
 .loginbox-container.columbia {
@@ -320,47 +321,21 @@ p.navbar-text .btn {
 	min-width: 100%;
 }
 
-
-/* Team List */
-
-.team-list {
-	background-color: #fbfaf7;
-	color: #333;
+.document-click {
 	float: left;
-	display: block;
-	width: 100%;
-	margin: 0 0 2em 0;
 }
 
-.team-list li {
-	float: left;
-	clear: both;
-	display: block;
-	border-bottom: dotted 1px #ddd;
-	padding: 1em;
-	min-width: 100%;
+/*Instructions */
+
+.create-teams {
+	margin: 1em 0 3em 0;
+}
+
+.create-teams ol li, #course-documents ol li, .course-teams ol li {
+	list-style-type:decimal;
 }
 
 
-/* Student List */
-
-.student-list {
-	background-color: #fbfaf7;
-	color: #333;
-	float: left;
-	display: block;
-	width: 100%;
-	margin: 0 0 2em 0;
-}
-
-.student-list li {
-	float: left;
-	clear: both;
-	display: block;
-	border-bottom: dotted 1px #ddd;
-	padding: 1em;
-	min-width: 100%;
-}
 
 /* Create Course */
 
@@ -435,4 +410,216 @@ p.navbar-text .btn {
 .instructor-list li .email {
 	display: block;
 	clear: both;
+}
+
+/* Team View Documents */
+
+.course-div {
+	background-color: #fbfaf7;
+	color: #333;
+	float: left;
+	display: block;
+	width: 100%;
+	margin: 0 0 2em 0;
+}
+
+.course-div li {
+	float: left;
+	clear: both;
+	display: block;
+	border-bottom: dotted 1px #ddd;
+	padding: 1em;
+	min-width: 100%;
+}
+
+/* Team List */
+.team-header {
+	display: block;
+	margin: 0 0 1em 0;
+	float: left;
+	width: 100%;
+}
+
+.team-header h3 {
+	margin-top: 0;
+	float: left;
+}
+.team-list {
+	background-color: #fbfaf7;
+	color: #333;
+	float: left;
+	display: block;
+	width: 100%;
+	margin: 0 0 2em 0;
+}
+
+.team-list li {
+	float: left;
+	clear: both;
+	display: block;
+	border-bottom: dotted 1px #ddd;
+	padding: 1em;
+	min-width: 100%;
+}
+
+.team-name-list {
+	float: left;
+	display: block;
+} 
+
+.team-buttons {
+	float: right;
+	display: block;
+} 
+
+.t-username {
+	float: left;
+	clear: both;
+}
+
+.t-name {
+	float: left; 
+	clear: both;
+}
+
+.t-history {
+	float: left;
+	clear: both;
+}
+
+.team-buttons button {
+	margin: 0 0 0 10px;
+}
+
+/* Create and Edit Teams Form */
+
+.team-creation-area {
+	display: block;
+	float: left;
+	width: 100%;
+}
+
+form.add-team-frm {
+	float: left;
+	display: block;
+	width: 100%;
+	margin-bottom: 2em;
+	background-color: #FBFAF8;
+	padding: 1em;
+}
+
+.create-team-name {
+	float: left;
+	display: inline;
+}
+
+.create-team-buttons {
+	float: right;
+}
+
+form.edit-team-frm {
+	float: left;
+	display: block;
+	width: 100%;
+	margin-bottom: 2em;
+	background-color: #FBFAF8;
+	padding: 1em;
+}
+
+/* Student List */
+
+.student-header {
+	display: block;
+	margin: 0 0 1em 0;
+	float: left;
+	width: 100%;
+}
+
+.student-header h3 {
+	margin-top: 0;
+	float: left;
+}
+
+.student-list {
+	background-color: #fbfaf7;
+	color: #333;
+	float: left;
+	display: block;
+	width: 100%;
+	margin: 0 0 2em 0;
+}
+
+.student-list li {
+	float: left;
+	clear: both;
+	display: block;
+	border-bottom: dotted 1px #ddd;
+	padding: 1em;
+	min-width: 100%;
+}
+.student-info {
+	float: left;
+	
+}
+
+.student-buttons button {
+	margin: 0 0 0 10px;
+}
+
+/* Create and Edit Students Form */
+
+.student_controls {
+	display: block;
+	float: left;
+	width: 100%;
+}
+
+form.add-std-frm {
+	float: left;
+	display: block;
+	width: 100%;
+	margin-bottom: 2em;
+	background-color: #FBFAF8;
+	padding: 1em;
+}
+
+.create-student-account {
+	float: left;
+	display: inline;
+}
+
+.create-student-buttons {
+	float: right;
+}
+
+form.edit-team-frm {
+	float: left;
+	display: block;
+	width: 100%;
+	margin-bottom: 2em;
+	background-color: #FBFAF8;
+	padding: 1em;
+}
+
+/* Organize Teams */
+
+.table-teams {
+	margin: 2em 0 0 0;
+}
+
+.table-teams td {
+	border-top: none!important;
+}
+
+tr.team {
+	background-color: #fbfaf7;
+	color: #333;
+	float: left;
+	display: block;
+	width: 100%;
+	margin: 0 0 2em 0;
+}
+
+td.team_name {
+	width: 45%;
 }
