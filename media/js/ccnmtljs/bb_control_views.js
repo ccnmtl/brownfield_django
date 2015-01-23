@@ -13,31 +13,27 @@ var BaseManagementView = Backbone.View.extend({
          this.add_btn.show();
     },
     
-    showFormError: function()
+    showFormError: function(form_selector)
     {
-    	if((jQuery(".inst-first-name").has('b').length) === 0)
+    	if((jQuery(form_selector).has('.form_error').length) === 0)
 		{
         	this.add_form.append("<p class='.form-error'><b>Something went wrong, please try again.</b></p>");
 		}
     },
     
-    removeFormError: function()
+    removeFormError: function(form_selector)
     {
     	/* upon successful submission we want to remove any form errors if there are any */
-    },
-    notEmpty: funtion(string_selector)
-    {
-    	var is_empty = false;
-        var input_value = jQuery(string_selector).val();
-        if (message === null || message === "")
+        if((jQuery(form_selector).has('.form_error').length) > 0)
         {
-        	
+            this.add_form.remove("<p class='.form-error'><b>Something went wrong, please try again.</b></p>");
         }
     },
+
     onlyLetters: function (check_string){
     	alert(check_string);
         //var TCode = document.getElementById('TCode').value;
-        if( /[^a-zA-Z/.test( check_string ) ) {
+        if( /[^a-zA-Z]/.test( check_string ) ) {
            alert('Please only enter letters for first and last names');
            return false;
         }
@@ -160,39 +156,13 @@ var ManageInstructorsView = BaseManagementView.extend({
         this.add_form = jQuery(".add-instructor-frm");
    	    this.add_btn = jQuery(".add-instructor-btn");
     },
-
-    addInstructor: function(evt) {
-        evt.stopPropagation();
-         
-        if(this.validAddForm())
-        {
-            this.instructor_collection_view.collection.create(
-    		{
-    		    first_name : jQuery(".instructor-frst-name").val(),
-    		    last_name : jQuery(".instructor-last-name").val(),
-    		    email : jQuery(".instructor-email").val()
-    	    },
-    	    {
-    	    	success: function(model, response) 
-        	    {
-    	    		this.hideAddItemForm();
-                },
-    	    	error: function(model, response)
-                {
-                	this.showFormError();
-                },
-    	    	wait: true
-    	    });
-        }    	
-  	    return false;
-    },
     
-    validAddForm: function(e) {
+    validAddForm: function() {
     	var is_valid = true;
     	
     	if((jQuery(".add-instructor-frm input.instructor-frst-name").val().length) === 0)
     	{
-    		var is_valid = false;
+    		is_valid = false;
     		if((jQuery(".inst-first-name").has('b').length) === 0)
     		{
     			jQuery(".inst-first-name").append("<b>Please enter a first name.</b>").css('color', 'red');
@@ -200,7 +170,7 @@ var ManageInstructorsView = BaseManagementView.extend({
     	}
     	if((jQuery(".add-instructor-frm input.instructor-last-name").val().length) === 0)
     	{
-    		var is_valid = false;
+    		is_valid = false;
     		if((jQuery(".inst-last-name").has('b').length) === 0)
     		{
     			jQuery(".inst-last-name").append("<b>Please enter a last name.</b>").css('color', 'red');
@@ -208,10 +178,10 @@ var ManageInstructorsView = BaseManagementView.extend({
     	}
     	if((jQuery(".add-instructor-frm input.instructor-email").val().length) === 0)
     	{
-    		var is_valid = false;
+    		is_valid = false;
     		if((jQuery(".inst-email").has('b').length) === 0)
     		{
-    			jQuery(".inst-email").append("<b>Please enter a email.</b>").css('color', 'red');
+    			jQuery(".inst-email").append("<b class='error-msg'>Please enter a email.</b>").css('color', 'red');
     		}
     	}
     	//check whatever they put for email looks something like an actual address
@@ -220,14 +190,52 @@ var ManageInstructorsView = BaseManagementView.extend({
     	    if((jQuery(".add-instructor-frm input.instructor-email").val().indexOf("@")  === -1) && 
     	       (jQuery(".add-instructor-frm input.instructor-email").val().indexOf(".") === -1))
     	    {
+                is_valid = false;
     		    if((jQuery(".inst-email").has('b').length) === 0)
     		    {
-    			    jQuery(".inst-email").append("<b>Please enter a valid email.</b>").css('color', 'red');
+    			    jQuery(".inst-email").append("<b class='error-msg'>Please enter a valid email.</b>").css('color', 'red');
     		    }
     	    }
     	}
-    	//if above tests pass reasonable to submit
-    	this.addInstructor();
+    	
+    	return is_valid;
+    },
+        addInstructor: function(e) {
+        e.stopPropagation();
+         
+        if(this.validAddForm())
+        {
+            this.instructor_collection_view.collection.create(
+            {
+                first_name : jQuery(".instructor-frst-name").val(),
+                last_name : jQuery(".instructor-last-name").val(),
+                email : jQuery(".instructor-email").val()
+            },
+            {
+                success: function(model, response) 
+                {
+                    jQuery(".add-instructor-frm").hide();
+                    jQuery(".add-instructor-btn").show();
+                    jQuery(".instructor-frst-name").val("");
+                    jQuery(".instructor-last-name").val("");
+                    jQuery(".instructor-email").val("");
+                    if(jQuery(".add-instructor-frm").has('.error-msg').length !==0 )
+                    {
+                        jQuery(".add-instructor-frm").remove('.error-msg');
+                    }
+
+                },
+                error: function(model, response)
+                {
+                    if((jQuery(".add-instructor-frm").has('.form-error').length) === 0)
+                    {
+                        jQuery(".add-instructor-frm").append("<p class='form-error'>Something went wrong, please try again.</p>");
+                    }
+                },
+                wait: true
+            });
+        }       
+        return false;
     }
     
 });  
@@ -238,12 +246,12 @@ var StudentControlView = BaseManagementView.extend({
     events: {
         'click .add-std-btn' : 'showAddItemForm',
         'click .cncl-add-std' : 'hideAddItemForm',
-        'click .student_submit' : 'validateStudentForm'
+        'click .student_submit' : 'addStudent'
     },
     
     initialize: function (options)
     {
-    	_.bindAll(this, 'addStudent', 'hideAddItemForm', 'showAddItemForm', 'validateStudentForm');
+    	_.bindAll(this, 'addStudent', 'hideAddItemForm', 'showAddItemForm');
 
         this.student_collection_view = new StudentListView({
             el: jQuery('.student-list'),
@@ -254,8 +262,11 @@ var StudentControlView = BaseManagementView.extend({
     },
     
     addStudent: function(e) {
-    	
-    	this.student_collection_view.collection.create(
+    	e.preventDefault();
+
+        if(this.validAddForm())
+        {
+    	    this.student_collection_view.collection.create(
     	    {   
     	        	first_name : jQuery(".frst-name").val(),
     	            last_name : jQuery(".last-name").val(),
@@ -263,26 +274,38 @@ var StudentControlView = BaseManagementView.extend({
     	    },
     	    {
     	    	success: function(model, response){
-    	    		this.hideAddItemForm();
+                    /* seems you cannot access outer function from here... */
+    	    		jQuery(".add-std-frm").hide();
+                    jQuery(".add-std-btn").show();
+                    jQuery(".frst-name").val("");
+                    jQuery(".last-name").val("");
+                    jQuery(".email").val("");
     	    	},
                 error: function(model, response)
                 {
-                	this.showFormError();
+                    if((jQuery(".add-std-frm").has('.form-error').length) === 0)
+                    {
+                	    jQuery(".add-std-frm").append("<p class='form-error'>Something went wrong, please try again.</p>");
+                    }
                 },
     	        wait: true,
     	    	url: this.student_collection_view.collection.url()
     	    }
     	);
+        }
 	    return false;
     },
     
     
-    validateStudentForm: function(e) {
-    	e.preventDefault();
+    validAddForm: function() {
+        var is_valid = true;
+        
+    	
     	
     	//there is probably a better way to do this... should also be it's own method like checkBlank
     	if((jQuery(".add-std-frm input.frst-name").val().length) === 0)
     	{
+            is_valid = false;
     		if((jQuery(".first-name-box").has('b').length) === 0)
     		{
     			jQuery(".first-name-box").append("<b>Please enter a first name.</b>").css('color', 'red');
@@ -290,6 +313,7 @@ var StudentControlView = BaseManagementView.extend({
     	}
     	if((jQuery(".add-std-frm input.last-name").val().length) === 0)
     	{
+            is_valid = false;
     		if((jQuery(".last-name-box").has('b').length) === 0)
     		{
     			jQuery(".last-name-box").append("<b>Please enter a last name.</b>").css('color', 'red');
@@ -297,6 +321,7 @@ var StudentControlView = BaseManagementView.extend({
     	}
     	if((jQuery(".add-std-frm input.email").val().length) === 0)
     	{
+            is_valid = false;
     		if((jQuery(".email-box").has('b').length) === 0)
     		{
     			jQuery(".email-box").append("<b>Please enter a email.</b>").css('color', 'red');
@@ -308,14 +333,15 @@ var StudentControlView = BaseManagementView.extend({
     	    if((jQuery(".add-std-frm input.email").val().indexOf("@")  === -1) && 
     	       (jQuery(".add-std-frm input.email").val().indexOf(".") === -1))
     	    {
+                is_valid = false;
     		    if((jQuery(".email-box").has('b').length) === 0)
     		    {
     			    jQuery(".email-box").append("<b>Please enter a valid email.</b>").css('color', 'red');
     		    }
     	    }
     	}
-    	//if above tests pass reasonable to submit
-    	this.addStudent();
+    	
+        return is_valid;
     }
     
 });
@@ -338,8 +364,8 @@ var TeamControlView = BaseManagementView.extend({
    	    this.add_btn = jQuery(".add-team-btn");
     },
 
-    addTeam: function(team) {
-    	team.preventDefault();
+    addTeam: function(evt) {
+    	evt.preventDefault();
     	this.team_collection_view.collection.create(
     	{
     		team_name : jQuery(".team-name").val()
@@ -347,6 +373,9 @@ var TeamControlView = BaseManagementView.extend({
 	    {
     	    success: function(model, response) 
     	    {
+                jQuery(".team-name").val("");
+                jQuery(".add-team-frm").hide();
+                jQuery(".add-team-btn").show();
             },
             error: function(model, response) {
             	this.showFormError();
