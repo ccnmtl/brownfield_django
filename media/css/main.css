@@ -604,22 +604,27 @@ form.edit-team-frm {
 /* Organize Teams */
 
 .table-teams {
-	margin: 2em 0 0 0;
-}
-
-.table-teams td {
-	border-top: none!important;
-}
-
-tr.team {
+	margin: 2em 0;
 	background-color: #fbfaf7;
 	color: #333;
 	float: left;
 	display: block;
 	width: 100%;
-	margin: 0 0 2em 0;
 }
 
-td.team_name {
-	width: 45%;
+#student_team_tables {
+	margin: 2em 0;
+	background-color: #fbfaf7;
+	color: #333;
+	float: left;
+	display: block;
+	width: 100%;
+}
+
+.table-teams tr:first-child td {
+	border-top: none!important;
+}
+
+tr.team {
+	width: 100%;
 }
