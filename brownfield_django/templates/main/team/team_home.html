@@ -3,6 +3,7 @@
 
 {% endblock %}
 {% block content %}
+<h2>{{object.course}}</h2>
     {% block course_message %}
     <div class="course-message">
         <h3>Course Message</h3>
@@ -10,11 +11,30 @@
     </div>
     {% endblock %}
 
-    <a href="../../../team_csv/{{ request.user.username }}/">View Team Budget History</a>
-        <h3>Course Documents</h3>
+   {% block team_info %}
+    <div class="team-div">
+        <h3>Team Information</h3> 
+        
+        <div class="team-div-info-1">
+        <b>Team Name: </b> {{object.user.username}} <br />
+        <b>Course: </b> {{object.course}} <br />
+        </div>
+        <div class="team-div-info-2">
+        <b>Signed Contract: </b> {{object.signed_contract}} <br />
+        <b>Budget: </b> {{object.budget}} <br />
+        </div>
+    {% endblock %}
+        <div class="team-div-info-2">
 
+    <a class="btn btn-default" href="../../../team_csv/{{ request.user.username }}/"><span class="glyphicon glyphicon-usd"></span> Download Team Budget History (CSV)</a>
+            </div>
+        </div>
+      
     {% block course_documents %}
+    
     <div class="course-div">
+        <h3>Course Documents</h3>
+        <div class="course-docs">
                     {% for document in document_list %}
             <li>{{ document.name }}
                 {% if document.name == "Link: Brownfield Action Reference Site" %}
@@ -25,20 +45,13 @@
             {% empty %}
             <li>Sorry, no documents have been made available yet.</li>
             {% endfor %}
-    </div>
-
-    {% endblock %}
-    
-    {% block team_info %}
-    <div class="team-div">
-        <h3>Team Information</h3> <br />
-        <b>Team Name: </b> {{object.user.username}} <br />
-        <b>Course: </b> {{object.course}} <br />
-        <b>Signed Contract: </b> {{object.signed_contract}} <br />
-        <b>Budget: </b> {{object.budget}} <br />
+            </div>
     </div>
     {% endblock %}
     
+ 
+          <h3>Play Brownfield Action</h3>
+  <div class="play-brownfield">
     {% block brownfield %}
     	<div id="main_content">
     	 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
@@ -62,24 +75,12 @@
       		  pluginspage="http://www.macromedia.com/go/getflashplayer"
       		  flashVars="serverURL={{site.domain}}../../../team/{{object.pk}}/&amp;resourceRootURL={{STATIC_URL}}flash/" />
     	</object>
-    	<div id="userlogout" class="notice">
-            <a href="/logout">Logout</a>
-        </div> 
+    	
 	</div> 
+	</div>
 	<br />
-<br />
-<br />
-<br />
     {% endblock %}
 
 
 
 {% endblock %}<!-- End Content Block -->
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />

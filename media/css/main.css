@@ -412,25 +412,6 @@ p.navbar-text .btn {
 	clear: both;
 }
 
-/* Team View Documents */
-
-.course-div {
-	background-color: #fbfaf7;
-	color: #333;
-	float: left;
-	display: block;
-	width: 100%;
-	margin: 0 0 2em 0;
-}
-
-.course-div li {
-	float: left;
-	clear: both;
-	display: block;
-	border-bottom: dotted 1px #ddd;
-	padding: 1em;
-	min-width: 100%;
-}
 
 /* Team List */
 .team-header {
@@ -627,4 +608,52 @@ form.edit-team-frm {
 
 tr.team {
 	width: 100%;
+}
+
+
+/* Team/Student View */
+
+.team-home-header {
+	width: 100%;
+	display: block;
+}
+
+.team-home-header h3 {
+	float: left;
+}
+
+.course-message, .course-div, .team-div, .play-brownfield {
+	display: block;
+	float: left;
+	clear: both;
+	margin: 0 0 2em 0;
+	width: 100%;
+}
+
+
+
+.team-div-info-1, .team-div-info-2, .team-div-info-3 {
+	float: left;
+	display: block;
+	margin: 0 2em 0 0;
+}
+
+/* Team View Documents */
+
+.course-docs {
+	background-color: #fbfaf7;
+	color: #333;
+	float: left;
+	display: block;
+	width: 100%;
+	margin: 0 0 2em 0;
+}
+
+.course-docs li {
+	float: left;
+	clear: both;
+	display: block;
+	border-bottom: dotted 1px #ddd;
+	padding: 1em;
+	min-width: 100%;
 }
