@@ -1,5 +1,11 @@
     <div class="course-teams">
        <h2>{{object.name}} <small>Organize Teams</small></h2>
+    <ol>
+        <li>Click <strong>Edit Teams</strong> to place students on teams.</li>
+        <li>Selected the desired team for each student from the <strong>Team</strong> dropdown.</li>
+        <li>Click <strong>Save Changes</strong> to save students in teams and activate this Brownfield course.</li> 
+        <li>Upon course activation, a team username and password will be created and emailed to the student emails you provided.</li>
+    </ol>
        <table id="team_table" class="table" style="width:100%">
             {% for team in object.get_teams %} 
               <tr class='team'>

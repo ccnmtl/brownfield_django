@@ -325,13 +325,13 @@ p.navbar-text .btn {
 	float: left;
 }
 
-/* Create Instructions */
+/*Instructions */
 
 .create-teams {
 	margin: 1em 0 3em 0;
 }
 
-.create-teams ol li {
+.create-teams ol li, #course-documents ol li, .course-teams ol li {
 	list-style-type:decimal;
 }
 
