@@ -10,7 +10,7 @@ var BaseManagementView = Backbone.View.extend({
     hideAddItemForm: function(e)
     {
         //assume its probably good practice to remove form errors here while were at it
-        this.add_form.find('.error-msg').remove()
+        this.add_form.find('.error-msg').remove();
         this.add_form.hide();
         this.add_btn.show();
     },

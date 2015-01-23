@@ -152,10 +152,6 @@ var CourseView = BaseItemView.extend({
         /* Extremely simple basic check. */
         var is_valid = true;
 
-        //var name = jQuery(this.el).find("input#edit_course_name").val();
-        //var startingBudget = jQuery(this.el).find("input#edit_course_startingBudget").val();
-        //var message = jQuery(this.el).find("textarea#edit_course_message").val();
-
         if(this.is_empty("input#edit_course_name", ".course-name-block", "Please enter a valid course name."))
         {
             is_valid = false;
@@ -222,22 +218,38 @@ var TeamView = DeletableItemView.extend({
    		'click .hist-team' : 'teamHistory'
    	},
     
+    validEditForm: function(attributes, options) {
+        /* Extremely simple basic check. */
+        var is_valid = true;
+
+        if(this.is_empty("input.edt-team-name", ".div-edt-team-name", "Please enter a team name."))
+        {
+            is_valid = false;
+        }
+
+        return is_valid;
+    },
+
    	editTeam: function(e)
    	{
    		e.preventDefault();
+
+      if(this.validEditForm())
+      {
    		
-   		var first_name = jQuery(this.el).find("input.edt-team-name").val();
+   		    var first_name = jQuery(this.el).find("input.edt-team-name").val();
    		
-  		this.model.set('first_name', first_name);
-   		this.model.save({
-	        success: function(model, response) 
-	        {},
+  		    this.model.set('first_name', first_name);
+   		        this.model.save({
+	            success: function(model, response) 
+	            {},
             error: function(model, response)
             {
             	alert("An error occured!");
             },
             wait: true
-        });//end save
+            });//end save
+      }
     },
     
    	teamHistory: function()
@@ -264,7 +276,26 @@ var StudentView = DeletableItemView.extend({
    		'click .cncl-edit-std' : 'hideEditForm',
    		'click .rm-st' : 'removeItem'
    	},
+    validEditForm: function(attributes, options) {
+        /* Extremely simple basic check. */
+        var is_valid = true;
 
+        if(this.is_empty("input#edit_course_name", ".course-name-block", "Please enter a valid course name."))
+        {
+            is_valid = false;
+        }
+
+        if(this.is_empty("input#edit_course_startingBudget", ".course-budget-block", "Please enter a valid starting budget for your course."))
+        {
+            is_valid = false;
+        }
+        if(this.is_empty("textarea#edit_course_message", ".course-message-block", "Please enter a valid course message."))
+        {
+            is_valid = false;
+        }
+
+        return is_valid;
+    },
    	editStudent: function(e)
    	{
    		e.preventDefault();
