@@ -280,16 +280,16 @@ var StudentView = DeletableItemView.extend({
         /* Extremely simple basic check. */
         var is_valid = true;
 
-        if(this.is_empty("input#edit_course_name", ".course-name-block", "Please enter a valid course name."))
+        if(this.is_empty("input.edt-frst-name", ".sedt-first-name", "Please enter a first name."))
         {
             is_valid = false;
         }
 
-        if(this.is_empty("input#edit_course_startingBudget", ".course-budget-block", "Please enter a valid starting budget for your course."))
+        if(this.is_empty("input.edt-last-name", ".sedt-last-name", "Please enter a last name."))
         {
             is_valid = false;
         }
-        if(this.is_empty("textarea#edit_course_message", ".course-message-block", "Please enter a valid course message."))
+        if(this.is_empty("textarea.edt-email", ".sedt-email", "Please enter a email address."))
         {
             is_valid = false;
         }
