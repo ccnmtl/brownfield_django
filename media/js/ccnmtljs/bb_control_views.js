@@ -221,7 +221,7 @@ var ManageInstructorsView = BaseManagementView.extend({
                     jQuery(".instructor-email").val("");
                     if(jQuery(".add-instructor-frm").has('.error-msg').length !==0 )
                     {
-                        jQuery(".add-instructor-frm").remove('.error-msg');
+                        jQuery('.add-instructor-frm .error-msg').remove();
                     }
 
                 },
