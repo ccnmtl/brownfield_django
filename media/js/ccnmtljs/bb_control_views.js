@@ -9,8 +9,10 @@ var BaseManagementView = Backbone.View.extend({
     
     hideAddItemForm: function(e)
     {
-         this.add_form.hide();
-         this.add_btn.show();
+        //assume its probably good practice to remove form errors here while were at it
+        this.add_form.find('.error-msg').remove()
+        this.add_form.hide();
+        this.add_btn.show();
     },
     
     showFormError: function(form_selector)
@@ -41,21 +43,23 @@ var BaseManagementView = Backbone.View.extend({
      },
 
     is_empty: function (selector_string, error_element, error_msg){
-        //alert(selector_string);
-        //alert(error_msg);
         var check = jQuery(selector_string).val();
         if(check === null || check === "") 
         {
             if((jQuery(error_element).has('.is-empty').length) === 0)
             {
-                //jQuery(error_element).append("<b class='error-msg is-empty' style='color:red'>Please enter something here.</b>");
                 jQuery(error_element).append("<b class='error-msg is-empty' style='color:red'>" + String(error_msg) + "</b>");
             }
-           //alert('Please only enter letters for first and last names');
            return true;
         }
         return false;     
-     }
+     },
+
+    clear_form_errors: function (selector_string){
+        
+        jQuery(selector_string + ' .error-msg').remove();
+  
+    }
     
 });
 
@@ -239,7 +243,7 @@ var ManageInstructorsView = BaseManagementView.extend({
                 {
                     if((jQuery(".add-instructor-frm").has('.form-error').length) === 0)
                     {
-                        jQuery(".add-instructor-frm").append("<p class='form-error'>Something went wrong, please try again.</p>");
+                        jQuery(".add-instructor-frm").append("<p class='error-msg form-error'>Something went wrong, please try again.</p>");
                     }
                 },
                 wait: true
@@ -316,33 +320,18 @@ var StudentControlView = BaseManagementView.extend({
     
     validAddForm: function() {
         var is_valid = true;
-        
-    	
-    	
-    	//there is probably a better way to do this... should also be it's own method like checkBlank
-    	if((jQuery(".add-std-frm input.frst-name").val().length) === 0)
+
+        if(this.is_empty(".add-std-frm input.frst-name", ".first-name-box", "Please enter a first name."))
     	{
             is_valid = false;
-    		if((jQuery(".first-name-box").has('b').length) === 0)
-    		{
-    			jQuery(".first-name-box").append("<b class='error-msg' style='color:red'>Please enter a first name.</b>");
-    		}
     	}
-    	if((jQuery(".add-std-frm input.last-name").val().length) === 0)
+        if(this.is_empty(".add-std-frm input.last-name", ".last-name-box", "Please enter a last name."))
     	{
             is_valid = false;
-    		if((jQuery(".last-name-box").has('b').length) === 0)
-    		{
-    			jQuery(".last-name-box").append("<b class='error-msg' style='color:red'>Please enter a last name.</b>");
-    		}
     	}
-    	if((jQuery(".add-std-frm input.email").val().length) === 0)
+        if(this.is_empty(".add-std-frm input.email", ".email-box", "Please enter a email."))
     	{
             is_valid = false;
-    		if((jQuery(".email-box").has('b').length) === 0)
-    		{
-    			jQuery(".email-box").append("<b class='error-msg' style='color:red'>Please enter a email.</b>");
-    		}
     	}
     	//check whatever they put for email looks something like an actual address
     	else if((jQuery(".add-std-frm input.email").val().length) !== 0)
