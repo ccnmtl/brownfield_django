@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block bbjs %}
     <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/bb_models.js"></script>
@@ -13,45 +13,53 @@
 
     {% comment %}List Templates{% endcomment %}
     <script type="text/template" id="document-list-template">
-        <span class="document-click"><b><%= name %></b></span>
+        <div class="document-click"><b><%= name %></b></div>
         <space><space>
         <%
             if(visible)
             {
-                %><button class='btn btn-xs btn-danger chng-dct pull-right'>Hide</button><%
+                %><button class="btn btn-xs btn-danger chng-dct pull-right">Hide</button><%
             }else
             {
-                %><button class='btn btn-xs btn-success chng-dct pull-right'>Show</button><%
+                %><button class="btn btn-xs btn-success chng-dct pull-right">Show</button><%
             }
         %>
     </script>
 
     <script type="text/template" id="student-list-template">
-        <span class="student-name">
+        <div class="student-name">
             <label>Name: </label>
             <%= first_name %>
             <%= last_name %>
-        </span>
-        <span class="student-email">
+        </div>
+        <div class="student-email">
             <label>Email: </label>
             <%= email %>
-        </span>
-        <span class="student-buttons" style="display: inline;">
-            <button class='btn btn-xs btn-default pull-right ed-st'> Edit Student </button>
-            <button class='btn btn-xs btn-default pull-right rm-st'> Remove Student From Course </button>
-        </span>
+        </div>
+        <div class="student-buttons">
+            
+            <button class="btn btn-xs btn-default pull-right rm-st"><span class="glyphicon glyphicon-remove"></span> Remove Student From Course </button>
+            <button class="btn btn-xs btn-default pull-right ed-st"><span class="glyphicon glyphicon-pencil"></span> Edit Student </button>
+        </div>
     </script>
 
     <script type="text/template" id="team-list-template">
-        <span class="team-name">
+       <div class="team-name">
+            <div class="t-username">
+            <label>Team Username (for login purposes): </label> <%= username %>
+            </div>
+            <div class="t-name">
             <label>Team Name: </label> <%= first_name %>
-            <label>Login: </label> <%= username %>
-        </span>
-        <span class="team-buttons" style="display: inline;">
-            <button class='btn btn-xs btn-default pull-right edit-team'> Edit Team </button>
-            <button class='btn btn-xs btn-default pull-right hist-team'> View Team History </button>
-            <button class='btn btn-xs btn-default pull-right rm-team'> Remove Team From Course </button>
-        </span>
+            </div>
+            <div class="t-history">           
+            <button class="btn btn-xs btn-default hist-team"><span class="glyphicon glyphicon-save"></span> Download Team History (CSV) </button>
+            </span>
+        </div>
+    </div>
+        <div class="team-buttons">
+           <button class="btn btn-xs btn-default pull-right rm-team"><span class="glyphicon glyphicon-remove"></span> Remove Team From Course </button>
+            <button class="btn btn-xs btn-default pull-right edit-team"><span class="glyphicon glyphicon-pencil"></span> Edit Team </button>
+        </div>
     </script>
     
 
@@ -59,20 +67,20 @@
     <script type="text/template" id="student-edit-template">
     <form class="edit-student-frm" method="" action="" style="display: inline;">
         {% csrf_token %}
-        <span class="sedt-first-name">
+        <div class="sedt-first-name">
             <label>First Name: </label>
             <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> 
-        </span>
-        <span class="sedt-last-name">
+        </div>
+        <div class="sedt-last-name">
             <label>Last Name: </label>
             <input type="text" placeholder="Last Name: " class="edt-last-name" value="<%= last_name %>" /> 
-        </span>
-        <span class="sedt-email">
+        </div>
+        <div class="sedt-email">
             <label>Email: </label>
             <input type="text" placeholder="Email: " class="edt-email" value="<%= email %>" />
-        </span>
-        <button class='btn btn-xs btn-default save-edit-student'> Save Changes </button>  
-        <button class='btn btn-xs  btn-default cncl-edit-std'>Cancel</button>       
+        </div>
+        <button class="btn btn-xs btn-default save-edit-student"> Save Changes </button>  
+        <button class="btn btn-xs  btn-default cncl-edit-std">Cancel</button>       
         <br />
     </form>
     </script>
@@ -81,12 +89,12 @@
     <br />
     <form class="edit-team-frm" method="" action="" style="display: inline;">
         {% csrf_token %}
-        <span class="edt-team-name">
+        <div class="edt-team-name">
             <label>Team Name: </label>
             <input type="text" placeholder="Team Name" class="edt-team-name" value="<%= first_name %>" />
-        </span>
-        <button class='btn btn-xs btn-default save-edit-team'> Save Changes </button>
-        <button class='btn btn-xs  btn-default cncl-edit-team'>Cancel</button>
+        </div>
+        <button class="btn btn-xs btn-default save-edit-team"> Save Changes </button>
+        <button class="btn btn-xs  btn-default cncl-edit-team">Cancel</button>
         <br />
     </form>
     </script>
@@ -100,7 +108,7 @@
   <ul class="nav nav-tabs instructor-nav">
     <li class="active"><a href="#course-documents" data-toggle="tab">Course Info</a></li>
     <li><a href="#course-team-students" data-toggle="tab">Teams and Students</a></li>
-    <li id='get_teams'><a href="#course-active-teams" data-toggle="tab">View Teams</a></li>
+    <li id="get_teams"><a href="#course-active-teams" data-toggle="tab">View Teams</a></li>
   </ul>
  
   <div class="instructor tab-content">

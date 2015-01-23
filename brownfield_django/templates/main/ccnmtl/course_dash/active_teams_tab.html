@@ -1,5 +1,4 @@
 <div class="tab-pane" id="course-active-teams">
-    <br /><br />
    
     <input type="hidden" name="course_active" value="{{object.active}}" />
     {% if not object.active %}
@@ -10,7 +9,7 @@
         {% include "main/ccnmtl/course_dash/team_table.html" %}
     {% endif %}
     
-    <br /><br />
+   
 
     <!-- Activation Confirmation -->
     <div class="modal fade" id="confirmAct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

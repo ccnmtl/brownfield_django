@@ -16,6 +16,7 @@ body, html {
 	position: relative;
 	min-height: 100%;
 	margin-bottom: -100px;
+	margin-top: 100px;
 }
 
 h3 {
@@ -36,10 +37,6 @@ h3 {
 	background: -o-linear-gradient(#bec960, #d1d642); /* For Opera 11.1 to 12.0 */
 	background: -moz-linear-gradient(#bec960, #d1d642); /* For Firefox 3.6 to 15 */
 	background: linear-gradient(#bec960, #d1d642); /* Standard syntax */
-}
-
-ul.nav.nav-tabs {
-	margin: 7em 0 0 0;
 }
 
 p.navbar-text {
@@ -129,7 +126,6 @@ p.navbar-text .btn {
 .loginbox-container {
     float: right;
     height: 265px;
-    margin-top: 150px;
 }
 
 .loginbox-container.columbia {
@@ -322,7 +318,17 @@ p.navbar-text .btn {
 
 
 /* Team List */
+.team-header {
+	display: block;
+	margin: 0 0 1em 0;
+	float: left;
+	width: 100%;
+}
 
+.team-header h3 {
+	margin-top: 0;
+	float: left;
+}
 .team-list {
 	background-color: #fbfaf7;
 	color: #333;
@@ -341,8 +347,49 @@ p.navbar-text .btn {
 	min-width: 100%;
 }
 
+.team-name {
+	float: left;
+	display: block;
+} 
+
+.team-buttons {
+	float: right;
+	display: block;
+} 
+
+.t-username {
+	float: left;
+	clear: both;
+}
+
+.t-name {
+	float: left; 
+	clear: both;
+}
+
+.t-history {
+	float: left;
+	clear: both;
+}
+
+
+.team-buttons button {
+	margin: 0 0 0 10px;
+}
 
 /* Student List */
+
+.student-header {
+	display: block;
+	margin: 0 0 1em 0;
+	float: left;
+	width: 100%;
+}
+
+.student-header h3 {
+	margin-top: 0;
+	float: left;
+}
 
 .student-list {
 	background-color: #fbfaf7;
@@ -360,6 +407,10 @@ p.navbar-text .btn {
 	border-bottom: dotted 1px #ddd;
 	padding: 1em;
 	min-width: 100%;
+}
+
+.student-buttons button {
+	margin: 0 0 0 10px;
 }
 
 /* Create Course */
@@ -435,4 +486,24 @@ p.navbar-text .btn {
 .instructor-list li .email {
 	display: block;
 	clear: both;
+}
+
+/* Team View Documents */
+
+.course-div {
+	background-color: #fbfaf7;
+	color: #333;
+	float: left;
+	display: block;
+	width: 100%;
+	margin: 0 0 2em 0;
+}
+
+.course-div li {
+	float: left;
+	clear: both;
+	display: block;
+	border-bottom: dotted 1px #ddd;
+	padding: 1em;
+	min-width: 100%;
 }
