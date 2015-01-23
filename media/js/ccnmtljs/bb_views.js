@@ -302,25 +302,25 @@ var StudentView = DeletableItemView.extend({
 
       if(this.validEditForm())
       {
-   		var std_fname = jQuery(this.el).find("input.edt-frst-name").val();
-   		var std_lname = jQuery(this.el).find("input.edt-last-name").val();
-        var std_email = jQuery(this.el).find("input.edt-email").val();
-   		/* For some reason setting the attributes below only sets correctly if you edit
-   		 * email, pulling the varibles here because here they are correct and then passing.
-   		 * */
-  		this.model.set('first_name', std_fname);
-  		this.model.set('last_name', std_lname);
-  		this.model.set('email', std_email);
-   		this.model.save({
-	        success: function(model, response) 
-	        {},
-            error: function(model, response)
-            {
-            	alert("An error occured!");
-            },
-            wait: true
+          var std_fname = jQuery(this.el).find("input.edt-frst-name").val();
+          var std_lname = jQuery(this.el).find("input.edt-last-name").val();
+          var std_email = jQuery(this.el).find("input.edt-email").val();
+          /* For some reason setting the attributes below only sets correctly if you edit
+          * email, pulling the varibles here because here they are correct and then passing.
+          * */
+          this.model.set('first_name', std_fname);
+          this.model.set('last_name', std_lname);
+          this.model.set('email', std_email);
+          this.model.save({
+          success: function(model, response) 
+          {},
+          error: function(model, response)
+          {
+              alert("An error occured!");
+          },
+          wait: true
         });//end save
-    }
+      }
     }
 
 });
@@ -345,19 +345,43 @@ var InstructorView = DeletableItemView.extend({
    		'click .rm-inst' : 'removeItem'
    	},
     
+    validEditForm: function(attributes, options) {
+        /* Extremely simple basic check. */
+        var is_valid = true;
+
+        if(this.is_empty("input.edt-frst-name", ".inst-edt-first-name", "Please enter a first name."))
+        {
+            is_valid = false;
+        }
+
+        if(this.is_empty("input.edt-last-name", ".inst-edt-last-name", "Please enter a last name."))
+        {
+            is_valid = false;
+        }
+        if(this.is_empty("input.edt-email", ".inst-edt-email", "Please enter a email address."))
+        {
+            is_valid = false;
+        }
+
+        return is_valid;
+    },
+
    	editInstructor: function(e)
    	{
-   		e.preventDefault();
-   		var inst_fname = jQuery(this.el).find("input.edt-frst-name").val();
-   		var inst_lname = jQuery(this.el).find("input.edt-last-name").val();
-        var inst_email = jQuery(this.el).find("input.edt-email").val();
-   		/* For some reason setting the attributes below only sets correctly if you edit
-   		 * email, pulling the varibles here because here they are correct and then passing.
-   		 * */
-  		this.model.set('first_name', inst_fname);
-  		this.model.set('last_name', inst_lname);
-  		this.model.set('email', inst_email);
-   		this.model.save({
+        e.preventDefault();
+
+        if(this.validEditForm())
+        {
+            var inst_fname = jQuery(this.el).find("input.edt-frst-name").val();
+            var inst_lname = jQuery(this.el).find("input.edt-last-name").val();
+            var inst_email = jQuery(this.el).find("input.edt-email").val();
+            /* For some reason setting the attributes below only sets correctly if you edit
+            * email, pulling the varibles here because here they are correct and then passing.
+            * */
+            this.model.set('first_name', inst_fname);
+            this.model.set('last_name', inst_lname);
+            this.model.set('email', inst_email);
+            this.model.save({
 	        success: function(model, response) 
 	        {},
             error: function(model, response)
@@ -365,7 +389,8 @@ var InstructorView = DeletableItemView.extend({
             	alert("An error occured!");
             },
             wait: true
-        });//end save
+          });//end save
+      }
     }
     
 });
