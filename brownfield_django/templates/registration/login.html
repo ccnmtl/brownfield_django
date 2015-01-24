@@ -44,7 +44,7 @@ allows students to explore and solve real-world, interdisciplinary problems in e
                         {{ form.password }}
                     </div><!-- fieldwrapper -->
                 </div>      
-                <input class="regbutton" type="button" value="Log In" {% if form.errors %}style="display: none"{% endif %}
+                <input class="regbutton" type="button" value="Guest Log In" {% if form.errors %}style="display: none"{% endif %}
                     onclick="jQuery('.login-local-form').show(); jQuery(this).hide(); return false;"/>
                 <input class="regbutton login-local-form" type="submit" value="Log In" {% if not form.errors %}style="display: none;"{% endif %} />                        
                 <input type="hidden" name="next" value="{{ next|urlencode }}" />
