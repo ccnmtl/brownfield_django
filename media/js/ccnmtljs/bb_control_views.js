@@ -180,6 +180,10 @@ var ManageCoursesView = Backbone.View.extend({
             {
                 success: function(model, response) 
                 {
+
+                    jQuery('#id_course_name').val("");
+                    jQuery('#id_course_startingBudget').val("");
+                    jQuery('#id_course_message').val("");
                     jQuery("#create-course-form").hide();
                     jQuery(".add-crs").show();
                     if(jQuery("#create-course-form").has('.error-msg').length !==0 )
