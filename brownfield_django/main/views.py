@@ -1,7 +1,9 @@
 import csv
 import json
 
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
 from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http.response import HttpResponseForbidden
@@ -10,7 +12,6 @@ from django.template import loader
 from django.template.context import Context
 from django.views.generic import View
 from django.views.generic.detail import DetailView
-
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 
@@ -19,7 +20,6 @@ from brownfield_django.main.models import Course, UserProfile, Document, \
 from brownfield_django.main.serializers import DocumentSerializer, \
     UserSerializer, TeamUserSerializer, CourseSerializer, \
     StudentUserSerializer, StudentMUserSerializer
-
 from brownfield_django.main.xml_strings import INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     CSRFExemptMixin, PasswordMixin, UniqUsernameMixin
@@ -149,7 +149,7 @@ class StudentViewSet(UniqUsernameMixin, viewsets.ModelViewSet):
             queryset = User.objects.filter(
                 profile__in=students).order_by('first_name')
         elif usr_pk is not None and (up.is_teacher() or up.is_admin()):
-            #doesn't seem to like .get but .filter is
+            # doesn't seem to like .get but .filter is
             queryset = User.objects.filter(pk=usr_pk)
         else:
             '''Assume there are no students or user is unauthorized.'''
@@ -169,10 +169,12 @@ class InstructorViewSet(UniqUsernameMixin,
         template = loader.get_template(
             'main/ccnmtl/course_dash/instructor_activation_notice.txt')
         subject = "Welcome to Brownfield!"
-        ctx = Context({'instructor': instructor, 'profile': profile})
+        ctx = Context({'instructor': instructor,
+                       'profile': profile,
+                       'site': Site.objects.get_current()})
         message = template.render(ctx)
         '''who is the sender?'''
-        sender = 'cdunlop@columbia.edu'
+        sender = settings.SERVER_EMAIL
         send_mail(subject, message, sender, [instructor.email])
 
     def create(self, request):
@@ -316,10 +318,12 @@ class ActivateCourseView(CSRFExemptMixin, JSONResponseMixin, View):
         template = loader.get_template(
             'main/ccnmtl/course_dash/student_activation_notice.txt')
         subject = "Welcome to Brownfield!"
-        ctx = Context({'student': student, 'team': student.profile.team})
+        ctx = Context({'student': student,
+                       'team': student.profile.team,
+                       'site': Site.objects.get_current()})
         message = template.render(ctx)
         '''who is the sender?'''
-        sender = 'cdunlop@columbia.edu'  # settings.BNFD_MAIL
+        sender = settings.SERVER_EMAIL
         send_mail(subject, message, sender, [student.email])
 
     def post(self, request, pk):

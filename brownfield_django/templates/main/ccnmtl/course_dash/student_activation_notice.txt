@@ -3,4 +3,4 @@ You have been added to a team for a Brownfield Action account. You and your team
 team user: {{team.user.username}}
 password: {{team.team_passwd}}
 
-To log in to Brownfield please visit https://brownfielddjango.stage.ccnmtl.columbia.edu and log in as a guest.
+To log in to Brownfield please visit https://{{ site.domain }} and log in as a guest.

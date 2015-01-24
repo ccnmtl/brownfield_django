@@ -161,8 +161,8 @@ THUMBNAIL_SUBDIR = "thumbs"
 
 EMAIL_SUBJECT_PREFIX = "[brownfield] "
 EMAIL_HOST = 'localhost' # is this needed?
-# SERVER_EMAIL = "brownfielddjango@ccnmtl.columbia.edu"
-# DEFAULT_FROM_EMAIL = SERVER_EMAIL
+SERVER_EMAIL = 'ccnmtl-bfa@columbia.edu'
+DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
 STATIC_ROOT = os.path.join(os.path.dirname(__file__), "../media")
 STATICFILES_DIRS = (
