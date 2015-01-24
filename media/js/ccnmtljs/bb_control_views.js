@@ -32,8 +32,8 @@ var BaseManagementView = Backbone.View.extend({
         }
     },
 
-    onlyLetters: function (selector_string, error_element){
-        alert(selector_string);
+    onlyLetters: function (selector_string, error_element)
+    {
         var check = jQuery(selector_string).val();
         
         if( /[^a-zA-Z]/.test(check))
@@ -105,6 +105,14 @@ var ManageCoursesView = Backbone.View.extend({
     
     hideAddForm: function()
     {   
+        if(jQuery("#create-course-form").has('.error-msg').length !==0 )
+                    {
+                        jQuery('#create-course-form .error-msg').remove();
+                    }
+                    if(jQuery("#create-course-form").has('.form-error').length !==0 )
+                    {
+                        jQuery('#create-course-form .form-error').remove();
+                    }
     	this.$('#create-course-form').css('display', 'none');
     	jQuery(".add-crs").show();
     },
@@ -117,20 +125,33 @@ var ManageCoursesView = Backbone.View.extend({
         var startingBudget = jQuery('#id_course_startingBudget').val();
         var course_message = jQuery('#id_course_message').val();
         
+        
         if(course_name === null || course_name === "")
         {   
-            jQuery('.course-name-block').append("<p style='color:#ff0000'>Please enter a valid course name.</p>");
             is_valid = false;
+            if((jQuery('.course-name-block').has('.error-msg').length) === 0)
+            {
+                jQuery('.course-name-block').append("<p class='error-msg' style='color:#ff0000'>Please enter a valid course name.</p>");
+            }
+            
         }
         if(startingBudget === null || startingBudget === "")
         {   
-            jQuery('.course-budget-block').append("<p style='color:#ff0000'>Please enter a valid starting budget for your course.</p>");
             is_valid = false;
+
+            if((jQuery('.course-budget-block').has('.error-msg').length) === 0)
+            {
+                jQuery('.course-budget-block').append("<p class='error-msg' style='color:#ff0000'>Please enter a valid starting budget for your course.</p>");
+            }
         }
         if(course_message === null || course_message === "")
         {   
-            jQuery('.course-message-block').append("<p style='color:#ff0000'>Please enter a valid course message.</p>");
             is_valid = false;
+
+            if((jQuery('.course-message-block').has('.error-msg').length) === 0)
+            {
+                jQuery('.course-message-block').append("<p class='error-msg' style='color:#ff0000'>Please enter a valid course message.</p>");
+            }
         }
         return is_valid;
     },
@@ -149,15 +170,38 @@ var ManageCoursesView = Backbone.View.extend({
 
         if (this.validateForm())
         {
-    	    this.course_list_view.collection.create({
+    	    this.course_list_view.collection.create(
+            {
     	        name: jQuery("#id_course_name").val(),
     	    	startingBudget: jQuery("#id_course_startingBudget").val(),
     	    	message: jQuery("#id_course_message").val(),
     		    professor: professor
-    	    }, {wait: true});
+    	    },
+            {
+                success: function(model, response) 
+                {
+                    jQuery("#create-course-form").hide();
+                    jQuery(".add-crs").show();
+                    if(jQuery("#create-course-form").has('.error-msg').length !==0 )
+                    {
+                        jQuery('#create-course-form .error-msg').remove();
+                    }
+                    if(jQuery("#create-course-form").has('.form-error').length !==0 )
+                    {
+                        jQuery('#create-course-form .form-error').remove();
+                    }
 
-    	    jQuery("#create-course-form").hide();
-    	    jQuery(".add-crs").show();
+                },
+                error: function(model, response)
+                {
+                    if((jQuery("#create-course-form").has('.form-error').length) === 0)
+                    {
+                        jQuery("#create-course-form").append("<p class='error-msg form-error'>Something went wrong, please try again.</p>");
+                    }
+                },
+            wait: true
+        });
+
         }
 	    return false;
     }
