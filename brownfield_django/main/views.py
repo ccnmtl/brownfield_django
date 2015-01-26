@@ -439,18 +439,12 @@ class BrownfieldTestView(CSRFExemptMixin, View):
         elif request.user.profile.is_teacher():
             '''This may need to be changed...'''
             return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_team():
-            '''Get appropriate team record'''
-            return HttpResponse(INITIAL_XML)
 
     def post(self, request):
         if request.user.profile.is_admin():
             return HttpResponse(INITIAL_XML)
         elif request.user.profile.is_teacher():
             '''This may need to be changed...'''
-            return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_team():
-            '''Get appropriate team record'''
             return HttpResponse(INITIAL_XML)
 
 

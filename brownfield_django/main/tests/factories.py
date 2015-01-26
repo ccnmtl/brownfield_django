@@ -21,7 +21,7 @@ class CourseFactory(factory.DjangoModelFactory):
 
 class TeamFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Team
-    team_passwd = "Test_Team"
+    team_passwd = "test"
 
 
 class DocumentFactory(factory.DjangoModelFactory):
