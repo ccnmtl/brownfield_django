@@ -66,34 +66,44 @@ class TestUserProfileFactory(TestCase):
 class TestAdminProfile(TestCase):
 
     def test_unicode(self):
-        admin = UserProfileFactory(user=UserFactory(username='admin'),
+        admin = UserProfileFactory(user=UserFactory(username='admin',
+                                                    first_name='admin',
+                                                    last_name='admin'),
                                    profile_type='AD')
         self.assertEqual(str(admin), admin.user.username)
         self.assertEqual(admin.role(), "administrator")
         self.assertEqual(admin.is_admin(), True)
         self.assertEqual(admin.is_student(), False)
+        self.assertEqual(admin.display_name(), "admin - admin")
 
 
 class TestTeacherProfile(TestCase):
 
     def test_unicode(self):
-        teach = UserProfileFactory(user=UserFactory(username='teacher'),
+        teach = UserProfileFactory(user=UserFactory(username='teacher',
+                                                    first_name='teacher',
+                                                    last_name='teacher'),
                                    profile_type='TE')
         self.assertEqual(str(teach), teach.user.username)
         self.assertEqual(teach.role(), "faculty")
         self.assertEqual(teach.is_teacher(), True)
         self.assertEqual(teach.is_student(), False)
+        self.assertEqual(teach.is_admin(), False)
+        self.assertEqual(teach.display_name(), "teacher - teacher")
 
 
 class TestStudentProfile(TestCase):
     '''The UserProfile Factory is a student so we will test that.'''
     def test_unicode(self):
-        student = UserProfileFactory(user=UserFactory(username='student'),
+        student = UserProfileFactory(user=UserFactory(username='student',
+                                                      first_name='student',
+                                                      last_name='student'),
                                      profile_type='ST')
         self.assertEqual(str(student), student.user.username)
         self.assertEqual(student.role(), "student")
         self.assertEqual(student.is_student(), True)
         self.assertEqual(student.is_admin(), False)
+        self.assertEqual(student.display_name(), "student - student")
 
 
 class TestCourseMethods(TestCase):
@@ -144,7 +154,42 @@ class TestTeamMethods(TestCase):
         self.student2 = UserProfileFactory(
             user=UserFactory(username='student2'),
             profile_type='ST', team=self.team)
+        self.history_record_one = HistoryFactory(team=self.team)
+        self.history_record_two = HistoryFactory(team=self.team)
 
     def test_get_team_members(self):
         self.assertTrue(self.student1 in self.team.get_team_members())
         self.assertTrue(self.student2 in self.team.get_team_members())
+
+    def test_get_team_history(self):
+        self.assertTrue(
+            self.history_record_one in self.team.get_team_history())
+        self.assertTrue(
+            self.history_record_two in self.team.get_team_history())
+
+
+class TestHistoryMethods(TestCase):
+
+    def setUp(self):
+        '''Adding performed tests and information records to test
+        history objects here'''
+        self.team = TeamFactory(user=UserFactory())
+        self.history = HistoryFactory(team=self.team)
+        self.first_test_performed = PerformedTestFactory(history=self.history)
+        self.second_test_performed = PerformedTestFactory(history=self.history)
+        self.first_informtion_record = InformationTestFactory(
+            history=self.history)
+        self.second_information_record = InformationTestFactory(
+            history=self.history)
+
+    def test_get_tests_performed(self):
+        self.assertTrue(
+            self.first_test_performed in self.history.get_tests_performed())
+        self.assertTrue(
+            self.second_test_performed in self.history.get_tests_performed())
+
+    def test_get_information(self):
+        self.assertTrue(
+            self.first_informtion_record in self.history.get_information())
+        self.assertTrue(
+            self.second_information_record in self.history.get_information())
