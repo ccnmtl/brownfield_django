@@ -2,7 +2,7 @@ var BaseManagementView = Backbone.View.extend({
 
     showAddItemForm: function(e)
     {
-    	e.preventDefault();
+        e.preventDefault();
         this.add_form.show();
         this.add_btn.hide();
     },
@@ -106,13 +106,13 @@ var ManageCoursesView = Backbone.View.extend({
     hideAddForm: function()
     {   
         if(jQuery("#create-course-form").has('.error-msg').length !==0 )
-                    {
-                        jQuery('#create-course-form .error-msg').remove();
-                    }
-                    if(jQuery("#create-course-form").has('.form-error').length !==0 )
-                    {
-                        jQuery('#create-course-form .form-error').remove();
-                    }
+        {
+            jQuery('#create-course-form .error-msg').remove();
+        }
+        if(jQuery("#create-course-form").has('.form-error').length !==0 )
+        {
+            jQuery('#create-course-form .form-error').remove();
+        }
     	this.$('#create-course-form').css('display', 'none');
     	jQuery(".add-crs").show();
     },

@@ -310,6 +310,19 @@ class HomeView(LoggedInMixin, View):
         return HttpResponseRedirect(url)
 
 
+class ArchiveCourseView(CSRFExemptMixin, JSONResponseMixin, View):
+
+    def get(self, request, pk):
+        print "Inside ArchiveCourseView"
+        crs = Course.objects.get(pk=pk)
+        crs.archive = True
+        crs.save()
+        if crs.archive == True:
+            return self.render_to_json_response({'success': 'true'})
+        else:
+            return self.render_to_json_response({'success': 'false'})
+
+
 class ActivateCourseView(CSRFExemptMixin, JSONResponseMixin, View):
 
     def send_student_email(self, student):
