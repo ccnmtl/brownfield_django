@@ -316,10 +316,7 @@ class ArchiveCourseView(CSRFExemptMixin, JSONResponseMixin, View):
         crs = Course.objects.get(pk=pk)
         crs.archive = True
         crs.save()
-        if crs.archive is True:
-            return self.render_to_json_response({'success': 'true'})
-        else:
-            return self.render_to_json_response({'success': 'false'})
+        return self.render_to_json_response({'success': 'true'})
 
 
 class ActivateCourseView(CSRFExemptMixin, JSONResponseMixin, View):
