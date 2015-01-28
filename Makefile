@@ -13,6 +13,9 @@ jshint: node_modules/jshint/bin/jshint
 node_modules/jshint/bin/jshint:
 	npm install jshint --prefix .
 
+node_modules/phantomjs/bin/phantomjs:
+	npm install phantomjs --prefix .
+
 test: ./ve/bin/python
 	$(MANAGE) jenkins
 
