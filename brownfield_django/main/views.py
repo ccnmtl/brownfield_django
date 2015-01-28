@@ -313,7 +313,6 @@ class HomeView(LoggedInMixin, View):
 class ArchiveCourseView(CSRFExemptMixin, JSONResponseMixin, View):
 
     def get(self, request, pk):
-        print "Inside ArchiveCourseView"
         crs = Course.objects.get(pk=pk)
         crs.archive = True
         crs.save()
