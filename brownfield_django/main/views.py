@@ -295,6 +295,7 @@ class HomeView(LoggedInMixin, View):
     '''redoing so that it simply redirects people where they need to be'''
 
     def get(self, request):
+        url = '/'
         try:
             user_profile = UserProfile.objects.get(user=request.user.pk)
             if user_profile.is_teacher():
