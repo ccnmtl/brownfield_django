@@ -84,6 +84,7 @@ module('Collection and BaseCollection tests', {
 test('Test BaseCollection and Collection url function/attribute and initalization', function () {
     equal(this.doc_collection.url(), '/api/document/');
     equal(this.doc_collection.model, AppDocument);
+    equal(this.doc_collection.length, 0);
     equal(this.course_doc_collection.url(), '/api/document/?course=5');
     
     equal(this.student_collection.url(), '/api/student/');
@@ -111,12 +112,18 @@ test('Test BaseCollection and Collection url function/attribute and initalizatio
 module('BaseItemView tests', {
 
     setup: function () {
-        this.base_view = new BaseItemView();
+        var BaseModel =  Backbone.Model.extend({
+            defaults: {'item_name': 'TestItem', 'item_type': 'Item Type Here'}            
+        });
+        this.base_model = new BaseModel();
+        this.item_template = _.template(jQuery("#test-item-template").html());
+        this.base_view = new BaseItemView({ template: this.item_template, model: this.base_model});
     }
 });
 
 test('Test BaseItemView', function () {
     equal(this.base_view.tagName, 'li');
+    deepEqual(this.base_view.model, this.base_model);
 });
 
 
