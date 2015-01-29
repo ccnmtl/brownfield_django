@@ -113,7 +113,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'tagging',
     'rest_framework',
-    'casper',
+    # 'casper',
     'typogrify',
     'south',
     'django_nose',
