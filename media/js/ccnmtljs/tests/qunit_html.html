@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>QUnit Example</title>
+    <link rel="stylesheet" href="../../../../node_modules/qunitjs/qunit/qunit.css">
+    <script type="text/javascript" src="../../libraries/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../../libraries/underscore-min.js"></script>
+    <script type="text/javascript" src="../../libraries/backbone-min.js"></script>
+    <script type="text/javascript" src="../bb_models.js"></script>
+    <script type="text/javascript" src="../bb_collections.js"></script>
+    <script type="text/javascript" src="../bb_views.js"></script>
+    <script type="text/javascript" src="../bb_control_views.js"></script>
+    
+    <!-- Templates for testing -->
+    <script type='text/template' id='test-item-template'><p><%= item_name %></p><p><%= item_type %></p></script>
+    
+    <!-- Copying Over the Templates from the homepages in the dashboard -->
+    
+    <script type="text/template" id="course-list-template">
+      <div class="course-name-inside">
+        <button class="btn btn-default course_name">
+          <span class="glyphicon glyphicon-th-list">
+          </span>
+          <strong><%= name %></strong>
+           Details
+       </button>
+      </div>
+      <button class='btn btn-xs btn-default edit-crs pull-right'>
+        <span class="glyphicon glyphicon-pencil">
+        </span>
+          Edit Course 
+      </button>
+    </script>
+
+    <script type="text/template" id="course-edit-template">
+        <form id="create-edit-form" method="" action="">
+            <span class="course-name-block">
+                <label for="edit_course_name">
+                  Name:
+                </label>
+                <input id="edit_course_name" maxlength="255" name="name" type="text" value="<%= name %>"/>
+                <br />
+            </span>
+            <span class="course-budget-block">
+		        <label for="edit_course_startingBudget">
+                  StartingBudget:
+                </label> 
+			    <input id="edit_course_startingBudget" min="0" name="startingBudget" type="number" value=<%= startingBudget %> />
+                <br />
+            </span>
+            <span class="course-message-block">
+			    <label for="edit_course_message">
+                  Message:
+                </label> 
+			    <textarea form="create-edit-form" cols="80" id="edit_course_message" name="edit_message" rows="10">
+                  <%= message %>
+                </textarea>
+                <br />
+			</span>
+        <button class='btn btn-default btn-xs save-edit-course' type="button">
+            Save
+        </button>
+        <button class='btn btn-default btn-xs cncl-edit-crs' type="button">
+            Cancel
+        </button>
+        </form>
+        <br />
+    </script>
+    
+    <script type="text/template" id="instructor-list-template">
+        <div class="instructor-list-inside">
+        <span class="instructor"><label for="instructor">Instructor:</label>&nbsp;<%= first_name %> <%= last_name %></span>
+        <span class="email"><label for="email">Email:</label>&nbsp;<%= email %></span>
+        </div>
+                <button class='btn btn-default btn-xs pull-right rm-inst'> Remove Instructor </button>
+                <button class='btn btn-default btn-xs pull-right ed-inst'> Edit Instructor </button>
+    </script>
+
+
+    <script type="text/template" id="instructor-edit-template">
+    <form class="edit-instructor-frm" method="" action="" style="display: inline;">
+        {% csrf_token %}
+        <span class="inst-edt-first-name">
+            <label>First Name: </label>
+            <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" />     
+        </span>
+        <span class="inst-edt-last-name">
+            <label>Last Name: </label>
+            <input type="text" placeholder="Last Name: " class="edt-last-name" value="<%= last_name %>" /> 
+        </span>
+        <span class="inst-edt-email">
+            <label>Email: </label>
+            <input type="text" placeholder="Email: " class="edt-email" value="<%= email %>" />
+        </span>
+        <button class='btn btn-xs btn-default pull-right cncl-edit-inst'> Cancel </button>
+        <button class='btn btn-default btn-xs pull-right save-edit-instructor'> Save Changes </button>
+    </form>
+    </script>
+
+
+    <!-- <script type="text/javascript">
+        jQuery(document).ready(function () {
+            var control_view = new ManageCoursesView({
+                el: jQuery('.course-creation-area'),
+                listEl: jQuery('.course-list'),
+                user_id: "{{request.user.id}}"
+            });
+           
+           {% if request.user.profile.is_admin %}
+               var instructor_controls = new ManageInstructorsView({
+        	       el: jQuery('.instructor_controls')
+               });
+           {% endif %}
+        });
+    </script> -->
+    
+        <script type="text/template" id="document-list-template">
+        <div class="document-click"><b><%= name %></b></div>
+        <%
+            if(visible)
+            {
+                %><button class="btn btn-xs btn-danger chng-dct pull-right">Hide</button><%
+            }else
+            {
+                %><button class="btn btn-xs btn-success chng-dct pull-right">Show</button><%
+            }
+        %>
+    </script>
+
+    <script type="text/template" id="student-list-template">
+     <div class="student-info">
+        <div class="student-name">
+            <label>Name: </label>
+            <%= first_name %>
+            <%= last_name %>
+        </div>
+        <div class="student-email">
+            <label>Email: </label>
+            <%= email %>
+        </div>
+        </div>
+        <div class="student-buttons">
+            
+            <button class="btn btn-xs btn-default pull-right rm-st"><span class="glyphicon glyphicon-remove"></span> Remove Student From Course </button>
+            <button class="btn btn-xs btn-default pull-right ed-st"><span class="glyphicon glyphicon-pencil"></span> Edit Student </button>
+        </div>
+    </script>
+
+    <script type="text/template" id="team-list-template">
+       <div class="team-name-list">
+            <div class="t-username">
+            <label>Team Username (for login purposes): </label> <%= username %>
+            </div>
+            <div class="t-name">
+            <label>Team Name: </label> <%= first_name %>
+            </div>
+            <div class="t-history">           
+            <button class="btn btn-xs btn-default hist-team"><span class="glyphicon glyphicon-save"></span> Download Team History (CSV) </button>
+            </span>
+        </div>
+    </div>
+        <div class="team-buttons">
+           <button class="btn btn-xs btn-default pull-right rm-team"><span class="glyphicon glyphicon-remove"></span> Remove Team From Course </button>
+            <button class="btn btn-xs btn-default pull-right edit-team"><span class="glyphicon glyphicon-pencil"></span> Edit Team </button>
+        </div>
+    </script>
+    
+
+    <script type="text/template" id="student-edit-template">
+    <form class="edit-student-frm" method="" action="" style="display: inline;">
+        {% csrf_token %}
+     <div class="create-student-account">
+        <div class="sedt-first-name">
+            <label>First Name: </label>
+            <input type="text" placeholder="First Name: " class="edt-frst-name" value="<%= first_name %>" /> 
+        </div>
+        <div class="sedt-last-name">
+            <label>Last Name: </label>
+            <input type="text" placeholder="Last Name: " class="edt-last-name" value="<%= last_name %>" /> 
+        </div>
+        <div class="sedt-email">
+            <label>Email: </label>
+            <input type="text" placeholder="Email: " class="edt-email" value="<%= email %>" />
+        </div>
+        </div>
+        <div class="create-student-buttons">
+        <button class="btn btn-xs btn-default save-edit-student"> Save Changes </button>  
+        <button class="btn btn-xs  btn-default cncl-edit-std">Cancel</button>       
+        </div>
+    </form>
+    </script>
+    
+    <script type="text/template" id="team-edit-template">
+    <br />
+    <form class="edit-team-frm" method="" action="" style="display: inline;">
+        {% csrf_token %}
+        <div class="div-edt-team-name">
+            <label>Team Name: </label>
+            <input type="text" placeholder="Team Name" class="edt-team-name" value="<%= first_name %>" />
+        </div>
+        <button class="btn btn-xs btn-default save-edit-team"> Save Changes </button>
+        <button class="btn btn-xs  btn-default cncl-edit-team">Cancel</button>
+        <br />
+    </form>
+    </script>
+    
+    
+</head>
+<body>
+    <div class="course-creation-area" style='display: none;'>
+      <div class='course-header'>
+        <h3>
+          Courses
+        </h3>
+        <button class="btn btn-default add-crs pull-right">
+            <span class="glyphicon glyphicon-plus"></span>
+          Add New Course
+        </button>
+      </div><!-- End div course-header -->
+      <div class='course-form-area'>  
+        <div class='accoridion'>
+          <form id="create-course-form" method="" action="" style="display: none;">
+                {% csrf_token %}
+                <h4 id="frm-title">Add New Course:</h4>
+                <span class="course-name-block">
+                    <label for="id_course_name">Name:</label>
+                    <input id="id_course_name" maxlength="255" name="name" type="text" placeholder="Course Name" />
+                    <br />
+                </span>
+                <span class="course-budget-block">
+		            <label for="id_course_startingBudget">Starting Budget:</label> 
+			        <input id="id_course_startingBudget" min="0" name="startingBudget" type="number" placeholder="60000" />
+			        <br />
+			    </span>
+			    <span class="course-message-block">
+			        <label for="id_course_message">Message:</label> 
+			        <textarea cols="80" id="id_course_message" name="message" rows="10" placeholder="Course Message Here" ></textarea><br />
+			    </span>
+			    <span class="course-professor-block">
+				        <label for="id_professor">Professor:</label>
+				        <select id="id_professor" name="professor">
+
+               	        </select><br />
+                </span>
+                <input type="submit" value="Save Course" class="submit btn btn-default"/>
+                <button class='btn btn-default cncl-add-crs' type="button">
+                    Cancel
+                </button>
+              </form> 
+            </div> <!-- End .accordion -->
+        </div> <!-- End course from area -->
+
+        <div class="course-list">
+        </div>
+    </div> <!-- End .course-creation-area -->
+
+    <div class='instructor_controls' style="display: none;">
+        <div class='instructor-header'>
+            <h3>
+                Instructors
+            </h3>
+                
+            <button class="btn btn-default add-instructor-btn pull-right"><span class="glyphicon glyphicon-plus"></span> Add New Instructor</button>
+        </div>
+        <div class='instructor-form-area'>
+        <form class="add-instructor-frm" method="" action="" style="display: none;">
+            {% csrf_token %}
+            <p> <b>Add New Instructor: </b></p>
+            <span class="inst-first-name">
+                <label>First Name: </label>
+                <input type="text" placeholder="First Name: " class="instructor-frst-name" /> 
+            </span>
+            <span class="inst-last-name">
+                <label>Last Name: </label>
+                <input type="text" placeholder="Last Name: " class="instructor-last-name" /> 
+            </span>
+            <span class="inst-email">
+                <label>Email: </label>
+                <input type="text" placeholder="Email: " class="instructor-email" />
+            </span>
+            <button class='btn btn-default btn-xs pull-right save-instructor' type="button">
+                Save Instructor
+            </button>
+            <button class='btn btn-default btn-xs pull-right cncl-add-inst' type="button">
+                    Cancel
+            </button>
+        </form>
+        </div> <!-- End Instructor Form Area -->
+        <div class="instructor-list" >
+            <!-- All instructors of courses will be inserted here -->
+        </div>
+    </div><!-- End instructor area -->
+
+
+
+
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+<script src="../../../../node_modules/qunitjs/qunit/qunit.js"></script>
+<script src="quint-tests.js"></script>
+</body>
+</html>
