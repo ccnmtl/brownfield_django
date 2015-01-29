@@ -295,6 +295,7 @@ class HomeView(LoggedInMixin, View):
     '''redoing so that it simply redirects people where they need to be'''
 
     def get(self, request):
+        url = '/'
         try:
             user_profile = UserProfile.objects.get(user=request.user.pk)
             if user_profile.is_teacher():
@@ -308,6 +309,15 @@ class HomeView(LoggedInMixin, View):
             except:
                 pass
         return HttpResponseRedirect(url)
+
+
+class ArchiveCourseView(CSRFExemptMixin, JSONResponseMixin, View):
+
+    def get(self, request, pk):
+        crs = Course.objects.get(pk=pk)
+        crs.archive = True
+        crs.save()
+        return self.render_to_json_response({'success': 'true'})
 
 
 class ActivateCourseView(CSRFExemptMixin, JSONResponseMixin, View):

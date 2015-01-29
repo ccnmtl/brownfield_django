@@ -12,7 +12,7 @@ from brownfield_django.main.views import HomeView, \
     TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView, \
     BrownfieldInfoView, BrownfieldHistoryView, BrownfieldTestView, \
     TeamHistoryView, TeamInfoView, TeamPerformTest, \
-    TeamCSV, ShowProfessorsView
+    TeamCSV, ShowProfessorsView, ArchiveCourseView
 
 
 admin.autodiscover()
@@ -60,6 +60,7 @@ urlpatterns = patterns(
     (r'^ccnmtl/home/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
     (r'^course_details/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
     (r'^activate_course/(?P<pk>\d+)/$', ActivateCourseView.as_view()),
+    (r'^archive_course/(?P<pk>\d+)/$', ArchiveCourseView.as_view()),
     (r'^edit_teams/(?P<pk>\d+)/$', EditTeamsView.as_view()),
     (r'^show_teams/(?P<pk>\d+)/$', ShowTeamsView.as_view()),
     (r'^show_instructors/$', ShowProfessorsView.as_view()),

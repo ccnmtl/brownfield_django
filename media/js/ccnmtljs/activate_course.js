@@ -129,8 +129,8 @@ jQuery(function() {
     		    reactivation_success();
     		}
 
-		if(activation_status === "False")
-                {
+		    if(activation_status === "False")
+            {
     		    activation_success();
     		}
 
