@@ -19,7 +19,7 @@ node_modules/jshint/bin/jshint:
 node_modules/phantomjs/bin/phantomjs:
 	npm install phantomjs --prefix .
 
-node_modules/qunit-phantomjs-runner/bin/qunit-phantomjs-runner:
+node_modules/qunit-phantomjs-runner:
 	npm install qunit-phantomjs-runner --prefix .
 
 test: ./ve/bin/python
