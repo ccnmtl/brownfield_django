@@ -1,6 +1,10 @@
 from django.test import TestCase
 from django.test.client import Client
 
+from rest_framework import status
+from rest_framework.test import APITestCase
+from rest_framework.test import APIClient
+
 from factories import UserProfileFactory, UserFactory, \
     CourseFactory, TeamFactory
 
@@ -58,3 +62,55 @@ class TestTeamViews(TestCase):
         self.assertTemplateUsed(response,
                                 'main/team/bfaxml.txt')
         self.assertEqual(response.status_code, 200)
+
+
+class TestStudentViews(APITestCase):
+
+    def setUp(self):
+        self.client = APIClient()
+        self.teacher = UserProfileFactory(user=UserFactory(username='teacher'),
+                                          profile_type='TE')
+        self.test_course = CourseFactory(professor=self.teacher.user,
+                                         name='Test Course')
+        self.student = UserProfileFactory(user=UserFactory(username='student'),
+                                          profile_type='ST',
+                                          course=self.test_course)
+        self.client.login(username=self.student.user.username, password='test')
+
+    def test_no_courses(self):
+        response = self.client.get("/api/course/")
+        self.assertEqual(response.data, [])
+
+    def test_no_documents(self):
+        response = self.client.get("/api/document/")
+        self.assertEqual(response.data, [])
+
+    def test_user_is_self(self):
+        '''Students can't actually log in, added checks to check each possible
+        kind of profile to be thorough, so it is returning a team for the user
+        url'''
+        response = self.client.get("/api/user/")
+        self.assertEqual(
+            response.data,
+            [{'url': 'http://testserver/api/eteam/' + \
+              str(self.student.pk) + '/',
+              'username': self.student.user.username,
+              'email': u''}])
+
+    def test_no_students(self):
+        response = self.client.get("/api/student/")
+        self.assertEqual(response.data, [])
+        # self.assertEqual(response.status_code, 403)
+ 
+    def test_no_student_create(self):
+        response = self.client.post("/api/student/")
+        self.assertEqual(response.status_code, 403)
+ 
+    def test_no_student_update(self):
+        response = self.client.put("/api/student/" + str(self.student.user.pk) + "/")
+        ''''''
+        self.assertEqual(response.status_code, 403)
+ 
+#     def test_user_is_self(self):
+#         response = self.client.get("/api/user/")
+#         self.assertEqual(response.data, [])
