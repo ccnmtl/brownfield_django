@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.test.client import Client
 
-from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework.test import APIClient
 
@@ -42,7 +41,7 @@ class TestTeamViews(TestCase):
         self.assertEqual(response.status_code, 200)
         response = self.client.post(
             "/team/" + str(self.team.user.pk) + "/info/",
-            {'infoType': 'recon', 'date': '2014/10/23 13:14',
+            {'infoType': "recon", 'date': '2014/10/23 13:14',
              'description': 'performing reconnaissance', 'cost': '100',
              'internalName': 'recon internal info'})
         self.assertEqual(response.status_code, 200)
@@ -61,6 +60,24 @@ class TestTeamViews(TestCase):
             "/team/" + str(self.team.user.pk) + "/history/")
         self.assertTemplateUsed(response,
                                 'main/team/bfaxml.txt')
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post(
+            "/team/" + str(self.team.user.pk) + "/info/",
+            {'infoType': "visit", 'date': '2014/10/23 13:14',
+             'description': 'Visiting a site', 'cost': '25',
+             'internalName': 'site visit'})
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post(
+            "/team/" + str(self.team.user.pk) + "/info/",
+            {'infoType': "question", 'date': '2014/10/23 13:14',
+             'description': 'Question person at site', 'cost': '1',
+             'internalName': 'Question'})
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post(
+            "/team/" + str(self.team.user.pk) + "/info/",
+            {'infoType': "doc", 'date': '2014/10/23 13:14',
+             'description': 'Document description', 'cost': '2',
+             'internalName': 'Document'})
         self.assertEqual(response.status_code, 200)
 
 
@@ -92,7 +109,7 @@ class TestStudentViews(APITestCase):
         response = self.client.get("/api/user/")
         self.assertEqual(
             response.data,
-            [{'url': 'http://testserver/api/eteam/' + \
+            [{'url': 'http://testserver/api/eteam/' +
               str(self.student.pk) + '/',
               'username': self.student.user.username,
               'email': u''}])
@@ -100,17 +117,20 @@ class TestStudentViews(APITestCase):
     def test_no_students(self):
         response = self.client.get("/api/student/")
         self.assertEqual(response.data, [])
-        # self.assertEqual(response.status_code, 403)
- 
+
     def test_no_student_create(self):
         response = self.client.post("/api/student/")
         self.assertEqual(response.status_code, 403)
- 
+
     def test_no_student_update(self):
-        response = self.client.put("/api/student/" + str(self.student.user.pk) + "/")
-        ''''''
+        response = self.client.put("/api/student/" +
+                                   str(self.student.user.pk) + "/")
         self.assertEqual(response.status_code, 403)
- 
-#     def test_user_is_self(self):
-#         response = self.client.get("/api/user/")
-#         self.assertEqual(response.data, [])
+
+    def test_no_teams(self):
+        response = self.client.get("/api/eteam/")
+        self.assertEqual(response.data, [])
+
+    def test_no_team_create(self):
+        response = self.client.post("/api/eteam/")
+        self.assertEqual(response.status_code, 403)
