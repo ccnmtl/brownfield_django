@@ -14,7 +14,7 @@ qunit-phantomjs-runner: node_modules/qunit-phantomjs-runner/runner.js
 	./node_modules/phantomjs/bin/phantomjs node_modules/qunit-phantomjs-runner/runner.js media/js/ccnmtljs/tests/qunit_html.html
 
 casperjs: node_modules/casper/test.js
-	./node_modules/casperjs test media/js/ccnmtljs/tests/casper-tests.js
+	./node_modules/casperjs/bin/casperjs test media/js/ccnmtljs/tests/casper-tests.js
 
 node_modules/jshint/bin/jshint:
 	npm install jshint --prefix .
