@@ -127,7 +127,22 @@ test('Test BaseItemView', function () {
 });
 
 
+module( 'Document Visibility Test', {
+    setup: function() {
+        this.list = new DocumentCollection();
+        this.list.add(new AppDocument({ 
+            name: "News: Local Residents React to Prospect of Mall Plans", 
+            link: "documents/news1.jpg", 
+            visible: false }));
+        this.list.add(new AppDocument({ 
+            name: "News: Water Testing Results Still Pending", 
+            link: "documents/news2.jpg", 
+            visible: false }));
+        this.listview = new DocumentListView({ el: jQuery('.documents_list'), course: 2, collection: this.list});
+    }
+});
 
-
-
+test('Test Document methods', function () {
+    equal(this.list.length, 2);
+});
 
