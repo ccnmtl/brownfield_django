@@ -1,5 +1,6 @@
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
+from .factories import TeamFactory
 
 
 class BasicTest(TestCase):
@@ -29,3 +30,13 @@ class TestAnnonymousUserLogin(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEquals(response.redirect_chain[0],
                           ('http://testserver/accounts/login/?next=/', 302))
+
+
+class TestAnonymousTeamHome(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_denied(self):
+        t = TeamFactory()
+        r = self.client.get("/team/home/%d/" % t.pk)
+        self.assertEqual(r.status_code, 403)
