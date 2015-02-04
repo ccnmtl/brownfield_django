@@ -468,7 +468,8 @@ class TeamHomeView(DetailView):
     success_url = '/'
 
     def dispatch(self, *args, **kwargs):
-        if int(kwargs.get('pk')) != self.request.user.team.id:
+        if (self.request.user.is_anonymous()
+                or (int(kwargs.get('pk')) != self.request.user.team.id)):
             return HttpResponseForbidden("forbidden")
         return super(TeamHomeView, self).dispatch(*args, **kwargs)
 
