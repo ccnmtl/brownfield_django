@@ -2,10 +2,19 @@ MANAGE=./manage.py
 APP=brownfield_django
 FLAKE8=./ve/bin/flake8
 
-jenkins: ./ve/bin/python jshint qunit-phantomjs-runner validate test flake8
+jenkins: ./ve/bin/python jshint validate test flake8
 
 ./ve/bin/python: requirements.txt bootstrap.py virtualenv.py
 	./bootstrap.py
+
+node_modules/jshint/bin/jshint:
+	npm install jshint --prefix .
+
+node_modules/phantomjs/bin/phantomjs:
+	npm install phantomjs --prefix .
+
+node_modules/qunit-phantomjs-runner:
+	npm install qunit-phantomjs-runner --prefix .
 
 jshint: node_modules/jshint/bin/jshint
 	./node_modules/jshint/bin/jshint media/js/ccnmtljs
@@ -18,15 +27,6 @@ casperjs: node_modules/casper/test.js
 
 phantomjs: node_modules/phantomjs/bin/phantomjs
 	./node_modules/phantomjs/bin/phantomjs media/js/ccnmtljs/tests/phantom-tests.js
-
-node_modules/jshint/bin/jshint:
-	npm install jshint --prefix .
-
-node_modules/phantomjs/bin/phantomjs:
-	npm install phantomjs --prefix .
-
-node_modules/qunit-phantomjs-runner:
-	npm install qunit-phantomjs-runner --prefix .
 
 test: ./ve/bin/python
 	$(MANAGE) jenkins
