@@ -7,7 +7,7 @@ var BaseItemView = Backbone.View.extend({
 
     tagName : 'li',
 
-	  render: function () 
+	render: function () 
     {
         var html = this.template(this.model.toJSON());
         this.$el.html(html);
@@ -45,8 +45,6 @@ var BaseItemView = Backbone.View.extend({
 
 var DeletableItemView = BaseItemView.extend({
 
-    //do I need to pass it a model? or because it is inherited "this" is understood
-    //this should be a mixin...
     removeItem: function ()
     {   
         this.model.destroy();

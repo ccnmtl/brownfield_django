@@ -29,7 +29,7 @@
     <script type="text/javascript" src="{{STATIC_URL}}js/libraries/backbone-min.js"></script>
     
     
-    <script type="text/javascript" src="{{STATIC_URL}}old_javascript/swfobject.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/libraries/swfobject.js"></script>
     {% comment %}{% endcomment %}
     <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/backbone_sync.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/utils.js"></script>
@@ -178,6 +178,7 @@ You are impersonating.<br />
 </div>
 {% endif %}
 
+
 {% if GA_CODE %}
 <script type="text/javascript">
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -189,6 +190,8 @@ You are impersonating.<br />
   ga('send', 'pageview');
 </script>
 {% endif %}
+
+
 </body>
 
 {% block bbjs %}{% endblock %}

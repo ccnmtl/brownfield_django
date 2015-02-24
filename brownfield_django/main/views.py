@@ -247,47 +247,51 @@ class TeamViewSet(PasswordMixin, viewsets.ModelViewSet):
     serializer_class = TeamUserSerializer
 
     def create(self, request):
-        try:
-            key = self.request.QUERY_PARAMS.get('course', None)
-            course = Course.objects.get(pk=key)
-            team_name = request.DATA['team_name']
-            '''If team name is blank, make something up'''
-            if team_name == '':
-                team_name = "team"
-            '''creating team with no attributes first so we can
-            create a unique username for user based on team pk'''
-            team = Team.objects.create(course=course,
-                                       budget=course.startingBudget)
-            user = User.objects.create(username=team_name + "_" + str(team.pk))
-            user.first_name = team_name
-            tmpasswd = self.get_password()
-            user.set_password(tmpasswd)
-            team.user = user
-            team.team_passwd = tmpasswd
-            team.save()
-            user.save()
-            serializer = TeamUserSerializer(user)
-            return Response(serializer.data, status.HTTP_201_CREATED)
-        except:
-            # is it considered good practice to return serializer.data
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        up = self.request.user.profile
+        if up.is_teacher() or up.is_admin():
+            try:
+                key = self.request.QUERY_PARAMS.get('course', None)
+                course = Course.objects.get(pk=key)
+                team_name = request.DATA['team_name']
+                '''If team name is blank, make something up'''
+                if team_name == '':
+                    team_name = "team"
+                '''creating team with no attributes first so we can
+                create a unique username for user based on team pk'''
+                team = Team.objects.create(course=course,
+                                           budget=course.startingBudget)
+                user = User.objects.create(username=team_name + "_" +
+                                           str(team.pk))
+                user.first_name = team_name
+                tmpasswd = self.get_password()
+                user.set_password(tmpasswd)
+                team.user = user
+                team.team_passwd = tmpasswd
+                team.save()
+                user.save()
+                serializer = TeamUserSerializer(user)
+                return Response(serializer.data, status.HTTP_201_CREATED)
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
     def get_queryset(self):
         '''Send back all teams currently in course.'''
         course_pk = self.request.QUERY_PARAMS.get('course', None)
         team_pk = self.kwargs.get('pk', None)
+        up = self.request.user.profile
 
-        if course_pk is not None:
+        if course_pk is not None and (up.is_teacher() or up.is_admin()):
             course = Course.objects.get(pk=course_pk)
             teamprofiles = course.get_teams()
             queryset = User.objects.filter(team__in=teamprofiles)
             return queryset
-        if team_pk is not None:
+        if team_pk is not None and (up.is_teacher() or up.is_admin()):
             queryset = User.objects.filter(pk=team_pk)
             return queryset
         else:
-            team_set = Team.objects.all()
-            queryset = User.objects.filter(team__in=team_set)
+            queryset = User.objects.none()
         return queryset
 
 

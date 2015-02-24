@@ -7,11 +7,26 @@ jenkins: ./ve/bin/python jshint validate test flake8
 ./ve/bin/python: requirements.txt bootstrap.py virtualenv.py
 	./bootstrap.py
 
+node_modules/jshint/bin/jshint:
+	npm install jshint --prefix .
+
+node_modules/phantomjs/bin/phantomjs:
+	npm install phantomjs --prefix .
+
+node_modules/qunit-phantomjs-runner:
+	npm install qunit-phantomjs-runner --prefix .
+
 jshint: node_modules/jshint/bin/jshint
 	./node_modules/jshint/bin/jshint media/js/ccnmtljs
 
-node_modules/jshint/bin/jshint:
-	npm install jshint --prefix .
+qunit-phantomjs-runner: node_modules/qunit-phantomjs-runner/runner.js
+	./node_modules/phantomjs/bin/phantomjs node_modules/qunit-phantomjs-runner/runner.js media/js/ccnmtljs/tests/qunit_html.html
+
+casperjs: node_modules/casper/test.js
+	./node_modules/casperjs/bin/casperjs test media/js/ccnmtljs/tests/casper-tests.js
+
+phantomjs: node_modules/phantomjs/bin/phantomjs
+	./node_modules/phantomjs/bin/phantomjs media/js/ccnmtljs/tests/phantom-tests.js
 
 test: ./ve/bin/python
 	$(MANAGE) jenkins
