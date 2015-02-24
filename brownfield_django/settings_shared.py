@@ -115,7 +115,6 @@ INSTALLED_APPS = [
     'rest_framework',
     # 'casper',
     'typogrify',
-    'south',
     'django_nose',
     'compressor',
     'django_statsd',
