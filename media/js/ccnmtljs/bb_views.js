@@ -105,9 +105,13 @@ var DocumentView = BaseItemView.extend({
    		{
    			document.location = "http://brownfieldref.ccnmtl.columbia.edu/";
    		}
+   		else if((this.model.get('name') === "Video: Press Conference Proceedings in Moraine Township") || (this.model.get('name') === "Video: Esker County Community Television: O'Ryan's Express"))
+   		{
+   			window.open("../../media/" + this.model.get('link'));
+   		}
    		else
 		{
-    		window.open("../../media/" + this.model.get('link'));
+    		window.open("../../media/flash/" + this.model.get('link'));
 		}
    	}
 
