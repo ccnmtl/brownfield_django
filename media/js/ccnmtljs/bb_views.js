@@ -38,7 +38,7 @@ var BaseItemView = Backbone.View.extend({
            return true;
         }
         return false;     
-     }
+    }
 
 });
 
@@ -48,6 +48,20 @@ var DeletableItemView = BaseItemView.extend({
     removeItem: function ()
     {   
         this.model.destroy();
+    },
+    
+    confirmDeletion: function (selector_string, delete_area, msg)
+    {
+        //var check = jQuery(this.el).find(selector_string).val();
+        //if(check === null || check === "") 
+        //{
+            if((jQuery(error_element).has('.conf-del').length) === 0)
+            {
+                jQuery(error_element).append("<b style='color:red'>" + String(msg) + "</b>");
+            }
+           return true;
+        //}
+       // return false;     
     }
 
 });
@@ -344,9 +358,16 @@ var InstructorView = DeletableItemView.extend({
    		'click .ed-inst' : 'showEditForm',
    		'click .save-edit-instructor' : 'editInstructor',
    		'click .cncl-edit-inst' : 'hideEditForm',
-   		'click .rm-inst' : 'removeItem'
+   		'click .rm-inst' : 'removeItem',
+   		'click .conf-del' : 'checkRemoveItem'
    	},
     
+   	checkRemoveItem: function(e)
+   	{
+        e.preventDefault();
+        jQuery('#confirmDeletion').modal('show');
+    },
+        	
     validEditForm: function(attributes, options) {
         /* Extremely simple basic check. */
         var is_valid = true;
@@ -355,7 +376,6 @@ var InstructorView = DeletableItemView.extend({
         {
             is_valid = false;
         }
-
         if(this.is_empty("input.edt-last-name", ".inst-edt-last-name", "Please enter a last name."))
         {
             is_valid = false;
