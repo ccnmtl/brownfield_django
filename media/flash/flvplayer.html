@@ -1,0 +1,47 @@
+<html>
+<head>
+   <script type="text/javascript" src="js/libraries/jquery-1.11.1.min.js"></script>
+   <script type="text/javascript" src="js/libraries/swfobject.js"></script>
+</head>
+<body>
+
+
+<h3 id="flvtitle">Video</h3>
+
+
+<p id="player1"><a href="http://www.macromedia.com/go/getflashplayer">Get the Flash Player</a> to see this player.</p>
+<script type="text/javascript">
+jQuery(function()
+{
+    function getUrlVars()
+    {
+        var vars = [], hash;
+        
+        var params = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+
+        for(var i = 0; i < params.length; i++)
+        {
+            hash = params[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+
+    var qvals = getUrlVars();
+	var s1 = new SWFObject("/media/flash/flvplayer.swf","single","320","260","7");
+	s1.addParam("allowfullscreen","true");
+	s1.addVariable("autostart","true");
+	s1.addVariable("file","/media/flash/documents/"+qvals['flv']);
+	
+	if ('title' in qvals)
+	{ 
+	    jQuery('flvtitle').innerHTML = qvals.title.replace(/[^\w\s]/g,"'");
+	}
+	s1.write("player1");
+});
+</script>
+
+
+</body>
+</html>
