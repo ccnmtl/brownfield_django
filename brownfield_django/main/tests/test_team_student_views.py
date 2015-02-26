@@ -110,7 +110,7 @@ class TestStudentViews(APITestCase):
         self.assertEqual(
             response.data,
             [{'url': 'http://testserver/api/eteam/' +
-              str(self.student.pk) + '/',
+              str(self.student.user.pk) + '/',
               'username': self.student.user.username,
               'email': u''}])
 
