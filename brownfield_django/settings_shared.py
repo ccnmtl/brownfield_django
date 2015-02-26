@@ -34,7 +34,7 @@ if 'test' in sys.argv or 'jenkins' in sys.argv:
     }
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-SOUTH_TESTS_MIGRATE = False
+# SOUTH_TESTS_MIGRATE = False
 
 NOSE_ARGS = [
     '--with-coverage',
@@ -115,7 +115,6 @@ INSTALLED_APPS = [
     'rest_framework',
     # 'casper',
     'typogrify',
-    'south',
     'django_nose',
     'compressor',
     'django_statsd',
