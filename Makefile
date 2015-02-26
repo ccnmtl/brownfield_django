@@ -29,7 +29,7 @@ phantomjs: node_modules/phantomjs/bin/phantomjs
 	./node_modules/phantomjs/bin/phantomjs media/js/ccnmtljs/tests/phantom-tests.js
 
 test: ./ve/bin/python
-	$(MANAGE) jenkins
+	$(MANAGE) jenkins --pep8-exclude=migrations --enable-coverage --coverage-rcfile=.coveragerc
 
 flake8: ./ve/bin/python
 	$(FLAKE8) $(APP) --max-complexity=8
