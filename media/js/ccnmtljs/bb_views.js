@@ -50,18 +50,24 @@ var DeletableItemView = BaseItemView.extend({
         this.model.destroy();
     },
     
-    confirmDeletion: function (selector_string, delete_area, msg)
+    confirmDeletion: function ()
     {
-        //var check = jQuery(this.el).find(selector_string).val();
-        //if(check === null || check === "") 
-        //{
-            if((jQuery(error_element).has('.conf-del').length) === 0)
-            {
-                jQuery(error_element).append("<b style='color:red'>" + String(msg) + "</b>");
-            }
-           return true;
-        //}
-       // return false;     
+        if(jQuery(this.el).find('.conf-del'))
+        {
+        	jQuery(this.el).find('.conf-del').show();
+        	jQuery(this.el).find('.reg-btn').hide();
+        }
+    },
+    
+    yesRemove: function (msg)
+    {
+    	removeItem();
+    },
+    
+    cancelRemove: function (msg)
+    {
+    	jQuery(this.el).find('.conf-del').hide();
+    	jQuery(this.el).find('.reg-btn').show();
     }
 
 });
