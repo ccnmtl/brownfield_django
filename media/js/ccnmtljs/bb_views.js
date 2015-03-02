@@ -52,22 +52,20 @@ var DeletableItemView = BaseItemView.extend({
     
     confirmDeletion: function ()
     {
-        if(jQuery(this.el).find('.conf-del'))
+        if(jQuery(this.el).find('.confirm-del'))
         {
-        	jQuery(this.el).find('.conf-del').show();
+        	jQuery(this.el).find('.confirm-del').show();
+        	jQuery(this.el).find('.confirm-del').css('display', 'inline');
+        	jQuery(this.el).find('.confirm-del').css('color', 'red');
+        	jQuery(this.el).find('.confirm-del').css('font-weight', 'bold');
         	jQuery(this.el).find('.reg-btn').hide();
         }
     },
     
-    yesRemove: function (msg)
+    cancelDeletion: function (evt)
     {
-    	removeItem();
-    },
-    
-    cancelRemove: function (msg)
-    {
-    	jQuery(this.el).find('.conf-del').hide();
     	jQuery(this.el).find('.reg-btn').show();
+    	jQuery(this.el).find('.confirm-del').hide();
     }
 
 });
@@ -152,7 +150,10 @@ var CourseView = BaseItemView.extend({
    	    'click .course_name' : 'courseDetails',
    	    'click .edit-crs' : 'showEditForm',
    	    'click .save-edit-course' : 'editCourse',
-   	    'click .cncl-edit-crs' : 'hideEditForm'
+   	    'click .cncl-edit-crs' : 'hideEditForm',
+   	    'click .conf-archive-course' : 'confirmArchival',
+   	    'click .cancel-arch' : 'cancelArchive',
+   	    'click .conf-arch' : 'clear'
    	},
     	
     render: function ()
@@ -215,6 +216,22 @@ var CourseView = BaseItemView.extend({
             });//end save
         }//end if
     },// end editCourse
+    
+    confirmArchival: function (evt)
+    {
+    	jQuery('.conf-del').show();
+    	jQuery('.conf-del').css('display', 'inline');
+    	jQuery('.conf-del').css('color', 'red');
+    	jQuery('.conf-del').css('font-weight', 'bold');
+    	jQuery('.reg-btn').hide();
+    },
+    
+    cancelArchive: function (evt)
+    {
+    	jQuery('.reg-btn').show();
+    	jQuery('.conf-del').hide();
+    	
+    },
     
     courseDetails: function ()
     {
@@ -365,14 +382,11 @@ var InstructorView = DeletableItemView.extend({
    		'click .save-edit-instructor' : 'editInstructor',
    		'click .cncl-edit-inst' : 'hideEditForm',
    		'click .rm-inst' : 'removeItem',
-   		'click .conf-del' : 'checkRemoveItem'
+   		'click .conf-del' : 'confirmDeletion',
+   		'click .cancel-del' : 'cancelDeletion'
    	},
     
-   	checkRemoveItem: function(e)
-   	{
-        e.preventDefault();
-        jQuery('#confirmDeletion').modal('show');
-    },
+
         	
     validEditForm: function(attributes, options) {
         /* Extremely simple basic check. */

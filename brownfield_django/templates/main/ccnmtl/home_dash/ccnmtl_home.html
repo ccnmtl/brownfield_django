@@ -38,15 +38,32 @@
             {% endif %}
             </span>
             {% endcomment %}
-        <button class='btn btn-default btn-xs save-edit-course' type="button">
-            Save
-        </button>
-        <button class='btn btn-default btn-xs cncl-edit-crs' type="button">
-            Cancel
-        </button>
+            <span class="conf-del" style="display:none;">
+                <b class="pull-left" style='color:red'>
+                    Are you sure you want to archive this course?
+                </b>
+                <button class='btn btn-xs btn-danger pull-right conf-arch' type="button">
+                    Yes Archive
+                </button>
+                <button class='btn btn-xs btn-success pull-right cancel-arch' type="button">
+                    Cancel
+                </button>
+            </span>
+            <span class="reg-btn">
+                <button class='btn btn-default btn-xs conf-archive-course' type="button">
+                    Archive Course
+                </button>
+                <button class='btn btn-default btn-xs save-edit-course' type="button">
+                    Save
+                </button>
+                <button class='btn btn-default btn-xs cncl-edit-crs' type="button">
+                    Cancel
+                </button>
+            </span>
         </form>
         <br />
     </script>
+    
     
     {% if request.user.profile.is_admin %}
     <script type="text/template" id="instructor-list-template">
@@ -55,8 +72,9 @@
             <span class="email"><label for="email">Email:</label>&nbsp;<%= email %></span>
         </div>
         <div class="instructor-button-inside">
-            <span class="rm-conf"><b>Are you sure you want to remove this instructor?</b>
-                <button class='btn btn-default btn-xs pull-right rm-deny'> Cancel </button>
+            <span class="confirm-del"  style="display:none;">
+                <b>Are you sure you want to remove this instructor?</b>
+                <button class='btn btn-default btn-xs pull-right cancel-del'> Cancel </button>
                 <button class='btn btn-default btn-xs pull-right rm-inst'> Yes Remove </button>
             </span>
             <span class="reg-btn">
@@ -119,47 +137,7 @@
     {% include "main/ccnmtl/home_dash/demo_tab.html" %}
   </div>
   {% comment %}{% endcomment %}
-  
-  
-    <!-- Archive Confirmation -->
-    <div class="modal fade" id="confirmArchive" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title">Archive Course</h4>
-          </div>
-          <div class="modal-body">
-            <p>
-                Are you sure you want to archive your course? Archiving your course will remove it from the dashboard.
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button id="conf-arch" class="btn btn-primary">Continue</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 
-    <!-- Deletion Confirmation -->
-    <div class="modal fade" id="confirmDeletion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title">Deletion Course</h4>
-          </div>
-          <div class="modal-body">
-            <p>
-                Are you sure you want to delete this instructor?
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button id="conf-del" class="btn btn-primary">Continue</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
   
   
 {% endblock %}
