@@ -220,9 +220,7 @@ var CourseView = BaseItemView.extend({
     confirmArchival: function (evt)
     {
     	jQuery('.conf-del').show();
-    	jQuery('.conf-del').css('display', 'inline');
-    	jQuery('.conf-del').css('color', 'red');
-    	jQuery('.conf-del').css('font-weight', 'bold');
+    	jQuery('.conf-del').css({'display':'inline', 'color':'red', 'font-weight':'bold'});
     	jQuery('.reg-btn').hide();
     },
     
@@ -388,7 +386,8 @@ var InstructorView = BaseItemView.extend({
     
     render: function ()
     {
-        if (this.model.get('archive') === true) {
+    	var prof = this.model.get('profile');
+        if (prof.archive === true) {
             this.$el.remove();
         } else {
         	BaseItemView.prototype.render.apply(this, arguments);
@@ -422,9 +421,10 @@ var InstructorView = BaseItemView.extend({
 
         if(this.validEditForm())
         {
-            var inst_fname = jQuery(this.el).find("input.edt-frst-name").val();
-            var inst_lname = jQuery(this.el).find("input.edt-last-name").val();
-            var inst_email = jQuery(this.el).find("input.edt-email").val();
+        	var current = jQuery(this.el);
+            var inst_fname = current.find("input.edt-frst-name").val();
+            var inst_lname = current.find("input.edt-last-name").val();
+            var inst_email = current.find("input.edt-email").val();
             /* For some reason setting the attributes below only sets correctly if you edit
             * email, pulling the varibles here because here they are correct and then passing.
             * */
@@ -444,23 +444,25 @@ var InstructorView = BaseItemView.extend({
     },
     
     clear: function() {
-        this.model.set('archive', true);
+    	var prof = _.clone(this.model.get('profile'));
+    	prof.archive = true;
+    	this.model.set("profile", prof);
         this.model.save();
     },
     
     confirmArchival: function (evt)
     {
-    	jQuery(this.el).find('.conf-del').show();
-    	jQuery(this.el).find('.conf-del').css('display', 'inline');
-    	jQuery(this.el).find('.conf-del').css('color', 'red');
-    	jQuery(this.el).find('.conf-del').css('font-weight', 'bold');
-    	jQuery(this.el).find('.reg-btn').hide();
+    	var current = jQuery(this.el);
+    	current.find('.conf-del').show();
+    	current.find('.conf-del').css({'display':'inline', 'color':'red', 'font-weight':'bold'});
+    	current.find('.reg-btn').hide();
     },
     
     cancelArchive: function (evt)
     {
-    	jQuery(this.el).find('.reg-btn').show();
-    	jQuery(this.el).find('.conf-del').hide();
+    	var current = jQuery(this.el);
+    	current.find('.reg-btn').show();
+    	current.find('.conf-del').hide();
     }
     
     
