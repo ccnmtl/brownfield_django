@@ -365,7 +365,7 @@ var StudentView = DeletableItemView.extend({
 });
 
 
-var InstructorView = DeletableItemView.extend({
+var InstructorView = BaseItemView.extend({
 
 	initialize: function(options)
 	{
@@ -374,19 +374,27 @@ var InstructorView = DeletableItemView.extend({
 		this.edit_form =  _.template(jQuery("#instructor-edit-template").html());
         // need to bind the edit form to the model - when change made to form change model
 		this.listenTo(this.model, 'change', this.render);
-		this.listenTo(this.model, 'destroy', this.remove);
+		//this.listenTo(this.model, 'destroy', this.remove);
 	},
 
    	events: {
    		'click .ed-inst' : 'showEditForm',
    		'click .save-edit-instructor' : 'editInstructor',
    		'click .cncl-edit-inst' : 'hideEditForm',
-   		'click .rm-inst' : 'removeItem',
-   		'click .conf-del' : 'confirmDeletion',
-   		'click .cancel-del' : 'cancelDeletion'
+   		'click .conf-archive-inst' : 'confirmArchival',
+   	    'click .cancel-arch-inst' : 'cancelArchive',
+   	    'click .conf-arch' : 'clear'
    	},
     
-
+    render: function ()
+    {
+        if (this.model.get('archive') === true) {
+            this.$el.remove();
+        } else {
+        	BaseItemView.prototype.render.apply(this, arguments);
+        }
+        return this;
+    },
         	
     validEditForm: function(attributes, options) {
         /* Extremely simple basic check. */
@@ -433,7 +441,28 @@ var InstructorView = DeletableItemView.extend({
             wait: true
           });//end save
       }
+    },
+    
+    clear: function() {
+        this.model.set('archive', true);
+        this.model.save();
+    },
+    
+    confirmArchival: function (evt)
+    {
+    	jQuery(this.el).find('.conf-del').show();
+    	jQuery(this.el).find('.conf-del').css('display', 'inline');
+    	jQuery(this.el).find('.conf-del').css('color', 'red');
+    	jQuery(this.el).find('.conf-del').css('font-weight', 'bold');
+    	jQuery(this.el).find('.reg-btn').hide();
+    },
+    
+    cancelArchive: function (evt)
+    {
+    	jQuery(this.el).find('.reg-btn').show();
+    	jQuery(this.el).find('.conf-del').hide();
     }
+    
     
 });
 

@@ -123,6 +123,7 @@ class UserProfile(models.Model):
     profile_type = models.CharField(max_length=2, choices=PROFILE_CHOICES)
     '''Leaving course null/blank because admins and
     teachers do not necessarily belong to a course.'''
+    archive = models.BooleanField(default=False)
     course = models.ForeignKey(Course, null=True, default=None, blank=True)
     team = models.ForeignKey(Team, null=True, default=None, blank=True)
     tmp_passwd = models.CharField(max_length=255, default="", blank=True)

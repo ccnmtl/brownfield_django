@@ -12,6 +12,7 @@ from django.template import loader
 from django.template.context import Context
 from django.views.generic import View
 from django.views.generic.detail import DetailView
+
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 
@@ -235,7 +236,8 @@ class InstructorViewSet(UniqUsernameMixin,
         up = self.request.user.profile
         queryset = User.objects.none()
         if up.is_admin():
-            instructors = UserProfile.objects.filter(profile_type='TE')
+            instructors = UserProfile.objects.filter(
+                profile_type='TE').filter(archive=False)
             queryset = User.objects.filter(profile__in=instructors)
         return queryset
 
