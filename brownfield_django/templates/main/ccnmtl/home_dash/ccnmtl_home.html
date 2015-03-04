@@ -38,24 +38,50 @@
             {% endif %}
             </span>
             {% endcomment %}
-        <button class='btn btn-default btn-xs save-edit-course' type="button">
-            Save
-        </button>
-        <button class='btn btn-default btn-xs cncl-edit-crs' type="button">
-            Cancel
-        </button>
+            <span class="conf-del" style="display:none;">
+                <b class="pull-left" style='color:red'>
+                    Are you sure you want to archive this course?
+                </b>
+                <button class='btn btn-xs btn-danger pull-right conf-arch' type="button">
+                    Yes Archive
+                </button>
+                <button class='btn btn-xs btn-success pull-right cancel-arch' type="button">
+                    Cancel
+                </button>
+            </span>
+            <span class="reg-btn">
+                <button class='btn btn-default btn-xs conf-archive-course' type="button">
+                    Archive Course
+                </button>
+                <button class='btn btn-default btn-xs save-edit-course' type="button">
+                    Save
+                </button>
+                <button class='btn btn-default btn-xs cncl-edit-crs' type="button">
+                    Cancel
+                </button>
+            </span>
         </form>
         <br />
     </script>
     
+    
     {% if request.user.profile.is_admin %}
     <script type="text/template" id="instructor-list-template">
         <div class="instructor-list-inside">
-        <span class="instructor"><label for="instructor">Instructor:</label>&nbsp;<%= first_name %> <%= last_name %></span>
-        <span class="email"><label for="email">Email:</label>&nbsp;<%= email %></span>
+            <span class="instructor"><label for="instructor">Instructor:</label>&nbsp;<%= first_name %> <%= last_name %></span>
+            <span class="email"><label for="email">Email:</label>&nbsp;<%= email %></span>
         </div>
-                <button class='btn btn-default btn-xs pull-right rm-inst'> Remove Instructor </button>
+        <div class="instructor-button-inside">
+            <span class="conf-del"  style="display:none;">
+                <b>Are you sure you want to remove this instructor?</b>
+                <button class='btn btn-default btn-xs pull-right cancel-arch-inst'> Cancel </button>
+                <button class='btn btn-default btn-xs pull-right conf-arch'> Yes Remove </button>
+            </span>
+            <span class="reg-btn">
+                <button class='btn btn-default btn-xs pull-right conf-archive-inst'> Remove Instructor </button>
                 <button class='btn btn-default btn-xs pull-right ed-inst'> Edit Instructor </button>
+            </span>
+        </div>
 
     </script>
 
@@ -111,4 +137,7 @@
     {% include "main/ccnmtl/home_dash/demo_tab.html" %}
   </div>
   {% comment %}{% endcomment %}
+
+  
+  
 {% endblock %}

@@ -69,15 +69,39 @@ class TeamMemberSerializer(serializers.ModelSerializer):
         fields = ('signed_contract', 'budget', 'students', 'course')
 
 
-# class TeamMemberSerializer(serializers.ModelSerializer):
-#     team = StudentMUserSerializer(many=True)
-#
-#     class Meta:
-#         model = Team
-#         fields = ('signed_contract', 'budget')
-#
-#
-# class TeamUserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ('id', 'first_name', 'username')
+class InstructorProfileSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserProfile
+        fields = ('profile_type', 'archive')
+
+    def create(self, validated_data):
+        return UserProfile.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.profile_type = validated_data.get(
+            'profile_type', instance.profile_type)
+        instance.archive = validated_data.get('archive', instance.archive)
+        instance.save()
+        return instance
+
+
+class InstructorSerializer(serializers.ModelSerializer):
+    profile = InstructorProfileSerializer()
+
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'email',
+                  'profile')
+
+    def create(self, validated_data):
+        return User.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.email = validated_data.get('email', instance.email)
+        instance.first_name = validated_data.get(
+            'first_name', instance.first_name)
+        instance.last_name = validated_data.get(
+            'last_name', instance.last_name)
+        instance.save()
+        return instance
