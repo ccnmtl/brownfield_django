@@ -3,6 +3,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 # from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 from rest_framework import routers
 
 from brownfield_django.main.views import CourseViewSet, UserViewSet, \
@@ -12,7 +13,7 @@ from brownfield_django.main.views import HomeView, \
     TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView, \
     BrownfieldInfoView, BrownfieldHistoryView, BrownfieldTestView, \
     TeamHistoryView, TeamInfoView, TeamPerformTest, \
-    TeamCSV, ShowProfessorsView, ArchiveCourseView
+    TeamCSV, ShowProfessorsView, ArchiveCourseView, ReRouteReqs
 
 
 admin.autodiscover()
@@ -77,6 +78,7 @@ urlpatterns = patterns(
     (r'^site_history/$', TemplateView.as_view(
         template_name="interactive/site_history.html")),
     (r'^team_csv/(?P<username>.*)/$', TeamCSV.as_view()),
+    (r'^static/flash/documents/(?P<path>.*)$', ReRouteReqs.as_view()),
     (r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),
