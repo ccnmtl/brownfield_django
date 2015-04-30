@@ -652,7 +652,8 @@ class ReRouteReqs(View):
     http://brownfield.ccnmtl.columbia.edu/static/flash/documents'''
 
     def get(self, request, path):
-        comp_path = os.path.join(os.path.dirname(__file__), "../../media/flash/documents/") + str(path)
+        comp_path = os.path.join(os.path.dirname(__file__),
+                                 "../../media/flash/documents/") + str(path)
         readpath = open(comp_path, 'rb')
         response = HttpResponse(content=readpath.read())
         response['Content-Type'] = 'application/pdf'
