@@ -652,9 +652,9 @@ class ReRouteReqs(View):
 
     def get(self, request, path):
         actual_path = 'media/flash/documents/' + str(path)
-        abspath = open(actual_path,'rb')
+        abspath = open(actual_path, 'rb')
         response = HttpResponse(content=abspath.read())
-        response['Content-Type']= 'application/pdf'
+        response['Content-Type'] = 'application/pdf'
         response['Content-Disposition'] = 'attachment; filename=%s' \
-                                       % path
+            % path
         return response
