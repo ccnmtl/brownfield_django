@@ -1,5 +1,6 @@
 import csv
 import json
+import os
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -651,8 +652,9 @@ class ReRouteReqs(View):
     http://brownfield.ccnmtl.columbia.edu/static/flash/documents'''
 
     def get(self, request, path):
-        actual_path = 'media/flash/documents/' + str(path)
-        abspath = open(actual_path, 'rb')
+        current_dir = os.path.abspath('.')
+        relative_path = '/media/flash/documents/' + str(path)
+        abspath = open(current_dir + relative_path, 'rb')
         response = HttpResponse(content=abspath.read())
         response['Content-Type'] = 'application/pdf'
         response['Content-Disposition'] = 'attachment; filename=%s' \
