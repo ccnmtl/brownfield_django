@@ -643,3 +643,18 @@ class TeamCSV(View):
                            test.history.description, test.x, test.y, 'None']
             writer.writerow(columns)
         return response
+
+
+class ReRouteReqs(View):
+    '''Currently the Flash behind the interactive's buttons for download is
+    hard coded to look at
+    http://brownfield.ccnmtl.columbia.edu/static/flash/documents'''
+
+    def get(self, request, path):
+        actual_path = 'media/flash/documents/' + str(path)
+        abspath = open(actual_path, 'rb')
+        response = HttpResponse(content=abspath.read())
+        response['Content-Type'] = 'application/pdf'
+        response['Content-Disposition'] = 'attachment; filename=%s' \
+            % path
+        return response
