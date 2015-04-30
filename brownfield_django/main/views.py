@@ -1,6 +1,5 @@
 import csv
 import json
-import os
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -659,4 +658,3 @@ class ReRouteReqs(View):
         response['Content-Disposition'] = 'attachment; filename=%s' \
             % path
         return response
-
