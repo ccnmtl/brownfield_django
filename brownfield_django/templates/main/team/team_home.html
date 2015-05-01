@@ -13,9 +13,9 @@
 
    {% block team_info %}
     <div class="team-div">
-        <h3>Team Information</h3> 
+      <h3>Team Information</h3> 
         
-        <div class="team-div-info-1">
+      <div class="team-div-info-1">
         <b>Team Name: </b> {{object.user.username}} <br />
         <b>Course: </b> {{object.course}} <br />
         </div>
@@ -23,12 +23,13 @@
         <b>Signed Contract: </b> {{object.signed_contract}} <br />
         <b>Budget: </b> {{object.budget}} <br />
         </div>
-    {% endblock %}
-        <div class="team-div-info-2">
-
-    <a class="btn btn-default" href="../../../team_csv/{{ request.user.username }}/"><span class="glyphicon glyphicon-usd"></span> Download Team Budget History (CSV)</a>
-            </div>
-        </div>
+      {% endblock %}
+      <div class="team-div-info-2">
+        <a class="btn btn-default" href="../../../team_csv/{{ request.user.username }}/"><span class="glyphicon glyphicon-usd"></span> Download Team Budget History (CSV)</a>
+        <a class="btn btn-default" href="../../..{{STATIC_URL}}flash/documents/slMap.pdf"><span class="glyphicon glyphicon-th"></span> Download Map (PDF)</a>
+        <a class="btn btn-default" href="../../..{{STATIC_URL}}flash/documents/contract.pdf"><span class="glyphicon glyphicon-pencil"></span> Download Contract (PDF)</a>
+      </div>
+    </div>
       
     {% block course_documents %}
     
