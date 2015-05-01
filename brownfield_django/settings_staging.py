@@ -5,7 +5,6 @@ TEMPLATE_DIRS = (
     "/var/www/brownfield_django/brownfield_django/brownfield_django/templates",
 )
 
-MEDIA_ROOT = '/var/www/brownfield_django/uploads/'
 # put any static media here to override app served static media
 STATICMEDIA_MOUNTS = (
     ('/sitemedia', '/var/www/brownfield_django/brownfield_django/sitemedia'),
