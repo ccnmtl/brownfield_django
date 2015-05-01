@@ -56,8 +56,8 @@ TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = False
-MEDIA_ROOT = "/var/www/brownfield_django/uploads/"
-MEDIA_URL = '/uploads/'
+MEDIA_ROOT = "/var/www/brownfield_django/brownfield_django/main/static/"
+MEDIA_URL = '/static/flash/documents/'
 STATIC_URL = '/media/'
 SECRET_KEY = 'there-has-to-be-one-of-these-in-here'
 

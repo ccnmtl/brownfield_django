@@ -12,7 +12,7 @@ from brownfield_django.main.views import HomeView, \
     TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView, \
     BrownfieldInfoView, BrownfieldHistoryView, BrownfieldTestView, \
     TeamHistoryView, TeamInfoView, TeamPerformTest, \
-    TeamCSV, ShowProfessorsView, ArchiveCourseView, ReRouteReqs
+    TeamCSV, ShowProfessorsView, ArchiveCourseView
 
 
 admin.autodiscover()
@@ -77,7 +77,12 @@ urlpatterns = patterns(
     (r'^site_history/$', TemplateView.as_view(
         template_name="interactive/site_history.html")),
     (r'^team_csv/(?P<username>.*)/$', TeamCSV.as_view()),
-    (r'^static/flash/documents/(?P<path>.*)$', ReRouteReqs.as_view()),
+    # (r'^static/flash/documents/(?P<path>.*)$', ReRouteReqs.as_view()),
+    url(r'^crossdomain.xml$',
+        'flashpolicies.views.simple',
+        {'domains': [settings.STATIC_URL, '*.ccnmtl.columbia.edu']}),
+    (r'^static/flash/documents/(?P<path>.*)$',
+     'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     (r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),
