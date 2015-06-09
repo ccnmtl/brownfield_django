@@ -1,6 +1,5 @@
 import csv
 import json
-import os
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -646,17 +645,10 @@ class TeamCSV(View):
         return response
 
 
-class ReRouteReqs(View):
-    '''Currently the Flash behind the interactive's buttons for download is
-    hard coded to look at
-    http://brownfield.ccnmtl.columbia.edu/static/flash/documents'''
+class TeamSignContract(JSONResponseMixin, View):
 
-    def get(self, request, path):
-        comp_path = os.path.join(os.path.dirname(__file__),
-                                 "../../media/flash/documents/") + str(path)
-        readpath = open(comp_path, 'rb')
-        response = HttpResponse(content=readpath.read())
-        response['Content-Type'] = 'application/pdf'
-        response['Content-Disposition'] = 'attachment; filename=%s' \
-            % path
-        return response
+    def get(self, request):
+        team = Team.objects.get(user=request.user)
+        team.signed_contract = True
+        team.save()
+        return self.render_to_json_response({'success': 'true'})
