@@ -412,7 +412,7 @@ class CCNMTLCourseDetail(LoggedInMixinAdminInst, DetailView):
 '''CCNMTL/Admin Interactive Views'''
 
 
-class BrownfieldInfoView(LoggedInMixinAdminInst, CSRFExemptMixin, View):
+class BrownfieldInfoView(CSRFExemptMixin, View):
     '''Corresponds to "demo/info/"'''
     def get(self, request):
         if request.user.profile.is_admin():
@@ -429,7 +429,7 @@ class BrownfieldInfoView(LoggedInMixinAdminInst, CSRFExemptMixin, View):
             return HttpResponse("<data><response>OK</response></data>")
 
 
-class BrownfieldHistoryView(LoggedInMixinAdminInst, CSRFExemptMixin, View):
+class BrownfieldHistoryView(CSRFExemptMixin, View):
 
     def get(self, request):
         if request.user.profile.is_admin():
@@ -446,7 +446,7 @@ class BrownfieldHistoryView(LoggedInMixinAdminInst, CSRFExemptMixin, View):
             return HttpResponse(INITIAL_XML)
 
 
-class BrownfieldTestView(LoggedInMixinAdminInst, CSRFExemptMixin, View):
+class BrownfieldTestView(CSRFExemptMixin, View):
 
     def get(self, request):
         if request.user.profile.is_admin():
@@ -488,7 +488,7 @@ class TeamHomeView(LoggedInMixin, DetailView):
 """Team Views for interactive."""
 
 
-class TeamHistoryView(LoggedInMixin, CSRFExemptMixin, View):
+class TeamHistoryView(CSRFExemptMixin, View):
     """Need to parse the XML and substitute the correct
     values for each student interaction."""
 
@@ -522,7 +522,7 @@ class TeamHistoryView(LoggedInMixin, CSRFExemptMixin, View):
             return HttpResponse(self.send_team_history(team))
 
 
-class TeamInfoView(LoggedInMixin, CSRFExemptMixin, View):
+class TeamInfoView(CSRFExemptMixin, View):
 
     def post(self, request, pk):
         team = Team.objects.get(user=request.user)
@@ -579,7 +579,7 @@ class TeamInfoView(LoggedInMixin, CSRFExemptMixin, View):
             return HttpResponse("<data><response>OK</response></data>")
 
 
-class TeamPerformTest(LoggedInMixin, CSRFExemptMixin, View):
+class TeamPerformTest(CSRFExemptMixin, View):
 
     def post(self, request, pk):
         team = Team.objects.get(user=request.user)
