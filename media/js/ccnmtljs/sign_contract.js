@@ -5,7 +5,7 @@ jQuery(function() {
     	jQuery.ajax(
     	{
     	    url: "/team/sign_contract/",
-    	    type: "GET",
+    	    type: "POST",
     	    dataType: 'json',
     	    success: function (data)
     	    {

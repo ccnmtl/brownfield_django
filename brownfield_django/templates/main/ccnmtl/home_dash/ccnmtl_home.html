@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block bbjs %}
-    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/bb_models.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/bb_collections.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/bb_views.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/bb_control_views.js"></script>
+    <script type="text/javascript" src="/media/js/ccnmtljs/bb_models.js"></script>
+    <script type="text/javascript" src="/media/js/ccnmtljs/bb_collections.js"></script>
+    <script type="text/javascript" src="/media/js/ccnmtljs/bb_views.js"></script>
+    <script type="text/javascript" src="/media/js/ccnmtljs/bb_control_views.js"></script>
 {% endblock %}
 
 {% block js %}
@@ -132,7 +132,7 @@
     <li><a href="#demo" data-toggle="tab">Demo</a></li>
   </ul>
  
-  <div class="instructor tab-content">
+  <div class="instructor tab-content">{% csrf_token %}
     {% include "main/ccnmtl/home_dash/course_list_tab.html" %}
     {% include "main/ccnmtl/home_dash/demo_tab.html" %}
   </div>

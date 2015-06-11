@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block bbjs %}
-    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/bb_models.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/bb_collections.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/bb_views.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/bb_control_views.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/bb_instantiation.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/ccnmtljs/activate_course.js"></script>
+    <script type="text/javascript" src="/media/js/ccnmtljs/bb_models.js"></script>
+    <script type="text/javascript" src="/media/js/ccnmtljs/bb_collections.js"></script>
+    <script type="text/javascript" src="/media/js/ccnmtljs/bb_views.js"></script>
+    <script type="text/javascript" src="/media/js/ccnmtljs/bb_control_views.js"></script>
+    <script type="text/javascript" src="/media/js/ccnmtljs/bb_instantiation.js"></script>
+    <script type="text/javascript" src="/media/js/ccnmtljs/activate_course.js"></script>
 {% endblock %}
 
 {% block js %}
@@ -102,35 +102,14 @@
         <br />
     </form>
     </script>
-    
-    <script type="text/javascript">
-        jQuery(document).ready(function () {
-            var crs_id = jQuery("input[name='crs-id']").val();
-            jQuery('.archive-course').on('click', function(){
-                jQuery.ajax(
-                {
-                    url: "/archive_course/" + crs_id + "/",
-                    type: "GET",
-                    dataType: 'json',
-                    success: function (data)
-                    {
-                        window.location.href = "/";
-                    },
-                    error: function(data) 
-                    {
-                    	alert('Something went wrong, please try again');
-                    }
-                });// end ajax
-            });//end onclick
-        });//end on ready
-    </script>
+    <script type="text/javascript" src="/media/js/ccnmtljs/archive_course.js"></script>
 
 {% endblock %}
 
 {% block content %}
    <input type="hidden" name="crs-id" value="{{object.pk}}"/>
    <input type="hidden" name="crs-active" value="{{object.active}}"/>
-
+   {% csrf_token %}
   <ul class="nav nav-tabs instructor-nav">
     <li class="active"><a href="#course-documents" data-toggle="tab">Course Info</a></li>
     <li><a href="#course-team-students" data-toggle="tab">Teams and Students</a></li>

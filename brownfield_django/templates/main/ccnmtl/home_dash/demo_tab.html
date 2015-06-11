@@ -8,20 +8,20 @@
     		<param name="allowScriptAccess" value="sameDomain" />
     		<!-- Static -->
       		<param name="movie" 
-      		    value="{{STATIC_URL}}flash/bfa.swf" />
+      		    value="/media/flash/bfa.swf" />
       		    
       		<param name="quality" value="high" />
       		<param name="bgcolor" value="#4d3e1b" />
       		
       		<!-- Domain & Static Do I need site.domain in front of static url?-->
       		<param name="flashVars" 
-      		    value="serverURL={{site.domain}}../../../demo/&amp;resourceRootURL={{STATIC_URL}}flash/" />
+      		    value="serverURL={{site.domain}}../../../demo/&amp;resourceRootURL=/media/flash/" />
       		
       		<!-- Static & Plugins & Domain & Static -->
-      		<embed src="{{STATIC_URL}}flash/bfa.swf" quality="high" bgcolor="#4d3e1b" width="761" 
+      		<embed src="/media/flash/bfa.swf" quality="high" bgcolor="#4d3e1b" width="761" 
       		  height="521" name="bfa" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"
       		  pluginspage="http://www.macromedia.com/go/getflashplayer"
-      		  flashVars="serverURL={{site.domain}}../../../demo/&amp;resourceRootURL={{STATIC_URL}}flash/" />
+      		  flashVars="serverURL={{site.domain}}../../../demo/&amp;resourceRootURL=/media/flash/" />
     	</object>
 	</div> 
 	

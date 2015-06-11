@@ -26,6 +26,14 @@ def ajax_required(func):
     return wrap
 
 
+def instructor_or_admin(user):
+    return user.profile.is_admin() or user.profile.is_teacher()
+
+
+def user_is_admin(user):
+    return user.userprofile.is_admin()
+
+
 class JSONResponseMixin(object):
     @method_decorator(ajax_required)
     def dispatch(self, *args, **kwargs):
@@ -63,6 +71,23 @@ class LoggedInMixinSuperuser(object):
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, *args, **kwargs):
         return super(LoggedInMixinSuperuser, self).dispatch(*args, **kwargs)
+
+
+class LoggedInMixinAdminInst(object):
+    @method_decorator(
+        user_passes_test(
+            instructor_or_admin, login_url=None, redirect_field_name=None))
+    def dispatch(self, *args, **kwargs):
+        return super(LoggedInMixinAdminInst, self).dispatch(*args, **kwargs)
+
+
+class LoggedInMixinAdministrator(object):
+    @method_decorator(
+        user_passes_test(
+            user_is_admin, login_url=None, redirect_field_name=None))
+    def dispatch(self, *args, **kwargs):
+        return super(
+            LoggedInMixinAdministrator, self).dispatch(*args, **kwargs)
 
 
 class PasswordMixin(object):
