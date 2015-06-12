@@ -5,17 +5,22 @@ from rest_framework import serializers
 from brownfield_django.main.models import Course, Document, UserProfile, Team
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('url', 'username', 'email')
+        fields = ('id',)
 
 
-class CourseSerializer(serializers.HyperlinkedModelSerializer):
+class CourseSerializer(serializers.ModelSerializer):
+    '''When working with serializer override create and update
+    to allow partial updates'''
+    professor = serializers.RelatedField()
+    #professor = UserSerializer()
+
     class Meta:
         model = Course
-        fields = ('id', 'url', 'name', 'startingBudget', 'enableNarrative',
-                  'message', 'active', 'archive', 'professor')
+        fields = ('id', 'name', 'startingBudget', 'archive',
+                  'message', 'professor')
 
 
 class DocumentSerializer(serializers.HyperlinkedModelSerializer):
