@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
-{% block js %}
 
-{% endblock %}
 {% block content %}
 <h2>{{object.course}}</h2>
     {% block course_message %}
@@ -20,39 +18,48 @@
         <b>Course: </b> {{object.course}} <br />
         </div>
         <div class="team-div-info-2">
-        <b>Signed Contract: </b> {{object.signed_contract}} <br />
+        <b>Signed Contract: </b> <span class="contract-status"> {{object.signed_contract}} </span> <br />
         <b>Budget: </b> {{object.budget}} <br />
         </div>
       {% endblock %}
       <div class="team-div-info-2">
         <a class="btn btn-default" href="../../../team_csv/{{ request.user.username }}/"><span class="glyphicon glyphicon-usd"></span> Download Team Budget History (CSV)</a>
-        <a class="btn btn-default" href="../../..{{STATIC_URL}}flash/documents/slMap.pdf"><span class="glyphicon glyphicon-th"></span> Download Map (PDF)</a>
-        <a class="btn btn-default" href="../../..{{STATIC_URL}}flash/documents/contract.pdf"><span class="glyphicon glyphicon-pencil"></span> Download Contract (PDF)</a>
+        <a class="btn btn-default" href="../../../media/flash/documents/slMap.pdf"><span class="glyphicon glyphicon-th"></span> Download Map (PDF)</a>
+        <a class="btn btn-default" href="../../../media/flash/documents/contract.pdf"><span class="glyphicon glyphicon-pencil"></span> Download Contract (PDF)</a>
       </div>
     </div>
       
     {% block course_documents %}
-    
     <div class="course-div">
-        <h3>Course Documents</h3>
+      <h3>Course Documents</h3>
         <div class="course-docs">
-                    {% for document in document_list %}
-            <li>{{ document.name }}
-                {% if document.name == "Link: Brownfield Action Reference Site" %}
-                    <a class="btn btn-default pull-right" href=http://brownfieldref.ccnmtl.columbia.edu/" target="_blank">View</a></li>
-                {% else %}
-                     <a class="btn btn-default pull-right" href="../../..{{STATIC_URL}}{{ document.link }}" target="_blank">View</a></li>
-                {% endif %}
-            {% empty %}
-            <li>Sorry, no documents have been made available yet.</li>
-            {% endfor %}
-            </div>
+          {% for document in document_list %}
+            <li>
+              {{ document.name }}
+              {% if document.name == "Link: Brownfield Action Reference Site" %}
+                <a class="btn btn-default pull-right" href=http://brownfieldref.ccnmtl.columbia.edu/" target="_blank">View</a>
+                </li>
+              {% else %}
+                <a class="btn btn-default pull-right" href="../../../media/{{ document.link }}" target="_blank">View</a>
+                </li>
+              {% endif %}
+          {% empty %}
+              <li>Sorry, no documents have been made available yet.</li>
+          {% endfor %}
+        </div>
     </div>
     {% endblock %}
     
- 
-          <h3>Play Brownfield Action</h3>
-  <div class="play-brownfield">
+ <h3>Play Brownfield Action</h3>
+ {% if object.signed_contract == False %}
+  <p class="contract-btn">You must sign the contract to play the game.
+    <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#contractModal">
+      Sign Contract
+    </button>
+  </p> 
+ {% endif %}
+  <div class="show-game" {% if object.signed_contract == False %} style="display:none"{% endif %}>
+    <div class="play-brownfield">
     {% block brownfield %}
     	<div id="main_content">
     	 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
@@ -61,27 +68,49 @@
     		<param name="allowScriptAccess" value="sameDomain" />
     		<!-- Static -->
       		<param name="movie" 
-      		    value="{{STATIC_URL}}flash/bfa.swf" />
+      		    value="/media/flash/bfa.swf" />
       		    
       		<param name="quality" value="high" />
       		<param name="bgcolor" value="#4d3e1b" />
       		
       		<!-- Domain & Static Do I need site.domain in front of static url?-->
       		<param name="flashVars" 
-      		    value="serverURL={{site.domain}}../../../team/{{object.pk}}/&amp;resourceRootURL={{STATIC_URL}}flash/" />
+      		    value="serverURL={{site.domain}}../../../team/{{object.pk}}/&amp;resourceRootURL=/media/flash/" />
       		
       		<!-- Static & Plugins & Domain & Static -->
-      		<embed src="{{STATIC_URL}}flash/bfa.swf" quality="high" bgcolor="#4d3e1b" width="761" 
+      		<embed src="/media/flash/bfa.swf" quality="high" bgcolor="#4d3e1b" width="761" 
       		  height="521" name="bfa" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"
       		  pluginspage="http://www.macromedia.com/go/getflashplayer"
-      		  flashVars="serverURL={{site.domain}}../../../team/{{object.pk}}/&amp;resourceRootURL={{STATIC_URL}}flash/" />
+      		  flashVars="serverURL={{site.domain}}../../../team/{{object.pk}}/&amp;resourceRootURL=/media/flash/" />
     	</object>
-    	
 	</div> 
 	</div>
+  </div><!-- End show game -->
 	<br />
     {% endblock %}
 
+{% if object.signed_contract == False %}
+<div class="modal fade" id="contractModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Contract</h4>{% csrf_token %}
+      </div>
+      <div class="modal-body">
+        <iframe src="/media/flash/documents/contract.pdf" style="width:100%; height:100%;"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary sign-contract" data-dismiss="modal">Sign Contract</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{% endif %}
 
+  
+  <script type="text/javascript" src="/media/js/ccnmtljs/sign_contract.js"></script>
+ 
 
 {% endblock %}<!-- End Content Block -->

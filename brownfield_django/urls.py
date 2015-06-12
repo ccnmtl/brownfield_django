@@ -12,7 +12,7 @@ from brownfield_django.main.views import HomeView, \
     TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView, \
     BrownfieldInfoView, BrownfieldHistoryView, BrownfieldTestView, \
     TeamHistoryView, TeamInfoView, TeamPerformTest, \
-    TeamCSV, ShowProfessorsView, ArchiveCourseView
+    TeamCSV, ShowProfessorsView, ArchiveCourseView, TeamSignContract
 
 
 admin.autodiscover()
@@ -74,10 +74,10 @@ urlpatterns = patterns(
     (r'^team/(?P<pk>\d+)/history/', TeamHistoryView.as_view()),
     (r'^team/(?P<pk>\d+)/info/$', TeamInfoView.as_view()),
     (r'^team/(?P<pk>\d+)/test/$', TeamPerformTest.as_view()),
+    (r'^team/sign_contract/$', TeamSignContract.as_view()),
     (r'^site_history/$', TemplateView.as_view(
         template_name="interactive/site_history.html")),
     (r'^team_csv/(?P<username>.*)/$', TeamCSV.as_view()),
-    # (r'^static/flash/documents/(?P<path>.*)$', ReRouteReqs.as_view()),
     url(r'^crossdomain.xml$',
         'flashpolicies.views.simple',
         {'domains': [settings.STATIC_URL, '*.ccnmtl.columbia.edu']}),

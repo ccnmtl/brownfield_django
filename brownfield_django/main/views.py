@@ -1,6 +1,5 @@
 import csv
 import json
-import os
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -24,7 +23,8 @@ from brownfield_django.main.serializers import DocumentSerializer, \
     StudentUserSerializer, StudentMUserSerializer, InstructorSerializer
 from brownfield_django.main.xml_strings import INITIAL_XML
 from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
-    CSRFExemptMixin, PasswordMixin, UniqUsernameMixin
+    CSRFExemptMixin, PasswordMixin, UniqUsernameMixin, \
+    LoggedInMixinAdminInst, LoggedInMixinAdministrator
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -316,7 +316,7 @@ class HomeView(LoggedInMixin, View):
         return HttpResponseRedirect(url)
 
 
-class ArchiveCourseView(CSRFExemptMixin, JSONResponseMixin, View):
+class ArchiveCourseView(LoggedInMixinAdminInst, JSONResponseMixin, View):
 
     def get(self, request, pk):
         crs = Course.objects.get(pk=pk)
@@ -325,7 +325,7 @@ class ArchiveCourseView(CSRFExemptMixin, JSONResponseMixin, View):
         return self.render_to_json_response({'success': 'true'})
 
 
-class ActivateCourseView(CSRFExemptMixin, JSONResponseMixin, View):
+class ActivateCourseView(LoggedInMixinAdminInst, JSONResponseMixin, View):
 
     def send_student_email(self, student):
         '''Should instructors be sent
@@ -356,7 +356,7 @@ class ActivateCourseView(CSRFExemptMixin, JSONResponseMixin, View):
         return self.render_to_json_response({'success': 'true'})
 
 
-class EditTeamsView(View):
+class EditTeamsView(LoggedInMixinAdminInst, View):
 
     def get(self, request, pk):
         template = loader.get_template(
@@ -367,7 +367,7 @@ class EditTeamsView(View):
         return HttpResponse(edit_template)
 
 
-class ShowTeamsView(View):
+class ShowTeamsView(LoggedInMixinAdminInst, View):
 
     def get(self, request, pk):
         template = loader.get_template(
@@ -378,7 +378,7 @@ class ShowTeamsView(View):
         return HttpResponse(edit_template)
 
 
-class ShowProfessorsView(View):
+class ShowProfessorsView(LoggedInMixinAdministrator, View):
 
     def get(self, request):
         template = loader.get_template(
@@ -390,7 +390,7 @@ class ShowProfessorsView(View):
         return HttpResponse(edit_template)
 
 
-class CCNMTLHomeView(DetailView):
+class CCNMTLHomeView(LoggedInMixinAdminInst, DetailView):
 
     model = UserProfile
     template_name = 'main/ccnmtl/home_dash/ccnmtl_home.html'
@@ -402,7 +402,7 @@ class CCNMTLHomeView(DetailView):
         return super(CCNMTLHomeView, self).dispatch(*args, **kwargs)
 
 
-class CCNMTLCourseDetail(DetailView):
+class CCNMTLCourseDetail(LoggedInMixinAdminInst, DetailView):
 
     model = Course
     template_name = 'main/ccnmtl/course_dash/course_home.html'
@@ -466,7 +466,7 @@ class BrownfieldTestView(CSRFExemptMixin, View):
 '''Beginning of Team Views'''
 
 
-class TeamHomeView(DetailView):
+class TeamHomeView(LoggedInMixin, DetailView):
 
     model = Team
     template_name = 'main/team/team_home.html'
@@ -612,7 +612,7 @@ class TeamPerformTest(CSRFExemptMixin, View):
         return HttpResponse("<data><response>OK</response></data>")
 
 
-class TeamCSV(View):
+class TeamCSV(LoggedInMixin, View):
 
     def get(self, request, username):
         user = get_object_or_404(User, username=username)
@@ -646,17 +646,10 @@ class TeamCSV(View):
         return response
 
 
-class ReRouteReqs(View):
-    '''Currently the Flash behind the interactive's buttons for download is
-    hard coded to look at
-    http://brownfield.ccnmtl.columbia.edu/static/flash/documents'''
+class TeamSignContract(LoggedInMixin, JSONResponseMixin, View):
 
-    def get(self, request, path):
-        comp_path = os.path.join(os.path.dirname(__file__),
-                                 "../../media/flash/documents/") + str(path)
-        readpath = open(comp_path, 'rb')
-        response = HttpResponse(content=readpath.read())
-        response['Content-Type'] = 'application/pdf'
-        response['Content-Disposition'] = 'attachment; filename=%s' \
-            % path
-        return response
+    def post(self, request):
+        team = Team.objects.get(user=request.user)
+        team.signed_contract = True
+        team.save()
+        return self.render_to_json_response({'success': 'true'})
