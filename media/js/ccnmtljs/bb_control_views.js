@@ -82,8 +82,8 @@ var ManageCoursesView = Backbone.View.extend({
                   'hideAddForm',
                   'validateForm');
         this.options = options;
-        this.current_user = new User({id: options.user_id});
-        this.current_user.fetch();
+        //this.current_user = new User({id: options.user_id});
+        //this.current_user.fetch();
         this.course_list_view = new CourseListView({el: this.options.listEl});
         this.course_list_view.collection.fetch({wait: true});
         this.user_list = new InstructorCollection();
