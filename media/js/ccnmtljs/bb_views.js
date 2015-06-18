@@ -237,8 +237,8 @@ var InstructorView = BaseItemView.extend({
    		'click .save-edit-instructor' : 'editInstructor',
    		'click .cncl-edit-inst' : 'hideEditForm',
    		'click .conf-archive-inst' : 'confirmArchival',
-   	    'click .cancel-arch-inst' : 'cancelArchive',
-   	    'click .conf-arch' : 'clear'
+   	  'click .cancel-arch-inst' : 'cancelArchive',
+   	  'click .conf-arch' : 'clear'
    	},
     
     render: function ()

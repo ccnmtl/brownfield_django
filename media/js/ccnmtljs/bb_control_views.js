@@ -82,8 +82,8 @@ var ManageCoursesView = Backbone.View.extend({
                   'hideAddForm',
                   'validateForm');
         this.options = options;
-        this.current_user = new User({id: options.user_id});
-        this.current_user.fetch();
+        //this.current_user = new User({id: options.user_id});
+        //this.current_user.fetch();
         this.course_list_view = new CourseListView({el: this.options.listEl});
         this.course_list_view.collection.fetch({wait: true});
         this.user_list = new InstructorCollection();
@@ -93,13 +93,15 @@ var ManageCoursesView = Backbone.View.extend({
     showCourseForm: function(e) {
 		jQuery(".add-crs").hide();
 		//how to bind this/make it wait for results from server
-		this.user_list.fetch({wait: true});
-		this.user_list.each(function(model) {
-	        jQuery('#id_professor').append("<option value='" + String(model.attributes.url) + "'>" + 
-	                String(model.attributes.first_name) + 
-	                " " + String(model.attributes.last_name)  + 
-	                "</option>");
-	    });
+        this.user_list.fetch({wait: true});
+        this.user_list.forEach(function(model) {
+
+            jQuery('#id_professor').append("<option value='" + String(model.attributes.id) + "'>" + 
+                    String(model.attributes.first_name) + 
+                    " " + String(model.attributes.last_name)  + 
+                    "</option>");
+        });
+
 		jQuery("#create-course-form").show();
     },
     
@@ -160,6 +162,7 @@ var ManageCoursesView = Backbone.View.extend({
         evt.preventDefault();
         var professor = jQuery('#id_professor').find("option:selected").val();
 
+        /* TODO: change this no url anymore */
         if(professor === null || professor === undefined)
         {   
         	/* Seems this needs to be user url - maybe if
@@ -175,7 +178,8 @@ var ManageCoursesView = Backbone.View.extend({
     	        name: jQuery("#id_course_name").val(),
     	    	startingBudget: jQuery("#id_course_startingBudget").val(),
     	    	message: jQuery("#id_course_message").val(),
-    		    professor: professor
+    		    professor: professor,
+                archive: false
     	    },
             {
                 success: function(model, response) 

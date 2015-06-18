@@ -11,11 +11,15 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'username', 'email')
 
 
-class CourseSerializer(serializers.HyperlinkedModelSerializer):
+class CourseSerializer(serializers.ModelSerializer):
+    '''When working with serializer override create and update
+    to allow partial updates'''
+    professor = serializers.RelatedField()
+
     class Meta:
         model = Course
-        fields = ('id', 'url', 'name', 'startingBudget', 'enableNarrative',
-                  'message', 'active', 'archive', 'professor')
+        fields = ('id', 'name', 'startingBudget', 'archive',
+                  'message', 'professor')
 
 
 class DocumentSerializer(serializers.HyperlinkedModelSerializer):

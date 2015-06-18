@@ -113,7 +113,7 @@
             var control_view = new ManageCoursesView({
                 el: jQuery('.course-creation-area'),
                 listEl: jQuery('.course-list'),
-                user_id: "{{request.user.id}}"
+                {% comment %} user_id: "{{request.user.id}}" {% endcomment %}
             });
            
            {% if request.user.profile.is_admin %}
