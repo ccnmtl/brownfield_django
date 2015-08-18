@@ -14,7 +14,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     '''When working with serializer override create and update
     to allow partial updates'''
-    professor = serializers.RelatedField()
 
     class Meta:
         model = Course
@@ -49,24 +48,15 @@ class StudentMUserSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    courses = serializers.PrimaryKeyRelatedField(many=True)
 
     class Meta:
         model = UserProfile
         fields = ('profile_type', 'course')
 
 
-class CompleteTeamSerializer(serializers.ModelSerializer):
-    user = serializers.RelatedField()
-
-    class Meta:
-        model = UserProfile
-        fields = ('id', 'user', 'signed_contract', 'budget', 'team_passwd')
-
-
 class TeamMemberSerializer(serializers.ModelSerializer):
-    course = serializers.RelatedField()
-    student = StudentMUserSerializer(many=True)
+#    course = serializers.RelatedField()
+    students = StudentMUserSerializer(many=True)
 
     class Meta:
         model = Team

@@ -33,11 +33,10 @@ factory_boy==2.5.2
 python-ldap==2.4.18
 sqlparse==0.1.16
 gunicorn==19.3.0
-
+djangowind==0.13.3
 sorl==3.1
 tagging==0.3-pre
 typogrify==2.0.7
-django-courseaffils==2.0.2
 django-indexer==0.3.0
 django-templatetag-sugar==1.0
 django-paging==0.2.5
