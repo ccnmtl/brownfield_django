@@ -1,17 +1,20 @@
 import factory
+from django.db import models
 from django.contrib.auth.models import User
 from brownfield_django.main.models import Document, Course, \
     UserProfile, History, PerformedTest, Team, Information
 
 
 class UserFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = User
+    class Meta:
+        model = models.User
     username = factory.Sequence(lambda n: "user%d" % n)
     password = factory.PostGenerationMethodCall('set_password', 'test')
 
 
 class CourseFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Course
+    class Meta:
+        model = models.Course
     name = "Test Course"
     startingBudget = 65000
     enableNarrative = True
@@ -20,25 +23,29 @@ class CourseFactory(factory.DjangoModelFactory):
 
 
 class TeamFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Team
+    class Meta:
+        model = models.Team
     team_passwd = "test"
 
 
 class DocumentFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Document
+    class Meta:
+        model = models.Document
     name = "Test Document for Course"
     link = "<a href='/path/to/the/course/document/here'></a>"
     visible = False
 
 
 class UserProfileFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = UserProfile
+    class Meta:
+        model = models.UserProfile
     user = factory.SubFactory(UserFactory)
     profile_type = 'ST'
 
 
 class HistoryFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = History
+    class Meta:
+        model = models.History
     team = factory.SubFactory(TeamFactory)
     date = '2014/10/23 13:14'
     description = "History Record"
@@ -46,7 +53,8 @@ class HistoryFactory(factory.DjangoModelFactory):
 
 
 class PerformedTestFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = PerformedTest
+    class Meta:
+        model = models.PerformedTest
     history = factory.SubFactory(HistoryFactory)
     x = 10
     y = 30
@@ -57,7 +65,8 @@ class PerformedTestFactory(factory.DjangoModelFactory):
 
 
 class InformationTestFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Information
+    class Meta:
+        model = models.Information
     history = factory.SubFactory(HistoryFactory)
     infoType = "recon"
     internalName = "recon"
