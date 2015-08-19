@@ -1,5 +1,4 @@
 from django.db import models
-from django.forms import ModelForm
 from django.contrib.auth.models import User
 from brownfield_django.main.document_links import NAME_1, \
     LINK_1, NAME_2, LINK_2, NAME_3, LINK_3, NAME_4, LINK_4, \

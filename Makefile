@@ -1,5 +1,5 @@
 MANAGE=./manage.py
-APP=ssnm
+APP=brownfield_django
 FLAKE8=./ve/bin/flake8
 
 jenkins: ./ve/bin/python check test flake8
