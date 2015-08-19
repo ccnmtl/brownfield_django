@@ -5,7 +5,6 @@ import sys
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-DEBUG_TOOLBAR_PATCH_SETTINGS = False
 ADMINS = ()
 
 MANAGERS = ADMINS
@@ -62,13 +61,13 @@ TEMPLATE_LOADERS = (
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.request',
+    'django.template.context_processors.debug',
+    'django.template.context_processors.request',
     'stagingcontext.staging_processor',
     'gacontext.ga_processor',
     'djangowind.context.context_processor',
-    'django.core.context_processors.static',
-    'django.core.context_processors.csrf'
+    'django.template.context_processors.static',
+    'django.template.context_processors.csrf'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -78,11 +77,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-    'django.middleware.transaction.TransactionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'impersonate.middleware.ImpersonateMiddleware',
     'waffle.middleware.WaffleMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware'
+    'django.middleware.csrf.CsrfViewMiddleware',
 )
 
 ROOT_URLCONF = 'brownfield_django.urls'
@@ -143,6 +141,10 @@ DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.signals.SignalDebugPanel',
 )
 
+DEBUG_TOOLBAR_CONFIG = {
+    'INSERT_BEFORE': '<span class="djdt-insert-here">',
+}
+
 STATSD_CLIENT = 'statsd.client'
 STATSD_PREFIX = 'brownfield_django'
 STATSD_HOST = '127.0.0.1'
@@ -155,9 +157,9 @@ EMAIL_HOST = 'localhost' # is this needed?
 SERVER_EMAIL = 'ccnmtl-bfa@columbia.edu'
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
-STATIC_ROOT = os.path.join(os.path.dirname(__file__), "../media")
-STATICFILES_DIRS = (
-)
+STATIC_ROOT = "/tmp/brownfield_django/static"
+# STATIC_ROOT = os.path.join(os.path.dirname(__file__), "../media")
+STATICFILES_DIRS = ("media/",)
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -179,7 +181,7 @@ WIND_AFFIL_HANDLERS = ['djangowind.auth.AffilGroupMapper',
 WIND_STAFF_MAPPER_GROUPS = ['tlc.cunix.local:columbia.edu']
 WIND_SUPERUSER_MAPPER_GROUPS = [
     'anp8', 'jb2410', 'zm4', 'cld2156',
-    'sld2131', 'amm8', 'mar227', 'lrw2128']
+    'sld2131', 'amm8', 'mar227', 'jed2161', 'lrw2128']
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_HTTPONLY = True
@@ -191,6 +193,11 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
+}
+
+REGISTRATION_APPLICATION_MODEL = 'registration.Application'
+MIGRATION_MODULES = {
+    'registration': 'ssnm.migrations.registration',
 }
 
 ACCOUNT_ACTIVATION_DAYS = 7

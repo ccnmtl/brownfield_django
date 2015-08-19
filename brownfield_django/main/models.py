@@ -68,11 +68,6 @@ class Course(models.Model):
         return documents
 
 
-class CourseForm(ModelForm):
-    class Meta:
-        model = Course
-
-
 class Document(models.Model):
     course = models.ForeignKey(Course, null=True,
                                default=None, blank=True)
