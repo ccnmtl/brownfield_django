@@ -103,7 +103,6 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'tagging',
     'rest_framework',
-    # 'casper',
     'typogrify',
     'compressor',
     'django_statsd',
@@ -158,7 +157,6 @@ SERVER_EMAIL = 'ccnmtl-bfa@columbia.edu'
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
 STATIC_ROOT = "/tmp/brownfield_django/static"
-# STATIC_ROOT = os.path.join(os.path.dirname(__file__), "../media")
 STATICFILES_DIRS = ("media/",)
 
 STATICFILES_FINDERS = (
@@ -167,7 +165,7 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
-# COMPRESS_URL = "/media/"
+
 COMPRESS_ROOT = "media/"
 
 
@@ -181,7 +179,7 @@ WIND_AFFIL_HANDLERS = ['djangowind.auth.AffilGroupMapper',
 WIND_STAFF_MAPPER_GROUPS = ['tlc.cunix.local:columbia.edu']
 WIND_SUPERUSER_MAPPER_GROUPS = [
     'anp8', 'jb2410', 'zm4', 'cld2156',
-    'sld2131', 'amm8', 'mar227', 'jed2161', 'lrw2128']
+    'sld2131', 'amm8', 'mar227', 'lrw2128']
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_HTTPONLY = True
