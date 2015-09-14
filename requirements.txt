@@ -26,7 +26,7 @@ selenium==2.46.1
 coverage==3.7.1
 requests==2.7.0
 logilab-common==1.0.2
-logilab-astng==0.24.1
+logilab-astng==0.24.3
 pylint==1.4.1
 six==1.9.0
 factory_boy==2.5.2
