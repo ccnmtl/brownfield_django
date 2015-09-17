@@ -312,10 +312,10 @@ class HomeView(LoggedInMixin, View):
                 '''First see if user is in 'tlcxml.cunix.local:columbia.edu'
                 group'''
                 if (request.user.groups.filter(
-                    name='tlcxml.cunix.local:columbia.edu').count() > 0):
-                        up = UserProfile.objects.create(user=request.user,
-                                                        profile_type='AD')
-                        up.save()
+                        name='tlcxml.cunix.local:columbia.edu').count() > 0):
+                            up = UserProfile.objects.create(user=request.user,
+                                                            profile_type='AD')
+                            up.save()
                 else:
                     team = Team.objects.get(user=request.user.pk)
                     url = '/team/home/%s/' % (team.id)
