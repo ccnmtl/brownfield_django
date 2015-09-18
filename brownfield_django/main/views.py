@@ -309,10 +309,10 @@ class HomeView(LoggedInMixin, View):
                 url = '/ccnmtl/home/%s/' % (user_profile.id)
         except UserProfile.DoesNotExist:
             try:
-                '''First see if user is in 'tlcxml.cunix.local:columbia.edu'
+                '''First see if user is in 'tlc.cunix.local:columbia.edu'
                 group'''
                 if (request.user.groups.filter(
-                        name='tlcxml.cunix.local:columbia.edu').count() > 0):
+                        name='tlc.cunix.local:columbia.edu').count() > 0):
                             up = UserProfile.objects.create(user=request.user,
                                                             profile_type='AD')
                             up.save()
