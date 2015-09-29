@@ -27,7 +27,7 @@ from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
     LoggedInMixinAdminInst, LoggedInMixinAdministrator
 
 
-class CourseViewSet(viewsets.ModelViewSet):
+class CourseViewSet(LoggedInMixin, viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
@@ -49,7 +49,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         return queryset
 
 
-class DocumentViewSet(viewsets.ModelViewSet):
+class DocumentViewSet(LoggedInMixin, viewsets.ModelViewSet):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
 
@@ -73,7 +73,7 @@ class DocumentViewSet(viewsets.ModelViewSet):
         return queryset
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(LoggedInMixin, viewsets.ModelViewSet):
     '''This is for the main page with the list of the users courses
     it is not for viewing team users or student users, only users who should
     see a complete list of instructors are admins'''
@@ -88,7 +88,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return queryset.filter(id=self.request.user.id)
 
 
-class StudentViewSet(UniqUsernameMixin, viewsets.ModelViewSet):
+class StudentViewSet(LoggedInMixin, UniqUsernameMixin, viewsets.ModelViewSet):
     '''Attempting to redo Student Ajax handling
     the correct way with a model viewset - still very wrong.'''
     queryset = User.objects.filter(profile__profile_type='ST')
@@ -159,7 +159,7 @@ class StudentViewSet(UniqUsernameMixin, viewsets.ModelViewSet):
         return queryset
 
 
-class InstructorViewSet(UniqUsernameMixin,
+class InstructorViewSet(LoggedInMixin, UniqUsernameMixin,
                         PasswordMixin, viewsets.ModelViewSet):
     '''This could probably be combined with StudentViewSet
     not sure though.'''
@@ -241,7 +241,7 @@ class InstructorViewSet(UniqUsernameMixin,
         return queryset
 
 
-class TeamViewSet(PasswordMixin, viewsets.ModelViewSet):
+class TeamViewSet(LoggedInMixin, PasswordMixin, viewsets.ModelViewSet):
     '''Finally moving team to viewset instead of API View'''
     team_set = Team.objects.all()
     queryset = User.objects.filter(team__in=team_set)
@@ -324,7 +324,8 @@ class HomeView(LoggedInMixin, View):
         return HttpResponseRedirect(url)
 
 
-class ArchiveCourseView(LoggedInMixinAdminInst, JSONResponseMixin, View):
+class ArchiveCourseView(LoggedInMixin, LoggedInMixinAdminInst,
+                        JSONResponseMixin, View):
 
     def get(self, request, pk):
         crs = Course.objects.get(pk=pk)
@@ -333,7 +334,8 @@ class ArchiveCourseView(LoggedInMixinAdminInst, JSONResponseMixin, View):
         return self.render_to_json_response({'success': 'true'})
 
 
-class ActivateCourseView(LoggedInMixinAdminInst, JSONResponseMixin, View):
+class ActivateCourseView(LoggedInMixin, LoggedInMixinAdminInst,
+                         JSONResponseMixin, View):
 
     def send_student_email(self, student):
         '''Should instructors be sent
@@ -364,7 +366,7 @@ class ActivateCourseView(LoggedInMixinAdminInst, JSONResponseMixin, View):
         return self.render_to_json_response({'success': 'true'})
 
 
-class EditTeamsView(LoggedInMixinAdminInst, View):
+class EditTeamsView(LoggedInMixin, LoggedInMixinAdminInst, View):
 
     def get(self, request, pk):
         template = loader.get_template(
@@ -375,7 +377,7 @@ class EditTeamsView(LoggedInMixinAdminInst, View):
         return HttpResponse(edit_template)
 
 
-class ShowTeamsView(LoggedInMixinAdminInst, View):
+class ShowTeamsView(LoggedInMixin, LoggedInMixinAdminInst, View):
 
     def get(self, request, pk):
         template = loader.get_template(
@@ -386,7 +388,7 @@ class ShowTeamsView(LoggedInMixinAdminInst, View):
         return HttpResponse(edit_template)
 
 
-class ShowProfessorsView(LoggedInMixinAdministrator, View):
+class ShowProfessorsView(LoggedInMixin, LoggedInMixinAdministrator, View):
 
     def get(self, request):
         template = loader.get_template(
@@ -398,7 +400,7 @@ class ShowProfessorsView(LoggedInMixinAdministrator, View):
         return HttpResponse(edit_template)
 
 
-class CCNMTLHomeView(LoggedInMixinAdminInst, DetailView):
+class CCNMTLHomeView(LoggedInMixin, LoggedInMixinAdminInst, DetailView):
 
     model = UserProfile
     template_name = 'main/ccnmtl/home_dash/ccnmtl_home.html'
@@ -410,7 +412,7 @@ class CCNMTLHomeView(LoggedInMixinAdminInst, DetailView):
         return super(CCNMTLHomeView, self).dispatch(*args, **kwargs)
 
 
-class CCNMTLCourseDetail(LoggedInMixinAdminInst, DetailView):
+class CCNMTLCourseDetail(LoggedInMixin, LoggedInMixinAdminInst, DetailView):
 
     model = Course
     template_name = 'main/ccnmtl/course_dash/course_home.html'
