@@ -58,7 +58,7 @@ class DocumentViewSet(LoggedInMixin, viewsets.ModelViewSet):
         Form Docs: queryset that should be used for list views,
         and that should be used as the base for lookups in detail views.
         '''
-        course_pk = self.request.QUERY_PARAMS.get('course', None)
+        course_pk = self.request.query_params.get('course', None)
         doc_pk = self.kwargs.get('pk', None)
         up = self.request.user.profile
         queryset = Document.objects.none()
@@ -98,18 +98,18 @@ class StudentViewSet(LoggedInMixin, UniqUsernameMixin, viewsets.ModelViewSet):
         up = self.request.user.profile
         if up.is_teacher() or up.is_admin():
             try:
-                key = self.request.QUERY_PARAMS.get('course', None)
+                key = self.request.query_params.get('course', None)
                 course = Course.objects.get(pk=key)
                 '''want to check for extremely rare occurrence that user
                 may already exist or the name is too long.'''
                 uniq_name = self.get_unique_username(
-                    str(request.DATA['first_name']),
-                    str(request.DATA['last_name']))
+                    str(request.data['first_name']),
+                    str(request.data['last_name']))
                 student = User.objects.create_user(
                     username=uniq_name,
-                    first_name=request.DATA['first_name'],
-                    last_name=request.DATA['last_name'],
-                    email=request.DATA['email'])
+                    first_name=request.data['first_name'],
+                    last_name=request.data['last_name'],
+                    email=request.data['email'])
                 new_profile = UserProfile.objects.create(course=course,
                                                          user=student,
                                                          profile_type='ST')
@@ -128,9 +128,9 @@ class StudentViewSet(LoggedInMixin, UniqUsernameMixin, viewsets.ModelViewSet):
         if up.is_teacher() or up.is_admin():
             try:
                 # should I be sticking this in StudentMUserSerializer
-                student.first_name = request.DATA['first_name']
-                student.last_name = request.DATA['last_name']
-                student.email = request.DATA['email']
+                student.first_name = request.data['first_name']
+                student.last_name = request.data['last_name']
+                student.email = request.data['email']
                 student.save()
                 return Response(
                     status=status.HTTP_200_OK)
@@ -141,7 +141,7 @@ class StudentViewSet(LoggedInMixin, UniqUsernameMixin, viewsets.ModelViewSet):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
     def get_queryset(self):
-        course_pk = self.request.QUERY_PARAMS.get('course', None)
+        course_pk = self.request.query_params.get('course', None)
         usr_pk = self.kwargs.get('pk', None)
         up = self.request.user.profile
 
@@ -191,13 +191,13 @@ class InstructorViewSet(LoggedInMixin, UniqUsernameMixin,
                 '''want to check for extremely rare occurrence that user
                 may already exist or the name is too long.'''
                 uniq_name = self.get_unique_username(
-                    str(request.DATA['first_name']),
-                    str(request.DATA['last_name']))
+                    str(request.data['first_name']),
+                    str(request.data['last_name']))
                 instructor = User.objects.create_user(
                     username=uniq_name,
-                    first_name=request.DATA['first_name'],
-                    last_name=request.DATA['last_name'],
-                    email=request.DATA['email'])
+                    first_name=request.data['first_name'],
+                    last_name=request.data['last_name'],
+                    email=request.data['email'])
                 tmpasswd = self.get_password()
                 instructor.set_password(tmpasswd)
                 instructor.save()
@@ -220,7 +220,7 @@ class InstructorViewSet(LoggedInMixin, UniqUsernameMixin,
         elif up.is_admin():
             instructor = get_object_or_404(User, pk=pk)
             serializer = InstructorSerializer(
-                instructor, data=request.DATA, partial=True)
+                instructor, data=request.data, partial=True)
             if serializer.is_valid():
                 try:
                     serializer.save()
@@ -251,9 +251,9 @@ class TeamViewSet(LoggedInMixin, PasswordMixin, viewsets.ModelViewSet):
         up = self.request.user.profile
         if up.is_teacher() or up.is_admin():
             try:
-                key = self.request.QUERY_PARAMS.get('course', None)
+                key = self.request.query_params.get('course', None)
                 course = Course.objects.get(pk=key)
-                team_name = request.DATA['team_name']
+                team_name = request.data['team_name']
                 '''If team name is blank, make something up'''
                 if team_name == '':
                     team_name = "team"
@@ -279,7 +279,7 @@ class TeamViewSet(LoggedInMixin, PasswordMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         '''Send back all teams currently in course.'''
-        course_pk = self.request.QUERY_PARAMS.get('course', None)
+        course_pk = self.request.query_params.get('course', None)
         team_pk = self.kwargs.get('pk', None)
         up = self.request.user.profile
 
