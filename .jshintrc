@@ -7,6 +7,9 @@
     "curly": true,
     "predef": [
         "$",
+				"_",
+				"alert",
+				"Backbone",
         "confirm",
         "jQuery"
     ]
