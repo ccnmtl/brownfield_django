@@ -13,3 +13,4 @@ uploads
 node_modules/
 .DS_Store
 media/.DS_Store
+node_modules

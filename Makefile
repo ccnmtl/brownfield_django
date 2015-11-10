@@ -25,6 +25,18 @@ check: ./ve/bin/python
 shell: ./ve/bin/python
 	$(MANAGE) shell_plus
 
+jshint: node_modules/jshint/bin/jshint
+	./node_modules/jshint/bin/jshint --config=.jshintrc media/js/ccnmtljs
+
+jscs: node_modules/jscs/bin/jscs
+	./node_modules/jscs/bin/jscs media/js/ccnmtljs
+
+node_modules/jshint/bin/jshint:
+	npm install jshint --prefix .
+
+node_modules/jscs/bin/jscs:
+	npm install jscs --prefix .
+
 clean:
 	rm -rf ve
 	rm -rf media/CACHE
