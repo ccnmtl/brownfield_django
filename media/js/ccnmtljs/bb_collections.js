@@ -1,4 +1,5 @@
-/* Almost all of these have same url and initialize funciton - mixin or base class */
+/* Almost all of these have same url and initialize funciton
+ - mixin or base class */
 
 var BaseCollection = Backbone.Collection.extend({
 
@@ -9,8 +10,8 @@ var BaseCollection = Backbone.Collection.extend({
         }
         return url;
     },
-    
-    initialize : function(options){
+
+    initialize: function(options) {
         if (options && 'course' in options) {
             this.course = options.course;
         }
@@ -18,35 +19,27 @@ var BaseCollection = Backbone.Collection.extend({
 
 });
 
-
 var DocumentCollection = BaseCollection.extend({
-	 model: AppDocument,
-	 urlRoot: '/api/document/'
+    model: AppDocument,
+    urlRoot: '/api/document/'
 });
-
 
 var StudentCollection = BaseCollection.extend({
-	 model: Student,
-	 urlRoot: '/api/student/'
+    model: Student,
+    urlRoot: '/api/student/'
 });
-
 
 var InstructorCollection = BaseCollection.extend({
-	 model: Instructor,
-	 urlRoot: '/api/instructor/'
+    model: Instructor,
+    urlRoot: '/api/instructor/'
 });
-
 
 var TeamCollection = BaseCollection.extend({
-	 model: Team,
-	 urlRoot: '/api/eteam/'
+    model: Team,
+    urlRoot: '/api/eteam/'
 });
-
 
 var CourseCollection = BaseCollection.extend({
-	 model: Course,
-	 urlRoot: '/api/course/'
+    model: Course,
+    urlRoot: '/api/course/'
 });
-
-
-
