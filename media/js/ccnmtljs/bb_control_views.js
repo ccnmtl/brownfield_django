@@ -147,7 +147,6 @@ var ManageCoursesView = Backbone.View.extend({
              * I changed to model instead of hyperlink
              * serializer ID will be acceptable? */
              professor = this.current_user.get('id');
-             console.log(professor);
         }
 
         if (this.validateForm()) {
