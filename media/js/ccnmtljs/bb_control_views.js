@@ -69,7 +69,7 @@ var ManageCoursesView = Backbone.View.extend({
                   'hideAddForm',
                   'validateForm');
         this.options = options;
-        //this.current_user = new User({id: options.user_id});
+        this.current_user = new User({id: options.user_id});
         //this.current_user.fetch();
         this.course_list_view = new CourseListView({el: this.options.listEl});
         this.course_list_view.collection.fetch({wait: true});
@@ -146,7 +146,7 @@ var ManageCoursesView = Backbone.View.extend({
             /* Seems this needs to be user url - maybe if
              * I changed to model instead of hyperlink
              * serializer ID will be acceptable? */
-            professor = this.current_user.get('url');
+             professor = this.current_user.get('id');
         }
 
         if (this.validateForm()) {
