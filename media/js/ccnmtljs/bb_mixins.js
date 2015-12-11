@@ -25,7 +25,7 @@ var ValidationMixin = {
         return true;     
     },
     
-    onlyIntegers: function (input_string) {
+    onlyIntegers: function (check_string) {
 
         alert(check_string);
         //var TCode = document.getElementById('TCode').value;
