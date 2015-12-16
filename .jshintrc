@@ -11,6 +11,18 @@
 				"alert",
 				"Backbone",
         "confirm",
+				"console",
+				"crs_id",
+				"equal",
+				"deepEqual",
+				"test",
+				"module",
+				"CourseListView",
+				"InstructorCollection",
+				"InstructorListView",
+				"CourseCollection",
+				"StudentListView",
+				"TeamListView",
         "jQuery"
     ]
 }
