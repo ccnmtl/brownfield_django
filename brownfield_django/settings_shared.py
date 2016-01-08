@@ -70,17 +70,3 @@ REST_FRAMEWORK = {
     ]
 }
 
-
-MEDIA_URL = "/uploads/"
-MEDIA_ROOT = 'uploads'
-STATIC_URL = "/media/"
-STATIC_ROOT = "/tmp/brownfield_django/static"
-STATICFILES_DIRS = ('media/',)
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
-)
-COMPRESS_URL = "/media/"
-COMPRESS_ROOT = "media/"
-AWS_QUERYSTRING_AUTH = False
