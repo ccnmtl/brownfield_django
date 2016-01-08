@@ -57,7 +57,7 @@ raven==5.8.1
 django-bootstrap3==6.2.2
 django-bootstrap-form==3.2
 django-debug-toolbar==1.4
-django-waffle==0.10.1
+django-waffle==0.11
 django-jenkins==0.17.0
 django-taggit==0.17.6
 django-smoketest==0.3.0
