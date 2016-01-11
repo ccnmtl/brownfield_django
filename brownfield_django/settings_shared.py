@@ -37,6 +37,7 @@ INSTALLED_APPS += [  # noqa
     'pagetree',
     'pageblocks',
     'quizblock',
+    'storages',
     'brownfield_django.main',
 ]
 
@@ -57,7 +58,7 @@ LOGIN_REDIRECT_URL = "/"
 
 REGISTRATION_APPLICATION_MODEL = 'registration.Application'
 MIGRATION_MODULES = {
-    'registration': 'ssnm.migrations.registration',
+    'registration': 'brownfield_django.migrations.registration',
 }
 ACCOUNT_ACTIVATION_DAYS = 7
 
@@ -68,3 +69,4 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ]
 }
+
