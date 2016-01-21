@@ -31,7 +31,7 @@ path.py==8.1.2
 ipython==4.0.1
 rdflib==4.2.1
 selenium==2.48.0
-coverage==3.7.1
+coverage==4.0.3
 requests==2.9.1
 logilab-common==1.1.0
 logilab-astng==0.24.3
@@ -58,7 +58,7 @@ django-bootstrap3==6.2.2
 django-bootstrap-form==3.2
 django-debug-toolbar==1.4
 django-waffle==0.11
-django-jenkins==0.17.0
+django-jenkins==0.18.1
 django-taggit==0.17.6
 django-smoketest==0.3.0
 django-extensions==1.6.1
