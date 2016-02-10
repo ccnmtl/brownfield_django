@@ -16,13 +16,13 @@
       		
       		<!-- Domain & Static Do I need site.domain in front of static url?-->
       		<param name="flashVars" 
-      		    value="serverURL={{STATIC_URL}}../../../demo/&amp;resourceRootURL=/media/flash/" />
+      		    value="serverURL={{site.domain}}../../../demo/&amp;resourceRootURL={% static '/media/flash/' %}" />
       		
       		<!-- Static & Plugins & Domain & Static -->
       		<embed src="{% static '/media/flash/bfa.swf' %}" quality="high" bgcolor="#4d3e1b" width="761" 
       		  height="521" name="bfa" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"
       		  pluginspage="http://www.macromedia.com/go/getflashplayer"
-      		  flashVars="serverURL={{STATIC_URL}}../../../demo/&amp;resourceRootURL=/media/flash/" />
+      		  flashVars="serverURL={{site.domain}}../../../demo/&amp;resourceRootURL={% static '/media/flash/' %}" />
     	</object>
 	</div> 
 	
