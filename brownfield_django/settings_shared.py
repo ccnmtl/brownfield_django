@@ -30,6 +30,7 @@ INSTALLED_APPS += [  # noqa
     'typogrify',
     'bootstrapform',
     'django_extensions',
+    'crispy_forms',
     'registration',
     'pagetree',
     'pageblocks',
