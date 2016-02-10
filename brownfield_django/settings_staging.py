@@ -8,8 +8,9 @@ locals().update(
         base=base,
         STATIC_ROOT=STATIC_ROOT,
         INSTALLED_APPS=INSTALLED_APPS,
-        s3static=False,
     ))
+
+AWS_STORAGE_BUCKET_NAME = 'ccnmtl-brownfield-static-stage'
 
 try:
     from local_settings import *
