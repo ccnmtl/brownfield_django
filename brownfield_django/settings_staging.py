@@ -13,6 +13,8 @@ locals().update(
 AWS_STORAGE_BUCKET_NAME = 'ccnmtl-brownfield-static-stage'
 S3_URL = 'https://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 STATIC_URL = ('https://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME)
+MEDIA_URL = S3_URL + 'uploads/'
+COMPRESS_URL = STATIC_URL
 
 try:
     from local_settings import *
