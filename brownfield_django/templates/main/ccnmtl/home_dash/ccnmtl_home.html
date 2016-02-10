@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block bbjs %}
-    <script type="text/javascript" src="/media/js/ccnmtljs/bb_models.js"></script>
-    <script type="text/javascript" src="/media/js/ccnmtljs/bb_collections.js"></script>
-    <script type="text/javascript" src="/media/js/ccnmtljs/bb_views.js"></script>
-    <script type="text/javascript" src="/media/js/ccnmtljs/bb_control_views.js"></script>
+    <script type="text/javascript" src="{% static '/media/js/ccnmtljs/bb_models.js' %}"></script>
+    <script type="text/javascript" src="{% static '/media/js/ccnmtljs/bb_collections.js' %}"></script>
+    <script type="text/javascript" src="{% static '/media/js/ccnmtljs/bb_views.js' %}"></script>
+    <script type="text/javascript" src="{% static '/media/js/ccnmtljs/bb_control_views.js' %}"></script>
 {% endblock %}
 
 {% block js %}
