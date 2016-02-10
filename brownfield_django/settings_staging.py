@@ -8,7 +8,6 @@ locals().update(
         base=base,
         STATIC_ROOT=STATIC_ROOT,
         INSTALLED_APPS=INSTALLED_APPS,
-        AWS_STORAGE_BUCKET_NAME='ccnmtl-brownfield-static-stage'
     ))
 
 AWS_STORAGE_BUCKET_NAME = 'ccnmtl-brownfield-static-stage'
