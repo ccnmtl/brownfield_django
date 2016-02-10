@@ -1,4 +1,3 @@
-{% load compress %}
 {% load static %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
@@ -15,12 +14,10 @@
   <script src="../assets/js/respond.min.js"></script>
 <![endif]-->
 
-    {% compress css %}
-    <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{STATIC_URL}}bootstrap/css/bootstrap-glyphicons.css" rel="stylesheet">
-    <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
-    <link href="{{STATIC_URL}}css/admindashboard.css" rel="stylesheet">
-    {% endcompress %}
+    <link href="{% static '/media/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static '/media/bootstrap/css/bootstrap-glyphicons.css' %}" rel="stylesheet">
+    <link href="{% static '/media/css/main.css' %}" rel="stylesheet">
+    <link href="{% static '/media/css/admindashboard.css' %}" rel="stylesheet">
 
 	<link rel="shortcut icon" href="{% static '/media/img/favicon.ico' %}" type="image/x-icon" />
 	
