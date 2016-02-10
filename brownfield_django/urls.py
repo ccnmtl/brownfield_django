@@ -47,6 +47,12 @@ router.register(r'instructor', InstructorViewSet)
 # flash uses team in url, this is router for team on dashboard
 router.register(r'eteam', TeamViewSet)
 
+try:
+    static_flash_domain = settings.AWS_STORAGE_BUCKET_NAME + \
+        '.s3.amazonaws.com'
+except AttributeError:
+    static_flash_domain = settings.STATIC_URL
+
 urlpatterns = patterns(
     '',
     logout_page,
@@ -79,8 +85,9 @@ urlpatterns = patterns(
         template_name="interactive/site_history.html")),
     (r'^team_csv/(?P<username>.*)/$', TeamCSV.as_view()),
     url(r'^crossdomain.xml$',
-        'flashpolicies.views.simple',
-        {'domains': [settings.STATIC_URL, '*.ccnmtl.columbia.edu']}),
+        'flashpolicies.views.simple', {
+            'domains': [static_flash_domain, '*.ccnmtl.columbia.edu']
+        }),
     (r'^static/flash/documents/(?P<path>.*)$',
      'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     (r'^admin/', include(admin.site.urls)),
