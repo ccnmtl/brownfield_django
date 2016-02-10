@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#"
     >
@@ -21,8 +22,8 @@
       <param name="movie" value="{{STATIC_URL}}flash/bfa.swf" />
       <param name="quality" value="high" />
       <param name="bgcolor" value="#4d3e1b" />
-      <param name="flashVars" value="serverURL={{site.domain}}&amp;resourceRootURL={{STATIC_URL}}flash/" />
-      <embed src="{{STATIC_URL}}flash/bfa.swf" quality="high" bgcolor="#4d3e1b" width="761" height="521" name="bfa" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashVars="serverURL={{STATIC_URL}}&amp;resourceRootURL={{STATIC_URL}}flash/" />
+      <param name="flashVars" value="serverURL={{site.domain}}&amp;resourceRootURL={% static '/media/flash/' %}" />
+      <embed src="{{STATIC_URL}}flash/bfa.swf" quality="high" bgcolor="#4d3e1b" width="761" height="521" name="bfa" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashVars="serverURL={{site.domain}}&amp;resourceRootURL={% static '/media/flash/' %}" />
     </object>
     
     <div id="userlogout" class="notice">
