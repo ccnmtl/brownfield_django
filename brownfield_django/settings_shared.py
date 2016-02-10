@@ -13,9 +13,6 @@ PROJECT_APPS = [
 
 USE_TZ = True
 
-MEDIA_ROOT = "/var/www/brownfield_django/brownfield_django/brownfield_django/main/static/"
-MEDIA_URL = '/static/flash/documents/'
-
 TEMPLATE_CONTEXT_PROCESSORS += [  # noqa
     'django.template.context_processors.csrf'
 ]
