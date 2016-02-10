@@ -8,9 +8,12 @@ locals().update(
         base=base,
         STATIC_ROOT=STATIC_ROOT,
         INSTALLED_APPS=INSTALLED_APPS,
+        AWS_STORAGE_BUCKET_NAME='ccnmtl-brownfield-static-stage'
     ))
 
 AWS_STORAGE_BUCKET_NAME = 'ccnmtl-brownfield-static-stage'
+S3_URL = 'https://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+STATIC_URL = ('https://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME)
 
 try:
     from local_settings import *
