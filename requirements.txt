@@ -41,6 +41,24 @@ factory_boy==2.6.0
 python-ldap==2.4.22
 sqlparse==0.1.18
 contextlib2==0.5.1
+argparse==1.4.0
+astroid==1.4.4
+backports-abc==0.4
+backports.ssl-match-hostname==3.5.0.1
+certifi==2015.11.20.1
+colorama==0.3.6
+html5lib==0.9999999
+isodate==0.5.4
+keepalive==0.5
+lazy-object-proxy==1.2.1
+mock==1.0.1
+nose==1.3.7
+ptyprocess==0.5.1
+pyparsing==2.0.7
+singledispatch==3.4.0.3
+SPARQLWrapper==1.7.6
+wrapt==1.10.6
+wsgiref==0.1.2
 
 gunicorn==19.3.0
 djangowind==0.14.3
