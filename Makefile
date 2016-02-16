@@ -3,7 +3,7 @@ APP=brownfield_django
 # most of the JS isn't close to jshint/jscs clean, but we need to target
 # something for now
 JS_FILES=media/js/ccnmtljs/bb_models.js
-MAX_COMPLEXITY=8
+MAX_COMPLEXITY=7
 
 all: jenkins
 
