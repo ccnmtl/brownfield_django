@@ -303,10 +303,7 @@ class HomeView(LoggedInMixin, View):
         url = '/'
         try:
             user_profile = UserProfile.objects.get(user=request.user.pk)
-            if user_profile.is_teacher():
-                url = '/ccnmtl/home/%s/' % (user_profile.id)
-            if user_profile.is_admin():
-                url = '/ccnmtl/home/%s/' % (user_profile.id)
+            url = user_profile.get_absolute_url()
         except UserProfile.DoesNotExist:
             try:
                 '''First see if user is in 'tlc.cunix.local:columbia.edu'

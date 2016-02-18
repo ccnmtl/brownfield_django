@@ -148,6 +148,13 @@ class UserProfile(models.Model):
         elif self.is_admin():
             return "administrator"
 
+    def get_absolute_url(self):
+        if self.is_teacher():
+            return '/ccnmtl/home/%s/' % (self.id)
+        if self.is_admin():
+            return '/ccnmtl/home/%s/' % (self.id)
+        return '/'
+
 
 class History(models.Model):
     team = models.ForeignKey(Team)
