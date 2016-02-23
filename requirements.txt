@@ -59,6 +59,8 @@ singledispatch==3.4.0.3
 SPARQLWrapper==1.7.6
 wrapt==1.10.6
 wsgiref==0.1.2
+rcssmin==1.0.6
+rjsmin==1.0.12
 
 gunicorn==19.3.0
 djangowind==0.14.3
