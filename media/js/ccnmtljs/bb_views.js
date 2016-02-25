@@ -74,6 +74,8 @@ var DocumentView = BaseItemView.extend({
 
    	initialize: function(options) {
    	    _.bindAll(this, 'changeDocument', 'viewDocument');
+   	    this.stagesite =  "https://ccnmtl-brownfield-static-stage.s3.amazonaws.com/media/"
+   	    this.prodsite =  "https://ccnmtl-brownfield-static-prod.s3.amazonaws.com/media/"
    	    this.listenTo(this.model, 'change', this.render);
         this.template = _.template(jQuery("#document-list-template").html());
    	},
@@ -81,6 +83,18 @@ var DocumentView = BaseItemView.extend({
    	events: {
    		'click .chng-dct' : 'changeDocument',
    		'click .document-click' : 'viewDocument'
+   	},
+   	
+   	isStaging: function()
+   	{
+   		var checkdomain = "stage";
+   		return document.domain.indexOf(checkdomain)
+   	},
+   	
+   	isProduction: function()
+   	{
+   		var checkdomain = "prod";
+   		return document.domain.indexOf(checkdomain)
    	},
         
     changeDocument: function()
@@ -121,12 +135,29 @@ var DocumentView = BaseItemView.extend({
    			document.location = "http://brownfieldref.ccnmtl.columbia.edu/";
    		}
    		else if((this.model.get('name') === "Video: Press Conference Proceedings in Moraine Township") || (this.model.get('name') === "Video: Esker County Community Television: O'Ryan's Express"))
-   		{
-   			window.open("../../media/" + this.model.get('link'));
+   		{   
+            if(this.isStaging){
+            	window.open(this.stagesite + "/media/" + this.model.get('link'));
+            }
+            else if(this.isProduction){
+            	window.open(this.prodsite + "/media/" + this.model.get('link'));
+            }
+            else {
+            	window.open("../../media/" + this.model.get('link'));
+            }
    		}
    		else
 		{
-    		window.open("../../media/flash/" + this.model.get('link'));
+   		    if(this.isStaging){
+         	    window.open(this.stagesite + "/media/flash/" + this.model.get('link'));
+            }
+            else if(this.isProduction){
+            	window.open(this.prodsite + "/media/flash/" + this.model.get('link'));
+            }
+            else {
+        	    window.open("../../media/flash/" + this.model.get('link'));
+            }
+    		
 		}
    	}
 
