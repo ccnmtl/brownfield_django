@@ -137,10 +137,10 @@ var DocumentView = BaseItemView.extend({
    		else if((this.model.get('name') === "Video: Press Conference Proceedings in Moraine Township") || (this.model.get('name') === "Video: Esker County Community Television: O'Ryan's Express"))
    		{   
             if(this.isStaging){
-            	window.open(this.stagesite + "/media/" + this.model.get('link'));
+            	window.open(this.stagesite + this.model.get('link'));
             }
             else if(this.isProduction){
-            	window.open(this.prodsite + "/media/" + this.model.get('link'));
+            	window.open(this.prodsite + this.model.get('link'));
             }
             else {
             	window.open("../../media/" + this.model.get('link'));
@@ -149,10 +149,10 @@ var DocumentView = BaseItemView.extend({
    		else
 		{
    		    if(this.isStaging){
-         	    window.open(this.stagesite + "/media/flash/" + this.model.get('link'));
+         	    window.open(this.stagesite + "/flash/" + this.model.get('link'));
             }
             else if(this.isProduction){
-            	window.open(this.prodsite + "/media/flash/" + this.model.get('link'));
+            	window.open(this.prodsite + "/flash/" + this.model.get('link'));
             }
             else {
         	    window.open("../../media/flash/" + this.model.get('link'));
