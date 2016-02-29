@@ -1,28 +1,31 @@
 {% extends 'base.html' %}
-{% load static %}a
+{% load static %}
 
 {% block content %}
-<h2>{{object.course}}</h2>
-    {% block course_message %}
+  <h2>
+    {{object.course}}
+  </h2>
+  
+  {% block course_message %}
     <div class="course-message">
-        <h3>Course Message</h3>
-        {{object.course.message}}
+      <h3>Course Message</h3>
+      {{object.course.message}}
     </div>
-    {% endblock %}
+  {% endblock %}
 
-   {% block team_info %}
+  {% block team_info %}
     <div class="team-div">
       <h3>Team Information</h3> 
         
       <div class="team-div-info-1">
         <b>Team Name: </b> {{object.user.username}} <br />
         <b>Course: </b> {{object.course}} <br />
-        </div>
-        <div class="team-div-info-2">
+      </div>
+      <div class="team-div-info-2">
         <b>Signed Contract: </b> <span class="contract-status"> {{object.signed_contract}} </span> <br />
         <b>Budget: </b> {{object.budget}} <br />
-        </div>
-      {% endblock %}
+      </div>
+  {% endblock %}
       <div class="team-div-info-2">
         <a class="btn btn-default" href="../../../team_csv/{{ request.user.username }}/"><span class="glyphicon glyphicon-usd"></span> Download Team Budget History (CSV)</a>
         <a class="btn btn-default" href="{% static '/media/flash/documents/slMap.pdf' %}"><span class="glyphicon glyphicon-th"></span> Download Map (PDF)</a>
@@ -30,7 +33,7 @@
       </div>
     </div>
       
-    {% block course_documents %}
+  {% block course_documents %}
     <div class="course-div">
       <h3>Course Documents</h3>
         <div class="course-docs">
@@ -41,7 +44,7 @@
                 <a class="btn btn-default pull-right" href=http://brownfieldref.ccnmtl.columbia.edu/" target="_blank">View</a>
                 </li>
               {% else %}
-                <a class="btn btn-default pull-right" href="../../../media/{{ document.link }}" target="_blank">View</a>
+                <a class="btn btn-default pull-right" href="{% static '/media/{{ document.link }}' %}" target="_blank">View</a>
                 </li>
               {% endif %}
           {% empty %}
