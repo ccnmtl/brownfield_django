@@ -149,10 +149,10 @@ var DocumentView = BaseItemView.extend({
    		else
 		{
    		    if(this.isStaging){
-         	    window.open(this.stagesite + "/flash/" + this.model.get('link'));
+         	    window.open(this.stagesite + "flash/" + this.model.get('link'));
             }
             else if(this.isProduction){
-            	window.open(this.prodsite + "/flash/" + this.model.get('link'));
+            	window.open(this.prodsite + "flash/" + this.model.get('link'));
             }
             else {
         	    window.open("../../media/flash/" + this.model.get('link'));
