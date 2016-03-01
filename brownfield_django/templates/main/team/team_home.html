@@ -41,7 +41,7 @@
             <li>
               {{ document.name }}
               {% if document.name == "Link: Brownfield Action Reference Site" %}
-                  <a class="btn btn-default pull-right" href=http://brownfieldref.ccnmtl.columbia.edu/" target="_blank">View</a>
+                  <a class="btn btn-default pull-right" href="http://brownfieldref.ccnmtl.columbia.edu/" target="_blank">View</a>
                 </li>
               {% else %}
                   <a class="btn btn-default pull-right" href="{% static '/media/' %}{{document.link}}" target="_blank">View</a>
