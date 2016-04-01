@@ -95,7 +95,7 @@ django-crispy-forms==1.6.0  # djangorestframework
 djangorestframework==3.3.2
 django-flashpolicies==1.6.1
 
-ccnmtlsettings==0.1.6
+ccnmtlsettings==0.2.0
 boto==2.38.0
 python-dateutil==2.5.1
 django-storages-redux==1.3
