@@ -80,6 +80,21 @@ class TestTeamViews(TestCase):
              'internalName': 'Document'})
         self.assertEqual(response.status_code, 200)
 
+    def test_teamperformtest_missing_params(self):
+        response = self.client.post(
+            "/team/" + str(self.team.user.pk) + "/test/",
+            {})
+        self.assertEqual(response.status_code, 400)
+
+    def test_teamperformtest_invalid_params(self):
+        response = self.client.post(
+            "/team/" + str(self.team.user.pk) + "/test/",
+            {'x': 'undefined', 'y': '450', 'testNumber': '2', 'z': '150',
+             'date': '2014/10/23 13:14', 'testDetails': 'some_details_here',
+             'paramString': 'some other values',
+             'description': 'description goes here', 'cost': '200'})
+        self.assertEqual(response.status_code, 400)
+
 
 class TestStudentViews(APITestCase):
 
