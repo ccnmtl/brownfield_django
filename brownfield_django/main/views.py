@@ -5,7 +5,8 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.core.mail import send_mail
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import (
+    HttpResponse, HttpResponseRedirect, HttpResponseBadRequest)
 from django.http.response import HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.template import loader
@@ -587,9 +588,21 @@ class TeamInfoView(CSRFExemptMixin, View):
 
 
 class TeamPerformTest(CSRFExemptMixin, View):
+    def validate(self, request):
+        for p in ['date', 'cost', 'x', 'y', 'testNumber']:
+            if p not in request.POST:
+                return False
+        for p in ['x', 'y', 'testNumber']:
+            try:
+                int(request.POST[p])
+            except ValueError:
+                return False
+        return True
 
     def post(self, request, pk):
         team = Team.objects.get(user=request.user)
+        if not self.validate(request):
+            return HttpResponseBadRequest("missing or invalid parameter")
 
         th = History.objects.create(
             team=team,
@@ -601,22 +614,33 @@ class TeamPerformTest(CSRFExemptMixin, View):
             x=int(request.POST['x']),
             y=int(request.POST['y']),
             testNumber=int(request.POST['testNumber']))
+
+        self.save_z(request, pf)
+        self.save_test_details(request, pf)
+        self.save_param_string(request, pf)
+
+        return HttpResponse("<data><response>OK</response></data>")
+
+    def save_z(self, request, pf):
         try:
             pf.z = request.POST['z']
             pf.save()
         except:
             pass
+
+    def save_test_details(self, request, pf):
         try:
             pf.testDetails = request.POST['testDetails']
             pf.save()
         except:
             pass
+
+    def save_param_string(self, request, pf):
         try:
             pf.paramString = request.POST['paramString']
             pf.save()
         except:
             pass
-        return HttpResponse("<data><response>OK</response></data>")
 
 
 class TeamCSV(LoggedInMixin, View):
