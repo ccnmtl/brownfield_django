@@ -25,7 +25,6 @@ ROOT_URLCONF = 'brownfield_django.urls'
 
 INSTALLED_APPS += [  # noqa
     'sorl.thumbnail',
-    'tagging',
     'rest_framework',
     'typogrify',
     'bootstrapform',
