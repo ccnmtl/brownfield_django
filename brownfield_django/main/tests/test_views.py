@@ -29,7 +29,7 @@ class TestAnnonymousUserLogin(TestCase):
         response = self.client.get("/", follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertEquals(response.redirect_chain[0],
-                          ('http://testserver/accounts/login/?next=/', 302))
+                          ('/accounts/login/?next=/', 302))
 
 
 class TestAnonymousTeamHome(TestCase):
