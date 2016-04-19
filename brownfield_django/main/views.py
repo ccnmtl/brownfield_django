@@ -648,10 +648,10 @@ class TeamCSV(LoggedInMixin, View):
     def get(self, request, username):
         user = get_object_or_404(User, username=username)
         team = Team.objects.get(user=user)
-        history = History.objects.filter(team=team)
 
-        team_info = Information.objects.filter(history=history)
-        tests_perf = PerformedTest.objects.filter(history=history)
+        history = History.objects.filter(team=team)
+        team_info = Information.objects.filter(history__id__in=history)
+        tests_perf = PerformedTest.objects.filter(history__id__in=history)
 
         columns = ['Cost', 'Date', 'Description', 'X', 'Y', 'Z']
 

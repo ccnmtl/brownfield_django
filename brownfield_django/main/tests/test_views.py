@@ -1,5 +1,10 @@
+from django.core.urlresolvers import reverse
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
+
+from brownfield_django.main.tests.factories import (
+    HistoryFactory, InformationFactory, PerformedTestFactory)
+
 from .factories import TeamFactory
 
 
@@ -40,3 +45,29 @@ class TestAnonymousTeamHome(TestCase):
         t = TeamFactory()
         r = self.client.get("/team/home/%d/" % t.pk)
         self.assertEqual(r.status_code, 403)
+
+
+class TestCSV(TestCase):
+
+    def test_get(self):
+        team = TeamFactory()
+
+        InformationFactory(history=HistoryFactory(team=team))
+        InformationFactory(history=HistoryFactory(team=team))
+
+        PerformedTestFactory(history=HistoryFactory(team=team), testNumber=5)
+        PerformedTestFactory(history=HistoryFactory(team=team))
+
+        self.client.login(username=team.user.username, password='test')
+
+        url = reverse('team-csv', kwargs={'username': team.user.username})
+        response = self.client.get(url)
+        self.assertTrue(response.status_code, 200)
+
+        a = response.content.splitlines()
+        self.assertEquals(a[0], 'Cost,Date,Description,X,Y,Z')
+        self.assertEquals(a[1], '100,2014/10/23 13:14,History Record')
+        self.assertEquals(a[2], '100,2014/10/23 13:14,History Record')
+        self.assertEquals(a[3], '100,2014/10/23 13:14,History Record,10,30,60')
+        self.assertEquals(a[4],
+                          '100,2014/10/23 13:14,History Record,10,30,None')
