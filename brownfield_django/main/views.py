@@ -511,8 +511,8 @@ class TeamHistoryView(CSRFExemptMixin, View):
         template = loader.get_template(
             'main/team/bfaxml.txt')
         history = History.objects.filter(team=team)
-        team_info = Information.objects.filter(history=history)
-        tests_perf = PerformedTest.objects.filter(history=history)
+        team_info = Information.objects.filter(history__id__in=history)
+        tests_perf = PerformedTest.objects.filter(history__id__in=history)
 
         ctx = Context({'team': team, 'team_info': team_info,
                        'team_tests': tests_perf, 'team_history': history})

@@ -4,6 +4,7 @@ from django.test.client import Client
 
 from brownfield_django.main.tests.factories import (
     HistoryFactory, InformationFactory, PerformedTestFactory)
+from brownfield_django.main.views import TeamHistoryView
 
 from .factories import TeamFactory
 
@@ -71,3 +72,47 @@ class TestCSV(TestCase):
         self.assertEquals(a[3], '100,2014/10/23 13:14,History Record,10,30,60')
         self.assertEquals(a[4],
                           '100,2014/10/23 13:14,History Record,10,30,None')
+
+
+class TestTeamHistoryView(TestCase):
+
+    def setUp(self):
+        self.view = TeamHistoryView()
+        self.team = TeamFactory()
+
+        InformationFactory(history=HistoryFactory(team=self.team))
+        PerformedTestFactory(history=HistoryFactory(team=self.team))
+
+    def test_initial_team_history(self):
+        result = ('<bfaxml> <config> <user signedcontract="False"'
+                  ' startingbudget="" realname="{}"> </user> '
+                  '<narrative enabled=""></narrative> <information> '
+                  '</information> </config> <testdata> </testdata> <budget> '
+                  '</budget> </bfaxml>').format(self.team.user.username)
+
+        xml = self.view.initial_team_history(self.team)
+        xml = ' '.join(xml.split())
+        self.assertEquals(xml, result)
+
+    def test_send_team_history(self):
+        result = (
+            '<bfaxml> <config> <user realname="{}" '
+            'signedcontract="False" startingbudget="" /> '
+            '<narrative enabled="" /> <information> <info type="recon" '
+            'name="recon"></info> </information> </config> <testdata> '
+            '<test y="30" x="10" n="1" testNumber="1" paramString="'
+            'Still need to find format for these..." z="60" ></test> '
+            '</testdata> <budget> <i a="100" t="2014/10/23 13:14" '
+            'd="History Record"></i> <i a="100" t="2014/10/23 13:14" '
+            'd="History Record"></i> </budget> </bfaxml>'
+        ).format(self.team.user.username)
+
+        xml = self.view.send_team_history(self.team)
+        xml = ' '.join(xml.split())
+        self.assertEquals(xml, result)
+
+    def test_get(self):
+        url = reverse('team-history', kwargs={'pk': self.team.id})
+        self.client.login(username=self.team.user.username, password='test')
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
