@@ -25,6 +25,7 @@ class TeamFactory(factory.DjangoModelFactory):
     class Meta:
         model = Team
     team_passwd = "test"
+    user = factory.SubFactory(UserFactory)
 
 
 class DocumentFactory(factory.DjangoModelFactory):
@@ -63,7 +64,7 @@ class PerformedTestFactory(factory.DjangoModelFactory):
     testDetails = "Test Details Here..."
 
 
-class InformationTestFactory(factory.DjangoModelFactory):
+class InformationFactory(factory.DjangoModelFactory):
     class Meta:
         model = Information
     history = factory.SubFactory(HistoryFactory)

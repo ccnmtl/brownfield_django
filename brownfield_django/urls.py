@@ -76,14 +76,15 @@ urlpatterns = patterns(
     (r'^demo/history/', BrownfieldHistoryView.as_view()),
     (r'^demo/test/$', BrownfieldTestView.as_view()),
     (r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
-    (r'^team/(?P<pk>\d+)/play$', TeamHistoryView.as_view()),
+    url(r'^team/(?P<pk>\d+)/play$',
+        TeamHistoryView.as_view(), name='team-history'),
     (r'^team/(?P<pk>\d+)/history/', TeamHistoryView.as_view()),
     (r'^team/(?P<pk>\d+)/info/$', TeamInfoView.as_view()),
     (r'^team/(?P<pk>\d+)/test/$', TeamPerformTest.as_view()),
     (r'^team/sign_contract/$', TeamSignContract.as_view()),
     (r'^site_history/$', TemplateView.as_view(
         template_name="interactive/site_history.html")),
-    (r'^team_csv/(?P<username>.*)/$', TeamCSV.as_view()),
+    url(r'^team_csv/(?P<username>.*)/$', TeamCSV.as_view(), name='team-csv'),
     url(r'^crossdomain.xml$',
         'flashpolicies.views.simple', {
             'domains': [static_flash_domain, '*.ccnmtl.columbia.edu']

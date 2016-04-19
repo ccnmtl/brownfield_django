@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from factories import UserFactory, UserProfileFactory, \
     CourseFactory, HistoryFactory, TeamFactory, \
-    PerformedTestFactory, InformationTestFactory
+    PerformedTestFactory, InformationFactory
 
 
 '''Very basic model tests...'''
@@ -51,7 +51,7 @@ class TestPerformedTestFactory(TestCase):
 class TestInformationTestFactory(TestCase):
 
     def test_unicode(self):
-        inf_t = InformationTestFactory()
+        inf_t = InformationFactory()
         self.assertEqual(str(inf_t),
                          '%s - %s' % (inf_t.infoType, inf_t.internalName))
 
@@ -177,9 +177,9 @@ class TestHistoryMethods(TestCase):
         self.history = HistoryFactory(team=self.team)
         self.first_test_performed = PerformedTestFactory(history=self.history)
         self.second_test_performed = PerformedTestFactory(history=self.history)
-        self.first_informtion_record = InformationTestFactory(
+        self.first_informtion_record = InformationFactory(
             history=self.history)
-        self.second_information_record = InformationTestFactory(
+        self.second_information_record = InformationFactory(
             history=self.history)
 
     def test_get_tests_performed(self):
