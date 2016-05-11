@@ -31,7 +31,7 @@ path.py==8.2.1
 ipython==4.2.0
 rdflib==4.2.1
 coverage==4.0.3
-requests==2.9.1
+requests==2.10.0
 logilab-common==1.2.0
 logilab-astng==0.24.3
 pylint==1.5.5
