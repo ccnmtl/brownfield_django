@@ -43,7 +43,7 @@ python-ldap==2.4.25
 sqlparse==0.1.19
 contextlib2==0.5.3
 argparse==1.4.0
-astroid==1.4.5
+astroid==1.4.6
 backports-abc==0.4
 backports.ssl-match-hostname==3.5.0.1
 certifi==2016.2.28
