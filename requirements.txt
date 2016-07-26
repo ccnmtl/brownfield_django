@@ -28,7 +28,7 @@ decorator==4.0.10
 pexpect==4.2.0
 pickleshare==0.7.3
 simplegeneric==0.8.1
-ipython==4.2.1
+ipython==5.0.0
 rdflib==4.2.1
 coverage==4.1
 requests==2.10.0
