@@ -1,7 +1,10 @@
+import django.contrib.auth.views
+import django.views.static
+import djangowind.views
+import flashpolicies.views
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-# from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from rest_framework import routers
 
@@ -21,20 +24,19 @@ redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
 
 auth_urls = url(r'^accounts/', include('django.contrib.auth.urls'))
 
-logout_page = url(r'^accounts/logout/$',
-                  'django.contrib.auth.views.logout',
+logout_page = url(r'^accounts/logout/$', django.contrib.auth.views.logout,
                   {'next_page': redirect_after_logout})
 admin_logout_page = url(r'^accounts/logout/$',
-                        'django.contrib.auth.views.logout',
+                        django.contrib.auth.views.logout,
                         {'next_page': '/admin/'})
 
 if hasattr(settings, 'CAS_BASE'):
     auth_urls = url(r'^accounts/', include('djangowind.urls'))
     logout_page = url(r'^accounts/logout/$',
-                      'djangowind.views.logout',
+                      djangowind.views.logout,
                       {'next_page': redirect_after_logout})
     admin_logout_page = url(r'^admin/logout/$',
-                            'djangowind.views.logout',
+                            djangowind.views.logout,
                             {'next_page': redirect_after_logout})
 
 
@@ -75,8 +77,8 @@ urlpatterns = [
     url(r'^demo/history/', BrownfieldHistoryView.as_view()),
     url(r'^demo/test/$', BrownfieldTestView.as_view()),
     url(r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
-    url(r'^team/(?P<pk>\d+)/play$',
-        TeamHistoryView.as_view(), name='team-history'),
+    url(r'^team/(?P<pk>\d+)/play$', TeamHistoryView.as_view(),
+        name='team-history'),
     url(r'^team/(?P<pk>\d+)/history/', TeamHistoryView.as_view()),
     url(r'^team/(?P<pk>\d+)/info/$', TeamInfoView.as_view()),
     url(r'^team/(?P<pk>\d+)/test/$', TeamPerformTest.as_view()),
@@ -84,16 +86,15 @@ urlpatterns = [
     url(r'^site_history/$', TemplateView.as_view(
         template_name="interactive/site_history.html")),
     url(r'^team_csv/(?P<username>.*)/$', TeamCSV.as_view(), name='team-csv'),
-    url(r'^crossdomain.xml$',
-        'flashpolicies.views.simple', {
-            'domains': [static_flash_domain, '*.ccnmtl.columbia.edu']
-        }),
+    url(r'^crossdomain.xml$', flashpolicies.views.simple, {
+        'domains': [static_flash_domain, '*.ccnmtl.columbia.edu']
+    }),
     url(r'^static/flash/documents/(?P<path>.*)$',
         'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     url(r'^stats/$', TemplateView.as_view(template_name="stats.html")),
     url(r'smoketest/', include('smoketest.urls')),
-    url(r'^uploads/(?P<path>.*)$',
-        'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+    url(r'^uploads/(?P<path>.*)$', django.views.static.serve,
+        {'document_root': settings.MEDIA_ROOT}),
 ]
