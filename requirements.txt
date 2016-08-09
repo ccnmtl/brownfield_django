@@ -47,7 +47,7 @@ contextlib2==0.5.4
 argparse==1.4.0
 astroid==1.4.8
 backports-abc==0.4
-certifi==2016.8.2
+certifi==2016.8.8
 colorama==0.3.7
 html5lib==0.999999999
 isodate==0.5.4
