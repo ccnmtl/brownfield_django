@@ -1,11 +1,14 @@
 import json
 import random
 from string import letters, digits
+
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http.response import HttpResponseNotAllowed, HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+
 from django.contrib.auth.models import User
+from django.http.response import HttpResponseNotAllowed, HttpResponse, \
+    HttpResponseForbidden
 
 
 def ajax_required(func):
@@ -88,6 +91,14 @@ class LoggedInMixinAdministrator(object):
     def dispatch(self, *args, **kwargs):
         return super(
             LoggedInMixinAdministrator, self).dispatch(*args, **kwargs)
+
+
+class ProfileMixin(object):
+
+    def dispatch(self, *args, **kwargs):
+        if int(kwargs.get('pk')) != self.request.user.profile.id:
+            return HttpResponseForbidden("forbidden")
+        return super(ProfileMixin, self).dispatch(*args, **kwargs)
 
 
 class PasswordMixin(object):
