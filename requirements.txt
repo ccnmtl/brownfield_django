@@ -95,7 +95,7 @@ django-pageblocks==1.0.4
 django-quizblock==1.2.2
 django-markwhat==1.5
 django-crispy-forms==1.6.0  # djangorestframework
-djangorestframework==3.4.3
+djangorestframework==3.4.6
 django-flashpolicies==1.6.1
 django-smtp-ssl==1.0
 
