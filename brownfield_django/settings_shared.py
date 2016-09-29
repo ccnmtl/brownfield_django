@@ -13,9 +13,9 @@ PROJECT_APPS = [
 
 USE_TZ = True
 
-TEMPLATE_CONTEXT_PROCESSORS += [  # noqa
+TEMPLATES[0]['OPTIONS']['context_processors'].append(  # noqa
     'django.template.context_processors.csrf'
-]
+)
 
 MIDDLEWARE_CLASSES += [  # noqa
     'django.middleware.csrf.CsrfViewMiddleware',
