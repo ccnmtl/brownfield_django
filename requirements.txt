@@ -56,7 +56,7 @@ lazy-object-proxy==1.2.2
 mock==2.0.0
 nose==1.3.7
 ptyprocess==0.5.1
-pyparsing==2.1.9
+pyparsing==2.1.10
 singledispatch==3.4.0.3
 SPARQLWrapper==1.7.6
 wrapt==1.10.8
