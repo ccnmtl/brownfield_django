@@ -1,11 +1,11 @@
+from django.conf import settings
+from django.conf.urls import include, url, patterns
+from django.contrib import admin
 import django.contrib.auth.views
+from django.views.generic import TemplateView
 import django.views.static
 import djangowind.views
 import flashpolicies.views
-from django.conf import settings
-from django.conf.urls import include, url
-from django.contrib import admin
-from django.views.generic import TemplateView
 from rest_framework import routers
 
 from brownfield_django.main.views import CourseViewSet, UserViewSet, \
@@ -98,3 +98,9 @@ urlpatterns = [
     url(r'^uploads/(?P<path>.*)$', django.views.static.serve,
         {'document_root': settings.MEDIA_ROOT}),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += patterns('',
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    )
