@@ -48,8 +48,6 @@ PAGEBLOCKS = [
 ]
 
 EMAIL_SUBJECT_PREFIX = "[brownfield] "
-SERVER_EMAIL = 'ccnmtl-bfa@columbia.edu'
-DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
 LOGIN_REDIRECT_URL = "/"
 
