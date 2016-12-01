@@ -275,7 +275,7 @@ var InstructorView = BaseItemView.extend({
     render: function ()
     {
     	var prof = this.model.get('profile');
-        if (prof.archive === true) {
+        if (prof && prof.archive === true) {
             this.$el.remove();
         } else {
         	BaseItemView.prototype.render.apply(this, arguments);
