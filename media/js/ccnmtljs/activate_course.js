@@ -5,9 +5,9 @@ function confirmReactivation() {
     jQuery('#confirmAct .modal-header .modal-title')
         .html('Course Re-Activation');
     jQuery('#confirmAct .modal-body')
-        .html('<p>Are you sure you want to make changes to the teams in your' +
-              'course? Doing so will update the teams and student users ' +
-              'accordingly and will send the student users new login ' +
+        .html('<p>Are you sure you want to make changes to the teams in ' +
+              'your course? Doing so will update the teams and student ' +
+              'users accordingly and will send the student users new login ' +
               'credentials for the system. Note: the updated student users ' +
               'will still have access to their original teams login ' +
               'credentials unless you request it to be changed.</p>');
@@ -20,9 +20,9 @@ function confirmActivation() {
     jQuery('#confirmAct .modal-header .modal-title')
         .html('Course Activation');
     jQuery('#confirmAct .modal-body')
-        .html('<p>Are you sure you want to make changes to the teams in your' +
-              'course? Doing so will update the teams and student users ' +
-              'accordingly and will send the student users new login ' +
+        .html('<p>Are you sure you want to make changes to the teams in ' +
+              'your course? Doing so will update the teams and student ' +
+              'users accordingly and will send the student users new login ' +
               'credentials for the system. Note: the updated student users ' +
               'will still have access to their original teams login ' +
               'credentials unless you request it to be changed.</p>');
