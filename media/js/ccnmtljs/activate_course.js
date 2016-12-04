@@ -1,12 +1,33 @@
-function confirm_reactivation() {
+// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 
+function confirmReactivation() {
     jQuery('#confirmAct').modal('show');
     jQuery('#confirmAct .modal-header .modal-title')
         .html('Course Re-Activation');
     jQuery('#confirmAct .modal-body')
-        .html('<p>Are you sure you want to make changes to the teams in your course? Doing so will update the teams and student users accordingly and will send the student users new login credentials for the system. Note: the updated student users will still have access to their original teams login credentials unless you request it to be changed.</p>');
+        .html('<p>Are you sure you want to make changes to the teams in ' +
+              'your course? Doing so will update the teams and student ' +
+              'users accordingly and will send the student users new login ' +
+              'credentials for the system. Note: the updated student users ' +
+              'will still have access to their original teams login ' +
+              'credentials unless you request it to be changed.</p>');
     jQuery('#confirmAct .modal-footer #conf-act')
         .html('Continue with Re-Activation');
+}
+
+function confirmActivation() {
+    jQuery('#confirmAct').modal('show');
+    jQuery('#confirmAct .modal-header .modal-title')
+        .html('Course Activation');
+    jQuery('#confirmAct .modal-body')
+        .html('<p>Are you sure you want to make changes to the teams in ' +
+              'your course? Doing so will update the teams and student ' +
+              'users accordingly and will send the student users new login ' +
+              'credentials for the system. Note: the updated student users ' +
+              'will still have access to their original teams login ' +
+              'credentials unless you request it to be changed.</p>');
+    jQuery('#confirmAct .modal-footer #conf-act')
+        .html('Continue with Activation');
 }
 
 function reactivation_success() {
@@ -14,7 +35,8 @@ function reactivation_success() {
     jQuery('#activationSuccess .modal-header .modal-title')
         .html('Re-Activation Successful');
     jQuery('#activationSuccess .modal-body')
-        .html('<p>Congratulations! Your course has been successfully re-activated!</p>');
+        .html('<p>Congratulations! Your course has been ' +
+              'successfully re-activated!</p>');
     jQuery('.crs-act-info').hide();
     jQuery('#activation-btn').hide();
     jQuery('#edit-team-members').show();
@@ -51,23 +73,19 @@ function get_active_content(crs_id) {
 function get_students() {
     //getting students from table
     var data = [];
-    jQuery('.student-row').each(
-        function() {
-            var student = {
-                'pk': jQuery(this).find('td input[name="std-id"]').val(),
-                'first_name': jQuery(this)
-                    .find('id input[name="first_name"]').val(),
-                'last_name': jQuery(this)
-                    .find('td input[name="last_name"]').val(),
-                'email': jQuery(this).find('td input[name="email"]').val(),
-                'team_id': jQuery(this).find('td option:selected').val(),
-                'team_name': jQuery(this).find('td option:selected').text()
-            };
-
-            data.push({'student': student});
-
-        });
-
+    jQuery('.student-row').each(function() {
+        var student = {
+            'pk': jQuery(this).find('td input[name="std-id"]').val(),
+            'first_name': jQuery(this)
+                .find('id input[name="first_name"]').val(),
+            'last_name': jQuery(this)
+                .find('td input[name="last_name"]').val(),
+            'email': jQuery(this).find('td input[name="email"]').val(),
+            'team_id': jQuery(this).find('td option:selected').val(),
+            'team_name': jQuery(this).find('td option:selected').text()
+        };
+        data.push({'student': student});
+    });
     return data;
 }
 
@@ -102,12 +120,12 @@ jQuery(function() {
         .on('click', function(e) {
             if (activation_status === 'True') {
                 jQuery('#activation-btn').html('Save Changes');
-                confirm_reactivation();
+                confirmReactivation();
             }
             if (activation_status === 'False') {
                 jQuery('#activation-btn').html('Activate Course');
                 jQuery('#confirmAct').modal('show');
-                confirm_activation();
+                confirmActivation();
             }
             e.preventDefault();
         });

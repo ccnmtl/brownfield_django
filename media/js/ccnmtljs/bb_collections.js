@@ -1,3 +1,6 @@
+/* global AppDocument: true, Student: true, Team: true, Course: true */
+/* global Instructor: true */
+
 /* Almost all of these have same url and initialize funciton
  - mixin or base class */
 

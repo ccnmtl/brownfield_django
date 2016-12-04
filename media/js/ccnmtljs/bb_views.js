@@ -1,67 +1,67 @@
-/* Experimenting with suggestions from Backbone best practices for reducing duplicate code */
+/* global DocumentCollection: true, StudentCollection: true */
+/* global TeamCollection: true, InstructorCollection: true */
+/* global CourseCollection: true */
+
+/* Experimenting with suggestions from Backbone best practices
+ * for reducing duplicate code */
 
 /* Might be good to pull out show edit form and remove */
 
-/* All List Element Views have the same render function - creating base class with the render method. */
+/* All List Element Views have the same render function -
+ * creating base class with the render method. */
 var BaseItemView = Backbone.View.extend({
 
-    tagName : 'li',
+    tagName: 'li',
 
-	render: function () 
-    {
+    render: function() {
         var html = this.template(this.model.toJSON());
         this.$el.html(html);
         return this;
     },
-    
-    hideEditForm: function(e)
-    {   
+
+    hideEditForm: function(e) {
         e.preventDefault();
         this.render();
     },
-    
-    showEditForm: function(e)
-    {
-        var edit_form =  this.edit_form(this.model.toJSON());
-        this.$el.html(edit_form);
+
+    showEditForm: function(e) {
+        var editForm = this.editForm(this.model.toJSON());
+        this.$el.html(editForm);
     },
 
-    is_empty: function (selector_string, error_element, error_msg)
-    {
-        var check = jQuery(this.el).find(selector_string).val();
-        if(check === null || check === "") 
-        {
-            if((jQuery(error_element).has('.is-empty').length) === 0)
-            {
-                jQuery(error_element).append("<b class='error-msg is-empty' style='color:red'>" + String(error_msg) + "</b>");
+    isEmpty: function(selectorString, errorElement, errorMsg) {
+        var check = jQuery(this.el).find(selectorString).val();
+        if (check === null || check === '') {
+            if ((jQuery(errorElement).has('.is-empty').length) === 0) {
+                jQuery(errorElement).append(
+                        '<b class="error-msg is-empty" style="color:red">' +
+                        String(errorMsg) + '</b>');
             }
-           return true;
+            return true;
         }
-        return false;     
+        return false;
     },
-    
-    confirmArchival: function (evt)
-    {
-    	var current = jQuery(this.el);
-    	current.find('.conf-del').show();
-    	current.find('.conf-del').css({'display':'inline', 'color':'red', 'font-weight':'bold'});
-    	current.find('.reg-btn').hide();
-    },
-    
-    cancelArchive: function (evt)
-    {
-    	var current = jQuery(this.el);
-    	current.find('.reg-btn').show();
-    	current.find('.conf-del').hide();
-    }
 
+    confirmArchival: function(evt) {
+        var current = jQuery(this.el);
+        current.find('.conf-del').show();
+        current.find('.conf-del').css({
+            'display': 'inline',
+            'color': 'red',
+            'font-weight': 'bold'
+        });
+        current.find('.reg-btn').hide();
+    },
+
+    cancelArchive: function(evt) {
+        var current = jQuery(this.el);
+        current.find('.reg-btn').show();
+        current.find('.conf-del').hide();
+    }
 });
 
-
 var DeletableItemView = BaseItemView.extend({
-
-    removeItem: function ()
-    {   
+    removeItem: function() {
         this.model.destroy();
     }
 
@@ -69,131 +69,116 @@ var DeletableItemView = BaseItemView.extend({
 
 /* Start with Single Element Views */
 
-
 var DocumentView = BaseItemView.extend({
 
-   	initialize: function(options) {
-   	    _.bindAll(this, 'changeDocument', 'viewDocument');
-   	    this.stagesite =  "https://ccnmtl-brownfield-static-stage.s3.amazonaws.com/media/"
-   	    this.prodsite =  "https://ccnmtl-brownfield-static-prod.s3.amazonaws.com/media/"
-   	    this.listenTo(this.model, 'change', this.render);
-        this.template = _.template(jQuery("#document-list-template").html());
-   	},
+    initialize: function(options) {
+        _.bindAll(this, 'changeDocument', 'viewDocument');
+        this.stagesite =
+            'https://ccnmtl-brownfield-static-stage.s3.amazonaws.com/media/';
+        this.prodsite =
+            'https://ccnmtl-brownfield-static-prod.s3.amazonaws.com/media/';
+        this.listenTo(this.model, 'change', this.render);
+        this.template = _.template(jQuery('#document-list-template').html());
+    },
 
-   	events: {
-   		'click .chng-dct' : 'changeDocument',
-   		'click .document-click' : 'viewDocument'
-   	},
-   	
-   	isStaging: function()
-   	{
-   		var checkdomain = "stage";
-   		return document.domain.indexOf(checkdomain)
-   	},
-   	
-   	isProduction: function()
-   	{
-   		var checkdomain = "prod";
-   		return document.domain.indexOf(checkdomain)
-   	},
-        
-    changeDocument: function()
-   	{
-    	if(this.model.attributes.visible === true)
-    	{
-    		this.model.set('visible', false);
-    		this.model.save({
-                success: function(model, response) 
-                {
+    events: {
+        'click .chng-dct': 'changeDocument',
+        'click .document-click': 'viewDocument'
+    },
+
+    isStaging: function() {
+        var checkdomain = 'stage';
+        return document.domain.indexOf(checkdomain);
+    },
+
+    isProduction: function() {
+        var checkdomain = 'prod';
+        return document.domain.indexOf(checkdomain);
+    },
+
+    changeDocument: function() {
+        if (this.model.attributes.visible === true) {
+            this.model.set('visible', false);
+            this.model.save({
+                success: function(model, response) {
                 },
-                error: function(model, response)
-                {
-                        alert("An error occured!");
+                error: function(model, response) {
+                    alert('An error occurred!');
                 },
                 wait: true
             });
-    	}
-    	else if (this.model.attributes.visible === false)
-    	{
-    		this.model.set('visible', true);
-    		this.model.save({
-    		        success: function(model, response) 
-                    {},
-                    error: function(model, response)
-                    {
-                            alert("An error occured!");
-                    },
-                    wait: true
-                });
-    	}
-   	},
-   	
-   	viewDocument: function()
-   	{
-   		if(this.model.get('name') === "Link: Brownfield Action Reference Site")
-   		{
-   			document.location = "http://brownfieldref.ccnmtl.columbia.edu/";
-   		}
-   		else if((this.model.get('name') === "Video: Press Conference Proceedings in Moraine Township") || (this.model.get('name') === "Video: Esker County Community Television: O'Ryan's Express"))
-   		{   
-            if(this.isStaging){
-            	window.open(this.stagesite + this.model.get('link'));
-            }
-            else if(this.isProduction){
-            	window.open(this.prodsite + this.model.get('link'));
-            }
-            else {
-            	window.open("../../media/" + this.model.get('link'));
-            }
-   		}
-   		else
-		{
-   		    if(this.isStaging){
-         	    window.open(this.stagesite + "flash/" + this.model.get('link'));
-            }
-            else if(this.isProduction){
-            	window.open(this.prodsite + "flash/" + this.model.get('link'));
-            }
-            else {
-        	    window.open("../../media/flash/" + this.model.get('link'));
-            }
-    		
-		}
-   	}
+        } else if (this.model.attributes.visible === false) {
+            this.model.set('visible', true);
+            this.model.save({
+                success: function(model, response) {
+                },
+                error: function(model, response) {
+                    alert('An error occured!');
+                },
+                wait: true
+            });
+        }
+    },
 
+    viewDocument: function() {
+        if (this.model.get('name') ===
+                'Link: Brownfield Action Reference Site') {
+            document.location = 'http://brownfieldref.ccnmtl.columbia.edu/';
+        } else if ((this.model.get('name') ===
+            'Video: Press Conference Proceedings in Moraine Township') ||
+            (this.model.get('name') ===
+             'Video: Esker County Community Television: O\'Ryan\'s Express')) {
+            if (this.isStaging) {
+                window.open(this.stagesite + this.model.get('link'));
+            } else if (this.isProduction) {
+                window.open(this.prodsite + this.model.get('link'));
+            } else {
+                window.open('../../media/' + this.model.get('link'));
+            }
+        } else {
+            if (this.isStaging) {
+                window.open(this.stagesite + 'flash/' +
+                            this.model.get('link'));
+            } else if (this.isProduction) {
+                window.open(this.prodsite + 'flash/' + this.model.get('link'));
+            } else {
+                window.open('../../media/flash/' + this.model.get('link'));
+            }
+        }
+    }
 });
 
-
 var CourseView = BaseItemView.extend({
-    	
-   	initialize: function () {
-   	    this.listenTo(this.model, 'change', this.render);
-   	    this.template = _.template(jQuery("#course-list-template").html());
-   	    this.edit_form = _.template(jQuery("#course-edit-template").html());
-   	    /* As of now cannot think of solution for having the list
-   	     * of professors available to the CourseView view and the main ControlView*/
-   	},
-    	
-   	events: {
-   	    'click .course_name' : 'courseDetails',
-   	    'click .edit-crs' : 'showEditForm',
-   	    'click .save-edit-course' : 'editCourse',
-   	    'click .cncl-edit-crs' : 'hideEditForm',
-   	    'click .conf-archive-course' : 'confirmArchival',
-   	    'click .cancel-arch' : 'cancelArchive',
-   	    'click .conf-arch' : 'clear'
-   	},
-    	
-    render: function ()
-    {
+
+    initialize: function() {
+        this.listenTo(this.model, 'change', this.render);
+        this.template = _.template(jQuery('#course-list-template').html());
+        this.editForm = _.template(jQuery('#course-edit-template').html());
+        /*
+         * As of now cannot think of solution for having the list of professors
+         * available to the CourseView view and the main ControlView
+         */
+    },
+
+    events: {
+        'click .course_name': 'courseDetails',
+        'click .edit-crs': 'showEditForm',
+        'click .save-edit-course': 'editCourse',
+        'click .cncl-edit-crs': 'hideEditForm',
+        'click .conf-archive-course': 'confirmArchival',
+        'click .cancel-arch': 'cancelArchive',
+        'click .conf-arch': 'clear'
+    },
+
+    render: function() {
         if (this.model.get('archive') === true) {
             this.$el.remove();
         } else {
-        	BaseItemView.prototype.render.apply(this, arguments);
+            BaseItemView.prototype.render.apply(this, arguments);
         }
         return this;
     },
-    
+
     clear: function() {
         this.model.set('archive', true);
         this.model.save();
@@ -201,287 +186,275 @@ var CourseView = BaseItemView.extend({
 
     validEditForm: function(attributes, options) {
         /* Extremely simple basic check. */
-        var is_valid = true;
+        var isValid = true;
 
-        if(this.is_empty("input#edit_course_name", ".course-name-block", "Please enter a valid course name."))
-        {
-            is_valid = false;
+        if (this.isEmpty('input#edit_course_name', '.course-name-block',
+                         'Please enter a valid course name.')) {
+            isValid = false;
         }
 
-        if(this.is_empty("input#edit_course_startingBudget", ".course-budget-block", "Please enter a valid starting budget for your course."))
-        {
-            is_valid = false;
+        if (this.isEmpty(
+                'input#edit_course_startingBudget', '.course-budget-block',
+                'Please enter a valid starting budget for your course.')) {
+            isValid = false;
         }
-        if(this.is_empty("textarea#edit_course_message", ".course-message-block", "Please enter a valid course message."))
-        {
-            is_valid = false;
+        if (this.isEmpty('textarea#edit_course_message',
+                         '.course-message-block',
+                         'Please enter a valid course message.')) {
+            isValid = false;
         }
 
-        return is_valid;
+        return isValid;
     },
-    
-    editCourse: function(evt)
-    {
+
+    editCourse: function(evt) {
         evt.preventDefault();
-        
-        if(this.validEditForm())
-        {
-            var name = jQuery(this.el).find("input#edit_course_name").val();
-            var startingBudget = jQuery(this.el).find("input#edit_course_startingBudget").val();
-            var message = jQuery(this.el).find("textarea#edit_course_message").val();
+
+        if (this.validEditForm()) {
+            var name = jQuery(this.el).find('input#edit_course_name').val();
+            var startingBudget = jQuery(this.el).find(
+                    'input#edit_course_startingBudget').val();
+            var message = jQuery(this.el).find('textarea#edit_course_message')
+                    .val();
 
             this.model.set('name', name);
             this.model.set('startingBudget', startingBudget);
             this.model.set('message', message);
             this.model.save({
-                success: function(model, response) 
-                {},
-                error: function(model, response)
-                {
-                        alert("An error occured!");
+                success: function(model, response) {
+                },
+                error: function(model, response) {
+                    alert('An error occured!');
                 },
                 wait: true
-            });//end save
-        }//end if
+            });// end save
+        }// end if
     },// end editCourse
-    
-    courseDetails: function ()
-    {
-        window.location.href = '/course_details/' + this.model.get('id')  + '/';  
+
+    courseDetails: function() {
+        window.location.href = '/course_details/' + this.model.get('id') + '/';
     }
 });// End CourseView
 
-
 var InstructorView = BaseItemView.extend({
 
-	initialize: function(options)
-	{
-		_.bindAll(this, 'editInstructor');
-		this.template = _.template(jQuery("#instructor-list-template").html());
-		this.edit_form =  _.template(jQuery("#instructor-edit-template").html());
-        // need to bind the edit form to the model - when change made to form change model
-		this.listenTo(this.model, 'change', this.render);
-	},
+    initialize: function(options) {
+        _.bindAll(this, 'editInstructor');
+        this.template = _.template(jQuery('#instructor-list-template')
+                .html());
+        this.editForm = _.template(jQuery('#instructor-edit-template')
+                .html());
+        // need to bind the edit form to the model - when change made to
+        // form change model
+        this.listenTo(this.model, 'change', this.render);
+    },
 
-   	events: {
-   		'click .ed-inst' : 'showEditForm',
-   		'click .save-edit-instructor' : 'editInstructor',
-   		'click .cncl-edit-inst' : 'hideEditForm',
-   		'click .conf-archive-inst' : 'confirmArchival',
-   	  'click .cancel-arch-inst' : 'cancelArchive',
-   	  'click .conf-arch' : 'clear'
-   	},
-    
-    render: function ()
-    {
-    	var prof = this.model.get('profile');
+    events: {
+        'click .ed-inst': 'showEditForm',
+        'click .save-edit-instructor': 'editInstructor',
+        'click .cncl-edit-inst': 'hideEditForm',
+        'click .conf-archive-inst': 'confirmArchival',
+        'click .cancel-arch-inst': 'cancelArchive',
+        'click .conf-arch': 'clear'
+    },
+
+    render: function() {
+        var prof = this.model.get('profile');
         if (prof && prof.archive === true) {
             this.$el.remove();
         } else {
-        	BaseItemView.prototype.render.apply(this, arguments);
+            BaseItemView.prototype.render.apply(this, arguments);
         }
         return this;
     },
-        	
+
     validEditForm: function(attributes, options) {
         /* Extremely simple basic check. */
-        var is_valid = true;
+        var isValid = true;
 
-        if(this.is_empty("input.edt-frst-name", ".inst-edt-first-name", "Please enter a first name."))
-        {
-            is_valid = false;
+        if (this.isEmpty('input.edt-frst-name',
+                '.inst-edt-first-name', 'Please enter a first name.')) {
+            isValid = false;
         }
-        if(this.is_empty("input.edt-last-name", ".inst-edt-last-name", "Please enter a last name."))
-        {
-            is_valid = false;
+        if (this.isEmpty('input.edt-last-name', '.inst-edt-last-name',
+                'Please enter a last name.')) {
+            isValid = false;
         }
-        if(this.is_empty("input.edt-email", ".inst-edt-email", "Please enter a email address."))
-        {
-            is_valid = false;
+        if (this.isEmpty('input.edt-email', '.inst-edt-email',
+                'Please enter a email address.')) {
+            isValid = false;
         }
 
-        return is_valid;
+        return isValid;
     },
 
-   	editInstructor: function(e)
-   	{
+    editInstructor: function(e) {
         e.preventDefault();
 
-        if(this.validEditForm())
-        {
-        	var current = jQuery(this.el);
-            var inst_fname = current.find("input.edt-frst-name").val();
-            var inst_lname = current.find("input.edt-last-name").val();
-            var inst_email = current.find("input.edt-email").val();
-            /* For some reason setting the attributes below only sets correctly if you edit
-            * email, pulling the varibles here because here they are correct and then passing.
-            * */
-            this.model.set('first_name', inst_fname);
-            this.model.set('last_name', inst_lname);
-            this.model.set('email', inst_email);
+        if (this.validEditForm()) {
+            var current = jQuery(this.el);
+            var instFname = current.find('input.edt-frst-name').val();
+            var instLname = current.find('input.edt-last-name').val();
+            var instEmail = current.find('input.edt-email').val();
+            /*
+             * For some reason setting the attributes below only sets
+             * correctly if you edit email, pulling the varibles here
+             * because here they are correct and then passing.
+             */
+            this.model.set('first_name', instFname);
+            this.model.set('last_name', instLname);
+            this.model.set('email', instEmail);
             this.model.save({
-	        success: function(model, response) 
-	        {},
-            error: function(model, response)
-            {
-            	alert("An error occured!");
-            },
-            wait: true
-          });//end save
-      }
+                success: function(model, response) {
+                },
+                error: function(model, response) {
+                    alert('An error occured!');
+                },
+                wait: true
+            });// end save
+        }
     },
-    
+
     clear: function() {
-    	var prof = _.clone(this.model.get('profile'));
-    	prof.archive = true;
-    	this.model.set("profile", prof);
+        var prof = _.clone(this.model.get('profile'));
+        prof.archive = true;
+        this.model.set('profile', prof);
         this.model.save();
     }
-    
+
 });
 
-
 var TeamView = DeletableItemView.extend({
-	
-   	initialize: function (options) {
-   		this.template = _.template(jQuery("#team-list-template").html());
-   		this.edit_form = _.template(jQuery("#team-edit-template").html());
-   	    this.listenTo(this.model, 'change', this.render);
-   	    this.listenTo(this.model, 'destroy', this.remove);
-   	},
 
-   	events: {
-   		'click .rm-team' : 'removeItem',
-   		'click .edit-team' : 'showEditForm',
-   		'click .save-edit-team' : 'editTeam',
-   		'click .cncl-edit-team' : 'hideEditForm',
-   		'click .hist-team' : 'teamHistory'
-   	},
-    
+    initialize: function(options) {
+        this.template = _.template(jQuery('#team-list-template').html());
+        this.editForm = _.template(jQuery('#team-edit-template').html());
+        this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.model, 'destroy', this.remove);
+    },
+
+    events: {
+        'click .rm-team': 'removeItem',
+        'click .edit-team': 'showEditForm',
+        'click .save-edit-team': 'editTeam',
+        'click .cncl-edit-team': 'hideEditForm',
+        'click .hist-team': 'teamHistory'
+    },
+
     validEditForm: function(attributes, options) {
         /* Extremely simple basic check. */
-        var is_valid = true;
+        var isValid = true;
 
-        if(this.is_empty("input.edt-team-name", ".div-edt-team-name", "Please enter a team name."))
-        {
-            is_valid = false;
+        if (this.isEmpty('input.edt-team-name', '.div-edt-team-name',
+                'Please enter a team name.')) {
+            isValid = false;
         }
 
-        return is_valid;
+        return isValid;
     },
 
-   	editTeam: function(e)
-   	{
-   		e.preventDefault();
+    editTeam: function(e) {
+        e.preventDefault();
 
-      if(this.validEditForm())
-      {
-   		
-   		    var first_name = jQuery(this.el).find("input.edt-team-name").val();
-   		
-  		    this.model.set('first_name', first_name);
-   		        this.model.save({
-	            success: function(model, response) 
-	            {},
-            error: function(model, response)
-            {
-            	alert("An error occured!");
-            },
-            wait: true
-            });//end save
-      }
+        if (this.validEditForm()) {
+
+            var firstName = jQuery(this.el).find('input.edt-team-name').val();
+
+            this.model.set('first_name', firstName);
+            this.model.save({
+                success: function(model, response) {
+                },
+                error: function(model, response) {
+                    alert('An error occured!');
+                },
+                wait: true
+            });// end save
+        }
     },
-    
-   	teamHistory: function()
-   	{
-   		window.open("../../team_csv/" + this.model.get('username') + '/');
-   	}
+
+    teamHistory: function() {
+        window.open('../../team_csv/' + this.model.get('username') + '/');
+    }
 });// End Team View
-
 
 var StudentView = DeletableItemView.extend({
 
-	initialize: function(options)
-	{
-		_.bindAll(this, 'editStudent', 'hideEditForm', 'showEditForm');
-		this.template = _.template(jQuery("#student-list-template").html());
-		this.edit_form = _.template(jQuery("#student-edit-template").html());
-		this.listenTo(this.model, 'change', this.render);
-		this.listenTo(this.model, 'destroy', this.remove);
-	},
+    initialize: function(options) {
+        _.bindAll(this, 'editStudent', 'hideEditForm', 'showEditForm');
+        this.template = _.template(jQuery('#student-list-template').html());
+        this.editForm = _.template(jQuery('#student-edit-template').html());
+        this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.model, 'destroy', this.remove);
+    },
 
-   	events: {
-   		'click .ed-st' : 'showEditForm',
-   		'click .save-edit-student' : 'editStudent',
-   		'click .cncl-edit-std' : 'hideEditForm',
-   		'click .rm-st' : 'removeItem'
-   	},
+    events: {
+        'click .ed-st': 'showEditForm',
+        'click .save-edit-student': 'editStudent',
+        'click .cncl-edit-std': 'hideEditForm',
+        'click .rm-st': 'removeItem'
+    },
     validEditForm: function(attributes, options) {
         /* Extremely simple basic check. */
-        var is_valid = true;
+        var isValid = true;
 
-        if(this.is_empty("input.edt-frst-name", ".sedt-first-name", "Please enter a first name."))
-        {
-            is_valid = false;
+        if (this.isEmpty('input.edt-frst-name', '.sedt-first-name',
+                'Please enter a first name.')) {
+            isValid = false;
         }
 
-        if(this.is_empty("input.edt-last-name", ".sedt-last-name", "Please enter a last name."))
-        {
-            is_valid = false;
+        if (this.isEmpty('input.edt-last-name', '.sedt-last-name',
+                'Please enter a last name.')) {
+            isValid = false;
         }
-        if(this.is_empty("input.edt-email", ".sedt-email", "Please enter a email address."))
-        {
-            is_valid = false;
+        if (this.isEmpty('input.edt-email', '.sedt-email',
+                'Please enter a email address.')) {
+            isValid = false;
         }
 
-        return is_valid;
+        return isValid;
     },
-   	editStudent: function(e)
-   	{
-   		e.preventDefault();
+    editStudent: function(e) {
+        e.preventDefault();
 
-      if(this.validEditForm())
-      {
-          var std_fname = jQuery(this.el).find("input.edt-frst-name").val();
-          var std_lname = jQuery(this.el).find("input.edt-last-name").val();
-          var std_email = jQuery(this.el).find("input.edt-email").val();
-          /* For some reason setting the attributes below only sets correctly if you edit
-          * email, pulling the varibles here because here they are correct and then passing.
-          * */
-          this.model.set('first_name', std_fname);
-          this.model.set('last_name', std_lname);
-          this.model.set('email', std_email);
-          this.model.save({
-          success: function(model, response) 
-          {},
-          error: function(model, response)
-          {
-              alert("An error occured!");
-          },
-          wait: true
-        });//end save
-      }
+        if (this.validEditForm()) {
+            var stdFname = jQuery(this.el).find('input.edt-frst-name').val();
+            var stdLname = jQuery(this.el).find('input.edt-last-name').val();
+            var stdEmail = jQuery(this.el).find('input.edt-email').val();
+            /*
+             * For some reason setting the attributes below only sets correctly
+             * if you edit email, pulling the varibles here because here they
+             * are correct and then passing.
+             */
+            this.model.set('first_name', stdFname);
+            this.model.set('last_name', stdLname);
+            this.model.set('email', stdEmail);
+            this.model.save({
+                success: function(model, response) {
+                },
+                error: function(model, response) {
+                    alert('An error occured!');
+                },
+                wait: true
+            });// end save
+        }
     }
 
 });
-
 
 /* Now the Collection Views */
 var BaseListView = Backbone.View.extend({
 
     renderCollection: function() {
-        this.collection.each(function(model)
-        {
-            this.$el.append(new this.item_view({
+        this.collection.each(function(model) {
+            this.$el.append(new this.itemView({
                 model: model
             }).render().el);
         }, this);
         return this;
     },
-    
-    addItem: function(model, collection, options)
-    {
-        this.$el.append(new this.item_view({
+
+    addItem: function(model, collection, options) {
+        this.$el.append(new this.itemView({
             model: model
         }).render().el);
     }
@@ -489,76 +462,79 @@ var BaseListView = Backbone.View.extend({
 });
 
 var InstructorListView = BaseListView.extend({
-    
-    initialize: function (options)
-    {
+
+    initialize: function(options) {
         _.bindAll(this, 'renderCollection', 'addItem');
         this.collection = new InstructorCollection(options);
-        this.collection.fetch({processData: true, reset: true});
+        this.collection.fetch({
+            processData: true,
+            reset: true
+        });
         this.collection.on('reset', this.renderCollection);
         this.collection.on('add', this.addItem);
-        this.item_view = InstructorView;
+        this.itemView = InstructorView;
     }
 });
 
-
 var CourseListView = BaseListView.extend({
-    
-    initialize: function (options)
-    {
-    	_.bindAll(this, 'renderCollection', 'addItem');
-    	this.collection = new CourseCollection(options);
-    	this.collection.fetch({processData: true, reset: true});
-    	this.collection.on('reset', this.renderCollection);
-    	this.collection.on('add', this.addItem);
-    	this.item_view = CourseView;
-	}
+
+    initialize: function(options) {
+        _.bindAll(this, 'renderCollection', 'addItem');
+        this.collection = new CourseCollection(options);
+        this.collection.fetch({
+            processData: true,
+            reset: true
+        });
+        this.collection.on('reset', this.renderCollection);
+        this.collection.on('add', this.addItem);
+        this.itemView = CourseView;
+    }
 
 });
-
 
 var DocumentListView = BaseListView.extend({
 
-    initialize: function (options)
-    {
+    initialize: function(options) {
         _.bindAll(this, 'renderCollection');
-  	
-  	    this.collection = new DocumentCollection(options);
-  	    this.collection.fetch({processData: true, reset: true});
-  	    this.collection.on('reset', this.renderCollection);
-  	    this.item_view = DocumentView;
-	}
-});
 
+        this.collection = new DocumentCollection(options);
+        this.collection.fetch({
+            processData: true,
+            reset: true
+        });
+        this.collection.on('reset', this.renderCollection);
+        this.itemView = DocumentView;
+    }
+});
 
 var StudentListView = BaseListView.extend({
 
-    initialize: function (options)
-    {
+    initialize: function(options) {
         _.bindAll(this, 'renderCollection', 'addItem');
         this.collection = new StudentCollection(options);
-        this.collection.fetch({processData: true, reset: true});
+        this.collection.fetch({
+            processData: true,
+            reset: true
+        });
         this.collection.on('reset', this.renderCollection);
         this.collection.on('add', this.addItem);
-        this.item_view = StudentView;
-	}
-    
-});
+        this.itemView = StudentView;
+    }
 
+});
 
 var TeamListView = BaseListView.extend({
 
-    initialize: function (options)
-    {
+    initialize: function(options) {
         _.bindAll(this, 'renderCollection', 'addItem');
         this.collection = new TeamCollection(options);
-        this.collection.fetch({processData: true, reset: true});
-    	this.collection.on('reset', this.renderCollection);
+        this.collection.fetch({
+            processData: true,
+            reset: true
+        });
+        this.collection.on('reset', this.renderCollection);
         this.collection.on('add', this.addItem);
-        this.item_view = TeamView;
-	}
-    
+        this.itemView = TeamView;
+    }
+
 });
-
-
-
