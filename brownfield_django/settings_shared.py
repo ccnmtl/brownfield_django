@@ -52,9 +52,6 @@ EMAIL_SUBJECT_PREFIX = "[brownfield] "
 LOGIN_REDIRECT_URL = "/"
 
 REGISTRATION_APPLICATION_MODEL = 'registration.Application'
-MIGRATION_MODULES = {
-    'registration': 'brownfield_django.migrations.registration',
-}
 ACCOUNT_ACTIVATION_DAYS = 7
 
 REST_FRAMEWORK = {
