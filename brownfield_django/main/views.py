@@ -205,7 +205,7 @@ class InstructorViewSet(LoggedInMixin, UniqUsernameMixin,
                 new_profile.tmp_passwd = tmpasswd
                 new_profile.save()
                 self.send_instructor_email(instructor, new_profile)
-                serializer = StudentMUserSerializer(instructor)
+                serializer = InstructorSerializer(instructor)
                 return Response(serializer.data, status.HTTP_201_CREATED)
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)

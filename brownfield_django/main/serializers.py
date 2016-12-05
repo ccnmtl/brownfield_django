@@ -83,8 +83,7 @@ class InstructorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'email',
-                  'profile')
+        fields = ('id', 'first_name', 'last_name', 'email', 'profile')
 
     def create(self, validated_data):
         return User.objects.create(**validated_data)
@@ -96,4 +95,8 @@ class InstructorSerializer(serializers.ModelSerializer):
         instance.last_name = validated_data.get(
             'last_name', instance.last_name)
         instance.save()
+
+        self.fields['profile'].update(
+            instance.profile, validated_data.get('profile', {}))
+
         return instance

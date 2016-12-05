@@ -316,10 +316,10 @@ var InstructorView = BaseItemView.extend({
     },
 
     clear: function() {
-        var prof = _.clone(this.model.get('profile'));
-        prof.archive = true;
-        this.model.set('profile', prof);
-        this.model.save();
+        this.model.get('profile').archive = true;
+        this.model.save({
+            wait: true
+        });
     }
 
 });
