@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.conf.urls import include, url, patterns
+from django.conf.urls import include, url
 from django.contrib import admin
 import django.contrib.auth.views
 from django.views.generic import TemplateView
@@ -90,7 +90,7 @@ urlpatterns = [
         'domains': [static_flash_domain, '*.ccnmtl.columbia.edu']
     }),
     url(r'^static/flash/documents/(?P<path>.*)$',
-        'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+        django.views.static.serve, {'document_root': settings.MEDIA_ROOT}),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     url(r'^stats/$', TemplateView.as_view(template_name="stats.html")),
@@ -101,5 +101,4 @@ urlpatterns = [
 
 if settings.DEBUG:
     import debug_toolbar
-    urlpatterns += patterns('',
-                            url(r'^__debug__/', include(debug_toolbar.urls)),)
+    urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls))]
