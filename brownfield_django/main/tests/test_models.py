@@ -62,6 +62,18 @@ class TestUserProfileFactory(TestCase):
         up = UserProfileFactory()
         self.assertEqual(str(up), up.user.username)
 
+    def test_role_admin(self):
+        up = UserProfileFactory(profile_type='AD')
+        self.assertEqual(up.role(), "administrator")
+
+    def test_get_absolute_url(self):
+        up = UserProfileFactory(profile_type='TE')
+        self.assertTrue(up.get_absolute_url().startswith('/ccnmtl/home/'))
+        up = UserProfileFactory(profile_type='AD')
+        self.assertTrue(up.get_absolute_url().startswith('/ccnmtl/home/'))
+        up = UserProfileFactory(profile_type='ST')
+        self.assertEqual(up.get_absolute_url(), '/')
+
 
 class TestAdminProfile(TestCase):
 
