@@ -11,7 +11,7 @@
 <div id="tabs" class="tab-content">
 <div id="day" class="tab-pane active">
 <h2>Traffic</h2>
-<img width="{{WIDTH}}" height="{{HEIGHT}}" src="{{GRAPHITE_BASE}}?width={{WIDTH}}&height={{HEIGHT}}&_salt=1337976132.743&target=ccnmtl.app.counters.nginx.{{app}}.status.200.count&graphOnly=false&hideGrid=true&hideLegend=true">
+<img width="{{WIDTH}}" height="{{HEIGHT}}" src="{{GRAPHITE_BASE}}?width={{WIDTH}}&height={{HEIGHT}}&_salt=1337976132.743&target=ccnmtl.app.counters.nginx.{{app}}.status.200.count&graphOnly=false&hideGrid=true&hideLegend=true&from=-24hours">
 <h2>Response Times (max/mean/min)</h2>
 <img width="{{WIDTH}}" height="{{HEIGHT}}" src="{{GRAPHITE_BASE}}?width={{WIDTH}}&height={{HEIGHT}}&_salt=1337976726.925&target=keepLastValue(ccnmtl.app.timers.{{app}}.view.GET.lower)&target=keepLastValue(ccnmtl.app.timers.{{app}}.view.GET.mean)&target=keepLastValue(ccnmtl.app.timers.{{app}}.view.GET.upper)&hideGrid=true&hideLegend=true&from=-24hours"/>
 <h2>Errors</h2>
