@@ -21,18 +21,18 @@
     <link href="{{STATIC_URL}}css/admindashboard.css" rel="stylesheet">
 {% endcompress %}
 
-	<link rel="shortcut icon" href="{% static '/media/img/favicon.ico' %}" type="image/x-icon" />
+	<link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
 	
 	{% block css %}{% endblock %}
-    <script type="text/javascript" src="{% static '/media/js/libraries/jquery-1.11.1.min.js' %}"></script>
-    <script type="text/javascript" src="{% static '/media/js/libraries/underscore-min.js' %}"></script>
-    <script type="text/javascript" src="{% static '/media/js/libraries/backbone-min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libraries/jquery-1.11.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libraries/underscore-min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libraries/backbone-min.js' %}"></script>
     
-    <script type="text/javascript" src="{% static '/media/js/libraries/swfobject.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libraries/swfobject.js' %}"></script>
     {% comment %}{% endcomment %}
-    <script type="text/javascript" src="{% static '/media/js/utility_scripts/backbone_sync.js' %}"></script>
-    <script type="text/javascript" src="{% static '/media/js/utility_scripts/jquery_sync.js' %}"></script>
-    <script type="text/javascript" src="{% static '/media/js/utility_scripts/utils.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/utility_scripts/backbone_sync.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/utility_scripts/jquery_sync.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/utility_scripts/utils.js' %}"></script>
 
 	{% block feeds %}{% endblock %}
 </head>
@@ -51,7 +51,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-		<a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span><img src="{% static '/media/img/logo_bfa_2.png' %}" /></a>
+		<a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span><img src="{% static 'img/logo_bfa_2.png' %}" /></a>
   </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -153,13 +153,13 @@
 {% block footer %}
   <footer class="footer navbar-fixed-bottom hidden-phone">
     <div class="footer-interior">
-      <a href="http://ccnmtl.columbia.edu" target="_blank"><img src="{% static '/media/img/ccnmtl.png' %}" class="pull-right" /></a>
+      <a href="http://ccnmtl.columbia.edu" target="_blank"><img src="{% static 'img/ccnmtl.png' %}" class="pull-right" /></a>
     </div>
   </footer>
 {% endblock %}
 
 <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
-<script src="{% static '/media/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 
 {% if STAGING_ENV %}
 <div class="alert alert-danger alert-dismissable" style="position: fixed; bottom: 0px;">

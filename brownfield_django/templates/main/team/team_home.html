@@ -28,8 +28,8 @@
   {% endblock %}
       <div class="team-div-info-2">
         <a class="btn btn-default" href="../../../team_csv/{{ request.user.username }}/"><span class="glyphicon glyphicon-usd"></span> Download Team Budget History (CSV)</a>
-        <a class="btn btn-default" href="{% static '/media/flash/documents/slMap.pdf' %}"><span class="glyphicon glyphicon-th"></span> Download Map (PDF)</a>
-        <a class="btn btn-default" href="{% static '/media/flash/documents/contract.pdf' %}"><span class="glyphicon glyphicon-pencil"></span> Download Contract (PDF)</a>
+        <a class="btn btn-default" href="{% static 'flash/documents/slMap.pdf' %}"><span class="glyphicon glyphicon-th"></span> Download Map (PDF)</a>
+        <a class="btn btn-default" href="{% static 'flash/documents/contract.pdf' %}"><span class="glyphicon glyphicon-pencil"></span> Download Contract (PDF)</a>
       </div>
     </div>
       
@@ -44,7 +44,7 @@
                   <a class="btn btn-default pull-right" href="http://brownfieldref.ccnmtl.columbia.edu/" target="_blank">View</a>
                 </li>
               {% else %}
-                  <a class="btn btn-default pull-right" href="{% static '/media/flash/' %}{{document.link}}" target="_blank">View</a>
+                  <a class="btn btn-default pull-right" href="{% static 'flash/' %}{{document.link}}" target="_blank">View</a>
                 </li>
               {% endif %}
           {% empty %}
@@ -72,20 +72,20 @@
     		<param name="allowScriptAccess" value="sameDomain" />
     		<!-- Static -->
       		<param name="movie" 
-      		    value="{% static '/media/flash/bfa.swf' %}" />
+      		    value="{% static 'flash/bfa.swf' %}" />
       		    
       		<param name="quality" value="high" />
       		<param name="bgcolor" value="#4d3e1b" />
       		
       		<!-- Domain & Static Do I need site.domain in front of static url?-->
       		<param name="flashVars" 
-      		    value="serverURL={{site.domain}}../../../team/{{object.pk}}/&amp;resourceRootURL={% static '/media/flash/' %}" />
+      		    value="serverURL={{site.domain}}../../../team/{{object.pk}}/&amp;resourceRootURL={% static 'flash/' %}" />
       		
       		<!-- Static & Plugins & Domain & Static -->
-      		<embed src="{% static '/media/flash/bfa.swf' %}" quality="high" bgcolor="#4d3e1b" width="761" 
+      		<embed src="{% static 'flash/bfa.swf' %}" quality="high" bgcolor="#4d3e1b" width="761" 
       		  height="521" name="bfa" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"
       		  pluginspage="http://www.macromedia.com/go/getflashplayer"
-      		  flashVars="serverURL={{site.domain}}../../../team/{{object.pk}}/&amp;resourceRootURL={% static '/media/flash/' %}" />
+      		  flashVars="serverURL={{site.domain}}../../../team/{{object.pk}}/&amp;resourceRootURL={% static 'flash/' %}" />
     	</object>
 	</div> 
 	</div>
@@ -102,7 +102,7 @@
         <h4 class="modal-title">Contract</h4>{% csrf_token %}
       </div>
       <div class="modal-body">
-        <iframe src="{% static '/media/flash/documents/contract.pdf' %}" style="width:100%; height:100%;"></iframe>
+        <iframe src="{% static 'flash/documents/contract.pdf' %}" style="width:100%; height:100%;"></iframe>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -114,7 +114,7 @@
 {% endif %}
 
   
-  <script type="text/javascript" src="{% static '/media/js/ccnmtljs/sign_contract.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/ccnmtljs/sign_contract.js' %}"></script>
  
 
 {% endblock %}<!-- End Content Block -->
