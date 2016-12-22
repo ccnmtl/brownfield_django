@@ -33,6 +33,14 @@ class TestTeamFactory(TestCase):
         team = TeamFactory(user=UserFactory())
         self.assertEqual(str(team), team.user.username)
 
+    def test_unicode_null_user(self):
+        # `user` is a nullable field, so it needs to handle
+        # that case as well
+        team = TeamFactory()
+        team.user = None
+        team.save()
+        self.assertEqual(str(team), "TeamUser")
+
 
 class TestHistoryFactory(TestCase):
 
