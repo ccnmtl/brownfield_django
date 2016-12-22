@@ -6,8 +6,6 @@
 <ul class="nav nav-tabs">
   <li class="active"><a href="#day" data-toggle="tab">Last 24 Hours</a></li>
   <li><a href="#week" data-toggle="tab">Week</a></li>
-  <li><a href="#month" data-toggle="tab">Month</a></li>
-  <li><a href="#year" data-toggle="tab">Year</a></li>
 </ul>
 
 <div id="tabs" class="tab-content">
@@ -33,25 +31,6 @@
 <img width="{{WIDTH}}" height="{{HEIGHT}}" src="{{GRAPHITE_BASE}}?width={{WIDTH}}&height={{HEIGHT}}&_salt=1337976132.743&target=ccnmtl.app.counters.nginx.{{app}}.status.404.count&target=ccnmtl.app.counters.nginx.{{app}}.status.500.count&graphOnly=false&hideGrid=true&from=-7days">
 </div>
 
-<div id="month" class="tab-pane">
-
-<h2>Traffic</h2>
-<img width="{{WIDTH}}" height="{{HEIGHT}}" src="{{GRAPHITE_BASE}}?width={{WIDTH}}&height={{HEIGHT}}&_salt=1337976132.743&target=ccnmtl.app.counters.{{app}}.response.200&graphOnly=false&hideGrid=true&hideLegend=true&from=-1months">
-<h2>Response Times (max/mean/min)</h2>
-<img width="{{WIDTH}}" height="{{HEIGHT}}" src="{{GRAPHITE_BASE}}?width={{WIDTH}}&height={{HEIGHT}}&_salt=1337976726.925&target=keepLastValue(ccnmtl.app.timers.{{app}}.view.GET.lower)&target=keepLastValue(ccnmtl.app.timers.{{app}}.view.GET.mean)&target=keepLastValue(ccnmtl.app.timers.{{app}}.view.GET.upper)&hideGrid=true&hideLegend=true&from=-1months"/>
-<h2>Errors</h2>
-<img width="{{WIDTH}}" height="{{HEIGHT}}" src="{{GRAPHITE_BASE}}?width={{WIDTH}}&height={{HEIGHT}}&_salt=1337976132.743&target=ccnmtl.app.counters.{{app}}.response.404&target=ccnmtl.app.counters.{{app}}.response.500&graphOnly=false&hideGrid=true&from=-1months">
-</div>
-
-
-<div id="year" class="tab-pane">
-<h2>Traffic</h2>
-<img width="{{WIDTH}}" height="{{HEIGHT}}" src="{{GRAPHITE_BASE}}?width={{WIDTH}}&height={{HEIGHT}}&_salt=1337976132.743&target=ccnmtl.app.counters.{{app}}.response.200&graphOnly=false&hideGrid=true&hideLegend=true&from=-1years">
-<h2>Response Times (max/mean/min)</h2>
-<img width="{{WIDTH}}" height="{{HEIGHT}}" src="{{GRAPHITE_BASE}}?width={{WIDTH}}&height={{HEIGHT}}&_salt=1337976726.925&target=keepLastValue(ccnmtl.app.timers.{{app}}.view.GET.lower)&target=keepLastValue(ccnmtl.app.timers.{{app}}.view.GET.mean)&target=keepLastValue(ccnmtl.app.timers.{{app}}.view.GET.upper)&hideGrid=true&hideLegend=true&from=-1years"/>
-<h2>Errors</h2>
-<img width="{{WIDTH}}" height="{{HEIGHT}}" src="{{GRAPHITE_BASE}}?width={{WIDTH}}&height={{HEIGHT}}&_salt=1337976132.743&target=ccnmtl.app.counters.{{app}}.response.404&target=ccnmtl.app.counters.{{app}}.response.500&graphOnly=false&hideGrid=true&from=-1years">
-</div>
 </div>
 
 {% endwith %}
