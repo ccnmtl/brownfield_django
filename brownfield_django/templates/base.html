@@ -194,7 +194,7 @@ You are impersonating.<br />
     <script src="https://cdn.ravenjs.com/3.8.1/raven.min.js"></script>
     <script>
      Raven.config('https://4fa22cccd4454048be73e05de036bb12@sentry.io/101597', {
-         whitelistUrls: [/brownfield_django\.stage\.ccnmtl\.columbia\.edu/]
+         whitelistUrls: [/brownfield_django\.stage\.ccnmtl\.columbia\.edu/, /brownfield\.ccnmtl\.columbia\.edu/]
      }).install();
      {% if user.is_anonymous %}
      Raven.setUserContext({
