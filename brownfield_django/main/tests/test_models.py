@@ -33,6 +33,14 @@ class TestTeamFactory(TestCase):
         team = TeamFactory(user=UserFactory())
         self.assertEqual(str(team), team.user.username)
 
+    def test_unicode_null_user(self):
+        # `user` is a nullable field, so it needs to handle
+        # that case as well
+        team = TeamFactory()
+        team.user = None
+        team.save()
+        self.assertEqual(str(team), "TeamUser")
+
 
 class TestHistoryFactory(TestCase):
 
@@ -61,6 +69,18 @@ class TestUserProfileFactory(TestCase):
     def test_unicode(self):
         up = UserProfileFactory()
         self.assertEqual(str(up), up.user.username)
+
+    def test_role_admin(self):
+        up = UserProfileFactory(profile_type='AD')
+        self.assertEqual(up.role(), "administrator")
+
+    def test_get_absolute_url(self):
+        up = UserProfileFactory(profile_type='TE')
+        self.assertTrue(up.get_absolute_url().startswith('/ccnmtl/home/'))
+        up = UserProfileFactory(profile_type='AD')
+        self.assertTrue(up.get_absolute_url().startswith('/ccnmtl/home/'))
+        up = UserProfileFactory(profile_type='ST')
+        self.assertEqual(up.get_absolute_url(), '/')
 
 
 class TestAdminProfile(TestCase):
