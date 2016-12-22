@@ -141,12 +141,12 @@ class UserProfile(models.Model):
         return self.profile_type == 'AD'
 
     def role(self):
-        if self.is_student():
-            return "student"
+        if self.is_admin():
+            return "administrator"
         elif self.is_teacher():
             return "faculty"
-        elif self.is_admin():
-            return "administrator"
+        else:
+            return "student"
 
     def get_absolute_url(self):
         if self.is_teacher():
