@@ -217,18 +217,25 @@ class InstructorViewSet(LoggedInMixin, UniqUsernameMixin,
         if up.is_student() or up.is_teacher():
             return Response(status=status.HTTP_403_FORBIDDEN)
         elif up.is_admin():
-            instructor = get_object_or_404(User, pk=pk)
-            serializer = InstructorSerializer(
-                instructor, data=request.data, partial=True)
-            if serializer.is_valid():
-                try:
-                    serializer.save()
-                    return Response(serializer.data, status.HTTP_200_OK)
-                except:
-                    '''For some reason update failed'''
-                    return Response({"success": False})
+            return self.admin_update(request, pk, up)
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
+
+    def admin_update(self, request, pk, up):
+        instructor = get_object_or_404(User, pk=pk)
+        serializer = InstructorSerializer(
+            instructor, data=request.data, partial=True)
+        if serializer.is_valid():
+            try:
+                serializer.save()
+                return Response(serializer.data, status.HTTP_200_OK)
+            except:
+                '''For some reason update failed'''
+                return Response({"success": False})
+        # NOTE: there is no return specified when the serializer
+        #       is not valid. This is probably a bug since
+        #       the method will return `None`, and that's not
+        #       a valid Django response.
 
     def get_queryset(self):
         up = self.request.user.profile
