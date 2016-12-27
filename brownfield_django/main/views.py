@@ -592,12 +592,20 @@ class TeamInfoView(CSRFExemptMixin, View):
             return HttpResponse("<data><response>OK</response></data>")
 
 
+def all_keys_in_dict(d, keys):
+    for k in keys:
+        if k not in d:
+            return False
+    return True
+
+
 class TeamPerformTest(CSRFExemptMixin, View):
     def validate(self, request):
-        for p in ['date', 'cost', 'x', 'y', 'testNumber']:
-            if p not in request.POST:
-                return False
-        for p in ['x', 'y', 'testNumber']:
+        required_fields = ['date', 'cost', 'x', 'y', 'testNumber']
+        int_fields = ['x', 'y', 'testNumber']
+        if not all_keys_in_dict(request.POST, required_fields):
+            return False
+        for p in int_fields:
             try:
                 int(request.POST[p])
             except ValueError:
