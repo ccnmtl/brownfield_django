@@ -1,6 +1,6 @@
 APP=brownfield_django
 JS_FILES=media/js/ccnmtljs
-MAX_COMPLEXITY=7
+MAX_COMPLEXITY=6
 
 all: jenkins
 
