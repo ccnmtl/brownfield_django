@@ -62,4 +62,5 @@ REST_FRAMEWORK = {
     ]
 }
 
+ADMIN_AFFIL = 'tlc.cunix.local:columbia.edu'
 DEBUG_TOOLBAR_PATCH_SETTINGS = False

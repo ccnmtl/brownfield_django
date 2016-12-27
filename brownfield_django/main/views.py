@@ -312,10 +312,9 @@ class HomeView(LoggedInMixin, View):
             url = user_profile.get_absolute_url()
         except UserProfile.DoesNotExist:
             try:
-                '''First see if user is in 'tlc.cunix.local:columbia.edu'
-                group'''
+                '''First see if user is in admin group'''
                 if (request.user.groups.filter(
-                        name='tlc.cunix.local:columbia.edu').count() > 0):
+                        name=settings.ADMIN_AFFIL).count() > 0):
                             up = UserProfile.objects.create(user=request.user,
                                                             profile_type='AD')
                             up.save()
