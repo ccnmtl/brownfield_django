@@ -217,18 +217,25 @@ class InstructorViewSet(LoggedInMixin, UniqUsernameMixin,
         if up.is_student() or up.is_teacher():
             return Response(status=status.HTTP_403_FORBIDDEN)
         elif up.is_admin():
-            instructor = get_object_or_404(User, pk=pk)
-            serializer = InstructorSerializer(
-                instructor, data=request.data, partial=True)
-            if serializer.is_valid():
-                try:
-                    serializer.save()
-                    return Response(serializer.data, status.HTTP_200_OK)
-                except:
-                    '''For some reason update failed'''
-                    return Response({"success": False})
+            return self.admin_update(request, pk, up)
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
+
+    def admin_update(self, request, pk, up):
+        instructor = get_object_or_404(User, pk=pk)
+        serializer = InstructorSerializer(
+            instructor, data=request.data, partial=True)
+        if serializer.is_valid():
+            try:
+                serializer.save()
+                return Response(serializer.data, status.HTTP_200_OK)
+            except:
+                '''For some reason update failed'''
+                return Response({"success": False})
+        # NOTE: there is no return specified when the serializer
+        #       is not valid. This is probably a bug since
+        #       the method will return `None`, and that's not
+        #       a valid Django response.
 
     def get_queryset(self):
         up = self.request.user.profile
@@ -305,19 +312,23 @@ class HomeView(LoggedInMixin, View):
             url = user_profile.get_absolute_url()
         except UserProfile.DoesNotExist:
             try:
-                '''First see if user is in 'tlc.cunix.local:columbia.edu'
-                group'''
-                if (request.user.groups.filter(
-                        name='tlc.cunix.local:columbia.edu').count() > 0):
-                            up = UserProfile.objects.create(user=request.user,
-                                                            profile_type='AD')
-                            up.save()
-                else:
-                    team = Team.objects.get(user=request.user.pk)
-                    url = '/team/home/%s/' % (team.id)
+                '''First see if user is in admin group'''
+                url = self.admin_or_team_url(request.user)
             except:
                 pass
         return HttpResponseRedirect(url)
+
+    def admin_or_team_url(self, user):
+        url = '/'
+        if (user.groups.filter(
+                name=settings.ADMIN_AFFIL).count() > 0):
+                    up = UserProfile.objects.create(user=user,
+                                                    profile_type='AD')
+                    up.save()
+        else:
+            team = Team.objects.get(user=user.pk)
+            url = '/team/home/%s/' % (team.id)
+        return url
 
 
 class ArchiveCourseView(LoggedInMixin, LoggedInMixinAdminInst,
@@ -581,12 +592,20 @@ class TeamInfoView(CSRFExemptMixin, View):
             return HttpResponse("<data><response>OK</response></data>")
 
 
+def all_keys_in_dict(d, keys):
+    for k in keys:
+        if k not in d:
+            return False
+    return True
+
+
 class TeamPerformTest(CSRFExemptMixin, View):
     def validate(self, request):
-        for p in ['date', 'cost', 'x', 'y', 'testNumber']:
-            if p not in request.POST:
-                return False
-        for p in ['x', 'y', 'testNumber']:
+        required_fields = ['date', 'cost', 'x', 'y', 'testNumber']
+        int_fields = ['x', 'y', 'testNumber']
+        if not all_keys_in_dict(request.POST, required_fields):
+            return False
+        for p in int_fields:
             try:
                 int(request.POST[p])
             except ValueError:
