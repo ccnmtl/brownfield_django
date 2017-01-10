@@ -9,7 +9,7 @@ function confirmReactivation() {
               'your course? Doing so will update the teams and student ' +
               'users accordingly and will send the student users new login ' +
               'credentials for the system. Note: the updated student users ' +
-              'will still have access to their original teams login ' +
+              'will still have access to their original team\'s login ' +
               'credentials unless you request it to be changed.</p>');
     jQuery('#confirmAct .modal-footer #conf-act')
         .html('Continue with Re-Activation');
@@ -24,7 +24,7 @@ function confirmActivation() {
               'your course? Doing so will update the teams and student ' +
               'users accordingly and will send the student users new login ' +
               'credentials for the system. Note: the updated student users ' +
-              'will still have access to their original teams login ' +
+              'will still have access to their original team\'s login ' +
               'credentials unless you request it to be changed.</p>');
     jQuery('#confirmAct .modal-footer #conf-act')
         .html('Continue with Activation');
