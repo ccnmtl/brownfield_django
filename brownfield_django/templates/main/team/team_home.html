@@ -27,7 +27,7 @@
       </div>
   {% endblock %}
       <div class="team-div-info-2">
-        <a class="btn btn-default" href="../../../team_csv/{{ request.user.username }}/"><span class="glyphicon glyphicon-usd"></span> Download Team Budget History (CSV)</a>
+        <a class="btn btn-default" href="/team_csv/{{ request.user.id }}/"><span class="glyphicon glyphicon-usd"></span> Download Team Budget History (CSV)</a>
         <a class="btn btn-default" href="{% static 'flash/documents/slMap.pdf' %}"><span class="glyphicon glyphicon-th"></span> Download Map (PDF)</a>
         <a class="btn btn-default" href="{% static 'flash/documents/contract.pdf' %}"><span class="glyphicon glyphicon-pencil"></span> Download Contract (PDF)</a>
       </div>
