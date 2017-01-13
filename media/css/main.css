@@ -20,6 +20,7 @@ body, html {
 }
 
 #outer-container {
+    margin-top: 70px;
 	margin-bottom: 4em;
 }
 
@@ -38,6 +39,7 @@ h3 {
 /* Navigation */
 
 .navbar-default {
+    padding-bottom: 16px;
 	background: -webkit-linear-gradient(#bec960, #d1d642); /* For Safari 5.1 to 6.0 */
 	background: -o-linear-gradient(#bec960, #d1d642); /* For Opera 11.1 to 12.0 */
 	background: -moz-linear-gradient(#bec960, #d1d642); /* For Firefox 3.6 to 15 */
@@ -668,4 +670,8 @@ tr.team {
 	border-bottom: dotted 1px #ddd;
 	padding: 1em;
 	min-width: 100%;
+}
+
+.navbar-brand>img.brownfield-logo {
+    display: inline;
 }
