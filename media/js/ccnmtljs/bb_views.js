@@ -373,7 +373,7 @@ var TeamView = DeletableItemView.extend({
     },
 
     teamHistory: function() {
-        window.open('../../team_csv/' + this.model.get('username') + '/');
+        window.open('/team_csv/' + this.model.get('id') + '/');
     }
 });// End Team View
 
