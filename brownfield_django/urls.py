@@ -85,7 +85,7 @@ urlpatterns = [
     url(r'^team/sign_contract/$', TeamSignContract.as_view()),
     url(r'^site_history/$', TemplateView.as_view(
         template_name="interactive/site_history.html")),
-    url(r'^team_csv/(?P<username>.*)/$', TeamCSV.as_view(), name='team-csv'),
+    url(r'^team_csv/(?P<pk>\d+)/$', TeamCSV.as_view(), name='team-csv'),
     url(r'^crossdomain.xml$', flashpolicies.views.simple, {
         'domains': [static_flash_domain, '*.ccnmtl.columbia.edu']
     }),

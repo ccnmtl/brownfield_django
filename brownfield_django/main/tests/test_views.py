@@ -61,7 +61,7 @@ class TestCSV(TestCase):
 
         self.client.login(username=team.user.username, password='test')
 
-        url = reverse('team-csv', kwargs={'username': team.user.username})
+        url = reverse('team-csv', kwargs={'pk': team.user.pk})
         response = self.client.get(url)
         self.assertTrue(response.status_code, 200)
 

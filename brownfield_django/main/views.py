@@ -22,6 +22,7 @@ from django.template import loader
 from django.template.context import Context
 from django.views.generic import View
 from django.views.generic.detail import DetailView
+from django.utils.text import slugify
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 
@@ -658,8 +659,8 @@ class TeamPerformTest(CSRFExemptMixin, View):
 
 class TeamCSV(LoggedInMixin, View):
 
-    def get(self, request, username):
-        user = get_object_or_404(User, username=username)
+    def get(self, request, pk):
+        user = get_object_or_404(User, pk=pk)
         team = Team.objects.get(user=user)
 
         history = History.objects.filter(team=team)
@@ -670,7 +671,7 @@ class TeamCSV(LoggedInMixin, View):
 
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename=' + \
-            str(user.username) + '_' + 'team.course' + '.csv'
+            slugify(user.username) + '_' + 'team.course' + '.csv'
         writer = csv.writer(response, dialect='excel')
         writer.writerow(columns)
 
