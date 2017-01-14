@@ -1,40 +1,40 @@
 {% load static %}
 {% load compress %}
+{% load bootstrap3 %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
 <head>
-	<meta charset="utf-8" />
-	<title>Brownfield Action {% block title %}{% endblock %}</title>
-	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	  <meta name="description" content="djangoquizblock3">
-	  <meta name="author" content="CCNMTL">
+    <meta charset="utf-8" />
+    <title>Brownfield Action {% block title %}{% endblock %}</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="djangoquizblock3">
+      <meta name="author" content="CCNMTL">
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
   <script src="../assets/js/html5shiv.js"></script>
   <script src="../assets/js/respond.min.js"></script>
 <![endif]-->
+      {% bootstrap_css %}
 {% compress css %}
-    <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{STATIC_URL}}bootstrap/css/bootstrap-glyphicons.css" rel="stylesheet">
     <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
     <link href="{{STATIC_URL}}css/admindashboard.css" rel="stylesheet">
 {% endcompress %}
 
-	<link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
-	
-	{% block css %}{% endblock %}
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
+
+    {% block css %}{% endblock %}
     <script type="text/javascript" src="{% static 'js/libraries/jquery-1.11.3.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/underscore-min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/backbone-min.js' %}"></script>
-    
+
     <script type="text/javascript" src="{% static 'js/libraries/swfobject.js' %}"></script>
     {% comment %}{% endcomment %}
     <script type="text/javascript" src="{% static 'js/utility_scripts/backbone_sync.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/utility_scripts/jquery_sync.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/utility_scripts/utils.js' %}"></script>
 
-	{% block feeds %}{% endblock %}
+    {% block feeds %}{% endblock %}
 </head>
 
 <body class="{% block bodyclass %}{% endblock %}" id="{% block bodyid %}{% endblock %}">
@@ -51,7 +51,11 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-		<a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span><img src="{% static 'img/logo_bfa_2.png' %}" /></a>
+    <a class="navbar-brand" href="/">
+        <span class="glyphicon glyphicon-home"></span>
+        <img class="brownfield-logo" width="500" height="42" src="{% static 'img/logo_bfa_2.png' %}" />
+    </a>
+    <div class="clearfix"></div>
   </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -69,7 +73,7 @@
         {% block usernav %}
             {% if request.user.is_anonymous %}
             {% else %}
-            Logged in as 
+            Logged in as
               {% if request.user.last_name %}
                   {{request.user.first_name}} {{request.user.last_name}}
               {% else %}
@@ -84,11 +88,12 @@
        </p>
 
     </ul>
-  </div>
+  </div><!-- end .navbar-header -->
   </div>
 </nav>
 
 {% endblock %}
+<div class="clearfix"></div>
 <div class="wrap">
   <div class="container" id="outer-container">
 {% block masthead %}
@@ -100,9 +105,9 @@
 <div class="loginbox-container columbia">
     <div class="loginbox">
         <div class="content">
-            
+
             <hr class="seperator" />
-        
+
         {% if login_form.errors %}
             <p class="errornote">
                 <span>
@@ -111,7 +116,7 @@
                 Please try again. Note that both username and password are case-sensitive.
             </p>
         {% endif %}
-        
+
             <p>If you have a guest account...</p>
             <form id="login-local" name="login_local" method="post" action="/accounts/login/">
                 {% csrf_token %}
@@ -120,15 +125,15 @@
                         <label for="id_username">Username:</label>
                         {{ login_form.username }}
                     </div><!-- fieldwrapper -->
-                
+
                     <div class="fieldwrapper">
                         <label for="id_password">Password:</label>
                         {{ login_form.password }}
                     </div><!-- fieldwrapper -->
-                </div>      
+                </div>
                 <input class="regbutton" type="button" value="Guest Log In" {% if login_form.errors %}style="display: none"{% endif %}
                     onclick="jQuery('.login-local-form').show(); jQuery(this).hide(); return false;"/>
-                <input class="regbutton login-local-form" type="submit" value="Log In" {% if not login_form.errors %}style="display: none;"{% endif %} />                        
+                <input class="regbutton login-local-form" type="submit" value="Log In" {% if not login_form.errors %}style="display: none;"{% endif %} />
                 <input type="hidden" name="next" value="{{ request.get_full_path }}" />
             </form>
         </div>
@@ -149,7 +154,7 @@
 </div>
 </div>
 <div class="clearfooter"></div>
-</div>
+</div><!-- end .wrap -->
 {% block footer %}
   <footer class="footer navbar-fixed-bottom hidden-phone">
     <div class="footer-interior">
@@ -159,7 +164,7 @@
 {% endblock %}
 
 <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
-<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+{% bootstrap_javascript %}
 
 {% if STAGING_ENV %}
 <div class="alert alert-danger alert-dismissable" style="position: fixed; bottom: 0px;">

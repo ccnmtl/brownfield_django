@@ -27,6 +27,7 @@ INSTALLED_APPS += [  # noqa
     'sorl.thumbnail',
     'rest_framework',
     'typogrify',
+    'bootstrap3',
     'bootstrapform',
     'django_extensions',
     'crispy_forms',
