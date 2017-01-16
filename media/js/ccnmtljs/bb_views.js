@@ -445,6 +445,7 @@ var StudentView = DeletableItemView.extend({
 var BaseListView = Backbone.View.extend({
 
     renderCollection: function() {
+        this.$el.html('');
         this.collection.each(function(model) {
             this.$el.append(new this.itemView({
                 model: model
