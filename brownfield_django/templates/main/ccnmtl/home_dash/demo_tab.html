@@ -1,6 +1,21 @@
 {% load static %}
 <div class="tab-pane" id="demo">
-    {% comment %}{% endcomment %}
+    <div class='course-header'>
+        <h3>PLAY BROWNFIELD ACTION</h3>
+        <a class="btn btn-info btn-sm pull-right" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Help
+        </a>
+        <div class="clearfix"></div>
+        <div class="collapse" id="collapseExample">
+          <div class="well">
+            The Adobe® Flash® Player is required to run the Brownfield Action 
+            interactive experience. For more information on installing
+            and enabling Flash in your browser, please
+            refer to the Adobe <a href="https://helpx.adobe.com/flash-player.html" target="_blank">Flash Player Help</a> page. 
+          </div>
+        </div>
+    </div>
+
 	<br />
 	<div id="main_content">
     	 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
@@ -10,20 +25,19 @@
     		<!-- Static -->
       		<param name="movie" 
       		    value="{% static 'flash/bfa.swf' %}" />
-      		    
+
       		<param name="quality" value="high" />
       		<param name="bgcolor" value="#4d3e1b" />
-      		
+
       		<!-- Domain & Static Do I need site.domain in front of static url?-->
       		<param name="flashVars" 
       		    value="serverURL={{site.domain}}../../../demo/&amp;resourceRootURL={% static 'flash/' %}" />
-      		
+
       		<!-- Static & Plugins & Domain & Static -->
       		<embed src="{% static 'flash/bfa.swf' %}" quality="high" bgcolor="#4d3e1b" width="761" 
       		  height="521" name="bfa" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"
       		  pluginspage="http://www.macromedia.com/go/getflashplayer"
       		  flashVars="serverURL={{site.domain}}../../../demo/&amp;resourceRootURL={% static 'flash/' %}" />
     	</object>
-	</div> 
-	
+	</div>
 </div> <!-- tab-pane -->
