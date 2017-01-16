@@ -44,8 +44,7 @@
             </div> <!-- End .accordion -->
         </div> <!-- End course from area -->
 
-        <div class="course-list">
-        </div>
+        <div class="course-list"></div>
     </div> <!-- End .course-creation-area -->
 
 
@@ -56,32 +55,31 @@
             <h3>
                 Instructors
             </h3>
-                
             <button class="btn btn-default add-instructor-btn pull-right"><span class="glyphicon glyphicon-plus"></span> Add New Instructor</button>
         </div>
         <div class='instructor-form-area'>
-        <form class="add-instructor-frm" method="" action="" style="display: none;">
-            {% csrf_token %}
-            <p> <b>Add New Instructor: </b></p>
-            <span class="inst-first-name">
-                <label>First Name: </label>
-                <input type="text" placeholder="First Name: " class="instructor-frst-name" /> 
-            </span>
-            <span class="inst-last-name">
-                <label>Last Name: </label>
-                <input type="text" placeholder="Last Name: " class="instructor-last-name" /> 
-            </span>
-            <span class="inst-email">
-                <label>Email: </label>
-                <input type="text" placeholder="Email: " class="instructor-email" />
-            </span>
-            <button class='btn btn-default btn-xs pull-right save-instructor' type="button">
-                Save Instructor
-            </button>
-            <button class='btn btn-default btn-xs pull-right cncl-add-inst' type="button">
+            <form class="add-instructor-frm form-inline" method="post" action="" style="display: none;">
+                {% csrf_token %}
+                <h4>Add New Instructor</h4>
+                <div class="form-group inst-first-name">
+                    <label>First Name: </label>
+                    <input type="text" class="instructor-frst-name" /> 
+                </div>
+                <div class="form-group inst-last-name">
+                    <label>Last Name: </label>
+                    <input type="text" class="instructor-last-name" /> 
+                </div>
+                <div class="form-group inst-email">
+                    <label>Email: </label>
+                    <input type="text" class="instructor-email" />
+                </div>
+                <button class='btn btn-default btn-xs cncl-add-inst' type="button">
                     Cancel
-            </button>
-        </form>
+                </button>
+                <button class='btn btn-primary btn-xs save-instructor' type="button">
+                    Save
+                </button>
+            </form>
         </div> <!-- End Instructor Form Area -->
         <div class="instructor-list" >
             <!-- All instructors of courses will be inserted here -->
