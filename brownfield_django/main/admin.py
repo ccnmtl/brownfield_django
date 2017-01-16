@@ -21,9 +21,13 @@ class UserProfileAdmin(admin.ModelAdmin):
     list_display = ['user', 'role']
 
 
+class DocumentAdmin(admin.ModelAdmin):
+    list_display = ['course', 'name', 'link', 'visible']
+
+
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(Course)
-admin.site.register(Document)
+admin.site.register(Document, DocumentAdmin)
 admin.site.register(Team)

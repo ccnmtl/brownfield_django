@@ -68,32 +68,16 @@ var DeletableItemView = BaseItemView.extend({
 });
 
 /* Start with Single Element Views */
-
 var DocumentView = BaseItemView.extend({
 
     initialize: function(options) {
-        _.bindAll(this, 'changeDocument', 'viewDocument');
-        this.stagesite =
-            'https://ccnmtl-brownfield-static-stage.s3.amazonaws.com/media/';
-        this.prodsite =
-            'https://ccnmtl-brownfield-static-prod.s3.amazonaws.com/media/';
+        _.bindAll(this, 'changeDocument');
         this.listenTo(this.model, 'change', this.render);
         this.template = _.template(jQuery('#document-list-template').html());
     },
 
     events: {
-        'click .chng-dct': 'changeDocument',
-        'click .document-click': 'viewDocument'
-    },
-
-    isStaging: function() {
-        var checkdomain = 'stage';
-        return document.domain.indexOf(checkdomain);
-    },
-
-    isProduction: function() {
-        var checkdomain = 'prod';
-        return document.domain.indexOf(checkdomain);
+        'click .chng-dct': 'changeDocument'
     },
 
     changeDocument: function() {
@@ -119,33 +103,6 @@ var DocumentView = BaseItemView.extend({
             });
         }
     },
-
-    viewDocument: function() {
-        if (this.model.get('name') ===
-                'Link: Brownfield Action Reference Site') {
-            document.location = 'http://brownfieldref.ccnmtl.columbia.edu/';
-        } else if ((this.model.get('name') ===
-            'Video: Press Conference Proceedings in Moraine Township') ||
-            (this.model.get('name') ===
-             'Video: Esker County Community Television: O\'Ryan\'s Express')) {
-            if (this.isStaging) {
-                window.open(this.stagesite + this.model.get('link'));
-            } else if (this.isProduction) {
-                window.open(this.prodsite + this.model.get('link'));
-            } else {
-                window.open('../../media/' + this.model.get('link'));
-            }
-        } else {
-            if (this.isStaging) {
-                window.open(this.stagesite + 'flash/' +
-                            this.model.get('link'));
-            } else if (this.isProduction) {
-                window.open(this.prodsite + 'flash/' + this.model.get('link'));
-            } else {
-                window.open('../../media/flash/' + this.model.get('link'));
-            }
-        }
-    }
 });
 
 var CourseView = BaseItemView.extend({
@@ -459,7 +416,6 @@ var BaseListView = Backbone.View.extend({
             model: model
         }).render().el);
     }
-
 });
 
 var InstructorListView = BaseListView.extend({
