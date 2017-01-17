@@ -675,3 +675,16 @@ tr.team {
 .navbar-brand>img.brownfield-logo {
     display: inline;
 }
+
+.instructor-form-area {
+    margin-bottom: 10px
+}
+
+.add-instructor-frm div {
+    height: 50px;
+    vertical-align: top;
+    margin-right: 8px;
+}
+.add-instructor-frm button {
+    vertical-align: top;
+}

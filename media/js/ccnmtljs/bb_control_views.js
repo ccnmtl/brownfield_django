@@ -56,7 +56,8 @@ var BaseManagementView = Backbone.View.extend({
         if (check === null || check === '') {
             if ((jQuery(errorElement).has('.is-empty').length) === 0) {
                 jQuery(errorElement).append(
-                    '<b class="error-msg is-empty" style="color:red">' +
+                    '<b class="error-msg is-empty" ' +
+                    'style="color:red; display: block">' +
                     String(errorMsg) + '</b>');
             }
             return true;
@@ -224,9 +225,13 @@ var ManageInstructorsView = BaseManagementView.extend({
         this.addForm = jQuery('.add-instructor-frm');
         this.addBtn = jQuery('.add-instructor-btn');
     },
-
+    findInstructor: function(email) {
+        var attr = {'email': email};
+        return this.instructorCollectionView.collection.findWhere(attr);
+    },
     validAddForm: function() {
         var isValid = true;
+        this.$el.find('b.error-msg').remove();
 
         if (this.isEmpty('.add-instructor-frm input.instructor-frst-name',
                          '.inst-first-name', 'Please enter a first name.')) {
@@ -236,65 +241,64 @@ var ManageInstructorsView = BaseManagementView.extend({
                          '.inst-last-name', 'Please enter a last name.')) {
             isValid = false;
         }
+
+        var email = jQuery('.add-instructor-frm input.instructor-email').val();
         if (this.isEmpty('.add-instructor-frm input.instructor-email',
                          '.inst-email', 'Please enter a email address.')) {
             isValid = false;
-        }
-        // check whatever they put for email looks something like an actual
-        // address
-        else if ((jQuery('.add-instructor-frm input.instructor-email')
-                 .val().length) !== 0) {
-            if ((jQuery('.add-instructor-frm input.instructor-email')
-                .val().indexOf('@')  === -1) &&
-               (jQuery('.add-instructor-frm input.instructor-email')
-                .val().indexOf('.') === -1)) {
-                isValid = false;
-                if ((jQuery('.inst-email').has('b').length) === 0) {
-                    jQuery('.inst-email')
-                        .append('<b class="error-msg" style="color:red">' +
-                                'Please enter a valid email.</b>');
-                }
-            }
+        } else if (email.indexOf('@') === -1 || email.indexOf('.') === -1) {
+            isValid = false;
+            jQuery('.inst-email')
+                .append('<b class="error-msg" style="color:red">' +
+                        'Please enter a valid email.</b>');
+        } else if (this.findInstructor(email) !== undefined) {
+            isValid = false;
+            jQuery('.instructor-form-area')
+                .append('<b class="error-msg" style="color:red">' +
+                    'An instructor with this email already exists.</b>');
         }
         return isValid;
     },
     addInstructor: function(e) {
         e.stopPropagation();
 
-        if (this.validAddForm()) {
-            this.instructorCollectionView.collection.create({
-                first_name: jQuery('.instructor-frst-name').val(),
-                last_name: jQuery('.instructor-last-name').val(),
-                email: jQuery('.instructor-email').val()
-            }, {
-                success: function(model, response) {
-                    jQuery('.add-instructor-frm').hide();
-                    jQuery('.add-instructor-btn').show();
-                    jQuery('.instructor-frst-name').val('');
-                    jQuery('.instructor-last-name').val('');
-                    jQuery('.instructor-email').val('');
-                    if (jQuery('.add-instructor-frm')
-                       .has('.error-msg').length !== 0) {
-                        jQuery('.add-instructor-frm .error-msg').remove();
-                    }
-                    if (jQuery('.add-instructor-frm')
-                       .has('.form-error').length !== 0) {
-                        jQuery('.add-instructor-frm .form-error').remove();
-                    }
-
-                },
-                error: function(model, response) {
-                    if ((jQuery('.add-instructor-frm')
-                        .has('.form-error').length) === 0) {
-                        jQuery('.add-instructor-frm')
-                            .append('<p class="error-msg form-error">' +
-                                    'Something went wrong, ' +
-                                    'please try again.</p>');
-                    }
-                },
-                wait: true
-            }); // end create
+        if (!this.validAddForm()) {
+            return false;
         }
+
+        this.instructorCollectionView.collection.create({
+            first_name: jQuery('.instructor-frst-name').val(),
+            last_name: jQuery('.instructor-last-name').val(),
+            email: jQuery('.instructor-email').val()
+        }, {
+            success: function(model, response) {
+                jQuery('.add-instructor-frm').hide();
+                jQuery('.add-instructor-btn').show();
+                jQuery('.instructor-frst-name').val('');
+                jQuery('.instructor-last-name').val('');
+                jQuery('.instructor-email').val('');
+                if (jQuery('.add-instructor-frm')
+                   .has('.error-msg').length !== 0) {
+                    jQuery('.add-instructor-frm .error-msg').remove();
+                }
+                if (jQuery('.add-instructor-frm')
+                   .has('.form-error').length !== 0) {
+                    jQuery('.add-instructor-frm .form-error').remove();
+                }
+
+            },
+            error: function(model, response) {
+                if ((jQuery('.add-instructor-frm')
+                    .has('.form-error').length) === 0) {
+                    jQuery('.add-instructor-frm')
+                        .append('<p class="error-msg form-error">' +
+                                'Something went wrong, ' +
+                                'please try again.</p>');
+                }
+            },
+            wait: true
+        }); // end create
+
         return false;
     }
 });
