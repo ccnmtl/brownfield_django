@@ -14,7 +14,7 @@
 
     {% comment %}List Templates{% endcomment %}
     <script type="text/template" id="document-list-template">
-        <a href="<% link %>" target="_blank"><%= name %></a>
+        <a href="<%= link %>" target="_blank"><%= name %></a>
         <% if (visible) { %>
             <button class="btn btn-xs btn-danger chng-dct pull-right">Hide</button>
         <% } else { %>
