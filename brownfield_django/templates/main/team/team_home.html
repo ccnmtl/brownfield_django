@@ -5,7 +5,7 @@
   <h2>
     {{object.course}}
   </h2>
-  
+
   {% block course_message %}
     <div class="course-message">
       <h3>Course Message</h3>
@@ -15,7 +15,7 @@
 
   {% block team_info %}
     <div class="team-div">
-      <h3>Team Information</h3> 
+      <h3>Team Information</h3>
 
       <div class="team-div-info-1">
         <b>Team Name: </b> {{object.user.username}} <br />
@@ -60,10 +60,10 @@
         <div class="clearfix"></div>
         <div class="collapse" id="collapseExample">
           <div class="well">
-            The Adobe® Flash® Player is required to run the Brownfield Action 
+            The Adobe® Flash® Player is required to run the Brownfield Action
             interactive experience. For more information on installing
             and enabling Flash in your browser, please
-            refer to the Adobe <a href="https://helpx.adobe.com/flash-player.html" target="_blank">Flash Player Help</a> page. 
+            refer to the Adobe <a href="https://helpx.adobe.com/flash-player.html" target="_blank">Flash Player Help</a> page.
           </div>
         </div>
     </div>
@@ -73,37 +73,46 @@
     <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#contractModal">
       Sign Contract
     </button>
-  </p> 
+  </p>
  {% endif %}
   <div class="show-game" {% if object.signed_contract == False %} style="display:none"{% endif %}>
     <div class="play-brownfield">
     {% block brownfield %}
-    	<div id="main_content">
-    	 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
-	      codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0"
-	      width="761" height="521" id="bfa" align="middle">
-    		<param name="allowScriptAccess" value="sameDomain" />
-    		<!-- Static -->
-      		<param name="movie" 
-      		    value="{% static 'flash/bfa.swf' %}" />
-      		    
-      		<param name="quality" value="high" />
-      		<param name="bgcolor" value="#4d3e1b" />
-      		
-      		<!-- Domain & Static Do I need site.domain in front of static url?-->
-      		<param name="flashVars" 
-      		    value="serverURL={{site.domain}}../../../team/{{object.pk}}/&amp;resourceRootURL={% static 'flash/' %}" />
-      		
-      		<!-- Static & Plugins & Domain & Static -->
-      		<embed src="{% static 'flash/bfa.swf' %}" quality="high" bgcolor="#4d3e1b" width="761" 
-      		  height="521" name="bfa" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"
-      		  pluginspage="http://www.macromedia.com/go/getflashplayer"
-      		  flashVars="serverURL={{site.domain}}../../../team/{{object.pk}}/&amp;resourceRootURL={% static 'flash/' %}" />
-    	</object>
-	</div> 
-	</div>
+        <div id="main_content">
+         <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+          codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0"
+          width="761" height="521" id="bfa" align="middle">
+            <param name="allowScriptAccess" value="sameDomain" />
+            <!-- Static -->
+            <param name="movie"
+                value="{% static 'flash/bfa.swf' %}" />
+
+            <param name="quality" value="high" />
+            <param name="bgcolor" value="#4d3e1b" />
+
+            <!-- Domain & Static Do I need site.domain in front of static url?-->
+            <param name="flashVars"
+                value="serverURL={{site.domain}}../../../team/{{object.pk}}/&amp;resourceRootURL={% static 'flash/' %}" />
+
+            <!-- Static & Plugins & Domain & Static -->
+            <embed src="{% static 'flash/bfa.swf' %}" quality="high" bgcolor="#4d3e1b" width="761"
+              height="521" name="bfa" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"
+              pluginspage="http://www.macromedia.com/go/getflashplayer"
+              flashVars="serverURL={{site.domain}}../../../team/{{object.pk}}/&amp;resourceRootURL={% static 'flash/' %}" />
+        </object>
+    </div>
+    </div>
+    <div>
+        <h3>Document Downloads</h3>
+        <ul>
+            <li><a href="{% static '/flash/documents/slCatalog.pdf' %}">Self-Lume catalog</a></li>
+            <li><a href="{% static '/flash/documents/slBrochure.pdf' %}">Self-Lume brochure</a></li>
+            <li><a href="{% static '/flash/documents/slMap.pdf' %}">Self-Lume property map</a></li>
+            <li><a href="{% static '/flash/documents/contract.pdf' %}">Copy of contract text</a></li>
+        </ul>
+    </div>
   </div><!-- End show game -->
-	<br />
+    <br />
     {% endblock %}
 
 {% if object.signed_contract == False %}
@@ -126,8 +135,8 @@
 </div><!-- /.modal -->
 {% endif %}
 
-  
+
   <script type="text/javascript" src="{% static 'js/ccnmtljs/sign_contract.js' %}"></script>
- 
+
 
 {% endblock %}<!-- End Content Block -->

@@ -1,6 +1,5 @@
-li
-{
-  list-style-type: none;
+#team_table li {
+    list-style-type: none;
 }
 
 
