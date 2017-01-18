@@ -312,23 +312,21 @@ class HomeView(LoggedInMixin, View):
             user_profile = UserProfile.objects.get(user=request.user.pk)
             url = user_profile.get_absolute_url()
         except UserProfile.DoesNotExist:
-            try:
-                '''First see if user is in admin group'''
-                url = self.admin_or_team_url(request.user)
-            except:
-                pass
+            '''First see if user is in admin group'''
+            url = self.admin_or_team_url(request.user)
         return HttpResponseRedirect(url)
 
     def admin_or_team_url(self, user):
         url = '/'
-        if (user.groups.filter(
-                name=settings.ADMIN_AFFIL).count() > 0):
-                    up = UserProfile.objects.create(user=user,
-                                                    profile_type='AD')
-                    up.save()
+        if (user.groups.filter(name=settings.ADMIN_AFFIL).exists()):
+            up = UserProfile.objects.create(user=user, profile_type='AD')
+            up.save()
         else:
-            team = Team.objects.get(user=user.pk)
-            url = '/team/home/%s/' % (team.id)
+            try:
+                team = Team.objects.get(user=user.pk)
+                url = '/team/home/%s/' % (team.pk)
+            except Team.DoesNotExist:
+                pass
         return url
 
 
