@@ -323,16 +323,6 @@ p.navbar-text .btn {
 	min-width: 100%;
 }
 
-.document-click {
-	float: left;
-}
-
-.document-click .document-name {
-    font-weight: bold;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
 /*Instructions */
 
 .create-teams {

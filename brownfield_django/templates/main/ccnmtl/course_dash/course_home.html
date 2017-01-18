@@ -14,16 +14,12 @@
 
     {% comment %}List Templates{% endcomment %}
     <script type="text/template" id="document-list-template">
-        <div class="document-click"><span class="document-name"><%= name %></span></div>
-        <%
-            if(visible)
-            {
-                %><button class="btn btn-xs btn-danger chng-dct pull-right">Hide</button><%
-            }else
-            {
-                %><button class="btn btn-xs btn-success chng-dct pull-right">Show</button><%
-            }
-        %>
+        <a href="<% link %>" target="_blank"><%= name %></a>
+        <% if (visible) { %>
+            <button class="btn btn-xs btn-danger chng-dct pull-right">Hide</button>
+        <% } else { %>
+            <button class="btn btn-xs btn-success chng-dct pull-right">Show</button>
+        <% } %>
     </script>
 
     <script type="text/template" id="student-list-template">
@@ -39,7 +35,6 @@
         </div>
         </div>
         <div class="student-buttons">
-            
             <button class="btn btn-xs btn-default pull-right rm-st"><span class="glyphicon glyphicon-remove"></span> Remove Student From Course </button>
             <button class="btn btn-xs btn-default pull-right ed-st"><span class="glyphicon glyphicon-pencil"></span> Edit Student </button>
         </div>

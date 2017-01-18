@@ -16,7 +16,7 @@
   {% block team_info %}
     <div class="team-div">
       <h3>Team Information</h3> 
-        
+
       <div class="team-div-info-1">
         <b>Team Name: </b> {{object.user.username}} <br />
         <b>Course: </b> {{object.course}} <br />
@@ -27,26 +27,24 @@
       </div>
   {% endblock %}
       <div class="team-div-info-2">
-        <a class="btn btn-default" href="/team_csv/{{ request.user.id }}/"><span class="glyphicon glyphicon-usd"></span> Download Team Budget History (CSV)</a>
-        <a class="btn btn-default" href="{% static 'flash/documents/slMap.pdf' %}"><span class="glyphicon glyphicon-th"></span> Download Map (PDF)</a>
-        <a class="btn btn-default" href="{% static 'flash/documents/contract.pdf' %}"><span class="glyphicon glyphicon-pencil"></span> Download Contract (PDF)</a>
+        <a class="btn btn-default" href="/team_csv/{{ request.user.id }}/">
+            <span class="glyphicon glyphicon-usd"></span> Download Team Budget History (CSV)
+        </a>
+        <a class="btn btn-default" href="{% static 'flash/documents/slMap.pdf' %}" target="_blank">
+            <span class="glyphicon glyphicon-th"></span> Download Map (PDF)
+        </a>
+        <a class="btn btn-default" href="{% static 'flash/documents/contract.pdf' %}" target="_blank">
+            <span class="glyphicon glyphicon-pencil"></span> Download Contract (PDF)
+        </a>
       </div>
     </div>
-      
+
   {% block course_documents %}
     <div class="course-div">
       <h3>Course Documents</h3>
         <div class="course-docs">
           {% for document in document_list %}
-            <li>
-              {{ document.name }}
-              {% if document.name == "Link: Brownfield Action Reference Site" %}
-                  <a class="btn btn-default pull-right" href="http://brownfieldref.ccnmtl.columbia.edu/" target="_blank">View</a>
-                </li>
-              {% else %}
-                  <a class="btn btn-default pull-right" href="{% static 'flash/' %}{{document.link}}" target="_blank">View</a>
-                </li>
-              {% endif %}
+              <li><a href="{{document.link}}" target="_blank">{{ document.name }}</a></li>
           {% empty %}
               <li>Sorry, no documents have been made available yet.</li>
           {% endfor %}
@@ -69,6 +67,7 @@
           </div>
         </div>
     </div>
+
  {% if object.signed_contract == False %}
   <p class="contract-btn">You must sign the contract to play the game.
     <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#contractModal">

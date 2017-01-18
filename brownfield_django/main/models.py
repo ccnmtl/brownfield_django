@@ -1,8 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import User
-from brownfield_django.main.document_links import NAME_1, \
-    LINK_1, NAME_2, LINK_2, NAME_3, LINK_3, NAME_4, LINK_4, \
-    NAME_5, LINK_5, NAME_6, LINK_6, NAME_7, LINK_7, NAME_8, LINK_8
+from django.db import models
+
+from brownfield_django.main.document_links import all_documents
 
 
 PROFILE_CHOICES = (
@@ -31,25 +30,10 @@ class Course(models.Model):
     def save(self, *args, **kwargs):
         super(Course, self).save(*args, **kwargs)
         if self.document_set.count() == 0:
-            d1 = Document.objects.create(course=self, name=NAME_1,
-                                         link=LINK_1)
-            d2 = Document.objects.create(course=self, name=NAME_2,
-                                         link=LINK_2)
-            d3 = Document.objects.create(course=self, name=NAME_3,
-                                         link=LINK_3)
-            d4 = Document.objects.create(course=self, name=NAME_4,
-                                         link=LINK_4)
-            d5 = Document.objects.create(course=self, name=NAME_5,
-                                         link=LINK_5)
-            d6 = Document.objects.create(course=self, name=NAME_6,
-                                         link=LINK_6)
-            d7 = Document.objects.create(course=self, name=NAME_7,
-                                         link=LINK_7)
-            d8 = Document.objects.create(course=self, name=NAME_8,
-                                         link=LINK_8)
-            '''This is completely redundant but flake8 is going to
-            whine about it...'''
-            self.document_set.add(d1, d2, d3, d4, d5, d6, d7, d8)
+            for doc in all_documents:
+                d = Document.objects.create(
+                    course=self, name=doc['name'], link=doc['link'])
+                self.document_set.add(d)
 
     def get_students(self):
         return self.userprofile_set.filter(profile_type='ST')
@@ -73,6 +57,9 @@ class Document(models.Model):
     name = models.CharField(max_length=255, default='')
     link = models.CharField(max_length=255, default='')
     visible = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['name']
 
 
 class Team(models.Model):
