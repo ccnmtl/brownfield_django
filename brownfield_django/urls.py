@@ -89,8 +89,6 @@ urlpatterns = [
     url(r'^crossdomain.xml$', flashpolicies.views.simple, {
         'domains': [static_flash_domain, '*.ccnmtl.columbia.edu']
     }),
-    url(r'^static/flash/documents/(?P<path>.*)$',
-        django.views.static.serve, {'document_root': settings.MEDIA_ROOT}),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     url(r'^stats/$', TemplateView.as_view(template_name="stats.html")),
