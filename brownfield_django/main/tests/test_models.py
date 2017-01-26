@@ -1,74 +1,74 @@
 from django.test import TestCase
 
-from factories import UserFactory, UserProfileFactory, \
-    CourseFactory, HistoryFactory, TeamFactory, \
-    PerformedTestFactory, InformationFactory
+from factories import (
+    UserFactory, UserProfileFactory,
+    CourseFactory, HistoryFactory, TeamFactory,
+    PerformedTestFactory, InformationFactory,
+    DocumentFactory
+)
 
 
-'''Very basic model tests...'''
+class UserTest(TestCase):
+    def setUp(self):
+        self.u = UserFactory()
 
-
-class TestUserFactory(TestCase):
-
-    def test_unicode(self):
-        user = UserFactory()
-        self.assertEqual(str(user), user.username)
-
-
-class TestCourseFactory(TestCase):
+    def test_is_valid_from_factory(self):
+        self.u.full_clean()
 
     def test_unicode(self):
-        course = CourseFactory()
-        self.assertEqual(str(course), course.name)
+        self.assertEqual(str(self.u), self.u.username)
+
+
+class CourseTest(TestCase):
+    def setUp(self):
+        self.c = CourseFactory()
+
+    def test_is_valid_from_factory(self):
+        self.c.full_clean()
+
+    def test_unicode(self):
+        self.assertEqual(str(self.c), self.c.name)
 
     def test_get_student_users_empty(self):
-        course = CourseFactory()
-        r = course.get_student_users()
+        r = self.c.get_student_users()
         self.assertEqual(r.count(), 0)
 
 
-class TestTeamFactory(TestCase):
+class TeamTest(TestCase):
+    def setUp(self):
+        self.t = TeamFactory()
+
+    def test_is_valid_from_factory(self):
+        self.t.full_clean()
 
     def test_unicode(self):
-        team = TeamFactory(user=UserFactory())
-        self.assertEqual(str(team), team.user.username)
+        self.assertEqual(str(self.t), self.t.user.username)
 
     def test_unicode_null_user(self):
         # `user` is a nullable field, so it needs to handle
         # that case as well
-        team = TeamFactory()
-        team.user = None
-        team.save()
-        self.assertEqual(str(team), "TeamUser")
+        self.t.user = None
+        self.t.save()
+        self.assertEqual(str(self.t), "TeamUser")
 
 
-class TestHistoryFactory(TestCase):
+class DocumentTest(TestCase):
+    def setUp(self):
+        self.d = DocumentFactory()
 
-    def test_unicode(self):
-        his = HistoryFactory()
-        self.assertEqual(str(his), '%s - %s' % (his.description, his.team))
-
-
-class TestPerformedTestFactory(TestCase):
-
-    def test_unicode(self):
-        pt = PerformedTestFactory()
-        self.assertEqual(str(pt), '%s - %s' % (pt.testDetails, pt.paramString))
+    def test_is_valid_from_factory(self):
+        self.d.full_clean()
 
 
-class TestInformationTestFactory(TestCase):
+class UserProfileTest(TestCase):
+    def setUp(self):
+        self.up = UserProfileFactory()
+
+    def test_is_valid_from_factory(self):
+        self.up.full_clean()
 
     def test_unicode(self):
-        inf_t = InformationFactory()
-        self.assertEqual(str(inf_t),
-                         '%s - %s' % (inf_t.infoType, inf_t.internalName))
-
-
-class TestUserProfileFactory(TestCase):
-
-    def test_unicode(self):
-        up = UserProfileFactory()
-        self.assertEqual(str(up), up.user.username)
+        self.assertEqual(str(self.up), self.up.user.username)
 
     def test_role_admin(self):
         up = UserProfileFactory(profile_type='AD')
@@ -81,6 +81,44 @@ class TestUserProfileFactory(TestCase):
         self.assertTrue(up.get_absolute_url().startswith('/ccnmtl/home/'))
         up = UserProfileFactory(profile_type='ST')
         self.assertEqual(up.get_absolute_url(), '/')
+
+
+class HistoryTest(TestCase):
+    def setUp(self):
+        self.h = HistoryFactory()
+
+    def test_is_valid_from_factory(self):
+        self.h.full_clean()
+
+    def test_unicode(self):
+        self.assertEqual(
+            str(self.h), '%s - %s' % (self.h.description, self.h.team))
+
+
+class PerformedTestTest(TestCase):
+    def setUp(self):
+        self.pt = PerformedTestFactory()
+
+    def test_is_valid_from_factory(self):
+        self.pt.full_clean()
+
+    def test_unicode(self):
+        self.assertEqual(
+            str(self.pt),
+            '%s - %s' % (self.pt.testDetails, self.pt.paramString))
+
+
+class InformationTest(TestCase):
+    def setUp(self):
+        self.i = InformationFactory()
+
+    def test_is_valid_from_factory(self):
+        self.i.full_clean()
+
+    def test_unicode(self):
+        self.assertEqual(
+            str(self.i),
+            '%s - %s' % (self.i.infoType, self.i.internalName))
 
 
 class TestAdminProfile(TestCase):
