@@ -136,11 +136,21 @@ class UserProfile(models.Model):
             return "student"
 
     def get_absolute_url(self):
+        # Note that a url of '/' can trigger a redirect loop in HomeView.
+        url = '/'
+
         if self.is_teacher():
-            return '/ccnmtl/home/%s/' % (self.id)
-        if self.is_admin():
-            return '/ccnmtl/home/%s/' % (self.id)
-        return '/'
+            url = '/ccnmtl/home/%s/' % (self.id)
+        elif self.is_admin():
+            url = '/ccnmtl/home/%s/' % (self.id)
+        else:
+            try:
+                team = Team.objects.get(user=self.user.pk)
+                url = '/team/home/%s/' % (team.pk)
+            except Team.DoesNotExist:
+                pass
+
+        return url
 
 
 class History(models.Model):

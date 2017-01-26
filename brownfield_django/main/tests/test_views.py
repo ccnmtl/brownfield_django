@@ -3,10 +3,10 @@ from django.test import TestCase, RequestFactory
 from django.test.client import Client
 
 from brownfield_django.main.tests.factories import (
-    HistoryFactory, InformationFactory, PerformedTestFactory)
+    HistoryFactory, InformationFactory, PerformedTestFactory,
+    UserFactory, UserProfileFactory, TeamFactory, CourseFactory
+)
 from brownfield_django.main.views import TeamHistoryView
-
-from .factories import TeamFactory
 
 
 class BasicTest(TestCase):
@@ -25,8 +25,46 @@ class BasicTest(TestCase):
         assert "PASS" in response.content
 
 
-class TestAnnonymousUserLogin(TestCase):
+class HomeViewTest(TestCase):
+    def test_get_as_anon_user(self):
+        r = self.client.get('/', follow=True)
+        self.assertEquals(r.status_code, 200)
 
+    def test_get_as_student(self):
+        u = UserFactory()
+        UserProfileFactory(user=u, profile_type='ST')
+        team = TeamFactory(user=u)
+        team.course = CourseFactory()
+        team.save()
+        u.set_password('test')
+        u.save()
+        self.client.login(username=u.username, password='test')
+
+        r = self.client.get('/', follow=True)
+        self.assertEquals(r.status_code, 200)
+
+    def test_get_as_teacher(self):
+        u = UserFactory()
+        UserProfileFactory(user=u, profile_type='TE')
+        u.set_password('test')
+        u.save()
+        self.client.login(username=u.username, password='test')
+
+        r = self.client.get('/', follow=True)
+        self.assertEquals(r.status_code, 200)
+
+    def test_get_as_administrator(self):
+        u = UserFactory()
+        UserProfileFactory(user=u, profile_type='AD')
+        u.set_password('test')
+        u.save()
+        self.client.login(username=u.username, password='test')
+
+        r = self.client.get('/', follow=True)
+        self.assertEquals(r.status_code, 200)
+
+
+class TestAnonymousUserLogin(TestCase):
     def setUp(self):
         self.client = Client()
         self.factory = RequestFactory()
