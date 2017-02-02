@@ -70,7 +70,7 @@ wrapt==1.10.8
 wsgiref==0.1.2
 rcssmin==1.0.6
 rjsmin==1.0.12
-Jinja2==2.9.4
+Jinja2==2.9.5
 Markupsafe==0.23
 
 gunicorn==19.6.0
