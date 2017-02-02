@@ -12,7 +12,7 @@ versiontools==1.9.1
 statsd==3.2.1
 pep8==1.7.0
 pyflakes==1.5.0
-mccabe==0.6.0
+mccabe==0.6.1
 pycodestyle==2.0
 configparser==3.5.0
 enum34==1.1.6
@@ -36,8 +36,11 @@ backports.shutil_get_terminal_size==1.0.0
 wcwidth==0.1.7
 prompt_toolkit==1.0.9
 pygments==2.1.3
+
 ipython==5.2.1
-rdflib==4.2.1
+
+rdflib==4.2.2
+
 coverage==4.3.4
 requests==2.13.0
 logilab-common==1.3.0
@@ -70,7 +73,7 @@ wrapt==1.10.8
 wsgiref==0.1.2
 rcssmin==1.0.6
 rjsmin==1.0.12
-Jinja2==2.9.4
+Jinja2==2.9.5
 Markupsafe==0.23
 
 gunicorn==19.6.0
@@ -88,7 +91,7 @@ django-bootstrap-form==3.2.1
 django-debug-toolbar==1.6
 django-waffle==0.11.1
 django-jenkins==0.110.0
-django-taggit==0.21.3
+django-taggit==0.22.0
 django-smoketest==1.0.0
 django-extensions==1.7.6
 django-stagingcontext==0.1.0
@@ -97,7 +100,7 @@ django-impersonate==1.1
 django-registration-redux==1.4
 django-compressor==2.1
 django-treebeard==4.1.0
-django-pagetree==1.2.5
+django-pagetree==1.3.0
 django-pageblocks==1.0.4
 django-quizblock==1.2.2
 django-markwhat==1.5.1
