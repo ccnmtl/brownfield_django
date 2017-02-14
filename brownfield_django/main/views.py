@@ -458,7 +458,7 @@ class BrownfieldHistoryView(CSRFExemptMixin, View):
             return HttpResponse(INITIAL_XML)
 
 
-class BrownfieldTestView(CSRFExemptMixin, View):
+class BrownfieldTestView(LoggedInMixin, CSRFExemptMixin, View):
 
     def get(self, request):
         if request.user.profile.is_admin():
