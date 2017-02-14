@@ -3,12 +3,13 @@ import random
 from string import letters, digits
 
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-
 from django.contrib.auth.models import User
 from django.http.response import HttpResponseNotAllowed, HttpResponse, \
     HttpResponseForbidden
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
+from brownfield_django.main.models import UserProfile
 
 
 def ajax_required(func):
@@ -30,11 +31,17 @@ def ajax_required(func):
 
 
 def instructor_or_admin(user):
-    return user.profile.is_admin() or user.profile.is_teacher()
+    try:
+        return user.profile.is_admin() or user.profile.is_teacher()
+    except UserProfile.DoesNotExist:
+        return False
 
 
 def user_is_admin(user):
-    return user.userprofile.is_admin()
+    try:
+        return user.profile.is_admin()
+    except UserProfile.DoesNotExist:
+        return False
 
 
 class JSONResponseMixin(object):

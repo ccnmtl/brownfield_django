@@ -458,7 +458,7 @@ class BrownfieldHistoryView(CSRFExemptMixin, View):
             return HttpResponse(INITIAL_XML)
 
 
-class BrownfieldTestView(CSRFExemptMixin, View):
+class BrownfieldTestView(LoggedInMixin, CSRFExemptMixin, View):
 
     def get(self, request):
         if request.user.profile.is_admin():
@@ -598,7 +598,8 @@ def all_keys_in_dict(d, keys):
     return True
 
 
-class TeamPerformTest(CSRFExemptMixin, View):
+class TeamPerformTest(LoggedInMixin, CSRFExemptMixin, View):
+
     def validate(self, request):
         required_fields = ['date', 'cost', 'x', 'y', 'testNumber']
         int_fields = ['x', 'y', 'testNumber']
