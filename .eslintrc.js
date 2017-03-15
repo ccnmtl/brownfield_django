@@ -4,6 +4,15 @@ module.exports = {
         "jquery": true
     },
     "extends": "eslint:recommended",
+    "globals": {
+        "_": true,
+        "crs_id": true,
+        "Backbone": true,
+        "deepEqual": true,
+        "equal": true,
+        "module": true,
+        "test": true
+    },
     "rules": {
         "indent": [
             "error",
