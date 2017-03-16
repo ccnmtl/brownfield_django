@@ -169,12 +169,12 @@ var ManageCoursesView = Backbone.View.extend({
 
         if (this.validateForm()) {
             this.courseListView.collection.create({
-                    name: jQuery('#id_course_name').val(),
-                    startingBudget: jQuery('#id_course_startingBudget').val(),
-                    message: jQuery('#id_course_message').val(),
-                    professor: professor,
-                    archive: false
-                }, {
+                name: jQuery('#id_course_name').val(),
+                startingBudget: jQuery('#id_course_startingBudget').val(),
+                message: jQuery('#id_course_message').val(),
+                professor: professor,
+                archive: false
+            }, {
                 success: function(model, response) {
                     jQuery('#id_course_name').val('');
                     jQuery('#id_course_startingBudget').val('');
