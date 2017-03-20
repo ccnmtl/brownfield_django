@@ -53,7 +53,7 @@ factory_boy==2.8.1
 
 pyasn1==0.2.3
 
-ldap3==2.2.1
+ldap3==2.2.2
 
 sqlparse==0.2.3
 contextlib2==0.5.4
