@@ -19,7 +19,6 @@ from django.http import (
 from django.http.response import HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.template import loader
-from django.template.context import Context
 from django.views.generic import View
 from django.views.generic.detail import DetailView
 from django.utils.text import slugify
@@ -172,9 +171,9 @@ class InstructorViewSet(LoggedInMixin, UniqUsernameMixin,
         template = loader.get_template(
             'main/ccnmtl/course_dash/instructor_activation_notice.txt')
         subject = "Welcome to Brownfield!"
-        ctx = Context({'instructor': instructor,
-                       'profile': profile,
-                       'site': Site.objects.get_current()})
+        ctx = {'instructor': instructor,
+               'profile': profile,
+               'site': Site.objects.get_current()}
         message = template.render(ctx)
         '''who is the sender?'''
         sender = settings.SERVER_EMAIL
@@ -349,9 +348,9 @@ class ActivateCourseView(LoggedInMixin, LoggedInMixinAdminInst,
         template = loader.get_template(
             'main/ccnmtl/course_dash/student_activation_notice.txt')
         subject = "Welcome to Brownfield!"
-        ctx = Context({'student': student,
-                       'team': student.profile.team,
-                       'site': Site.objects.get_current()})
+        ctx = {'student': student,
+               'team': student.profile.team,
+               'site': Site.objects.get_current()}
         message = template.render(ctx)
         '''who is the sender?'''
         sender = settings.SERVER_EMAIL
@@ -378,7 +377,7 @@ class EditTeamsView(LoggedInMixin, LoggedInMixinAdminInst, View):
         template = loader.get_template(
             'main/ccnmtl/course_dash/team_form.html')
         course = Course.objects.get(pk=pk)
-        ctx = Context({'object': course})
+        ctx = {'object': course}
         edit_template = template.render(ctx)
         return HttpResponse(edit_template)
 
@@ -389,7 +388,7 @@ class ShowTeamsView(LoggedInMixin, LoggedInMixinAdminInst, View):
         template = loader.get_template(
             'main/ccnmtl/course_dash/team_table.html')
         course = Course.objects.get(pk=pk)
-        ctx = Context({'object': course})
+        ctx = {'object': course}
         edit_template = template.render(ctx)
         return HttpResponse(edit_template)
 
@@ -401,7 +400,7 @@ class ShowProfessorsView(LoggedInMixin, LoggedInMixinAdministrator, View):
             'main/ccnmtl/home_dash/instructor_list.html')
         profiles = UserProfile.objects.filter(profile_type='TE')
         professors = User.objects.filter(profile__in=profiles)
-        ctx = Context({'professors': professors})
+        ctx = {'professors': professors}
         edit_template = template.render(ctx)
         return HttpResponse(edit_template)
 
@@ -507,7 +506,7 @@ class TeamHistoryView(CSRFExemptMixin, View):
     def initial_team_history(self, team):
         template = loader.get_template(
             'main/team/history.txt')
-        ctx = Context({'team': team})
+        ctx = {'team': team}
         xml_history = template.render(ctx)
         return xml_history
 
@@ -518,8 +517,8 @@ class TeamHistoryView(CSRFExemptMixin, View):
         team_info = Information.objects.filter(history__id__in=history)
         tests_perf = PerformedTest.objects.filter(history__id__in=history)
 
-        ctx = Context({'team': team, 'team_info': team_info,
-                       'team_tests': tests_perf, 'team_history': history})
+        ctx = {'team': team, 'team_info': team_info,
+               'team_tests': tests_perf, 'team_history': history}
         xml_history = template.render(ctx)
         return xml_history
 
