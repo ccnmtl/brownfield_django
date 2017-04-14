@@ -58,7 +58,7 @@ ldap3==2.2.2
 sqlparse==0.2.3
 contextlib2==0.5.4
 argparse==1.4.0
-astroid==1.4.9
+astroid==1.5.1
 backports-abc==0.5
 certifi==2017.1.23
 colorama==0.3.7
