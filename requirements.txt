@@ -63,7 +63,7 @@ argparse==1.4.0
 astroid==1.5.2
 backports-abc==0.5
 certifi==2017.4.17
-colorama==0.3.8
+colorama==0.3.9
 html5lib==0.999999999
 isodate==0.5.4
 keepalive==0.5
