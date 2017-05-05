@@ -1,0 +1,80 @@
+<bfaxml>
+    <config>
+        <user realname="CTeam_6" 
+              signedcontract="True" 
+              startingbudget="50000" />
+
+    <narrative enabled="True" />
+
+    <information>
+      <info type="visit" name="btex"></info>
+      <info type="question" name="alMilankovitch"></info>
+      <info type="question" name="alMilankovitch"></info>
+      <info type="question" name="alMilankovitch"></info>
+      <info type="visit" name="fallowHome"></info>
+      <info type="question" name="jamesFallow"></info>
+      <info type="question" name="jamesFallow"></info>
+      <info type="question" name="jamesFallow"></info>
+      <info type="question" name="jamesFallow"></info>
+      <info type="question" name="jamesFallow"></info>
+      <info type="question" name="jamesFallow"></info>
+      <info type="question" name="jamesFallow"></info>
+      <info type="question" name="jamesFallow"></info>
+      <info type="visit" name="selfLume"></info>
+      <info type="recon" ></info>
+      <info type="doc" name="recon"></info>
+      <info type="visit" name="waterTower"></info>
+      <info type="visit" name="kilroys"></info>
+      <info type="question" name="jackKilroy"></info>
+      <info type="question" name="jackKilroy"></info>
+      <info type="question" name="jackKilroy"></info>
+      <info type="question" name="jackKilroy"></info>
+      <info type="question" name="jackKilroy"></info>
+      <info type="question" name="jackKilroy"></info>
+      <info type="question" name="jackKilroy"></info>
+      <info type="question" name="jackKilroy"></info>
+      <info type="question" name="jackKilroy"></info>
+      <info type="visit" name="btex"></info>
+      <info type="question" name="alMilankovitch"></info>
+      <info type="question" name="alMilankovitch"></info>
+    </information>
+    </config>
+
+    <testdata>
+        <test y="1060" x="460" n="3" testNumber="3"></test>
+    </testdata>
+
+    <budget>
+        <i a="320" t="2015/1/24 14:14" d="Topographic Survey at 460, 1060."></i>
+        <i a="25" t="2015/1/24 14:14" d="Visited BTEX Gas Station."></i>
+        <i a="1" t="2015/1/24 14:14" d="Questioned Al Milankovitch."></i>
+        <i a="1" t="2015/1/24 14:14" d="Questioned Al Milankovitch."></i>
+        <i a="1" t="2015/1/24 14:14" d="Questioned Al Milankovitch."></i>
+        <i a="25" t="2015/1/24 14:17" d="Visited Fallow Home."></i>
+        <i a="1" t="2015/1/24 14:17" d="Questioned James Fallow."></i>
+        <i a="1" t="2015/1/24 14:17" d="Questioned James Fallow."></i>
+        <i a="1" t="2015/1/24 14:17" d="Questioned James Fallow."></i>
+        <i a="1" t="2015/1/24 14:17" d="Questioned James Fallow."></i>
+        <i a="1" t="2015/1/24 14:17" d="Questioned James Fallow."></i>
+        <i a="1" t="2015/1/24 14:17" d="Questioned James Fallow."></i>
+        <i a="1" t="2015/1/24 14:17" d="Questioned James Fallow."></i>
+        <i a="1" t="2015/1/24 14:18" d="Questioned James Fallow."></i>
+        <i a="25" t="2015/1/24 14:18" d="Visited Self-Lume Factory."></i>
+        <i a="100" t="2015/1/24 14:18" d="Performed visual reconnaissance."></i>
+        <i a="0" t="2015/1/24 14:18" d="Received Visual reconnaissance."></i>
+        <i a="25" t="2015/1/24 14:19" d="Visited Water Tower."></i>
+        <i a="25" t="2015/1/24 14:20" d="Visited Kilroy&#39;s Bar."></i>
+        <i a="1" t="2015/1/24 14:20" d="Questioned Jack Kilroy."></i>
+        <i a="1" t="2015/1/24 14:20" d="Questioned Jack Kilroy."></i>
+        <i a="1" t="2015/1/24 14:21" d="Questioned Jack Kilroy."></i>
+        <i a="1" t="2015/1/24 14:21" d="Questioned Jack Kilroy."></i>
+        <i a="1" t="2015/1/24 14:21" d="Questioned Jack Kilroy."></i>
+        <i a="1" t="2015/1/24 14:22" d="Questioned Jack Kilroy."></i>
+        <i a="1" t="2015/1/24 14:22" d="Questioned Jack Kilroy."></i>
+        <i a="1" t="2015/1/24 14:23" d="Questioned Jack Kilroy."></i>
+        <i a="1" t="2015/1/24 14:23" d="Questioned Jack Kilroy."></i>
+        <i a="25" t="2015/1/24 14:23" d="Visited BTEX Gas Station."></i>
+        <i a="1" t="2015/1/24 14:23" d="Questioned Al Milankovitch."></i>
+        <i a="1" t="2015/1/24 14:24" d="Questioned Al Milankovitch."></i>
+    </budget>
+</bfaxml>

@@ -1,0 +1,9 @@
+<bfaxml>
+    <config>
+        <user signedcontract="True" startingbudget="50000" realname="CTeam_6"></user>
+        <narrative enabled="True"></narrative>
+        <information></information>
+    </config>
+    <testdata></testdata>
+    <budget></budget>
+</bfaxml>
