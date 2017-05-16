@@ -43,7 +43,7 @@ ipython==5.3.0
 
 rdflib==4.2.2
 
-coverage==4.4
+coverage==4.4.1
 requests==2.14.2
 logilab-common==1.4.0
 logilab-astng==0.24.3
