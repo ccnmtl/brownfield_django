@@ -1,6 +1,7 @@
-# VERSION=1.1.0
+# VERSION=1.4.0
 
 # CHANGES:
+# 1.4.0 - 2017-06-06 - backout the switch to eslint. that's not really ready yet.
 # 1.3.0 - 2017-06-05 - pypi location is not needed anymore
 # 1.2.0 - 2016-12-15 - bump wheel version to 0.29
 # 1.1.0 - 2016-11-08 - run flake8 tests before unit tests
@@ -21,7 +22,7 @@ INTERFACE ?= localhost
 RUNSERVER_PORT ?= 8000
 PY_DIRS ?= $(APP)
 
-jenkins: check flake8 test eslint
+jenkins: check flake8 test jshint jscs
 
 $(PY_SENTINAL): $(REQUIREMENTS) $(VIRTUALENV) $(SUPPORT_DIR)*
 	rm -rf $(VE)
