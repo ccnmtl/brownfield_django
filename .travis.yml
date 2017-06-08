@@ -3,8 +3,8 @@ sudo: false
 python:
   - "2.7"
 install:
-  - pip install -U pip setuptools
-  - ./bootstrap.py
+  - pip install -U pip wheel
+  - pip install -U setuptools
 script:
   - make
 notifications:
