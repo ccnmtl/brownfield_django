@@ -3,6 +3,7 @@ sudo: false
 python:
   - "2.7"
 install:
+  - pip install -U pip setuptools
   - ./bootstrap.py
 script:
   - make
