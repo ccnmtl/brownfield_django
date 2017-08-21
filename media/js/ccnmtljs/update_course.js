@@ -1,4 +1,5 @@
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+/* global crs_id: true */
 
 // creating separate course model for updates
 var UpdateCourse = Backbone.Model.extend({
@@ -50,4 +51,5 @@ var UpdateCourseView = Backbone.View.extend({
     }
 });// End UpdateCourseView
 
+// eslint-disable-next-line no-unused-vars
 var update_course = new UpdateCourseView();

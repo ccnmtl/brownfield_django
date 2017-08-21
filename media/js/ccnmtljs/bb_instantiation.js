@@ -1,5 +1,5 @@
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-
+/* eslint-disable no-unused-vars */
 /* global StudentControlView: true, TeamControlView: true */
 /* global DocumentListView: true */
 

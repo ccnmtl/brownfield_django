@@ -15,3 +15,4 @@ node_modules/
 media/.DS_Store
 node_modules
 wheelhouse
+package-lock.json

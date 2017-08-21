@@ -1,7 +1,8 @@
 /* global User: true, InstructorCollection: true */
 /* global CourseListView: true, InstructorListView: true */
 /* global StudentListView: true, TeamListView: true  */
-// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+/* eslint-disable no-unused-vars */
+//jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 
 var BaseManagementView = Backbone.View.extend({
 
@@ -34,7 +35,7 @@ var BaseManagementView = Backbone.View.extend({
          */
         if (jQuery(formSelector).has('.form_error').length > 0) {
             this.addForm.remove('<p class=".form-error"><b>Something went ' +
-                                 'wrong, please try again.</b></p>');
+                'wrong, please try again.</b></p>');
         }
     },
 
@@ -43,8 +44,8 @@ var BaseManagementView = Backbone.View.extend({
         if (/[^a-zA-Z]/.test(check)) {
             if ((jQuery(errorElement).has('.chars-only').length) === 0) {
                 jQuery(errorElement).append(
-                   '<b class="error-msg chars-only" style="color:red"> ' +
-                   'Please only use letters of the alphabet</b>');
+                    '<b class="error-msg chars-only" style="color:red"> ' +
+                    'Please only use letters of the alphabet</b>');
             }
             return false;
         }
@@ -78,11 +79,8 @@ var ManageCoursesView = Backbone.View.extend({
     },
 
     initialize: function(options) {
-        _.bindAll(this,
-                  'addCourse',
-                  'showCourseForm',
-                  'hideAddForm',
-                  'validateForm');
+        _.bindAll(this, 'addCourse', 'showCourseForm',
+            'hideAddForm', 'validateForm');
         this.options = options;
         this.currentUser = new User({id: options.user_id});
 
@@ -98,11 +96,11 @@ var ManageCoursesView = Backbone.View.extend({
         this.userList.fetch({wait: true});
         this.userList.forEach(function(model) {
 
-            jQuery('#id_professor')
-                .append('<option value="' + String(model.attributes.id) +
-                        '">' + String(model.attributes.first_name) +
-                        ' ' + String(model.attributes.last_name)  +
-                        '</option>');
+            jQuery('#id_professor').append(
+                '<option value="' + String(model.attributes.id) +
+                '">' + String(model.attributes.first_name) +
+                ' ' + String(model.attributes.last_name)  +
+                '</option>');
         });
 
         jQuery('#create-course-form').show();
@@ -131,7 +129,7 @@ var ManageCoursesView = Backbone.View.extend({
             $elt = jQuery('.course-name-block');
             if ($elt.has('.error-msg').length === 0) {
                 $elt.append('<p class="error-msg" style="color:#ff0000">' +
-                            'Please enter a valid course name.</p>');
+                'Please enter a valid course name.</p>');
             }
         }
         if (startingBudget === null || startingBudget === '') {
@@ -139,8 +137,8 @@ var ManageCoursesView = Backbone.View.extend({
             $elt = jQuery('.course-budget-block');
             if ($elt.has('.error-msg').length === 0) {
                 $elt.append('<p class="error-msg" style="color:#ff0000">' +
-                            'Please enter a valid starting budget ' +
-                            'for your course.</p>');
+                        'Please enter a valid starting budget ' +
+                'for your course.</p>');
             }
         }
         if (courseMessage === null || courseMessage === '') {
@@ -148,7 +146,7 @@ var ManageCoursesView = Backbone.View.extend({
             $elt = jQuery('.course-message-block');
             if ($elt.has('.error-msg').length === 0) {
                 $elt.append('<p class="error-msg" style="color:#ff0000">' +
-                            'Please enter a valid course message.</p>');
+                'Please enter a valid course message.</p>');
             }
         }
         return isValid;
@@ -182,11 +180,11 @@ var ManageCoursesView = Backbone.View.extend({
                     jQuery('#create-course-form').hide();
                     jQuery('.add-crs').show();
                     if (jQuery('#create-course-form')
-                       .has('.error-msg').length !== 0) {
+                        .has('.error-msg').length !== 0) {
                         jQuery('#create-course-form .error-msg').remove();
                     }
                     if (jQuery('#create-course-form')
-                       .has('.form-error').length !== 0) {
+                        .has('.form-error').length !== 0) {
                         jQuery('#create-course-form .form-error').remove();
                     }
                 },
@@ -195,8 +193,8 @@ var ManageCoursesView = Backbone.View.extend({
                         .has('.form-error').length) === 0) {
                         jQuery('#create-course-form')
                             .append('<p class="error-msg form-error">' +
-                                    'Something went wrong, please try again.' +
-                                    '</p>');
+                            'Something went wrong, please try again.' +
+                            '</p>');
                     }
                 },
                 wait: true
@@ -214,11 +212,8 @@ var ManageInstructorsView = BaseManagementView.extend({
     },
 
     initialize: function(options) {
-        _.bindAll(this,
-                  'addInstructor',
-                  'showAddItemForm',
-                  'hideAddItemForm',
-                  'isEmpty');
+        _.bindAll(this, 'addInstructor', 'showAddItemForm',
+            'hideAddItemForm', 'isEmpty');
         this.instructorCollectionView = new InstructorListView({
             el: jQuery('.instructor-list'),
         });
@@ -234,28 +229,28 @@ var ManageInstructorsView = BaseManagementView.extend({
         this.$el.find('b.error-msg').remove();
 
         if (this.isEmpty('.add-instructor-frm input.instructor-frst-name',
-                         '.inst-first-name', 'Please enter a first name.')) {
+            '.inst-first-name', 'Please enter a first name.')) {
             isValid = false;
         }
         if (this.isEmpty('.add-instructor-frm input.instructor-last-name',
-                         '.inst-last-name', 'Please enter a last name.')) {
+            '.inst-last-name', 'Please enter a last name.')) {
             isValid = false;
         }
 
         var email = jQuery('.add-instructor-frm input.instructor-email').val();
         if (this.isEmpty('.add-instructor-frm input.instructor-email',
-                         '.inst-email', 'Please enter a email address.')) {
+            '.inst-email', 'Please enter a email address.')) {
             isValid = false;
         } else if (email.indexOf('@') === -1 || email.indexOf('.') === -1) {
             isValid = false;
             jQuery('.inst-email')
                 .append('<b class="error-msg" style="color:red">' +
-                        'Please enter a valid email.</b>');
+                'Please enter a valid email.</b>');
         } else if (this.findInstructor(email) !== undefined) {
             isValid = false;
             jQuery('.instructor-form-area')
                 .append('<b class="error-msg" style="color:red">' +
-                    'An instructor with this email already exists.</b>');
+                'An instructor with this email already exists.</b>');
         }
         return isValid;
     },
@@ -278,11 +273,11 @@ var ManageInstructorsView = BaseManagementView.extend({
                 jQuery('.instructor-last-name').val('');
                 jQuery('.instructor-email').val('');
                 if (jQuery('.add-instructor-frm')
-                   .has('.error-msg').length !== 0) {
+                    .has('.error-msg').length !== 0) {
                     jQuery('.add-instructor-frm .error-msg').remove();
                 }
                 if (jQuery('.add-instructor-frm')
-                   .has('.form-error').length !== 0) {
+                    .has('.form-error').length !== 0) {
                     jQuery('.add-instructor-frm .form-error').remove();
                 }
 
@@ -292,8 +287,8 @@ var ManageInstructorsView = BaseManagementView.extend({
                     .has('.form-error').length) === 0) {
                     jQuery('.add-instructor-frm')
                         .append('<p class="error-msg form-error">' +
-                                'Something went wrong, ' +
-                                'please try again.</p>');
+                            'Something went wrong, ' +
+                    'please try again.</p>');
                 }
             },
             wait: true
@@ -350,8 +345,8 @@ var StudentControlView = BaseManagementView.extend({
                     $elt = jQuery('.add-std-frm');
                     if ($elt.has('.form-error').length === 0) {
                         $elt.append('<p class="error-msg form-error">' +
-                                    'Something went wrong, please try again.' +
-                                    '</p>');
+                                'Something went wrong, please try again.' +
+                        '</p>');
                     }
                 },
                 wait: true,
@@ -365,15 +360,15 @@ var StudentControlView = BaseManagementView.extend({
         var isValid = true;
 
         if (this.isEmpty('.add-std-frm input.frst-name',
-                         '.first-name-box', 'Please enter a first name.')) {
+            '.first-name-box', 'Please enter a first name.')) {
             isValid = false;
         }
         if (this.isEmpty('.add-std-frm input.last-name',
-                         '.last-name-box', 'Please enter a last name.')) {
+            '.last-name-box', 'Please enter a last name.')) {
             isValid = false;
         }
         if (this.isEmpty('.add-std-frm input.email',
-                         '.email-box', 'Please enter a email.')) {
+            '.email-box', 'Please enter a email.')) {
             isValid = false;
         } else if ((jQuery('.add-std-frm input.email').val().length) !== 0) {
             // check whatever they put for email looks something like an actual
@@ -385,7 +380,7 @@ var StudentControlView = BaseManagementView.extend({
                 if ((jQuery('.email-box').has('b').length) === 0) {
                     jQuery('.email-box')
                         .append('<b class="error-msg" style="color:red">' +
-                                'Please enter a valid email.</b>');
+                        'Please enter a valid email.</b>');
                 }
             }
         }
@@ -418,7 +413,7 @@ var TeamControlView = BaseManagementView.extend({
             var $elt = jQuery('.add-team-frm .team-name-box');
             if ($elt.has('b').length === 0) {
                 $elt.append('<b class="error-msg" style="color:red">' +
-                            'Please enter a team name.</b>');
+                'Please enter a team name.</b>');
             }
         }
         return isValid;
@@ -446,8 +441,8 @@ var TeamControlView = BaseManagementView.extend({
                 error: function(model, response) {
                     if ($elt.has('.form-error').length === 0) {
                         $elt.append('<p class="error-msg form-error">' +
-                                    'Something went wrong, please try again.' +
-                                    '</p>');
+                                'Something went wrong, please try again.' +
+                        '</p>');
                     }
                 },
                 wait: true,

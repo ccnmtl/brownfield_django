@@ -34,8 +34,8 @@ var BaseItemView = Backbone.View.extend({
         if (check === null || check === '') {
             if ((jQuery(errorElement).has('.is-empty').length) === 0) {
                 jQuery(errorElement).append(
-                        '<b class="error-msg is-empty" style="color:red">' +
-                        String(errorMsg) + '</b>');
+                    '<b class="error-msg is-empty" style="color:red">' +
+                    String(errorMsg) + '</b>');
             }
             return true;
         }
@@ -146,18 +146,18 @@ var CourseView = BaseItemView.extend({
         var isValid = true;
 
         if (this.isEmpty('input#edit_course_name', '.course-name-block',
-                         'Please enter a valid course name.')) {
+            'Please enter a valid course name.')) {
             isValid = false;
         }
 
         if (this.isEmpty(
-                'input#edit_course_startingBudget', '.course-budget-block',
-                'Please enter a valid starting budget for your course.')) {
+            'input#edit_course_startingBudget', '.course-budget-block',
+            'Please enter a valid starting budget for your course.')) {
             isValid = false;
         }
         if (this.isEmpty('textarea#edit_course_message',
-                         '.course-message-block',
-                         'Please enter a valid course message.')) {
+            '.course-message-block',
+            'Please enter a valid course message.')) {
             isValid = false;
         }
 
@@ -170,9 +170,9 @@ var CourseView = BaseItemView.extend({
         if (this.validEditForm()) {
             var name = jQuery(this.el).find('input#edit_course_name').val();
             var startingBudget = jQuery(this.el).find(
-                    'input#edit_course_startingBudget').val();
+                'input#edit_course_startingBudget').val();
             var message = jQuery(this.el).find('textarea#edit_course_message')
-                    .val();
+                .val();
 
             this.model.set('name', name);
             this.model.set('startingBudget', startingBudget);
@@ -189,6 +189,7 @@ var CourseView = BaseItemView.extend({
     },// end editCourse
 
     courseDetails: function() {
+        // eslint-disable-next-line scanjs-rules/assign_to_href
         window.location.href = '/course_details/' + this.model.get('id') + '/';
     }
 });// End CourseView
@@ -197,10 +198,8 @@ var InstructorView = BaseItemView.extend({
 
     initialize: function(options) {
         _.bindAll(this, 'editInstructor');
-        this.template = _.template(jQuery('#instructor-list-template')
-                .html());
-        this.editForm = _.template(jQuery('#instructor-edit-template')
-                .html());
+        this.template = _.template(jQuery('#instructor-list-template').html());
+        this.editForm = _.template(jQuery('#instructor-edit-template').html());
         // need to bind the edit form to the model - when change made to
         // form change model
         this.listenTo(this.model, 'change', this.render);
@@ -230,15 +229,15 @@ var InstructorView = BaseItemView.extend({
         var isValid = true;
 
         if (this.isEmpty('input.edt-frst-name',
-                '.inst-edt-first-name', 'Please enter a first name.')) {
+            '.inst-edt-first-name', 'Please enter a first name.')) {
             isValid = false;
         }
         if (this.isEmpty('input.edt-last-name', '.inst-edt-last-name',
-                'Please enter a last name.')) {
+            'Please enter a last name.')) {
             isValid = false;
         }
         if (this.isEmpty('input.edt-email', '.inst-edt-email',
-                'Please enter a email address.')) {
+            'Please enter a email address.')) {
             isValid = false;
         }
 
@@ -303,7 +302,7 @@ var TeamView = DeletableItemView.extend({
         var isValid = true;
 
         if (this.isEmpty('input.edt-team-name', '.div-edt-team-name',
-                'Please enter a team name.')) {
+            'Please enter a team name.')) {
             isValid = false;
         }
 
@@ -330,6 +329,7 @@ var TeamView = DeletableItemView.extend({
     },
 
     teamHistory: function() {
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
         window.open('/team_csv/' + this.model.get('id') + '/');
     }
 });// End Team View
@@ -355,16 +355,16 @@ var StudentView = DeletableItemView.extend({
         var isValid = true;
 
         if (this.isEmpty('input.edt-frst-name', '.sedt-first-name',
-                'Please enter a first name.')) {
+            'Please enter a first name.')) {
             isValid = false;
         }
 
         if (this.isEmpty('input.edt-last-name', '.sedt-last-name',
-                'Please enter a last name.')) {
+            'Please enter a last name.')) {
             isValid = false;
         }
         if (this.isEmpty('input.edt-email', '.sedt-email',
-                'Please enter a email address.')) {
+            'Please enter a email address.')) {
             isValid = false;
         }
 
@@ -418,6 +418,7 @@ var BaseListView = Backbone.View.extend({
     }
 });
 
+// eslint-disable-next-line no-unused-vars
 var InstructorListView = BaseListView.extend({
 
     initialize: function(options) {
@@ -433,6 +434,7 @@ var InstructorListView = BaseListView.extend({
     }
 });
 
+// eslint-disable-next-line no-unused-vars
 var CourseListView = BaseListView.extend({
 
     initialize: function(options) {
@@ -449,6 +451,7 @@ var CourseListView = BaseListView.extend({
 
 });
 
+// eslint-disable-next-line no-unused-vars
 var DocumentListView = BaseListView.extend({
 
     initialize: function(options) {
@@ -464,6 +467,7 @@ var DocumentListView = BaseListView.extend({
     }
 });
 
+// eslint-disable-next-line no-unused-vars
 var StudentListView = BaseListView.extend({
 
     initialize: function(options) {
@@ -480,6 +484,7 @@ var StudentListView = BaseListView.extend({
 
 });
 
+// eslint-disable-next-line no-unused-vars
 var TeamListView = BaseListView.extend({
 
     initialize: function(options) {

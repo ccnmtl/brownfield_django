@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 var BaseModel = Backbone.Model.extend({
 
     url: function() {
