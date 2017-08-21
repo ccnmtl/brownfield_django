@@ -1,9 +1,10 @@
-// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+//jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 /* global AppDocument: true, Student: true, Team: true, Course: true */
 /* global User: true, Instructor: true, DocumentCollection: true */
 /* global InstructorCollection: true, StudentCollection: true */
 /* global CourseCollection: true, BaseItemView: true, DocumentListView: true */
 /* global TeamCollection: true */
+/* global test: true, module: true, equal: true, deepEqual: true */
 
 /* Tests for Models - models are simple, just define base model url
  * function and url for each decendant model*/
@@ -103,7 +104,7 @@ test('Test BaseCollection function/attribute and initalization', function() {
     equal(this.instructor_collection.url(), '/api/instructor/');
     equal(this.instructor_collection.model, Instructor);
     equal(this.course_instructor_collection.url(),
-            '/api/instructor/?course=5');
+        '/api/instructor/?course=5');
 
     equal(this.team_collection.url(), '/api/eteam/');
     equal(this.team_collection.model, Team);
