@@ -24,7 +24,6 @@ MIDDLEWARE_CLASSES += [  # noqa
 ROOT_URLCONF = 'brownfield_django.urls'
 
 INSTALLED_APPS += [  # noqa
-    'sorl.thumbnail',
     'rest_framework',
     'typogrify',
     'bootstrap3',
@@ -43,8 +42,6 @@ PAGEBLOCKS = [
     'pageblocks.TextBlock',
     'pageblocks.HTMLBlock',
     'pageblocks.PullQuoteBlock',
-    'pageblocks.ImageBlock',
-    'pageblocks.ImagePullQuoteBlock',
     'quizblock.Quiz',
 ]
 

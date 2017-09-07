@@ -1,9 +1,13 @@
+from __future__ import unicode_literals
+
 from django.core import mail
 from django.test import TestCase
 from django.test.client import Client
+from django.utils.encoding import smart_text
 
-from factories import UserProfileFactory, UserFactory, \
-    CourseFactory, TeamFactory
+from brownfield_django.main.tests.factories import (
+    UserProfileFactory, UserFactory, CourseFactory, TeamFactory
+)
 
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -387,7 +391,8 @@ class TestTeamRestViews(APITestCase):
         self.client.login(username=self.teacher.user.username, password="test")
         new_response = self.client.post(
             '/api/eteam/?course=' + str(self.course.pk),
-            {'team_name': 'SomeTeam'}, format='json')
+            {'team_name': 'SomeTeam'},
+            format='json')
         self.assertEqual(new_response.status_code, status.HTTP_201_CREATED)
         ''' After team is created, it should return the team's data,
         which consists of 3 attributes - the teams given name, teams auto-

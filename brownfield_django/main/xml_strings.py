@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 DEMO_XML = """
 <bfaxml xmlns:py="http://purl.org/kid/ns#">
     <config>

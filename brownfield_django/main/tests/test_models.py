@@ -1,6 +1,8 @@
+from __future__ import unicode_literals
+
 from django.test import TestCase
 
-from factories import (
+from brownfield_django.main.tests.factories import (
     UserFactory, UserProfileFactory,
     CourseFactory, HistoryFactory, TeamFactory,
     PerformedTestFactory, InformationFactory,

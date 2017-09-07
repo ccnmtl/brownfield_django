@@ -1,7 +1,10 @@
+from __future__ import unicode_literals
+
 from django.test.testcases import TestCase
 
-from brownfield_django.main.tests.factories import UserFactory,\
-    UserProfileFactory
+from brownfield_django.main.tests.factories import (
+    UserFactory, UserProfileFactory
+)
 from brownfield_django.mixins import instructor_or_admin, user_is_admin
 
 

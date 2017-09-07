@@ -1,6 +1,11 @@
+from __future__ import unicode_literals
+
 from django.test import TestCase
 from django.test.client import Client
-from factories import UserFactory, UserProfileFactory
+from django.utils.encoding import smart_text
+from brownfield_django.main.tests.factories import (
+    UserFactory, UserProfileFactory
+)
 from brownfield_django.main.xml_strings import INITIAL_XML
 
 
@@ -14,12 +19,12 @@ class TestAdminInfoInteractiveViews(TestCase):
 
     def test_admin_info_get_interaction(self):
         response = self.client.get("/demo/info/")
-        self.assertEqual(response.content,
+        self.assertEqual(smart_text(response.content),
                          "<data><response>OK</response></data>")
 
     def test_admin_info_post_interaction(self):
         response = self.client.post("/demo/info/")
-        self.assertEqual(response.content,
+        self.assertEqual(smart_text(response.content),
                          "<data><response>OK</response></data>")
 
 
@@ -33,11 +38,11 @@ class TestInstructorInfoInteractiveViews(TestCase):
 
     def test_instructor_info_get_interaction(self):
         response = self.client.get("/demo/info/")
-        self.assertEqual(response.content, INITIAL_XML)
+        self.assertEqual(smart_text(response.content), INITIAL_XML)
 
     def test_instructor_info_post_interaction(self):
         response = self.client.post("/demo/info/")
-        self.assertEqual(response.content,
+        self.assertEqual(smart_text(response.content),
                          "<data><response>OK</response></data>")
 
 
@@ -51,11 +56,11 @@ class TestAdminHistoryInteractiveViews(TestCase):
 
     def test_admin_history_get_interaction(self):
         response = self.client.get("/demo/history/")
-        self.assertEqual(response.content, INITIAL_XML)
+        self.assertEqual(smart_text(response.content), INITIAL_XML)
 
     def test_admin_history_post_interaction(self):
         response = self.client.post("/demo/history/")
-        self.assertEqual(response.content, INITIAL_XML)
+        self.assertEqual(smart_text(response.content), INITIAL_XML)
 
 
 class TestInstructorHistoryInteractiveViews(TestCase):
@@ -68,11 +73,11 @@ class TestInstructorHistoryInteractiveViews(TestCase):
 
     def test_instructor_history_get_interaction(self):
         response = self.client.get("/demo/history/")
-        self.assertEqual(response.content, INITIAL_XML)
+        self.assertEqual(smart_text(response.content), INITIAL_XML)
 
     def test_instructor_history_post_interaction(self):
         response = self.client.post("/demo/history/")
-        self.assertEqual(response.content, INITIAL_XML)
+        self.assertEqual(smart_text(response.content), INITIAL_XML)
 
 
 class TestAdminTestInteractiveViews(TestCase):
@@ -85,11 +90,11 @@ class TestAdminTestInteractiveViews(TestCase):
 
     def test_admin_test_get_interaction(self):
         response = self.client.get("/demo/test/")
-        self.assertEqual(response.content, INITIAL_XML)
+        self.assertEqual(smart_text(response.content), INITIAL_XML)
 
     def test_admin_test_post_interaction(self):
         response = self.client.post("/demo/test/")
-        self.assertEqual(response.content, INITIAL_XML)
+        self.assertEqual(smart_text(response.content), INITIAL_XML)
 
 
 class TestInstructorTestInteractiveViews(TestCase):
@@ -102,8 +107,8 @@ class TestInstructorTestInteractiveViews(TestCase):
 
     def test_test_history_get_interaction(self):
         response = self.client.get("/demo/test/")
-        self.assertEqual(response.content, INITIAL_XML)
+        self.assertEqual(smart_text(response.content), INITIAL_XML)
 
     def test_test_history_post_interaction(self):
         response = self.client.post("/demo/test/")
-        self.assertEqual(response.content, INITIAL_XML)
+        self.assertEqual(smart_text(response.content), INITIAL_XML)

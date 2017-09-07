@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 all_documents = [{
         'name': 'Video: Esker County Community Television: O\'Ryan\'s Express',
         'link': 'https://www.youtube.com/watch?v=pz9eTvJea9Y'
