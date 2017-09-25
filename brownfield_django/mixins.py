@@ -114,7 +114,7 @@ class PasswordMixin(object):
         char_digits = letters + digits
         self.passwd = ''
         for x in range(0, 7):
-            add_char = random.choice(char_digits)
+            add_char = random.choice(char_digits)  # nosec
             self.passwd = self.passwd + add_char
         return self.passwd
 
@@ -135,7 +135,7 @@ class UniqUsernameMixin(object):
             name = self.user_name[:-6] + "_"
             char_digits = letters + digits
             for x in range(0, 4):
-                add_char = random.choice(char_digits)
+                add_char = random.choice(char_digits)  # nosec
                 name = name + add_char
             self.user_name = name
             return self.user_name

@@ -1,15 +1,6 @@
 import csv
 import json
 
-from brownfield_django.main.models import Course, UserProfile, Document, \
-    Team, History, Information, PerformedTest
-from brownfield_django.main.serializers import DocumentSerializer, \
-    UserSerializer, TeamUserSerializer, CourseSerializer, \
-    StudentUserSerializer, StudentMUserSerializer, InstructorSerializer
-from brownfield_django.main.xml_strings import INITIAL_XML
-from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
-    CSRFExemptMixin, PasswordMixin, UniqUsernameMixin, \
-    LoggedInMixinAdminInst, LoggedInMixinAdministrator, ProfileMixin
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
@@ -19,11 +10,22 @@ from django.http import (
 from django.http.response import HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.template import loader
+from django.utils.datastructures import MultiValueDictKeyError
+from django.utils.text import slugify
 from django.views.generic import View
 from django.views.generic.detail import DetailView
-from django.utils.text import slugify
 from rest_framework import status, viewsets
 from rest_framework.response import Response
+
+from brownfield_django.main.models import Course, UserProfile, Document, \
+    Team, History, Information, PerformedTest
+from brownfield_django.main.serializers import DocumentSerializer, \
+    UserSerializer, TeamUserSerializer, CourseSerializer, \
+    StudentUserSerializer, StudentMUserSerializer, InstructorSerializer
+from brownfield_django.main.xml_strings import INITIAL_XML
+from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
+    CSRFExemptMixin, PasswordMixin, UniqUsernameMixin, \
+    LoggedInMixinAdminInst, LoggedInMixinAdministrator, ProfileMixin
 
 
 class CourseViewSet(LoggedInMixin, viewsets.ModelViewSet):
@@ -637,21 +639,21 @@ class TeamPerformTest(CSRFExemptMixin, LoggedInMixin, View):
         try:
             pf.z = request.POST['z']
             pf.save()
-        except:
+        except MultiValueDictKeyError:
             pass
 
     def save_test_details(self, request, pf):
         try:
             pf.testDetails = request.POST['testDetails']
             pf.save()
-        except:
+        except MultiValueDictKeyError:
             pass
 
     def save_param_string(self, request, pf):
         try:
             pf.paramString = request.POST['paramString']
             pf.save()
-        except:
+        except MultiValueDictKeyError:
             pass
 
 
