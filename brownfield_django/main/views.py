@@ -117,7 +117,7 @@ class StudentViewSet(LoggedInMixin, UniqUsernameMixin, viewsets.ModelViewSet):
                 new_profile.save()
                 serializer = StudentMUserSerializer(student)
                 return Response(serializer.data, status.HTTP_201_CREATED)
-            except:
+            except ValueError:
                 # is it considered good practice to return serializer.data
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -135,7 +135,7 @@ class StudentViewSet(LoggedInMixin, UniqUsernameMixin, viewsets.ModelViewSet):
                 student.save()
                 return Response(
                     status=status.HTTP_200_OK)
-            except:
+            except ValueError:
                 '''For some reason update failed'''
                 return Response({"success": False})
         else:
@@ -209,7 +209,7 @@ class InstructorViewSet(LoggedInMixin, UniqUsernameMixin,
                 self.send_instructor_email(instructor, new_profile)
                 serializer = InstructorSerializer(instructor)
                 return Response(serializer.data, status.HTTP_201_CREATED)
-            except:
+            except ValueError:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
@@ -231,7 +231,7 @@ class InstructorViewSet(LoggedInMixin, UniqUsernameMixin,
             try:
                 serializer.save()
                 return Response(serializer.data, status.HTTP_200_OK)
-            except:
+            except ValueError:
                 '''For some reason update failed'''
                 return Response({"success": False})
         # NOTE: there is no return specified when the serializer
@@ -280,7 +280,7 @@ class TeamViewSet(LoggedInMixin, PasswordMixin, viewsets.ModelViewSet):
                 user.save()
                 serializer = TeamUserSerializer(user)
                 return Response(serializer.data, status.HTTP_201_CREATED)
-            except:
+            except ValueError:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)

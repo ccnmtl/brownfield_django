@@ -80,7 +80,7 @@ class Team(models.Model):
         name = ""
         try:
             name = self.user.username
-        except:
+        except AttributeError:
             name = "TeamUser"
         return name
 
