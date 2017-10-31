@@ -96,55 +96,64 @@ class StudentViewSet(LoggedInMixin, UniqUsernameMixin, viewsets.ModelViewSet):
     serializer_class = StudentUserSerializer
 
     def create(self, request):
-        up = self.request.user.profile
-        if up.is_teacher() or up.is_admin():
-            try:
-                key = self.request.query_params.get('course', None)
-                course = Course.objects.get(pk=key)
-                '''want to check for extremely rare occurrence that user
-                may already exist or the name is too long.'''
-                uniq_name = self.get_unique_username(
-                    str(request.data['first_name']),
-                    str(request.data['last_name']))
-                student = User.objects.create_user(
-                    username=uniq_name,
-                    first_name=request.data['first_name'],
-                    last_name=request.data['last_name'],
-                    email=request.data['email'])
-                new_profile = UserProfile.objects.create(course=course,
-                                                         user=student,
-                                                         profile_type='ST')
-                new_profile.save()
-                serializer = StudentMUserSerializer(student)
-                return Response(serializer.data, status.HTTP_201_CREATED)
-            except:
-                # is it considered good practice to return serializer.data
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-        else:
+        try:
+            up = self.request.user.profile
+            if not up.is_teacher() and not up.is_admin():
+                return Response(status=status.HTTP_403_FORBIDDEN)
+
+            key = self.request.query_params.get('course', None)
+            course = Course.objects.get(pk=key)
+            '''want to check for extremely rare occurrence that user
+            may already exist or the name is too long.'''
+            uniq_name = self.get_unique_username(
+                str(request.data['first_name']),
+                str(request.data['last_name']))
+            student = User.objects.create_user(
+                username=uniq_name,
+                first_name=request.data['first_name'],
+                last_name=request.data['last_name'],
+                email=request.data['email'])
+            new_profile = UserProfile.objects.create(course=course,
+                                                     user=student,
+                                                     profile_type='ST')
+            new_profile.save()
+            serializer = StudentMUserSerializer(student)
+            return Response(serializer.data, status.HTTP_201_CREATED)
+        except UserProfile.DoesNotExist:
             return Response(status=status.HTTP_403_FORBIDDEN)
+        except (Course.DoesNotExist, KeyError, ValueError):
+            return Response({"success": False})
 
     def update(self, request, pk=None):
-        up = self.request.user.profile
-        student = get_object_or_404(User, pk=pk)
-        if up.is_teacher() or up.is_admin():
-            try:
-                # should I be sticking this in StudentMUserSerializer
-                student.first_name = request.data['first_name']
-                student.last_name = request.data['last_name']
-                student.email = request.data['email']
-                student.save()
-                return Response(
-                    status=status.HTTP_200_OK)
-            except:
-                '''For some reason update failed'''
-                return Response({"success": False})
-        else:
+        try:
+            up = self.request.user.profile
+
+            if not up.is_teacher() and not up.is_admin():
+                return Response(status=status.HTTP_403_FORBIDDEN)
+
+            student = get_object_or_404(User, pk=pk)
+
+            # should I be sticking this in StudentMUserSerializer
+            student.first_name = request.data['first_name']
+            student.last_name = request.data['last_name']
+            student.email = request.data['email']
+            student.save()
+            return Response(
+                status=status.HTTP_200_OK)
+        except UserProfile.DoesNotExist:
             return Response(status=status.HTTP_403_FORBIDDEN)
+        except (KeyError, ValueError):
+            '''For some reason update failed'''
+            return Response({"success": False})
 
     def get_queryset(self):
         course_pk = self.request.query_params.get('course', None)
         usr_pk = self.kwargs.get('pk', None)
-        up = self.request.user.profile
+
+        try:
+            up = self.request.user.profile
+        except UserProfile.DoesNotExist:
+            return User.objects.none()
 
         if course_pk is not None and (up.is_teacher() or up.is_admin()):
             students = UserProfile.objects.filter(course__pk=course_pk,
@@ -209,7 +218,7 @@ class InstructorViewSet(LoggedInMixin, UniqUsernameMixin,
                 self.send_instructor_email(instructor, new_profile)
                 serializer = InstructorSerializer(instructor)
                 return Response(serializer.data, status.HTTP_201_CREATED)
-            except:
+            except ValueError:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
@@ -231,7 +240,7 @@ class InstructorViewSet(LoggedInMixin, UniqUsernameMixin,
             try:
                 serializer.save()
                 return Response(serializer.data, status.HTTP_200_OK)
-            except:
+            except ValueError:
                 '''For some reason update failed'''
                 return Response({"success": False})
         # NOTE: there is no return specified when the serializer
@@ -280,7 +289,7 @@ class TeamViewSet(LoggedInMixin, PasswordMixin, viewsets.ModelViewSet):
                 user.save()
                 serializer = TeamUserSerializer(user)
                 return Response(serializer.data, status.HTTP_201_CREATED)
-            except:
+            except ValueError:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
