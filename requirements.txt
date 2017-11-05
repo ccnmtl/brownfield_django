@@ -47,7 +47,7 @@ coverage==4.4.1
 chardet==3.0.4  # requests
 idna==2.6  # requests
 urllib3==1.22  # requests
-certifi==2017.7.27.1  # requests
+certifi==2017.11.5  # requests
 requests==2.18.4
 
 logilab-common==1.4.1
