@@ -61,7 +61,7 @@ factory_boy==2.9.2
 
 pyasn1==0.3.7
 
-ldap3==2.3
+ldap3==2.4
 
 sqlparse==0.2.4
 contextlib2==0.5.5
