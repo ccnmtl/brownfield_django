@@ -280,7 +280,8 @@ class TeamViewSet(LoggedInMixin, PasswordMixin, viewsets.ModelViewSet):
                                            budget=course.startingBudget)
                 user = User.objects.create(username=team_name + "_" +
                                            str(team.pk))
-                user.first_name = team_name
+                # Django uses a 30-character Char field for first_name.
+                user.first_name = team_name[:30]
                 tmpasswd = self.get_password()
                 user.set_password(tmpasswd)
                 team.user = user
