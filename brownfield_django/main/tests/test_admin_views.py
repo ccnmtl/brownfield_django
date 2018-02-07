@@ -415,7 +415,7 @@ class TestTeamRestViews(APITestCase):
             {'team_name': 'SomeTeam'}, format='json')
         self.assertEqual(new_response.status_code, status.HTTP_201_CREATED)
         ''' After team is created, it should return the team's data,
-        which is 3 attrinutes '''
+        which is 3 attributes '''
         self.assertEqual(len(new_response.data), 3)
         self.assertEqual(new_response.data['first_name'], u'SomeTeam')
         ''' Delete team as admin '''
@@ -424,6 +424,19 @@ class TestTeamRestViews(APITestCase):
                                               '/', format='json')
         self.assertEqual(another_response.status_code,
                          status.HTTP_204_NO_CONTENT)
+
+    def test_admin_create_teams_long_teamname(self):
+        self.client.login(username=self.admin.user.username, password="test")
+        new_response = self.client.post(
+            '/api/eteam/?course=' + str(self.course.pk),
+            {
+                'team_name': 'Some really really long team name'
+            },
+            format='json')
+        self.assertEqual(new_response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(len(new_response.data), 3)
+        self.assertEqual(new_response.data['first_name'],
+                         u'Some really really long team n')
 
 
 class TestNotifyStudentsView(TestCase):

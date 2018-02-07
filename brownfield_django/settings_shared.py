@@ -1,5 +1,6 @@
 # flake8: noqa
 # Django settings for brownfield_django project.
+import sys
 import os.path
 from ccnmtlsettings.shared import common
 
@@ -10,6 +11,19 @@ locals().update(common(project=project, base=base))
 PROJECT_APPS = [
     'brownfield_django.main',
 ]
+
+if 'test' in sys.argv or 'jenkins' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': ':memory:',
+            'HOST': '',
+            'PORT': '',
+            'USER': '',
+            'PASSWORD': '',
+            'ATOMIC_REQUESTS': True,
+        }
+    }
 
 USE_TZ = True
 
