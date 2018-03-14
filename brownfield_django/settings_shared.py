@@ -17,7 +17,7 @@ TEMPLATES[0]['OPTIONS']['context_processors'].append(  # noqa
     'django.template.context_processors.csrf'
 )
 
-MIDDLEWARE_CLASSES += [  # noqa
+MIDDLEWARE += [  # noqa
     'django.middleware.csrf.CsrfViewMiddleware',
 ]
 
