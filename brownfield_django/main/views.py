@@ -545,7 +545,7 @@ class TeamHistoryView(CSRFExemptMixin, View):
             return HttpResponse(self.send_team_history(team))
 
 
-class TeamInfoView(CSRFExemptMixin, View):
+class TeamInfoView(CSRFExemptMixin, LoggedInMixin, View):
 
     def post(self, request, pk):
         team = Team.objects.get(user=request.user)
