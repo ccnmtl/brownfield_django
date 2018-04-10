@@ -36,7 +36,7 @@ wcwidth==0.1.7
 prompt_toolkit==1.0.15
 pygments==2.2.0
 
-pytz==2018.3
+pytz==2018.4
 
 ipython==5.6.0 # pyup: <6.0.0
 
