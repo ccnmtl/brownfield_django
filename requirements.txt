@@ -121,7 +121,7 @@ django-flashpolicies==1.9
 django-smtp-ssl==1.0
 
 ccnmtlsettings==1.4.0
-boto==2.48.0
+boto==2.49.0
 python-dateutil==2.7.3
 django-storages==1.6.6
 django-cacheds3storage==0.1.2
