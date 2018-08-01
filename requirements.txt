@@ -37,7 +37,7 @@ pygments==2.2.0
 
 pytz==2018.5
 
-ipython==5.7.0 # pyup: <6.0.0
+ipython==5.8.0 # pyup: <6.0.0
 
 rdflib==4.2.2
 
