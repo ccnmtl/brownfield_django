@@ -123,11 +123,23 @@
 {% endblock %}
 
 {% block footer %}
-  <footer class="footer navbar-fixed-bottom hidden-phone">
-    <div class="footer-interior">
-      <a href="http://ccnmtl.columbia.edu" target="_blank"><img src="{% static 'img/ccnmtl.png' %}" class="pull-right" /></a>
-    </div>
-  </footer>
+    <footer class="footer navbar-fixed-bottom hidden-phone">
+        <div class="footer-interior">
+            <p class="description1">Brownfield Action was created by <a href="https://barnard.edu/profiles/peter-bower">Dr. Peter Bower</a>, Senior Lecturer of Environmental Science at Barnard College, and developed by the Columbia Center for Teaching and Learning, with support from the National Science Foundation.</p>
+            <div class="row">
+                <div class="col-md-3 col-md-offset-2">
+                    <a href="http://ctl.columbia.edu"><img class="barnard" src="{{STATIC_URL}}img/barnard.svg" target="_blank" alt="Barnard College"></a>
+                </div>
+                <div class="col-md-3">
+                    <a href="http://ctl.columbia.edu"><img class="ctl" src="{{STATIC_URL}}img/ctl_logo.svg" target="_blank" alt="Columbia University's Center for Teaching and Learning"></a>
+                </div>
+                <div class="col-md-3">
+                    <a href="http://www.nsf.gov"><img class="nsf" src="{{STATIC_URL}}img/nsf_logo.png" target="_blank" alt="The National Science Foundation"></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
 {% endblock %}
 
 <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
