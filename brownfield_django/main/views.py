@@ -3,6 +3,7 @@ import json
 
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.flatpages.views import flatpage
 from django.contrib.sites.models import Site
 from django.core.mail import send_mail
 from django.http import (
@@ -708,3 +709,14 @@ class TeamSignContract(LoggedInMixin, JSONResponseMixin, View):
         team.signed_contract = True
         team.save()
         return self.render_to_json_response({'success': 'true'})
+
+
+class RestrictedFlatPage(View):
+
+    def get(self, *args, **kwargs):
+        if (self.request.user.is_staff or
+            (hasattr(self.request.user, 'profile') and
+             self.request.user.profile.is_teacher())):
+            return flatpage(self.request, self.request.path)
+
+        return HttpResponseRedirect('/')
