@@ -1,3 +1,5 @@
+from django.contrib.flatpages.models import FlatPage
+from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
@@ -154,3 +156,38 @@ class TestTeamHistoryView(TestCase):
         self.client.login(username=self.team.user.username, password='test')
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
+
+
+class RestrictedFlatPageTest(TestCase):
+
+    def setUp(self):
+        site = Site.objects.get(id=1)
+        site.name = 'sport'
+        site.save()
+
+        self.page = FlatPage.objects.create(
+            registration_required=True,
+            url='/instructors/test/', title='Foo', content="Hello World")
+        self.page.sites.add(site)
+
+    def test_anonymous(self):
+        response = self.client.get('/instructors/test/')
+        self.assertEquals(response.status_code, 302)
+
+    def test_student(self):
+        u = UserFactory()
+        UserProfileFactory(user=u, profile_type='ST')
+        self.client.login(username=u.username, password='test')
+
+        response = self.client.get('/instructors/test/')
+        self.assertEquals(response.status_code, 302)
+
+    def test_teacher(self):
+        u = UserFactory()
+        UserProfileFactory(user=u, profile_type='TE')
+
+        self.client.login(username=u.username, password='test')
+
+        response = self.client.get('/instructors/test/')
+        self.assertEquals(response.status_code, 200)
+        self.assertTrue('Hello World' in response.content)
