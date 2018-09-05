@@ -1,6 +1,7 @@
 import csv
 import json
 
+from boto.s3.connection import S3Connection
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.flatpages.views import flatpage
@@ -720,3 +721,27 @@ class RestrictedFlatPage(View):
             return flatpage(self.request, self.request.path)
 
         return HttpResponseRedirect('/')
+
+
+# based on
+# https://www.gyford.com/phil/writing/2012/09/26/django-s3-temporary/
+class RestrictedFile(View):
+    permanent = False
+
+    def get_signed_url(self):
+        s3 = S3Connection(settings.AWS_ACCESS_KEY, settings.AWS_SECRET_KEY)
+        path = '/uploads/instructors/{}'.format(self.kwargs['path'])
+
+        # Create a URL valid for 5 minutes
+        return s3.generate_url(
+            300, 'GET', bucket=settings.AWS_STORAGE_BUCKET_NAME,
+            key=path)
+
+    def get(self, *args, **kwargs):
+        url = '/'
+        if (self.request.user.is_staff or
+            (hasattr(self.request.user, 'profile') and
+             self.request.user.profile.is_teacher())):
+            url = self.get_signed_url()
+
+        return HttpResponseRedirect(url)
