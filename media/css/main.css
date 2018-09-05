@@ -80,17 +80,54 @@ p.navbar-text {
 
 .footer {
 	background-color: #3b4f38;
-	height: 100px;
 	position: relative;
 	margin: 1em 0 0 0;
 	bottom: 0;
+	color: white;
+	text-align: center;
 }
 
 .footer-interior {
-	padding: 10px 0 0 0;
-	width: 1170px;
+	padding: 10px;
 	margin: 0 auto;
 	display: block;
+}
+
+.footer p {
+    display: block;
+}
+
+.footer p.description1 {
+    width: auto;
+    margin: auto;
+}
+
+footer a,
+footer a.visited,
+footer a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+footer .row .col-md-3 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+footer img.ctl {
+    height: 50px;
+    margin-top: 12px;
+}
+
+footer img.barnard {
+    height: 40px;
+    margin-top: 20px;
+}
+
+
+footer img.nsf {
+    height: 65px;
+    margin-top: 7px;
 }
 
 
