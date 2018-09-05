@@ -10,7 +10,7 @@ from rest_framework import routers
 
 from brownfield_django.main.views import CourseViewSet, UserViewSet, \
     DocumentViewSet, StudentViewSet, TeamViewSet, InstructorViewSet, \
-    RestrictedFlatPage
+    RestrictedFlatPage, RestrictedFile
 from brownfield_django.main.views import HomeView, \
     CCNMTLHomeView, CCNMTLCourseDetail, \
     TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView, \
@@ -94,6 +94,7 @@ urlpatterns = [
     url(r'^_impersonate/', include('impersonate.urls')),
     url(r'^stats/$', TemplateView.as_view(template_name="stats.html")),
     url(r'smoketest/', include('smoketest.urls')),
+    url(r'^instructors/files/(?P<path>.*)$', RestrictedFile.as_view()),
     url(r'^instructors/', RestrictedFlatPage.as_view()),
     url(r'^uploads/(?P<path>.*)$', django.views.static.serve,
         {'document_root': settings.MEDIA_ROOT}),
