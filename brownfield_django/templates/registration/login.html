@@ -1,57 +1,86 @@
 {% extends "base.html" %}
+
 {% block title %}
    Please Login
 {% endblock %}
 
 {% block usernav %}{% endblock %}
 
-{% block content %}
-<h3>Welcome to Brownfield Action</h3>
-<p class="lead">
-Brownfield Action is a a web-based environmental science simulation that allows students to gain practice tackling the complexity and ambiguity of a large-scale, interdisciplinary science problem,
-allows students to explore and solve real-world, interdisciplinary problems in environmental forensics, and teaches students the skills required to produce a professional level environmental site assessment.
-</p>
-<p class="lead">Log in to run the simulation. Or <a href="http://brownfieldaction.org" target="_blank">click here</a> for more information on the Brownfield Action project including a screencast, a guided walkthrough, and more.</p>
-{% endblock %}
-
-
-{% block logbox %}
-<div class="loginbox-container columbia">
-    <div class="loginbox">
-        <h2>Welcome to Brownfield</h2>
-        <div class="content">
-        
-        {% if form.errors %}
-            <p class="errornote">
-                <span>
-                    <b>ERROR:</b> Invalid username or password.
-                </span>
-                Please try again. Note that both username and password are case-sensitive.
+{% block outercontainer %}
+<div class="container ">
+    <div class="row">
+        <div class="col-md-8">
+            <p class="lead" style="padding-top: 20px">
+                Brownfield Action is a a web-based environmental science simulation that:
             </p>
-        {% endif %}
-        
-            <p></p>
-            <form id="login-local" name="login_local" method="post" action=".">
-                {% csrf_token %}
-                <div class="login-local-form" {% if not form.errors %}style="display: none"{% endif %}>
-                    <div class="fieldwrapper">
-                        <label for="id_username">Username:</label>
-                        {{ form.username }}
-                    </div><!-- fieldwrapper -->
-                
-                    <div class="fieldwrapper">
-                        <label for="id_password">Password:</label>
-                        {{ form.password }}
-                    </div><!-- fieldwrapper -->
-                </div>      
-                <input class="regbutton" type="button" value="Guest Log In" {% if form.errors %}style="display: none"{% endif %}
-                    onclick="jQuery('.login-local-form').show(); jQuery(this).hide(); return false;"/>
-                <input class="regbutton login-local-form" type="submit" value="Log In" {% if not form.errors %}style="display: none;"{% endif %} />                        
-                <input type="hidden" name="next" value="{{ next|urlencode }}" />
-            </form>
+            <ul class="lead">
+                <li>allows students to gain practice tackling the complexity and ambiguity of a large-scale, interdisciplinary science problem,</li>
+                <li>allows students to explore and solve real-world, interdisciplinary problems in environmental forensics,</li>
+                <li>teaches students the skills required to produce a professional level environmental site assessment.</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+           <div class="loginbox">
+                <h3 class="top">Log In</h3>
+
+                <div style="padding-top: 5px">
+                    <div>
+                        {% if form.username.errors %}
+                            <div class="alert alert-danger"><p>Please enter your username.</p></div>
+                        {% else %}    
+                            {% if form.password.errors %}
+                                <div class="alert alert-danger"><p>Please enter your password.</p></div>
+                            {% else %}                
+                                {% if form.errors %}
+                                    <div class="alert alert-danger"><p>Please enter a correct username and password. Note that both fields are case-sensitive.</p></div>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <form method="post" action=".">
+                        <div><label for="id_username">Username</label></div>
+                        <div>{{ form.username }}</div>
+                        <br />
+                        <div><label for="id_password">Password:&nbsp;&nbsp;</label></div>
+                        <div>{{ form.password }}</div>
+                        <br />
+                        <div><input class="btn" type="submit" value="Log In"></input></div>
+                        <input type="hidden" name="next" value="{{ next }}"></input>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+              <div class="panel-heading"><h4><a href="/simulation/basics/">Research</a></h4></div>
+              <div class="panel-body">
+                <div><img src="{{STATIC_URL}}img/bf_bronx.jpg" style="width: 100%; height: auto; "/></div>
+                <h5>What is a <i>brownﬁeld</i>? What is an environmental site assessment? <a href="/simulation/basics/">more</a></h5>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+              <div class="panel-heading"><h4><a href="/simulation/introduction/">Experiment</a></h4></div>
+              <div class="panel-body">
+                <div><img src="{{STATIC_URL}}img/sitevisit.jpg" style="width: 100%; height: auto; "/></div>
+                <h5>Investigate groundwater contamination in a virtual township. <a href="/simulation/introduction/">more</a></h5>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+              <div class="panel-heading"><h4><a href="/classroom/teaching/">Teach</a></h4></div>
+              <div class="panel-body">
+                <div><img src="{{STATIC_URL}}img/cls_img01.jpg" style="width: 100%; height: auto; "/></div>
+                <h5>Learn how to use Brownfield Action in the classroom. <a href="/classroom/teaching/">more</a></h5>
+              </div>
+            </div>
+        </div>
+    </div>
 
+</div>
 {% endblock %}
-{% block loginbox %}{% endblock %}

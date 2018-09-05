@@ -54,109 +54,74 @@
       <span class="icon-bar"></span>
     </button>
     <a class="navbar-brand" href="/">
-        <span class="glyphicon glyphicon-home"></span>
-        <img class="brownfield-logo" width="500" height="42" src="{% static 'img/logo_bfa_2.png' %}" />
+        <img class="brownfield-logo img-responsive" src="{% static 'img/logo_bfa_2.png' %}" />
     </a>
-    <div class="clearfix"></div>
   </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav">
-        {% block topnavbarleftitems %}
-        {% endblock %}
     </ul>
 
     <ul class="nav navbar-nav navbar-right">
-        {% block topnavbarrightitems %}
-        {% endblock %}
-        <p class="navbar-text">
-
         {% block usernav %}
-            {% if request.user.is_anonymous %}
-            {% else %}
-            Logged in as
-              {% if request.user.last_name %}
-                  {{request.user.first_name}} {{request.user.last_name}}
-              {% else %}
-                  <b>{{ request.user.username }}</b>
-              {% endif %}
-            {% if request.user.is_superuser %}
-                <a href="{% url 'impersonate-list' %}" class="btn btn-default">Impersonate</a>
-            {% endif %}
-                <a href="/accounts/logout/?next=/" class="btn btn-default">Log Out</a>
+            {% if not request.user.is_anonymous %}
+                <li>
+                    <p class="navbar-text">
+                    Welcome
+                    {% if request.user.last_name %}
+                        {{request.user.first_name}} {{request.user.last_name}}
+                    {% else %}
+                        {{ request.user.username }}
+                    {% endif %}
+                    </p>
+                </li>
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="/simulation/introduction/">Simulation</a></li>
+                    <li><a href="/classroom/teaching/">Teaching & Learning</a></li>
+                    {% if request.user.profile.is_teacher or request.user.is_staff %}
+                        <li><a href="/instructors/resources/">Instructor Resources</a></li>
+                    {% endif %}
+                  </ul>
+                </li>
+                {% if request.user.is_superuser %}
+                    <li><a href="{% url 'impersonate-list' %}">Impersonate</a></li>
+                {% endif %}
+                <li><a href="/accounts/logout/?next=/">Log Out</a></li>
             {% endif %}
         {% endblock %}
-       </p>
-
     </ul>
   </div><!-- end .navbar-header -->
   </div>
 </nav>
-
-{% endblock %}
-<div class="clearfix"></div>
-<div class="wrap">
-  <div class="container" id="outer-container">
-{% block masthead %}
-  {% block primarynav %}{% endblock %}
 {% endblock %}
 
-{% block loginbox %}
-{% if request.user.is_anonymous %}
-<div class="loginbox-container columbia">
-    <div class="loginbox">
-        <div class="content">
 
-            <hr class="seperator" />
+{% block outercontainer %}
+    <div class="clearfix"></div>
 
-        {% if login_form.errors %}
-            <p class="errornote">
-                <span>
-                    <b>ERROR:</b> Invalid username or password.
-                </span>
-                Please try again. Note that both username and password are case-sensitive.
-            </p>
-        {% endif %}
+    <div class="wrap">
+        <div class="container" id="outer-container">
+            {% block masthead %}
+                {% block primarynav %}{% endblock %}
+            {% endblock %}
 
-            <p>If you have a guest account...</p>
-            <form id="login-local" name="login_local" method="post" action="/accounts/login/">
-                {% csrf_token %}
-                <div class="login-local-form" {% if not login_form.errors %}style="display: none"{% endif %}>
-                    <div class="fieldwrapper">
-                        <label for="id_username">Username:</label>
-                        {{ login_form.username }}
-                    </div><!-- fieldwrapper -->
-
-                    <div class="fieldwrapper">
-                        <label for="id_password">Password:</label>
-                        {{ login_form.password }}
-                    </div><!-- fieldwrapper -->
+            <div class="row">
+                <div class="col-md-8">
+                    {% block pagetitle %}{% endblock %}
+                    {% block content %}{% endblock %}
                 </div>
-                <input class="regbutton" type="button" value="Guest Log In" {% if login_form.errors %}style="display: none"{% endif %}
-                    onclick="jQuery('.login-local-form').show(); jQuery(this).hide(); return false;"/>
-                <input class="regbutton login-local-form" type="submit" value="Log In" {% if not login_form.errors %}style="display: none;"{% endif %} />
-                <input type="hidden" name="next" value="{{ request.get_full_path }}" />
-            </form>
+                <div class="col-md-4">
+                    {% block logbox %}{% endblock %}
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-{% endif %}
+        <div class="clearfooter"></div>
+    </div><!-- end .wrap -->
 {% endblock %}
 
-
-<div class="row">
-<div class="col-md-8">
-{% block pagetitle %}{% endblock %}
-{% block content %}{% endblock %}
-</div>
-<div class="col-md-4">
-{% block logbox %}{% endblock %}
-</div>
-</div>
-</div>
-<div class="clearfooter"></div>
-</div><!-- end .wrap -->
 {% block footer %}
   <footer class="footer navbar-fixed-bottom hidden-phone">
     <div class="footer-interior">
