@@ -11,3 +11,7 @@
 {% block content %}
 {{ flatpage.content|markdown}}
 {% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/slideshowlite.js"></script>
+{% endblock %}
