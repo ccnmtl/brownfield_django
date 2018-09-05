@@ -4,7 +4,18 @@
    Please Login
 {% endblock %}
 
-{% block usernav %}{% endblock %}
+{% block usernav %}
+    <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="/simulation/introduction/">Simulation</a></li>
+        <li><a href="/classroom/teaching/">Teaching & Learning</a></li>
+      </ul>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'contactus' %}">Contact</a>
+    </li>
+{% endblock %}
 
 {% block outercontainer %}
 <div class="container ">

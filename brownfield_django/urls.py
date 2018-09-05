@@ -90,6 +90,7 @@ urlpatterns = [
     url(r'^crossdomain.xml$', flashpolicies.views.simple, {
         'domains': [static_flash_domain, '*.ccnmtl.columbia.edu']
     }),
+    url('^contact/', include('contactus.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     url(r'^stats/$', TemplateView.as_view(template_name="stats.html")),

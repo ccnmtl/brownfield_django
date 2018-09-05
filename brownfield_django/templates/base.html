@@ -65,7 +65,18 @@
 
     <ul class="nav navbar-nav navbar-right">
         {% block usernav %}
-            {% if not request.user.is_anonymous %}
+            {% if request.user.is_anonymous %}
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="/simulation/introduction/">Simulation</a></li>
+                    <li><a href="/classroom/teaching/">Teaching & Learning</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contactus' %}">Contact</a>
+                </li>
+            {% else %}
                 <li>
                     <p class="navbar-text">
                     Welcome
@@ -85,6 +96,9 @@
                         <li><a href="/instructors/resources/">Instructor Resources</a></li>
                     {% endif %}
                   </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contactus' %}">Contact</a>
                 </li>
                 {% if request.user.is_superuser %}
                     <li><a href="{% url 'impersonate-list' %}">Impersonate</a></li>
