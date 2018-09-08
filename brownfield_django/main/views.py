@@ -457,18 +457,10 @@ class BrownfieldInfoView(CSRFExemptMixin, View):
 class BrownfieldHistoryView(CSRFExemptMixin, View):
 
     def get(self, request):
-        if request.user.profile.is_admin():
-            return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_teacher():
-            '''This may need to be changed...'''
-            return HttpResponse(INITIAL_XML)
+        return HttpResponse(INITIAL_XML)
 
     def post(self, request):
-        if request.user.profile.is_admin():
-            return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_teacher():
-            '''This may need to be changed...'''
-            return HttpResponse(INITIAL_XML)
+        return HttpResponse(INITIAL_XML)
 
 
 class BrownfieldTestView(CSRFExemptMixin, LoggedInMixin, View):
