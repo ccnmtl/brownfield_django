@@ -14,7 +14,7 @@ from brownfield_django.main.views import CourseViewSet, UserViewSet, \
 from brownfield_django.main.views import HomeView, \
     CCNMTLHomeView, CCNMTLCourseDetail, \
     TeamHomeView, EditTeamsView, ShowTeamsView, ActivateCourseView, \
-    BrownfieldInfoView, BrownfieldHistoryView, BrownfieldTestView, \
+    BrownfieldDemoView, \
     TeamHistoryView, TeamInfoView, TeamPerformTest, \
     TeamCSV, ShowProfessorsView, ArchiveCourseView, TeamSignContract
 
@@ -74,9 +74,9 @@ urlpatterns = [
     url(r'^show_instructors/$', ShowProfessorsView.as_view()),
     url(r'^demo/play$', TemplateView.as_view(
         template_name="main/flvplayer.html")),
-    url(r'^demo/info/', BrownfieldInfoView.as_view()),
-    url(r'^demo/history/', BrownfieldHistoryView.as_view()),
-    url(r'^demo/test/$', BrownfieldTestView.as_view()),
+    url(r'^demo/info/', BrownfieldDemoView.as_view()),
+    url(r'^demo/history/', BrownfieldDemoView.as_view()),
+    url(r'^demo/test/$', BrownfieldDemoView.as_view()),
     url(r'^team/home/(?P<pk>\d+)/$', TeamHomeView.as_view()),
     url(r'^team/(?P<pk>\d+)/play$', TeamHistoryView.as_view(),
         name='team-history'),
