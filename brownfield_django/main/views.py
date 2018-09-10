@@ -437,47 +437,12 @@ class CCNMTLCourseDetail(LoggedInMixin, LoggedInMixinAdminInst, DetailView):
 '''CCNMTL/Admin Interactive Views'''
 
 
-class BrownfieldInfoView(CSRFExemptMixin, View):
-    '''Corresponds to "demo/info/"'''
-    def get(self, request):
-        if request.user.profile.is_admin():
-            return HttpResponse("<data><response>OK</response></data>")
-        elif request.user.profile.is_teacher():
-            '''This may need to be changed...'''
-            return HttpResponse(INITIAL_XML)
-
-    def post(self, request):
-        if request.user.profile.is_admin():
-            return HttpResponse("<data><response>OK</response></data>")
-        elif request.user.profile.is_teacher():
-            '''This may need to be changed...'''
-            return HttpResponse("<data><response>OK</response></data>")
-
-
-class BrownfieldHistoryView(CSRFExemptMixin, View):
-
+class BrownfieldDemoView(CSRFExemptMixin, View):
     def get(self, request):
         return HttpResponse(INITIAL_XML)
 
     def post(self, request):
-        return HttpResponse(INITIAL_XML)
-
-
-class BrownfieldTestView(CSRFExemptMixin, LoggedInMixin, View):
-
-    def get(self, request):
-        if request.user.profile.is_admin():
-            return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_teacher():
-            '''This may need to be changed...'''
-            return HttpResponse(INITIAL_XML)
-
-    def post(self, request):
-        if request.user.profile.is_admin():
-            return HttpResponse(INITIAL_XML)
-        elif request.user.profile.is_teacher():
-            '''This may need to be changed...'''
-            return HttpResponse(INITIAL_XML)
+        return HttpResponse("<data><response>OK</response></data>")
 
 
 '''Beginning of Team Views'''
