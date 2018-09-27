@@ -57,6 +57,9 @@ p.navbar-text {
 }
 
 /* Homepage panels */
+.panel-body {
+    background-color: #fbfaf7;
+}
 .panel-body h5 {
     font-size: 1.3em;
     font-weight: normal;
@@ -67,8 +70,21 @@ p.navbar-text {
     background-color: #bec960;
 }
 
+.panel .panel-heading,
 .panel .panel-heading a {
     color: white;
+}
+
+.video-panel {
+  background-color: #fbfaf7;
+  text-alignment: center;
+  padding: 20px;
+  margin: 20px 0 0 0;
+ 
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
 }
 
 /* Footer */
@@ -79,7 +95,7 @@ p.navbar-text {
 }
 
 .footer {
-	background-color: #3b4f38;
+	background-color: #336600;
 	position: relative;
 	margin: 1em 0 0 0;
 	bottom: 0;
@@ -170,7 +186,6 @@ footer img.nsf {
 .loginbox {
     background-color: white; 
     padding: 25px; 
-    margin: 0px 5px 0px 30px; 
     border: #ddd solid 1px; 
 }
 

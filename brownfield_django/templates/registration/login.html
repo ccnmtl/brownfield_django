@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load bootstrap3 %}
 
 {% block title %}
    Please Login
@@ -49,15 +50,32 @@
                         {% endif %}
                     </div>
                     <form method="post" action=".">
-                        <div><label for="id_username">Username</label></div>
-                        <div>{{ form.username }}</div>
+                        <div>{% bootstrap_field form.username %}</div>
                         <br />
-                        <div><label for="id_password">Password:&nbsp;&nbsp;</label></div>
-                        <div>{{ form.password }}</div>
+                        <div>{% bootstrap_field form.password %}</div>
                         <br />
                         <div><input class="btn" type="submit" value="Log In"></input></div>
                         <input type="hidden" name="next" value="{{ next }}"></input>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4><a href="/simulation/introduction/">Learn</a></h4></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8">
+                            <div class="embed-responsive embed-responsive-16by9 center-block">
+                                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/4JIUvbcQvbI?rel=0&amp;showinfo=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
                 </div>
             </div>
         </div>
