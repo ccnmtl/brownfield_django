@@ -40,4 +40,10 @@
 
 {% block js %}
 <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/slideshowlite.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var url = window.location.pathname;
+        $('.list-group-item a[href="'+ url +'"]').parent().addClass('active');
+    });
+</script>
 {% endblock %}
