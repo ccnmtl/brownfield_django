@@ -4,13 +4,39 @@
 {% block title %}{{ flatpage.title }}{% endblock %}
 
 
-{% block pagetitle %}
-<h2 class="pageheader">{{ flatpage.title }}</h2>
+{% block outercontainer %}
+    <div class="clearfix"></div>
+
+    <div class="wrap">
+        <div class="container" id="outer-container">
+            {% block masthead %}
+                {% block primarynav %}{% endblock %}
+            {% endblock %}
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    {% if perms.flatpages.can_change %}
+                        <a class='btn btn-default pull-right' href="{% url 'admin:flatpages_flatpage_change' flatpage.id %}">Edit</a>
+                    {% endif %}
+                    <h2 class="pageheader">{{ flatpage.title }}</h2>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            {% block sidebar %}
+                            {% endblock %}
+                        </div>
+                        <div class="col-md-9 flatpage">
+                            {{ flatpage.content|markdown}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfooter"></div>
+    </div><!-- end .wrap -->
 {% endblock %}
 
-{% block content %}
-{{ flatpage.content|markdown}}
-{% endblock %}
 
 {% block js %}
 <script type="text/javascript" src="{{STATIC_URL}}js/utility_scripts/slideshowlite.js"></script>

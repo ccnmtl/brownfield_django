@@ -1,0 +1,33 @@
+{% extends "admin/change_form.html" %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script src="{{STATIC_URL}}js/libraries/jquery-1.11.3.min.js"></script>
+    <script src="{{STATIC_URL}}tinymce/tinymce.min.js"></script>
+
+    <script type="text/javascript"> 
+       jQuery(document).ready(function() {
+           tinymce.init({
+               selector: 'textarea',
+               menubar: false,
+               plugins: "code",
+               toolbar: 'insert | undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | code | help',
+           });
+       });
+    </script>
+
+    <style>
+        label[for=id_content] {
+            float: none !important;
+            font-weight: bold;
+            padding-left: 10px;
+        }
+        .form-row.field-content {
+            padding: 20px 50px 20px 0; 
+        }
+        .mce-tinymce {
+            margin-left: 10px !important;
+        }
+    </style>
+
+{% endblock %}
