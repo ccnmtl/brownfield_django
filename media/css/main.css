@@ -635,7 +635,7 @@ h2.pageheader {
     margin-bottom: 20px;
 }
 
-h3.top {
+.flatpage h3:first-of-type {
     margin-top: 0;
 }
 
