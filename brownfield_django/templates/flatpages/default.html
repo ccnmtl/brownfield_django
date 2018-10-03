@@ -15,8 +15,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-
-                    {% if perms.flatpages.can_change %}
+                    {% if perms.flatpages.change_flatpage %}
                         <a class='btn btn-default pull-right' href="{% url 'admin:flatpages_flatpage_change' flatpage.id %}">Edit</a>
                     {% endif %}
                     <h2 class="pageheader">{{ flatpage.title }}</h2>
