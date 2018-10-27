@@ -46,7 +46,7 @@ coverage==4.5.1
 chardet==3.0.4  # requests
 idna==2.7  # requests
 urllib3==1.24  # requests
-certifi==2018.8.24  # requests
+certifi==2018.10.15  # requests
 requests==2.20.0
 
 logilab-common==1.4.2
@@ -67,7 +67,7 @@ contextlib2==0.5.5
 argparse==1.4.0
 astroid==1.6.5 # pyup: <2.0
 backports-abc==0.5
-certifi==2018.8.24
+certifi==2018.10.15
 colorama==0.4.0
 html5lib==1.0.1
 isodate==0.6.0
