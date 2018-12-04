@@ -44,7 +44,7 @@ rdflib==4.2.2
 coverage==4.5.2
 
 chardet==3.0.4  # requests
-idna==2.7  # requests
+idna==2.8  # requests
 urllib3==1.24.1  # requests
 certifi==2018.11.29  # requests
 requests==2.20.1
