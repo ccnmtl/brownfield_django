@@ -1,3 +1,5 @@
+import os
+
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
@@ -20,6 +22,9 @@ from brownfield_django.main.views import HomeView, \
 
 
 admin.autodiscover()
+
+simulation_root = os.path.join(os.path.dirname(__file__),
+                               '../media/', 'flash')
 
 redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
 
@@ -97,6 +102,11 @@ urlpatterns = [
     url(r'smoketest/', include('smoketest.urls')),
     url(r'^instructors/files/(?P<path>.*)$', RestrictedFile.as_view()),
     url(r'^instructors/', RestrictedFlatPage.as_view()),
+
+    url(r'^simulation/walkthrough/(?P<path>.*)$',
+        django.views.static.serve,
+        {'document_root': simulation_root}),
+
     url(r'^uploads/(?P<path>.*)$', django.views.static.serve,
         {'document_root': settings.MEDIA_ROOT}),
 ]
