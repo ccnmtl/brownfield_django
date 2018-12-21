@@ -1,5 +1,5 @@
 # flake8: noqa
-from settings_shared import *
+from brownfield_django.settings_shared import *
 from ccnmtlsettings.staging import common
 
 locals().update(
@@ -17,6 +17,6 @@ MEDIA_URL = S3_URL + 'uploads/'
 COMPRESS_URL = STATIC_URL
 
 try:
-    from local_settings import *
+    from brownfield_django.local_settings import *
 except ImportError:
     pass

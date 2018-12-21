@@ -1,6 +1,6 @@
 import json
 import random
-from string import letters, digits
+from string import ascii_letters, digits
 
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
@@ -111,7 +111,7 @@ class ProfileMixin(object):
 class PasswordMixin(object):
 
     def get_password(self):
-        char_digits = letters + digits
+        char_digits = ascii_letters + digits
         self.passwd = ''
         for x in range(0, 7):
             add_char = random.choice(char_digits)  # nosec
@@ -133,7 +133,7 @@ class UniqUsernameMixin(object):
             take last 6 characters of the name and add an underscore
             followed by 5 random characters or digits'''
             name = self.user_name[:-6] + "_"
-            char_digits = letters + digits
+            char_digits = ascii_letters + digits
             for x in range(0, 4):
                 add_char = random.choice(char_digits)  # nosec
                 name = name + add_char

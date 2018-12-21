@@ -10,24 +10,24 @@ class TestDemoViews(TestCase):
 
     def test_info(self):
         response = self.client.get("/demo/info/")
-        self.assertEqual(response.content, INITIAL_XML)
+        self.assertContains(response, INITIAL_XML)
 
         response = self.client.post("/demo/info/")
         self.assertEqual(response.content,
-                         "<data><response>OK</response></data>")
+                         b"<data><response>OK</response></data>")
 
     def test_history(self):
         response = self.client.get("/demo/history/")
-        self.assertEqual(response.content, INITIAL_XML)
+        self.assertContains(response, INITIAL_XML)
 
         response = self.client.post("/demo/history/")
         self.assertEqual(response.content,
-                         "<data><response>OK</response></data>")
+                         b"<data><response>OK</response></data>")
 
     def test_test(self):
         response = self.client.get("/demo/test/")
-        self.assertEqual(response.content, INITIAL_XML)
+        self.assertContains(response, INITIAL_XML)
 
         response = self.client.post("/demo/test/")
         self.assertEqual(response.content,
-                         "<data><response>OK</response></data>")
+                         b"<data><response>OK</response></data>")

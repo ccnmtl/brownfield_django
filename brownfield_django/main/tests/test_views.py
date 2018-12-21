@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django.contrib.flatpages.models import FlatPage
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
@@ -24,7 +26,7 @@ class BasicTest(TestCase):
     def test_smoketest(self):
         response = self.c.get("/smoketest/")
         self.assertEquals(response.status_code, 200)
-        assert "PASS" in response.content
+        self.assertContains(response, "PASS")
 
 
 class HomeViewTest(TestCase):
@@ -106,12 +108,12 @@ class TestCSV(TestCase):
         self.assertTrue(response.status_code, 200)
 
         a = response.content.splitlines()
-        self.assertEquals(a[0], 'Cost,Date,Description,X,Y,Z')
-        self.assertEquals(a[1], '100,2014/10/23 13:14,History Record')
-        self.assertEquals(a[2], '100,2014/10/23 13:14,History Record')
-        self.assertEquals(a[3], '100,2014/10/23 13:14,History Record,10,30,60')
-        self.assertEquals(a[4],
-                          '100,2014/10/23 13:14,History Record,10,30,None')
+        self.assertEqual(a[0], b'Cost,Date,Description,X,Y,Z')
+        self.assertEqual(a[1], b'100,2014/10/23 13:14,History Record')
+        self.assertEqual(a[2], b'100,2014/10/23 13:14,History Record')
+        self.assertEqual(a[3], b'100,2014/10/23 13:14,History Record,10,30,60')
+        self.assertEqual(
+            a[4], b'100,2014/10/23 13:14,History Record,10,30,None')
 
 
 class TestTeamHistoryView(TestCase):
@@ -190,4 +192,4 @@ class RestrictedFlatPageTest(TestCase):
 
         response = self.client.get('/instructors/test/')
         self.assertEquals(response.status_code, 200)
-        self.assertTrue('Hello World' in response.content)
+        self.assertContains(response, 'Hello World')

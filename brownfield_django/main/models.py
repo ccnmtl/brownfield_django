@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 
 from brownfield_django.main.document_links import all_documents
 
@@ -11,6 +12,7 @@ PROFILE_CHOICES = (
 )
 
 
+@python_2_unicode_compatible
 class Course(models.Model):
     '''
     Course Model
@@ -24,7 +26,7 @@ class Course(models.Model):
     professor = models.ForeignKey(User, related_name="taught_by", null=True,
                                   default=None, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
@@ -62,6 +64,7 @@ class Document(models.Model):
         ordering = ['name']
 
 
+@python_2_unicode_compatible
 class Team(models.Model):
     '''
     Students log in as a team, teams hold progress.
@@ -76,7 +79,7 @@ class Team(models.Model):
     '''
     team_passwd = models.CharField(max_length=255, default="", blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         name = ""
         try:
             name = self.user.username
@@ -97,6 +100,7 @@ class Team(models.Model):
         return history
 
 
+@python_2_unicode_compatible
 class UserProfile(models.Model):
     '''UserProfile adds extra information to a user,
     and associates the user with a course.'''
@@ -109,7 +113,7 @@ class UserProfile(models.Model):
     team = models.ForeignKey(Team, null=True, default=None, blank=True)
     tmp_passwd = models.CharField(max_length=255, default="", blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.username
 
     class Meta:
@@ -153,6 +157,7 @@ class UserProfile(models.Model):
         return url
 
 
+@python_2_unicode_compatible
 class History(models.Model):
     team = models.ForeignKey(Team)
     date = models.CharField(max_length=16)
@@ -160,7 +165,7 @@ class History(models.Model):
     description = models.CharField(max_length=255)
     cost = models.IntegerField(default=0)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s - %s' % (self.description, self.team)
 
     def get_tests_performed(self):
@@ -172,6 +177,7 @@ class History(models.Model):
         return information
 
 
+@python_2_unicode_compatible
 class PerformedTest(models.Model):
     history = models.ForeignKey(History, null=True, default=None, blank=True)
     x = models.IntegerField(default=0)
@@ -181,10 +187,11 @@ class PerformedTest(models.Model):
     testNumber = models.IntegerField(default=0)
     paramString = models.CharField(default="", max_length=255)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s - %s' % (self.testDetails, self.paramString)
 
 
+@python_2_unicode_compatible
 class Information(models.Model):
     """
     Comment from Old Code:
@@ -194,5 +201,5 @@ class Information(models.Model):
     infoType = models.CharField(default="", max_length=255, blank=True)
     internalName = models.CharField(default="", max_length=255, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s - %s' % (self.infoType, self.internalName)

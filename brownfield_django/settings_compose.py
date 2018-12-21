@@ -1,5 +1,5 @@
 # flake8: noqa
-from settings_shared import *
+from brownfield_django.settings_shared import *
 from ccnmtlsettings.compose import common
 
 locals().update(
@@ -11,6 +11,6 @@ locals().update(
     ))
 
 try:
-    from local_settings import *
+    from brownfield_django.local_settings import *
 except ImportError:
     pass
