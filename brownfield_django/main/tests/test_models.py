@@ -1,6 +1,9 @@
-from django.test import TestCase
+from __future__ import unicode_literals
 
-from factories import (
+from django.test import TestCase
+from django.utils.encoding import smart_text
+
+from brownfield_django.main.tests.factories import (
     UserFactory, UserProfileFactory,
     CourseFactory, HistoryFactory, TeamFactory,
     PerformedTestFactory, InformationFactory,
@@ -16,7 +19,7 @@ class UserTest(TestCase):
         self.u.full_clean()
 
     def test_unicode(self):
-        self.assertEqual(str(self.u), self.u.username)
+        self.assertEqual(smart_text(self.u), self.u.username)
 
 
 class CourseTest(TestCase):
@@ -27,7 +30,7 @@ class CourseTest(TestCase):
         self.c.full_clean()
 
     def test_unicode(self):
-        self.assertEqual(str(self.c), self.c.name)
+        self.assertEqual(smart_text(self.c), self.c.name)
 
     def test_get_student_users_empty(self):
         r = self.c.get_student_users()
@@ -42,14 +45,14 @@ class TeamTest(TestCase):
         self.t.full_clean()
 
     def test_unicode(self):
-        self.assertEqual(str(self.t), self.t.user.username)
+        self.assertEqual(smart_text(self.t), self.t.user.username)
 
     def test_unicode_null_user(self):
         # `user` is a nullable field, so it needs to handle
         # that case as well
         self.t.user = None
         self.t.save()
-        self.assertEqual(str(self.t), "TeamUser")
+        self.assertEqual(smart_text(self.t), "TeamUser")
 
 
 class DocumentTest(TestCase):
@@ -68,7 +71,7 @@ class UserProfileTest(TestCase):
         self.up.full_clean()
 
     def test_unicode(self):
-        self.assertEqual(str(self.up), self.up.user.username)
+        self.assertEqual(smart_text(self.up), self.up.user.username)
 
     def test_role_admin(self):
         up = UserProfileFactory(profile_type='AD')
@@ -92,7 +95,7 @@ class HistoryTest(TestCase):
 
     def test_unicode(self):
         self.assertEqual(
-            str(self.h), '%s - %s' % (self.h.description, self.h.team))
+            smart_text(self.h), '%s - %s' % (self.h.description, self.h.team))
 
 
 class PerformedTestTest(TestCase):
@@ -104,7 +107,7 @@ class PerformedTestTest(TestCase):
 
     def test_unicode(self):
         self.assertEqual(
-            str(self.pt),
+            smart_text(self.pt),
             '%s - %s' % (self.pt.testDetails, self.pt.paramString))
 
 
@@ -117,7 +120,7 @@ class InformationTest(TestCase):
 
     def test_unicode(self):
         self.assertEqual(
-            str(self.i),
+            smart_text(self.i),
             '%s - %s' % (self.i.infoType, self.i.internalName))
 
 
@@ -128,7 +131,7 @@ class TestAdminProfile(TestCase):
                                                     first_name='admin',
                                                     last_name='admin'),
                                    profile_type='AD')
-        self.assertEqual(str(admin), admin.user.username)
+        self.assertEqual(smart_text(admin), admin.user.username)
         self.assertEqual(admin.role(), "administrator")
         self.assertEqual(admin.is_admin(), True)
         self.assertEqual(admin.is_student(), False)
@@ -142,7 +145,7 @@ class TestTeacherProfile(TestCase):
                                                     first_name='teacher',
                                                     last_name='teacher'),
                                    profile_type='TE')
-        self.assertEqual(str(teach), teach.user.username)
+        self.assertEqual(smart_text(teach), teach.user.username)
         self.assertEqual(teach.role(), "faculty")
         self.assertEqual(teach.is_teacher(), True)
         self.assertEqual(teach.is_student(), False)
@@ -157,7 +160,7 @@ class TestStudentProfile(TestCase):
                                                       first_name='student',
                                                       last_name='student'),
                                      profile_type='ST')
-        self.assertEqual(str(student), student.user.username)
+        self.assertEqual(smart_text(student), student.user.username)
         self.assertEqual(student.role(), "student")
         self.assertEqual(student.is_student(), True)
         self.assertEqual(student.is_admin(), False)

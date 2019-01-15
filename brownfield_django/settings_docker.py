@@ -1,5 +1,5 @@
 # flake8: noqa
-from settings_shared import *
+from brownfield_django.settings_shared import *
 from ccnmtlsettings.docker import common
 import os
 

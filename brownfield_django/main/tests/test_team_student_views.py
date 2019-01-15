@@ -4,8 +4,9 @@ from django.test.client import Client
 from rest_framework.test import APITestCase
 from rest_framework.test import APIClient
 
-from factories import UserProfileFactory, UserFactory, \
-    CourseFactory, TeamFactory
+from brownfield_django.main.tests.factories import (
+    UserProfileFactory, UserFactory, CourseFactory, TeamFactory
+)
 
 
 class TestTeamViews(TestCase):

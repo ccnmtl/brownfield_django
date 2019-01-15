@@ -2,8 +2,10 @@ from django.core import mail
 from django.test import TestCase
 from django.test.client import Client
 
-from factories import UserProfileFactory, UserFactory, \
+from brownfield_django.main.tests.factories import (
+    UserProfileFactory, UserFactory,
     CourseFactory, TeamFactory
+)
 
 from rest_framework import status
 from rest_framework.test import APITestCase
