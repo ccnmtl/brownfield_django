@@ -103,12 +103,15 @@ urlpatterns = [
     url(r'^instructors/files/(?P<path>.*)$', RestrictedFile.as_view()),
     url(r'^instructors/', RestrictedFlatPage.as_view()),
 
+    url(r'^simulation/demo/$', TemplateView.as_view(
+        template_name='simulation/demo.html')),
+
     url(r'^simulation/walkthrough/(?P<path>.*)$',
         django.views.static.serve,
         {'document_root': simulation_root}),
 
     url(r'^uploads/(?P<path>.*)$', django.views.static.serve,
-        {'document_root': settings.MEDIA_ROOT}),
+        {'document_root': settings.MEDIA_ROOT})
 ]
 
 if settings.DEBUG:
