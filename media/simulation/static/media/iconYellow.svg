@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:link="http://www.w3.org/1999/xlink"
+     width="75px" height="75px"
+     shape-rendering="geometricPrecision"
+     viewBox="-12 -12 24 24">
+    <style>
+        .line {
+            stroke-width: 2px;
+            stroke-linecap: round;
+            stroke: #ffff00;
+        }
+        .line_bg {
+            stroke-width: 4px;
+            stroke-linecap: round;
+            stroke: #000000;
+        }
+        path {
+            stroke-linejoin: round;
+            fill: none;
+        }
+    </style>
+    <g id="markCross">
+        <line x1="-10" y1="0" x2="10" y2="0" class="line_bg" />
+        <line x1="0" y1="-10" x2="0" y2="10" class="line_bg" />
+
+        <line x1="-5" y1="-5" x2="5" y2="5" class="line_bg" />
+        <line x1="-5" y1="5" x2="5" y2="-5" class="line_bg" />
+
+        <line x1="-9.7" y1="0" x2="9.7" y2="0" class="line" />
+        <line x1="0" y1="-9.7" x2="0" y2="9.7" class="line" />
+
+        <line x1="-4.7" y1="-4.7" x2="4.7" y2="4.7" class="line" />
+        <line x1="-4.7" y1="4.7" x2="4.7" y2="-4.7" class="line" />
+    </g>
+</svg>
