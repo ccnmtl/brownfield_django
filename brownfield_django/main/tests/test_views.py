@@ -8,7 +8,7 @@ from django.test.client import Client
 
 from brownfield_django.main.tests.factories import (
     HistoryFactory, InformationFactory, PerformedTestFactory,
-    UserFactory, UserProfileFactory, TeamFactory, CourseFactory
+    UserFactory, UserProfileFactory, TeamFactory
 )
 from brownfield_django.main.views import TeamHistoryView
 
@@ -35,14 +35,8 @@ class HomeViewTest(TestCase):
         self.assertEquals(r.status_code, 200)
 
     def test_get_as_student(self):
-        u = UserFactory()
-        UserProfileFactory(user=u, profile_type='ST')
-        team = TeamFactory(user=u)
-        team.course = CourseFactory()
-        team.save()
-        u.set_password('test')
-        u.save()
-        self.client.login(username=u.username, password='test')
+        team = TeamFactory()
+        self.client.login(username=team.user.username, password='test')
 
         r = self.client.get('/', follow=True)
         self.assertEquals(r.status_code, 200)
@@ -127,8 +121,9 @@ class TestTeamHistoryView(TestCase):
 
     def test_initial_team_history(self):
         result = ('<bfaxml> <config> <user signedcontract="False"'
-                  ' startingbudget="" realname="{}"> </user> '
-                  '<narrative enabled=""></narrative> <information> '
+                  ' startingbudget="65000" realname="' +
+                  self.team.user.username + '"> </user> '
+                  '<narrative enabled="True"></narrative> <information> '
                   '</information> </config> <testdata> </testdata> <budget> '
                   '</budget> </bfaxml>').format(self.team.user.username)
 
@@ -138,9 +133,10 @@ class TestTeamHistoryView(TestCase):
 
     def test_send_team_history(self):
         result = (
-            '<bfaxml> <config> <user realname="{}" '
-            'signedcontract="False" startingbudget="" /> '
-            '<narrative enabled="" /> <information> <info type="recon" '
+            '<bfaxml> <config> <user realname="' +
+            self.team.user.username + '" '
+            'signedcontract="False" startingbudget="65000" /> '
+            '<narrative enabled="True" /> <information> <info type="recon" '
             'name="recon"></info> </information> </config> <testdata> '
             '<test y="30" x="10" n="1" testNumber="1" paramString="'
             'Still need to find format for these..." z="60" ></test> '
@@ -193,3 +189,20 @@ class RestrictedFlatPageTest(TestCase):
         response = self.client.get('/instructors/test/')
         self.assertEquals(response.status_code, 200)
         self.assertContains(response, 'Hello World')
+
+
+class SignContractViewTest(TestCase):
+
+    def test_get_as_anon_user(self):
+        r = self.client.get(reverse('sign-contract'))
+        self.assertEquals(r.status_code, 302)
+
+    def test_get_as_student(self):
+        team = TeamFactory()
+        self.assertFalse(team.signed_contract)
+
+        self.client.login(username=team.user.username, password='test')
+        response = self.client.post(reverse('sign-contract'))
+        self.assertEqual(response.status_code, 302)
+        team.refresh_from_db()
+        self.assertTrue(team.signed_contract)
