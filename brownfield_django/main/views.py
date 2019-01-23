@@ -467,6 +467,25 @@ class TeamHomeView(LoggedInMixin, DetailView):
         return context
 
 
+class TeamHomeHtml5View(LoggedInMixin, DetailView):
+
+    model = Team
+    template_name = 'main/team/team_home_html5.html'
+    success_url = '/'
+
+    def dispatch(self, *args, **kwargs):
+        if (self.request.user.is_anonymous() or
+                (int(kwargs.get('pk')) != self.request.user.team.id)):
+            return HttpResponseForbidden("forbidden")
+        return super(TeamHomeHtml5View, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(TeamHomeHtml5View, self).get_context_data(**kwargs)
+        course = Course.objects.get(pk=self.object.course.pk)
+        context['document_list'] = course.document_set.filter(visible=True)
+        return context
+
+
 """Team Views for interactive."""
 
 
@@ -660,13 +679,13 @@ class TeamCSV(LoggedInMixin, View):
         return response
 
 
-class TeamSignContract(LoggedInMixin, JSONResponseMixin, View):
+class TeamSignContract(LoggedInMixin, View):
 
     def post(self, request):
         team = Team.objects.get(user=request.user)
         team.signed_contract = True
         team.save()
-        return self.render_to_json_response({'success': 'true'})
+        return HttpResponseRedirect(self.request.POST.get('next'))
 
 
 class RestrictedFlatPage(View):
