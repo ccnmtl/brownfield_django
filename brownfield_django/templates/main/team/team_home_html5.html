@@ -11,7 +11,8 @@
         window.BrownfieldContext = {
            baseUrl: '{{STATIC_URL}}',
            staticUrl: 'simulation/',
-           videoDir: 'simulation/videos'
+           videoDir: 'simulation/videos',
+           serverURL: '/team/{{object.pk}}/'
         };
     </script>
     <script type="text/javascript" src="{% static 'simulation/js/main.js' %}"></script>
