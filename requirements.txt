@@ -118,7 +118,7 @@ djangorestframework==3.9.1
 django-flashpolicies==1.9
 django-smtp-ssl==1.0
 
-ccnmtlsettings==1.4.0
+ccnmtlsettings==1.5.0
 boto==2.49.0
 python-dateutil==2.7.5
 django-storages==1.7.1
