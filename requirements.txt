@@ -132,3 +132,6 @@ django-contact-us==0.4.1
 
 google_compute_engine==2.8.13  # for travis?
 distro==1.3.0  # for google_compute_engine
+
+entrypoints==0.3
+functools32==3.2.3-2; python_version < '3'
