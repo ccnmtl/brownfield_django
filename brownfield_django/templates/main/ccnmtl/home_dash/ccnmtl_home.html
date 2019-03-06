@@ -116,7 +116,7 @@
                 listEl: jQuery('.course-list'),
                 user_id: "{{request.user.id}}"
             });
-           
+
            {% if request.user.profile.is_admin %}
                var instructor_controls = new ManageInstructorsView({
         	       el: jQuery('.instructor_controls')
@@ -130,8 +130,8 @@
 
   <ul class="nav nav-tabs instructor-nav">
     <li class="active"><a href="#course-list" data-toggle="tab">Courses</a></li>
-    <li><a href="#demo" data-toggle="tab">Simulation</a></li>
-    <li><a href="/simulation/demo/">Simulation Beta</a></li>
+    <li><a href="#demo" data-toggle="tab"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> Original Simulation</a></li>
+    <li><a href="/simulation/demo/"><span class="glyphicon glyphicon-gift" aria-hidden="true"></span> Beta Simulation</a></li>
     <li><a href="/instructors/resources/">Resources</a></li>
   </ul>
  
