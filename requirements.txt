@@ -61,7 +61,7 @@ pyasn1==0.4.5
 
 ldap3==2.5.2
 
-sqlparse==0.2.4
+sqlparse==0.3.0
 contextlib2==0.5.5
 argparse==1.4.0
 astroid==1.6.5 # pyup: <2.0
