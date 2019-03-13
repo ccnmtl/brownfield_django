@@ -40,7 +40,7 @@ ipython==5.8.0 # pyup: <6.0.0
 
 rdflib==4.2.2
 
-coverage==4.5.2
+coverage==4.5.3
 
 chardet==3.0.4  # requests
 idna==2.8  # requests
