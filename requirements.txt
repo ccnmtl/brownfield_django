@@ -81,7 +81,7 @@ SPARQLWrapper==1.8.2
 wrapt==1.11.1
 rcssmin==1.0.6
 rjsmin==1.0.12
-Jinja2==2.10
+Jinja2==2.10.1
 MarkupSafe==1.1.1
 
 gunicorn==19.9.0
