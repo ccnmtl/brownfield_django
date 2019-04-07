@@ -24,7 +24,7 @@ ipdb==0.12
 traitlets==4.3.2
 ipython_genutils==0.2.0
 decorator==4.4.0
-pexpect==4.6.0
+pexpect==4.7.0
 pickleshare==0.7.5
 simplegeneric==0.8.1
 scandir==1.10.0
