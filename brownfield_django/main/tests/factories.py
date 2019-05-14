@@ -24,7 +24,7 @@ class CourseFactory(factory.DjangoModelFactory):
 class TeamFactory(factory.DjangoModelFactory):
     class Meta:
         model = Team
-    team_passwd = "test"
+    team_passwd = "test"  # nosec
     user = factory.SubFactory(UserFactory)
     course = factory.SubFactory(CourseFactory)
 
