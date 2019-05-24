@@ -451,7 +451,7 @@ class BrownfieldDemoView(CSRFExemptMixin, View):
 class TeamHomeView(LoggedInMixin, DetailView):
 
     model = Team
-    template_name = 'main/team/team_home.html'
+    template_name = 'main/team/team_home_html5.html'
     success_url = '/'
 
     def dispatch(self, *args, **kwargs):
@@ -462,25 +462,6 @@ class TeamHomeView(LoggedInMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(TeamHomeView, self).get_context_data(**kwargs)
-        course = Course.objects.get(pk=self.object.course.pk)
-        context['document_list'] = course.document_set.filter(visible=True)
-        return context
-
-
-class TeamHomeHtml5View(LoggedInMixin, DetailView):
-
-    model = Team
-    template_name = 'main/team/team_home_html5.html'
-    success_url = '/'
-
-    def dispatch(self, *args, **kwargs):
-        if (self.request.user.is_anonymous() or
-                (int(kwargs.get('pk')) != self.request.user.team.id)):
-            return HttpResponseForbidden("forbidden")
-        return super(TeamHomeHtml5View, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(TeamHomeHtml5View, self).get_context_data(**kwargs)
         course = Course.objects.get(pk=self.object.course.pk)
         context['document_list'] = course.document_set.filter(visible=True)
         return context

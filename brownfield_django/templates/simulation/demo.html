@@ -23,11 +23,19 @@
     </script>
 {% endblock %}
 
-{% block outercontainer %}
+{% block content %}
+
+  <ul class="nav nav-tabs instructor-nav">
+    <li><a href="/ccnmtl/home/{{request.user.id}}/">Courses</a></li>
+    <li class="active"><a href="/simulation/demo/">Simulation</a></li>
+    <li><a href="/instructors/resources/">Resources</a></li>
+  </ul>
+
+  <div class="instructor tab-content">{% csrf_token %}
     <div class="container">
         <div class="row-md-12">
             <div>
-            <h3>PLAY BROWNFIELD ACTION (beta)</h3>
+            <h3>PLAY BROWNFIELD ACTION</h3>
             <p>This is an HTML5 update to the Brownfield Action sim. The
                 basic functionality of the sims are the same but the UI design
                 has been updated. You can use either sim for now. You will
