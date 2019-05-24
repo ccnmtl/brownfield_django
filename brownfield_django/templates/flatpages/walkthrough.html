@@ -1,0 +1,199 @@
+{% extends "flatpages/default.html" %}
+{% load static %}
+
+{% block css %}
+    <link href="{{STATIC_URL}}simulation/css/main.css" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var url = window.location.pathname;
+            $('.list-group-item a[href="'+ url +'"]').parent().addClass('active');
+        });
+
+        window.BrownfieldContext = {
+           baseUrl: '{{STATIC_URL}}',
+           staticUrl: 'simulation/',
+           videoDir: 'simulation/videos',
+           serverURL: '/demo/'
+        };
+    </script>
+
+    <script type="text/javascript" src="{% static 'simulation/js/main.js' %}"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+           new BrownField(document.getElementById('main_content'));
+        });
+    </script>
+{% endblock %}
+
+{% block sidebar %}
+<ul class="list-group">
+    <li class="list-group-item"><a href="/simulation/introduction/">Introduction</a></li>
+    <li class="list-group-item"><a href="/simulation/screencast/">Screencast Demonstration</a></li>
+    <li class="list-group-item"><a href="/simulation/walkthrough/">Guided Walkthrough</a></li>
+    <li class="list-group-item"><a href="/simulation/history/">Brownfield Action History</a></li>
+    <li class="list-group-item"><a href="/simulation/basics/">What is a Brownfield?</a></li>
+    <li class="list-group-item"><a href="/simulation/news/">Brownfield Action in the News</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+    <h3>Guided Walkthrough</h3>
+    <p>Welcome to the demonstration page for the Brownfield Action Simulation.
+        Guided instructions are provided to help familiarize you with the
+        simulation. Alternatively, you may explore the sim on your own.</p>
+
+    <h3>GUIDED INSTRUCTIONS</h3>
+    <p>
+        <br /> Click on the links below to watch the &ldquo;Phase 1&rdquo; video
+        and read the related newspaper article. Both introduce a central character,
+        Seymour Buckmeister, as well as the Phase 1 environmental site assessment
+        (ESA). Student environmental consulting companies see the video and read the
+        newspaper article before they sign a contract with Malls-R-Us to perform a
+        Phase 1 ESA and start using the simulation.&nbsp; <br /> <br /> <a
+            title="oryans_express"
+            href="https://www.youtube.com/watch?v=pz9eTvJea9Y" target="_blank">Video:
+            Esker County Community Television: O'Ryan's Express</a>
+    </p>
+    <p>
+        <a title="news1"
+            href="https://s3.amazonaws.com/ccnmtl-brownfield-static-prod/uploads/public/news1.pdf">Residents
+            React to prospect of Mall Plans (.pdf)</a> - from the <em>Moraine
+            Monitor</em>
+    </p>
+    <p>&nbsp;</p>
+
+    <div id="main_content" style="width: 100%; height: 781px; min-width: 800px;">
+    </div>
+
+    <h3>Interface Notes</h3>
+    <p>When student companies log in, the &ldquo;Contract&rdquo; with Malls-R-Us
+        automatically pops-up on the screen and students must &ldquo;sign&rdquo; it
+        by clicking a button. This gives them a budget and allows them to proceed
+        into the simulation. However, you will not see the &ldquo;Contract&rdquo;
+        here in this simulation demo. For access to the contract, view the Documents
+        in the simulation and click on &ldquo;Contract&rdquo; (use the Next Page
+        button to see the whole document) or go to the Brownfield Action Documents
+        section in the Registered Users tab.</p>
+    <p>The &ldquo;Contract&rdquo; specifically states (at the end) that
+        Malls-R-Us gives the environmental consulting company specific information
+        that they already have in their possession. These documents and maps
+        include:&nbsp;</p>
+    <ul>
+        <li>plat of Self-Lume property</li>
+        <li>topographic survey data for Self-Lume site</li>
+        <li>Moraine Township Tax Assessment Map (Sheet 18, Block 106 and
+            Portions of Block 107-112)</li>
+        <li>site grid map (2000 feet x 3200 feet)</li>
+        <li>Self-Lume seismic reflection and refraction data and profile</li>
+        <li>Self-Lume brochure and other information concerning the industrial
+            process and operations of Self-Lume</li>
+        <li>an Environmental Site Assessment Checklist</li>
+        <li>a copy of the ASTM Phase One ESA standards</li>
+    </ul>
+    <p>These maps and documents can also be viewed in the Brownfield Action
+        Documents section in the Registered Users page of this web site. Each
+        student environmental consulting company is given hard copies of these maps
+        and documents. The Moraine Township Tax Assessment Map becomes the base map
+        (the contractually defined &ldquo;Site&rdquo;) on which vellum sheets are
+        overlain for the collection of topographic, bedrock, water table, and
+        surface site map information.</p>
+    <h3>Three Simulation Modes</h3>
+    <p>
+        There are three modes of the simulation that students must use in order to
+        complete the Phase 1 ESA. These are: Visual Reconnaissance, Site History,
+        and Testing.<br /> <br /> <span style="text-decoration: underline;"><em>Visual
+                Reconnaissance</em></span> <em>- A drive through the town reveals the
+            general character of town infrastructure/buildings (number and nature of
+            businesses, residences), location of the town well, water tower, and the
+            natural geography.</em>
+    </p>
+    <ul>
+        <li>Select "Vis Recon" from the "MODE" drop down menu</li>
+        <li>Click the "Begin" button</li>
+        <li>Note the blinking red dot that moves across the map and makes stops
+            through the town</li>
+        <li>With each stop, text and photo changes at bottom of interface
+            depending on the location</li>
+        <li>Displayed text are the notes taken by an assistant of the firm
+            describing features of the landscape and town buildings/infrastructure</li>
+        <li>Note that the budget charges $100 when the Vis Recon is performed
+            (i.e., the student environmental consulting company must pay their
+            assistant in order to do this initial visual reconnaissance.)</li>
+    </ul>
+    <p>
+        <em><span style="text-decoration: underline;">Site History</span> -
+            Around 30 locations can be visited and 45 characters can be interviewed
+            including town residents, business owners, and local government
+            officials.</em>
+    </p>
+    <ul>
+        <li>Select "Site History" from the "MODE" drop down menu</li>
+        <li>Visit the Muni Govt, Health Dept - Env Division by clicking on the
+            &ldquo;Municipal Government&rdquo; label on the map, then selecting
+            &ldquo;Health Dept - Env Division&rdquo; from the drop down list and
+            clicking the &ldquo;Visit&rdquo; button. These interview responses
+            happen to be in video. Ask Question no. 1 to receive the documents she
+            has; these will appear in the Documents interface after you leave or
+            alternatively you can view them in the &ldquo;Brownfield Action
+            Documents&rdquo; section on the Teachers and Users page. These documents
+            are:</li>
+    </ul>
+    <ol>
+        <li>Sanitary Inspection Report</li>
+        <li>Septic Cleaning Permit Application</li>
+        <li>Permit to Build or Alter Sewage Disposal/Septic System</li>
+        <li>UST Memo from Anne Spector, Health Department Inspector</li>
+    </ol>
+    <ul>
+        <li>You can click on any location on the map to get information about
+            it at the bottom of the interface, including cost of visiting and asking
+            questions. Click "Visit" to visit the selected location to talk to
+            anyone who is there. Some locations such as individual offices at the
+            Municipal Government and individual residences are accessed through drop
+            down menus.</li>
+    </ul>
+    <p>
+        <em><span style="text-decoration: underline;">Testing</span> - Includes
+            a suite of geological testing tools used to collect data for creating
+            water table and bedrock contour maps, also underground metal detection
+            tools, drilling and groundwater chemical tests.</em>
+    </p>
+    <ul>
+        <li>Select "Testing" from the "MODE" drop down menu. When the drop down
+            menu of tools to select appears, select the SGSA (Soil Gas Sample and
+            Analysis) tool.</li>
+        <li>Select the coordinate point on the map to run the SGSA test for by
+            clicking on the &ldquo;Mouse Select&rdquo; button, then click
+            &ldquo;Perform test&rdquo;</li>
+        <li>Results appear in the bottom right hand pane</li>
+        <li>Select the coordinates below and move south along a transect that
+            will show benzene contamination in the soil gas from the leaking
+            underground storage tank at the gas station: (920, 1700); (920, 1710);
+            (900, 1680)</li>
+    </ul>
+    <h3>Concluding the Investigation</h3>
+    <p>
+        Over the course of the investigation, students receive timed numerous news
+        articles based on their progress with their investigation. These articles
+        and other embedded simulation documents are downloadable from the Brownfield
+        Action Documents section of this web site.<br /> <br /> The following
+        Phase 2 video is used to wrap up many of the issues faced during the Phase 1
+        part of the student's investigation. At this point the student environmental
+        consulting companies have completed their Phase1 investigation of the
+        Self-Lume site. Testing of the water from the town well reveals
+        contamination from tritium and gasoline. Both the EPA and NRC respond as
+        well as town officials. Student companies are then hired by the EPA and NRC
+        to complete Phase 2 and 3 investigations of the site, that is, to delineate
+        the nature and extent of the contamination, assist the FBI in determining
+        culpability, and then make recommendations for a clean-up.
+    </p>
+    <p>
+        <a title="news conference"
+            href="https://www.youtube.com/watch?v=zswLL6qhy8s" target="_blank">Video:
+            Press Conference Proceedings in Moraine Township</a>
+    </p>
+{% endblock %}
