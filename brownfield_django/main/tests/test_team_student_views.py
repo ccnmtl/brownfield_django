@@ -26,7 +26,7 @@ class TestTeamViews(TestCase):
         request = self.client.get("/team/home/" +
                                   str(self.team.pk) + '/')
         self.assertTemplateUsed(request,
-                                'main/team/team_home.html')
+                                'main/team/team_home_html5.html')
 
     def test_initial_history(self):
         response = self.client.get("/team/" + str(self.team.user.pk) + "/play")
