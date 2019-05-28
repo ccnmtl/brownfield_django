@@ -72,19 +72,9 @@
         </div>
 
         <div class="course-header">
-            <h3>PLAY BROWNFIELD ACTION (BETA)</h3>
-            <a class="btn btn-success btn-sm pull-right" role="button"
-                href="{% url 'team-home' object.pk %}">
-                <span class="glyphicon glyphicon-flash" aria-hidden="true"></span> Original Simulation
-            </a>
+            <h3>PLAY BROWNFIELD ACTION</h3>
         </div>
         <div class="clearfix"></div>
-         <p>This is an HTML5 update to the Brownfield Action sim. The
-                basic functionality of the sims are the same but the UI design
-                has been updated. You can use either sim for now. You will
-                notice that the save state data is shared between the two sims
-                so feel free to switch between the two.</p>
-
         {% if object.signed_contract == False %}
             <p>
                 You must sign the contract to play the game. Read through the contract
@@ -92,7 +82,7 @@
             </p>
             <iframe src="{% static 'flash/documents/contract.pdf' %}" style="width:100%; height: 400px"></iframe>
             <form method="post" action="{% url 'sign-contract' %}">{% csrf_token %}
-                <input type="hidden" name="next" value="{% url 'team-home-html5' object.pk %}" />
+                <input type="hidden" name="next" value="{% url 'team-home' object.pk %}" />
                 <button type="submit" class="btn btn-primary">Sign Contract</button>
             </form>
         {% else %}

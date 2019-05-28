@@ -15,7 +15,7 @@ from brownfield_django.main.views import CourseViewSet, UserViewSet, \
     RestrictedFlatPage, RestrictedFile
 from brownfield_django.main.views import (
     HomeView, CCNMTLHomeView, CCNMTLCourseDetail,
-    TeamHomeView, TeamHomeHtml5View, EditTeamsView, ShowTeamsView,
+    TeamHomeView, EditTeamsView, ShowTeamsView,
     ActivateCourseView, BrownfieldDemoView,
     TeamHistoryView, TeamInfoView, TeamPerformTest,
     TeamCSV, ShowProfessorsView, ArchiveCourseView, TeamSignContract)
@@ -84,8 +84,6 @@ urlpatterns = [
     url(r'^demo/test/$', BrownfieldDemoView.as_view()),
     url(r'^team/home/(?P<pk>\d+)/$',
         TeamHomeView.as_view(), name="team-home"),
-    url(r'^team/home/html5/(?P<pk>\d+)/$',
-        TeamHomeHtml5View.as_view(), name='team-home-html5'),
     url(r'^team/(?P<pk>\d+)/play$', TeamHistoryView.as_view(),
         name='team-history'),
     url(r'^team/(?P<pk>\d+)/history/', TeamHistoryView.as_view()),
