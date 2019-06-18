@@ -76,7 +76,7 @@ ptyprocess==0.6.0
 pyparsing==2.4.0
 singledispatch==3.4.0.3
 SPARQLWrapper==1.8.4
-wrapt==1.11.1
+wrapt==1.11.2
 rcssmin==1.0.6
 rjsmin==1.0.12
 Jinja2==2.10.1
