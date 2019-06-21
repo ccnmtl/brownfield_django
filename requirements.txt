@@ -117,10 +117,16 @@ django-flashpolicies==1.11
 django-smtp-ssl==1.0
 
 ccnmtlsettings==1.5.0
-boto==2.49.0
+
+# boto3 deps
+s3transfer==0.2.1
+jmespath==0.9.4
+botocore==1.12.172
+boto3==1.9.172
+
 python-dateutil==2.8.0
 django-storages==1.7.1
-django-cacheds3storage==0.1.2
+django-cacheds3storage==0.2.1
 
 pbr==5.3.0
 pyyaml==5.1.1
