@@ -121,7 +121,7 @@ ccnmtlsettings==1.5.0
 # boto3 deps
 s3transfer==0.2.1
 jmespath==0.9.4
-botocore==1.12.173
+botocore==1.12.174
 boto3==1.9.174
 
 python-dateutil==2.8.0
