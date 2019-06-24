@@ -1,7 +1,9 @@
+import boto3
 import csv
 import json
+import logging
 
-from boto.s3.connection import S3Connection
+from botocore.exceptions import ClientError
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.flatpages.views import flatpage
@@ -685,20 +687,39 @@ class RestrictedFlatPage(View):
 class RestrictedFile(View):
     permanent = False
 
-    def get_signed_url(self):
-        s3 = S3Connection(settings.AWS_ACCESS_KEY, settings.AWS_SECRET_KEY)
-        path = '/uploads/instructors/{}'.format(self.kwargs['path'])
+    # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-presigned-urls.html
+    def get_presigned_url(self, expiration=300):
+        """Generate a presigned URL to share an S3 object
 
-        # Create a URL valid for 5 minutes
-        return s3.generate_url(
-            300, 'GET', bucket=settings.AWS_STORAGE_BUCKET_NAME,
-            key=path)
+        :param expiration: Time in seconds for the presigned URL to
+          remain valid :return: Presigned URL as string. If error,
+          returns None.
+        """
+
+        # Generate a presigned URL for the S3 object
+        s3_client = boto3.client('s3')
+        try:
+            path = '/uploads/instructors/{}'.format(self.kwargs['path'])
+            response = s3_client.generate_presigned_url(
+                'get_object',
+                Params={
+                    'Bucket': settings.AWS_STORAGE_BUCKET_NAME,
+                    'Key': path
+                },
+                ExpiresIn=expiration)
+
+        except ClientError as e:
+            logging.error(e)
+            return None
+
+        # The response contains the presigned URL
+        return response
 
     def get(self, *args, **kwargs):
         url = '/'
         if (self.request.user.is_staff or
             (hasattr(self.request.user, 'profile') and
              self.request.user.profile.is_teacher())):
-            url = self.get_signed_url()
+            url = self.get_presigned_url()
 
         return HttpResponseRedirect(url)
