@@ -1,4 +1,4 @@
-Django==1.11.21 # pyup: <2.0
+Django==1.11.22 # pyup: <2.0
 httplib2==0.13.0
 feedparser==5.2.1
 Markdown==2.6.11 # pyup: < 3
@@ -28,7 +28,7 @@ pexpect==4.7.0
 pickleshare==0.7.5
 simplegeneric==0.8.1
 scandir==1.10.0
-pathlib2==2.3.3
+pathlib2==2.3.4
 backports.shutil_get_terminal_size==1.0.0
 wcwidth==0.1.7
 prompt_toolkit==2.0.9
@@ -95,7 +95,8 @@ raven==6.10.0
 django-bootstrap3==11.0.0
 django-bootstrap-form==3.4
 django-debug-toolbar==2.0
-django-waffle==0.16.0
+django-waffle==0.17.0
+
 django-jenkins==0.110.0
 django-taggit==0.24.0 # pyup: < 1.0.0
 django-smoketest==1.1.0
@@ -121,8 +122,8 @@ ccnmtlsettings==1.5.0
 # boto3 deps
 s3transfer==0.2.1
 jmespath==0.9.4
-botocore==1.12.174
-boto3==1.9.174
+botocore==1.12.182
+boto3==1.9.181
 
 python-dateutil==2.8.0
 django-storages==1.7.1
@@ -131,7 +132,7 @@ django-cacheds3storage==0.2.1
 pbr==5.3.1
 pyyaml==5.1.1
 stevedore>=1.20.0 # Apache-2.0
-bandit==1.6.1
+bandit==1.6.2
 django-contact-us==0.4.1
 
 google_compute_engine==2.8.13  # for travis?
