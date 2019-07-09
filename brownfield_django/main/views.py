@@ -472,7 +472,7 @@ class TeamHomeView(LoggedInMixin, DetailView):
 """Team Views for interactive."""
 
 
-class TeamHistoryView(CSRFExemptMixin, View):
+class TeamHistoryView(CSRFExemptMixin, LoggedInMixin, View):
     """Need to parse the XML and substitute the correct
     values for each student interaction."""
 
