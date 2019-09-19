@@ -42,7 +42,7 @@ coverage==4.5.4
 
 chardet==3.0.4  # requests
 idna==2.8  # requests
-urllib3==1.25.3  # requests
+urllib3==1.25.4  # requests
 certifi==2019.9.11  # requests
 requests==2.22.0
 
