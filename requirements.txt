@@ -31,7 +31,7 @@ scandir==1.10.0
 pathlib2==2.3.5
 backports.shutil_get_terminal_size==1.0.0
 wcwidth==0.1.7
-prompt_toolkit==2.0.9
+prompt_toolkit==2.0.10
 pygments==2.4.2
 
 pytz==2019.2
