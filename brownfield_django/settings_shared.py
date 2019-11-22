@@ -19,6 +19,8 @@ TEMPLATES[0]['OPTIONS']['context_processors'].append(  # noqa
 
 MIDDLEWARE += [  # noqa
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
 ROOT_URLCONF = 'brownfield_django.urls'
@@ -69,3 +71,9 @@ DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 SERVER_EMAIL = 'brownfield@ccnmtl.columbia.edu'
 CONTACT_US_EMAIL = 'ctl-bfa@columbia.edu'
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = True
