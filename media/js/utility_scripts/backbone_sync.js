@@ -22,10 +22,10 @@
 
       /* only need a token for non-get requests */
       if (method == 'create' || method == 'update' || method == 'delete') {
-          var csrfToken = getCookie('csrftoken');
+          const token = $('meta[name="csrf-token"]').attr('content');
 
           options.beforeSend = function(xhr){
-              xhr.setRequestHeader('X-CSRFToken', csrfToken);
+              xhr.setRequestHeader('X-CSRFToken', token);
           };
       }
 
