@@ -32,7 +32,7 @@ pathlib2==2.3.5
 backports.shutil_get_terminal_size==1.0.0
 wcwidth==0.1.7
 prompt_toolkit==3.0.2
-pygments==2.4.2
+pygments==2.5.2
 
 pytz==2019.2
 
@@ -43,10 +43,10 @@ coverage==4.5.4
 chardet==3.0.4  # requests
 idna==2.8  # requests
 urllib3==1.25.7  # requests, sentry-sdk
-certifi==2019.9.11  # requests, sentry-sdk
+certifi==2019.11.28  # requests, sentry-sdk
 requests==2.22.0
 
-logilab-common==1.4.4
+logilab-common==1.5.1
 logilab-astng==0.24.3
 pylint==2.4.4
 six==1.13.0
@@ -64,7 +64,7 @@ contextlib2==0.6.0.post1
 argparse==1.4.0
 astroid==1.6.6 # pyup: <2.0
 backports-abc==0.5
-certifi==2019.9.11
+certifi==2019.11.28
 colorama==0.4.1
 html5lib==1.0.1
 isodate==0.6.0
@@ -82,7 +82,7 @@ rjsmin==1.0.12
 Jinja2==2.10.1
 MarkupSafe==1.1.1
 
-gunicorn==20.0.3
+gunicorn==20.0.4
 djangowind==1.2.2
 requirements/src/sorl-3.2ctl-py2.py3-none-any.whl
 typogrify==2.0.7
@@ -118,7 +118,7 @@ djangorestframework==3.10.3
 django-flashpolicies==1.11
 django-smtp-ssl==1.0
 
-ccnmtlsettings==1.5.0
+ccnmtlsettings==1.7.0
 
 # boto3 deps
 s3transfer==0.2.1
