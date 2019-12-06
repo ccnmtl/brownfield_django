@@ -20,7 +20,7 @@ cssselect==1.1.0
 lxml==4.4.2
 fuzzywuzzy==0.17.0
 sure==1.4.11
-ipdb==0.12.2
+ipdb==0.12.3
 traitlets==4.3.3
 ipython_genutils==0.2.0
 decorator==4.4.1
@@ -31,7 +31,7 @@ scandir==1.10.0
 pathlib2==2.3.5
 backports.shutil_get_terminal_size==1.0.0
 wcwidth==0.1.7
-prompt_toolkit==3.0.0
+prompt_toolkit==3.0.2
 pygments==2.5.2
 
 pytz==2019.2
@@ -52,7 +52,7 @@ pylint==2.4.4
 six==1.13.0
 ipaddress==1.0.23
 text-unidecode==1.3  # for faker
-Faker==2.0.4
+Faker==3.0.0
 factory_boy==2.12.0
 
 pyasn1==0.4.8
@@ -93,7 +93,7 @@ django-appconf==1.0.3
 django-statsd-mozilla==0.4.0
 raven==6.10.0
 sentry-sdk==0.13.4
-django-bootstrap3==12.0.0
+django-bootstrap3==11.1.0 # pyup: < 12
 django-bootstrap-form==3.4
 django-debug-toolbar==2.1
 django-waffle==0.18.0
@@ -131,7 +131,7 @@ django-storages==1.8
 django-cacheds3storage==0.2.1
 
 pbr==5.4.4
-pyyaml==5.1.2
+pyyaml==5.2
 stevedore>=1.20.0 # Apache-2.0
 bandit==1.6.2
 django-contact-us==0.4.2
