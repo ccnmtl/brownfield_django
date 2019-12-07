@@ -92,8 +92,8 @@ django-paging==0.2.5
 django-appconf==1.0.3
 django-statsd-mozilla==0.4.0
 raven==6.10.0
-sentry-sdk==0.13.5
-django-bootstrap3==11.1.0
+sentry-sdk==0.13.4
+django-bootstrap3==11.1.0 # pyup: < 12
 django-bootstrap-form==3.4
 django-debug-toolbar==2.1
 django-waffle==0.18.0
