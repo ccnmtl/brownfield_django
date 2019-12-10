@@ -2,9 +2,9 @@ from __future__ import unicode_literals
 
 from django.contrib.flatpages.models import FlatPage
 from django.contrib.sites.models import Site
-from django.core.urlresolvers import reverse
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
+from django.urls.base import reverse
 
 from brownfield_django.main.tests.factories import (
     HistoryFactory, InformationFactory, PerformedTestFactory,

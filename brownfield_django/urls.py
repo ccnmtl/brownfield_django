@@ -3,10 +3,8 @@ import os
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-import django.contrib.auth.views
 from django.views.generic import TemplateView
 import django.views.static
-import djangowind.views
 import flashpolicies.views
 from rest_framework import routers
 
@@ -26,24 +24,10 @@ admin.autodiscover()
 simulation_root = os.path.join(os.path.dirname(__file__),
                                '../media/', 'flash')
 
-redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
-
 auth_urls = url(r'^accounts/', include('django.contrib.auth.urls'))
-
-logout_page = url(r'^accounts/logout/$', django.contrib.auth.views.logout,
-                  {'next_page': redirect_after_logout})
-admin_logout_page = url(r'^accounts/logout/$',
-                        django.contrib.auth.views.logout,
-                        {'next_page': '/admin/'})
 
 if hasattr(settings, 'CAS_BASE'):
     auth_urls = url(r'^accounts/', include('djangowind.urls'))
-    logout_page = url(r'^accounts/logout/$',
-                      djangowind.views.logout,
-                      {'next_page': redirect_after_logout})
-    admin_logout_page = url(r'^admin/logout/$',
-                            djangowind.views.logout,
-                            {'next_page': redirect_after_logout})
 
 
 router = routers.DefaultRouter()
@@ -62,8 +46,6 @@ except AttributeError:
     static_flash_domain = settings.STATIC_URL
 
 urlpatterns = [
-    logout_page,
-    admin_logout_page,
     auth_urls,
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^api/', include(router.urls)),
@@ -98,7 +80,7 @@ urlpatterns = [
         'domains': [static_flash_domain, '*.ccnmtl.columbia.edu']
     }),
     url('^contact/', include('contactus.urls')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
     url(r'^_impersonate/', include('impersonate.urls')),
     url(r'^stats/$', TemplateView.as_view(template_name="stats.html")),
     url(r'smoketest/', include('smoketest.urls')),
