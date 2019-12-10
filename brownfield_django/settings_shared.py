@@ -34,21 +34,9 @@ INSTALLED_APPS += [  # noqa
     'django_extensions',
     'crispy_forms',
     'registration',
-    'pagetree',
-    'pageblocks',
-    'quizblock',
     'storages',
     'brownfield_django.main',
     'contactus'
-]
-
-PAGEBLOCKS = [
-    'pageblocks.TextBlock',
-    'pageblocks.HTMLBlock',
-    'pageblocks.PullQuoteBlock',
-    'pageblocks.ImageBlock',
-    'pageblocks.ImagePullQuoteBlock',
-    'quizblock.Quiz',
 ]
 
 EMAIL_SUBJECT_PREFIX = "[brownfield] "

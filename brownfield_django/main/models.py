@@ -24,7 +24,8 @@ class Course(models.Model):
     active = models.BooleanField(default=False)
     archive = models.BooleanField(default=False)
     professor = models.ForeignKey(User, related_name="taught_by", null=True,
-                                  default=None, blank=True)
+                                  default=None, blank=True,
+                                  on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -55,7 +56,8 @@ class Course(models.Model):
 
 class Document(models.Model):
     course = models.ForeignKey(Course, null=True,
-                               default=None, blank=True)
+                               default=None, blank=True,
+                               on_delete=models.CASCADE)
     name = models.CharField(max_length=255, default='')
     link = models.CharField(max_length=255, default='')
     visible = models.BooleanField(default=False)
@@ -70,8 +72,10 @@ class Team(models.Model):
     Students log in as a team, teams hold progress.
     '''
     user = models.OneToOneField(User, null=True, default=None,
-                                blank=True, related_name="team")
-    course = models.ForeignKey(Course, null=True, default=None, blank=True)
+                                blank=True, related_name="team",
+                                on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, null=True, default=None, blank=True,
+                               on_delete=models.CASCADE)
     signed_contract = models.BooleanField(default=False)
     budget = models.PositiveIntegerField(default=65000)
     '''
@@ -104,13 +108,16 @@ class Team(models.Model):
 class UserProfile(models.Model):
     '''UserProfile adds extra information to a user,
     and associates the user with a course.'''
-    user = models.OneToOneField(User, related_name="profile")
+    user = models.OneToOneField(User, related_name="profile",
+                                on_delete=models.CASCADE)
     profile_type = models.CharField(max_length=2, choices=PROFILE_CHOICES)
     '''Leaving course null/blank because admins and
     teachers do not necessarily belong to a course.'''
     archive = models.BooleanField(default=False)
-    course = models.ForeignKey(Course, null=True, default=None, blank=True)
-    team = models.ForeignKey(Team, null=True, default=None, blank=True)
+    course = models.ForeignKey(Course, null=True, default=None, blank=True,
+                               on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, null=True, default=None, blank=True,
+                             on_delete=models.CASCADE)
     tmp_passwd = models.CharField(max_length=255, default="", blank=True)
 
     def __str__(self):
@@ -159,7 +166,7 @@ class UserProfile(models.Model):
 
 @python_2_unicode_compatible
 class History(models.Model):
-    team = models.ForeignKey(Team)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
     date = models.CharField(max_length=16)
     # date = models.DateTimeField(default=datetime.now())
     description = models.CharField(max_length=255)
@@ -179,7 +186,8 @@ class History(models.Model):
 
 @python_2_unicode_compatible
 class PerformedTest(models.Model):
-    history = models.ForeignKey(History, null=True, default=None, blank=True)
+    history = models.ForeignKey(History, null=True, default=None, blank=True,
+                                on_delete=models.CASCADE)
     x = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
     z = models.IntegerField(default=0)
@@ -197,7 +205,8 @@ class Information(models.Model):
     Comment from Old Code:
         Documents and News Items made available to or found by the Team
     """
-    history = models.ForeignKey(History, null=True, default=None, blank=True)
+    history = models.ForeignKey(History, null=True, default=None, blank=True,
+                                on_delete=models.CASCADE)
     infoType = models.CharField(default="", max_length=255, blank=True)
     internalName = models.CharField(default="", max_length=255, blank=True)
 

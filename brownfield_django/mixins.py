@@ -12,24 +12,6 @@ from django.views.decorators.csrf import csrf_exempt
 from brownfield_django.main.models import UserProfile
 
 
-def ajax_required(func):
-    """
-    AJAX request required decorator
-    use it in your views:
-    @ajax_required
-    def my_view(request):
-    """
-
-    def wrap(request, *args, **kwargs):
-        if not request.is_ajax():
-            return HttpResponseNotAllowed("")
-        return func(request, *args, **kwargs)
-
-    wrap.__doc__ = func.__doc__
-    wrap.__name__ = func.__name__
-    return wrap
-
-
 def instructor_or_admin(user):
     try:
         return user.profile.is_admin() or user.profile.is_teacher()
@@ -45,8 +27,11 @@ def user_is_admin(user):
 
 
 class JSONResponseMixin(object):
-    @method_decorator(ajax_required)
+
     def dispatch(self, *args, **kwargs):
+        if not self.request.is_ajax():
+            return HttpResponseNotAllowed(self._allowed_methods())
+
         return super(JSONResponseMixin, self).dispatch(*args, **kwargs)
 
     def render_to_json_response(self, context, **response_kwargs):
