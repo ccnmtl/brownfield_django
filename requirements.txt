@@ -97,7 +97,7 @@ django-registration-redux==2.6
 django-compressor==2.3
 django-markwhat==1.6.2
 django-crispy-forms==1.8.1  # djangorestframework
-djangorestframework==3.10.3
+djangorestframework==3.11.0
 django-flashpolicies==1.11
 django-smtp-ssl==1.0
 
