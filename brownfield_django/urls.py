@@ -5,7 +5,6 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic import TemplateView
 import django.views.static
-import flashpolicies.views
 from rest_framework import routers
 
 from brownfield_django.main.views import CourseViewSet, UserViewSet, \
@@ -76,9 +75,6 @@ urlpatterns = [
     url(r'^site_history/$', TemplateView.as_view(
         template_name="interactive/site_history.html")),
     url(r'^team_csv/(?P<pk>\d+)/$', TeamCSV.as_view(), name='team-csv'),
-    url(r'^crossdomain.xml$', flashpolicies.views.simple, {
-        'domains': [static_flash_domain, '*.ccnmtl.columbia.edu']
-    }),
     url('^contact/', include('contactus.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^_impersonate/', include('impersonate.urls')),
