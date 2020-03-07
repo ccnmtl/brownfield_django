@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extrahead %}
+<meta name="csrf-token" content="{{csrf_token}}">
+{% endblock %}
+
 {% block bbjs %}
     <script type="text/javascript" src="{% static 'js/ccnmtljs/bb_models.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/ccnmtljs/bb_collections.js' %}"></script>
