@@ -21,7 +21,7 @@ fuzzywuzzy==0.18.0
 sure==1.4.11
 wcwidth==0.1.8
 prompt_toolkit==3.0.3
-pygments==2.5.2
+pygments==2.6.1
 
 pytz==2019.2
 
