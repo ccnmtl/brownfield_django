@@ -20,7 +20,7 @@ lxml==4.5.0
 fuzzywuzzy==0.18.0
 sure==1.4.11
 wcwidth==0.1.8
-prompt_toolkit==3.0.3
+prompt_toolkit==3.0.4
 pygments==2.5.2
 
 pytz==2019.2
