@@ -20,8 +20,9 @@ lxml==4.5.0
 fuzzywuzzy==0.18.0
 sure==1.4.11
 wcwidth==0.1.8
-prompt_toolkit==3.0.3
 pygments==2.6.1
+prompt_toolkit==3.0.4
+
 
 pytz==2019.2
 
@@ -63,7 +64,7 @@ ptyprocess==0.6.0
 pyparsing==2.4.6
 singledispatch==3.4.0.3
 SPARQLWrapper==1.8.5
-wrapt==1.12.0
+wrapt==1.12.1
 rcssmin==1.0.6
 rjsmin==1.0.12
 Jinja2==2.11.1
