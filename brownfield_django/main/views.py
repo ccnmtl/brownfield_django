@@ -1,9 +1,18 @@
-import boto3
 import csv
 import json
 import logging
 
+import boto3
 from botocore.exceptions import ClientError
+from brownfield_django.main.models import Course, UserProfile, Document, \
+    Team, History, Information, PerformedTest
+from brownfield_django.main.serializers import DocumentSerializer, \
+    UserSerializer, TeamUserSerializer, CourseSerializer, \
+    StudentUserSerializer, StudentMUserSerializer, InstructorSerializer
+from brownfield_django.main.xml_strings import INITIAL_XML
+from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
+    CSRFExemptMixin, PasswordMixin, UniqUsernameMixin, \
+    LoggedInMixinAdminInst, LoggedInMixinAdministrator, ProfileMixin
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.flatpages.views import flatpage
@@ -20,16 +29,6 @@ from django.views.generic import View
 from django.views.generic.detail import DetailView
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-
-from brownfield_django.main.models import Course, UserProfile, Document, \
-    Team, History, Information, PerformedTest
-from brownfield_django.main.serializers import DocumentSerializer, \
-    UserSerializer, TeamUserSerializer, CourseSerializer, \
-    StudentUserSerializer, StudentMUserSerializer, InstructorSerializer
-from brownfield_django.main.xml_strings import INITIAL_XML
-from brownfield_django.mixins import LoggedInMixin, JSONResponseMixin, \
-    CSRFExemptMixin, PasswordMixin, UniqUsernameMixin, \
-    LoggedInMixinAdminInst, LoggedInMixinAdministrator, ProfileMixin
 
 
 class CourseViewSet(LoggedInMixin, viewsets.ModelViewSet):
@@ -697,7 +696,9 @@ class RestrictedFile(View):
         """
 
         # Generate a presigned URL for the S3 object
-        s3_client = boto3.client('s3')
+        s3_client = boto3.client('s3',
+                                 aws_access_key_id=settings.AWS_ACCESS_KEY,
+                                 aws_secret_access_key=settings.AWS_SECRET_KEY)
         try:
             path = 'uploads/instructors/{}'.format(self.kwargs['path'])
             response = s3_client.generate_presigned_url(
