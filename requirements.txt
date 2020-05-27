@@ -89,7 +89,7 @@ django-waffle==0.20.0
 
 
 django-taggit==1.3.0
-django-smoketest==1.1.0
+django-smoketest==1.1.2
 django-extensions==2.2.9
 typing==3.7.4.1 # needed for django-extensions
 django-stagingcontext==0.1.0
