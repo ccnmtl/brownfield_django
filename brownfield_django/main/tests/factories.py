@@ -4,14 +4,14 @@ from brownfield_django.main.models import Document, Course, \
     UserProfile, History, PerformedTest, Team, Information
 
 
-class UserFactory(factory.DjangoModelFactory):
+class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
     username = factory.Sequence(lambda n: "user%d" % n)
     password = factory.PostGenerationMethodCall('set_password', 'test')
 
 
-class CourseFactory(factory.DjangoModelFactory):
+class CourseFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Course
     name = "Test Course"
@@ -21,7 +21,7 @@ class CourseFactory(factory.DjangoModelFactory):
     active = True
 
 
-class TeamFactory(factory.DjangoModelFactory):
+class TeamFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Team
     team_passwd = "test"  # nosec
@@ -29,7 +29,7 @@ class TeamFactory(factory.DjangoModelFactory):
     course = factory.SubFactory(CourseFactory)
 
 
-class DocumentFactory(factory.DjangoModelFactory):
+class DocumentFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Document
     name = "Test Document for Course"
@@ -37,14 +37,14 @@ class DocumentFactory(factory.DjangoModelFactory):
     visible = False
 
 
-class UserProfileFactory(factory.DjangoModelFactory):
+class UserProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = UserProfile
     user = factory.SubFactory(UserFactory)
     profile_type = 'ST'
 
 
-class HistoryFactory(factory.DjangoModelFactory):
+class HistoryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = History
     team = factory.SubFactory(TeamFactory)
@@ -53,7 +53,7 @@ class HistoryFactory(factory.DjangoModelFactory):
     cost = 100
 
 
-class PerformedTestFactory(factory.DjangoModelFactory):
+class PerformedTestFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = PerformedTest
     history = factory.SubFactory(HistoryFactory)
@@ -65,7 +65,7 @@ class PerformedTestFactory(factory.DjangoModelFactory):
     testDetails = "Test Details Here..."
 
 
-class InformationFactory(factory.DjangoModelFactory):
+class InformationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Information
     history = factory.SubFactory(HistoryFactory)
