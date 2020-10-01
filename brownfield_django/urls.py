@@ -1,7 +1,7 @@
 import os
 
 from django.conf import settings
-from django.conf.urls import include, url
+from django.urls import include, path, re_path
 from django.contrib import admin
 from django.views.generic import TemplateView
 import django.views.static
@@ -23,10 +23,10 @@ admin.autodiscover()
 simulation_root = os.path.join(os.path.dirname(__file__),
                                '../media/', 'flash')
 
-auth_urls = url(r'^accounts/', include('django.contrib.auth.urls'))
+auth_urls = path('accounts/', include('django.contrib.auth.urls'))
 
 if hasattr(settings, 'CAS_BASE'):
-    auth_urls = url(r'^accounts/', include('djangowind.urls'))
+    auth_urls = path('accounts/', include('djangowind.urls'))
 
 
 router = routers.DefaultRouter()
@@ -46,54 +46,54 @@ except AttributeError:
 
 urlpatterns = [
     auth_urls,
-    url(r'^accounts/', include('registration.backends.default.urls')),
-    url(r'^api/', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls',
+    path('accounts/', include('registration.backends.default.urls')),
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls',
                                namespace='rest_framework')),
-    url(r'^$', HomeView.as_view()),
-    url(r'^ccnmtl/home/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
-    url(r'^course_details/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
-    url(r'^activate_course/(?P<pk>\d+)/$', ActivateCourseView.as_view()),
-    url(r'^archive_course/(?P<pk>\d+)/$', ArchiveCourseView.as_view()),
-    url(r'^edit_teams/(?P<pk>\d+)/$', EditTeamsView.as_view()),
-    url(r'^show_teams/(?P<pk>\d+)/$', ShowTeamsView.as_view()),
-    url(r'^show_instructors/$', ShowProfessorsView.as_view()),
-    url(r'^demo/play$', TemplateView.as_view(
+    path('', HomeView.as_view()),
+    re_path(r'^ccnmtl/home/(?P<pk>\d+)/$', CCNMTLHomeView.as_view()),
+    re_path(r'^course_details/(?P<pk>\d+)/$', CCNMTLCourseDetail.as_view()),
+    re_path(r'^activate_course/(?P<pk>\d+)/$', ActivateCourseView.as_view()),
+    re_path(r'^archive_course/(?P<pk>\d+)/$', ArchiveCourseView.as_view()),
+    re_path(r'^edit_teams/(?P<pk>\d+)/$', EditTeamsView.as_view()),
+    re_path(r'^show_teams/(?P<pk>\d+)/$', ShowTeamsView.as_view()),
+    path('show_instructors/', ShowProfessorsView.as_view()),
+    path('demo/play', TemplateView.as_view(
         template_name="main/flvplayer.html")),
-    url(r'^demo/info/', BrownfieldDemoView.as_view()),
-    url(r'^demo/history/', BrownfieldDemoView.as_view()),
-    url(r'^demo/test/$', BrownfieldDemoView.as_view()),
-    url(r'^team/home/(?P<pk>\d+)/$',
+    path('demo/info/', BrownfieldDemoView.as_view()),
+    path('demo/history/', BrownfieldDemoView.as_view()),
+    path('demo/test/', BrownfieldDemoView.as_view()),
+    re_path(r'^team/home/(?P<pk>\d+)/$',
         TeamHomeView.as_view(), name="team-home"),
-    url(r'^team/(?P<pk>\d+)/play$', TeamHistoryView.as_view(),
+    re_path(r'^team/(?P<pk>\d+)/play$', TeamHistoryView.as_view(),
         name='team-history'),
-    url(r'^team/(?P<pk>\d+)/history/', TeamHistoryView.as_view()),
-    url(r'^team/(?P<pk>\d+)/info/$', TeamInfoView.as_view()),
-    url(r'^team/(?P<pk>\d+)/test/$', TeamPerformTest.as_view()),
-    url(r'^team/sign_contract/$',
+    re_path(r'^team/(?P<pk>\d+)/history/', TeamHistoryView.as_view()),
+    re_path(r'^team/(?P<pk>\d+)/info/$', TeamInfoView.as_view()),
+    re_path(r'^team/(?P<pk>\d+)/test/$', TeamPerformTest.as_view()),
+    re_path('team/sign_contract/',
         TeamSignContract.as_view(), name='sign-contract'),
-    url(r'^site_history/$', TemplateView.as_view(
+    path('site_history/', TemplateView.as_view(
         template_name="interactive/site_history.html")),
-    url(r'^team_csv/(?P<pk>\d+)/$', TeamCSV.as_view(), name='team-csv'),
-    url('^contact/', include('contactus.urls')),
-    url(r'^admin/', admin.site.urls),
-    url(r'^_impersonate/', include('impersonate.urls')),
-    url(r'^stats/$', TemplateView.as_view(template_name="stats.html")),
-    url(r'smoketest/', include('smoketest.urls')),
-    url(r'^instructors/files/(?P<path>.*)$', RestrictedFile.as_view()),
-    url(r'^instructors/', RestrictedFlatPage.as_view()),
+    re_path(r'^team_csv/(?P<pk>\d+)/$', TeamCSV.as_view(), name='team-csv'),
+    path('contact/', include('contactus.urls')),
+    path('admin/', admin.site.urls),
+    path('_impersonate/', include('impersonate.urls')),
+    path('stats/', TemplateView.as_view(template_name="stats.html")),
+    path('smoketest/', include('smoketest.urls')),
+    re_path(r'^instructors/files/(?P<path>.*)$', RestrictedFile.as_view()),
+    path('instructors/', RestrictedFlatPage.as_view()),
 
-    url(r'^simulation/demo/$', TemplateView.as_view(
+    path('simulation/demo/', TemplateView.as_view(
         template_name='simulation/demo.html')),
 
-    url(r'^simulation/walkthrough/(?P<path>.*)$',
+    re_path(r'^simulation/walkthrough/(?P<path>.*)$',
         django.views.static.serve,
         {'document_root': simulation_root}),
 
-    url(r'^uploads/(?P<path>.*)$', django.views.static.serve,
+    re_path(r'^uploads/(?P<path>.*)$', django.views.static.serve,
         {'document_root': settings.MEDIA_ROOT})
 ]
 
 if settings.DEBUG:
     import debug_toolbar
-    urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls))]
+    urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]
