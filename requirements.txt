@@ -48,7 +48,7 @@ pyasn1==0.4.8
 
 ldap3==2.8.1
 
-sqlparse==0.3.1
+sqlparse==0.4.0
 contextlib2==0.6.0.post1
 argparse==1.4.0
 astroid==2.4.2
