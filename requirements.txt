@@ -26,7 +26,7 @@ pygments==2.7.2
 prompt_toolkit==3.0.8
 
 
-pytz==2020.1
+pytz==2020.4
 
 coverage==5.3
 
