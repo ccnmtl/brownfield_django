@@ -33,7 +33,7 @@ coverage==5.3
 chardet==3.0.4  # requests
 idna==2.10  # requests
 urllib3==1.26.2  # requests, sentry-sdk
-certifi==2020.11.8  # requests, sentry-sdk
+certifi==2020.12.5  # requests, sentry-sdk
 requests==2.25.0
 
 logilab-common==1.8.0
@@ -53,7 +53,7 @@ contextlib2==0.6.0.post1
 argparse==1.4.0
 astroid==2.4.2
 backports-abc==0.5
-certifi==2020.11.8
+certifi==2020.12.5
 colorama==0.4.4
 html5lib==1.1
 isodate==0.6.0
