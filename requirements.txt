@@ -118,7 +118,7 @@ django-cacheds3storage==0.2.2
 pbr==5.5.1
 pyyaml==5.3.1
 stevedore>=1.20.0 # Apache-2.0
-bandit==1.6.2
+bandit==1.6.3
 django-contact-us==0.4.3
 
 google_compute_engine==2.8.13  # for travis?
