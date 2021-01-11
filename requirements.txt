@@ -32,7 +32,7 @@ pytz==2020.5
 coverage==5.3.1
 
 chardet==4.0.0  # requests
-idna==2.10  # requests
+idna==3.1  # requests
 urllib3==1.26.2  # requests, sentry-sdk
 certifi==2020.12.5  # requests, sentry-sdk
 requests==2.25.1
