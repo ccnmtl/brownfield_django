@@ -52,7 +52,7 @@ ldap3==2.9
 sqlparse==0.4.1
 contextlib2==0.6.0.post1
 argparse==1.4.0
-astroid==2.5.3
+astroid==2.5.5
 backports-abc==0.5
 certifi==2020.12.5
 colorama==0.4.4
