@@ -41,13 +41,11 @@ except AttributeError:
     static_flash_domain = settings.STATIC_URL
 
 urlpatterns = [
-    path('admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
     path('cas/login', cas_views.LoginView.as_view(),
          name='cas_ng_login'),
     path('cas/logout', cas_views.LogoutView.as_view(),
          name='cas_ng_logout'),
-    path('stats/', TemplateView.as_view(template_name="stats.html")),
 
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls',
