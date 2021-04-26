@@ -1,32 +1,28 @@
 import os
 
-from django.conf import settings
-from django.conf.urls import include, url
-from django.contrib import admin
-from django.views.generic import TemplateView
-import django.views.static
-from rest_framework import routers
-
-from brownfield_django.main.views import CourseViewSet, UserViewSet, \
-    DocumentViewSet, StudentViewSet, TeamViewSet, InstructorViewSet, \
-    RestrictedFlatPage, RestrictedFile
 from brownfield_django.main.views import (
     HomeView, CCNMTLHomeView, CCNMTLCourseDetail,
     TeamHomeView, EditTeamsView, ShowTeamsView,
     ActivateCourseView, BrownfieldDemoView,
     TeamHistoryView, TeamInfoView, TeamPerformTest,
     TeamCSV, ShowProfessorsView, ArchiveCourseView, TeamSignContract)
+from brownfield_django.main.views import CourseViewSet, UserViewSet, \
+    DocumentViewSet, StudentViewSet, TeamViewSet, InstructorViewSet, \
+    RestrictedFlatPage, RestrictedFile
+from django.conf import settings
+from django.conf.urls import url
+from django.urls import include, path
+from django.contrib import admin
+from django.views.generic import TemplateView
+import django.views.static
+from django_cas_ng import views as cas_views
+from rest_framework import routers
 
 
 admin.autodiscover()
 
 simulation_root = os.path.join(os.path.dirname(__file__),
                                '../media/', 'flash')
-
-auth_urls = url(r'^accounts/', include('django.contrib.auth.urls'))
-
-if hasattr(settings, 'CAS_BASE'):
-    auth_urls = url(r'^accounts/', include('djangowind.urls'))
 
 
 router = routers.DefaultRouter()
@@ -45,8 +41,14 @@ except AttributeError:
     static_flash_domain = settings.STATIC_URL
 
 urlpatterns = [
-    auth_urls,
+    path('admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
+    path('cas/login', cas_views.LoginView.as_view(),
+         name='cas_ng_login'),
+    path('cas/logout', cas_views.LogoutView.as_view(),
+         name='cas_ng_logout'),
+    path('stats/', TemplateView.as_view(template_name="stats.html")),
+
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls',
                                namespace='rest_framework')),
