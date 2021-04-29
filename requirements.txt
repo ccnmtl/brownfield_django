@@ -38,6 +38,7 @@ certifi==2020.12.5  # requests, sentry-sdk
 requests==2.25.1
 
 logilab-common==1.8.1
+
 pylint==2.8.2
 six==1.15.0
 ipaddress==1.0.23
@@ -52,7 +53,7 @@ ldap3==2.9
 sqlparse==0.4.1
 contextlib2==0.6.0.post1
 argparse==1.4.0
-astroid==2.5.3
+astroid==2.5.6
 backports-abc==0.5
 certifi==2020.12.5
 colorama==0.4.4
@@ -73,7 +74,6 @@ Jinja2==2.11.3
 MarkupSafe==1.1.1
 
 gunicorn==20.1.0
-djangowind==1.2.3
 requirements/src/sorl-3.2ctl-py2.py3-none-any.whl
 typogrify==2.0.7
 django-indexer==0.3.0
@@ -116,7 +116,7 @@ python-dateutil==2.8.1
 django-storages==1.11.1
 django-cacheds3storage==0.2.2
 
-pbr==5.5.1
+pbr==5.6.0
 pyyaml==5.4.1
 stevedore>=1.20.0 # Apache-2.0
 bandit==1.7.0
@@ -126,3 +126,6 @@ google_compute_engine==2.8.13  # for travis?
 distro==1.5.0  # for google_compute_engine
 
 entrypoints==0.3
+
+python-cas==1.5.0
+requirements/src/django_cas_ng-4.1.3ctl-py2.py3-none-any.whl

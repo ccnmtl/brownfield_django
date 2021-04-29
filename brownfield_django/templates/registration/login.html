@@ -50,6 +50,7 @@
                         {% endif %}
                     </div>
                     <form method="post" action=".">
+                        {% csrf_token %}
                         <div>{% bootstrap_field form.username %}</div>
                         <br />
                         <div>{% bootstrap_field form.password %}</div>
