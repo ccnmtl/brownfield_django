@@ -124,7 +124,7 @@ bandit==1.7.0
 django-contact-us==0.4.4
 
 google_compute_engine==2.8.13  # for travis?
-distro==1.5.0  # for google_compute_engine
+distro==1.6.0  # for google_compute_engine
 
 entrypoints==0.3
 
