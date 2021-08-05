@@ -104,7 +104,7 @@ django-crispy-forms==1.12.0  # djangorestframework
 djangorestframework==3.12.4
 django-smtp-ssl==1.0
 
-ccnmtlsettings==1.9.0
+ccnmtlsettings==1.9.1
 
 # boto3 deps
 s3transfer==0.5.0
