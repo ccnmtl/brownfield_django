@@ -24,7 +24,7 @@ fuzzywuzzy==0.18.0
 sure==2.0.0
 wcwidth==0.2.5
 pygments==2.10.0
-prompt_toolkit==3.0.19
+prompt_toolkit==3.0.20
 
 
 pytz==2021.1
