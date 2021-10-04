@@ -81,6 +81,17 @@ class TestTeamViews(TestCase):
              'internalName': 'Document'})
         self.assertEqual(response.status_code, 200)
 
+    def test_team_info_missing_or_invalid_params(self):
+        response = self.client.post(
+            '/team/' + str(self.team.user.pk) + '/info/',
+            {'infoType': ''})
+        self.assertEqual(response.status_code, 400)
+
+        response = self.client.post(
+            '/team/' + str(self.team.user.pk) + '/info/',
+            {'infoType': 'foo'})
+        self.assertEqual(response.status_code, 400)
+
     def test_teamperformtest_missing_params(self):
         response = self.client.post(
             "/team/" + str(self.team.user.pk) + "/test/",

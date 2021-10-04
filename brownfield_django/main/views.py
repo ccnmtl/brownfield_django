@@ -509,7 +509,7 @@ class TeamInfoView(CSRFExemptMixin, LoggedInMixin, View):
 
     def post(self, request, pk):
         team = Team.objects.get(user=request.user)
-        infoType = request.POST['infoType']
+        infoType = request.POST.get('infoType', None)
 
         if infoType == "recon":
             th = History.objects.create(
@@ -560,6 +560,8 @@ class TeamInfoView(CSRFExemptMixin, LoggedInMixin, View):
                 infoType=request.POST['infoType'])
             inf.save()
             return HttpResponse("<data><response>OK</response></data>")
+
+        return HttpResponseBadRequest("missing or invalid parameter")
 
 
 def all_keys_in_dict(d, keys):
