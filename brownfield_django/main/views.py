@@ -375,11 +375,16 @@ class ActivateCourseView(LoggedInMixin, LoggedInMixinAdminInst,
         '''This is really really ugly as is get method need to clean up.'''
         student_list = json.loads(request.POST['student_list'])
         for student in student_list:
-            team = Team.objects.get(pk=student['student']['team_id'])
-            student = User.objects.get(pk=student['student']['pk'])
-            profile = UserProfile.objects.get(user=student)
-            team.userprofile_set.add(profile)
-            self.send_student_email(student)
+            try:
+                team = Team.objects.get(pk=student['student']['team_id'])
+                student = User.objects.get(pk=student['student']['pk'])
+                profile = UserProfile.objects.get(user=student)
+                team.userprofile_set.add(profile)
+                self.send_student_email(student)
+            except KeyError:
+                # ignore students that are not sorted into teams
+                pass
+
         act_crs = Course.objects.get(pk=pk)
         act_crs.active = True
         act_crs.save()
