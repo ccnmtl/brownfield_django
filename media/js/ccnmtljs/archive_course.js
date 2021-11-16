@@ -6,7 +6,6 @@ jQuery(function() {
             type: 'POST',
             dataType: 'json',
             success: function(data) {
-                // eslint-disable-next-line scanjs-rules/assign_to_href
                 window.location.href = '/';
             },
             error: function(data) {

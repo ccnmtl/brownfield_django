@@ -189,7 +189,6 @@ var CourseView = BaseItemView.extend({
     },// end editCourse
 
     courseDetails: function() {
-        // eslint-disable-next-line scanjs-rules/assign_to_href
         window.location.href = '/course_details/' + this.model.get('id') + '/';
     }
 });// End CourseView
