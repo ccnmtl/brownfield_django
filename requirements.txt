@@ -89,7 +89,7 @@ django-debug-toolbar==3.2.2
 django-waffle==2.2.1
 
 
-django-taggit==1.5.1
+django-taggit==2.0.0
 django-smoketest==1.1.2
 django-extensions==3.1.5
 typing==3.7.4.3 # needed for django-extensions
