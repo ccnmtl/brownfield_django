@@ -168,8 +168,7 @@ class UserProfile(models.Model):
 class History(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     date = models.CharField(max_length=16)
-    # date = models.DateTimeField(default=datetime.now())
-    description = models.CharField(max_length=255)
+    description = models.TextField()
     cost = models.IntegerField(default=0)
 
     def __str__(self):
