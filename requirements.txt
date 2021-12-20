@@ -59,7 +59,7 @@ certifi==2021.10.8
 colorama==0.4.4
 html5lib==1.1
 isodate==0.6.0
-lazy-object-proxy==1.6.0
+lazy-object-proxy==1.7.1
 mock==4.0.3
 nose==1.3.7
 ptyprocess==0.7.0
