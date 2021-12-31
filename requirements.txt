@@ -23,7 +23,7 @@ lxml==4.7.1
 fuzzywuzzy==0.18.0
 sure==2.0.0
 wcwidth==0.2.5
-pygments==2.10.0
+pygments==2.11.0
 prompt_toolkit==3.0.22
 
 
