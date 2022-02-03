@@ -125,7 +125,7 @@ django-contact-us==0.4.4
 google_compute_engine==2.8.13  # for travis?
 distro==1.6.0  # for google_compute_engine
 
-entrypoints==0.3
+entrypoints==0.4
 
 python-cas==1.6.0
 requirements/src/django_cas_ng-4.2.2ctl-py2.py3-none-any.whl
