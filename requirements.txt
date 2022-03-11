@@ -73,7 +73,6 @@ MarkupSafe==2.0.1
 
 
 gunicorn==20.1.0
-requirements/src/sorl-3.2ctl-py2.py3-none-any.whl
 typogrify==2.0.7
 django-indexer==0.3.0
 django-templatetag-sugar==1.0

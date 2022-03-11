@@ -32,7 +32,6 @@ AUTHENTICATION_BACKENDS = [
 ROOT_URLCONF = 'brownfield_django.urls'
 
 INSTALLED_APPS += [  # noqa
-    'sorl.thumbnail',
     'rest_framework',
     'typogrify',
     'bootstrap3',
