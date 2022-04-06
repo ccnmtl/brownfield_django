@@ -70,7 +70,7 @@ wrapt==1.14.0
 rcssmin==1.1.0
 rjsmin==1.2.0
 Jinja2==3.0.3
-MarkupSafe==2.0.1
+MarkupSafe==2.1.1
 
 
 gunicorn==20.1.0
