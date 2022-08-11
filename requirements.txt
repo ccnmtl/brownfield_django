@@ -127,4 +127,4 @@ distro==1.7.0  # for google_compute_engine
 entrypoints==0.4
 
 python-cas==1.6.0
-requirements/src/django_cas_ng-4.2.2ctl-py2.py3-none-any.whl
+django-cas-ng==4.3.0

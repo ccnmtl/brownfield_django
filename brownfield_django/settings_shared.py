@@ -45,7 +45,7 @@ INSTALLED_APPS += [  # noqa
     'contactus'
 ]
 
-INSTALLED_APPS.remove('djangowind') # noqa
+INSTALLED_APPS.remove('djangowind')  # noqa
 
 EMAIL_SUBJECT_PREFIX = "[brownfield] "
 
@@ -77,6 +77,15 @@ CSRF_COOKIE_HTTPONLY = True
 CAS_SERVER_URL = 'https://cas.columbia.edu/cas/'
 CAS_VERSION = '3'
 CAS_ADMIN_REDIRECT = False
+
+# Translate CUIT's CAS user attributes to the Django user model.
+# https://cuit.columbia.edu/content/cas-3-ticket-validation-response
+CAS_APPLY_ATTRIBUTES_TO_USER = True
+CAS_RENAME_ATTRIBUTES = {
+    'givenName': 'first_name',
+    'lastName': 'last_name',
+    'mail': 'email',
+}
 
 TEMPLATES = [
     {
