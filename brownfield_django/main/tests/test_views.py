@@ -11,6 +11,7 @@ from brownfield_django.main.tests.factories import (
     UserFactory, UserProfileFactory, TeamFactory
 )
 from brownfield_django.main.views import TeamHistoryView
+from brownfield_django.main.models import Team
 
 
 class BasicTest(TestCase):
@@ -33,6 +34,13 @@ class HomeViewTest(TestCase):
     def test_get_as_anon_user(self):
         r = self.client.get('/', follow=True)
         self.assertEquals(r.status_code, 200)
+
+    def test_get_as_new_user(self):
+        user = UserFactory()
+        self.client.login(username=user.username, password='test')
+
+        with self.assertRaises(Team.DoesNotExist):
+            self.client.get('/', follow=True)
 
     def test_get_as_student(self):
         team = TeamFactory()
