@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.test import TestCase
 from django.utils.encoding import smart_text
 
+from brownfield_django.main.models import Team
 from brownfield_django.main.tests.factories import (
     UserFactory, UserProfileFactory,
     CourseFactory, HistoryFactory, TeamFactory,
@@ -82,8 +83,16 @@ class UserProfileTest(TestCase):
         self.assertTrue(up.get_absolute_url().startswith('/ccnmtl/home/'))
         up = UserProfileFactory(profile_type='AD')
         self.assertTrue(up.get_absolute_url().startswith('/ccnmtl/home/'))
+
         up = UserProfileFactory(profile_type='ST')
-        self.assertEqual(up.get_absolute_url(), '/')
+        team = TeamFactory(user=up.user)
+        self.assertEqual(
+            up.get_absolute_url(), '/team/home/{}/'.format(team.pk))
+
+        # Student with no team
+        up = UserProfileFactory(profile_type='ST')
+        with self.assertRaises(Team.DoesNotExist):
+            up.get_absolute_url()
 
 
 class HistoryTest(TestCase):

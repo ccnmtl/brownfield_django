@@ -146,16 +146,11 @@ class UserProfile(models.Model):
         # Note that a url of '/' can trigger a redirect loop in HomeView.
         url = '/'
 
-        if self.is_teacher():
-            url = '/ccnmtl/home/%s/' % (self.id)
-        elif self.is_admin():
+        if self.is_teacher() or self.is_admin():
             url = '/ccnmtl/home/%s/' % (self.id)
         else:
-            try:
-                team = Team.objects.get(user=self.user.pk)
-                url = '/team/home/%s/' % (team.pk)
-            except Team.DoesNotExist:
-                pass
+            team = Team.objects.get(user=self.user.pk)
+            url = '/team/home/%s/' % (team.pk)
 
         return url
 

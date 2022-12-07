@@ -328,6 +328,7 @@ class HomeView(LoggedInMixin, View):
         except UserProfile.DoesNotExist:
             '''First see if user is in admin group'''
             url = self.admin_or_team_url(request.user)
+
         return HttpResponseRedirect(url)
 
     def admin_or_team_url(self, user):
@@ -336,11 +337,8 @@ class HomeView(LoggedInMixin, View):
             up = UserProfile.objects.create(user=user, profile_type='AD')
             up.save()
         else:
-            try:
-                team = Team.objects.get(user=user.pk)
-                url = '/team/home/%s/' % (team.pk)
-            except Team.DoesNotExist:
-                pass
+            team = Team.objects.get(user=user.pk)
+            url = '/team/home/%s/' % (team.pk)
         return url
 
 
