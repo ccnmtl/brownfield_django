@@ -467,6 +467,10 @@ class TeamHomeView(LoggedInMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(TeamHomeView, self).get_context_data(**kwargs)
         course = Course.objects.get(pk=self.object.course.pk)
+        if (self.object.budget != course.startingBudget):
+            Team.objects.filter(pk=self.object.pk).update(
+                budget=course.startingBudget)
+            self.object.refresh_from_db()
         context['document_list'] = course.document_set.filter(visible=True)
         return context
 
