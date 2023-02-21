@@ -113,7 +113,7 @@ boto3>=1.12.0,<1.27.0
 
 python-dateutil==2.8.2
 django-storages==1.13
-django-cacheds3storage==0.2.2
+django-cacheds3storage==0.3.0
 
 pbr==5.11.0
 pyyaml==6.0
