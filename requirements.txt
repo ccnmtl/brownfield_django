@@ -31,7 +31,7 @@ pytz==2023.3
 
 coverage==7.2.0
 
-chardet==5.1.0  # requests
+chardet==5.2.0  # requests
 idna==3.4  # requests
 urllib3==1.26.7  # requests, sentry-sdk
 certifi==2023.7.22  # requests, sentry-sdk
