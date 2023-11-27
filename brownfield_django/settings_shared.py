@@ -1,7 +1,7 @@
 # flake8: noqa
 # Django settings for brownfield_django project.
 import os.path
-from ccnmtlsettings.shared import common
+from ctlsettings.shared import common
 
 project = 'brownfield_django'
 base = os.path.dirname(__file__)
@@ -21,12 +21,6 @@ MIDDLEWARE += [  # noqa
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_cas_ng.middleware.CASMiddleware',
-]
-
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'django_cas_ng.backends.CASBackend'
 ]
 
 ROOT_URLCONF = 'brownfield_django.urls'
@@ -37,15 +31,13 @@ INSTALLED_APPS += [  # noqa
     'bootstrap3',
     'bootstrapform',
     'django_extensions',
-    'django_cas_ng',
     'crispy_forms',
     'registration',
     'storages',
     'brownfield_django.main',
+    'django_markwhat',
     'contactus'
 ]
-
-INSTALLED_APPS.remove('djangowind')  # noqa
 
 EMAIL_SUBJECT_PREFIX = "[brownfield] "
 
@@ -73,19 +65,6 @@ CSRF_COOKIE_SECURE = True
 
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
-
-CAS_SERVER_URL = 'https://cas.columbia.edu/cas/'
-CAS_VERSION = '3'
-CAS_ADMIN_REDIRECT = False
-
-# Translate CUIT's CAS user attributes to the Django user model.
-# https://cuit.columbia.edu/content/cas-3-ticket-validation-response
-CAS_APPLY_ATTRIBUTES_TO_USER = True
-CAS_RENAME_ATTRIBUTES = {
-    'givenName': 'first_name',
-    'lastName': 'last_name',
-    'mail': 'email',
-}
 
 TEMPLATES = [
     {
