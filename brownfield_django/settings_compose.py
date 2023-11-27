@@ -1,6 +1,6 @@
 # flake8: noqa
 from brownfield_django.settings_shared import *
-from ccnmtlsettings.compose import common
+from ctlsettings.compose import common
 
 locals().update(
     common(
@@ -8,6 +8,7 @@ locals().update(
         base=base,
         STATIC_ROOT=STATIC_ROOT,
         INSTALLED_APPS=INSTALLED_APPS,
+        s3prefix='ccnmtl',
     ))
 
 try:
