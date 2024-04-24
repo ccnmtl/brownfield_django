@@ -29,7 +29,7 @@ prompt_toolkit==3.0.22
 
 pytz==2024.1
 
-coverage==7.4.0
+coverage==7.5.0
 
 chardet==5.2.0  # requests
 idna==3.7  # requests
