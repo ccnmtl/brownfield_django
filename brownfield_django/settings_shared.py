@@ -35,8 +35,8 @@ INSTALLED_APPS += [  # noqa
     'registration',
     'storages',
     'brownfield_django.main',
-    'django_markwhat',
-    'contactus'
+    'contactus',
+    'markdownify.apps.MarkdownifyConfig',
 ]
 
 EMAIL_SUBJECT_PREFIX = "[brownfield] "
