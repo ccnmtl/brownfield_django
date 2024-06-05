@@ -4,12 +4,16 @@ from string import ascii_letters, digits
 
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
-from django.http.response import HttpResponseNotAllowed, HttpResponse, \
-    HttpResponseForbidden
+from django.http.response import HttpResponse, HttpResponseForbidden, \
+    HttpResponseNotAllowed
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 from brownfield_django.main.models import UserProfile
+
+
+def is_ajax(request):
+    return request.headers.get('x-requested-with') == 'XMLHttpRequest'
 
 
 def instructor_or_admin(user):
@@ -29,9 +33,8 @@ def user_is_admin(user):
 class JSONResponseMixin(object):
 
     def dispatch(self, *args, **kwargs):
-        if not self.request.is_ajax():
-            return HttpResponseNotAllowed(self._allowed_methods())
-
+        if not is_ajax(self.request):
+            return HttpResponseNotAllowed("")
         return super(JSONResponseMixin, self).dispatch(*args, **kwargs)
 
     def render_to_json_response(self, context, **response_kwargs):
