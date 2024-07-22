@@ -93,7 +93,7 @@ django-stagingcontext==0.1.0
 django-ga-context==0.1.0
 django-impersonate==1.9.1
 django-registration-redux==2.13
-django-crispy-forms==2.2  # djangorestframework
+django-crispy-forms==2.3  # djangorestframework
 djangorestframework==3.14.0
 django-smtp-ssl==1.0
 
