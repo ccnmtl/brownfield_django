@@ -23,6 +23,9 @@
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
 
     {% block css %}{% endblock %}
+
+    {% include "ctlsettings/sentry_js.html" %}
+
     <script type="text/javascript" src="{% static 'js/libraries/jquery-1.11.3.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/underscore-min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/backbone-min.js' %}"></script>
@@ -156,7 +159,7 @@
             </div>
         </div>
     </footer>
-    
+
 {% endblock %}
 
 <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
@@ -190,24 +193,6 @@ You are impersonating.<br />
             gtag('config', '{{GA_CODE}}', { 'anonymize_ip': true });
         </script>
     {% endif %}
-
-    <script src="https://cdn.ravenjs.com/3.8.1/raven.min.js"></script>
-    <script>
-     Raven.config('https://4fa22cccd4454048be73e05de036bb12@sentry.io/101597', {
-         whitelistUrls: [/brownfield_django\.stage\.ccnmtl\.columbia\.edu/, /brownfield\.ccnmtl\.columbia\.edu/]
-     }).install();
-     {% if user.is_anonymous %}
-     Raven.setUserContext({
-         email: 'none',
-         id: 'anonymous'
-     });
-     {% else %}
-     Raven.setUserContext({
-         email: '{{user.email}}',
-         id: '{{user.username}}'
-     });
-     {% endif %}
-    </script>
 {% endif %}
 </body>
 
