@@ -58,7 +58,7 @@ backports-abc==0.5
 certifi==2024.8.30
 colorama==0.4.4
 html5lib==1.1
-isodate==0.6.0
+isodate==0.7.2
 lazy-object-proxy==1.10.0
 mock==5.1.0
 nose==1.3.7
