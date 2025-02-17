@@ -33,7 +33,7 @@ coverage==7.6.0
 
 chardet==5.2.0  # requests
 idna==3.10  # requests
-urllib3==2.2.2  # requests, sentry-sdk
+urllib3==2.3.0  # requests, sentry-sdk
 certifi==2025.1.31  # requests, sentry-sdk
 requests==2.32.1
 
