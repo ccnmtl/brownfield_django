@@ -100,7 +100,7 @@ class PasswordMixin(object):
 
     def get_password(self):
         char_digits = ascii_letters + digits
-        self.passwd = ''
+        self.passwd = ''  # nosec
         for x in range(0, 7):
             add_char = random.choice(char_digits)  # nosec
             self.passwd = self.passwd + add_char
