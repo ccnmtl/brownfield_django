@@ -57,7 +57,7 @@ REST_FRAMEWORK = {
 ADMIN_AFFIL = 'tlc.cunix.local:columbia.edu'
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
-SERVER_EMAIL = 'brownfield@ccnmtl.columbia.edu'
+SERVER_EMAIL = 'brownfield@mail.ctl.columbia.edu'
 CONTACT_US_EMAIL = 'ctl-bfa@columbia.edu'
 
 SESSION_COOKIE_SECURE = True
