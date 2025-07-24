@@ -21,6 +21,7 @@ class Course(models.Model):
     message = models.TextField(max_length=255, default='')
     active = models.BooleanField(default=False)
     archive = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     professor = models.ForeignKey(User, related_name="taught_by", null=True,
                                   default=None, blank=True,
                                   on_delete=models.CASCADE)
@@ -59,6 +60,8 @@ class Document(models.Model):
     name = models.CharField(max_length=255, default='')
     link = models.CharField(max_length=255, default='')
     visible = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['name']
@@ -75,6 +78,8 @@ class Team(models.Model):
                                on_delete=models.CASCADE)
     signed_contract = models.BooleanField(default=False)
     budget = models.PositiveIntegerField(default=65000)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     '''
     We need a plain text copy of the password to email the students
     '''
@@ -115,6 +120,8 @@ class UserProfile(models.Model):
     team = models.ForeignKey(Team, null=True, default=None, blank=True,
                              on_delete=models.CASCADE)
     tmp_passwd = models.CharField(max_length=255, default="", blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.user.username
@@ -160,6 +167,8 @@ class History(models.Model):
     date = models.CharField(max_length=16)
     description = models.TextField()
     cost = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return '%s - %s' % (self.description, self.team)
@@ -182,6 +191,8 @@ class PerformedTest(models.Model):
     testDetails = models.CharField(default="", max_length=255)
     testNumber = models.IntegerField(default=0)
     paramString = models.CharField(default="", max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return '%s - %s' % (self.testDetails, self.paramString)
@@ -196,6 +207,8 @@ class Information(models.Model):
                                 on_delete=models.CASCADE)
     infoType = models.CharField(default="", max_length=255, blank=True)
     internalName = models.CharField(default="", max_length=255, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return '%s - %s' % (self.infoType, self.internalName)
