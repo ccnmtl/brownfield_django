@@ -2,7 +2,7 @@ Django>=4.2.14,<6
 asgiref==3.9.1
 httplib2==0.30.0
 feedparser==6.0.8
-Markdown==3.8
+Markdown==3.9
 simplejson==3.20.1
 smartypants==2.0.1
 psycopg==3.2.1
