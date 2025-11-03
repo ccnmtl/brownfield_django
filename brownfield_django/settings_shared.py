@@ -21,6 +21,7 @@ MIDDLEWARE += [  # noqa
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'brownfield_django.urls'
@@ -37,6 +38,7 @@ INSTALLED_APPS += [  # noqa
     'brownfield_django.main',
     'contactus',
     'markdownify.apps.MarkdownifyConfig',
+    'debug_toolbar',
 ]
 
 EMAIL_SUBJECT_PREFIX = "[brownfield] "
