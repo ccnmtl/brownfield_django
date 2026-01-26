@@ -22,7 +22,7 @@ cssselect==1.3.0
 lxml==6.0.0
 fuzzywuzzy==0.18.0
 sure==2.0.0
-wcwidth==0.3.0
+wcwidth==0.4.0
 pygments==2.19.0
 prompt_toolkit==3.0.22
 
