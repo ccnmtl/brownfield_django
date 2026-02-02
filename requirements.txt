@@ -63,7 +63,7 @@ ptyprocess==0.7.0
 pyparsing==3.3.1
 singledispatch==4.1.0
 SPARQLWrapper==1.8.5
-wrapt==2.0.0
+wrapt==2.1.0
 Jinja2==3.1.6
 MarkupSafe==3.0.2
 
