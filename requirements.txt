@@ -28,7 +28,7 @@ prompt_toolkit==3.0.22
 
 pytz==2025.2
 
-chardet==5.2.0  # requests
+chardet==6.0.0.post1  # requests
 idna==3.11  # requests
 urllib3==2.6.3  # requests, sentry-sdk
 certifi==2026.1.4  # requests, sentry-sdk
