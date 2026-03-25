@@ -30,8 +30,4 @@ all_documents = [{
         'name': 'News: Doctor Still Haunted By Death of Patient',
         'link': ('https://ccnmtl-brownfield-static-prod.s3.amazonaws.com/'
                  'media/flash/documents/news5.jpg')
-    },
-    {
-        'name': 'Link: Brownfield Action Reference Site',
-        'link': ('http://brownfieldref.ccnmtl.columbia.edu/')
     }]
