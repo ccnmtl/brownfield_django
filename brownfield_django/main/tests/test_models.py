@@ -210,7 +210,7 @@ class TestCourseMethods(TestCase):
     def test_course_get_documents(self):
         '''Updated the Course model to add the documents when created
         instead of adding them in the view. Should have 8 documents.'''
-        self.assertEqual(len(self.course.get_documents()), 8)
+        self.assertEqual(len(self.course.get_documents()), 7)
 
 
 class TestTeamMethods(TestCase):

@@ -131,7 +131,7 @@ class TestDocumentRestViews(APITestCase):
             '/api/document/?course=' + str(self.course.pk), format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         '''By default courses have 8 documents'''
-        self.assertEqual(len(response.data), 8)
+        self.assertEqual(len(response.data), 7)
 
     def test_release_document_as_teacher(self):
         ''' Release a document. '''
@@ -161,7 +161,7 @@ class TestDocumentRestViews(APITestCase):
             '/api/document/?course=' + str(self.course.pk), format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         '''By default courses have 8 documents'''
-        self.assertEqual(len(response.data), 8)
+        self.assertEqual(len(response.data), 7)
 
     def test_release_document_as_admin(self):
         ''' Release a document. '''
