@@ -27,16 +27,16 @@
 
     {% include "ctlsettings/sentry_js.html" %}
 
-    <script type="text/javascript" src="{% static 'js/libraries/jquery-1.11.3.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/libraries/underscore-min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/libraries/backbone-min.js' %}"></script>
+    <script crossorigin="anonymous" src="{% static 'js/libraries/jquery-1.11.3.min.js' %}"></script>
+    <script crossorigin="anonymous" src="{% static 'js/libraries/underscore-min.js' %}"></script>
+    <script crossorigin="anonymous" src="{% static 'js/libraries/backbone-min.js' %}"></script>
 
-    <script type="text/javascript" src="{% static 'js/libraries/swfobject.js' %}"></script>
+    <script crossorigin="anonymous" src="{% static 'js/libraries/swfobject.js' %}"></script>
     {% comment %}{% endcomment %}
-    <script type="text/javascript" src="{% static 'js/utility_scripts/backbone_sync.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/utility_scripts/jquery_sync.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/utility_scripts/utils.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/utility_scripts/csrf-protection.js' %}"></script>
+    <script crossorigin="anonymous" src="{% static 'js/utility_scripts/backbone_sync.js' %}"></script>
+    <script crossorigin="anonymous" src="{% static 'js/utility_scripts/jquery_sync.js' %}"></script>
+    <script crossorigin="anonymous" src="{% static 'js/utility_scripts/utils.js' %}"></script>
+    <script crossorigin="anonymous" src="{% static 'js/utility_scripts/csrf-protection.js' %}"></script>
 
     {% block feeds %}{% endblock %}
     <link rel="stylesheet" href="https://search.sites.columbia.edu/cu-privacy-notice/cu-privacy-notice.css" />
@@ -163,7 +163,7 @@
 
 {% endblock %}
 
-<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+<script crossorigin="anonymous" src="//platform.twitter.com/widgets.js"></script>
 {% bootstrap_javascript %}
 
 {% if STAGING_ENV %}

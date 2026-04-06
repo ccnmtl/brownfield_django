@@ -14,7 +14,8 @@
            serverURL: '/team/{{object.pk}}/'
         };
     </script>
-    <script type="text/javascript" src="{% static 'simulation/js/main.js' %}"></script>
+    <script src="{% static 'simulation/js/main.js' %}"
+            crossorigin="anonymous"></script>
 
     <script>
     jQuery(document).ready(function () {
