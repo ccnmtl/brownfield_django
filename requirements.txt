@@ -26,7 +26,7 @@ wcwidth==0.8.1
 pygments==2.20.0
 prompt_toolkit==3.0.22
 
-pytz==2026.2
+pytz==2026.3.post1
 
 chardet==7.4.0.post1  # requests
 idna==3.18  # requests
