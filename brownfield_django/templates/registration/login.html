@@ -5,6 +5,11 @@
    Please Login
 {% endblock %}
 
+{% block extrahead %}
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async
+        defer></script>
+{% endblock %}
+
 {% block usernav %}
     <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
@@ -55,8 +60,13 @@
                         <br />
                         <div>{% bootstrap_field form.password %}</div>
                         <br />
-                        <div><input class="btn" type="submit" value="Log In"></input></div>
+                        <div><input class="btn" id="guest-submit" type="submit" value="Log In" disabled></input></div>
                         <input type="hidden" name="next" value="{{ next }}"></input>
+                        <div
+                            class="cf-turnstile mt-2"
+                            data-sitekey="{{ TURNSTILE_SITE_KEY }}"
+                            data-callback="enableSubmit"
+                        ></div>
                     </form>
                 </div>
             </div>
@@ -113,4 +123,12 @@
     </div>
 
 </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        function enableSubmit() {
+            document.getElementById("guest-submit").disabled = false;
+        }
+    </script>
 {% endblock %}
