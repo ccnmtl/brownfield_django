@@ -16,6 +16,7 @@ from django.views.generic import TemplateView
 import django.views.static
 from django_cas_ng import views as cas_views
 from rest_framework import routers
+from ctlsettings import views as ctl_views
 
 
 admin.autodiscover()
@@ -40,6 +41,7 @@ except AttributeError:
     static_flash_domain = settings.STATIC_URL
 
 urlpatterns = [
+    path('accounts/login', ctl_views.LoginAPIView.as_view()),
     re_path(r'^accounts/', include('registration.backends.default.urls')),
     path('cas/login', cas_views.LoginView.as_view(),
          name='cas_ng_login'),
