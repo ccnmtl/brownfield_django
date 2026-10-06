@@ -3,7 +3,7 @@ asgiref==3.12.1
 httplib2==0.32.0
 feedparser==6.0.8
 Markdown==3.11
-simplejson==4.1.0
+simplejson==4.2.0
 smartypants==2.0.1
 psycopg==3.3.0
 versiontools==1.9.1
